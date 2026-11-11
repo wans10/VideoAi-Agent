@@ -52,9 +52,13 @@ export function buildAllModelComparisonScenarios(auditScenarios: PricingAuditSce
       && scenario.surface === 'billing' && scenario.membershipTier === 'member'
       && scenario.id.startsWith(`billing:${entry.id}:`));
     const image = entry.category === 'image';
-    const mode = baseline?.mode ?? (image ? 't2i' : 't2v');
+    // Models without a frozen audit baseline (new engines) fall back to their own first mode and default duration.
+    const mode = baseline?.mode ?? (image ? 't2i' : entry.modes.some((item) => item.mode === 't2v') ? 't2v' : entry.modes[0]?.mode ?? 't2v');
     const resolution = !image && entry.engine.resolutions.includes('720p') ? '720p' : baseline?.resolution ?? entry.engine.resolutions[0];
-    const durationSec = image ? 1 : 5;
+    const durationUi = entry.modes.find((item) => item.mode === mode)?.ui.duration;
+    const durationOptions = durationUi && 'options' in durationUi ? durationUi.options.map(Number).filter(Number.isFinite) : [];
+    const durationSec = image ? 1 : !baseline && durationOptions.length && !durationOptions.includes(5)
+      ? Number(durationUi && 'default' in durationUi ? durationUi.default : durationOptions[0]) || durationOptions[0]! : 5;
     if (!resolution || !entry.modes.some((item) => item.mode === mode)) return [];
     const scenario: PricingAuditScenario = {
       ...(baseline ?? {

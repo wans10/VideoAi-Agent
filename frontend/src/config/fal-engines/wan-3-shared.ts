@@ -1,6 +1,6 @@
 import type { EngineCaps } from '../../../types/engines';
 
-export const WAN_3_PROVIDER_ASPECT_RATIOS = ['adaptive', '21:9', '16:9', '4:3', '1:1', '3:4', '9:16'] as const;
+export const WAN_3_PROVIDER_ASPECT_RATIOS = ['adaptive', '16:9', '4:3', '1:1', '3:4', '9:16', '21:9'] as const;
 export const WAN_3_RESOLUTIONS = ['480p', '720p', '1080p'] as const;
 export const WAN_3_MODES = ['t2v', 'i2v', 'ref2v', 'v2v', 'extend'] as const;
 export const WAN_3_REFERENCE_AUDIO_MIME_TYPES = [
@@ -8,7 +8,7 @@ export const WAN_3_REFERENCE_AUDIO_MIME_TYPES = [
 ] as const;
 export const WAN_3_REFERENCE_AUDIO_EXTENSIONS = ['mp3', 'wav'] as const;
 
-const UI_ASPECT_RATIOS = ['auto', '21:9', '16:9', '4:3', '1:1', '3:4', '9:16'];
+const UI_ASPECT_RATIOS = ['auto', '16:9', '4:3', '1:1', '3:4', '9:16', '21:9'];
 const COMMON_MODES = [...WAN_3_MODES];
 
 export const WAN_3_MODE_CAPS: NonNullable<EngineCaps['modeCaps']> = {
@@ -130,7 +130,7 @@ export function createWan3Engine(options: {
     modes: [...WAN_3_MODES],
     maxDurationSec: 30,
     resolutions: [...WAN_3_RESOLUTIONS],
-    aspectRatios: ['auto', '21:9', '16:9', '4:3', '1:1', '3:4', '9:16'],
+    aspectRatios: ['auto', '16:9', '4:3', '1:1', '3:4', '9:16', '21:9'],
     fps: [30],
     audio: true,
     upscale4k: false,

@@ -15,7 +15,6 @@ const REQUIRED_URLS = [
   'https://app.keyvo.cn/docs',
   'https://app.keyvo.cn/models/kling-3-pro',
   'https://app.keyvo.cn/models/minimax-h3',
-  'https://app.keyvo.cn/models/minimax-h3-max',
   'https://app.keyvo.cn/models/seedance-2-5',
   'https://app.keyvo.cn/legal/privacy',
   'https://app.keyvo.cn/legal/terms',

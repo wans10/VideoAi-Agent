@@ -1,5 +1,6 @@
 import {CUSTOMER_CURRENCY,USD_TO_CNY_CUSTOMER_RATE} from '../frontend/src/lib/customer-currency';
 import assert from 'node:assert/strict';
+import { ENV } from '../frontend/src/lib/env';
 import test from 'node:test';
 
 import type { PricingPolicyRule } from '@maxvideoai/pricing';
@@ -804,16 +805,35 @@ test('inventory compares ByteDance billing scenarios with their actual execution
   const rows = inventory.providerComparisons;
   assert.equal(inventory.rows.some((row) => row.selector.engineId === 'seedance-1-5-pro'), false);
   const seedance25 = rows.find((row) => row.engineId === 'seedance-2-5' && row.mode === 't2v');
-  const seedream = rows.find((row) => row.engineId === 'seedream');
+  // Seedream 5.0 Lite is retired on Keyvo and leaves the comparison inventory.
+  assert.equal(rows.some((row) => row.engineId === 'seedream'), false);
+  const seedream = rows.find((row) => row.engineId === 'seedream-5-0-flash');
 
   assert.ok(seedance25);
   assert.equal(seedance25.brandId, 'bytedance');
   assert.equal(seedance25.executionProvider, 'byteplus_modelark');
   assert.equal(seedance25.supplierList.status, 'published_list_estimate');
   assert.ok((seedance25.supplierList.amountUsd ?? 0) > 0);
-  assert.equal(seedance25.supplierEffective.amountUsd, seedance25.supplierList.amountUsd);
-  assert.equal(seedance25.supplierEffective.contract?.discountPercent, 0);
+  // Keyvo's code default is the Volcengine Ark mainland region (cn-beijing). The signed BytePlus order form covers
+  // ap-southeast-1 only, so the default route claims no account-effective price.
+  assert.equal(ENV.BYTEPLUS_ARK_REGION, 'cn-beijing');
+  assert.equal(seedance25.supplierEffective.amountUsd, null);
+  assert.equal(seedance25.supplierEffective.status, 'account_contract_unconfirmed');
   assert.equal(seedance25.supplierObserved.amountUsd, null);
+  const previousRegion = ENV.BYTEPLUS_ARK_REGION;
+  try {
+    // The BytePlus international override keeps the signed contract projection.
+    ENV.BYTEPLUS_ARK_REGION = 'ap-southeast-1';
+    const international = (await loadPricingPolicyInventory({ ...createMemoryHarness().deps,
+      now: () => new Date('2026-10-01T12:00:00Z') })).providerComparisons
+      .find((row) => row.engineId === 'seedance-2-5' && row.mode === 't2v');
+    assert.ok(international);
+    assert.equal(international.supplierEffective.amountUsd, international.supplierList.amountUsd);
+    assert.equal(international.supplierEffective.amountUsd, seedance25.supplierList.amountUsd);
+    assert.equal(international.supplierEffective.contract?.discountPercent, 0);
+  } finally {
+    ENV.BYTEPLUS_ARK_REGION = previousRegion;
+  }
   assert.equal(seedance25.customerQuote?.source, 'versioned');
   assert.ok((seedance25.customerQuote?.totalCents ?? 0) > 0);
 
@@ -831,9 +851,11 @@ test('inventory compares ByteDance billing scenarios with their actual execution
   assert.equal(seedream.outputQuantity, 1);
   assert.match(formatProviderComparisonScenario(seedream), /1 image/);
   assert.doesNotMatch(formatProviderComparisonScenario(seedream), /\d+ s/);
-  assert.equal(seedream.executionProvider, 'llmhub');
-  assert.equal(seedream.supplierList.amountUsd, null, 'a BytePlus list rate cannot establish the LLMHub supplier cost');
-  assert.equal(seedream.supplierList.reason, 'supplier_rate_unverified_for_route');
+  // Seedream 5.0 Flash runs only on Volcengine Ark (no LLMHub route, unlike the retired Lite); its supplier list is the
+  // PROVISIONAL mainland list price of CNY 0.12 = USD 0.015 per image, outside the signed BytePlus contract.
+  assert.equal(seedream.executionProvider, 'byteplus_modelark');
+  assert.equal(seedream.supplierList.amountUsd, 0.015);
+  assert.equal(seedream.supplierEffective.amountUsd, null);
   const kling = rows.find((row) => row.engineId === 'kling-2-6-pro');
   assert.equal(kling?.supplierList.amountUsd, 0.35);
   assert.equal(kling?.supplierList.status, 'published_list_estimate');

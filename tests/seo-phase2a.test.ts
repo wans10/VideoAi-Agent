@@ -72,7 +72,8 @@ test('builds family dictionary from real app model families', () => {
   assert.ok(labels.includes('LTX'));
   assert.ok(labels.includes('Happy Horse'));
   assert.ok(dictionary.find((family) => family.label === 'Happy Horse')?.modelSlugs.includes('happy-horse-1-1'));
-  assert.ok(dictionary.find((family) => family.label === 'Happy Horse')?.modelSlugs.includes('happy-horse-1-0'));
+  // Happy Horse 1.0 is offline on Keyvo (owner decision 2026-11-11), so the family publishes only 1.1.
+  assert.equal(dictionary.find((family) => family.label === 'Happy Horse')?.modelSlugs.includes('happy-horse-1-0'), false);
 });
 
 test('published P0 family defaults and identities resolve to their canonical SEO families', () => {

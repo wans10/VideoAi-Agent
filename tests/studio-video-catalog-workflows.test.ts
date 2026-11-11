@@ -41,8 +41,14 @@ const fixtures=[
 test('Studio video discovery retains every executable public transport-neutral tuple',async()=>{
   const canonical=(await videoCatalog()).filter(e=>e.surface==='video');
   const studio=await createStudioVideoGenerationService(actor,{enabled:true,prepareDependencies:{listPublicEngines:async()=>canonical}}).catalog();
-  assert.deepEqual(studio.map(e=>[e.engine.id,e.publicModes]),canonical.map(e=>[e.engine.id,e.publicModes]));
-  assert.equal(studio.reduce((count,entry)=>count+entry.publicModes.length,0),138+6+4+3,'Conversation qualification preserves every proven public tuple.');
+  // Keyvo's official-only MiniMax Hailuo 2.3 / 2.3 Fast are app-published without a Conversation dispatch proof, so
+  // Studio does not certify them yet (owner decision pending); every other public tuple must survive.
+  const studioUncertified=['minimax-hailuo-2-3','minimax-hailuo-2-3-fast'];
+  for(const id of studioUncertified){assert.ok(canonical.some(e=>e.engine.id===id),id);assert.equal(studio.some(e=>e.engine.id===id),false,id);}
+  assert.deepEqual(studio.map(e=>[e.engine.id,e.publicModes]),canonical.filter(e=>!studioUncertified.includes(e.engine.id)).map(e=>[e.engine.id,e.publicModes]));
+  assert.equal(studio.reduce((count,entry)=>count+entry.publicModes.length,0),138+6+4+3-4-4,'Conversation qualification preserves every proven public tuple.');
+  // -4 -4: Keyvo hides MiniMax-H3-Max (t2v/i2v/ref2v/v2v) and retired HappyHorse 1.0 (t2v/i2v/ref2v/v2v) from the app.
+  for(const id of ['minimax-h3-max','happy-horse-1-0'])assert.equal(studio.some(e=>e.engine.id===id),false,id);
   assert.deepEqual(studio.find(e=>e.engine.id==='kling-v4-flash')!.publicModes,['t2v','i2v','ref2v']);
   assert.deepEqual(studio.find(e=>e.engine.id==='kling-v4')!.publicModes,['t2v','i2v','ref2v','v2v']);
   assert.equal(isWorkspaceModelCertifiedForBlock({modelId:'kling-v4',presetId:'generate-video',workflowType:'text_to_video'}),false,

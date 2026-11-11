@@ -13,8 +13,11 @@ import {
 import { getPublicConfiguredEnginesByCategoryInExecutor } from '../frontend/src/server/engines';
 import type { EngineCaps } from '../frontend/types/engines';
 
-const ids = ['minimax-h3', 'minimax-h3-max'];
-const staleRows: EngineSettingsRecord[] = ids.map((engine_id) => ({
+// MiniMax-H3-Max has no mainland route and is hidden on Keyvo (KEYVO_HIDDEN_MODEL_IDS): a stale settings row
+// for it must not bring it back into the app or MCP catalogs, so only H3 is asserted as refreshed.
+const HIDDEN_ID = 'minimax-h3-max';
+const ids = ['minimax-h3'];
+const staleRows: EngineSettingsRecord[] = [...ids, HIDDEN_ID].map((engine_id) => ({
   engine_id, updated_by: null, updated_at: '2026-08-01T00:00:00Z', pricing: null,
   options: { modes: ['t2v', 'i2v'], resolutions: ['768P'],
     inputLimits: { promptMaxChars: 7000, audioMaxDurationSec: 15 } },
@@ -41,6 +44,8 @@ test('app and MCP read-only catalogs refresh stale H3 system defaults consistent
     assertCurrent(await getReadOnlyConfiguredEngine(id, false, dependencies), id);
     assertCurrent(await getReadOnlyConfiguredEngineIncludingHidden(id, false, dependencies), id);
   }
+  assert.equal(list.some((engine) => engine.id === HIDDEN_ID), false, 'hidden H3 Max stays out of the catalog');
+  assert.equal(await getReadOnlyConfiguredEngine(HIDDEN_ID, false, dependencies), undefined);
   assert.equal(settings.get('minimax-h3')?.options?.inputLimits &&
     (settings.get('minimax-h3')!.options!.inputLimits as { promptMaxChars: number }).promptMaxChars, 7000);
 });
@@ -74,6 +79,7 @@ test('transactional app and MCP readers use current system capabilities with onl
     await getPublicConfiguredEnginesByCategoryInExecutor('video', executor),
   ]) {
     for (const id of ids) assertCurrent(list.find((engine) => engine.id === id), id);
+    assert.equal(list.some((engine) => engine.id === HIDDEN_ID), false, 'hidden H3 Max stays out of the catalog');
   }
   for (const id of ids) assertCurrent(await getReadOnlyConfiguredEngineIncludingHiddenInExecutor(id, executor), id);
   assert.ok(statements.every((statement) => /^(?:LOCK|SELECT)\b/u.test(statement.trim())));

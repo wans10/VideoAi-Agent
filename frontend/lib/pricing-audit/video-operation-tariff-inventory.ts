@@ -1,4 +1,5 @@
 import { getFalEngineById } from '@/config/falEngines';
+import { getRuntimeModelById } from '@/config/model-runtime';
 import type { PricingContext } from '@/lib/pricing-context';
 import { resolveVideoOperationEngine } from '@/lib/video-operation';
 import type { VideoOperation } from '@/lib/video-operation';
@@ -33,6 +34,8 @@ export function videoOperationTariffContexts(scope: { modelId?: string; mode?: s
   const add = (id: string, mode: 'v2v' | 'extend' | 'ref2v' | 'reframe', operation: VideoOperation,
     resolutions: readonly string[], durations: readonly number[]) => {
     if ((scope.modelId !== undefined && scope.modelId !== id) || (scope.mode !== undefined && scope.mode !== mode)) return;
+    // Operations are sold only while their model is app-published (Keyvo hides MiniMax-H3-Max, for example).
+    if (!getRuntimeModelById(id)?.publication.app.published) return;
     const engine = resolveVideoOperationEngine(getFalEngineById(id)!.engine, mode, operation);
     for (const resolution of resolutions) for (const durationSec of durations) result.push({ engine, mode, operation,
       resolution, durationSec, hasVideoInput: mode !== 'ref2v',

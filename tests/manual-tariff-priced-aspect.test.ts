@@ -33,7 +33,7 @@ test('every current factual owner that omits aspect bills identical amounts for 
 });
 
 test('only priced aspect dimensions create separate tariffs; auto and orientation retain their requested quote context', async () => {
-  for (const [modelId, mode, resolution] of [['wan-3', 't2v', '720p'], ['nano-banana-2', 't2i', '1k'], ['seedream', 't2i', '2K']] as const) {
+  for (const [modelId, mode, resolution] of [['wan-3', 't2v', '720p'], ['nano-banana-2', 't2i', '1k'], ['seedream-5-0-flash', 't2i', '2K']] as const) {
     const engine = getFalEngineById(modelId)!.engine;
     const context = { engine, mode, resolution, durationSec: mode === 't2i' ? 1 : 5, aspectRatio: '16:9',
       ...(mode === 't2v' ? { addons: { audio: false, audio_off: true } } : {}) };

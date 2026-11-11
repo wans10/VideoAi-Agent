@@ -440,7 +440,8 @@ test('remaining video templates preserve Happy Horse, Hailuo, and Pika route int
   assert.equal(happyHorseLegacy.hero.title, 'Happy Horse 1.0');
   assert.match(happyHorseLegacy.hero.subtitle, /Legacy video-edit/);
   assert.match(happyHorseLegacy.hero.subtitle, /Happy Horse 1\.1/);
-  assert.equal(happyHorseLegacy.hero.primaryCta.href, '/app?engine=happy-horse-1-0');
+  // Happy Horse 1.0 is offline on Keyvo (app unpublished), so its CTA opens the Happy Horse 1.1 page.
+  assert.equal(happyHorseLegacy.hero.primaryCta.href, '/models/happy-horse-1-1');
   assert.deepEqual(
     happyHorseLegacy.pricing.scenarios.map((scenario) => scenario.id),
     ['5s-720p-audio', '10s-720p-audio', '15s-1080p-audio', 'max-duration']

@@ -54,10 +54,10 @@ const ENGLISH_FIRST_TRENDING_COMPARISONS = [
   'minimax-h3-max-vs-seedance-2-5',
 ] as const;
 const INITIAL_LOW_SIGNAL_WAVE_SIZE = 30;
-// Keyvo retired Seedance 1.5 Pro on every surface (owner decision 2026-11-11), so its comparison
-// URLs left the published set after the 2026-09-04 evidence wave. Approved slugs that name a
-// retired model are no longer routes; the remaining approved selection must still hold.
-const RETIRED_COMPARISON_MODEL_SLUGS = ['seedance-1-5-pro'] as const;
+// Keyvo retired Seedance 1.5 Pro and took Wan 2.5 offline on every surface (owner decision 2026-11-11),
+// so their comparison URLs left the published set after the 2026-09-04 evidence wave. Approved slugs
+// that name such a model are no longer routes; the remaining approved selection must still hold.
+const RETIRED_COMPARISON_MODEL_SLUGS = ['seedance-1-5-pro', 'wan-2-5'] as const;
 const namesRetiredModel = (slug: string) =>
   slug.split('-vs-').some((modelSlug) => (RETIRED_COMPARISON_MODEL_SLUGS as readonly string[]).includes(modelSlug));
 const SAFE_GSC_CLEANUP_SIZE = {
@@ -224,7 +224,7 @@ test('wave 1 sitemap omits every comparison URL while Keyvo hides comparison pag
     const slug = englishPath.slice('/ai-video-engines/'.length);
     return englishPath.startsWith('/ai-video-engines/') && publishedSlugSet.has(slug);
   });
-  assert.equal(publishedSlugs.length, 290);
+  assert.equal(publishedSlugs.length, 269);
   // Keyvo hides comparison pages (404), so route discovery keeps every comparison URL out of the sitemap.
   assert.equal(comparisonEntries.length, 0, 'comparison pages must not be listed in the Keyvo sitemap');
   assert.equal(

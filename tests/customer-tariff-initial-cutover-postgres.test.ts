@@ -71,9 +71,12 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
     assert.equal(lumaModifyExtraCells, 36, 'twelve additional source-duration classes × three resolutions');
     const additiveCells = 13 + 3 + 48 + 3 + 6 + 4 + 12;
     assert.equal(additiveCells, 89);
-    assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length, 26990);
-    const expectedCheckedQuotes = 26826 + maxCells + lumaModifyExtraCells + additiveCells;
-    const expectedCandidateCells = 14837 + maxCells + lumaModifyExtraCells + additiveCells;
+    // 26990 less 555 for the provider-completeness sync: Seedance 1.5 / Seedream Lite / HappyHorse 1.0 / Wan 2.5 are offline, hidden MiniMax H3 Max and the removed H3 480P/4K cells leave the Keyvo catalogue, offset by Hailuo 2.3 (+6), Hailuo 2.3 Fast (+3) and Seedream Flash (+2).
+    assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length, 26435);
+    // -561: 555 ordinary checkpoints and 6 new-offer cells left with the provider-completeness sync (see the comment above).
+    const expectedCheckedQuotes = 26826 - 561 + maxCells + lumaModifyExtraCells + additiveCells;
+    // Candidate cells move by -528 (offline models, hidden H3 Max, H3 without 480P/4K, plus the new Hailuo 2.3 / Fast and Seedream Flash cells).
+    const expectedCandidateCells = 14837 - 528 + maxCells + lumaModifyExtraCells + additiveCells;
     assert.equal(collectCustomerTariffCutoverCheckpoints().length, expectedCheckedQuotes,
       'Review inventory changes before running the exhaustive monetary replay');
     assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.scenario.modelId === 'flux-3-max').length, maxCells);
@@ -175,7 +178,7 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
     assert.equal(applied.checkedQuotes,expectedCheckedQuotes);
     assert.equal(applied.candidateCells,expectedCandidateCells);
     assert.equal(applied.archivedLegacyCells,162);
-    assert.equal(applied.candidateCells + applied.archivedLegacyCells,14999 + maxCells + lumaModifyExtraCells + additiveCells);
+    assert.equal(applied.candidateCells + applied.archivedLegacyCells,14999 - 528 + maxCells + lumaModifyExtraCells + additiveCells);
     assert.equal(applied.unavailableQuotes,486);
     t.diagnostic('Actual reader activation accepted before commit.');
     await assert.rejects(run(), /initial.*empty|revision/i);

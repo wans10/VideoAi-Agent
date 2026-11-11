@@ -1,3 +1,6 @@
+// MiniMax-H3-Max is a P1 identity upstream but hidden on Keyvo (KEYVO_HIDDEN_MODEL_IDS); these upstream MCP
+// projection contracts run on the unfiltered catalog. Keyvo's MCP exclusion is pinned in mcp-special-video-modes.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 

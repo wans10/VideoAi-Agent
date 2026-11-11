@@ -26,6 +26,7 @@ function submit(owner: Owner, jobId: string, queryFn: QueryFn, hooks: {
   onFallback(): void;
   onRollback(): void;
   onMetric?(): void;
+  capacity?: { reserved: number; released: number };
 }) {
   const durationSec = owner.key === 'veo' ? 8 : 5;
   const common = {
@@ -65,6 +66,17 @@ function submit(owner: Owner, jobId: string, queryFn: QueryFn, hooks: {
               return hooks.createTask();
             } })) as never } })
         : submitAlibabaModelStudioGenerateTask({ ...common, deps: { ...deps,
+            // The Alibaba capacity guard counts accepted, still-running wan3.0-video tasks in the database
+            // (5 in progress, 5 RPS per model). Earlier subtests deliberately leave accepted jobs running in
+            // this shared schema, so the real guard would refuse later subtests before createVideo and turn
+            // them into pre-ACK capacity rejections. Its own limits are covered by
+            // alibaba-model-studio-capacity.test.ts; here it must reserve exactly one slot before the paid
+            // POST and release it once the outcome is settled.
+            reserveCapacityFn: async () => {
+              if (hooks.capacity) hooks.capacity.reserved++;
+              let released = false;
+              return { release() { if (!released && hooks.capacity) hooks.capacity.released++; released = true; } };
+            },
             getAlibabaModelStudioClientFn: (() => ({ createVideo: hooks.createTask })) as never } });
 }
 
@@ -102,6 +114,7 @@ test('validated direct acknowledgments survive local persistence outages and ter
         let rollbackCalls = 0;
         let attemptSaveTried = false;
         let jobSaveTried = false;
+        const capacity = { reserved: 0, released: 0 };
         const diagnosticStart = diagnosticLogs.length;
         let terminalBefore: Awaited<ReturnType<typeof read>> | undefined;
         const execute: QueryFn = async (sql, values) => {
@@ -143,8 +156,10 @@ test('validated direct acknowledgments survive local persistence outages and ter
           },
           onFallback: () => { falCalls++; }, onRollback: () => { rollbackCalls++; },
           onMetric: () => { if (scenario === 'metric') throw new Error('Local metric unavailable'); },
+          capacity,
         });
         assert.equal(directCalls, 1);
+        if (owner.key === 'alibaba') assert.deepEqual(capacity, { reserved: 1, released: 1 }, 'one slot per paid POST, released after the ACK');
         assert.equal(falCalls, 0, 'an ACK cannot become permission for a second provider POST');
         assert.equal(rollbackCalls, 0, 'a local error after ACK is not refundable provider failure');
         assert.equal(result.ok, true);
@@ -203,6 +218,7 @@ test('validated direct acknowledgments survive local persistence outages and ter
         const completing = await db.pool.connect();
         const accepting = await db.pool.connect();
         let pending: ReturnType<typeof submit> | undefined;
+        const capacity = { reserved: 0, released: 0 };
         try {
           const blockingPid = (await completing.query('SELECT pg_backend_pid() AS pid')).rows[0].pid;
           const waitingPid = (await accepting.query('SELECT pg_backend_pid() AS pid')).rows[0].pid;
@@ -214,7 +230,7 @@ test('validated direct acknowledgments survive local persistence outages and ter
           const expected = (await completing.query('SELECT * FROM app_jobs WHERE job_id=$1', [jobId])).rows[0];
           pending = submit(owner, jobId, async (sql, values) => (await accepting.query(sql, values)).rows, {
             createTask: async () => ack(owner, acceptedId), onFallback: () => assert.fail('no Fal after ACK'),
-            onRollback: () => assert.fail('no rollback after ACK'),
+            onRollback: () => assert.fail('no rollback after ACK'), capacity,
           });
           await waitForPostgresBlock(db.pool, waitingPid, blockingPid);
           const witnessId = `witness_${jobId}`;
@@ -229,6 +245,7 @@ test('validated direct acknowledgments survive local persistence outages and ter
           assert.equal(result.body.paymentStatus, expected.payment_status);
           assert.equal(result.body.videoUrl, expected.video_url);
           assert.deepEqual(await read(jobId), expected);
+          if (owner.key === 'alibaba') assert.deepEqual(capacity, { reserved: 1, released: 1 });
         } finally {
           await completing.query('ROLLBACK');
           if (pending) await pending.catch(() => {});
@@ -243,7 +260,9 @@ test('validated direct acknowledgments survive local persistence outages and ter
         await seed(owner, jobId);
         let falCalls = 0;
         let rollbackCalls = 0;
+        const capacity = { reserved: 0, released: 0 };
         const result = await submit(owner, jobId, queryFn, {
+          capacity,
           createTask: async () => {
             if (owner.key === 'kling') throw new KlingDirectError(eligible ? 'Account balance not enough' : 'Invalid prompt', {
               status: eligible ? 429 : 400, code: eligible ? '1102' : '1201',
@@ -263,6 +282,7 @@ test('validated direct acknowledgments survive local persistence outages and ter
         assert.equal(falCalls, eligible ? 1 : 0);
         assert.equal(rollbackCalls, eligible ? 0 : 1);
         assert.equal(result.ok, eligible);
+        if (owner.key === 'alibaba') assert.deepEqual(capacity, { reserved: 1, released: 1 }, 'a pre-ACK refusal frees its slot');
       });
     }
   }

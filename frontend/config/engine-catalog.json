@@ -56,7 +56,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -382,7 +381,6 @@
           "sora-2-pro",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -911,7 +909,6 @@
           "sora-2-pro",
           "veo-3-1",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -1441,7 +1438,6 @@
           "sora-2-pro",
           "veo-3-1",
           "veo-3-1-fast",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -2553,7 +2549,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -3048,7 +3043,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -5392,7 +5386,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -5660,7 +5653,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -5962,7 +5954,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -6310,7 +6301,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -6671,7 +6661,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -7069,7 +7058,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -13937,7 +13925,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6",
           "seedance-2-0-fast",
           "seedance-2-5"
@@ -14784,7 +14771,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -17587,29 +17573,8 @@
       },
       "compare": {
         "suggestOpponents": [],
-        "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
-          "kling-3-4k",
-          "kling-3-pro",
-          "kling-3-standard",
-          "ltx-2",
-          "ltx-2-3-fast",
-          "ltx-2-3-pro",
-          "ltx-2-fast",
-          "luma-ray-2",
-          "luma-ray-2-flash",
-          "minimax-hailuo-02-text",
-          "pika-text-to-video",
-          "seedance-2-0",
-          "sora-2",
-          "sora-2-pro",
-          "veo-3-1",
-          "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
-        ],
-        "includeInHub": true
+        "publishedPairs": [],
+        "includeInHub": false
       },
       "app": {
         "enabled": false
@@ -17932,7 +17897,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-3"
         ],
         "includeInHub": true
@@ -18303,7 +18267,6 @@
       "compare": {
         "suggestOpponents": [
           "veo-3-1-fast",
-          "wan-2-5",
           "ltx-2-3-fast"
         ],
         "publishedPairs": [
@@ -18325,7 +18288,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -18641,7 +18603,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -18948,7 +18909,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -19314,7 +19274,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -21693,7 +21652,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-5",
           "wan-2-6"
         ],
         "includeInHub": true
@@ -27863,12 +27821,12 @@
       ],
       "aspectRatios": [
         "auto",
-        "21:9",
         "16:9",
         "4:3",
         "1:1",
         "3:4",
-        "9:16"
+        "9:16",
+        "21:9"
       ],
       "fps": [
         30
@@ -28114,12 +28072,12 @@
             ],
             "values": [
               "adaptive",
-              "21:9",
               "16:9",
               "4:3",
               "1:1",
               "3:4",
-              "9:16"
+              "9:16",
+              "21:9"
             ],
             "default": "adaptive"
           },
@@ -28238,12 +28196,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -28264,12 +28222,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -28290,12 +28248,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -28317,12 +28275,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -28344,12 +28302,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -28378,12 +28336,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -28408,12 +28366,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -28438,12 +28396,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -28469,12 +28427,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -28500,12 +28458,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -28608,12 +28566,12 @@
       ],
       "aspectRatios": [
         "auto",
-        "21:9",
         "16:9",
         "4:3",
         "1:1",
         "3:4",
-        "9:16"
+        "9:16",
+        "21:9"
       ],
       "fps": [
         30
@@ -28859,12 +28817,12 @@
             ],
             "values": [
               "adaptive",
-              "21:9",
               "16:9",
               "4:3",
               "1:1",
               "3:4",
-              "9:16"
+              "9:16",
+              "21:9"
             ],
             "default": "adaptive"
           },
@@ -28983,12 +28941,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -29009,12 +28967,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -29035,12 +28993,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -29062,12 +29020,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -29089,12 +29047,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -29122,12 +29080,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -29152,12 +29110,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -29182,12 +29140,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -29213,12 +29171,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,
@@ -29244,12 +29202,12 @@
           ],
           "aspectRatio": [
             "auto",
-            "21:9",
             "16:9",
             "4:3",
             "1:1",
             "3:4",
-            "9:16"
+            "9:16",
+            "21:9"
           ],
           "fps": 30,
           "audioToggle": true,

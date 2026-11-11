@@ -1,3 +1,5 @@
+// The frozen audit evidence covers the upstream catalog, including MiniMax-H3-Max that Keyvo hides at runtime.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
@@ -24,6 +26,8 @@ const LAUNCHED_IMAGE_MODEL_IDS = [
   'gpt-image-2-5-flare',
   'gpt-image-2-5-sunburst',
 ] as const;
+// Keyvo's 2026-11-11 provider work publishes Seedream 5.0 Flash pricing (PROVISIONAL Volcengine list cost).
+const KEYVO_LAUNCHED_IMAGE_MODEL_IDS = ['seedream-5-0-flash'] as const;
 
 function readFixtureRows<T>(path: string): T[] {
   return (JSON.parse(readFileSync(path, 'utf8')) as { rows: T[] }).rows;
@@ -83,6 +87,7 @@ test('committed pre-canonical pricing baseline is immutable after legacy deletio
   assert.equal(
     additions.rows.length,
     LAUNCHED_IMAGE_MODEL_IDS.length * 4
+      + KEYVO_LAUNCHED_IMAGE_MODEL_IDS.length * 4
       + P0_VIDEO_PRICING_SCENARIOS.length
       + P0_VIDEO_MODEL_IDS.length * 4
       + P1_PUBLIC_VIDEO_MODEL_IDS.length * 4,
@@ -103,6 +108,15 @@ test('committed pre-canonical pricing baseline is immutable after legacy deletio
     P0_VIDEO_PRICING_SCENARIOS.map((scenario) => `billing:p0:${scenario.id}`).sort(),
   );
   for (const engineId of P0_VIDEO_MODEL_IDS) {
+    assert.equal(
+      additions.rows.filter((row) =>
+        row.scenarioId.startsWith(`billing:${engineId}:`) || row.scenarioId.startsWith(`estimator:${engineId}:`)
+      ).length,
+      4,
+      engineId,
+    );
+  }
+  for (const engineId of KEYVO_LAUNCHED_IMAGE_MODEL_IDS) {
     assert.equal(
       additions.rows.filter((row) =>
         row.scenarioId.startsWith(`billing:${engineId}:`) || row.scenarioId.startsWith(`estimator:${engineId}:`)

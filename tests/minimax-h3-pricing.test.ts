@@ -149,7 +149,7 @@ test('generation billing preflight forwards and records the normalized H3 refere
   );
 });
 
-test('MiniMax H3 prices 4 s and bills reference-video seconds at the provisional official CNY rate', () => {
+test('MiniMax H3 prices 4 s and computes, without billing, reference-video seconds at the provisional official CNY rate', () => {
   // 4 s at the existing per-second rate (no price change for 5-15 s).
   assert.equal(calculateMinimaxH3ProviderPrice({ durationSec: 4, resolution: '768P' }).subtotalUsd, 0.24);
   assert.throws(() => calculateMinimaxH3ProviderPrice({ durationSec: 3, resolution: '768P' }));
@@ -169,9 +169,11 @@ test('MiniMax H3 prices 4 s and bills reference-video seconds at the provisional
   };
   const billing = buildBillingPricingFacts(context, MINIMAX_H3_ENGINE.pricingDetails, 'USD');
   const publicFacts = buildPublicPricingFacts(context);
-  assert.equal(billing.facts.vendorSubtotalExactCents, 93);
-  assert.equal(publicFacts.facts.vendorSubtotalExactCents, 93);
-  assert.deepEqual(billing.addons, [{ type: 'reference_video_seconds', amountCents: 63 }]);
+  // Existing H3 customer prices must not change (owner decision): the provisional reference-video cost stays
+  // out of the billed and public facts until the owner re-prices, so the quote equals the no-video quote.
+  assert.equal(billing.facts.vendorSubtotalExactCents, 30);
+  assert.equal(publicFacts.facts.vendorSubtotalExactCents, 30);
+  assert.deepEqual(billing.addons, []);
   assert.deepEqual(publicFacts.addons, billing.addons);
   // Text and image modes never bill input video.
   assert.equal(buildBillingPricingFacts({ ...context, mode: 'i2v' }, MINIMAX_H3_ENGINE.pricingDetails, 'USD').facts.vendorSubtotalExactCents, 30);

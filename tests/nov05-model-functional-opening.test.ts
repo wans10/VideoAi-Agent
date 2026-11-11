@@ -13,11 +13,14 @@ const environment = { bytePlusEnabled: false, bytePlusApiKey: undefined, falApiK
     S3_REGION: 'fixture', S3_ACCESS_KEY_ID: 'fixture', S3_SECRET_ACCESS_KEY: 'fixture' } };
 
 test('public image pricing respects its own publication even while the model and App are open', () => {
-  // Keyvo hides the GPT Image pages and pricing rows, so the same contract runs on a visible image model.
-  const model = getFalEngineById('seedream')!;
+  // Keyvo hides the GPT Image pages and pricing rows, so the same contract runs on a visible image model
+  // (Seedream 5.0 Pro: Seedream 5.0 Lite was retired on 2026-11-11).
+  const model = getFalEngineById('seedream-5-0-pro')!;
   const original = model.surfaces.pricing.includeInEstimator;
   assert.equal(model.surfaces.app.enabled, true);
   assert.equal(model.surfaces.modelPage.indexable, true);
+  for (const locale of ['en', 'fr', 'es'] as const)
+    assert.ok(buildPricingHubData(locale).otherSurfaces.imageRows.some(row => row.id === model.id), 'published row before rollback');
   try {
     model.surfaces.pricing.includeInEstimator = false;
     for (const locale of ['en', 'fr', 'es'] as const)

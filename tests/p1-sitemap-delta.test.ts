@@ -14,18 +14,27 @@ const dynamicPaths = new Set([...modelPaths, ...comparisonPaths]);
 
 // Keyvo hides comparison pages that involve non-Chinese-vendor models (see config/keyvo-model-visibility.ts).
 const HIDDEN_MODEL_TOKEN = /veo|gemini-omni|ltx|luma|grok|flux|pika|sora|gpt-image|nano-banana/;
-const isVisiblePath = (path: string) => !HIDDEN_MODEL_TOKEN.test(path);
+// MiniMax-H3-Max has no mainland route (KEYVO_HIDDEN_MODEL_IDS); Wan 2.5, Happy Horse 1.0, Seedance 1.5 Pro and
+// Seedream 5.0 Lite are offline (owner decision 2026-11-11). Their comparisons are hidden as well.
+const HIDDEN_KEYVO_MODEL_SLUGS = new Set(['minimax-h3-max', 'wan-2-5', 'happy-horse-1-0', 'seedance-1-5-pro', 'seedream']);
+const isVisiblePath = (path: string) => !HIDDEN_MODEL_TOKEN.test(path)
+  && !path.replace(/^\/ai-video-engines\//, '').split('-vs-').some((slug) => HIDDEN_KEYVO_MODEL_SLUGS.has(slug));
 
-test('P1 and subsequent candidates add eleven model routes while Keyvo publishes only visible comparison routes', () => {
-  assert.equal(modelPaths.length - fixture.publishedModelCount, 11);
+test('P1 and subsequent candidates add seven net model routes while Keyvo publishes only visible comparison routes', () => {
+  // Eleven upstream additions minus the four model pages Keyvo took offline (Wan 2.5, Happy Horse 1.0,
+  // Seedance 1.5 Pro, Seedream 5.0 Lite), which leave the published roster.
+  assert.equal(modelPaths.length - fixture.publishedModelCount, 7);
+  for (const slug of ['wan-2-5', 'happy-horse-1-0', 'seedance-1-5-pro', 'seedream']) {
+    assert.equal(dynamicPaths.has(`/models/${slug}`), false, slug);
+  }
   assert.ok(comparisonPaths.length < fixture.publishedComparisonCount, 'hidden-vendor comparisons are not published');
   for (const path of comparisonPaths) assert.equal(isVisiblePath(path), true, `${path} involves a hidden model`);
 });
 
 test('P1 route delta: models stay in the roster while Keyvo hides non-Chinese-vendor comparisons', () => {
-  for (const slug of ['seedance-2-5-vs-wan-3', 'minimax-h3-max-vs-seedance-2-5']) {
-    assert.ok(getIndexableComparisonLocales(slug).includes('zh'), `${slug} must have a Chinese sitemap URL`);
-  }
+  assert.ok(getIndexableComparisonLocales('seedance-2-5-vs-wan-3').includes('zh'), 'seedance-2-5-vs-wan-3 must have a Chinese sitemap URL');
+  // Hidden H3 Max keeps its roster model row, but none of its comparisons is published.
+  assert.equal(comparisonPaths.some((path) => path.includes('minimax-h3-max')), false);
   const v4 = modelRoster.find(model => model.modelSlug === 'kling-v4');
   assert.ok(v4);
   assert.deepEqual(v4.surfaces.modelPage, { indexable: true, includeInSitemap: true });

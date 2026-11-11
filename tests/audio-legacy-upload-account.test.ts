@@ -23,7 +23,10 @@ const bundle = build({
     window.fx={act,render:owner=>root.render(<Fixture key={owner} userId={owner}/>),renderWorkspace:()=>root.render(<AudioWorkspace/>),unmount:()=>root.unmount()};
   ` },
   bundle: true, write: false, platform: 'browser', format: 'iife', jsx: 'automatic', tsconfig: 'frontend/tsconfig.json',
-  define: { 'process.env.NODE_ENV': '"test"' },
+  // Next inlines NEXT_PUBLIC_* at build time; the voice-model picker reaches customer-currency.ts through
+  // minimax-speech-models.ts, so the browser bundle needs the same inlining.
+  define: { 'process.env.NODE_ENV': '"test"',
+    'process.env.NEXT_PUBLIC_CUSTOMER_CURRENCY': JSON.stringify(process.env.NEXT_PUBLIC_CUSTOMER_CURRENCY ?? 'USD') },
   nodePaths: [resolve('frontend/node_modules')],
   plugins: [{ name: 'session-boundary', setup(builder) {
     const mocks = {

@@ -36,11 +36,13 @@ test('measured public resolution preserves portrait and refuses unknown/missing 
 });
 
 test('comparison preserves1080p and4k across legacy engine resolution token spellings',()=>{
- for(const [engineId,resolution,durationSec,expected] of [
-  ['minimax-h3-max','1080p',15,'1080P'], ['minimax-h3','768p',15,'768P'], ['ltx-2-5-fast','4k',6,'2160p'],
+ // H3 Max (the former 1080P case) is hidden on Keyvo; silent Hailuo 2.3 now carries the uppercase 1080P spelling.
+ for(const [engineId,resolution,durationSec,expected,audio] of [
+  ['minimax-hailuo-2-3','1080p',6,'1080P',false], ['minimax-h3','768p',15,'768P',true], ['ltx-2-5-fast','4k',6,'2160p',true],
  ] as const){
-  const {form}=hydrate(query(engineId,{resolution,durationSec}));assert.equal(form.resolution,expected,engineId);
+  const {form}=hydrate(query(engineId,{resolution,durationSec,audio}));assert.equal(form.resolution,expected,engineId);
  }
+ assert.equal(engines.some(e=>e.id==='minimax-h3-max'),false,'hidden H3 Max is not a recreation target');
 });
 test('LTX Fast long clips cannot silently change resolution or frame rate after a comparison',()=>{
  assert.equal(buildExampleRecreationSnapshot(video,query('ltx-2-3-fast',{durationSec:20,resolution:'4k'}),engines),null);

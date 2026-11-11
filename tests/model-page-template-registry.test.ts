@@ -162,7 +162,8 @@ test('template registry enables Seedance production and draft model templates', 
   assert.equal(lumaUni.hero.primaryCtaHref, '/app/image?engine=luma-uni-1');
   assert.equal(lumaUniMax.hero.primaryCtaHref, '/app/image?engine=luma-uni-1-max');
   assert.equal(happyHorse.hero.primaryCtaHref, '/app?engine=happy-horse-1-1');
-  assert.equal(happyHorseLegacy.hero.primaryCtaHref, '/app?engine=happy-horse-1-0');
+  // Happy Horse 1.0 is offline on Keyvo (app unpublished), so its CTA opens the Happy Horse 1.1 page.
+  assert.equal(happyHorseLegacy.hero.primaryCtaHref, '/models/happy-horse-1-1');
   assert.equal(hailuo.hero.primaryCtaHref, '/app?engine=minimax-hailuo-02-text');
   assert.equal(pika.hero.primaryCtaHref, '/app?engine=pika-text-to-video');
   assert.equal(gptImage.hero.primaryCtaHref, '/app/image?engine=gpt-image-2');

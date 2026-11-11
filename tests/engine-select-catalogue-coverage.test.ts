@@ -10,6 +10,7 @@ import {
   getEngineSelectCatalogueSummary,
 } from '../frontend/src/components/ui/engine-select/engine-select-catalogue.ts';
 import { getBaseEnginesByCategory, type EngineCategory } from '../frontend/src/lib/engines.ts';
+import { isKeyvoHiddenModel } from '../frontend/config/keyvo-model-visibility.ts';
 
 const registryEntries = listFalEngines();
 const registryMeta = {
@@ -19,8 +20,9 @@ const registryMeta = {
 
 for (const category of ['video', 'image'] satisfies EngineCategory[]) {
   test(`${category} selector reaches every app-published engine in its canonical family`, () => {
+    // Keyvo-hidden models (KEYVO_HIDDEN_MODEL_IDS, e.g. minimax-h3-max) are projected out of the app on Keyvo.
     const published = registry.models.filter(
-      (model) => model.category === category && model.publication.app.published,
+      (model) => model.category === category && model.publication.app.published && !isKeyvoHiddenModel(model.id),
     );
     const engines = getBaseEnginesByCategory(category);
     const groups = buildEngineFamilyGroups({
@@ -35,6 +37,7 @@ for (const category of ['video', 'image'] satisfies EngineCategory[]) {
       published.map((model) => model.id).sort(),
     );
     assert.equal(new Set(groupedIds).size, groupedIds.length, 'an engine belongs to exactly one family');
+    assert.equal(groupedIds.some((id) => isKeyvoHiddenModel(id)), false, 'Keyvo-hidden models never reach the selector');
 
     const publishedById = new Map(published.map((model) => [model.id, model]));
     for (const group of groups) {

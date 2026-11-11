@@ -3,6 +3,7 @@ import test from 'node:test';
 
 import { listFalEngines } from '../frontend/src/config/falEngines';
 import { getModelRegistryEntryById } from '../frontend/config/model-registry';
+import { isKeyvoHiddenModel } from '../frontend/config/keyvo-model-visibility';
 import {
   validateCanonicalGenerationCapabilities,
 } from '../frontend/src/server/agent-api/generation-capability-validation';
@@ -153,8 +154,13 @@ test('MCP mode parity audit identifies every remaining specialized public workfl
   const supported = new Set<string>(CANONICAL_GENERATION_MODES);
   const videoModes = new Set(CANONICAL_VIDEO_GENERATION_MODES);
   const imageModes = new Set(['t2i', 'i2i']);
+  // Keyvo-hidden models (KEYVO_HIDDEN_MODEL_IDS) keep upstream registry publication but are projected out of the
+  // app and MCP on Keyvo.
+  const keyvoHiddenEntries = listFalEngines().filter((entry) =>
+    getModelRegistryEntryById(entry.id)?.publication.app.published === true && isKeyvoHiddenModel(entry.id)
+  );
   const publicEntries = listFalEngines().filter((entry) =>
-    getModelRegistryEntryById(entry.id)?.publication.app.published === true
+    getModelRegistryEntryById(entry.id)?.publication.app.published === true && !isKeyvoHiddenModel(entry.id)
   );
   const remaining = publicEntries.flatMap((entry) =>
     entry.modes.flatMap(({ mode }) => {
@@ -172,6 +178,10 @@ test('MCP mode parity audit identifies every remaining specialized public workfl
   ]);
 
   const deps = realRegistryDeps();
+  assert.deepEqual(keyvoHiddenEntries.map(({ id }) => id), ['minimax-h3-max']);
+  for (const entry of keyvoHiddenEntries) {
+    assert.deepEqual(await listAgentModels({ id: entry.id }, deps), [], `${entry.id} is hidden from MCP discovery on Keyvo`);
+  }
   for (const entry of publicEntries) {
     const [model] = await listAgentModels({ id: entry.id }, deps);
     assert.ok(model, `${entry.id} is published in the app but absent from MCP discovery`);

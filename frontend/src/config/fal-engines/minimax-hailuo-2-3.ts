@@ -1,4 +1,4 @@
-import type { EngineCaps } from '../../../types/engines';
+import type { EngineCaps, Resolution } from '../../../types/engines';
 import { calculateMinimaxHailuoCost } from '../../lib/minimax-hailuo-pricing';
 import type { RawFalEngineEntry } from './types';
 
@@ -22,7 +22,7 @@ const VARIANTS: readonly HailuoVariant[] = [
   { id: 'minimax-hailuo-2-3-fast', model: 'MiniMax-Hailuo-2.3-Fast', label: 'MiniMax Hailuo 2.3 Fast', versionLabel: '2.3 Fast', modes: ['i2v'] },
 ];
 
-const RESOLUTIONS = ['768P', '1080P'];
+const RESOLUTIONS: Resolution[] = ['768P', '1080P'];
 const DURATIONS = [6, 10];
 const IMAGE_FORMATS = ['jpg', 'jpeg', 'png', 'webp'];
 

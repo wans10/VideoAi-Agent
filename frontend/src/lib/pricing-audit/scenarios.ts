@@ -24,7 +24,10 @@ const PROVIDER_REFERENCE_COMPATIBILITY_ENGINE_IDS = new Set([
   'seedance-2-0-fast',
   'seedance-2-0-mini',
 ]);
-const FROZEN_LEGACY_AUDIT_ENGINE_IDS = new Set(['ltx-2-fast', 'ltx-2', 'wan-2-5', 'sora-2', 'sora-2-pro', 'seedance-1-5-pro']);
+// Retired engines keep reproducing their frozen audit rows. Keyvo retired HappyHorse 1.0 and Seedream 5.0 Lite on
+// 2026-11-11 (their scenarios are evidence only; no live quote is enabled).
+const FROZEN_LEGACY_AUDIT_ENGINE_IDS = new Set(['ltx-2-fast', 'ltx-2', 'wan-2-5', 'sora-2', 'sora-2-pro', 'seedance-1-5-pro',
+  'happy-horse-1-0', 'seedream']);
 
 function compatibilityProfileForEngine(engineId: string): string | undefined {
   return PROVIDER_REFERENCE_COMPATIBILITY_ENGINE_IDS.has(engineId) ? 'provider-reference-current' : undefined;

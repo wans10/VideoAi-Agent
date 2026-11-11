@@ -214,7 +214,7 @@ test('request option helper uses profile capabilities and generated audio for By
   assert.equal(miniResult.options.audioEnabled, true);
 });
 
-test('request option helper uses the first supported MiniMax H3 resolution for omitted options', () => {
+test('request option helper uses the first supported MiniMax H3 resolution for omitted options (768P since the official H3 contract dropped 480P)', () => {
   const result = buildGenerateRequestOptions({
     body: { prompt: 'A lighthouse keeper turns toward the sweeping beam.' },
     engine: registeredEngine('minimax-h3'),
@@ -233,9 +233,9 @@ test('request option helper uses the first supported MiniMax H3 resolution for o
   }, {
     durationSec: 4,
     aspectRatio: '21:9',
-    requestedResolution: '480P',
-    pricingResolution: '480P',
-    effectiveResolution: '480P',
+    requestedResolution: '768P',
+    pricingResolution: '768P',
+    effectiveResolution: '768P',
   });
 });
 

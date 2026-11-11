@@ -157,8 +157,7 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
   const isKlingV4 = ['kling-v4', 'kling-v4-flash'].includes(engine.id);
   const klingV4InheritsDuration=engine.id==='kling-v4'&&mode==='v2v'&&body.durationSec===undefined&&body.durationOption==null;
   const isWan3 = engine.id === 'wan-3' || engine.id === 'wan-3-prime';
-  // MiniMax H3 bills reference-video seconds in multimodal reference mode (summed like Wan's owned media).
-  const isMinimaxH3Reference = engine.id === 'minimax-h3' && mode === 'ref2v';
+  const isMinimaxH3Reference = engine.id === 'minimax-h3' && mode === 'ref2v'; // H3 ref2v bills reference-video seconds.
   let inputVideoDurationSec: number | undefined;
   if (isWan3 || isBytePlus || isKlingV4 || isMinimaxH3Reference) {
     try {

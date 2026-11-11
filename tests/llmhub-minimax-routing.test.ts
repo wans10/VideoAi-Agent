@@ -11,6 +11,7 @@ import {
   narrowToLlmhubMinimax,
 } from '../frontend/src/server/llmhub-minimax-capabilities.ts';
 import { getFalEngineById } from '../frontend/src/config/falEngines.ts';
+import { getBaseEngines } from '../frontend/src/lib/engines.ts';
 
 const on = { LLMHUB_INFERENCE_ROUTING_ENABLED: 'true', LLMHUB_API_KEY: 'key' };
 const plan = (engineId: string, mode: string, request?: Record<string, unknown>, env: Record<string, string> = on) =>
@@ -204,7 +205,10 @@ test('the workspace sees what the official API accepts when the switch is on', (
   for (const gone of ['target_audio_url', 'seed', 'prompt_expansion_mode']) assert.equal(ids.includes(gone), false, gone);
   assert.equal((h3.inputSchema?.optional ?? []).find((field) => field.id === 'duration')?.values?.[0], '4');
 
-  const hailuo = narrowToLlmhubMinimax(getFalEngineById('minimax-hailuo-02-text')!.engine, officialOnly);
+  // The workspace narrows the app engines (with per-mode caps), not the raw registry entry.
+  const hailuoBase = getBaseEngines().find((engine) => engine.id === 'minimax-hailuo-02-text');
+  assert.ok(hailuoBase?.modeCaps);
+  const hailuo = narrowToLlmhubMinimax(hailuoBase, officialOnly);
   assert.deepEqual(hailuo.modeCaps?.t2v?.resolution, ['768P']);
   assert.deepEqual(hailuo.modeCaps?.i2v?.resolution, ['768P', '512P']);
   assert.ok((hailuo.inputSchema?.optional ?? []).some((field) => field.id === 'end_image_url'));

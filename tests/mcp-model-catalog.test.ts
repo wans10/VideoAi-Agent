@@ -316,7 +316,8 @@ test('catalog mirrors real execution gates for newly registered video models', {
         surface: 'video',
         modes: ['t2v', 'i2v', 'ref2v'],
         aspectRatios: ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16', 'auto'],
-        resolutions: ['480P', '768P', '2K', '4K'],
+        // MiniMax's official H3 API accepts 768P and 2K only (480P/4K were fal-only).
+        resolutions: ['768P', '2K'],
         maxDurationSec: 15,
         audio: true,
         referenceImages: true,

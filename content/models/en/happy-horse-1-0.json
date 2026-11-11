@@ -13,8 +13,8 @@
     "intro": "Use Happy Horse 1.0 when a selected source clip needs legacy video edit. Start new text, image, and reference generations on Happy Horse 1.1.",
     "badge": "Text · Image · R2V · V2V · 720p/1080p · Native audio · Lip-sync",
     "ctaPrimary": {
-      "label": "Generate with Happy Horse 1.0",
-      "href": "/app?engine=happy-horse-1-0"
+      "label": "Switch to Happy Horse 1.1",
+      "href": "/models/happy-horse-1-1"
     },
     "secondaryLinks": [
       {
@@ -179,8 +179,8 @@
       ],
       "paragraph": "Use Happy Horse 1.0 only when you need the legacy video-edit endpoint. Use Happy Horse 1.1 for new text, image and reference generations.",
       "primaryCta": {
-        "label": "Generate with Happy Horse 1.0",
-        "href": "/app?engine=happy-horse-1-0"
+        "label": "Switch to Happy Horse 1.1",
+        "href": "/models/happy-horse-1-1"
       },
       "secondaryCta": {
         "label": "View examples",

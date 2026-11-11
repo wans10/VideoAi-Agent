@@ -85,7 +85,7 @@
       "reference_guided"
     ],
     "considerations": [
-      "Text, image and mixed-reference generation are available on the website and through MCP. Choose 5–15 seconds at 480P, 768P, 2K or 4K. Review the current quote before generation.",
+      "Text, image and mixed-reference generation are available on the website and through MCP. Choose 4–15 seconds at 768P or 2K. Review the current quote before generation.",
       "Use a start image, an end image, or both in image mode; keep frame inputs separate from mixed references.",
       "Use target_audio_url as a soundtrack in text or image mode. Use reference_audio_urls in reference mode; audio-only references are supported.",
       "Use up to 9 images, 3 videos and 3 audio clips, with 12 unique references total. Video and audio each have a 15-second combined limit."

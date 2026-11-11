@@ -11,6 +11,14 @@ import { validateModelRegistryDocument } from '../frontend/config/model-registry
 import { listRuntimeModels, resolveRuntimePublicSlug } from '../frontend/config/model-runtime.ts';
 import { listFalEngines } from '../frontend/src/config/falEngines.ts';
 
+// Keyvo retired Seedance 1.5 Pro and Seedream 5.0 Lite (owner decision 2026-11-11): their public slugs
+// resolve to the registry replacement, every other identity stays self-canonical.
+const RETIRED_REPLACEMENT_BY_SLUG = new Map(
+  registry.models
+    .filter((model) => model.lifecycle === 'retired' && model.replacement)
+    .map((model) => [model.slug, registry.models.find((candidate) => candidate.id === model.replacement)!]),
+);
+
 const GEMINI_ALIASES = [
   'gemini-omni-flash-1-1',
   'gemini-omni-1-1-flash',
@@ -113,8 +121,10 @@ test('Gemini compatibility URLs are explicit one-hop redirects in every locale',
 
 test('runtime resolution preserves self-canonical paths and includes the published P1 identities', () => {
   const runtimeIds = new Set(listRuntimeModels().map((model) => model.id));
+  assert.deepEqual([...RETIRED_REPLACEMENT_BY_SLUG.keys()].sort(), ['seedance-1-5-pro', 'seedream']);
   for (const model of registry.models) {
-    assert.equal(resolveRuntimePublicSlug(model.slug)?.id, model.id, model.slug);
+    const expectedId = RETIRED_REPLACEMENT_BY_SLUG.get(model.slug)?.id ?? model.id;
+    assert.equal(resolveRuntimePublicSlug(model.slug)?.id, expectedId, model.slug);
   }
   for (const id of Object.keys(PUBLISHED_P1_MODELS)) {
     assert.equal(runtimeIds.has(id), true, `runtime identity missing ${id}`);
@@ -162,6 +172,7 @@ test('P1 registration excludes Runway, Gemini 1.0, and H3 Max Turbo identities',
     models: Array<{ slug: string }>;
   };
   for (const model of baseline.models) {
-    assert.equal(resolveRuntimePublicSlug(model.slug)?.slug, model.slug, model.slug);
+    const expectedSlug = RETIRED_REPLACEMENT_BY_SLUG.get(model.slug)?.slug ?? model.slug;
+    assert.equal(resolveRuntimePublicSlug(model.slug)?.slug, expectedSlug, model.slug);
   }
 });

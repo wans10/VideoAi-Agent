@@ -30,7 +30,7 @@ const copy: Record<'en' | 'zh' | 'fr' | 'es', Record<Key, string>> = {
   },
   fr: {
     busy: 'Ce modèle Kling est saturé pour le moment (limite de tâches simultanées atteinte). Réessayez dans une minute environ.',
-    unsupportedInputs: 'Cette demande n’est pas prise en charge avec les éléments choisis. Modifiez le prompt, les médias ou les réglages puis réessayez.',
+    unsupportedInputs: 'Cette demande n’est pas compatible avec les entrées sélectionnées. Modifiez le prompt, les médias ou les réglages puis réessayez.',
     optionUnavailable: 'Cette option de rendu est temporairement indisponible. Réessayez plus tard.',
     couldNotStart: 'Le rendu n’a pas pu démarrer. Réessayez plus tard.',
     manualReview: 'Le statut du rendu n’a pas pu être confirmé et est en cours de vérification. Ne le soumettez pas à nouveau.',

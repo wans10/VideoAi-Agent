@@ -13,8 +13,8 @@
     "intro": "当选定的源片段需要旧版视频编辑时，请使用 Happy Horse 1.0。在 Happy Horse 1.1 上开始新的文本、图像和参考生成。",
     "badge": "文本 · 图像 · R2V · V2V · 720p/1080p · 原生音频 · 唇形同步",
     "ctaPrimary": {
-      "label": "使用 Happy Horse 1.0 生成",
-      "href": "/app?engine=happy-horse-1-0"
+      "label": "改用 Happy Horse 1.1",
+      "href": "/zh/models/happy-horse-1-1"
     },
     "secondaryLinks": [
       {
@@ -179,8 +179,8 @@
       ],
       "paragraph": "仅在需要旧版视频编辑端点时使用 Happy Horse 1.0。新的文本、图像和参考生成请使用 Happy Horse 1.1。",
       "primaryCta": {
-        "label": "使用 Happy Horse 1.0 生成",
-        "href": "/app?engine=happy-horse-1-0"
+        "label": "改用 Happy Horse 1.1",
+        "href": "/zh/models/happy-horse-1-1"
       },
       "secondaryCta": {
         "label": "查看示例",

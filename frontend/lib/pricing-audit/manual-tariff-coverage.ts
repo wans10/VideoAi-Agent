@@ -16,6 +16,7 @@ import { resolveBytePlusTransport } from '@/server/video-providers/byteplus-mode
 import { seedanceAutomaticDurationBounds, isSeedanceAdaptiveAspect } from '@/lib/seedance-option-pricing';
 import { hasOperationTariffInventory, videoOperationTariffContexts } from './video-operation-tariff-inventory';
 import { klingV4TariffContexts } from './kling-v4-tariff-contexts';
+import { isMinimaxHailuoOfficialEngineId, isMinimaxHailuoPricedCombination } from '@/lib/minimax-hailuo-pricing';
 
 export type ManualTariffCoverageScenario = {
   id: string;
@@ -189,6 +190,9 @@ export function collectSellableManualTariffCoverage(scope: { modelId?: string; m
           for (const referenceImageCount of references.values) for (const loop of manualTariffLoopValues(entry, mode))
           for (const media of mediaDimensions(model.id, mode, duration.durationSec)) {
           if (voiceControl && audio === false) continue; // Generation forces audio on when voices are selected.
+          // Hailuo 2.3 lists 1080P at 6 s only; the provider rejects other pairs, so they are not sellable cells.
+          if (isMinimaxHailuoOfficialEngineId(model.id) && !isMinimaxHailuoPricedCombination({ engineId: model.id, mode,
+            resolution, durationSec: duration.durationSec })) continue;
           if (dynamicRange !== 'sdr' && (duration.durationSec !== 5 || resolution === '540p')) continue;
           // A canonical identity must not erase the preset's current legacy policy.
           const requestedResolution = defaultSizeTier === resolution ? defaultResolution! : resolution;

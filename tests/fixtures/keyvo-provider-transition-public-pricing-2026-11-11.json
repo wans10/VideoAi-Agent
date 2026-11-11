@@ -1,0 +1,245 @@
+{
+  "version": 1,
+  "generatedFrom": "keyvo-provider-completeness-public-pricing-transition",
+  "reviewedAt": "2026-11-11",
+  "note": "Keyvo provider completeness (2026-11-11). Retired models leave every public pricing surface; MiniMax-H3 lost 480P and 4K on MiniMax's own API, so its 10 s default estimate moves to the unchanged 768P per-second rate and the 4K pricing-hub preset becomes unavailable; Seedream 5.0 Flash rows use the PROVISIONAL Volcengine list cost (CNY 0.12 per image) with the standard margin. Per-second and per-image rates of existing models are unchanged.",
+  "retiredEngineIds": [
+    "happy-horse-1-0",
+    "seedance-1-5-pro",
+    "seedream",
+    "wan-2-5"
+  ],
+  "retiredRowIds": [
+    "estimator:happy-horse-1-0:member:default",
+    "estimator:happy-horse-1-0:plus:default",
+    "estimator:happy-horse-1-0:pro:default",
+    "estimator:seedream:member:default",
+    "estimator:seedream:plus:default",
+    "estimator:seedream:pro:default",
+    "image-estimate:seedream:default",
+    "json-ld:happy-horse-1-0:offer",
+    "json-ld:seedance-1-5-pro:offer",
+    "json-ld:seedream:offer",
+    "json-ld:wan-2-5:offer",
+    "model-page:happy-horse-1-0:default",
+    "model-page:seedance-1-5-pro:default",
+    "model-page:seedream:default",
+    "model-page:wan-2-5:default",
+    "pricing-hub-image:seedream:high",
+    "pricing-hub-image:seedream:quantity-4",
+    "pricing-hub-image:seedream:standard",
+    "pricing-hub-video:happy-horse-1-0:10s-1080p",
+    "pricing-hub-video:happy-horse-1-0:10s-1080p-audio",
+    "pricing-hub-video:happy-horse-1-0:10s-720p",
+    "pricing-hub-video:happy-horse-1-0:4k-route",
+    "pricing-hub-video:happy-horse-1-0:5s-720p",
+    "pricing-hub-video:happy-horse-1-0:8s-1080p",
+    "pricing-hub-video:happy-horse-1-0:entry-route"
+  ],
+  "changes": [
+    {
+      "previous": {
+        "id": "estimator:minimax-h3:member:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 50,
+        "marginCents": 15,
+        "discountCents": 0,
+        "customerTotalCents": 65,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:minimax-h3:member:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 60,
+        "marginCents": 18,
+        "discountCents": 0,
+        "customerTotalCents": 78,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:minimax-h3:plus:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 50,
+        "marginCents": 15,
+        "discountCents": 0,
+        "customerTotalCents": 65,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:minimax-h3:plus:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 60,
+        "marginCents": 18,
+        "discountCents": 0,
+        "customerTotalCents": 78,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:minimax-h3:pro:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 50,
+        "marginCents": 15,
+        "discountCents": 0,
+        "customerTotalCents": 65,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:minimax-h3:pro:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 60,
+        "marginCents": 18,
+        "discountCents": 0,
+        "customerTotalCents": 78,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:minimax-h3:4k-route",
+        "surface": "pricing-hub-video",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 208,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.08",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:minimax-h3:4k-route",
+        "surface": "pricing-hub-video",
+        "engineId": "minimax-h3",
+        "status": "unavailable"
+      }
+    }
+  ],
+  "rows": [
+    {
+      "id": "estimator:seedream-5-0-flash:member:default",
+      "surface": "estimator",
+      "engineId": "seedream-5-0-flash",
+      "status": "exact",
+      "currency": "USD",
+      "vendorSubtotalCents": 2,
+      "marginCents": 1,
+      "discountCents": 0,
+      "customerTotalCents": 3,
+      "unit": "sec",
+      "quantity": 1,
+      "compatibilityProfile": "standard"
+    },
+    {
+      "id": "estimator:seedream-5-0-flash:plus:default",
+      "surface": "estimator",
+      "engineId": "seedream-5-0-flash",
+      "status": "exact",
+      "currency": "USD",
+      "vendorSubtotalCents": 2,
+      "marginCents": 1,
+      "discountCents": 0,
+      "customerTotalCents": 3,
+      "unit": "sec",
+      "quantity": 1,
+      "compatibilityProfile": "standard"
+    },
+    {
+      "id": "estimator:seedream-5-0-flash:pro:default",
+      "surface": "estimator",
+      "engineId": "seedream-5-0-flash",
+      "status": "exact",
+      "currency": "USD",
+      "vendorSubtotalCents": 2,
+      "marginCents": 1,
+      "discountCents": 0,
+      "customerTotalCents": 3,
+      "unit": "sec",
+      "quantity": 1,
+      "compatibilityProfile": "standard"
+    },
+    {
+      "id": "image-estimate:seedream-5-0-flash:default",
+      "surface": "image-estimate",
+      "engineId": "seedream-5-0-flash",
+      "status": "exact",
+      "currency": "USD",
+      "vendorSubtotalCents": 2,
+      "marginCents": 1,
+      "discountCents": 0,
+      "customerTotalCents": 3,
+      "unit": "sec",
+      "quantity": 1,
+      "compatibilityProfile": "standard"
+    },
+    {
+      "id": "pricing-hub-image:seedream-5-0-flash:high",
+      "surface": "pricing-hub-image",
+      "engineId": "seedream-5-0-flash",
+      "status": "exact",
+      "currency": "USD",
+      "customerTotalCents": 3,
+      "unit": "image",
+      "quantity": 1,
+      "displayedAmount": "$0.03",
+      "compatibilityProfile": "standard"
+    },
+    {
+      "id": "pricing-hub-image:seedream-5-0-flash:quantity-4",
+      "surface": "pricing-hub-image",
+      "engineId": "seedream-5-0-flash",
+      "status": "exact",
+      "currency": "USD",
+      "customerTotalCents": 12,
+      "unit": "image",
+      "quantity": 4,
+      "displayedAmount": "$0.12",
+      "compatibilityProfile": "standard"
+    },
+    {
+      "id": "pricing-hub-image:seedream-5-0-flash:standard",
+      "surface": "pricing-hub-image",
+      "engineId": "seedream-5-0-flash",
+      "status": "exact",
+      "currency": "USD",
+      "customerTotalCents": 3,
+      "unit": "image",
+      "quantity": 1,
+      "displayedAmount": "$0.03",
+      "compatibilityProfile": "standard"
+    }
+  ]
+}

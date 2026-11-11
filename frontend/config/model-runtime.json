@@ -362,7 +362,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -423,7 +422,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -591,7 +589,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -665,7 +662,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -1007,7 +1003,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -1080,7 +1075,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -1150,7 +1144,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -1195,7 +1188,6 @@
           "indexed": true,
           "suggestedOpponentIds": [
             "veo-3-1-fast",
-            "wan-2-5",
             "ltx-2-3-fast"
           ],
           "publishedPairIds": [
@@ -1217,7 +1209,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -1425,7 +1416,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -1497,7 +1487,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -1674,7 +1663,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -1998,7 +1986,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -2115,7 +2102,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6",
             "seedance-2-0-fast",
             "seedance-2-5"
@@ -2199,7 +2185,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -2555,7 +2540,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -2622,7 +2606,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -2699,7 +2682,6 @@
             "sora-2-pro",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -2779,7 +2761,6 @@
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -2856,7 +2837,6 @@
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-fast",
-            "wan-2-5",
             "wan-2-6"
           ]
         },
@@ -2901,31 +2881,10 @@
           "current": false
         },
         "compare": {
-          "published": true,
-          "indexed": true,
+          "published": false,
+          "indexed": false,
           "suggestedOpponentIds": [],
-          "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
-            "kling-3-4k",
-            "kling-3-pro",
-            "kling-3-standard",
-            "ltx-2",
-            "ltx-2-3-fast",
-            "ltx-2-3",
-            "ltx-2-fast",
-            "lumaRay2",
-            "lumaRay2_flash",
-            "minimax-hailuo-02-text",
-            "pika-text-to-video",
-            "seedance-2-0",
-            "sora-2",
-            "sora-2-pro",
-            "veo-3-1",
-            "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
-          ]
+          "publishedPairIds": []
         },
         "app": {
           "published": false
@@ -2993,7 +2952,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-5",
             "wan-3"
           ]
         },

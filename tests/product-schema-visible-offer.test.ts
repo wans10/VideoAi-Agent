@@ -15,8 +15,9 @@ const matrix = JSON.parse(readFileSync('tests/fixtures/product-schema-customer-p
 test('visible offer and Product consume the same price and selected scenario for every repaired model', () => {
   for (const row of matrix.rows) {
     const engine = engines.find((entry) => entry.id === row.engineId)!;
-    // The frozen repair matrix predates these retirements; archived models cannot sell an offer.
-    if (['sora-2', 'sora-2-pro', 'seedance-1-5-pro'].includes(engine.id)) {
+    // The frozen repair matrix predates these retirements; archived models cannot sell an offer. Keyvo also
+    // took Happy Horse 1.0 and Seedream 5.0 Lite offline and hides MiniMax-H3-Max (no mainland route).
+    if (['sora-2', 'sora-2-pro', 'seedance-1-5-pro', 'happy-horse-1-0', 'seedream', 'minimax-h3-max'].includes(engine.id)) {
       assert.equal(engine.surfaces.app.enabled, false);
       assert.equal(buildProductSchema({ engine, pricingEngine: engine.engine,
         canonical: `https://maxvideoai.com/models/${engine.modelSlug}`,
@@ -54,13 +55,16 @@ test('visible offer and Product consume the same price and selected scenario for
 });
 
 test('examples name their real options without pretending to be the lowest price', () => {
-  const engine = engines.find((entry) => entry.id === 'minimax-h3-max')!;
+  // H3 Max (the former example) is hidden on Keyvo and sells no offer; H3 names its own featured options.
+  const hidden = engines.find((entry) => entry.id === 'minimax-h3-max')!;
+  assert.equal(resolveModelPublicOffer(hidden, hidden.engine), null);
+  const engine = engines.find((entry) => entry.id === 'minimax-h3')!;
   const offer = resolveModelPublicOffer(engine, engine.engine)!;
-  assert.deepEqual(offer.scenario, { mode: 't2v', resolution: '768P', durationSeconds: 5, audio: true, quantity: 1, referenceImageCount: 0 });
+  assert.deepEqual(offer.scenario, { mode: 't2v', resolution: '2K', durationSeconds: 10, audio: true, quantity: 1, referenceImageCount: 0 });
   for (const [locale, expected] of [
-    ['en', 'Generation example: 5 s · 768P · Text to video · Audio included'],
-    ['fr', 'Exemple de génération: 5 s · 768P · Texte vers vidéo · Audio inclus'],
-    ['es', 'Ejemplo de generación: 5 s · 768P · Texto a vídeo · Audio incluido'],
+    ['en', 'Generation example: 10 s · 2K · Text to video · Audio included'],
+    ['fr', 'Exemple de génération: 10 s · 2K · Texte vers vidéo · Audio inclus'],
+    ['es', 'Ejemplo de generación: 10 s · 2K · Texto a vídeo · Audio incluido'],
   ] as const) assert.equal(formatModelPublicOffer(offer, locale).name, expected);
   const luma = engines.find((entry) => entry.id === 'luma-ray-3-2')!;
   const lumaOffer = resolveModelPublicOffer(luma, luma.engine)!;

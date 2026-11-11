@@ -1,3 +1,5 @@
+// The audit evidence is the upstream catalog, independent of Keyvo's model hiding (MiniMax-H3-Max).
+import './lib/disable-keyvo-model-visibility';
 import { readFile, writeFile } from 'node:fs/promises';
 
 import { collectCanonicalPricingOutputs } from '../frontend/src/lib/pricing-audit/canonical-collectors';

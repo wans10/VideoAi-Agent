@@ -39,7 +39,16 @@ const APPROVED_SUCCESSORS = {
   'ltx-2-fast': 'ltx-2-5-fast',
   'wan-2-6': 'wan-3',
   'wan-2-5': 'wan-3',
+  // Keyvo took Happy Horse 1.0 offline (owner decision 2026-11-11); its lineage points at 1.1.
+  'happy-horse-1-0': 'happy-horse-1-1',
 } as const;
+// Keyvo owner decision 2026-11-11: these keep their lifecycle and successor but are unpublished on
+// every surface (model, examples, compare, app, pricing, sitemap) and leave every comparison list.
+const KEYVO_OFFLINE_LIFECYCLE: Record<string, string> = {
+  'happy-horse-1-0': 'legacy',
+  'wan-2-5': 'deep_legacy',
+};
+const KEYVO_OFFLINE_COMPARE_SLUGS = new Set(['seedance-1-5-pro', 'wan-2-5', 'happy-horse-1-0']);
 
 test('runtime model projection matches every baseline identity and surface', () => {
   const runtimeById = new Map(listRuntimeModels().map((model) => [model.id, model]));
@@ -67,13 +76,14 @@ test('runtime model projection matches every baseline identity and surface', () 
     ['gemini-omni-flash', 'kling-3-turbo-pro'],
   ]);
   for (const baselineModel of baseline.models) {
-    // Keyvo retired Seedance 1.5 Pro on every surface, so every comparison toward it left the registry.
+    // Keyvo took Seedance 1.5 Pro, Wan 2.5 and Happy Horse 1.0 offline on every surface, so every
+    // comparison toward them left the registry.
     const expected = structuredClone(baselineModel);
     if (expected.publication?.compare) {
       for (const key of ['suggestOpponents', 'publishedPairs'] as const) {
         const list = (expected.publication.compare as Record<string, unknown>)[key];
         if (Array.isArray(list)) {
-          (expected.publication.compare as Record<string, unknown>)[key] = list.filter((slug) => slug !== 'seedance-1-5-pro');
+          (expected.publication.compare as Record<string, unknown>)[key] = list.filter((slug) => !KEYVO_OFFLINE_COMPARE_SLUGS.has(slug));
         }
       }
     }
@@ -90,6 +100,18 @@ test('runtime model projection matches every baseline identity and surface', () 
       for (const surface of ['model', 'examples', 'compare', 'app', 'pricing', 'sitemap'] as const) {
         assert.equal(actual.publication[surface].published, false, `${expected.id} ${surface}`);
       }
+      continue;
+    }
+    const keyvoOfflineLifecycle = KEYVO_OFFLINE_LIFECYCLE[expected.id];
+    if (keyvoOfflineLifecycle) {
+      assert.equal(actual.lifecycle, keyvoOfflineLifecycle, expected.id);
+      assert.equal(actual.successorId, APPROVED_SUCCESSORS[expected.id as keyof typeof APPROVED_SUCCESSORS], expected.id);
+      assert.equal(Object.hasOwn(actual, 'publicTargetId'), false, expected.id);
+      for (const surface of ['model', 'examples', 'compare', 'app', 'pricing', 'sitemap'] as const) {
+        assert.equal(actual.publication[surface].published, false, `${expected.id} ${surface}`);
+      }
+      assert.deepEqual(actual.publication.compare.publishedPairIds, [], expected.id);
+      assert.deepEqual(actual.publication.compare.suggestedOpponentIds, [], expected.id);
       continue;
     }
     const archived = ['sora-2', 'sora-2-pro', 'seedance-1-5-pro'].includes(expected.id);
@@ -231,7 +253,9 @@ test('generated catalog and rosters project registry lifecycle and successor ide
     docsRosterCsv,
     /^engineId,marketingName,brandId,modelSlug,family,lifecycle,successorId,successorSlug,/,
   );
-  assert.match(docsRosterCsv, /^happy-horse-1-0,[^\n]*,legacy,,,/m);
+  // Happy Horse 1.0 is offline on Keyvo, so it has no published model page and no roster row.
+  assert.doesNotMatch(docsRosterCsv, /^happy-horse-1-0,/m);
+  assert.match(docsRosterCsv, /^wan-2-6,[^\n]*,wan,legacy,wan-3,wan-3,/m);
   assert.match(
     docsRosterCsv,
     /^ltx-2,LTX Video 2\.0 Pro,lightricks,ltx-2,ltx,deep_legacy,ltx-2-5-pro,ltx-2-5-pro,/m,
@@ -386,27 +410,32 @@ test('family membership and current variants preserve baseline with explicit lif
           : expected.routeAliases;
     assert.deepEqual(actual.routeAliases, expectedRouteAliases);
     const expectedPublishedModelSlugs = expected.id === 'seedance'
-      ? ['seedance-2-5', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
+      // Seedance 1.5 Pro is retired on Keyvo and leaves the family examples.
+      ? ['seedance-2-5', ...(expected.examplesPage?.publishedModelSlugs ?? [])].filter((slug) => slug !== 'seedance-1-5-pro')
       : expected.id === 'kling'
         ? ['kling-v4', 'kling-v4-flash', 'kling-3-turbo-pro', 'kling-3-turbo-standard', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
       : expected.id === 'hailuo'
-        ? ['minimax-h3', 'minimax-h3-max', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
+        // H3 Max has no mainland route and is hidden on Keyvo (KEYVO_HIDDEN_MODEL_IDS).
+        ? ['minimax-h3', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
         : expected.id === 'veo'
           ? [...(expected.examplesPage?.publishedModelSlugs ?? []), 'gemini-omni-flash']
         : expected.id === 'ltx'
           ? ['ltx-2-5-pro', 'ltx-2-5-fast', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
         : expected.id === 'wan'
-            ? ['wan-3-prime', 'wan-3', 'wan-2-6', 'wan-2-5']
+            // Wan 2.5 is offline on Keyvo; its route alias stays for legacy URLs only.
+            ? ['wan-3-prime', 'wan-3', 'wan-2-6']
+        : expected.id === 'happy-horse'
+            ? ['happy-horse-1-1']
         : expected.examplesPage?.publishedModelSlugs ?? [];
     const baselineCurrentModelSlugs = expected.examplesPage?.currentModelSlugs?.length
       ? expected.examplesPage.currentModelSlugs
       : expected.examplesPage?.publishedModelSlugs ?? [];
     const expectedCurrentModelSlugs = expected.id === 'seedance'
-      ? ['seedance-2-5', ...baselineCurrentModelSlugs]
+      ? ['seedance-2-5', ...baselineCurrentModelSlugs].filter((slug) => slug !== 'seedance-1-5-pro')
       : expected.id === 'kling'
         ? ['kling-v4', 'kling-v4-flash', 'kling-3-turbo-pro', 'kling-3-turbo-standard', ...baselineCurrentModelSlugs]
       : expected.id === 'hailuo'
-        ? ['minimax-h3', 'minimax-h3-max']
+        ? ['minimax-h3']
         : expected.id === 'veo'
           ? [...baselineCurrentModelSlugs, 'gemini-omni-flash']
         : expected.id === 'ltx'

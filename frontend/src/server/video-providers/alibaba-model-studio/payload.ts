@@ -284,7 +284,7 @@ function buildHappyHorsePayload(input: AlibabaVideoPayloadInput): AlibabaVideoPa
   }
 
   return {
-    model: route.model,
+    model: route.model as 'happyhorse-1.1-t2v' | 'happyhorse-1.1-i2v' | 'happyhorse-1.1-r2v',
     input: {
       ...(prompt ? { prompt } : {}),
       ...(media.length ? { media } : {}),

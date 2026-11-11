@@ -278,10 +278,10 @@ export function buildPublicPricingFacts(context: PublicPricingFactsContext): Pub
       durationSec,
       resolution: resolution as '480P' | '768P' | '2K' | '4K',
       referenceImageCount: context.referenceImageCount,
-      ...(mode === 'ref2v' && context.inputVideoDurationSec ? { inputVideoDurationSec: context.inputVideoDurationSec } : {}),
+      // Customer prices stay unchanged: the PROVISIONAL official reference-video cost
+      // (calculateMinimaxH3ProviderPrice inputVideoDurationSec) awaits the owner's re-pricing decision.
     });
     const surchargeCents = Math.round(reference.breakdown.referenceImageSurchargeUsd * 100);
-    const inputVideoCents = Math.round((reference.breakdown.inputVideoSurchargeUsd ?? 0) * 100);
     return resultFromExactFacts({
       engineId: engine.id,
       currency,
@@ -290,10 +290,9 @@ export function buildPublicPricingFacts(context: PublicPricingFactsContext): Pub
       quantity: durationSec,
       unit: 'sec',
       rate: reference.breakdown.ratePerSecondUsd,
-      addons: [
-        ...(surchargeCents > 0 ? [{ type: 'reference_images_above_five', amountCents: surchargeCents }] : []),
-        ...(inputVideoCents > 0 ? [{ type: 'reference_video_seconds', amountCents: inputVideoCents }] : []),
-      ],
+      addons: surchargeCents > 0
+        ? [{ type: 'reference_images_above_five', amountCents: surchargeCents }]
+        : [],
       compatibilityProfileId: 'provider-reference-current',
       meta: {
         pricing_model: 'fal_h3_resolution_plus_reference_images',

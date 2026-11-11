@@ -6,7 +6,11 @@ import { videoOperationTariffContexts } from '../frontend/lib/pricing-audit/vide
 
 test('operation inventory distinguishes omitted scope from explicit empty model or mode', () => {
   const full = videoOperationTariffContexts();
-  assert.equal(full.length, 77);
+  // 77 upstream operation cells minus MiniMax-H3-Max's 6 Recast/Relight cells: Keyvo hides H3-Max (no mainland route),
+  // and an unpublished model sells no operation.
+  assert.equal(full.length, 77 - 6);
+  assert.equal(full.some(context => context.engine.id === 'minimax-h3-max'), false);
+  assert.deepEqual(videoOperationTariffContexts({ modelId: 'minimax-h3-max' }), []);
   assert.deepEqual(videoOperationTariffContexts({ modelId: undefined, mode: undefined }), full);
   for (const scope of [{ modelId: '' }, { modelId: '', mode: 'v2v' }, { mode: '' },
     { modelId: 'flux-3', mode: '' }, { modelId: 'flux-3-draft', mode: '' },
@@ -26,11 +30,15 @@ test('all historical checkpoints and independently enumerated additive operation
   const coverage = collectSellableManualTariffCoverage();
   const counts: Record<string, number> = {};
   for (const row of coverage.scenarios) if (row.selector.operation) counts[row.selector.operation] = (counts[row.selector.operation] ?? 0) + 1;
-  assert.deepEqual(counts, { 'kling-reference': 13, 'kling-edit': 3, 'h3-recast': 2, 'h3-relight': 4,
+  // H3-Max Recast (2) and Relight (4) are absent while Keyvo hides MiniMax-H3-Max.
+  assert.deepEqual(counts, { 'kling-reference': 13, 'kling-edit': 3,
     'luma-extend': 3, 'flux-keyframes': 48, 'flux-fast-edit': 1, 'flux-draft-enhance': 1, 'ltx23-reframe': 2 });
   const cases = collectCustomerTariffCutoverCheckpoints();
   const novemberModels = ['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst'];
-  assert.equal(cases.filter(row => row.kind === 'ordinary' && !['kling-v4', 'nano-banana-2-1', ...novemberModels].includes(row.scenario.modelId)).length, 20286 + 8,
+  // Keyvo provider work (2026-11-11), itemized in customer-tariff-cutover-evidence.test.ts: retired HappyHorse 1.0 and
+  // Seedream 5.0 Lite, hidden H3-Max, H3 768P/2K only with 4 s, new Hailuo 2.3 / Fast and Seedream 5.0 Flash cells.
+  const keyvoProviderDelta = -104 - 90 - 132 - (528 - 288) + 6 + 3 + 2;
+  assert.equal(cases.filter(row => row.kind === 'ordinary' && !['kling-v4', 'nano-banana-2-1', ...novemberModels].includes(row.scenario.modelId)).length, 20286 + 8 + keyvoProviderDelta,
     'Keyvo adds 8 ordinary Qwen image cutover checkpoints to the upstream inventory');
   assert.deepEqual(novemberModels.map(id => cases.filter(row => row.scenario.modelId === id).length), [72, 1020, 1020]);
   assert.equal(cases.filter(row => row.scenario.modelId === 'kling-v4').length, 280);
@@ -38,8 +46,8 @@ test('all historical checkpoints and independently enumerated additive operation
     'new native fixed image cells remain separate from the old video inventory');
   assert.equal(cases.filter(row => row.kind === 'local_workflow').length, 324);
   assert.equal(cases.filter(row => row.kind === 'input_stress').length, 6372);
-  assert.equal(cases.filter(row => String(row.kind) === 'new_offer').length, 89);
-  assert.equal(cases.length, 27071 + 8 + 280 + 6 + 72 + 1020 + 1020);
+  assert.equal(cases.filter(row => String(row.kind) === 'new_offer').length, 89 - 6, 'H3-Max operation offers are hidden');
+  assert.equal(cases.length, 27071 + 8 + 280 + 6 + 72 + 1020 + 1020 + keyvoProviderDelta - 6);
   assert.equal(new Set(cases.map(row => row.key)).size, cases.length);
   const veo = coverage.scenarios.filter(row => row.modelId === 'veo-3-1' && row.selector.mode === 'i2v');
   assert.equal(veo.length, 18);
@@ -60,8 +68,7 @@ test('exact additive selectors and default identities match the separately enume
   add('kling-o3-4k','v2v','kling-reference','fal-ai/kling-video/o3/4k/video-to-video/reference',['4k'],Array.from({length:13},(_,i)=>i+3));
   for(const [tier,resolution] of [['standard','720p'],['pro','1080p'],['4k','4k']])
     add(`kling-o3-${tier}`,'v2v','kling-edit',`fal-ai/kling-video/o3/${tier}/video-to-video/edit`,[resolution],['continuous']);
-  add('minimax-h3-max','v2v','h3-recast','minimax/h3-max/recast',['768P','1080P'],['continuous']);
-  add('minimax-h3-max','v2v','h3-relight','minimax/h3-max/relight',['480P','768P','1080P','2K'],['continuous']);
+  // Upstream also enumerates H3-Max Recast (768P/1080P) and Relight (480P/768P/1080P/2K); Keyvo hides H3-Max.
   add('luma-ray-3-2','extend','luma-extend','ray-3.2/video/generation-anchor',['540p','720p','1080p'],[5]);
   for(const [engine,resolutions,suffix] of [['flux-3',['720p','1080p'],''],['flux-3-draft',['720p'],'/draft']] as const)
     add(engine,'ref2v','flux-keyframes',`blackforestlabs/flux-3/keyframes-to-video${suffix}`,[...resolutions],Array.from({length:16},(_,i)=>i+5));
@@ -81,6 +88,8 @@ test('exact additive selectors and default identities match the separately enume
     assert.ok(historical.length>0);
     for(const scenario of historical)assert.deepEqual(buildManualTariffCoverageScenario({...scenario.context,operation:'kling-reference'},'explicit').selector,scenario.selector);
   }
-  const creation=collectSellableManualTariffCoverage({modelId:'minimax-h3-max'}).scenarios.filter(s=>['t2v','i2v'].includes(s.context.mode!));
-  assert.deepEqual(new Set(creation.map(s=>s.context.durationSec)),new Set(Array.from({length:11},(_,i)=>i+5)));
+  assert.deepEqual(collectSellableManualTariffCoverage({modelId:'minimax-h3-max'}),{scenarios:[],gaps:[]},'Keyvo hides H3-Max');
+  // H3 creation now spans MiniMax's own 4-15 s range.
+  const creation=collectSellableManualTariffCoverage({modelId:'minimax-h3'}).scenarios.filter(s=>['t2v','i2v'].includes(s.context.mode!));
+  assert.deepEqual(new Set(creation.map(s=>s.context.durationSec)),new Set(Array.from({length:12},(_,i)=>i+4)));
 });

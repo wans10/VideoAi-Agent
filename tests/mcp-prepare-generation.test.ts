@@ -340,7 +340,8 @@ test('MiniMax rejects undersized owned start images before pricing or quote crea
       width: 328, height: 172, sizeBytes: 14152, durationSec: null }],
   });
   await assert.rejects(prepareGeneration({ ...videoInput, engineId: 'minimax-h3', mode: 'i2v',
-    settings: { durationSec: 5, resolution: '480P' },
+    // MiniMax's official H3 API offers 768P and 2K (480P was fal-only).
+    settings: { durationSec: 5, resolution: '768P' },
     references: [{ kind: 'asset', assetId: 'small-image', role: 'source' }],
   }, principal, deps), (error: unknown) => error instanceof AgentApiError
     && error.code === 'REFERENCE_INVALID' && /image.*small|minimum.*256/i.test(error.message));

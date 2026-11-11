@@ -26,6 +26,23 @@ export function isMinimaxHailuoOfficialEngineId(engineId: string): engineId is H
   return Object.hasOwn(MINIMAX_HAILUO_ENGINE_MODELS, engineId);
 }
 
+/** Whether the official legacy API accepts (and the per-video list prices) this mode / resolution / duration. */
+export function isMinimaxHailuoPricedCombination(input: {
+  engineId: string;
+  mode: string;
+  resolution: string | null | undefined;
+  durationSec: number;
+}): boolean {
+  if (!isMinimaxHailuoOfficialEngineId(input.engineId)) return false;
+  if (input.mode !== 't2v' && input.mode !== 'i2v') return false;
+  return isMinimaxLegacyVideoCombination({
+    model: MINIMAX_HAILUO_ENGINE_MODELS[input.engineId],
+    task: minimaxLegacyTask({ hasStartImage: input.mode === 'i2v', hasEndImage: false }),
+    resolution: (input.resolution ?? '').toUpperCase(),
+    durationSec: input.durationSec,
+  });
+}
+
 export function calculateMinimaxHailuoCost(input: {
   engineId: string;
   mode: string;

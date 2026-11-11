@@ -70,11 +70,12 @@ test('atomic local cutover rejects stale certificates, preserves staged evidence
       approvedSeedanceLasPolicy: 'reviewed_2_5x_las_list',
       policy, sourceTariffRevision: 0, sourceTariffStateHash, codeRevision: 'test-code', factualEnvironmentHash: 'test-env', approvedGptImage25ReferenceFloor });
     assert.equal(release.report.remainingCoverageGaps.length, 0);
-    assert.equal(release.report.newOfferScenarios, 89);
-    assert.equal(baseline.rows.filter(row => row.initialization?.kind === 'new_offer').length, 89);
+    // 89 upstream new-offer scenarios minus the 6 hidden H3 Max Recast/Relight cells.
+    assert.equal(release.report.newOfferScenarios, 83);
+    assert.equal(baseline.rows.filter(row => row.initialization?.kind === 'new_offer').length, 83);
     assert.ok(baseline.rows.filter(row => row.initialization).every(row => row.initialization!.beforeCents === null));
-    // Upstream's 26982 plus Keyvo's Alibaba Qwen Image models (qwen-image-3-0 and -pro, i2i and t2i, 2 cells each).
-    assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length, 26982 + 8);
+    // Upstream's 26982 plus Keyvo's Alibaba Qwen Image models (8 cells), less 555 for the provider-completeness sync (offline models, hidden H3 Max, H3 without 480P/4K, plus the new Hailuo 2.3 / Fast and Seedream Flash cells).
+    assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length, 26982 + 8 - 555);
     const run = (candidate = release, fingerprint = release.report.fingerprint, bindings = release.report.bindings) => withDbTransaction(e =>
       activateLocalCustomerTariffs(e, { release: candidate, fingerprint, currentBindings: bindings, actorId: actor }));
     await assert.rejects(run(release, 'old-browser'), /stale/i);

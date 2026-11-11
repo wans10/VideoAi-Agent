@@ -13,10 +13,13 @@ const exact = (amountCents: number): PublicModelQuote => ({
   status: 'exact', amountCents, currency: 'USD', revision: 'controlled-current', scenarioLabel: 'Current scenario',
 });
 const flush = () => new Promise<void>((resolve) => setImmediate(resolve));
-// Keyvo's public pricing hub excludes hidden-vendor families, so it quotes 79 distinct model inputs:
-// 72 video presets (including the November Kling launch) and 7 t2i image presets. Each distinct input is still quoted once.
-const MODEL_QUOTES = 79;
-const T2I_IMAGE_QUOTES = 7;
+// Keyvo's public pricing hub excludes hidden-vendor families, so it quotes 70 distinct model inputs:
+// 64 video presets (including the November Kling launch) and 6 t2i image presets. Each distinct input is still quoted once.
+// The 2026-11-11 provider work removed 8 video inputs (HappyHorse 1.0 retired: 4; MiniMax-H3-Max hidden on Keyvo: 3;
+// H3 4K removed: 1) and net one image input (Seedream 5.0 Lite retired: 2; Seedream 5.0 Flash added: 1).
+const VIDEO_QUOTES = 72 - 4 - 3 - 1;
+const T2I_IMAGE_QUOTES = 7 - 2 + 1;
+const MODEL_QUOTES = VIDEO_QUOTES + T2I_IMAGE_QUOTES;
 const TOTAL_QUOTES = MODEL_QUOTES + 21;
 const other = {
   audio: async () => ({ totalCents: 432, currency: 'USD' }),
@@ -63,7 +66,13 @@ test('a hub quotes each authored exact input once through at most eight distinct
     const data = await pending;
     assert.deepEqual(new Set(requests.map(key)), new Set(authored.map(key)), 'every exact authored input remains quoted');
     assert.equal(requests.length, new Set(requests.map(key)).size, 'identical matrix inputs share one quote');
-    assert.equal(requests.filter((input) => input.mode !== 't2i').length, 72);
+    assert.equal(requests.filter((input) => input.mode !== 't2i').length, VIDEO_QUOTES);
+    assert.equal(MODEL_QUOTES, 70);
+    for (const retired of ['happy-horse-1-0', 'minimax-h3-max', 'seedream']) {
+      assert.equal(requests.some((input) => input.modelId === retired), false, retired);
+    }
+    assert.equal(requests.some((input) => input.modelId === 'minimax-h3' && input.resolution === '4K'), false);
+    assert.ok(requests.some((input) => input.modelId === 'seedream-5-0-flash' && input.mode === 't2i'));
     assert.equal(requests.filter((input) => input.mode === 't2i').length, T2I_IMAGE_QUOTES);
     assert.equal(requests.length + audioCalls + productCalls, TOTAL_QUOTES);
     assert.equal(maximum, 8);

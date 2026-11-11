@@ -201,7 +201,8 @@ test('adding an unused unit quote repeats work without changing localized consum
   const evidence = [];
   try {
     for (const [modelId, controlCount, currentCount, unit] of [
-      ['minimax-h3-max',7,4,'second'], ['veo-3-1',10,7,'second'], ['gpt-image-2',19,18,'image'],
+      // MiniMax-H3-Max (7/4 calls) is hidden on Keyvo; H3 replaces it as the per-second MiniMax model under test.
+      ['minimax-h3',5,3,'second'], ['veo-3-1',10,7,'second'], ['gpt-image-2',19,18,'image'],
     ] as const) {
       for (const locale of modelLocales) {
         const input = await pricingFixture(modelId,locale);

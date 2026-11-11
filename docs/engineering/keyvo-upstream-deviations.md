@@ -66,7 +66,11 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
 ### MiniMax official API (H3, Hailuo, H3 Max hidden)
 
 - **Keyvo:** MiniMax-H3 and the Hailuo models run on MiniMax's own mainland API behind `MINIMAX_OFFICIAL_ENABLED` (see `docs/engineering/minimax-official-provider.md`). The shared H3 catalogue (`frontend/src/config/fal-engines/minimax-h3.ts`, `execution-constraints.ts`) offers 4-15 s at 768P/2K only, because 480P and 4K are not MiniMax-H3 tiers; `minimax-hailuo-2-3` and `minimax-hailuo-2-3-fast` exist only for this route.
-- **H3 Max:** `KEYVO_HIDDEN_MODEL_IDS` in `frontend/config/keyvo-model-visibility.ts` hides `minimax-h3-max` on every surface while the registry keeps upstream's publication, because Keyvo has no route for it.
+- **H3 Max:** `KEYVO_HIDDEN_MODEL_IDS` in `frontend/config/keyvo-model-visibility.ts` hides `minimax-h3-max` on every surface while the registry keeps upstream's publication, because Keyvo has no route for it. MCP model guidance (`src/server/agent-api/model-guidance.ts`) withholds its reviewed entry for the same reason.
+
+### Wan 2.5 and Happy Horse 1.0 offline (2026-11-11)
+
+- Both keep their lifecycle (`deep_legacy` and `legacy`) and successor (`wan-3`, `happy-horse-1-1`) but are unpublished on every registry surface, including compare: `wan-2-5` left the `publishedPairIds`/`suggestedOpponentIds` of the 20 models that listed it, which took the comparison inventory from 290 to 269 slugs (807 localized URLs). Upstream still publishes them. The Happy Horse 1.0 template and content CTAs point at the Happy Horse 1.1 page.
 
 ### Audit records are not committed
 

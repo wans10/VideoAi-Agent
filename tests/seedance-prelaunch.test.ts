@@ -191,9 +191,11 @@ test('Seedance 2 registry centralizes provisional Fal IDs and keeps both launch 
   assert.equal(fast.surfaces.compare.includeInHub, true);
   assert.equal(seedance.surfaces.modelPage.indexable, true);
   assert.equal(fast.surfaces.modelPage.indexable, true);
-  // Seedance 1.5 Pro is retired on Keyvo, so its pair left both lists.
-  assert.equal(seedance.surfaces.compare.publishedPairs.length, 22);
-  assert.equal(fast.surfaces.compare.publishedPairs.length, 21);
+  // Seedance 1.5 Pro and Wan 2.5 are retired on Keyvo, so their pairs left both lists.
+  assert.equal(seedance.surfaces.compare.publishedPairs.length, 21);
+  assert.equal(fast.surfaces.compare.publishedPairs.length, 20);
+  assert.equal(seedance.surfaces.compare.publishedPairs.includes('wan-2-5'), false);
+  assert.equal(fast.surfaces.compare.publishedPairs.includes('wan-2-5'), false);
   assert.equal(mini.surfaces.app.enabled, true);
   assert.equal(mini.surfaces.modelPage.indexable, true);
   assert.equal(mini.surfaces.examples.includeInFamilyResolver, true);
@@ -392,15 +394,16 @@ test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter mark
   assert.ok(!appEngineIds.includes('sora-2'));
   assert.ok(!appEngineIds.includes('sora-2-pro'));
 
+  // Keyvo hides MiniMax-H3-Max on every surface (KEYVO_HIDDEN_MODEL_IDS: no mainland route), so it leaves the nav.
   assert.deepEqual(
     MARKETING_NAV_MODELS.map((item) => item.key),
-    ['kling-v4-flash', 'kling-v4', 'minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1'],
+    ['kling-v4-flash', 'kling-v4', 'minimax-h3', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1'],
   );
   assert.deepEqual(
     MARKETING_NAV_COMPARE.map((item) => item.key),
-    ['kling-v4-vs-kling-v4-flash', 'kling-v4-vs-seedance-2-5', 'kling-v4-vs-wan-3-prime', 'minimax-h3-vs-seedance-2-5', 'minimax-h3-vs-minimax-h3-max', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'wan-3-vs-wan-3-prime', 'seedance-2-0-vs-seedance-2-0-fast'],
+    ['kling-v4-vs-kling-v4-flash', 'kling-v4-vs-seedance-2-5', 'kling-v4-vs-wan-3-prime', 'minimax-h3-vs-seedance-2-5', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'wan-3-vs-wan-3-prime', 'seedance-2-0-vs-seedance-2-0-fast'],
   );
-  assert.equal(MARKETING_NAV_COMPARE.length, 9);
+  assert.equal(MARKETING_NAV_COMPARE.length, 8, 'the H3 vs H3 Max pair leaves with the hidden H3 Max');
   const expectedExampleFamilies = [
     'seedance',
     'kling',
@@ -425,7 +428,8 @@ test('Seedance 1.5 Pro is retired while Seedance 2.0 keeps the primary alias and
 });
 
 test('Header model menu keeps H3 and the current P1 representatives in the bounded set', () => {
-  assert.deepEqual(MARKETING_NAV_MODELS.map((item) => item.key), ['kling-v4-flash', 'kling-v4', 'minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1']);
+  assert.deepEqual(MARKETING_NAV_MODELS.map((item) => item.key), ['kling-v4-flash', 'kling-v4', 'minimax-h3', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1']);
+  assert.equal(MARKETING_NAV_MODELS.some((item) => item.key === 'minimax-h3-max'), false, 'H3 Max is hidden on Keyvo');
 });
 
 test('Examples hub family order follows the current business priority without reordering global families', () => {
@@ -442,7 +446,8 @@ test('Happy Horse has a crawlable examples family and appears in example family 
   assert.equal(isIndexedExampleFamilyId('happy-horse'), true);
   assert.equal(resolveExampleFamilyId('happy-horse-1-1'), 'happy-horse');
   assert.equal(resolveExampleFamilyId('happy-horse-1-0'), 'happy-horse');
-  assert.deepEqual(getExampleFamilyModelSlugs('happy-horse'), ['happy-horse-1-1', 'happy-horse-1-0']);
+  // HappyHorse 1.0 is retired (examples unpublished); old ids still resolve to the family for historical links.
+  assert.deepEqual(getExampleFamilyModelSlugs('happy-horse'), ['happy-horse-1-1']);
   assert.deepEqual(getExampleFamilyCurrentModelSlugs('happy-horse'), ['happy-horse-1-1']);
   assert.equal(getExampleNavFamilyIds().includes('happy-horse'), true);
 });
