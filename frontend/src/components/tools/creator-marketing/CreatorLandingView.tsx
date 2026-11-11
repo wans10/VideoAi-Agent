@@ -10,12 +10,13 @@ import { CreatorArtwork } from './CreatorArtwork';
 import { CreatorToolMark } from './CreatorIllustrations';
 import { getCreatorMarketingCopy, getCreatorMarketingLabels } from './creator-copy';
 import { getCreatorDetailCopy } from './creator-detail-copy';
+import { SITE_BASE_URL } from '@/lib/metadataUrls';
 
 /** Pure view; route admission and preview fixtures remain outside presentation. */
 export function CreatorLandingView({ id, locale, publicReleased = isCreatorToolPublic(id) }: { id: CreatorToolId; locale: AppLocale; publicReleased?: boolean }) {
   const content = getCreatorMarketingCopy(locale, id), labels = getCreatorMarketingLabels(locale);
   const detail = getCreatorDetailCopy(locale), toolDetail = detail.tools[id];
-  const canonicalUrl = `https://maxvideoai.com${localizePathFromEnglish(locale, `/tools/${id}`)}`;
+  const canonicalUrl = `${SITE_BASE_URL}${localizePathFromEnglish(locale, `/tools/${id}`)}`;
   const related = getReleasedCreatorToolIds().filter(tool => tool !== id);
   const hasIllustratedHero = id === 'subtitles' || id === 'lip-sync';
   const videoHero = id === 'product-video-editor';

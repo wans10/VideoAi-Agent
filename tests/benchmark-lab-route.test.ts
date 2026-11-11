@@ -184,7 +184,7 @@ test('benchmark schema is limited to WebPage and BreadcrumbList with Keyvo as pu
   });
   assert.deepEqual(webPage.author, {
     '@type': 'Organization',
-    name: 'MaxVideoAI',
+    name: 'Keyvo',
     url: 'https://app.keyvo.cn/about#maxvideoai',
   });
   assert.equal(JSON.stringify(schemas).includes('Dataset'), false);

@@ -26,7 +26,7 @@ test('About owns localized brand identity and honest commercial disclosure', asy
     const copy = copyModule.getAboutCopy(locale);
     const profile = profileModule.getEditorialProfile(locale);
     assert.ok(copy.hero.title.length > 20);
-    assert.equal(profile.name, 'MaxVideoAI');
+    assert.equal(profile.name, 'Keyvo');
     assert.equal(copy.sections.length, 3);
     assert.match(copy.independence.body, /sells|commercialise|comercializa/i);
   }

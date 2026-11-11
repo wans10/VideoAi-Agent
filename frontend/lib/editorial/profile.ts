@@ -1,6 +1,7 @@
 import type { AppLocale } from '@/i18n/locales';
 import { localizePathFromEnglish } from '@/lib/i18n/paths';
 import { SITE_BASE_URL } from '@/lib/metadataUrls';
+import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
 
 export const DEFAULT_EDITORIAL_PROFILE_ID = 'maxvideoai' as const;
 
@@ -12,9 +13,9 @@ export type ResolvedEditorialProfile = {
 };
 
 const BIOS: Record<AppLocale, string> = {
-  en: 'MaxVideoAI publishes practical guides, model comparisons, and production examples. Its editorial standards distinguish provider specifications, observed measurements, and editorial judgments.',
-  fr: 'MaxVideoAI publie des guides pratiques, des comparatifs de modèles et des exemples de production. Ses normes éditoriales distinguent les spécifications fournisseurs, les mesures observées et les appréciations éditoriales.',
-  es: 'MaxVideoAI publica guías prácticas, comparativas de modelos y ejemplos de producción. Sus estándares editoriales distinguen las especificaciones de proveedores, las mediciones observadas y los juicios editoriales.',
+  en: 'Keyvo publishes practical guides, model comparisons, and production examples. Its editorial standards distinguish provider specifications, observed measurements, and editorial judgments.',
+  fr: 'Keyvo publie des guides pratiques, des comparatifs de modèles et des exemples de production. Ses normes éditoriales distinguent les spécifications fournisseurs, les mesures observées et les appréciations éditoriales.',
+  es: 'Keyvo publica guías prácticas, comparativas de modelos y ejemplos de producción. Sus estándares editoriales distinguen las especificaciones de proveedores, las mediciones observadas y los juicios editoriales.',
   zh: 'Keyvo 发布实用指南、模型对比和生产示例。其编辑标准区分服务商规格、实际观测数据与编辑判断。',
 };
 
@@ -25,7 +26,7 @@ export function getEditorialProfile(
   const resolvedId = id === DEFAULT_EDITORIAL_PROFILE_ID ? id : DEFAULT_EDITORIAL_PROFILE_ID;
   return {
     id: resolvedId,
-    name: 'MaxVideoAI',
+    name: PRODUCT_BRAND_NAME,
     bio: BIOS[locale] ?? BIOS.en,
     aboutHref: `${localizePathFromEnglish(locale, '/about')}#${resolvedId}`,
   };

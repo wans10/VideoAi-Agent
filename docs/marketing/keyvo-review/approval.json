@@ -32,6 +32,19 @@
         "examples-wan",
         "watch-wan"
       ]
+    },
+    {
+      "approvedAt": "2026-11-11T12:24:52Z",
+      "userApproval": "确认六张发布截图（首页、模型、对比、工具、Wan 案例、Wan 观看页）与当前线上页面一致，更新审核日期",
+      "reviewedCandidate": "5bb13f751cf7ef70a4fcdc8cf80be62a6bc7b791",
+      "ids": [
+        "home",
+        "models",
+        "comparison",
+        "tools",
+        "examples-wan",
+        "watch-wan"
+      ]
     }
   ]
 }
