@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import test from 'node:test';
+import test, { mock } from 'node:test';
 
 import { deriveGenerationAttachmentReferences } from '../frontend/app/api/generate/_lib/attachment-references';
 import { submitBytePlusGenerateTask } from '../frontend/app/api/generate/_lib/byteplus-submission';
@@ -68,6 +68,8 @@ const baseParams = {
 };
 
 test('Seedance 1.5 direct submission preserves T2V, first/last I2V, resolution and audio choices', { concurrency: false }, async () => {
+  // ModelArk's published shutdown of Seedance 1.5 direct is 2026-11-11 17:00 UTC+8; the submission contract is checked while the route is still open.
+  mock.timers.enable({ apis: ['Date'], now: Date.parse('2026-11-10T00:00:00Z') });
   const original = {
     enabled: ENV.SEEDANCE_1_5_BYTEPLUS_ENABLED,
     provider: ENV.SEEDANCE_1_5_PROVIDER,
@@ -117,6 +119,7 @@ test('Seedance 1.5 direct submission preserves T2V, first/last I2V, resolution a
         ? [] : ['first_frame', 'last_frame']);
     }
   } finally {
+    mock.timers.reset();
     ENV.SEEDANCE_1_5_BYTEPLUS_ENABLED = original.enabled;
     ENV.SEEDANCE_1_5_PROVIDER = original.provider;
   }
