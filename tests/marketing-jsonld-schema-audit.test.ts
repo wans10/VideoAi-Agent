@@ -538,7 +538,7 @@ test('blog Article schema identifies the visible organization while retaining Ke
 
   assert.deepEqual(articleSchema.author, {
     '@type': 'Organization',
-    name: 'MaxVideoAI',
+    name: 'Keyvo',
     url: `${SITE_ORIGIN}/about#maxvideoai`,
   });
   assert.equal(articleSchema.publisher['@type'], 'Organization');
