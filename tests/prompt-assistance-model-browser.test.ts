@@ -39,7 +39,7 @@ test('compact model selector keeps logos, short names and eligible variants reac
         const model=page.getByRole('button',{name:`Change model: ${engines.find(e=>e.id==='seedance-2-0-mini')!.label}`,exact:true});
         const variants=page.getByRole('button',{name:'Variant: Mini',exact:true});
         await expect(variants).toBeVisible();
-        await expect(model).toHaveText('Seedance 2 Mini');
+        await expect(model).toHaveText('Seedance 2.0 Mini')  /* Keyvo catalog name */;
         await expect(model.locator('[role="img"]')).toHaveCount(1);
         const m=await model.boundingBox(),v=await variants.boundingBox();
         assert.ok(m && v && v.x>=m.x+m.width && Math.abs(m.y-v.y)<2, 'variant control follows the model on the same row');
@@ -138,7 +138,7 @@ test('reference command stays beside the model while media wrap together and can
         const page=await browser.newPage({viewport:{width,height:900}});await page.goto(fixture.url);
         for(const tab of ['Prompt','AI assistant']) {
           await page.getByRole('tab',{name:tab,exact:true}).click();
-          const model=page.getByRole('button',{name:'Change model: Dreamina Seedance 2.0 Mini',exact:true});
+          const model=page.getByRole('button',{name:`Change model: ${engine.label}`,exact:true});
           const add=page.getByRole('button',{name:'Add references',exact:true});
           let headerY:number|undefined;
           for(const count of [1,3,8]) {

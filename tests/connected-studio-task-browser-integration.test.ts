@@ -82,7 +82,7 @@ test('Milo modes preserve model selection, credits, references and explicit cons
     const evidence=process.env.STUDIO_PROOF_DIRECTORY??'/tmp/studio-sol-review';await mkdir(evidence,{recursive:true});
     const initialBody=await initial.json();assert.equal(initial.status(),200,JSON.stringify(initialBody));assert.ok(initialBody.result.taskPolicyVersion);
     assert.equal(assistance.status(),200,JSON.stringify(await assistance.json()));
-    const cookieReject=page.getByRole('button',{name:'Reject all',exact:true});
+    const cookieReject=page.getByRole('button',{name:siteDefaultLocale==='zh'?'全部拒绝':'Reject all',exact:true});
     if(await cookieReject.isVisible())await cookieReject.click();
     await page.route(selectedImageUrl,route=>route.fulfill({contentType:'image/webp',path:'frontend/public/media/mcp/project-demo/watch-static.webp'}));
     await page.route('**/api/media-library/assets?*',route=>route.fulfill({json:{ok:true,assets:[{id:selectedImageRecordId,assetId:selectedImage,ref:{type:'asset',assetId:selectedImage,kind:'image'},kind:'image',source:'upload',name:'Selected product',url:selectedImageUrl,thumbUrl:selectedImageUrl,mime:'image/webp',width:1024,height:1024}],hasMore:false,nextCursor:null}}));
@@ -120,13 +120,13 @@ test('Milo modes preserve model selection, credits, references and explicit cons
     await expect(page.getByRole('img',{name:'Selected product',exact:true})).toBeVisible({timeout:30_000});
     await page.screenshot({path:join(evidence,'sol-start-desktop.png')});
     await page.screenshot({path:join(evidence,'studio-milo-preview.png'),clip:{x:86,y:68,width:1354,height:832}});
-    await page.getByRole('button',{name:'Open Keyvo menu',exact:true}).click();
-    await page.getByRole('button',{name:copy('Dark'),exact:true}).click();
-    await page.getByRole('dialog',{name:'Keyvo',exact:true}).getByRole('button',{name:copy('Close ×'),exact:true}).click();
+    await page.getByRole('button',{name:siteDefaultLocale==='zh'?'打开 Keyvo 导航':'Open Keyvo menu',exact:true}).click();
+    await page.getByRole('button',{name:siteDefaultLocale==='zh'?'深色':'Dark',exact:true}).click();
+    await page.getByRole('dialog',{name:'Keyvo',exact:true}).getByRole('button',{name:siteDefaultLocale==='zh'?'关闭 ×':'Close ×',exact:true}).click();
     await page.screenshot({path:join(evidence,'milo-dark-desktop.png')});
-    await page.getByRole('button',{name:'Open Keyvo menu',exact:true}).click();
-    await page.getByRole('button',{name:copy('Light'),exact:true}).click();
-    await page.getByRole('dialog',{name:'Keyvo',exact:true}).getByRole('button',{name:copy('Close ×'),exact:true}).click();
+    await page.getByRole('button',{name:siteDefaultLocale==='zh'?'打开 Keyvo 导航':'Open Keyvo menu',exact:true}).click();
+    await page.getByRole('button',{name:siteDefaultLocale==='zh'?'浅色':'Light',exact:true}).click();
+    await page.getByRole('dialog',{name:'Keyvo',exact:true}).getByRole('button',{name:siteDefaultLocale==='zh'?'关闭 ×':'Close ×',exact:true}).click();
     await page.setViewportSize({width:390,height:844});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),true);
     await page.screenshot({path:join(evidence,'sol-start-mobile.png')});
@@ -148,7 +148,7 @@ test('Milo modes preserve model selection, credits, references and explicit cons
     await page.getByRole('button',{name:copy('Close assistance'),exact:true}).click();await expect(topup).toBeFocused();
     await topup.click();
     const solSelected=page.waitForResponse(response=>response.url().endsWith('/api/studio/assistance')&&response.request().method()==='POST'&&response.request().postDataJSON().action==='select_sol',{timeout:30_000});
-    await page.getByRole('button',{name:copy('Continue with Max'),exact:true}).click();
+    await page.getByRole('button',{name:copy('Continue with ')+'Max',exact:true}).click();
     const solSelection=await solSelected,solBody=await solSelection.json();assert.equal(solSelection.status(),200,JSON.stringify(solBody));assert.equal(solBody.result.selectedModel,'gpt-6.1-sol');
     await expect(max).toHaveAttribute('aria-pressed','true');await expect(max).toBeFocused();await expect(picker).toHaveCount(0);
     await message.fill('Help shape this film');
@@ -187,7 +187,7 @@ test('Milo modes preserve model selection, credits, references and explicit cons
     await runStudioTaskWorkerOnce(finish(longReply));
     await expect(longParagraph).toBeVisible({timeout:15_000});await expect.poll(async()=>await longParagraph.textContent()===longReply).toBe(true);assert.equal(calls,2);
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),true,'a complete long reply remains inside the mobile chat');
-    await page.reload();await expect(longParagraph).toBeVisible();await expect.poll(async()=>await longParagraph.textContent()===longReply).toBe(true);assert.equal(calls,2,'restoring a long Studio reply cannot repurchase it');
+    await page.reload();await expect(longParagraph).toBeVisible({timeout:30_000});await expect.poll(async()=>await longParagraph.textContent()===longReply).toBe(true);assert.equal(calls,2,'restoring a long Studio reply cannot repurchase it');
     await page.setViewportSize({width:1440,height:900});await expect(lite).toHaveAttribute('aria-pressed','true');
     await message.fill('Continue with the approved vertical framing.');
     const followupPosted=page.waitForResponse(response=>response.url().endsWith('/image-conversation')&&response.request().method()==='POST');
@@ -195,7 +195,7 @@ test('Milo modes preserve model selection, credits, references and explicit cons
     await runStudioTaskWorkerOnce(finish('Continued with the approved framing.'));
     await expect(page.getByText('Continued with the approved framing.')).toBeVisible({timeout:15_000});assert.equal(calls,3);
     // A zero-credit paid level is selectable; its message requires an explicit free transition.
-    await standard.click();await page.getByRole('button',{name:copy('Continue with Standard'),exact:true}).click();
+    await standard.click();await page.getByRole('button',{name:copy('Continue with ')+'Standard',exact:true}).click();
     await expect(standard).toHaveAttribute('aria-pressed','true');
     await message.fill('Keep my final request editable.');await expect(send).toBeDisabled();
     const free=page.getByRole('button',{name:copy('Send with Lite'),exact:true});await expect(free).toBeVisible();

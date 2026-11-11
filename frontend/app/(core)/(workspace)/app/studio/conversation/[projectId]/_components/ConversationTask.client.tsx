@@ -18,7 +18,7 @@ export function ConversationTask({task,projectId,accountKey,locale,onChanged,onS
     {task.model==='gpt-6-luna'&&task.consumedCredits>0&&<p>{task.consumedCredits} {t('Max credits already used','crédits Max déjà consommés')}</p>}
     {task.error&&!fundingChoice&&<p>{reasons[task.error]}</p>}
     {task.state==='queued'&&<p>{t('You can leave this page. Your request stays saved. If the wait continues, cancel it and try later.','Vous pouvez quitter cette page. Votre demande reste enregistrée. Si l’attente se prolonge, annulez-la et réessayez plus tard.')}</p>}
-    {fundingChoice&&<MiloAccessNotice canUseLite={liteAvailable} liteLabel="Continue with Lite" busy={control.busy} onLite={()=>void control.mutate('continue_lite',task.maxCredits)} onCredits={onAssistance}/>}
+    {fundingChoice&&<MiloAccessNotice canUseLite={liteAvailable} liteLabel={t('Continue with Lite','Continuer avec Lite')} locale={locale} busy={control.busy} onLite={()=>void control.mutate('continue_lite',task.maxCredits)} onCredits={onAssistance}/>}
     <div className={styles.actions}>
       {canContinue&&<button disabled={control.busy} onClick={()=>void control.mutate('continue',task.maxCredits)}>{task.error==='funding'?t('Continue with ','Continuer avec ')+MILO_LEVELS[miloLevelForModel(task.model)].label:t('Continue · same ceiling','Continuer · même plafond')}</button>}
       {canExtend&&<button disabled={control.busy} onClick={()=>void control.mutate('extend',task.maxCredits+100)}>{t('Authorize +100 credits · new total ','Autoriser +100 crédits · nouveau total ')+`${task.maxCredits+100} ($${((task.maxCredits+100)/1000).toFixed(2)})`}</button>}

@@ -380,7 +380,7 @@ function StudioImageConversationWorkspace({
               )}
             </div>
           )}
-          {(authRequired||(fundingBlocked&&!studio.busy&&!studio.pending&&(!pausedForCredits||!!text.trim())))&&<MiloAccessNotice authRequired={authRequired} canUseLite={canUseMiloLite(assistance.status)} busy={assistance.busy} onLite={()=>void sendWithLite()} onCredits={()=>setBudgetPrompt(value=>value+1)}/>}
+          {(authRequired||(fundingBlocked&&!studio.busy&&!studio.pending&&(!pausedForCredits||!!text.trim())))&&<MiloAccessNotice locale={locale} authRequired={authRequired} canUseLite={canUseMiloLite(assistance.status)} busy={assistance.busy} onLite={()=>void sendWithLite()} onCredits={()=>setBudgetPrompt(value=>value+1)}/>}
           {assistanceBlocked&&!authRequired&&!fundingBlocked&&!studio.assistanceAction&&<div className={styles.assistanceNote} role="status"><span>{t('Your assistance allowance needs attention. Choose how to continue.','Votre allocation d’assistance nécessite votre attention. Choisissez comment continuer.')}</span><button onClick={()=>setBudgetPrompt(value=>value+1)}>{t('See options','Voir les options')}</button></div>}
           {followupNotice&&<p className={styles.assistanceNote} role="status">{t('Some work may already be saved. Send a follow-up to continue from your current project. Your original request will not be replayed.','Une partie du travail peut déjà être enregistrée. Envoyez un nouveau message pour continuer à partir du projet actuel. La demande initiale ne sera pas rejouée.')}</p>}
           {!!references.length && (

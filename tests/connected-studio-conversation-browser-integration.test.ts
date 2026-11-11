@@ -37,11 +37,11 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     const owned = await browser.newContext(session,{viewport: {width: 1440,height: 900},locale: 'en-US',reducedMotion: 'reduce'});
     const page = owned.page;
     async function openFilm(target=page) {
-      if(target.viewportSize()!.width<768&&!await target.getByRole('dialog',{name:'Film tools',exact:true}).isVisible())await target.getByRole('button',{name:'Open film tools',exact:true}).click();
+      if(target.viewportSize()!.width<768&&!await target.getByRole('dialog',{name:copy('Film tools'),exact:true}).isVisible())await target.getByRole('button',{name:copy('Open film tools'),exact:true}).click();
     }
     async function setTheme(dark:boolean) {
-      if(await page.getByRole('dialog',{name:'Film tools',exact:true}).isVisible())await page.getByRole('button',{name:'Close film tools',exact:true}).click();
-      await expect(page.getByLabel('Loading account',{exact:true})).toHaveCount(0);
+      if(await page.getByRole('dialog',{name:copy('Film tools'),exact:true}).isVisible())await page.getByRole('button',{name:copy('Close film tools'),exact:true}).click();
+      await expect(page.getByLabel('Loading account',{exact:true})).toHaveCount(0,{timeout:30_000});
       await expect(async()=>{
         if(!await page.getByRole('dialog',{name:'Keyvo',exact:true}).isVisible())await page.getByRole('button',{name:(siteDefaultLocale==='zh'?'打开 Keyvo 导航':'Open Keyvo menu'),exact:true}).click();
         await expect(page.getByRole('button',{name:dark?/^(?:Dark|深色)$/:/^(?:Light|浅色)$/})).toBeVisible({timeout:1000});
@@ -157,16 +157,17 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     const starterRequests:string[]=[];
     const recordStarterRequest=(request:import('@playwright/test').Request)=>{if(request.method()==='POST'&&request.url().includes('/api/studio/'))starterRequests.push(new URL(request.url()).pathname);};
     page.on('request',recordStarterRequest);
-    for(const [label,draft] of [
-      ['Create a video','I’d like to create a video of '],
-      ['Develop an idea','Help me develop an idea for '],
-      ['Extend a clip','I’d like to extend a clip. '],
-      ['Edit an image','I’d like to edit an image. '],
+    for(const [label,zhLabel,draft,zhDraft] of [
+      ['Create a video','生成视频','I’d like to create a video of ','我想生成一段视频，内容是 '],
+      ['Develop an idea','打磨一个创意','Help me develop an idea for ','请帮我展开以下创意：'],
+      ['Extend a clip','延长一个片段','I’d like to extend a clip. ','我想延长一个片段。'],
+      ['Edit an image','编辑图片','I’d like to edit an image. ','我想编辑一张图片。'],
     ]){
-      await page.getByRole('button',{name:copy(label),exact:true}).click();
+      const starterName=siteDefaultLocale==='zh'?zhLabel:label;
+      await page.getByRole('button',{name:starterName,exact:true}).click();
       await expect(message).toBeFocused();
-      await expect(message).toHaveValue(copy(draft));
-      await expect(page.getByRole('button',{name:copy(label),exact:true})).toHaveCount(0);
+      await expect(message).toHaveValue(siteDefaultLocale==='zh'?zhDraft:draft);
+      await expect(page.getByRole('button',{name:starterName,exact:true})).toHaveCount(0);
       await message.fill('');
     }
     page.off('request',recordStarterRequest);

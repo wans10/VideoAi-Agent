@@ -22,7 +22,7 @@ export function StudioAssistance(props:Props) {
       <div className={styles.controlRow}>
         <span className={styles.identity}><span aria-hidden="true"/>Milo</span>
         <div className={styles.modes} role="group" aria-label={t('Milo mode','Mode Milo')}>
-          {(['lite',...(status?.credits?['standard' as const]:[]),'max'] as MiloLevel[]).map(level=><button key={level} type="button" aria-pressed={!!status&&miloLevelForModel(status.selectedModel)===level} aria-haspopup="dialog" disabled={!status||props.busy} onClick={event=>show(event.currentTarget,level)}>{MILO_LEVELS[level].label}</button>)}
+          {(['lite',...(status?.credits?['standard' as const]:[]),'max'] as MiloLevel[]).map(level=><button key={level} type="button" aria-pressed={!!status&&miloLevelForModel(status.selectedModel)===level} aria-haspopup="dialog" disabled={!status||props.busy} onClick={event=>show(event.currentTarget,level)}>{conversationCopy(locale,MILO_LEVELS[level].label,MILO_LEVELS[level].label)}</button>)}
         </div>
         <button type="button" ref={trigger} className={styles.trigger} aria-haspopup="dialog" aria-expanded={open} aria-label={t('Milo settings and credits','Réglages et crédits Milo')} onClick={event=>show(event.currentTarget)}><Info size={16}/><span className={styles.mobileMode}>{status ? MILO_LEVELS[miloLevelForModel(status.selectedModel)].label : 'Milo'}<ChevronDown size={13}/></span></button>
       </div>

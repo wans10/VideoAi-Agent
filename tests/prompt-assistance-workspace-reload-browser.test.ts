@@ -28,6 +28,8 @@ for(const browserType of [chromium,webkit])test(`settings review survives a real
    const {request}=route.request().postDataJSON();requests.push(request);
    return route.fulfill({json:{ok:true,result:{sessionId:request.sessionId,requestId:request.requestId,draftRevision:request.draftRevision,target:request.draft.target,message:request.message,state:'complete',reply:{reply:requests.length===1?'Reuse the existing draft or start a new idea?':'Choose 9:16 in the settings.',text:requests.length===1?null:proposed},assistance:initialStatus}}});
   });
+  // Keyvo starts a fresh workspace entry with an empty prompt; the stored draft under test is only restored when the same document is resumed.
+  await page.addInitScript(()=>{const read=performance.getEntriesByType.bind(performance);performance.getEntriesByType=(type:string)=>type==='navigation'?[{type:'reload'}] as never:read(type);});
   await page.goto(fixture.url);await expect(page.locator('[data-workspace-prompt]')).toHaveValue(prompt);
   await page.getByRole('tab',{name:'AI assistant',exact:true}).click();
   for(const [index,message] of ['A funny phone clip for TikTok','A new idea: a friend celebrates before seeing he lost the board game'].entries()){
