@@ -1,3 +1,4 @@
+import hiddenModelIds from './keyvo-hidden-model-ids.json';
 import visibleFamilies from './keyvo-visible-families.json';
 
 /**
@@ -24,7 +25,8 @@ export function isKeyvoVisibleFamily(family: string | null | undefined): boolean
  * 480P/768P only with its own input pricing, and none of fal's controls (1080P, middle frame, Recast/Relight);
  * see docs/engineering/minimax-official-provider.md.
  */
-const KEYVO_HIDDEN_MODEL_IDS: ReadonlySet<string> = new Set(['minimax-h3-max']);
+// The id list lives in JSON so plain-Node scripts (IndexNow) read the same source.
+const KEYVO_HIDDEN_MODEL_IDS: ReadonlySet<string> = new Set<string>(hiddenModelIds);
 
 export function isKeyvoHiddenModel(id: string | null | undefined): boolean {
   if (isKeyvoModelVisibilityOff()) return false;

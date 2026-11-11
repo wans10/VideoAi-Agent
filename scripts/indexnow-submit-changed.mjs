@@ -19,6 +19,7 @@ const DRY_RUN = process.argv.includes('--dry-run');
 const REPO_ROOT = process.cwd();
 const ENGINE_CATALOG_PATH = path.join(REPO_ROOT, 'frontend/config/engine-catalog.json');
 const MODEL_ROSTER_PATH = path.join(REPO_ROOT, 'frontend/config/model-roster.json');
+const HIDDEN_MODEL_IDS_PATH = path.join(REPO_ROOT, 'frontend/config/keyvo-hidden-model-ids.json');
 const VISIBLE_FAMILIES_PATH = path.join(REPO_ROOT, 'frontend/config/keyvo-visible-families.json');
 
 // Keyvo hides comparison/best-for pages and non-Chinese-vendor models, so IndexNow must not submit them.
@@ -38,7 +39,12 @@ function readJson(filePath, fallback = {}) {
 }
 
 const VISIBLE_FAMILIES = new Set(readJson(VISIBLE_FAMILIES_PATH, []));
-const isVisibleEntry = (entry) => VISIBLE_FAMILIES.has(String(entry?.family ?? '').trim().toLowerCase());
+const HIDDEN_MODEL_IDS = new Set(readJson(HIDDEN_MODEL_IDS_PATH, []));
+const isVisibleEntry = (entry) =>
+  VISIBLE_FAMILIES.has(String(entry?.family ?? '').trim().toLowerCase()) &&
+  ![entry?.engineId, entry?.id, entry?.modelSlug].some(
+    (id) => typeof id === 'string' && HIDDEN_MODEL_IDS.has(id.trim().toLowerCase()),
+  );
 
 function safeGitChangedFiles(before, after) {
   if (!before || /^0+$/.test(before)) {
