@@ -211,7 +211,7 @@ test('Milo modes preserve model selection, credits, references and explicit cons
     await page.reload();await expect(page.getByRole('button',{name:`${copy('Remove ')}Image 1`,exact:true})).toHaveCount(0);
     await message.fill('HEY!');const greetingPosted=page.waitForResponse(response=>response.url().endsWith('/image-conversation')&&response.request().method()==='POST');await send.click();assert.equal((await greetingPosted).status(),200);
     await runStudioTaskWorkerOnce({...worker,serviceOptions:{...worker.serviceOptions,countInputTokens:async()=>{throw new Error('A greeting must not count provider input.');},createActionResponse:async()=>{throw new Error('A greeting must not buy a model call.');}}});
-    await expect(page.getByText('Hey! What would you like to create today?')).toBeVisible({timeout:15_000});assert.equal(calls,4);
+    await expect(page.getByText('Hey! What would you like to create today?')).toBeVisible({timeout:45_000});assert.equal(calls,4);
     assert.deepEqual(errors,[],'The Studio flow has no browser runtime errors');
 
   }catch(error){

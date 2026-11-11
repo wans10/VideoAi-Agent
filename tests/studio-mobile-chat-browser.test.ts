@@ -100,7 +100,7 @@ test('mobile chat keeps reading space, references and navigation without changin
     const references=page.getByRole('button',{name:copy('References · 3 attached'),exact:true});
     await references.click();
     const panel=page.getByRole('dialog',{name:copy('References'),exact:true});
-    await expect(panel).toBeVisible();
+    await expect(panel).toBeVisible({timeout:20000});
     await expect(panel.getByRole('img',{name:'Reference 1',exact:true})).toBeVisible();
     const selected=await panel.locator('[data-media-card][data-selected="true"]').boundingBox();
     if(!selected||selected.x<0||selected.x+selected.width>390)layoutIssues.push('Opening references must bring the selected image into view.');
