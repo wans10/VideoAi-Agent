@@ -41,6 +41,8 @@ import { customerSnapshot, providerUsdSnapshot } from '@/lib/customer-currency';
 import { isSeedance25LasInputPricing, isSeedance25EditInputPricing } from '@/server/byteplus-las-tariff';
 import { normalizeSeedancePricingContext, seedanceAutomaticDurationBounds, isSeedanceAdaptiveAspect,
   SEEDANCE_REVIEWED_PRICING_ASPECTS, seedanceAutomaticPricingMetadata } from '@/lib/seedance-option-pricing';
+import { isOfficialListPricedAudio, isOfficialListPricedEngine, OFFICIAL_LIST_PRICE_PROFILE_ID,
+  resolveOfficialListCompatibilityProfile } from '@/lib/official-list-pricing';
 
 /** Finishing tools supply vendor facts; the canonical kernel owns all customer rounding and margins. */
 export async function computeCanonicalFinishingBillingSnapshot(input: { toolId: string; quality: string; vendorBudgetUsd: number; durationSec: number; profileId: string; pricingSource: string },
@@ -111,7 +113,9 @@ export async function computeCanonicalBillingSnapshot(
     && context.mode === 'i2v' && [4,6].includes(context.durationSec));
   const requiresLasTariff = !context.workflowStep && isSeedance25LasInputPricing(context.engine.id, context.mode);
   const requiresEditTariff = !context.workflowStep && isSeedance25EditInputPricing(context.engine.id, context.mode);
-  const requiresKlingV4Tariff = isKlingV4FalQueueEngineId(context.engine.id);
+  // Kling V4 needed a reviewed tariff because its supplier facts were unreviewed fal list rates. Keyvo's official
+  // mainland list facts and the explicit official-list rule (official-list-pricing.ts) make the rule path reviewed.
+  const requiresKlingV4Tariff = isKlingV4FalQueueEngineId(context.engine.id) && !isOfficialListPricedEngine(context.engine.id);
   const requiresNano21Tariff = context.engine.id === NANO21_ENGINE_ID;
   const requiresGpt26Tariff = isGptImage26EngineId(context.engine.id);
   if (requiresGpt26Tariff || requiresKlingV4Tariff || requiresNano21Tariff || requiresOperationTariff || requiresEditTariff || context.workflowStep || dependencies.loadCustomerTariffState || dependencies.loadCustomerTariffQuoteState || customerTariffsEnabledByCode()) {
@@ -159,7 +163,10 @@ export async function computeCanonicalBillingSnapshot(
     if (requiresEditTariff) throw new CustomerTariffUnavailableError(`An active reviewed ${requiresLasTariff ? 'LAS' : 'ModelArk'} Edit customer tariff is required.`, '该编辑模式暂时无法报价，请稍后再试或联系支持。');
     if (context.workflowStep) throw new CustomerTariffUnavailableError('A separate active Draft workflow tariff is required.', '该工作流步骤暂时无法报价，请稍后再试或联系支持。');
   const policyDocument = getVersionedPricingPolicy();
-  const profileId = policy.rule.compatibilityProfile ?? billingFacts.compatibilityProfileId;
+  // Video operations (Kling Edit, H3 source operations, ...) keep their own reviewed operation policy.
+  const ruleProfileId = policy.rule.compatibilityProfile ?? billingFacts.compatibilityProfileId;
+  const profileId = context.operation ? ruleProfileId
+    : resolveOfficialListCompatibilityProfile(context.engine.id, ruleProfileId, policy);
   const compatibilityProfile: PricingCompatibilityProfile | undefined = policyDocument.compatibilityProfiles.find(
     (profile) => profile.id === profileId
   );
@@ -228,7 +235,8 @@ export async function computeCanonicalAudioBillingSnapshot(input: AudioPricingIn
     resolution: 'audio',
   }, undefined, dependencies.pricingPolicy);
   const policyDocument = getVersionedPricingPolicy();
-  const profileId = resolveLiveAudioPricingProfile(policy.rule);
+  const profileId = isOfficialListPricedAudio(input) && !(policy.source === 'database' && policy.matchedBy !== 'global')
+    ? OFFICIAL_LIST_PRICE_PROFILE_ID : resolveLiveAudioPricingProfile(policy.rule);
   const compatibilityProfile = policyDocument.compatibilityProfiles.find((profile) => profile.id === profileId);
   if (!compatibilityProfile) throw new Error(`Missing pricing compatibility profile ${profileId}`);
   const presentation = buildAudioPricingPresentation(input);

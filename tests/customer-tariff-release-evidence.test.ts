@@ -6,8 +6,11 @@ import { buildManualTariffCoverageScenario, collectEffectiveCustomerTariffBaseli
 import { computeCanonicalBillingSnapshot } from '../frontend/server/pricing/quote-billing';
 import { prepareLocalCustomerTariffRelease, assertLocalCustomerTariffReleaseReady } from '../frontend/server/pricing/customer-tariff-release-evidence';
 
+// Keyvo 2026-11-13: Wan 3 sells at 80% of its official list cost (below cost), which no tariff can freeze (the continuous
+// compiler refuses it). An explicit engine rule keeps this release-evidence fixture on the margin path.
 const policy = { status: 'loaded' as const, rules: [{ id: 'default', marginPercent: 0.3, marginFlatCents: 0,
-  surchargeAudioPercent: 0.2, surchargeUpscalePercent: 0.5, currency: 'USD' }] };
+  surchargeAudioPercent: 0.2, surchargeUpscalePercent: 0.5, currency: 'USD' }, { id: 'margin-wan-3', engineId: 'wan-3',
+  marginPercent: 0.3, marginFlatCents: 0, surchargeAudioPercent: 0.2, surchargeUpscalePercent: 0.5, currency: 'USD' }] };
 const hash = createHash('sha256').update(JSON.stringify(policy.rules)).digest('hex');
 async function fixture() {
   const scenarios = [buildManualTariffCoverageScenario({ engine: getFalEngineById('wan-3')!.engine,

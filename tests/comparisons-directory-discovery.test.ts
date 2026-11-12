@@ -34,8 +34,9 @@ test('every eligible comparison has a localized HTML anchor before interaction',
       const entries = getRankedComparisonPairs(getHubEngines({ includeLimited: true, includeWaitlist: true }))
         .filter(pair => isComparisonIndexable(locale, pair.slug));
       assert.ok(entries.some(entry => entry.slug === 'minimax-h3-vs-seedance-2-5'));
-      // H3 Max is hidden on Keyvo (no mainland route), so none of its pairs is discoverable.
-      assert.equal(entries.some(entry => entry.slug.split('-vs-').includes('minimax-h3-max')), false, 'hidden models are not discoverable');
+      // H3 Max is served on Keyvo again (MiniMax's own API), so its indexable pairs are discoverable in this directory
+      // component like H3's (the comparison routes themselves stay off on Keyvo: KEYVO_COMPARE_HIDDEN).
+      assert.ok(entries.some(entry => entry.slug.split('-vs-').includes('minimax-h3-max')), 'H3 Max pairs are discoverable');
       assert.equal(entries.some(entry => entry.slug.includes('seedance-1-5-pro')), false, 'archives retain their separate discovery policy');
       assert.equal(entries.some(entry => entry.slug.split('-vs-').includes('wan-2-5')), false, 'offline models are not discoverable');
       assert.ok(entries.length > 24, 'exercise destinations beyond the first batch');

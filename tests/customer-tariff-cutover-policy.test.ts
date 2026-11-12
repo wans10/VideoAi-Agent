@@ -11,8 +11,11 @@ import type { CustomerTariffCutoverRelease } from '../frontend/server/pricing/cu
 import { ENV } from '../frontend/src/lib/env';
 import { prepareReviewedSeedanceMigrationPrice } from '../frontend/server/pricing/seedance-reviewed-migration';
 
+// Keyvo 2026-11-13: Wan 3 sells below cost at 80% of its list (no tariff can hold that); an explicit engine rule keeps
+// this cutover-policy fixture on the margin path.
 const policy = { status: 'loaded' as const,rules: [{ id: 'default',marginPercent: .3,marginFlatCents: 0,
-  surchargeAudioPercent: 0,surchargeUpscalePercent: 0,currency: 'USD' }] };
+  surchargeAudioPercent: 0,surchargeUpscalePercent: 0,currency: 'USD' },{ id: 'margin-wan-3',engineId: 'wan-3',marginPercent: .3,
+  marginFlatCents: 0,surchargeAudioPercent: 0,surchargeUpscalePercent: 0,currency: 'USD' }] };
 const inactive = { status: 'loaded' as const,active: false,revision: 0,databaseCells: [],versionedCells: [] };
 const partial = (cells: CustomerTariffCutoverRelease['cells'],checkpoints: CustomerTariffCutoverRelease['checkpoints']) => ({
   cells,checkpoints,capturedAt: new Date().toISOString(),approvedChanges: [],
@@ -25,9 +28,13 @@ test('a cost-safe unapproved Wan fractional band change is refused despite uncha
   assert.equal(price.kind,'unit_bands');
   if (price.kind !== 'unit_bands') throw new Error('Expected bounded bands');
   const changed = structuredClone(price);
-  changed.bands[1].minUnits = 0.04995;
-  assert.equal(evaluateManualTariffPrice(price,{ input_video_seconds: 0.04995 }).customerTotalCents,33);
-  assert.equal(evaluateManualTariffPrice(changed,{ input_video_seconds: 0.04995 }).customerTotalCents,34);
+  // Keyvo 2026-11-13: the first source-second band edge moved with the Bailian 480P list cost (3.75 cents/s instead of
+  // 5), so the cost-safe edit is placed just before the actual edge instead of the former fixed 0.04995 s.
+  const probe = price.bands[1].minUnits - 0.00005;
+  assert.ok(probe > 0 && probe < 1, `first band edge ${price.bands[1].minUnits}`);
+  changed.bands[1].minUnits = probe;
+  assert.equal(evaluateManualTariffPrice(price,{ input_video_seconds: probe }).customerTotalCents,25);
+  assert.equal(evaluateManualTariffPrice(changed,{ input_video_seconds: probe }).customerTotalCents,26);
   for (let seconds=0;seconds<=15;seconds++) assert.equal(
     evaluateManualTariffPrice(price,{ input_video_seconds: seconds }).customerTotalCents,
     evaluateManualTariffPrice(changed,{ input_video_seconds: seconds }).customerTotalCents);

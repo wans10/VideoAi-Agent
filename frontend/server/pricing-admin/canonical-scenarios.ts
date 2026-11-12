@@ -15,6 +15,7 @@ import type { PricingAuditScenario, PricingAuditSurface } from '@/lib/pricing-au
 import { getVersionedPricingPolicy, resolveLiveAudioPricingProfile } from '@/lib/pricing-policy-defaults';
 import { LIVE_MEMBERSHIP_DISCOUNTS, LIVE_MEMBERSHIP_POLICY } from '@/lib/membership-policy';
 import { NANO21_ENGINE_ID } from '@/lib/nano-banana-2-1';
+import { isOfficialListPricedAudio, OFFICIAL_LIST_PRICE_PROFILE_ID, resolveOfficialListCompatibilityProfile } from '@/lib/official-list-pricing';
 
 import { PricingAdminError } from './errors';
 import { buildLiveProductPolicyScenarios, buildLiveProductPolicyFacts } from './product-policy-scenarios';
@@ -197,8 +198,11 @@ function quoteCanonicalScenarios(
         : policyDocument.rules;
       const policy = resolveScenarioPolicy(scenario, input.databaseRules, versionedRules);
       const profileId = projection === 'live' && scenario.engineId === 'audio-generation'
-        ? resolveLiveAudioPricingProfile(policy.rule)
-        : resolveCompatibilityProfileId(scenario, policy);
+        ? isOfficialListPricedAudio({ pack: String(scenario.input.pack ?? scenario.mode ?? ''),
+          voiceModel: typeof scenario.input.voiceModel === 'string' ? scenario.input.voiceModel : null })
+          && !(policy.source === 'database' && policy.matchedBy !== 'global')
+          ? OFFICIAL_LIST_PRICE_PROFILE_ID : resolveLiveAudioPricingProfile(policy.rule)
+        : resolveOfficialListCompatibilityProfile(scenario.engineId, resolveCompatibilityProfileId(scenario, policy), policy);
       const compatibilityProfile = profiles.get(profileId);
       if (!compatibilityProfile) {
         throw new PricingAdminError(

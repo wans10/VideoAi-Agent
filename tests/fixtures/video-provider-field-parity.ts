@@ -19,7 +19,8 @@ export const EXPECTED_VIDEO_SOURCE_FIELDS:Record<string,Fields>={
  'kling-3-turbo-standard':one,'kling-3-turbo-pro':one,'happy-horse-1-1':{...one,ref2v:['image_urls:image:9']},'happy-horse-1-0':{...one,ref2v:['image_urls:image:9'],v2v:['video_url:video:1','reference_image_urls:image:5']},
  'seedance-2-0':seedance(9,3,3),'seedance-2-0-fast':seedance(9,3,3),'seedance-2-0-mini':seedance(9,3,3),'seedance-2-5':seedance(30,10,10),
  'wan-2-6':{...one,r2v:['video_urls:video:3']},'ltx-2-3-fast':frames,'ltx-2-3':{...audio,extend:['video_url:video:1'],retake:['video_url:video:1'],reframe:['video_url:video:1']},
- 'minimax-h3':h3,'minimax-h3-max':{...h3,ref2v:['middle_image_url:image:1','image_url:image:1','end_image_url:image:1',...h3.ref2v],v2v:['video_url:video:1','reference_image_urls:image:4']},
+ // Keyvo: H3-Max runs on MiniMax's own V2 API, without Fal's soundtrack, middle frame or frames-with-references.
+ 'minimax-h3':h3,'minimax-h3-max':{t2v:[],i2v:frames.i2v,ref2v:h3.ref2v,v2v:['video_url:video:1','reference_image_urls:image:4']},
  'minimax-hailuo-02-text':frames,'wan-3':wan,'wan-3-prime':wan,'ltx-2-5-fast':audio,'ltx-2-5-pro':audio,'grok-imagine-video-1-5':{...one,ref2v:['reference_image_urls:image:7']},
  'flux-3':flux,'flux-3-max':{...frames,fl2v:flux.fl2v,ref2v:flux.ref2v},'flux-3-draft':{...flux,v2v:[]},
 };

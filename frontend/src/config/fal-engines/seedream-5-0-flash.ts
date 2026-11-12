@@ -8,10 +8,9 @@ import type { RawFalEngineEntry } from './types';
 /**
  * Seedream 5.0 Flash (`doubao-seedream-5-0-flash-260915`, Volcengine Ark cn-beijing).
  * Doc: https://ark.volcengine.com/region:cn-beijing/docs/seedream-5-0-pro.md (pro / flash share sizes,
- * single-image output, up to 10 reference images). PROVISIONAL vendor cost: official list price
- * 0.12 CNY per successful image (https://ark.volcengine.com/region:cn-beijing/docs/model-pricing.md)
- * = 0.015 USD at the 8 CNY/USD customer rate; the cent-based provider basis rounds up to 2 cents,
- * like Lite's 0.035 USD list price was authored as 4 cents. The margin rule applies on top.
+ * single-image output, up to 10 reference images). Vendor cost: official list price 0.12 CNY per successful
+ * image, input images free (https://ark.volcengine.com/region:cn-beijing/docs/model-pricing.md, checked 2026-11-13)
+ * = 1.5 US cents at 8 CNY/USD, kept exact. Keyvo sells at 80% of it (official-list-pricing.ts).
  */
 const SEEDREAM_FLASH_ENGINE: EngineCaps = {
   ...SEEDREAM_PRO_ENGINE,
@@ -84,15 +83,15 @@ const SEEDREAM_FLASH_ENGINE: EngineCaps = {
   pricingDetails: {
     currency: 'USD',
     perSecondCents: {
-      default: 2,
+      default: 1.5,
       byResolution: {
-        '2K': 2,
+        '2K': 1.5,
       },
     },
     flatCents: {
-      default: 2,
+      default: 1.5,
       byResolution: {
-        '2K': 2,
+        '2K': 1.5,
       },
     },
   },

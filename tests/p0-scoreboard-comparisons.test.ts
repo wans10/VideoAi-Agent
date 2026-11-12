@@ -34,7 +34,7 @@ const PAIRS = [
   { leftId: 'ltx-2-3', leftSlug: 'ltx-2-3-pro', rightId: 'ltx-2-5-pro', rightSlug: 'ltx-2-5-pro' },
   { leftId: 'ltx-2-3-fast', leftSlug: 'ltx-2-3-fast', rightId: 'ltx-2-5-fast', rightSlug: 'ltx-2-5-fast' },
   { leftId: 'ltx-2-5-fast', leftSlug: 'ltx-2-5-fast', rightId: 'ltx-2-5-pro', rightSlug: 'ltx-2-5-pro' },
-  { leftId: 'wan-2-6', leftSlug: 'wan-2-6', rightId: 'wan-3', rightSlug: 'wan-3' },
+  // Keyvo 2026-11-13: the Wan 2.6 -> Wan 3 edge left with Wan 2.6 (offline, no mainland route).
   { leftId: 'wan-3', leftSlug: 'wan-3', rightId: 'wan-3-prime', rightSlug: 'wan-3-prime' },
   { leftId: 'flux-3', leftSlug: 'flux-3', rightId: 'flux-3-draft', rightSlug: 'flux-3-draft' },
   { leftId: 'grok-imagine-video-1-5', leftSlug: 'grok-imagine-video-1-5', rightId: 'sora-2', rightSlug: 'sora-2' },

@@ -223,9 +223,11 @@ test('public gallery traverses every eligible video beyond the old window and hy
   });
   await t.test('version discovery reaches older public prompts beyond the page without hydrating their media',async()=>{
     const db=postgres.pool;
+    // Keyvo 2026-11-13: Kling 2.6 Pro and 2.5 Turbo are retired (examples unpublished), so their jobs no longer belong to
+    // the Kling family; published Kling 3 Standard / 3 4K clips are the older family versions here.
     await db.query(`INSERT INTO app_jobs(job_id,engine_id,prompt,thumb_url,video_url,created_at) VALUES
-      ('historical-version','kling-2-6-pro','Original historical public prompt','https://media.maxvideoai.com/old.webp','https://media.maxvideoai.com/old.mp4','2026-03-01'),
-      ('without-prompt','kling-2-5-turbo','   ','https://media.maxvideoai.com/empty.webp','https://media.maxvideoai.com/empty.mp4','2026-03-01');
+      ('historical-version','kling-3-standard','Original historical public prompt','https://media.maxvideoai.com/old.webp','https://media.maxvideoai.com/old.mp4','2026-03-01'),
+      ('without-prompt','kling-3-4k','   ','https://media.maxvideoai.com/empty.webp','https://media.maxvideoai.com/empty.mp4','2026-03-01');
       INSERT INTO playlist_items(playlist_id,video_id,order_index) SELECT id,video,0 FROM playlists CROSS JOIN
         unnest(ARRAY['historical-version','without-prompt']) video WHERE slug='examples'`);
     try {
@@ -239,7 +241,7 @@ test('public gallery traverses every eligible video beyond the old window and hy
       assert.ok(!page.items.some(item=>item.id==='historical-version'));
       assert.deepEqual(page.versionSamples,[
         {engineId:'kling-3-pro',videoId:'kling-1',engineLabel:'Fixture'},
-        {engineId:'kling-2-6-pro',videoId:'historical-version',engineLabel:'Fixture'},
+        {engineId:'kling-3-standard',videoId:'historical-version',engineLabel:'Fixture'},
       ]);
       assert.equal(statements.length,1,'use the existing catalogue snapshot, not N reads per model');
       assert.equal(statements[0].hydratedRows,24,'old-version discovery must not hydrate extra media/settings');

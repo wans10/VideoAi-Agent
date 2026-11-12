@@ -27,15 +27,17 @@ function context(changes: Partial<PricingContext> = {}): PricingContext {
 
 test('Recast applies the database product multiplier once to exact input plus output provider cost', async () => {
   // Independently authored supplier facts and expected settlement cents, including the existing two-stage rounding.
+  // Keyvo 2026-11-13: Wan 3 Prime facts are the Bailian list (CNY 0.45 / 0.9 / 1.8 per second = 5.625 / 11.25 / 22.5
+  // cents); the Recast product rule (x2) is unchanged.
   for (const [resolution, output, source, providerCents, customerCents] of [
-    ['480p', 2, 0, 13.6, 28],
-    ['480p', 8, 0, 54.4, 109],
-    ['480p', 8, 7.5, 105.4, 211],
-    ['480p', 8, 7.501, 105.407, 211],
-    ['480p', 8, 7.6, 106.08, 213],
-    ['720p', 8, 7.5, 217, 434],
-    ['1080p', 8, 7.5, 434, 868],
-    ['1080p', 15, 15, 840, 1680],
+    ['480p', 2, 0, 11.25, 23],
+    ['480p', 8, 0, 45, 90],
+    ['480p', 8, 7.5, 87.188, 175],
+    ['480p', 8, 7.501, 87.193, 175],
+    ['480p', 8, 7.6, 87.75, 176],
+    ['720p', 8, 7.5, 174.375, 349],
+    ['1080p', 8, 7.5, 348.75, 698],
+    ['1080p', 15, 15, 675, 1350],
   ] as const) {
     const quote = await computeCanonicalRecastBillingSnapshot(context({ resolution, durationSec: output,
       inputVideoDurationSec: source, mode: source ? 'v2v' : 'i2v' }), { pricingPolicy: pricingPolicy() });
@@ -64,9 +66,9 @@ test('audio references never add video seconds; no-video reference mode charges 
       inputAudioDurationSec: 0, addons: { audio: false } }), { pricingPolicy: pricingPolicy() });
     const withAudio = await computeCanonicalRecastBillingSnapshot(context({ mode: 'ref2v', inputVideoDurationSec: source,
       inputAudioDurationSec: 15, addons: { audio: true } }), { pricingPolicy: pricingPolicy() });
-    assert.equal(withAudio.totalCents, source ? 434 : 224);
+    assert.equal(withAudio.totalCents, source ? 349 : 180);
     assert.equal(withAudio.totalCents, withoutAudio.totalCents);
-    assert.equal(withAudio.meta?.providerCostExactCents, source ? 217 : 112);
+    assert.equal(withAudio.meta?.providerCostExactCents, source ? 174.375 : 90);
     assert.equal(withAudio.meta?.billable_duration_sec, source + 8);
   }
 });
@@ -82,8 +84,8 @@ test('model retail policy and existing source facts remain independent from the 
   const changed = await computeCanonicalRecastBillingSnapshot(input, {
     pricingPolicy: pricingPolicy([{ ...productRule, marginPercent: 1.5 }, modelRule]),
   });
-  assert.equal(recast.totalCents, 434);
-  assert.equal(changed.totalCents, 543);
+  assert.equal(recast.totalCents, 349);
+  assert.equal(changed.totalCents, 436);
   assert.equal(changed.meta?.providerCostMultiplier, 2.5);
   assert.notEqual(ordinaryBefore.totalCents, recast.totalCents);
   assert.equal(ordinaryBefore.meta?.customerProduct, undefined);
@@ -125,11 +127,11 @@ test('public Recast estimates use the same scoped policy even with the retired p
     const estimate = await readRecastPublicPrice(input, { pricingPolicy: pricingPolicy() });
     assert.equal(estimate.status, 'exact');
     if (estimate.status !== 'exact') throw new Error('Missing Recast estimate');
-    assert.equal(estimate.amountCents, 434);
+    assert.equal(estimate.amountCents, 349);
     const changed = await readRecastPublicPrice(input, { pricingPolicy: pricingPolicy([{ ...productRule, marginPercent: 1.5 }]) });
     assert.equal(changed.status, 'exact');
     if (changed.status !== 'exact') throw new Error('Missing changed Recast estimate');
-    assert.equal(changed.amountCents, 543);
+    assert.equal(changed.amountCents, 436);
     assert.equal((await readRecastPublicPrice(input, { pricingPolicy: pricingPolicy([modelRule]) })).status, 'unavailable');
     assert.equal(network.mock.callCount(), 0);
   } finally {

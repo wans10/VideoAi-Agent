@@ -3,7 +3,7 @@ import type { MinimaxOfficialCreateInput } from '@/server/video-providers/minima
 
 export type MinimaxOfficialMedia = Pick<
   MinimaxOfficialCreateInput,
-  'endImageUrl' | 'referenceImageUrls' | 'referenceVideoUrls' | 'referenceAudioUrls' | 'promptOptimizer'
+  'endImageUrl' | 'referenceImageUrls' | 'referenceVideoUrls' | 'referenceAudioUrls' | 'promptOptimizer' | 'promptExpansionMode'
 >;
 
 function clean(value: unknown): string | null {
@@ -17,7 +17,8 @@ function addUnique(list: string[], value: unknown): void {
 
 /**
  * Collects the media MiniMax's own API takes beyond the start image (which travels as `imageUrl`):
- * the last frame in image-to-video, and reference image/video/audio in multimodal reference mode.
+ * the last frame in image-to-video, reference image/video/audio in multimodal reference mode, and H3-Max's
+ * prompt expansion mode (the client refuses it for other models).
  * Only consumed by the MiniMax official route; LLM Hub ignores it.
  */
 export function resolveMinimaxOfficialMedia(payload: GeneratePayload, mode: string): MinimaxOfficialMedia {
@@ -25,6 +26,8 @@ export function resolveMinimaxOfficialMedia(payload: GeneratePayload, mode: stri
   const optimizer = payload.extraInputValues?.prompt_optimizer;
   if (optimizer === 'on' || optimizer === true) media.promptOptimizer = true;
   if (optimizer === 'off' || optimizer === false) media.promptOptimizer = false;
+  const expansion = clean(payload.extraInputValues?.prompt_expansion_mode);
+  if (expansion) media.promptExpansionMode = expansion;
   if (mode === 'i2v') {
     let endImageUrl = clean(payload.endImageUrl);
     for (const input of payload.inputs ?? []) {

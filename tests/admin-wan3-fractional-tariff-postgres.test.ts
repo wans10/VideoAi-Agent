@@ -33,13 +33,15 @@ test('decimal Wan tariff preview, immutable confirmation and active billing use 
     await db.pool.query(readFileSync('neon/migrations/55_customer_tariff_versions.sql', 'utf8'));
     const selected = await loadCustomerTariffScenarioDetail('wan-3', { mode: 'v2v', resolution: '720p',
       durationSec: '5', aspectRatio: '16:9', inputVideoDurationSec: '3.25' });
-    assert.equal(selected.currentCents, 108);
-    assert.equal(selected.supplierComparison.supplierList.amountUsd, 0.825);
+    // Keyvo 2026-11-13: 8.25 billable s at the Bailian 720p list (7.5 cents) x 0.8 = 49.5 -> 50 (formerly 108).
+    assert.equal(selected.currentCents, 50);
+    // The supplier list is the Bailian 720P list: 8.25 billable s x CNY 0.6 / 8 = USD 0.61875 (formerly 0.825 at $0.10/s).
+    assert.equal(selected.supplierComparison.supplierList.amountUsd, 0.61875);
     assert.equal((selected.supplierComparison as unknown as { inputVideoDurationSec: number }).inputVideoDurationSec, 3.25);
     const proposal = { operation: 'create' as const, scenarioId: selected.scenarioId, customerCents: 129 };
     const preview = await previewCustomerTariffChange(proposal);
     assert.equal(preview.selector.inputVideoDurationSec, '3.25');
-    assert.equal(preview.currentCents, 108);
+    assert.equal(preview.currentCents, 50);
     assert.equal(preview.proposedCents, 129);
     for (const scenarioId of [selected.scenarioId + '|untrusted=1', selected.scenarioId + '|inputVideoDurationSec=3.25',
       selected.scenarioId.replace('3.25', '15.1'), selected.scenarioId + '|aspectRatio=bogus',
@@ -48,7 +50,7 @@ test('decimal Wan tariff preview, immutable confirmation and active billing use 
     }
     const referencePreview = await previewCustomerTariffChange({ ...proposal,
       scenarioId: selected.scenarioId.replace('v2v', 'ref2v') });
-    assert.equal(referencePreview.currentCents, 108, 'mixed references charge the same verified source seconds');
+    assert.equal(referencePreview.currentCents, 50, 'mixed references charge the same verified source seconds');
     assert.equal(referencePreview.selector.inputVideoDurationSec, '3.25');
     await assert.rejects(confirmCustomerTariffChange({ ...proposal, scenarioId: selected.scenarioId.replace('3.25', '3.5') },
       preview.fingerprint, actor), /preview changed/i);
@@ -56,7 +58,7 @@ test('decimal Wan tariff preview, immutable confirmation and active billing use 
     const committed = await confirmCustomerTariffChange(proposal, preview.fingerprint, actor);
     assert.equal(committed.revision, 1);
     const staged = await loadCustomerTariffScenarioDetail('wan-3', selected.selector);
-    assert.equal(staged.currentCents, 108, 'preparing a decimal tariff never reprices live quotes');
+    assert.equal(staged.currentCents, 50, 'preparing a decimal tariff never reprices live quotes');
     assert.equal(staged.stagedCents, 129);
     await db.pool.query('UPDATE app_customer_tariff_state SET active = TRUE WHERE singleton = TRUE');
     const active = await loadCustomerTariffScenarioDetail('wan-3', selected.selector);

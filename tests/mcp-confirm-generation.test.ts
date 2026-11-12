@@ -1,5 +1,6 @@
-// MiniMax-H3-Max Recast/Relight (6 of the 89 reviewed operation cells) is hidden on Keyvo (KEYVO_HIDDEN_MODEL_IDS); the
-// reviewed upstream operation-tariff initialization runs on the unfiltered catalog. This import must stay first.
+// MiniMax-H3-Max Recast/Relight (6 of the 89 reviewed operation cells) run only on Fal and are not sold on Keyvo
+// (KEYVO_UNSERVED_VIDEO_OPERATIONS); the reviewed upstream operation-tariff initialization runs on the unfiltered
+// catalog, which keeps them. This import must stay first.
 import './helpers/keyvo-unfiltered-catalog';
 import { listPublicAgentGenerationEngines } from '../frontend/src/server/agent-api/model-catalog';
 import assert from 'node:assert/strict';

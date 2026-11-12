@@ -13,7 +13,7 @@
     "badge": "720p/1080p · 文生/图生 5–15秒 · 参考视频 5–10秒 · 可选音频 (文生/图生)",
     "ctaPrimary": {
       "label": "使用 Wan 2.6 开始生成",
-      "href": "/app?engine=wan-2-6"
+      "href": "/zh/models/wan-3"
     },
     "secondaryLinks": [
       {
@@ -318,7 +318,7 @@
       "paragraph": "Wan 2.6 仍可用于运行上一代 720p 或 1080p 片段、已有案例及既定的参考视频创作需求。您可保留它用于可复现的既有项目，或在新 Wan 项目中选用当前的标准升级版本 Wan 3。",
       "primaryCta": {
         "label": "使用 Wan 2.6 生成",
-        "href": "/app?engine=wan-2-6"
+        "href": "/zh/models/wan-3"
       },
       "secondaryCta": {
         "label": "查看案例",

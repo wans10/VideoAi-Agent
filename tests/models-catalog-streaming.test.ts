@@ -147,8 +147,9 @@ test('catalogue streams the complete stable hero before prices and reveals exact
           // Keyvo's visible families exclude FLUX, so its draft and Max cards are not built on this deployment.
           assert.equal(cards.some((card:any)=>card.id==='flux-3-draft'),false,'FLUX is hidden on Keyvo');
           assert.equal([...final.window.document.querySelectorAll('#models-grid article')].some(card=>card.querySelector('h3')?.textContent==='FLUX 3 Max'),false,'FLUX 3 Max is hidden on Keyvo');
-          // MiniMax-H3-Max has no mainland route and is hidden on Keyvo; H3 keeps its 15 s creation timing.
-          assert.equal(cards.some((card:any)=>card.id==='minimax-h3-max'),false,'H3 Max is hidden on Keyvo');
+          // MiniMax-H3-Max is served on Keyvo again (MiniMax's own API); Recast/Relight source limits cannot replace its
+          // creation timing, and H3 keeps its 15 s creation timing.
+          assert.equal(cards.find((card:any)=>card.id==='minimax-h3-max')?.stats.maxDuration,'15s','Relight/Recast source limits cannot replace H3 Max creation timing');
           assert.equal(cards.find((card:any)=>card.id==='minimax-h3')?.stats.maxDuration,'15s','H3 card shows its creation timing');
         }
         for(const card of cards)assert.ok(targets.has(`${catalogBase}/${card.id}`), `Missing SSR directory destination ${card.id}`);

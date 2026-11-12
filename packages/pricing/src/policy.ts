@@ -26,6 +26,8 @@ export type PricingCompatibilityProfile = {
   surchargeUpscalePercentOverride?: number;
   discountPercentOverride?: number;
   vendorShareMode?: 'remainder' | 'zero';
+  /** Smallest customer subtotal in whole cents (e.g. 1 so a price-factor profile never rounds a sale to zero). */
+  minimumSubtotalCents?: number;
 };
 
 export type PricingPolicyDocument = {
@@ -118,6 +120,28 @@ function optionalNonNegativeNumber(value: unknown, label: string, integer = fals
   return value == null ? undefined : nonNegativeNumber(value, label, integer);
 }
 
+/**
+ * A profile may set a negative margin override (-1 < override < 0) only as an explicit customer price factor
+ * (1 + override) of the provider subtotal, e.g. -0.2 sells at 80% of the supplier's list price. The separate
+ * margin component never goes negative (the kernel clamps it at zero), so such a profile must derive the
+ * subtotal directly (`subtotalRounding`) and must not add a flat amount. Rules, including database overrides,
+ * stay non-negative: a below-cost price is only reachable through this versioned profile.
+ */
+function optionalMarginPercentOverride(profile: Record<string, unknown>, id: string): number | undefined {
+  const value = profile.marginPercentOverride;
+  if (value == null) return undefined;
+  if (typeof value !== 'number' || !Number.isFinite(value) || value <= -1) {
+    throw new PricingPolicyValidationError('invalid_number', `${id}.marginPercentOverride must be finite and greater than -1`);
+  }
+  if (value < 0 && (profile.subtotalRounding == null || profile.marginFlatCentsOverride !== 0)) {
+    throw new PricingPolicyValidationError(
+      'invalid_number',
+      `${id}.marginPercentOverride may be negative only with subtotalRounding and a zero marginFlatCentsOverride`
+    );
+  }
+  return value;
+}
+
 function roundingValue<T extends string>(value: unknown, allowed: readonly T[], label: string): T {
   if (typeof value !== 'string' || !allowed.includes(value as T)) {
     throw new PricingPolicyValidationError('invalid_document', `${label} has an unsupported rounding mode`);
@@ -156,7 +180,7 @@ export function validatePricingPolicyDocument(
     const id = asNonEmptyString(profile.id, `compatibilityProfiles[${index}].id`);
     if (profileIds.has(id)) throw new PricingPolicyValidationError('duplicate_id', `duplicate compatibility profile id: ${id}`);
     profileIds.add(id);
-    const marginPercentOverride = optionalNonNegativeNumber(profile.marginPercentOverride, `${id}.marginPercentOverride`);
+    const marginPercentOverride = optionalMarginPercentOverride(profile, id);
     const marginFlatCentsOverride = optionalNonNegativeNumber(profile.marginFlatCentsOverride, `${id}.marginFlatCentsOverride`, true);
     const surchargeAudioPercentOverride = optionalNonNegativeNumber(
       profile.surchargeAudioPercentOverride,
@@ -178,6 +202,7 @@ export function validatePricingPolicyDocument(
     if (subtotalRoundingIncrementCents != null && (subtotalRoundingIncrementCents < 1 || !subtotalRounding)) {
       throw new PricingPolicyValidationError('invalid_number', `${id}.subtotalRoundingIncrementCents requires a positive increment and subtotal rounding`);
     }
+    const minimumSubtotalCents = optionalNonNegativeNumber(profile.minimumSubtotalCents, `${id}.minimumSubtotalCents`, true);
     const vendorShareMode =
       profile.vendorShareMode == null
         ? undefined
@@ -197,6 +222,7 @@ export function validatePricingPolicyDocument(
       ...(surchargeUpscalePercentOverride != null ? { surchargeUpscalePercentOverride } : {}),
       ...(discountPercentOverride != null ? { discountPercentOverride } : {}),
       ...(vendorShareMode ? { vendorShareMode } : {}),
+      ...(minimumSubtotalCents != null ? { minimumSubtotalCents } : {}),
     };
   });
 

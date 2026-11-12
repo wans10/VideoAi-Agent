@@ -25,7 +25,7 @@ function fake(responses: Array<Response | (() => Response)>) {
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
 const body = (call: Call) => JSON.parse(String(call.init?.body));
 
-test('official routing needs both the flag and a key, and only covers MiniMax-H3', () => {
+test('official routing needs both the flag and a key, and covers the V2 H3 models and the legacy Hailuo models', () => {
   assert.equal(isMinimaxOfficialEnabled({ MINIMAX_OFFICIAL_ENABLED: 'true' }), false);
   assert.equal(isMinimaxOfficialEnabled({ MINIMAX_API_KEY: 'k' }), false);
   assert.equal(isMinimaxOfficialEnabled({ MINIMAX_OFFICIAL_ENABLED: 'true', MINIMAX_API_KEY: 'k' }), true);
@@ -34,8 +34,45 @@ test('official routing needs both the flag and a key, and only covers MiniMax-H3
   // Hailuo runs on the legacy V1 API under the same switch (Keyvo decision 2026-11-11).
   assert.equal(shouldUseMinimaxOfficial('MiniMax-Hailuo-02', on), true);
   assert.equal(shouldUseMinimaxOfficial('MiniMax-Hailuo-2.3', on), true);
-  assert.equal(shouldUseMinimaxOfficial('MiniMax-H3-Max', on), false);
+  // H3-Max moved to the V2 API under the same switch (2026-11-12); it is not hosted on Bailian.
+  assert.equal(shouldUseMinimaxOfficial('MiniMax-H3-Max', on), true);
+  assert.equal(shouldUseMinimaxOfficial('MiniMax-H3-Max', {}), false);
+  assert.equal(shouldUseMinimaxOfficial('MiniMax-H3-Highspeed', on), false);
   assert.equal(shouldUseMinimaxOfficial('MiniMax-H3', {}), false);
+});
+
+test('MiniMax-H3-Max uses V2 with its own limits and extra.prompt_expansion_mode', async () => {
+  resetMinimaxRateLimits();
+  const { fn, calls } = fake([json({ task_id: '460424993944160' }), json({ task_id: '460424993944161' })]);
+  const client = new MinimaxOfficialVideoClient('key', fn);
+  await client.create({ model: 'MiniMax-H3-Max', prompt: 'a lamp unfolds', seconds: 5, resolution: '480p', aspectRatio: '9:16', promptExpansionMode: 'quality' });
+  assert.deepEqual(body(calls[0]), {
+    model: 'MiniMax-H3-Max',
+    content: [{ type: 'text', text: 'a lamp unfolds' }],
+    resolution: '480P',
+    duration: 5,
+    ratio: '9:16',
+    extra: { prompt_expansion_mode: 'quality' },
+  });
+  // Without a choice MiniMax applies its default (balanced); `extra` is omitted rather than sent empty.
+  await client.create({ model: 'MiniMax-H3-Max', prompt: 'p', seconds: 15, resolution: '768P', referenceAudioUrls: ['https://cdn.example.cn/a.mp3'] });
+  const sent = body(calls[1]);
+  assert.equal('extra' in sent, false);
+  assert.equal('ratio' in sent, false, 'references default to adaptive');
+  assert.deepEqual(sent.content[1], { type: 'audio_url', audio_url: { url: 'https://cdn.example.cn/a.mp3' }, role: 'reference_audio' });
+  for (const [input, message] of [
+    [{ seconds: 4, resolution: '768P' }, /5 through 15/],
+    [{ seconds: 5, resolution: '2K' }, /480P and 768P/],
+    [{ seconds: 5, resolution: '1080P' }, /480P and 768P/],
+    [{ seconds: 5, resolution: '768P', promptExpansionMode: 'balance' }, /prompt expansion/],
+  ] as const) {
+    await assert.rejects(client.create({ model: 'MiniMax-H3-Max', prompt: 'p', ...input }),
+      (error: Error & { definiteRejection?: boolean; status?: number }) =>
+        message.test(error.message) && error.definiteRejection === true && error.status === 400);
+  }
+  // MiniMax-H3 keeps 4 s and 2K, and refuses the Max-only extra field before any request.
+  await assert.rejects(client.create({ model: 'MiniMax-H3', prompt: 'p', seconds: 4, resolution: '2K', promptExpansionMode: 'balanced' }), /prompt expansion/);
+  assert.equal(calls.length, 2);
 });
 
 test('official task IDs are told apart from LLM Hub IDs', () => {

@@ -42,6 +42,7 @@ export function compileKlingBatchPrice(row: KlingBatchClass, multiplier: string)
 export function klingBatchSourceFacts(modelId: KlingTariffBatchModelId = 'kling-v4') {
   const flash = modelId === 'kling-v4-flash';
   return { source: flash ? KLING_V4_FLASH_PRICING_SOURCE : KLING_V4_PRICING_SOURCE,
-    sourceDate: flash ? '2026-11-05' : '2026-10-25', costKind: 'supplier_list',
+    // Keyvo 2026-11-13: Kling's official CNY list (kling-v4-pricing.ts / kling-v4-flash-pricing.ts).
+    sourceDate: '2026-11-13', costKind: 'supplier_list',
     classes: klingBatchClasses(modelId).map(row => ({ selector: row.selector, usage: klingBatchUsage(row) })) };
 }

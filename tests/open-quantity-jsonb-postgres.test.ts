@@ -11,7 +11,9 @@ test('open quantity guards accept PostgreSQL JSONB normalization without changin
   const policy = { status: 'loaded' as const, rules: [{ id: 'default', currency: 'USD', marginPercent: .3,
     marginFlatCents: 0, surchargeAudioPercent: .2, surchargeUpscalePercent: .5 }] };
   try {
-    for (const modelId of ['lumaRay2', 'lumaRay2_flash', 'minimax-h3-max']) {
+    // Keyvo: MiniMax-H3-Max reference pricing runs on MiniMax's own API (exact image/video-second cells), so it is no
+    // longer an open token quantity (tests/open-quantity-customer-tariff.test.ts pins that); Luma Modify keeps this guard.
+    for (const modelId of ['lumaRay2', 'lumaRay2_flash']) {
       const tokens = modelId === 'minimax-h3-max';
       const context = { engine: getFalEngineById(modelId)!.engine, mode: tokens ? 'ref2v' as const : 'v2v' as const,
         durationSec: 5, resolution: tokens ? '768P' : '720p', ...(tokens ? { referenceTokenBudget: 9096 } : {}) };

@@ -76,14 +76,16 @@ test('family copy does not repeat an automatic model list beside the version lin
 });
 
 test('real historical identities remain discoverable without promoting them as current', () => {
-  // Keyvo took Wan 2.5 and Seedance 1.5 Pro offline (owner decision 2026-11-11): they are no longer
-  // discoverable, and Wan 2.6 is the Wan family's remaining historical identity.
-  for (const [family, offlineSlug] of [['wan', 'wan-2-5'], ['seedance', 'seedance-1-5-pro']]) {
+  // Keyvo took Wan 2.5 and Seedance 1.5 Pro offline (owner decision 2026-11-11) and Wan 2.6, Kling 2.5 Turbo and
+  // Kling 2.6 Pro (no mainland route, 2026-11-13): they are no longer discoverable. Hailuo 02 remains the published
+  // historical identity.
+  for (const [family, offlineSlug] of [['wan', 'wan-2-5'], ['seedance', 'seedance-1-5-pro'], ['wan', 'wan-2-6'],
+    ['kling', 'kling-2-6-pro'], ['kling', 'kling-2-5-turbo']]) {
     const { modelLinks } = buildExamplesModelLinks({ locale: 'en', selectedEngine: family, usesCurrentAndSupportedBlocks: true });
     assert.equal(modelLinks.some(item => item.slug === offlineSlug), false, `${family}: ${offlineSlug} is offline`);
   }
   for (const [family, historicalSlug] of [
-    ['wan', 'wan-2-6'], ['kling', 'kling-2-6-pro'], // LTX is hidden on Keyvo
+    // LTX is hidden on Keyvo.
     ['hailuo', 'minimax-hailuo-02-text'],
   ]) {
     const { modelLinks } = buildExamplesModelLinks({ locale: 'en', selectedEngine: family, usesCurrentAndSupportedBlocks: true });

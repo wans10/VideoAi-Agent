@@ -176,7 +176,7 @@ const knownEngineIds = new Set(getModelRegistryEntries().map((entry) => entry.id
 const guidance = parseAgentModelGuidance(guidanceDocument, knownEngineIds);
 const guidanceByEngineId = new Map(guidance.map((entry) => [entry.engineId, entry]));
 
-// Keyvo-hidden models (no mainland route, e.g. MiniMax-H3-Max) are unavailable to MCP, so their guidance is withheld.
+// Keyvo-hidden models (no mainland route; KEYVO_HIDDEN_MODEL_IDS) are unavailable to MCP, so their guidance is withheld.
 function isGuidancePublished(engineId: string): boolean {
   return Boolean(getModelRegistryEntryById(engineId)?.publication.model.published) && !isKeyvoHiddenModel(engineId);
 }

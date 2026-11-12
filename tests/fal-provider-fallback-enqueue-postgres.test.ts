@@ -23,7 +23,7 @@ const providers = [
   { key: 'alibaba', engineId: 'wan-3', directProvider: 'alibaba_model_studio' },
   { key: 'luma', engineId: 'luma-ray-3-2', directProvider: 'luma_agents_direct' },
   { key: 'veo', engineId: 'veo-3-1', directProvider: 'google_vertex_veo_direct' },
-  { key: 'kling', engineId: 'kling-3-turbo-standard', directProvider: 'kling_direct' },
+  { key: 'kling', engineId: 'kling-3-standard', directProvider: 'kling_direct' }, // legacy V3 + Fal fallback (Turbo moved to the new design)
 ] as const;
 const scenarios = ['http503', 'network', 'network_status403', 'missing_id', 'malformed_json', 'accepted', 'tracking_failure',
   'completed_winner', 'failed_winner', 'matched_completed', 'matched_failed', 'unmatched_completed',

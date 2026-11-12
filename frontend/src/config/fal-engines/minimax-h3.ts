@@ -223,29 +223,31 @@ export const MINIMAX_H3_ENGINE: EngineCaps = {
       referenceAudioRequiresVisual: false,
     },
   },
+  // Bailian / MiniMax list (minimax-h3-pricing.ts): 768P CNY 0.50/s, 2K 0.80/s at 8 CNY/USD; 480P/4K are no longer
+  // offered and keep their former rates.
   pricingDetails: {
     currency: 'USD',
     perSecondCents: {
-      default: 13,
+      default: 10,
       byResolution: {
         '480P': 5,
-        '768P': 6,
-        '2K': 13,
+        '768P': 6.25,
+        '2K': 10,
         '4K': 16,
       },
     },
   },
   pricing: {
     unit: 'USD/s',
-    base: 0.13,
+    base: 0.1,
     byResolution: {
       '480P': 0.05,
-      '768P': 0.06,
-      '2K': 0.13,
+      '768P': 0.0625,
+      '2K': 0.1,
       '4K': 0.16,
     },
     currency: 'USD',
-    notes: 'Provider cost varies by resolution; reference images above five add USD 0.08 each.',
+    notes: 'Provider cost (Bailian / MiniMax list): CNY 0.50/s at 768P and 0.80/s at 2K; reference-video seconds at the same rate and reference images above five at CNY 0.20 each. Keyvo customer prices are 80% of the list price.',
   },
   updatedAt: '2026-09-22T00:00:00Z',
   ttlSec: 600,

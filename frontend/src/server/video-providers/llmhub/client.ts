@@ -62,8 +62,8 @@ export class LlmhubVideoClient {
     audioEnabled?: boolean;
     imageUrl?: string | null;
     jobId: string;
-    /** MiniMax official route only: last frame, multimodal references and the legacy prompt optimiser. */
-    minimax?: Pick<MinimaxOfficialCreateInput, 'endImageUrl' | 'referenceImageUrls' | 'referenceVideoUrls' | 'referenceAudioUrls' | 'promptOptimizer'>;
+    /** MiniMax official route only: last frame, multimodal references, the legacy prompt optimiser and H3-Max's prompt expansion. */
+    minimax?: Pick<MinimaxOfficialCreateInput, 'endImageUrl' | 'referenceImageUrls' | 'referenceVideoUrls' | 'referenceAudioUrls' | 'promptOptimizer' | 'promptExpansionMode'>;
   }): Promise<{ id: string; raw: unknown }> {
     if (shouldUseMinimaxOfficial(input.model)) {
       return this.official().create({

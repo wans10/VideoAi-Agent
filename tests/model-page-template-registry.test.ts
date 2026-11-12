@@ -539,8 +539,9 @@ test('Kling legacy templates preserve supported older route intent', () => {
   assert.ok(kling26);
   assert.equal(kling25.intent, 'draft');
   assert.equal(kling26.intent, 'specialized');
-  assert.equal(kling25.hero.primaryCtaHref, '/app?engine=kling-2-5-turbo');
-  assert.equal(kling26.hero.primaryCtaHref, '/app?engine=kling-2-6-pro');
+  // Keyvo 2026-11-13: offline (no mainland route); the CTAs point at the successors.
+  assert.equal(kling25.hero.primaryCtaHref, '/models/kling-3-turbo-standard');
+  assert.equal(kling26.hero.primaryCtaHref, '/models/kling-3-pro');
   assert.equal(kling25.pricing.anchorHref, '/pricing#kling-2-5-turbo-pricing');
   assert.equal(kling26.pricing.anchorHref, '/pricing#kling-2-6-pro-pricing');
   assert.equal(kling25.hero.quickLinks.some((link) => link.href === '#prompting'), true);
@@ -566,7 +567,7 @@ test('Wan templates separate reference-video route from shorter audio drafts', (
   assert.equal(wan25.intent, 'draft');
   assert.equal(wan26.intent, 'production');
   assert.equal(wan25.hero.primaryCtaHref, '/app?engine=wan-3');
-  assert.equal(wan26.hero.primaryCtaHref, '/app?engine=wan-2-6');
+  assert.equal(wan26.hero.primaryCtaHref, '/models/wan-3');
   assert.equal(wan25.pricing.anchorHref, '/pricing#wan-2-5-pricing');
   assert.equal(wan26.pricing.anchorHref, '/pricing#wan-2-6-pricing');
   assert.equal(wan25.hero.quickLinks.some((link) => link.href === '#prompting'), true);

@@ -18,7 +18,10 @@ test('Hailuo 2.3 provisional cost follows the official per-video CNY list', () =
   assert.equal(cost('minimax-hailuo-2-3-fast', 'i2v', '1080P', 6).outputCny, 2.31);
   assert.throws(() => cost('minimax-hailuo-2-3', 't2v', '1080P', 10), /1080P is 6 s only/);
   assert.throws(() => cost('minimax-hailuo-2-3-fast', 't2v', '768P', 6));
-  assert.throws(() => cost('minimax-hailuo-02-text', 't2v', '768P', 6));
+  // Keyvo 2026-11-13: Hailuo 02 also uses MiniMax's per-video list (768P CNY 2.00 / 4.00; 512P is image-to-video only).
+  assert.equal(cost('minimax-hailuo-02-text', 't2v', '768P', 6).subtotalUsdCents, 25);
+  assert.equal(cost('minimax-hailuo-02-text', 'i2v', '512P', 10).outputCny, 1);
+  assert.throws(() => cost('minimax-hailuo-02-text', 't2v', '512P', 6));
 });
 
 test('the legacy matrix matches the docs tables', () => {

@@ -1,6 +1,9 @@
 import type { EngineCaps, EngineInputField, EngineModeUiCaps, Mode } from '@/types/engines';
 import {
   isMinimaxLegacyVideoCombination,
+  MINIMAX_H3_MAX_OFFICIAL_DURATIONS,
+  MINIMAX_H3_MAX_OFFICIAL_RESOLUTIONS,
+  MINIMAX_H3_MAX_PROMPT_EXPANSION_MODES,
   MINIMAX_H3_OFFICIAL_DURATIONS,
   MINIMAX_H3_OFFICIAL_RESOLUTIONS,
   minimaxLegacyTask,
@@ -26,6 +29,8 @@ type Narrowing = Readonly<{
   legacyModel?: string;
   /** Per-mode resolution subsets shown in the mode controls. */
   resolutionsByMode?: Partial<Record<Mode, readonly string[]>>;
+  /** `extraInputValues` keys (and their allowed values) the official API takes for this engine. */
+  extraValues?: Readonly<Record<string, readonly string[]>>;
 }>;
 
 const H3: Narrowing = {
@@ -57,6 +62,8 @@ const NARROWINGS: Readonly<Record<string, Narrowing>> = {
  * and multimodal reference; target_audio_url, seed and prompt_expansion_mode have no V2 equivalent.
  * The Hailuo models use the legacy V1 API; their per-resolution durations come from MINIMAX_LEGACY_VIDEO_MATRIX.
  * Hailuo 02 keeps the resolutions it is priced for (512P image start, 768P); 1080P has no catalogue price yet.
+ * H3-Max uses V2 as well: 5-15 s, 480P/768P, the H3 modes and extra.prompt_expansion_mode; Recast/Relight (v2v)
+ * are Fal-only operations and are not offered.
  */
 const OFFICIAL_NARROWINGS: Readonly<Record<string, Narrowing>> = {
   'minimax-h3': {
@@ -66,6 +73,15 @@ const OFFICIAL_NARROWINGS: Readonly<Record<string, Narrowing>> = {
     durations: [...MINIMAX_H3_OFFICIAL_DURATIONS],
     aspectOrder: H3.aspectOrder,
     dropFields: ['target_audio_url', 'seed', 'prompt_expansion_mode'],
+  },
+  'minimax-h3-max': {
+    modes: ['t2v', 'i2v', 'ref2v'],
+    resolutions: [...MINIMAX_H3_MAX_OFFICIAL_RESOLUTIONS],
+    defaultResolution: '768P',
+    durations: [...MINIMAX_H3_MAX_OFFICIAL_DURATIONS],
+    aspectOrder: H3.aspectOrder,
+    dropFields: ['target_audio_url', 'seed', 'middle_image_url', 'middle_frame_time', 'reference_order'],
+    extraValues: { prompt_expansion_mode: MINIMAX_H3_MAX_PROMPT_EXPANSION_MODES },
   },
   'minimax-hailuo-02-text': {
     modes: ['t2v', 'i2v'],
@@ -177,10 +193,12 @@ export function hasUnsupportedMinimaxOfficialInputs(body: Record<string, unknown
     'voiceControl', 'seed', 'cameraFixed', 'safetyChecker', 'cfgScale', 'negativePrompt', 'shotType', 'loop',
   ];
   if (alwaysUnsupported.some((field) => present(body[field]))) return true;
-  const extra = body.extraInputValues && typeof body.extraInputValues === 'object'
-    ? Object.keys(body.extraInputValues as Record<string, unknown>) : [];
-  const allowedExtra = narrowing.legacyModel ? ['prompt_optimizer'] : [];
-  if (extra.some((key) => !allowedExtra.includes(key))) return true;
+  const extraValues = body.extraInputValues && typeof body.extraInputValues === 'object'
+    ? body.extraInputValues as Record<string, unknown> : {};
+  const allowedExtra = narrowing.legacyModel ? ['prompt_optimizer'] : Object.keys(narrowing.extraValues ?? {});
+  if (Object.keys(extraValues).some((key) => !allowedExtra.includes(key))) return true;
+  if (Object.entries(narrowing.extraValues ?? {}).some(([key, values]) =>
+    extraValues[key] !== undefined && extraValues[key] !== null && !values.includes(String(extraValues[key])))) return true;
   const endImage = minimaxRequestHasEndImage(body);
   const topLevelReferences = ['referenceImages', 'reference_images', 'imageUrls', 'image_urls'].some((field) => present(body[field]));
   const directImage = present(body.imageUrl) || present(body.image_url);
@@ -273,6 +291,8 @@ export function narrowToLlmhubMinimax<T extends EngineCaps>(engine: T, env: Node
   const schema = engine.inputSchema;
   return {
     ...engine,
+    // Source operations (H3-Max Recast/Relight) belong to v2v; they stay only when the route offers v2v.
+    ...(engine.operationCaps && !modes.includes('v2v') ? { operationCaps: undefined } : {}),
     modes,
     maxDurationSec: narrowing.durations[narrowing.durations.length - 1],
     resolutions: engine.resolutions.filter((value) => narrowing.resolutions.includes(String(value).toUpperCase())),
@@ -284,7 +304,10 @@ export function narrowToLlmhubMinimax<T extends EngineCaps>(engine: T, env: Node
         ?.filter((field) => !narrowing.dropFields.includes(field.id))
         .filter((field) => !field.modes || field.modes.some((mode) => narrowing.modes.includes(mode)))
         .map((field) => narrowField(field, narrowing)),
-      required: schema.required?.map((field) => narrowField(field, narrowing)),
+      // Mode-scoped required fields of modes this route does not offer (H3-Max Recast/Relight) are dropped too.
+      required: schema.required
+        ?.filter((field) => !field.modes || field.modes.some((mode) => narrowing.modes.includes(mode)))
+        .map((field) => narrowField(field, narrowing)),
     } } : {}),
     ...(engine.modeCaps ? { modeCaps: Object.fromEntries(
       Object.entries(engine.modeCaps)

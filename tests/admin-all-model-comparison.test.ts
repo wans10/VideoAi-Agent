@@ -9,7 +9,8 @@ import { filterProviderComparisonRows } from '../frontend/app/(core)/admin/prici
 test('admin comparison includes published models and the closed launch tariff candidates once', () => {
   const expected = listRuntimeModels().filter((model) => model.publication.app.published);
   const rows = buildAllModelComparisonScenarios();
-  assert.equal(expected.length, 56);
+  // 57 with MiniMax-H3-Max (2026-11-12) minus Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro (offline 2026-11-13).
+  assert.equal(expected.length, 54);
   assert.ok(expected.some(model=>model.id==='qwen-image-3-0'));
   assert.ok(expected.some(model=>model.id==='qwen-image-3-0-pro'));
   const closedLaunchIds = ['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst']
@@ -23,7 +24,8 @@ test('admin comparison includes published models and the closed launch tariff ca
   assert.equal(new Set(expected.map((model) => model.family)).size, 16);
   assert.ok(rows.every(({ scenario }) => scenario.durationSec && scenario.resolution && scenario.mode));
   const quotes = quoteCanonicalAdminScenarios({ databaseRules: [], scenarios: rows.filter(({entry})=>entry.id!=='kling-v4').map(({ scenario }) => scenario) });
-  assert.equal(quotes.filter((quote) => quote.status === 'quoted').length, 51);
+  // Keyvo 2026-11-13: three offline models leave, Kling 4.0 now quotes on the official-list rule.
+  assert.equal(quotes.filter((quote) => quote.status === 'quoted').length, 49);
   const [v4] = quoteCanonicalAdminScenarios({databaseRules:[],scenarios:[rows.find(({entry})=>entry.id==='kling-v4')!.scenario]});
   assert.equal(v4.status,'unsupported','V4 cannot acquire an old percentage-policy price');
   if(v4.status==='unsupported') {

@@ -50,7 +50,9 @@ test('offline compiler refuses an unreviewed compatibility profile or unsupporte
 test('preservation retains actual Wan source rounding at adjacent decimal boundaries', async () => {
   const engine = getFalEngineById('wan-3')!.engine;
   const context = { engine, mode: 'ref2v' as const, resolution: '480p', durationSec: 5, inputVideoDurationSec: 3.4999 };
-  const rule = { ...document.rules[0], id: 'effective', marginPercent: 0.3 };
+  // Keyvo 2026-11-13: a database-WIDE rule no longer selects Wan 3's margin path (the official-list-80 rule wins, see
+  // official-list-pricing.ts), so the effective margin rule that this preservation check freezes is engine-specific.
+  const rule = { ...document.rules[0], id: 'effective', engineId: engine.id, marginPercent: 0.3 };
   const policy = resolvePricingPolicy({ scenario: { engineId: engine.id, mode: 'ref2v', resolution: '480p' }, databaseRules: [rule], versionedRules: document.rules });
   const price = compileWan3ContinuousTariffPrice({ context, policy, compatibilityProfile: profile });
   assert.equal(price.kind, 'unit_bands');
@@ -70,4 +72,18 @@ test('preservation retains actual Wan source rounding at adjacent decimal bounda
       { pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [rule] }) } });
     assert.equal(evaluateManualTariffPrice(price, { input_video_seconds: seconds }).customerTotalCents, current.totalCents);
   }
+});
+
+test('Keyvo official-list Wan quotes cannot be frozen into a continuous tariff', async () => {
+  // A database-wide rule leaves Wan 3 on the official-list-80 rule (80% of the Bailian list, nearest rounding), which the
+  // migration-only compiler refuses: Keyvo's below-list prices are never cut over to a manual tariff.
+  const engine = getFalEngineById('wan-3')!.engine;
+  const context = { engine, mode: 'ref2v' as const, resolution: '480p', durationSec: 5, inputVideoDurationSec: 3.4999 };
+  const wideRule = { ...document.rules[0], id: 'database-wide', marginPercent: 0.3 };
+  const current = await computeCanonicalBillingSnapshot(context, { pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [wideRule] }) } });
+  assert.equal((current.meta?.pricingPolicy as { compatibilityProfile?: string } | undefined)?.compatibilityProfile, 'official-list-80');
+  const officialList = document.compatibilityProfiles.find(p => p.id === 'official-list-80')!;
+  assert.ok(officialList);
+  const policy = resolvePricingPolicy({ scenario: { engineId: engine.id, mode: 'ref2v', resolution: '480p' }, databaseRules: [wideRule], versionedRules: document.rules });
+  assert.throws(() => compileWan3ContinuousTariffPrice({ context, policy, compatibilityProfile: officialList }), /unsupported|reviewed/i);
 });

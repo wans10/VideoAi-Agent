@@ -4,6 +4,8 @@ import { isAlibabaDirectEngine, isAlibabaDirectModeSupported, isAlibabaFalFallba
 import { isGoogleVertexOmniEngine, isGoogleVertexOmniModeSupported } from './google-vertex-omni/model-map';
 import { isGoogleVertexVeoEngine, isGoogleVertexVeoModeSupported } from './google-vertex-veo/model-map';
 import { isKlingDirectEngine, isKlingDirectModeSupported, isKlingDirectV2Engine } from './kling-direct/model-map';
+import { isKling3TurboEngineId } from '@/lib/kling-3-turbo';
+import { isKling3TurboRequestWithinOfficialLimits } from '@/lib/kling-3-turbo-official-limits';
 import {
   isLumaAgentsVideoEngine,
   isLumaAgentsVideoModeSupported,
@@ -85,7 +87,7 @@ export type KlingDirectPrimaryRoutingPlan = {
   fallbackEnabled: boolean;
   fallbackOnCreditsDepletedEnabled: boolean;
   elementRegistrationEnabled: boolean;
-  /** Kling 4.0 / 4.0 Flash new-design API (API Key only, no Fal fallback). Absent for legacy V3/O3. */
+  /** Kling 4.0 / 4.0 Flash / 3.0 Turbo new-design API (API Key only, no Fal fallback). Absent for legacy V3/O3. */
   apiDesign?: 'v2';
   /** Kling 3 family: on a definite pre-acceptance rejection, submit to the Bailian-hosted model instead. */
   bailianFallback?: true;
@@ -118,7 +120,8 @@ export type VideoProviderRoutingPlan =
   | KlingDirectPrimaryRoutingPlan
   | {
       kind: 'kling_direct_unavailable';
-      reason: 'direct_not_configured' | 'public_routing_disabled' | 'admin_only' | 'unsupported_mode';
+      /** `unsupported_request`: Kling 3.0 Turbo request beyond the official route's limits (and Bailian unusable). */
+      reason: 'direct_not_configured' | 'public_routing_disabled' | 'admin_only' | 'unsupported_mode' | 'unsupported_request';
     }
   | {
       kind: 'google_vertex_veo_primary';
@@ -287,8 +290,9 @@ function isBailianRouteReady(params: VideoProviderRoutingParams): boolean {
 function applyBailianRouteOrder(params: VideoProviderRoutingParams, vendorPlan: VideoProviderRoutingPlan): VideoProviderRoutingPlan {
   const hosted = resolveBailianHostedEngine(params.engineId);
   if (!hosted || videoOperationEndpoint(params.engineId, params.mode, params.operation)) return vendorPlan;
+  // Kling 3.0 Turbo's direct leg is the new-design plan (`apiDesign: 'v2'`); Kling 4.0 is not Bailian-hosted.
   const directPlan = (hosted.routeFamily === 'kling'
-    ? vendorPlan.kind === 'kling_direct_primary' && vendorPlan.apiDesign !== 'v2'
+    ? vendorPlan.kind === 'kling_direct_primary'
     : vendorPlan.kind === 'llmhub_primary') ? vendorPlan as BailianDirectFallbackPlan : null;
   const bailianUsable = isBailianHostedRequestCompatible(params.engineId, params.mode, params.request)
     && isBailianRouteReady(params);
@@ -422,12 +426,16 @@ function resolveVendorVideoProviderRoutingPlan(params: VideoProviderRoutingParam
 
   if (isKlingDirectEngine(params.engineId)) {
     if (isKlingDirectV2Engine(params.engineId)) {
-      // Kling 4.0 / 4.0 Flash: official new-design API only. Without it, keep upstream's Fal route only
-      // where Fal is configured; otherwise refuse before any charge (Keyvo has no Fal).
+      // Kling 4.0 / 4.0 Flash / 3.0 Turbo: official new-design API only (Turbo may also run on Bailian, see
+      // applyBailianRouteOrder). Without it, keep upstream's Fal route only where Fal is configured; otherwise
+      // refuse before any charge (Keyvo has no Fal).
       const falConfigured = Boolean(readEnv(params.env, 'FAL_API_KEY')?.trim() || readEnv(params.env, 'FAL_KEY')?.trim());
-      const unavailable = (reason: 'direct_not_configured' | 'public_routing_disabled' | 'admin_only' | 'unsupported_mode'):
+      const unavailable = (reason: Extract<VideoProviderRoutingPlan, { kind: 'kling_direct_unavailable' }>['reason']):
         VideoProviderRoutingPlan => falConfigured ? falOnly : { kind: 'kling_direct_unavailable', reason };
       if (!isKlingDirectModeSupported(params.engineId, params.mode)) return unavailable('unsupported_mode');
+      if (isKling3TurboEngineId(params.engineId) && !isKling3TurboRequestWithinOfficialLimits(params.mode, params.request)) {
+        return unavailable('unsupported_request');
+      }
       if (!flagEnabled(readEnv(params.env, 'KLING_DIRECT_ENABLED'))
         || !readEnv(params.env, 'KLING_API_KEY')?.trim()) return unavailable('direct_not_configured');
       const adminOnly = flagEnabled(readEnv(params.env, 'KLING_DIRECT_ADMIN_ONLY') ?? 'true');

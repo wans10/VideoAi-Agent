@@ -18,21 +18,25 @@ const cases: Array<[string, AudioPricingInput, number]> = [
   ['long instrumental', { pack: 'music_only', durationSec: 120, musicModel: 'pro' }, 25],
   ['song', { pack: 'song', durationSec: 3 }, 45],
   ['ambience', { pack: 'ambience_only', durationSec: 60 }, 60],
-  ['1000 characters', { pack: 'voice_only', voiceModel: 'minimax', script: 'a'.repeat(1000), durationSec: 30 }, 30],
-  ['one character', { pack: 'voice_only', voiceModel: 'minimax', script: 'a', durationSec: 3 }, 5],
-  ['rounding threshold', { pack: 'voice_only', voiceModel: 'minimax', script: 'a'.repeat(500), durationSec: 20 }, 15],
-  ['after threshold', { pack: 'voice_only', voiceModel: 'minimax', script: 'a'.repeat(501), durationSec: 20 }, 20],
-  ['exact fractional Seed cost', { pack: 'voice_only', voiceModel: 'seed', script: 'Reference narration', durationSec: 21 }, 20],
-  ['one minute Seed', { pack: 'voice_only', voiceModel: 'seed', durationSec: 60 }, 60],
+  // Keyvo 2026-11-13: mainland voice over sells at 80% of the official list (MiniMax CNY 3.50 / 10k billing characters,
+  // Seed Audio CNY 1.00 / minute) with a 1-cent floor, instead of the 3x audio margin rounded to 5 cents.
+  ['1000 characters', { pack: 'voice_only', voiceModel: 'minimax', script: 'a'.repeat(1000), durationSec: 30 }, 4],
+  ['one character', { pack: 'voice_only', voiceModel: 'minimax', script: 'a', durationSec: 3 }, 1],
+  ['rounding threshold', { pack: 'voice_only', voiceModel: 'minimax', script: 'a'.repeat(500), durationSec: 20 }, 2],
+  ['after threshold', { pack: 'voice_only', voiceModel: 'minimax', script: 'a'.repeat(501), durationSec: 20 }, 2],
+  ['exact fractional Seed cost', { pack: 'voice_only', voiceModel: 'seed', script: 'Reference narration', durationSec: 21 }, 4],
+  ['one minute Seed', { pack: 'voice_only', voiceModel: 'seed', durationSec: 60 }, 10],
   ['video sound only', { pack: 'cinematic', durationSec: 10, musicEnabled: false }, 30],
-  ['combined stems round only once', { pack: 'cinematic_voice', durationSec: 10, musicEnabled: true }, 55],
+  // The fal stem mix keeps the 3x audio margin; its Seed voice component now costs the CNY 1.00/min list.
+  ['combined stems round only once', { pack: 'cinematic_voice', durationSec: 10, musicEnabled: true }, 50],
 ];
 for (const [label, input, expected] of cases) test(`Audio canonical price: ${label}`, async () => {
   const browser = quotePublicAudioPricingSnapshot(input);
   const server = await computeCanonicalAudioBillingSnapshot(input, { pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [], routingRules: [] }) } });
   assert.equal(browser.totalCents, expected*customerRate);
   assert.equal(server.totalCents, expected*customerRate);
-  assert.equal(server.margin.percentApplied, 2);
+  // Mainland voice over carries the official-list price factor (0.8 = 1 - 0.2); other packs keep the 3x margin.
+  assert.equal(server.margin.percentApplied, input.pack === 'voice_only' ? -0.2 : 2);
   assert.equal(server.vendorShareCents! + server.platformFeeCents!, expected*customerRate);
   assert.equal(server.margin.amountCents, server.platformFeeCents);
 });

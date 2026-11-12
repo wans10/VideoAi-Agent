@@ -34,11 +34,12 @@ test('offline image presentation cannot turn partial GPT 2.6 supplier facts into
 });
 
 test('Flash supplier cost uses exact aggregate input timing, with independent no-video and video classes', () => {
-  assert.equal(klingV4FlashPricingUsage({ mode: 't2v', resolution: '720p', durationSec: 5 }).supplierExactCents, 47);
+  // Keyvo 2026-11-13: Kling's official list, CNY 0.6/s (7.5 cents) without and 0.4/s (5 cents) with input video.
+  assert.equal(klingV4FlashPricingUsage({ mode: 't2v', resolution: '720p', durationSec: 5 }).supplierExactCents, 37.5);
   const source = { mode: 'ref2v' as const, resolution: '720p', durationSec: 5, hasVideoInput: true, inputVideoDurationSec: 10.2501 };
   assert.equal(klingV4FlashPricingUsage(source).billableSeconds, 15.2501);
-  assert.equal(klingV4FlashPricingUsage(source).supplierExactCents, 96.07563);
-  assert.equal(klingV4FlashPricingUsage({ ...source, inputVideoDurationSec: 3 }).supplierExactCents, 63);
+  assert.equal(klingV4FlashPricingUsage(source).supplierExactCents, 76.2505);
+  assert.equal(klingV4FlashPricingUsage({ ...source, inputVideoDurationSec: 3 }).supplierExactCents, 50);
   for (const patch of [{ inputVideoDurationSec: 20.001 }, { durationSec: 21 }, { durationSec: 3.5 }, { resolution: '1080p' }, { mode: 'v2v' }, { inheritedDurationSec: 5 }]) assert.throws(() => klingV4FlashPricingUsage({ ...source, ...patch } as never));
   assert.throws(() => klingV4FlashPricingUsage({ mode: 'ref2v', resolution: '720p', durationSec: 5 }));
 });
@@ -64,7 +65,16 @@ test('Flash admin inventory and image tariffs never fall back to legacy percenta
     const facts = buildBillingPricingFacts(context, undefined, 'USD');
     const scenario = buildManualTariffScenario(context, facts.facts);
     assert.equal(scenario.selector.engineId, context.engine.id);
-    await assert.rejects(computeCanonicalBillingSnapshot(context, { pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [] }) }, loadCustomerTariffState: async () => ({ status: 'loaded', active: false, revision: 0, versionedCells: [], databaseCells: [] }) }));
+    const quote = computeCanonicalBillingSnapshot(context, { pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [] }) }, loadCustomerTariffState: async () => ({ status: 'loaded', active: false, revision: 0, versionedCells: [], databaseCells: [] }) });
+    if (context.engine.id === 'kling-v4-flash') {
+      // Keyvo 2026-11-13: Flash quotes on the explicit official-list rule (80% of Kling's list), never the legacy
+      // percentage margin.
+      const snapshot = await quote;
+      assert.equal((snapshot.meta?.pricingPolicy as { compatibilityProfile?: string }).compatibilityProfile, 'official-list-80');
+      assert.equal(snapshot.margin.amountCents, 0);
+    } else {
+      await assert.rejects(quote);
+    }
   }
 });
 

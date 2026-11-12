@@ -856,9 +856,8 @@ test('inventory compares ByteDance billing scenarios with their actual execution
   assert.equal(seedream.executionProvider, 'byteplus_modelark');
   assert.equal(seedream.supplierList.amountUsd, 0.015);
   assert.equal(seedream.supplierEffective.amountUsd, null);
-  const kling = rows.find((row) => row.engineId === 'kling-2-6-pro');
-  assert.equal(kling?.supplierList.amountUsd, 0.35);
-  assert.equal(kling?.supplierList.status, 'published_list_estimate');
+  // Kling 2.6 Pro (fal-only) is offline on Keyvo since 2026-11-13 and leaves the comparison inventory.
+  assert.equal(rows.some((row) => row.engineId === 'kling-2-6-pro'), false);
   const banana = rows.find((row) => row.engineId === 'nano-banana');
   assert.equal(banana?.executionProvider, 'llmhub');
 });
@@ -886,7 +885,11 @@ test('inventory supplier facts never reprice an effective database customer quot
   assert.ok(prior?.customerQuote);
   assert.equal(current.customerQuote.source, 'database');
   assert.equal(current.customerQuote.ruleId, override.id);
-  assert.equal(current.customerQuote.totalCents, prior.customerQuote.totalCents + 137*(CUSTOMER_CURRENCY==='CNY'?USD_TO_CNY_CUSTOMER_RATE:1));
+  // Keyvo 2026-11-13: without an engine-specific rule Seedance 2.5 sells at 80% of the Ark list (94.5 cents -> 76);
+  // the explicit precise database rule returns it to the margin path on that same cost: 94.5 + ceil(30%) + 137 -> 261.
+  const rate = CUSTOMER_CURRENCY === 'CNY' ? USD_TO_CNY_CUSTOMER_RATE : 1;
+  assert.equal(prior.customerQuote.totalCents, 76 * rate);
+  assert.equal(current.customerQuote.totalCents, 261 * rate);
   assert.equal(current.supplierList.amountUsd, prior.supplierList.amountUsd);
 });
 

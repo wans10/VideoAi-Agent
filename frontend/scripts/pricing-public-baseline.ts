@@ -160,6 +160,38 @@ async function main(): Promise<void> {
   }
   const appliedKeyvoRetirements = new Set<string>();
   const appliedKeyvoChanges = new Set<string>();
+  // Keyvo MiniMax-H3-Max on MiniMax's own API (2026-11-12): PROVISIONAL official CNY cost with the existing margin;
+  // the 1080P pricing-hub presets have no official tier. Only H3-Max rows change; nothing is added or retired.
+  const h3MaxTransition = JSON.parse(await readFile(new URL(
+    '../../tests/fixtures/keyvo-h3-max-official-public-pricing-2026-11-12.json', import.meta.url,
+  ), 'utf8')) as { changes: Array<{ previous: typeof rows[number]; current: typeof rows[number] }> };
+  const h3MaxChanges = new Map(h3MaxTransition.changes.map(row => [row.previous.id, row]));
+  if (h3MaxChanges.size !== 9 || h3MaxChanges.size !== h3MaxTransition.changes.length
+    || h3MaxTransition.changes.some(({ previous, current }) => previous.id !== current.id
+      || previous.engineId !== 'minimax-h3-max' || current.engineId !== 'minimax-h3-max')) {
+    throw new Error('Invalid Keyvo MiniMax-H3-Max official public pricing transition.');
+  }
+  const appliedH3MaxChanges = new Set<string>();
+  // Keyvo official list price rule (2026-11-13): every Keyvo model is re-based on its official mainland CNY list price and
+  // sold at 80% of it; Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro (no mainland route) leave every public surface.
+  const officialList = JSON.parse(await readFile(new URL(
+    '../../tests/fixtures/keyvo-official-list-public-pricing-2026-11-13.json', import.meta.url,
+  ), 'utf8')) as { retiredEngineIds: string[]; retiredRowIds: string[];
+    changes: Array<{ previous: typeof rows[number]; current: typeof rows[number] }>; rows: typeof rows };
+  const officialRetiredEngines = new Set(officialList.retiredEngineIds);
+  const officialRetiredRows = new Set(officialList.retiredRowIds);
+  const officialChanges = new Map(officialList.changes.map(row => [row.previous.id, row]));
+  if (!isDeepStrictEqual([...officialRetiredEngines].sort(), ['kling-2-5-turbo', 'kling-2-6-pro', 'wan-2-6'])
+    || officialRetiredRows.size !== officialList.retiredRowIds.length
+    || officialList.retiredRowIds.some(id => !officialRetiredEngines.has(id.split(':')[1] ?? ''))
+    || officialChanges.size !== officialList.changes.length
+    || officialList.changes.some(({ previous, current }) => previous.id !== current.id || previous.engineId !== current.engineId
+      || officialRetiredEngines.has(current.engineId))
+    || new Set(officialList.rows.map(row => row.id)).size !== officialList.rows.length) {
+    throw new Error('Invalid Keyvo official list public pricing transition.');
+  }
+  const appliedOfficialChanges = new Set<string>();
+  const appliedOfficialRetirements = new Set<string>();
   const byId = new Map(fixture.rows.map((row) => [row.id, row]));
   const expected = fixture.rows.map((row) => {
     const standardId = row.id.replace(/:(plus|pro):/u, ':member:');
@@ -274,6 +306,13 @@ async function main(): Promise<void> {
       appliedKeyvoChanges.add(row.id);
       return change.current;
     })
+    .map(row => {
+      const change = h3MaxChanges.get(row.id);
+      if (!change) return row;
+      if (!isDeepStrictEqual(row, change.previous)) throw new Error(`Keyvo H3-Max transition does not match historical evidence: ${row.id}`);
+      appliedH3MaxChanges.add(row.id);
+      return change.current;
+    })
     .filter(row => {
       if (!keyvoRetiredRows.has(row.id)) {
         if (keyvoRetiredEngines.has(row.engineId)) throw new Error(`Keyvo retirement leaves an unlisted public row: ${row.id}`);
@@ -286,8 +325,27 @@ async function main(): Promise<void> {
       if (historicalIds.has(row.id) || launchIds.has(row.id)) throw new Error(`Keyvo launch row is not new: ${row.id}`);
       return row;
     }))
+    .map(row => {
+      const change = officialChanges.get(row.id);
+      if (!change) return row;
+      if (!isDeepStrictEqual(row, change.previous)) throw new Error(`Keyvo official list change does not match the previous row: ${row.id}`);
+      appliedOfficialChanges.add(row.id);
+      return change.current;
+    })
+    .filter(row => {
+      if (!officialRetiredRows.has(row.id)) {
+        if (officialRetiredEngines.has(row.engineId)) throw new Error(`Keyvo retirement leaves an unlisted public row: ${row.id}`);
+        return true;
+      }
+      appliedOfficialRetirements.add(row.id);
+      return false;
+    })
+    .concat(officialList.rows)
     .sort((left, right) => left.id.localeCompare(right.id));
   if (appliedKeyvoChanges.size !== keyvoChanges.size) throw new Error('Missing Keyvo H3 transition scenario.');
+  if (appliedOfficialChanges.size !== officialChanges.size) throw new Error('Missing Keyvo official list pricing scenario.');
+  if (appliedOfficialRetirements.size !== officialRetiredRows.size) throw new Error('Missing Keyvo official list retired scenario.');
+  if (appliedH3MaxChanges.size !== h3MaxChanges.size) throw new Error('Missing Keyvo H3-Max official pricing scenario.');
   if (appliedKeyvoRetirements.size !== keyvoRetiredRows.size) throw new Error('Missing Keyvo retired public pricing scenario.');
   if (appliedOmniChanges.size !== omniChanges.size) throw new Error('Missing Omni 1.2 supplier-cost projection scenario.');
   if (appliedCharacterChanges.size !== characterChanges.size) throw new Error('Missing Character Studio pricing transition scenario.');

@@ -1,0 +1,5553 @@
+{
+  "version": 1,
+  "generatedFrom": "keyvo-official-list-price-rule",
+  "reviewedAt": "2026-11-13",
+  "note": "Keyvo official list price rule (2026-11-13). Supplier facts of every Keyvo model are its official mainland CNY list price (CNY / 8 -> USD cents) and the customer price is 80% of it (official-list-80 profile); Kling 4.0 / Flash public quotes open on the rule path; Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro (no mainland route) leave every public surface. Rows are captured from the canonical public collector before and after the change (unfiltered catalog).",
+  "retiredEngineIds": [
+    "kling-2-5-turbo",
+    "kling-2-6-pro",
+    "wan-2-6"
+  ],
+  "retiredRowIds": [
+    "estimator:kling-2-5-turbo:member:default",
+    "estimator:kling-2-5-turbo:plus:default",
+    "estimator:kling-2-5-turbo:pro:default",
+    "estimator:kling-2-6-pro:member:audio-off",
+    "estimator:kling-2-6-pro:member:default",
+    "estimator:kling-2-6-pro:plus:default",
+    "estimator:kling-2-6-pro:pro:default",
+    "estimator:wan-2-6:member:default",
+    "estimator:wan-2-6:plus:default",
+    "estimator:wan-2-6:pro:default",
+    "json-ld:kling-2-5-turbo:offer",
+    "json-ld:kling-2-6-pro:offer",
+    "json-ld:wan-2-6:offer",
+    "model-page:kling-2-5-turbo:default",
+    "model-page:kling-2-6-pro:default",
+    "model-page:wan-2-6:default",
+    "pricing-hub-video:kling-2-5-turbo:10s-1080p",
+    "pricing-hub-video:kling-2-5-turbo:10s-1080p-audio",
+    "pricing-hub-video:kling-2-5-turbo:10s-720p",
+    "pricing-hub-video:kling-2-5-turbo:4k-route",
+    "pricing-hub-video:kling-2-5-turbo:5s-720p",
+    "pricing-hub-video:kling-2-5-turbo:8s-1080p",
+    "pricing-hub-video:kling-2-5-turbo:entry-route",
+    "pricing-hub-video:kling-2-6-pro:10s-1080p",
+    "pricing-hub-video:kling-2-6-pro:10s-1080p-audio",
+    "pricing-hub-video:kling-2-6-pro:10s-720p",
+    "pricing-hub-video:kling-2-6-pro:4k-route",
+    "pricing-hub-video:kling-2-6-pro:5s-720p",
+    "pricing-hub-video:kling-2-6-pro:8s-1080p",
+    "pricing-hub-video:kling-2-6-pro:entry-route",
+    "pricing-hub-video:wan-2-6:10s-1080p",
+    "pricing-hub-video:wan-2-6:10s-1080p-audio",
+    "pricing-hub-video:wan-2-6:10s-720p",
+    "pricing-hub-video:wan-2-6:4k-route",
+    "pricing-hub-video:wan-2-6:5s-720p",
+    "pricing-hub-video:wan-2-6:8s-1080p",
+    "pricing-hub-video:wan-2-6:entry-route"
+  ],
+  "changes": [
+    {
+      "previous": {
+        "id": "estimator:happy-horse-1-1:member:default",
+        "surface": "estimator",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 70,
+        "marginCents": 21,
+        "discountCents": 0,
+        "customerTotalCents": 91,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:happy-horse-1-1:member:default",
+        "surface": "estimator",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 45,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:happy-horse-1-1:plus:default",
+        "surface": "estimator",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 70,
+        "marginCents": 21,
+        "discountCents": 0,
+        "customerTotalCents": 91,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:happy-horse-1-1:plus:default",
+        "surface": "estimator",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 45,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:happy-horse-1-1:pro:default",
+        "surface": "estimator",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 70,
+        "marginCents": 21,
+        "discountCents": 0,
+        "customerTotalCents": 91,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:happy-horse-1-1:pro:default",
+        "surface": "estimator",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 45,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-4k:member:default",
+        "surface": "estimator",
+        "engineId": "kling-3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 210,
+        "marginCents": 63,
+        "discountCents": 0,
+        "customerTotalCents": 273,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-4k:member:default",
+        "surface": "estimator",
+        "engineId": "kling-3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 188,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 150,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-4k:plus:default",
+        "surface": "estimator",
+        "engineId": "kling-3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 210,
+        "marginCents": 63,
+        "discountCents": 0,
+        "customerTotalCents": 273,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-4k:plus:default",
+        "surface": "estimator",
+        "engineId": "kling-3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 188,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 150,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-4k:pro:default",
+        "surface": "estimator",
+        "engineId": "kling-3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 210,
+        "marginCents": 63,
+        "discountCents": 0,
+        "customerTotalCents": 273,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-4k:pro:default",
+        "surface": "estimator",
+        "engineId": "kling-3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 188,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 150,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-pro:member:audio-off",
+        "surface": "estimator",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 17,
+        "discountCents": 0,
+        "customerTotalCents": 73,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-pro:member:audio-off",
+        "surface": "estimator",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 50,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 40,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-pro:member:default",
+        "surface": "estimator",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 84,
+        "marginCents": 26,
+        "discountCents": 0,
+        "customerTotalCents": 110,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-pro:member:default",
+        "surface": "estimator",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 75,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 60,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-pro:plus:default",
+        "surface": "estimator",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 84,
+        "marginCents": 26,
+        "discountCents": 0,
+        "customerTotalCents": 110,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-pro:plus:default",
+        "surface": "estimator",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 75,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 60,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-pro:pro:default",
+        "surface": "estimator",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 84,
+        "marginCents": 26,
+        "discountCents": 0,
+        "customerTotalCents": 110,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-pro:pro:default",
+        "surface": "estimator",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 75,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 60,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-standard:member:audio-off",
+        "surface": "estimator",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 42,
+        "marginCents": 13,
+        "discountCents": 0,
+        "customerTotalCents": 55,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-standard:member:audio-off",
+        "surface": "estimator",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 38,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 30,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-standard:member:default",
+        "surface": "estimator",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 63,
+        "marginCents": 19,
+        "discountCents": 0,
+        "customerTotalCents": 82,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-standard:member:default",
+        "surface": "estimator",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 45,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-standard:plus:default",
+        "surface": "estimator",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 63,
+        "marginCents": 19,
+        "discountCents": 0,
+        "customerTotalCents": 82,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-standard:plus:default",
+        "surface": "estimator",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 45,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-standard:pro:default",
+        "surface": "estimator",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 63,
+        "marginCents": 19,
+        "discountCents": 0,
+        "customerTotalCents": 82,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-standard:pro:default",
+        "surface": "estimator",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 45,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-turbo-pro:member:default",
+        "surface": "estimator",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 70,
+        "marginCents": 21,
+        "discountCents": 0,
+        "customerTotalCents": 91,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-turbo-pro:member:default",
+        "surface": "estimator",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 63,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 50,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-turbo-pro:plus:default",
+        "surface": "estimator",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 70,
+        "marginCents": 21,
+        "discountCents": 0,
+        "customerTotalCents": 91,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-turbo-pro:plus:default",
+        "surface": "estimator",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 63,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 50,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-turbo-pro:pro:default",
+        "surface": "estimator",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 70,
+        "marginCents": 21,
+        "discountCents": 0,
+        "customerTotalCents": 91,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-turbo-pro:pro:default",
+        "surface": "estimator",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 63,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 50,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-turbo-standard:member:default",
+        "surface": "estimator",
+        "engineId": "kling-3-turbo-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 17,
+        "discountCents": 0,
+        "customerTotalCents": 73,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-turbo-standard:member:default",
+        "surface": "estimator",
+        "engineId": "kling-3-turbo-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 50,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 40,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-turbo-standard:plus:default",
+        "surface": "estimator",
+        "engineId": "kling-3-turbo-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 17,
+        "discountCents": 0,
+        "customerTotalCents": 73,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-turbo-standard:plus:default",
+        "surface": "estimator",
+        "engineId": "kling-3-turbo-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 50,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 40,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-3-turbo-standard:pro:default",
+        "surface": "estimator",
+        "engineId": "kling-3-turbo-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 17,
+        "discountCents": 0,
+        "customerTotalCents": 73,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-3-turbo-standard:pro:default",
+        "surface": "estimator",
+        "engineId": "kling-3-turbo-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 50,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 40,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-o3-4k:member:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 210,
+        "marginCents": 63,
+        "discountCents": 0,
+        "customerTotalCents": 273,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-o3-4k:member:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 188,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 150,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-o3-4k:plus:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 210,
+        "marginCents": 63,
+        "discountCents": 0,
+        "customerTotalCents": 273,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-o3-4k:plus:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 188,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 150,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-o3-4k:pro:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 210,
+        "marginCents": 63,
+        "discountCents": 0,
+        "customerTotalCents": 273,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-o3-4k:pro:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 188,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 150,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-o3-pro:member:audio-off",
+        "surface": "estimator",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 17,
+        "discountCents": 0,
+        "customerTotalCents": 73,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-o3-pro:member:audio-off",
+        "surface": "estimator",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 50,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 40,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-o3-pro:member:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 84,
+        "marginCents": 26,
+        "discountCents": 0,
+        "customerTotalCents": 110,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-o3-pro:member:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 75,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 60,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-o3-pro:plus:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 84,
+        "marginCents": 26,
+        "discountCents": 0,
+        "customerTotalCents": 110,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-o3-pro:plus:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 75,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 60,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-o3-pro:pro:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 84,
+        "marginCents": 26,
+        "discountCents": 0,
+        "customerTotalCents": 110,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-o3-pro:pro:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 75,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 60,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-o3-standard:member:audio-off",
+        "surface": "estimator",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 42,
+        "marginCents": 13,
+        "discountCents": 0,
+        "customerTotalCents": 55,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-o3-standard:member:audio-off",
+        "surface": "estimator",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 38,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 30,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-o3-standard:member:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 63,
+        "marginCents": 19,
+        "discountCents": 0,
+        "customerTotalCents": 82,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-o3-standard:member:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 45,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-o3-standard:plus:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 63,
+        "marginCents": 19,
+        "discountCents": 0,
+        "customerTotalCents": 82,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-o3-standard:plus:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 45,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:kling-o3-standard:pro:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 63,
+        "marginCents": 19,
+        "discountCents": 0,
+        "customerTotalCents": 82,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:kling-o3-standard:pro:default",
+        "surface": "estimator",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 45,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:minimax-h3-max:member:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3-max",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 21,
+        "marginCents": 7,
+        "discountCents": 0,
+        "customerTotalCents": 28,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:minimax-h3-max:member:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3-max",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 21,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 17,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:minimax-h3-max:plus:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3-max",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 21,
+        "marginCents": 7,
+        "discountCents": 0,
+        "customerTotalCents": 28,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:minimax-h3-max:plus:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3-max",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 21,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 17,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:minimax-h3-max:pro:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3-max",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 21,
+        "marginCents": 7,
+        "discountCents": 0,
+        "customerTotalCents": 28,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:minimax-h3-max:pro:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3-max",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 21,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 17,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:minimax-h3:member:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 60,
+        "marginCents": 18,
+        "discountCents": 0,
+        "customerTotalCents": 78,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:minimax-h3:member:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 63,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 50,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:minimax-h3:plus:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 60,
+        "marginCents": 18,
+        "discountCents": 0,
+        "customerTotalCents": 78,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:minimax-h3:plus:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 63,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 50,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:minimax-h3:pro:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 60,
+        "marginCents": 18,
+        "discountCents": 0,
+        "customerTotalCents": 78,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:minimax-h3:pro:default",
+        "surface": "estimator",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 63,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 50,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:minimax-hailuo-02-text:member:default",
+        "surface": "estimator",
+        "engineId": "minimax-hailuo-02-text",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 24,
+        "marginCents": 8,
+        "discountCents": 0,
+        "customerTotalCents": 32,
+        "unit": "sec",
+        "quantity": 6,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:minimax-hailuo-02-text:member:default",
+        "surface": "estimator",
+        "engineId": "minimax-hailuo-02-text",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 8,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 6,
+        "unit": "sec",
+        "quantity": 6,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:minimax-hailuo-02-text:plus:default",
+        "surface": "estimator",
+        "engineId": "minimax-hailuo-02-text",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 24,
+        "marginCents": 8,
+        "discountCents": 0,
+        "customerTotalCents": 32,
+        "unit": "sec",
+        "quantity": 6,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:minimax-hailuo-02-text:plus:default",
+        "surface": "estimator",
+        "engineId": "minimax-hailuo-02-text",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 8,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 6,
+        "unit": "sec",
+        "quantity": 6,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:minimax-hailuo-02-text:pro:default",
+        "surface": "estimator",
+        "engineId": "minimax-hailuo-02-text",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 24,
+        "marginCents": 8,
+        "discountCents": 0,
+        "customerTotalCents": 32,
+        "unit": "sec",
+        "quantity": 6,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:minimax-hailuo-02-text:pro:default",
+        "surface": "estimator",
+        "engineId": "minimax-hailuo-02-text",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 8,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 6,
+        "unit": "sec",
+        "quantity": 6,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedance-2-0-fast:member:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 103,
+        "marginCents": 31,
+        "discountCents": 0,
+        "customerTotalCents": 134,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "estimator:seedance-2-0-fast:member:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 44,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 36,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedance-2-0-fast:plus:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 103,
+        "marginCents": 31,
+        "discountCents": 0,
+        "customerTotalCents": 134,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "estimator:seedance-2-0-fast:plus:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 44,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 36,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedance-2-0-fast:pro:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 103,
+        "marginCents": 31,
+        "discountCents": 0,
+        "customerTotalCents": 134,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "estimator:seedance-2-0-fast:pro:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 44,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 36,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedance-2-0-mini:member:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0-mini",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 32,
+        "marginCents": 10,
+        "discountCents": 0,
+        "customerTotalCents": 42,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "estimator:seedance-2-0-mini:member:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0-mini",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 14,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 11,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedance-2-0-mini:plus:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0-mini",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 32,
+        "marginCents": 10,
+        "discountCents": 0,
+        "customerTotalCents": 42,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "estimator:seedance-2-0-mini:plus:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0-mini",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 14,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 11,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedance-2-0-mini:pro:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0-mini",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 32,
+        "marginCents": 10,
+        "discountCents": 0,
+        "customerTotalCents": 42,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "estimator:seedance-2-0-mini:pro:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0-mini",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 14,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 11,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedance-2-0:member:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 129,
+        "marginCents": 39,
+        "discountCents": 0,
+        "customerTotalCents": 168,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "estimator:seedance-2-0:member:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 55,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 44,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedance-2-0:plus:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 129,
+        "marginCents": 39,
+        "discountCents": 0,
+        "customerTotalCents": 168,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "estimator:seedance-2-0:plus:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 55,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 44,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedance-2-0:pro:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 129,
+        "marginCents": 39,
+        "discountCents": 0,
+        "customerTotalCents": 168,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "estimator:seedance-2-0:pro:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 55,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 44,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedance-2-5:member:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 79,
+        "marginCents": 24,
+        "discountCents": 0,
+        "customerTotalCents": 103,
+        "unit": "sec",
+        "quantity": 4,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:seedance-2-5:member:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 34,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 27,
+        "unit": "sec",
+        "quantity": 4,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedance-2-5:plus:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 79,
+        "marginCents": 24,
+        "discountCents": 0,
+        "customerTotalCents": 103,
+        "unit": "sec",
+        "quantity": 4,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:seedance-2-5:plus:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 34,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 27,
+        "unit": "sec",
+        "quantity": 4,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedance-2-5:pro:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 79,
+        "marginCents": 24,
+        "discountCents": 0,
+        "customerTotalCents": 103,
+        "unit": "sec",
+        "quantity": 4,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:seedance-2-5:pro:default",
+        "surface": "estimator",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 34,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 27,
+        "unit": "sec",
+        "quantity": 4,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedream-5-0-flash:member:default",
+        "surface": "estimator",
+        "engineId": "seedream-5-0-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 2,
+        "marginCents": 1,
+        "discountCents": 0,
+        "customerTotalCents": 3,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:seedream-5-0-flash:member:default",
+        "surface": "estimator",
+        "engineId": "seedream-5-0-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 2,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 1,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedream-5-0-flash:plus:default",
+        "surface": "estimator",
+        "engineId": "seedream-5-0-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 2,
+        "marginCents": 1,
+        "discountCents": 0,
+        "customerTotalCents": 3,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:seedream-5-0-flash:plus:default",
+        "surface": "estimator",
+        "engineId": "seedream-5-0-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 2,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 1,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedream-5-0-flash:pro:default",
+        "surface": "estimator",
+        "engineId": "seedream-5-0-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 2,
+        "marginCents": 1,
+        "discountCents": 0,
+        "customerTotalCents": 3,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:seedream-5-0-flash:pro:default",
+        "surface": "estimator",
+        "engineId": "seedream-5-0-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 2,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 1,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedream-5-0-pro:member:default",
+        "surface": "estimator",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 12,
+        "marginCents": 4,
+        "discountCents": 0,
+        "customerTotalCents": 16,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:seedream-5-0-pro:member:default",
+        "surface": "estimator",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 8,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 6,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedream-5-0-pro:plus:default",
+        "surface": "estimator",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 12,
+        "marginCents": 4,
+        "discountCents": 0,
+        "customerTotalCents": 16,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:seedream-5-0-pro:plus:default",
+        "surface": "estimator",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 8,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 6,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedream-5-0-pro:pro:default",
+        "surface": "estimator",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 12,
+        "marginCents": 4,
+        "discountCents": 0,
+        "customerTotalCents": 16,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:seedream-5-0-pro:pro:default",
+        "surface": "estimator",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 8,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 6,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:wan-3-prime:member:default",
+        "surface": "estimator",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 34,
+        "marginCents": 11,
+        "discountCents": 0,
+        "customerTotalCents": 45,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:wan-3-prime:member:default",
+        "surface": "estimator",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 28,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 23,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:wan-3-prime:plus:default",
+        "surface": "estimator",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 34,
+        "marginCents": 11,
+        "discountCents": 0,
+        "customerTotalCents": 45,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:wan-3-prime:plus:default",
+        "surface": "estimator",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 28,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 23,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:wan-3-prime:pro:default",
+        "surface": "estimator",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 34,
+        "marginCents": 11,
+        "discountCents": 0,
+        "customerTotalCents": 45,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:wan-3-prime:pro:default",
+        "surface": "estimator",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 28,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 23,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:wan-3:member:default",
+        "surface": "estimator",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 25,
+        "marginCents": 8,
+        "discountCents": 0,
+        "customerTotalCents": 33,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:wan-3:member:default",
+        "surface": "estimator",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 19,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 15,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:wan-3:plus:default",
+        "surface": "estimator",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 25,
+        "marginCents": 8,
+        "discountCents": 0,
+        "customerTotalCents": 33,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:wan-3:plus:default",
+        "surface": "estimator",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 19,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 15,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:wan-3:pro:default",
+        "surface": "estimator",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 25,
+        "marginCents": 8,
+        "discountCents": 0,
+        "customerTotalCents": 33,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:wan-3:pro:default",
+        "surface": "estimator",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 19,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 15,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "image-estimate:qwen-image-3-0-pro:default",
+        "surface": "image-estimate",
+        "engineId": "qwen-image-3-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 3,
+        "marginCents": 1,
+        "discountCents": 0,
+        "customerTotalCents": 4,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "image-estimate:qwen-image-3-0-pro:default",
+        "surface": "image-estimate",
+        "engineId": "qwen-image-3-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 3,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 3,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "image-estimate:qwen-image-3-0:default",
+        "surface": "image-estimate",
+        "engineId": "qwen-image-3-0",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 2,
+        "marginCents": 1,
+        "discountCents": 0,
+        "customerTotalCents": 3,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "image-estimate:qwen-image-3-0:default",
+        "surface": "image-estimate",
+        "engineId": "qwen-image-3-0",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 2,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 2,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "image-estimate:seedream-5-0-flash:default",
+        "surface": "image-estimate",
+        "engineId": "seedream-5-0-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 2,
+        "marginCents": 1,
+        "discountCents": 0,
+        "customerTotalCents": 3,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "image-estimate:seedream-5-0-flash:default",
+        "surface": "image-estimate",
+        "engineId": "seedream-5-0-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 2,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 1,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "image-estimate:seedream-5-0-pro:default",
+        "surface": "image-estimate",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 12,
+        "marginCents": 4,
+        "discountCents": 0,
+        "customerTotalCents": 16,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "image-estimate:seedream-5-0-pro:default",
+        "surface": "image-estimate",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 8,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 6,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:happy-horse-1-1:offer",
+        "surface": "json-ld",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 117,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "1.17",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:happy-horse-1-1:offer",
+        "surface": "json-ld",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 60,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.60",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:kling-3-4k:offer",
+        "surface": "json-ld",
+        "engineId": "kling-3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 273,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "2.73",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:kling-3-4k:offer",
+        "surface": "json-ld",
+        "engineId": "kling-3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 150,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "1.50",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:kling-3-pro:offer",
+        "surface": "json-ld",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 110,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "1.10",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:kling-3-pro:offer",
+        "surface": "json-ld",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 60,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.60",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:kling-3-standard:offer",
+        "surface": "json-ld",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 82,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.82",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:kling-3-standard:offer",
+        "surface": "json-ld",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 45,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.45",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:kling-3-turbo-pro:offer",
+        "surface": "json-ld",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 91,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.91",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:kling-3-turbo-pro:offer",
+        "surface": "json-ld",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 50,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.50",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:kling-3-turbo-standard:offer",
+        "surface": "json-ld",
+        "engineId": "kling-3-turbo-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 73,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.73",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:kling-3-turbo-standard:offer",
+        "surface": "json-ld",
+        "engineId": "kling-3-turbo-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 40,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.40",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:kling-o3-4k:offer",
+        "surface": "json-ld",
+        "engineId": "kling-o3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 273,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "2.73",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:kling-o3-4k:offer",
+        "surface": "json-ld",
+        "engineId": "kling-o3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 150,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "1.50",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:kling-o3-pro:offer",
+        "surface": "json-ld",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 110,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "1.10",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:kling-o3-pro:offer",
+        "surface": "json-ld",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 60,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.60",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:kling-o3-standard:offer",
+        "surface": "json-ld",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 82,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.82",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:kling-o3-standard:offer",
+        "surface": "json-ld",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 45,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.45",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:kling-v4-flash:offer",
+        "surface": "json-ld",
+        "engineId": "kling-v4-flash",
+        "status": "unavailable"
+      },
+      "current": {
+        "id": "json-ld:kling-v4-flash:offer",
+        "surface": "json-ld",
+        "engineId": "kling-v4-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 30,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.30",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:kling-v4:offer",
+        "surface": "json-ld",
+        "engineId": "kling-v4",
+        "status": "unavailable"
+      },
+      "current": {
+        "id": "json-ld:kling-v4:offer",
+        "surface": "json-ld",
+        "engineId": "kling-v4",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 75,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.75",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:minimax-h3-max:offer",
+        "surface": "json-ld",
+        "engineId": "minimax-h3-max",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 41,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.41",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:minimax-h3-max:offer",
+        "surface": "json-ld",
+        "engineId": "minimax-h3-max",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 25,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.25",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:minimax-h3:offer",
+        "surface": "json-ld",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 169,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "1.69",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:minimax-h3:offer",
+        "surface": "json-ld",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 80,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.80",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:minimax-hailuo-02-text:offer",
+        "surface": "json-ld",
+        "engineId": "minimax-hailuo-02-text",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 36,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.36",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:minimax-hailuo-02-text:offer",
+        "surface": "json-ld",
+        "engineId": "minimax-hailuo-02-text",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 20,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.20",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:seedance-2-0-fast:offer",
+        "surface": "json-ld",
+        "engineId": "seedance-2-0-fast",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 121,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "1.21",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:seedance-2-0-fast:offer",
+        "surface": "json-ld",
+        "engineId": "seedance-2-0-fast",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 32,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.32",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:seedance-2-0-mini:offer",
+        "surface": "json-ld",
+        "engineId": "seedance-2-0-mini",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 95,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.95",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:seedance-2-0-mini:offer",
+        "surface": "json-ld",
+        "engineId": "seedance-2-0-mini",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 25,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.25",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:seedance-2-0:offer",
+        "surface": "json-ld",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 152,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "1.52",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:seedance-2-0:offer",
+        "surface": "json-ld",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 40,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.40",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:seedance-2-5:offer",
+        "surface": "json-ld",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 103,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "1.03",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:seedance-2-5:offer",
+        "surface": "json-ld",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 27,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.27",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:seedream-5-0-pro:offer",
+        "surface": "json-ld",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 16,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.16",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:seedream-5-0-pro:offer",
+        "surface": "json-ld",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 6,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.06",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:wan-3-prime:offer",
+        "surface": "json-ld",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 182,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "1.82",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:wan-3-prime:offer",
+        "surface": "json-ld",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 90,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.90",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:wan-3:offer",
+        "surface": "json-ld",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 130,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "1.30",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:wan-3:offer",
+        "surface": "json-ld",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 60,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.60",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:happy-horse-1-1:default",
+        "surface": "model-page",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 90,
+        "marginCents": 27,
+        "discountCents": 0,
+        "customerTotalCents": 117,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:happy-horse-1-1:default",
+        "surface": "model-page",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 75,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 60,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:kling-3-4k:default",
+        "surface": "model-page",
+        "engineId": "kling-3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 210,
+        "marginCents": 63,
+        "discountCents": 0,
+        "customerTotalCents": 273,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:kling-3-4k:default",
+        "surface": "model-page",
+        "engineId": "kling-3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 188,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 150,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:kling-3-pro:default",
+        "surface": "model-page",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 84,
+        "marginCents": 26,
+        "discountCents": 0,
+        "customerTotalCents": 110,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:kling-3-pro:default",
+        "surface": "model-page",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 75,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 60,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:kling-3-standard:default",
+        "surface": "model-page",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 63,
+        "marginCents": 19,
+        "discountCents": 0,
+        "customerTotalCents": 82,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:kling-3-standard:default",
+        "surface": "model-page",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 45,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:kling-3-turbo-pro:default",
+        "surface": "model-page",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 70,
+        "marginCents": 21,
+        "discountCents": 0,
+        "customerTotalCents": 91,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:kling-3-turbo-pro:default",
+        "surface": "model-page",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 63,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 50,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:kling-3-turbo-standard:default",
+        "surface": "model-page",
+        "engineId": "kling-3-turbo-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 17,
+        "discountCents": 0,
+        "customerTotalCents": 73,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:kling-3-turbo-standard:default",
+        "surface": "model-page",
+        "engineId": "kling-3-turbo-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 50,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 40,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:kling-o3-4k:default",
+        "surface": "model-page",
+        "engineId": "kling-o3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 210,
+        "marginCents": 63,
+        "discountCents": 0,
+        "customerTotalCents": 273,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:kling-o3-4k:default",
+        "surface": "model-page",
+        "engineId": "kling-o3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 188,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 150,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:kling-o3-pro:default",
+        "surface": "model-page",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 84,
+        "marginCents": 26,
+        "discountCents": 0,
+        "customerTotalCents": 110,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:kling-o3-pro:default",
+        "surface": "model-page",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 75,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 60,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:kling-o3-standard:default",
+        "surface": "model-page",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 63,
+        "marginCents": 19,
+        "discountCents": 0,
+        "customerTotalCents": 82,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:kling-o3-standard:default",
+        "surface": "model-page",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 56,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 45,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:kling-v4-flash:default",
+        "surface": "model-page",
+        "engineId": "kling-v4-flash",
+        "status": "unavailable"
+      },
+      "current": {
+        "id": "model-page:kling-v4-flash:default",
+        "surface": "model-page",
+        "engineId": "kling-v4-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 38,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 30,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:kling-v4:default",
+        "surface": "model-page",
+        "engineId": "kling-v4",
+        "status": "unavailable"
+      },
+      "current": {
+        "id": "model-page:kling-v4:default",
+        "surface": "model-page",
+        "engineId": "kling-v4",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 94,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 75,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:minimax-h3-max:default",
+        "surface": "model-page",
+        "engineId": "minimax-h3-max",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 32,
+        "marginCents": 9,
+        "discountCents": 0,
+        "customerTotalCents": 41,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:minimax-h3-max:default",
+        "surface": "model-page",
+        "engineId": "minimax-h3-max",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 32,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 25,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:minimax-h3:default",
+        "surface": "model-page",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 130,
+        "marginCents": 39,
+        "discountCents": 0,
+        "customerTotalCents": 169,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:minimax-h3:default",
+        "surface": "model-page",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 100,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 80,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:minimax-hailuo-02-text:default",
+        "surface": "model-page",
+        "engineId": "minimax-hailuo-02-text",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 27,
+        "marginCents": 9,
+        "discountCents": 0,
+        "customerTotalCents": 36,
+        "unit": "sec",
+        "quantity": 6,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:minimax-hailuo-02-text:default",
+        "surface": "model-page",
+        "engineId": "minimax-hailuo-02-text",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 25,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 20,
+        "unit": "sec",
+        "quantity": 6,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:seedance-2-0-fast:default",
+        "surface": "model-page",
+        "engineId": "seedance-2-0-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 94,
+        "marginCents": 27,
+        "discountCents": 0,
+        "customerTotalCents": 121,
+        "unit": "sec",
+        "quantity": 4,
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "model-page:seedance-2-0-fast:default",
+        "surface": "model-page",
+        "engineId": "seedance-2-0-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 40,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 32,
+        "unit": "sec",
+        "quantity": 4,
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:seedance-2-0-mini:default",
+        "surface": "model-page",
+        "engineId": "seedance-2-0-mini",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 73,
+        "marginCents": 22,
+        "discountCents": 0,
+        "customerTotalCents": 95,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "model-page:seedance-2-0-mini:default",
+        "surface": "model-page",
+        "engineId": "seedance-2-0-mini",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 32,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 25,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:seedance-2-0:default",
+        "surface": "model-page",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 117,
+        "marginCents": 35,
+        "discountCents": 0,
+        "customerTotalCents": 152,
+        "unit": "sec",
+        "quantity": 4,
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "model-page:seedance-2-0:default",
+        "surface": "model-page",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 50,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 40,
+        "unit": "sec",
+        "quantity": 4,
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:seedance-2-5:default",
+        "surface": "model-page",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 80,
+        "marginCents": 23,
+        "discountCents": 0,
+        "customerTotalCents": 103,
+        "unit": "sec",
+        "quantity": 4,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:seedance-2-5:default",
+        "surface": "model-page",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 34,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 27,
+        "unit": "sec",
+        "quantity": 4,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:seedream-5-0-pro:default",
+        "surface": "model-page",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 12,
+        "marginCents": 4,
+        "discountCents": 0,
+        "customerTotalCents": 16,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:seedream-5-0-pro:default",
+        "surface": "model-page",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 8,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 6,
+        "unit": "sec",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:wan-3-prime:default",
+        "surface": "model-page",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 140,
+        "marginCents": 42,
+        "discountCents": 0,
+        "customerTotalCents": 182,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:wan-3-prime:default",
+        "surface": "model-page",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 113,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 90,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:wan-3:default",
+        "surface": "model-page",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 100,
+        "marginCents": 30,
+        "discountCents": 0,
+        "customerTotalCents": 130,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:wan-3:default",
+        "surface": "model-page",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 75,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 60,
+        "unit": "sec",
+        "quantity": 5,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-audio:audio-cinematic-voice:120",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 500,
+        "unit": "display",
+        "quantity": 120,
+        "displayedAmount": "$5.00",
+        "compatibilityProfile": "audio-tripled-rounded"
+      },
+      "current": {
+        "id": "pricing-hub-audio:audio-cinematic-voice:120",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 460,
+        "unit": "display",
+        "quantity": 120,
+        "displayedAmount": "$4.60",
+        "compatibilityProfile": "audio-tripled-rounded"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-audio:audio-cinematic-voice:30",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 135,
+        "unit": "display",
+        "quantity": 30,
+        "displayedAmount": "$1.35",
+        "compatibilityProfile": "audio-tripled-rounded"
+      },
+      "current": {
+        "id": "pricing-hub-audio:audio-cinematic-voice:30",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 125,
+        "unit": "display",
+        "quantity": 30,
+        "displayedAmount": "$1.25",
+        "compatibilityProfile": "audio-tripled-rounded"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-audio:audio-cinematic-voice:60",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 265,
+        "unit": "display",
+        "quantity": 60,
+        "displayedAmount": "$2.65",
+        "compatibilityProfile": "audio-tripled-rounded"
+      },
+      "current": {
+        "id": "pricing-hub-audio:audio-cinematic-voice:60",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 245,
+        "unit": "display",
+        "quantity": 60,
+        "displayedAmount": "$2.45",
+        "compatibilityProfile": "audio-tripled-rounded"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-audio:audio-voice-clone:120",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 115,
+        "unit": "display",
+        "quantity": 120,
+        "displayedAmount": "$1.15",
+        "compatibilityProfile": "audio-tripled-rounded"
+      },
+      "current": {
+        "id": "pricing-hub-audio:audio-voice-clone:120",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 20,
+        "unit": "display",
+        "quantity": 120,
+        "displayedAmount": "$0.20",
+        "compatibilityProfile": "audio-tripled-rounded"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-audio:audio-voice-clone:30",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 30,
+        "unit": "display",
+        "quantity": 30,
+        "displayedAmount": "$0.30",
+        "compatibilityProfile": "audio-tripled-rounded"
+      },
+      "current": {
+        "id": "pricing-hub-audio:audio-voice-clone:30",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 5,
+        "unit": "display",
+        "quantity": 30,
+        "displayedAmount": "$0.05",
+        "compatibilityProfile": "audio-tripled-rounded"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-audio:audio-voice-clone:60",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 60,
+        "unit": "display",
+        "quantity": 60,
+        "displayedAmount": "$0.60",
+        "compatibilityProfile": "audio-tripled-rounded"
+      },
+      "current": {
+        "id": "pricing-hub-audio:audio-voice-clone:60",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 10,
+        "unit": "display",
+        "quantity": 60,
+        "displayedAmount": "$0.10",
+        "compatibilityProfile": "audio-tripled-rounded"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-audio:audio-voice-only:120",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 115,
+        "unit": "display",
+        "quantity": 120,
+        "displayedAmount": "$1.15",
+        "compatibilityProfile": "audio-tripled-rounded"
+      },
+      "current": {
+        "id": "pricing-hub-audio:audio-voice-only:120",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 20,
+        "unit": "display",
+        "quantity": 120,
+        "displayedAmount": "$0.20",
+        "compatibilityProfile": "audio-tripled-rounded"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-audio:audio-voice-only:30",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 30,
+        "unit": "display",
+        "quantity": 30,
+        "displayedAmount": "$0.30",
+        "compatibilityProfile": "audio-tripled-rounded"
+      },
+      "current": {
+        "id": "pricing-hub-audio:audio-voice-only:30",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 5,
+        "unit": "display",
+        "quantity": 30,
+        "displayedAmount": "$0.05",
+        "compatibilityProfile": "audio-tripled-rounded"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-audio:audio-voice-only:60",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 60,
+        "unit": "display",
+        "quantity": 60,
+        "displayedAmount": "$0.60",
+        "compatibilityProfile": "audio-tripled-rounded"
+      },
+      "current": {
+        "id": "pricing-hub-audio:audio-voice-only:60",
+        "surface": "pricing-hub-audio",
+        "engineId": "audio-generation",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 10,
+        "unit": "display",
+        "quantity": 60,
+        "displayedAmount": "$0.10",
+        "compatibilityProfile": "audio-tripled-rounded"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-image:seedream-5-0-flash:high",
+        "surface": "pricing-hub-image",
+        "engineId": "seedream-5-0-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 3,
+        "unit": "image",
+        "quantity": 1,
+        "displayedAmount": "$0.03",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-image:seedream-5-0-flash:high",
+        "surface": "pricing-hub-image",
+        "engineId": "seedream-5-0-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 1,
+        "unit": "image",
+        "quantity": 1,
+        "displayedAmount": "$0.01",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-image:seedream-5-0-flash:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "seedream-5-0-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 12,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.12",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-image:seedream-5-0-flash:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "seedream-5-0-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 4,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.04",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-image:seedream-5-0-flash:standard",
+        "surface": "pricing-hub-image",
+        "engineId": "seedream-5-0-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 3,
+        "unit": "image",
+        "quantity": 1,
+        "displayedAmount": "$0.03",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-image:seedream-5-0-flash:standard",
+        "surface": "pricing-hub-image",
+        "engineId": "seedream-5-0-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 1,
+        "unit": "image",
+        "quantity": 1,
+        "displayedAmount": "$0.01",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-image:seedream-5-0-pro:high",
+        "surface": "pricing-hub-image",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 16,
+        "unit": "image",
+        "quantity": 1,
+        "displayedAmount": "$0.16",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-image:seedream-5-0-pro:high",
+        "surface": "pricing-hub-image",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 6,
+        "unit": "image",
+        "quantity": 1,
+        "displayedAmount": "$0.06",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-image:seedream-5-0-pro:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 64,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.64",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-image:seedream-5-0-pro:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 24,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.24",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-image:seedream-5-0-pro:standard",
+        "surface": "pricing-hub-image",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 16,
+        "unit": "image",
+        "quantity": 1,
+        "displayedAmount": "$0.16",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-image:seedream-5-0-pro:standard",
+        "surface": "pricing-hub-image",
+        "engineId": "seedream-5-0-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 6,
+        "unit": "image",
+        "quantity": 1,
+        "displayedAmount": "$0.06",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:happy-horse-1-1:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 234,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.34",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:happy-horse-1-1:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 120,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.20",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:happy-horse-1-1:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 234,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.34",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:happy-horse-1-1:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 120,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.20",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:happy-horse-1-1:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 182,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.82",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:happy-horse-1-1:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 90,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.90",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:happy-horse-1-1:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 91,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.91",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:happy-horse-1-1:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 45,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.45",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:happy-horse-1-1:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 188,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.88",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:happy-horse-1-1:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 96,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.96",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:happy-horse-1-1:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 182,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.82",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:happy-horse-1-1:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "happy-horse-1-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 90,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.90",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-4k:4k-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 546,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$5.46",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-4k:4k-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 300,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$3.00",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-4k:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 546,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$5.46",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-4k:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 300,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$3.00",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-pro:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 146,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.46",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-pro:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 80,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.80",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-pro:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 219,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.19",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-pro:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 120,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.20",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-pro:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 117,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.17",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-pro:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 64,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.64",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-pro:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 146,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.46",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-pro:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 80,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.80",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-standard:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 110,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.10",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-standard:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 60,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.60",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-standard:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 164,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.64",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-standard:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 90,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.90",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-standard:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 88,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.88",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-standard:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 48,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.48",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-standard:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 110,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.10",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-standard:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 60,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.60",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-turbo-pro:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 182,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.82",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-turbo-pro:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 100,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.00",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-turbo-pro:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 182,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.82",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-turbo-pro:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 100,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.00",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-turbo-pro:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 146,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.46",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-turbo-pro:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 80,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.80",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-turbo-pro:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 182,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.82",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-turbo-pro:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-turbo-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 100,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.00",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-turbo-standard:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-turbo-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 146,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.46",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-turbo-standard:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-turbo-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 80,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.80",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-turbo-standard:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-turbo-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 73,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.73",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-turbo-standard:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-turbo-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 40,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.40",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-3-turbo-standard:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-turbo-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 146,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.46",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-3-turbo-standard:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-3-turbo-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 80,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.80",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-o3-4k:4k-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 546,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$5.46",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-o3-4k:4k-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 300,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$3.00",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-o3-4k:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 546,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$5.46",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-o3-4k:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-4k",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 300,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$3.00",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-o3-pro:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 146,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.46",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-o3-pro:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 80,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.80",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-o3-pro:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 219,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.19",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-o3-pro:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 120,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.20",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-o3-pro:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 117,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.17",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-o3-pro:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 64,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.64",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-o3-pro:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 146,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.46",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-o3-pro:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 80,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.80",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-o3-standard:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 110,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.10",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-o3-standard:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 60,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.60",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-o3-standard:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 164,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.64",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-o3-standard:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 90,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.90",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-o3-standard:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 88,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.88",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-o3-standard:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 48,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.48",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-o3-standard:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 110,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.10",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-o3-standard:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-o3-standard",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 60,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.60",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-v4-flash:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4-flash",
+        "status": "unavailable"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-v4-flash:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 60,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.60",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-v4-flash:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4-flash",
+        "status": "unavailable"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-v4-flash:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 30,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.30",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-v4-flash:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4-flash",
+        "status": "unavailable"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-v4-flash:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 60,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.60",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-v4:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4",
+        "status": "unavailable"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-v4:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 150,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.50",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-v4:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4",
+        "status": "unavailable"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-v4:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 150,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.50",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-v4:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4",
+        "status": "unavailable"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-v4:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 100,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.00",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-v4:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4",
+        "status": "unavailable"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-v4:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 50,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.50",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-v4:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4",
+        "status": "unavailable"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-v4:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 120,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.20",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:kling-v4:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4",
+        "status": "unavailable"
+      },
+      "current": {
+        "id": "pricing-hub-video:kling-v4:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "kling-v4",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 100,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.00",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:minimax-h3-max:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "minimax-h3-max",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 82,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.82",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:minimax-h3-max:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "minimax-h3-max",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 50,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.50",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:minimax-h3:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 78,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.78",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:minimax-h3:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "minimax-h3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 50,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.50",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:minimax-hailuo-02-text:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "minimax-hailuo-02-text",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 59,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.59",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:minimax-hailuo-02-text:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "minimax-hailuo-02-text",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 40,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.40",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-0-fast:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0-fast",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 303,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$3.03",
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-0-fast:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0-fast",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 80,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.80",
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-0-fast:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0-fast",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 151,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.51",
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-0-fast:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0-fast",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 40,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.40",
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-0-fast:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0-fast",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 303,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$3.03",
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-0-fast:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0-fast",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 80,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.80",
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-0-mini:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0-mini",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 189,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.89",
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-0-mini:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0-mini",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 50,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.50",
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-0-mini:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0-mini",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 95,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.95",
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-0-mini:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0-mini",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 25,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.25",
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-0-mini:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0-mini",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 189,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.89",
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-0-mini:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0-mini",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 50,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.50",
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-0:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 936,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$9.36",
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-0:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 248,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.48",
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-0:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 936,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$9.36",
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-0:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 248,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.48",
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-0:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 379,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$3.79",
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-0:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 99,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.99",
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-0:4k-route",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 1944,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$19.44",
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-0:4k-route",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 505,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$5.05",
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-0:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 189,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.89",
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-0:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 50,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.50",
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-0:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 749,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$7.49",
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-0:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 198,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.98",
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-0:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 379,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$3.79",
+        "compatibilityProfile": "provider-reference-current"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-0:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-0",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 99,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.99",
+        "compatibilityProfile": "provider-reference-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-5:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 1300,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$13.00",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-5:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 374,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$3.74",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-5:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 1300,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$13.00",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-5:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 374,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$3.74",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-5:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 578,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$5.78",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-5:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 151,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.51",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-5:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 289,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.89",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-5:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 76,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.76",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-5:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 1040,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$10.40",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-5:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 299,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.99",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-5:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 578,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$5.78",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-5:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 151,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.51",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:wan-3-prime:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 364,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$3.64",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:wan-3-prime:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 180,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.80",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:wan-3-prime:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 364,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$3.64",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:wan-3-prime:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 180,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.80",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:wan-3-prime:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 182,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.82",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:wan-3-prime:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 90,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.90",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:wan-3-prime:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 91,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.91",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:wan-3-prime:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 45,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.45",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:wan-3-prime:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 292,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.92",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:wan-3-prime:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 144,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.44",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:wan-3-prime:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 182,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.82",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:wan-3-prime:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3-prime",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 90,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.90",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:wan-3:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 260,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.60",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:wan-3:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 120,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.20",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:wan-3:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 260,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.60",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:wan-3:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 120,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.20",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:wan-3:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 130,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.30",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:wan-3:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 60,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.60",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:wan-3:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 65,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.65",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:wan-3:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 30,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.30",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:wan-3:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 208,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.08",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:wan-3:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 96,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.96",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:wan-3:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 130,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.30",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:wan-3:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "wan-3",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 60,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.60",
+        "compatibilityProfile": "standard"
+      }
+    }
+  ],
+  "rows": []
+}

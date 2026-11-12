@@ -160,7 +160,7 @@ test('the real published state exposes every P0 across current and machine disco
     [
       'kling-v4-vs-wan-3-prime',
       'seedance-2-5-vs-wan-3',
-      'wan-2-6-vs-wan-3',
+      // Keyvo 2026-11-13: 'wan-2-6-vs-wan-3' left with Wan 2.6 (offline, no mainland route).
       'wan-3-vs-wan-3-prime',
     ].sort(),
   );

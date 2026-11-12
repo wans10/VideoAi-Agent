@@ -33,7 +33,8 @@ test('bounded priced references retain model-specific counts and exact provider 
     ['gpt-image-2-5-flare', 'i2i', '1', '2', 0.008],
     ['luma-uni-1', 'i2i', '0', '1', 0.003],
     ['luma-uni-1-max', 't2i', '0', '1', 0.003],
-    ['minimax-h3', 'ref2v', '5', '6', 0.08],
+    // Keyvo 2026-11-13: the sixth H3 image costs the Bailian / MiniMax list CNY 0.20 = USD 0.025.
+    ['minimax-h3', 'ref2v', '5', '6', 0.025],
   ] as const) {
     const base = coverage.filter(row => row.modelId === modelId);
     const captured = JSON.stringify(base);

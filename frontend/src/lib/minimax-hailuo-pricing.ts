@@ -4,14 +4,15 @@ import { isMinimaxLegacyVideoCombination, minimaxLegacyTask } from './minimax-vi
 /**
  * PROVISIONAL vendor cost of the Hailuo 2.3 engines on MiniMax's own legacy video API, from the official CNY
  * list price per video (https://platform.minimaxi.com/docs/pricing/overview.md, "历史模型", checked 2026-11-11).
- * Converted to the application's USD pricing facts at the accounting rate; the normal margin applies on top.
- * Hailuo 02 keeps its existing catalogue price.
+ * Converted to the application's USD pricing facts at the accounting rate. Hailuo 02 uses the same list (re-checked
+ * 2026-11-13; 512P is image-to-video only). Keyvo sells these at 80% of the list price (official-list-pricing.ts).
  */
-export const MINIMAX_HAILUO_PRICING_SOURCE = 'minimax_official_cny_list_2026_11_11_provisional';
+export const MINIMAX_HAILUO_PRICING_SOURCE = 'minimax_official_cny_list_2026_11_13';
 
 export const MINIMAX_HAILUO_ENGINE_MODELS = {
   'minimax-hailuo-2-3': 'MiniMax-Hailuo-2.3',
   'minimax-hailuo-2-3-fast': 'MiniMax-Hailuo-2.3-Fast',
+  'minimax-hailuo-02-text': 'MiniMax-Hailuo-02',
 } as const;
 
 type HailuoEngineId = keyof typeof MINIMAX_HAILUO_ENGINE_MODELS;
@@ -20,6 +21,7 @@ type HailuoEngineId = keyof typeof MINIMAX_HAILUO_ENGINE_MODELS;
 const CNY_PER_VIDEO: Readonly<Record<HailuoEngineId, Readonly<Record<string, Readonly<Record<number, number>>>>>> = {
   'minimax-hailuo-2-3': { '768P': { 6: 2.0, 10: 4.0 }, '1080P': { 6: 3.5 } },
   'minimax-hailuo-2-3-fast': { '768P': { 6: 1.35, 10: 2.25 }, '1080P': { 6: 2.31 } },
+  'minimax-hailuo-02-text': { '512P': { 6: 0.6, 10: 1.0 }, '768P': { 6: 2.0, 10: 4.0 }, '1080P': { 6: 3.5 } },
 };
 
 export function isMinimaxHailuoOfficialEngineId(engineId: string): engineId is HailuoEngineId {

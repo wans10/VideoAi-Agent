@@ -7,6 +7,7 @@ import { MINIMAX_H3_ENGINE } from '../frontend/src/config/fal-engines/minimax-h3
 import { MINIMAX_H3_MAX_ENGINE } from '../frontend/src/config/fal-engines/minimax-h3-max';
 import { WAN_3_INPUT_SCHEMA } from '../frontend/src/config/fal-engines/wan-3-shared';
 import type { EngineInputSchema, Mode } from '../frontend/types/engines';
+import { hasUnsupportedMinimaxOfficialInputs } from '../frontend/src/server/llmhub-minimax-capabilities';
 
 function attachment(kind: 'image' | 'video' | 'audio', slotId: string): NormalizedAttachment {
   return { name: slotId, type: `${kind}/${kind === 'image' ? 'png' : kind === 'video' ? 'mp4' : 'wav'}`, size: 1_000,
@@ -38,8 +39,17 @@ for (const engine of [MINIMAX_H3_ENGINE, MINIMAX_H3_MAX_ENGINE]) {
     const result = validate(engine.id, 't2v', engine.inputSchema!, [attachment('audio', 'target_audio_url')]);
     assert.equal(result.ok, true, JSON.stringify(result));
     if (!result.ok) return;
-    assert.equal(result.payload.target_audio_url, 'https://media.maxvideoai.com/target_audio_url');
-    assert.equal('audio_url' in result.payload, false);
+    // Keyvo's H3-Max engine (MiniMax's own V2 API) declares no soundtrack field, so nothing is projected for it;
+    // MiniMax-H3 keeps the upstream catalogue field (the official route drops it from the workspace).
+    // A stray soundtrack attachment can only surface as generic audio, which MiniMax's own route refuses before billing.
+    if (engine.id === 'minimax-h3-max') {
+      assert.equal(engine.inputSchema!.optional?.some((field) => field.id === 'target_audio_url'), false);
+      assert.equal(result.payload.target_audio_url, undefined);
+      assert.equal(hasUnsupportedMinimaxOfficialInputs(result.payload, 't2v', engine.id), true);
+    } else {
+      assert.equal(result.payload.target_audio_url, 'https://media.maxvideoai.com/target_audio_url');
+      assert.equal('audio_url' in result.payload, false);
+    }
   });
 }
 

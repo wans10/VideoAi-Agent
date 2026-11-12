@@ -12,6 +12,10 @@ export const KEYVO_OFFLINE_MODEL_SLUGS: ReadonlySet<string> = new Set([
   'seedream',
   'wan-2-5',
   'happy-horse-1-0',
+  // 2026-11-13: no mainland route.
+  'wan-2-6',
+  'kling-2-5-turbo',
+  'kling-2-6-pro',
 ]);
 
 /**

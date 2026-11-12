@@ -84,7 +84,8 @@ test('Alibaba poll copies the expiring provider output before completing the exi
   const cost = JSON.parse(String(completed?.params?.[3]));
   assert.equal(cost.provider, 'alibaba_model_studio');
   assert.equal(cost.provider_cost_units, 15);
-  assert.equal(cost.provider_cost_usd, 3);
+  // Keyvo 2026-11-13: Bailian cn-beijing list, Wan 3 1080p CNY 1.2/s = USD 0.15/s x 15 s (was Singapore USD 0.20/s).
+  assert.equal(cost.provider_cost_usd, 2.25);
   assert.equal(cost.provider_cost_status, 'list_estimate_from_provider_usage');
   assert.equal(cost.input_video_duration_sec, 5);
   assert.equal(cost.output_video_duration_sec, 10);
@@ -92,7 +93,7 @@ test('Alibaba poll copies the expiring provider output before completing the exi
   assert.match(JSON.stringify(outputs[0]), /cdn\.maxvideoai\.com/);
   const attempt = queries.find((entry) => /provider_cost_usd/.test(entry.sql));
   assert.equal(attempt?.params?.[0], 31);
-  assert.equal(attempt?.params?.[4], 3);
+  assert.equal(attempt?.params?.[4], 2.25);
   assert.doesNotMatch(JSON.stringify({ queries, outputs }), /X-Amz-|output-private-signature|output-private-access/,
     'persisted output diagnostics must not retain the temporary provider grant');
 });
@@ -204,7 +205,8 @@ test('HappyHorse completion still copies the original output and accounts only f
   const cost = JSON.parse(String(completed?.params?.[3]));
   assert.equal(cost.provider_model, 'happyhorse-1.1-t2v');
   assert.equal(cost.provider_cost_units, 5);
-  assert.equal(cost.provider_cost_usd, 0.7);
+  // Keyvo 2026-11-13: Bailian cn-beijing list, HappyHorse 1.1 720p CNY 0.9/s = USD 0.1125/s x 5 s (was USD 0.14/s).
+  assert.equal(cost.provider_cost_usd, 0.5625);
   assert.equal(cost.input_video_duration_sec, 0);
   assert.equal(cost.output_video_duration_sec, 5);
   assert.equal(queries.filter(entry => /INSERT INTO app_receipts/.test(entry.sql)).length, 0);

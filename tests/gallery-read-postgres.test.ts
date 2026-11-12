@@ -45,7 +45,7 @@ test('scoped gallery readers resolve each requested curation once per invocation
         '2026-09-20'::timestamptz + n * interval '1 minute' FROM generate_series(1,130) n;
     INSERT INTO app_jobs(job_id,engine_id,thumb_url,video_url,created_at)
       SELECT engine,engine,'https://media.maxvideoai.com/fixture/'||engine||'.webp','https://media.maxvideoai.com/fixture/'||engine||'.mp4','2026-09-21'::timestamptz + n * interval '1 hour'
-      FROM unnest(ARRAY['seedance-2-0','veo-3-1','happy-horse-1-1','ltx-2-3-fast','wan-2-6','ltx-2-5-pro']) WITH ORDINALITY engine(engine,n);
+      FROM unnest(ARRAY['seedance-2-0','veo-3-1','happy-horse-1-1','ltx-2-3-fast','wan-3','ltx-2-5-pro']) WITH ORDINALITY engine(engine,n);
     INSERT INTO app_jobs(job_id,engine_id,thumb_url,video_url,created_at,visibility,indexable,status,surface)
       SELECT id,'kling-3-pro','https://media.maxvideoai.com/fixture/'||id||'.webp','https://media.maxvideoai.com/fixture/'||id||'.mp4','2026-09-22',visibility,indexable,status,surface
       FROM (VALUES ('private','private',true,'completed','video'),('hidden','public',false,'completed','video'),
@@ -136,7 +136,7 @@ test('scoped gallery readers resolve each requested curation once per invocation
   };
   await t.test('legacy hub avoids its repeated configuration SELECT', async () => {
     const result = await check('legacy-hub');
-    assert.deepEqual(result.items.slice(0, 3).map((item: {id: string}) => item.id), ['ltx-2-5-pro', 'wan-2-6', 'ltx-2-3-fast']);
+    assert.deepEqual(result.items.slice(0, 3).map((item: {id: string}) => item.id), ['ltx-2-5-pro', 'wan-3', 'ltx-2-3-fast']);
     assert.equal(result.total, 24);
   });
   await t.test('legacy family merges inherited sources in existing order', async () => {

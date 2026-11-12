@@ -68,7 +68,9 @@ test('Seedance 2 pricing definition exposes token-priced 480p, 720p, and 1080p t
   assert.ok((definition?.resolutionMultipliers['1080p'] ?? 0) > (definition?.resolutionMultipliers['720p'] ?? 0));
 });
 
-test('Kling 3 pricing definitions match current fal vendor rates', () => {
+// Keyvo 2026-11-13: Kling 3 / 3 Omni / HappyHorse 1.1 supplier rates are the Bailian cn-beijing list (CNY / 8), and the
+// customer price is 80% of it (official-list-80), replacing fal's rates and the 30% margin.
+test('Kling 3 pricing definitions match the Bailian list vendor rates', () => {
   const standard = listFalEngines().find((entry) => entry.id === 'kling-3-standard')?.engine;
   const pro = listFalEngines().find((entry) => entry.id === 'kling-3-pro')?.engine;
   assert.ok(standard);
@@ -77,12 +79,12 @@ test('Kling 3 pricing definitions match current fal vendor rates', () => {
   const standardDefinition = buildPricingDefinition(standard);
   const proDefinition = buildPricingDefinition(pro);
 
-  assert.equal(standardDefinition?.baseUnitPriceCents, 12.6);
-  assert.equal(standardDefinition?.addons?.audio_off?.perSecondCents, -4.2);
-  assert.equal(standardDefinition?.addons?.voice_control?.perSecondCents, 2.8);
-  assert.equal(proDefinition?.baseUnitPriceCents, 16.8);
-  assert.equal(proDefinition?.addons?.audio_off?.perSecondCents, -5.6);
-  assert.equal(proDefinition?.addons?.voice_control?.perSecondCents, 2.8);
+  assert.equal(standardDefinition?.baseUnitPriceCents, 11.25);
+  assert.equal(standardDefinition?.addons?.audio_off?.perSecondCents, -3.75);
+  assert.equal(standardDefinition?.addons?.voice_control?.perSecondCents, 0);
+  assert.equal(proDefinition?.baseUnitPriceCents, 15);
+  assert.equal(proDefinition?.addons?.audio_off?.perSecondCents, -5);
+  assert.equal(proDefinition?.addons?.voice_control?.perSecondCents, 0);
 });
 
 test('Kling 3 4K pricing definition exposes the native 4K rate', () => {
@@ -91,7 +93,7 @@ test('Kling 3 4K pricing definition exposes the native 4K rate', () => {
 
   const definition = buildPricingDefinition(engine);
   assert.ok(definition);
-  assert.equal(definition.baseUnitPriceCents, 42);
+  assert.equal(definition.baseUnitPriceCents, 37.5);
   assert.equal(definition.resolutionMultipliers['4k'], 1);
   assert.equal(definition.addons?.audio_off, undefined);
   assert.equal(definition.durationSteps.min, 3);
@@ -112,15 +114,15 @@ test('Kling 3.0 Omni pricing definitions align Standard and Pro rates with Kling
   const proV2v = buildPricingDefinition(applyEngineVariantPricing(pro, 'v2v'));
   const native4kV2v = buildPricingDefinition(applyEngineVariantPricing(native4k, 'v2v'));
 
-  assert.equal(standardDefinition?.baseUnitPriceCents, 12.6);
-  assert.equal(standardDefinition?.addons?.audio_off?.perSecondCents, -4.2);
-  assert.equal(proDefinition?.baseUnitPriceCents, 16.8);
-  assert.equal(proDefinition?.addons?.audio_off?.perSecondCents, -5.6);
-  assert.equal(standardV2v?.baseUnitPriceCents, 12.6);
+  assert.equal(standardDefinition?.baseUnitPriceCents, 11.25);
+  assert.equal(standardDefinition?.addons?.audio_off?.perSecondCents, -3.75);
+  assert.equal(proDefinition?.baseUnitPriceCents, 15);
+  assert.equal(proDefinition?.addons?.audio_off?.perSecondCents, -5);
+  assert.equal(standardV2v?.baseUnitPriceCents, 11.25);
   assert.equal(standardV2v?.resolutionMultipliers['1080p'], 1);
-  assert.equal(proV2v?.baseUnitPriceCents, 16.8);
+  assert.equal(proV2v?.baseUnitPriceCents, 15);
   assert.equal(proV2v?.resolutionMultipliers['1080p'], 1);
-  assert.equal(native4kV2v?.baseUnitPriceCents, 42);
+  assert.equal(native4kV2v?.baseUnitPriceCents, 37.5);
 });
 
 test('Happy Horse pricing definition exposes standard and V2V rates', () => {
@@ -149,9 +151,9 @@ test('Happy Horse 1.1 pricing definition uses current 1080p provider rate', () =
   const definition = buildPricingDefinition(engine);
 
   assert.ok(definition);
-  assert.equal(definition.baseUnitPriceCents, 14);
+  assert.equal(definition.baseUnitPriceCents, 11.25);
   assert.equal(definition.resolutionMultipliers['720p'], 1);
-  assert.equal(definition.resolutionMultipliers['1080p'], 18 / 14);
+  assert.equal(definition.resolutionMultipliers['1080p'], 15 / 11.25);
   assert.equal(definition.durationSteps.min, 3);
   assert.equal(definition.durationSteps.max, 15);
 });
@@ -282,7 +284,7 @@ test('Happy Horse benchmark score is calibrated below Seedance and Kling 3 Pro f
   assert.ok((happyHorse.motion ?? 0) < (kling.motion ?? 0));
 });
 
-test('Happy Horse 1.1 displayed quotes include MaxVideoAI margin', async () => {
+test('Happy Horse 1.1 displayed quotes sell at 80% of the Bailian list', async () => {
   const engine = listFalEngines().find((entry) => entry.id === 'happy-horse-1-1')?.engine;
   assert.ok(engine);
 
@@ -294,12 +296,13 @@ test('Happy Horse 1.1 displayed quotes include MaxVideoAI margin', async () => {
     membershipTier: 'member',
   });
 
-  assert.equal(snapshot.base.amountCents, 90);
-  assert.equal(snapshot.margin.amountCents, 27);
-  assert.equal(snapshot.totalCents, 117);
+  // 5 s at CNY 1.2/s = 75 cents of list cost, sold at 80% -> 60 cents with no margin component.
+  assert.equal(snapshot.base.amountCents, 75);
+  assert.equal(snapshot.margin.amountCents, 0);
+  assert.equal(snapshot.totalCents, 60);
 });
 
-test('Kling 3 displayed quotes include the MaxVideoAI margin', async () => {
+test('Kling 3 displayed quotes sell at 80% of the Bailian list', async () => {
   const standard = listFalEngines().find((entry) => entry.id === 'kling-3-standard')?.engine;
   const pro = listFalEngines().find((entry) => entry.id === 'kling-3-pro')?.engine;
   const native4k = listFalEngines().find((entry) => entry.id === 'kling-3-4k')?.engine;
@@ -326,15 +329,15 @@ test('Kling 3 displayed quotes include the MaxVideoAI margin', async () => {
     membershipTier: 'member',
   });
 
-  assert.equal(standardSnapshot.base.amountCents, 63);
-  assert.equal(standardSnapshot.margin.amountCents, 19);
-  assert.equal(standardSnapshot.totalCents, 82);
-  assert.equal(proSnapshot.base.amountCents, 84);
-  assert.equal(proSnapshot.margin.amountCents, 26);
-  assert.equal(proSnapshot.totalCents, 110);
-  assert.equal(native4kSnapshot.base.amountCents, 210);
-  assert.equal(native4kSnapshot.margin.amountCents, 63);
-  assert.equal(native4kSnapshot.totalCents, 273);
+  assert.equal(standardSnapshot.base.amountCents, 56.25);
+  assert.equal(standardSnapshot.margin.amountCents, 0);
+  assert.equal(standardSnapshot.totalCents, 45);
+  assert.equal(proSnapshot.base.amountCents, 75);
+  assert.equal(proSnapshot.margin.amountCents, 0);
+  assert.equal(proSnapshot.totalCents, 60);
+  assert.equal(native4kSnapshot.base.amountCents, 187.5);
+  assert.equal(native4kSnapshot.margin.amountCents, 0);
+  assert.equal(native4kSnapshot.totalCents, 150);
 });
 
 test('Happy Horse displayed quotes include MaxVideoAI margin and V2V double rate', async () => {

@@ -69,7 +69,9 @@ test('model audit fails malformed and divergent localized Examples with critical
     updateDocument(contentRoot, 'es', 'wan-2-5', (document) => {
       document.galleryIntro = 'Legacy root gallery owner';
     });
-    updateDocument(contentRoot, 'fr', 'wan-2-6', (document) => {
+    // Keyvo took Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro offline on 2026-11-13; their mutations now target the
+    // published Seedance 2.0 and Kling 3.0 Omni pages.
+    updateDocument(contentRoot, 'fr', 'seedance-2-0', (document) => {
       (document.examples as { showWhenEmpty: boolean }).showWhenEmpty = false;
     });
     // Keyvo took Happy Horse 1.0 and Seedream 5.0 Lite offline, so their unpublished pages are no longer
@@ -83,11 +85,11 @@ test('model audit fails malformed and divergent localized Examples with critical
     updateDocument(contentRoot, 'en', 'happy-horse-1-1', (document) => {
       (document.examples as { section: { title: string } }).section.title = '   ';
     });
-    updateDocument(contentRoot, 'en', 'kling-2-5-turbo', (document) => {
+    updateDocument(contentRoot, 'en', 'kling-o3-pro', (document) => {
       const filters = (document.examples as { filters: unknown[] }).filters;
       [filters[0], filters[1]] = [filters[1], filters[0]];
     });
-    updateDocument(contentRoot, 'en', 'kling-2-6-pro', (document) => {
+    updateDocument(contentRoot, 'en', 'kling-o3-standard', (document) => {
       const filters = (document.examples as { filters: Array<{ id: string }> }).filters;
       filters[2].id = filters[1].id;
     });
@@ -157,8 +159,8 @@ test('model audit fails malformed and divergent localized Examples with critical
     for (const modelSlug of [
       'gpt-image-2-5-flare',
       'happy-horse-1-1',
-      'kling-2-5-turbo',
-      'kling-2-6-pro',
+      'kling-o3-pro',
+      'kling-o3-standard',
       'kling-3-4k',
       'kling-3-pro',
       'kling-3-standard',
@@ -195,7 +197,7 @@ test('model audit fails malformed and divergent localized Examples with critical
     ));
     assert.ok(parityFailures.some(
       ({ modelSlug, locale, differences }) =>
-        modelSlug === 'wan-2-6' && locale === 'fr' && differences?.includes('showWhenEmpty'),
+        modelSlug === 'seedance-2-0' && locale === 'fr' && differences?.includes('showWhenEmpty'),
     ));
     assert.ok(report.critical.some(
       ({ type, modelSlug, locale }) =>

@@ -59,7 +59,11 @@ test('confirmed admin tariffs propagate to billing, public quotes, Pricing, mode
       surcharge_upscale_percent NUMERIC, currency TEXT, compatibility_profile TEXT,
       vendor_account_id TEXT, effective_from TIMESTAMPTZ, updated_at TIMESTAMPTZ, updated_by UUID);
       INSERT INTO app_pricing_rules (id, margin_percent, margin_flat_cents, surcharge_audio_percent,
-        surcharge_upscale_percent, currency) VALUES ('default', 0.3, 0, 0.2, 0.5, 'USD');`);
+        surcharge_upscale_percent, currency) VALUES ('default', 0.3, 0, 0.2, 0.5, 'USD');
+      -- Keyvo 2026-11-13: Wan 3 sells at 80% of its list cost (below cost), which a tariff cell cannot hold; an explicit
+      -- engine rule keeps this tariff-propagation fixture's home scenarios on the margin path.
+      INSERT INTO app_pricing_rules (id, engine_id, margin_percent, margin_flat_cents, surcharge_audio_percent,
+        surcharge_upscale_percent, currency) VALUES ('keyvo-margin-wan-3', 'wan-3', 0.3, 0, 0.2, 0.5, 'USD');`);
     for (const migration of ['08_admin_controls.sql', '09_engine_settings.sql', '27_pricing_admin_cockpit.sql', '54_customer_tariff_cells.sql', '55_customer_tariff_versions.sql']) {
       await database.pool.query(readFileSync(`neon/migrations/${migration}`, 'utf8'));
     }

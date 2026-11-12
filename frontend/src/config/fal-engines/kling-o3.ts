@@ -33,10 +33,11 @@ const TIERS: KlingO3Tier[] = [
     variantLabel: 'Standard',
     resolution: '1080p',
     modifyResolution: '720p',
-    basePerSecondCents: 12.6,
-    audioOffDiscountCents: -4.2,
+    // Bailian list (primary route): 720P 0.9 CNY/s with audio or a reference video, 0.6 silent (8 CNY/USD).
+    basePerSecondCents: 11.25,
+    audioOffDiscountCents: -3.75,
     referenceImageLimit: 4,
-    videoInputPerSecondCents: 12.6,
+    videoInputPerSecondCents: 11.25,
     defaultModelSlug: 'fal-ai/kling-video/o3/standard/text-to-video',
     mediaVideoUrl:
       'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/18fe2229-2610-473c-941f-f0421dae6ece.mp4',
@@ -51,10 +52,11 @@ const TIERS: KlingO3Tier[] = [
     versionLabel: '3.0 Omni Pro',
     variantLabel: 'Pro',
     resolution: '1080p',
-    basePerSecondCents: 16.8,
-    audioOffDiscountCents: -5.6,
+    // Bailian list (primary route): 1080P 1.2 CNY/s with audio or a reference video, 0.8 silent (8 CNY/USD).
+    basePerSecondCents: 15,
+    audioOffDiscountCents: -5,
     referenceImageLimit: 4,
-    videoInputPerSecondCents: 16.8,
+    videoInputPerSecondCents: 15,
     defaultModelSlug: 'fal-ai/kling-video/o3/pro/text-to-video',
     mediaVideoUrl:
       'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/764a0333-e1c6-43b5-bfc8-a158acf635bc.mp4',
@@ -69,8 +71,9 @@ const TIERS: KlingO3Tier[] = [
     versionLabel: '3.0 Omni 4K',
     variantLabel: '4K',
     resolution: '4k',
-    basePerSecondCents: 42,
-    videoInputPerSecondCents: 42,
+    // Bailian list (primary route): 4K 3.0 CNY/s with or without audio / reference video (8 CNY/USD).
+    basePerSecondCents: 37.5,
+    videoInputPerSecondCents: 37.5,
     referenceImageLimit: 7,
     defaultModelSlug: 'fal-ai/kling-video/o3/4k/text-to-video',
     mediaVideoUrl:
@@ -97,9 +100,9 @@ function buildPricingNotes(tier: KlingO3Tier) {
   if (tier.audioOffDiscountCents) {
     const audioOff = ((tier.basePerSecondCents + tier.audioOffDiscountCents) / 100).toFixed(3);
     const audioOn = (tier.basePerSecondCents / 100).toFixed(3);
-    return `Provider cost: $${audioOff}/s audio off and $${audioOn}/s audio on for ${tier.label}. Keyvo display prices add platform margin before showing quotes.`;
+    return `Provider cost: $${audioOff}/s audio off and $${audioOn}/s audio on for ${tier.label}. Keyvo customer prices are 80% of the Bailian list price.`;
   }
-  return `Provider cost: $${(tier.basePerSecondCents / 100).toFixed(3)}/s for ${tier.label}. Keyvo display prices add platform margin before showing quotes.`;
+  return `Provider cost: $${(tier.basePerSecondCents / 100).toFixed(3)}/s for ${tier.label}. Keyvo customer prices are 80% of the Bailian list price.`;
 }
 
 function buildKlingO3Engine(tier: KlingO3Tier): EngineCaps {

@@ -1,7 +1,7 @@
 import type { PricingDefinitionFacts } from '@maxvideoai/pricing';
 
-export const WAN_3_PRICING_SOURCE = 'alibaba_singapore_input_plus_output_2026-09-22';
-// Official billing basis: https://www.alibabacloud.com/help/en/model-studio/model-pricing
+export const WAN_3_PRICING_SOURCE = 'bailian_cn_beijing_list_input_plus_output_2026-11-13';
+// Official billing basis ("计费时长 = 输入视频时长 + 输出视频时长"): https://docs.bailian.console.aliyun.com/zh/model-studio/model-pricing.md
 // Input/output limits: https://www.alibabacloud.com/help/en/model-studio/wan3-video-generation-api-reference
 
 export function isWan3EngineId(engineId: string): boolean {

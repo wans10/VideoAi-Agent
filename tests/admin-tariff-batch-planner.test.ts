@@ -26,12 +26,14 @@ test('the full canonical batch quotes unchanged approved fixed and continuous pr
   assert.deepEqual(plan.counts, { create: 226, update: 0, unchanged: 0, conflict: 0 });
   const find = (mode: string, resolution: string, seconds: string, input = 'no_video_input') => plan.rows.find(r =>
     r.selector.mode === mode && r.selector.resolution === resolution && r.selector.durationSec === seconds && r.selector.billingInputType === input)!;
-  assert.equal(find('t2v', '720p', '5').proposedCents, 118);
-  assert.equal(find('t2v', '720p', '10').proposedCents, 236);
-  assert.equal(find('t2v', '1080p', '5').proposedCents, 177);
+  // Keyvo 2026-11-13: the list is Kling's official CNY price (1.0 / 1.5 per second, 0.6 / 0.9 with input video, at
+  // 8 CNY/USD) instead of fal's, so list x 1.50 is 93.75 -> 94 cents for 5 s at 720p.
+  assert.equal(find('t2v', '720p', '5').proposedCents, 94);
+  assert.equal(find('t2v', '720p', '10').proposedCents, 188);
+  assert.equal(find('t2v', '1080p', '5').proposedCents, 141);
   assert.deepEqual(find('ref2v', '720p', '5', 'video_input').proposedCell?.price,
-    { kind: 'unit_terms', rounding: 'up', terms: [{ unit: 'billable_seconds', centsPerUnit: 14.1 }] });
-  assert.equal(find('v2v', '1080p', 'continuous', 'video_input').proposedCents, 127);
+    { kind: 'unit_terms', rounding: 'up', terms: [{ unit: 'billable_seconds', centsPerUnit: 11.25 }] });
+  assert.equal(find('v2v', '1080p', 'continuous', 'video_input').proposedCents, 102);
   assert.deepEqual(state.databaseCells, []);
 });
 
@@ -50,7 +52,7 @@ test('resume keeps arbitrary existing IDs and history; changing a selected price
   const update = await buildTariffBatchPlan({ proposal: { ...change, intent: 'replace_selected' }, state: current, policy });
   assert.equal(update.rows[0].action, 'update');
   assert.equal(update.rows[0].proposedCell?.id, 'existing-stable-id');
-  assert.equal(update.rows[0].proposedCents, 126);
+  assert.equal(update.rows[0].proposedCents, 100);
 });
 
 test('an unavailable snapshot or a missing replacement target cannot become a create', async () => {
@@ -90,7 +92,8 @@ test('unsupported classes and below-reference explicit prices are blocked by rea
 test('compiled continuous rates retain approved fractional totals and upward cent rounding across the domain', async () => {
   const { evaluateManualTariffPrice } = await import('../packages/pricing/src/manual-tariff-price');
   const { compileKlingBatchPrice } = await import('../frontend/server/pricing-admin/tariff-batches/kling');
-  for (const [resolution, rateHundredths, example] of [['720p', 1410, 216], ['1080p', 2115, 323]] as const) {
+  // Kling official list with input video: 7.5 / 11.25 cents per billable second, x 1.50 (Keyvo 2026-11-13).
+  for (const [resolution, rateHundredths, example] of [['720p', 1125, 172], ['1080p', 1687.5, 258]] as const) {
     const row = klingBatchClasses().find(c => c.selector.mode === 'ref2v' && c.selector.resolution === resolution && c.selector.billingInputType === 'video_input')!;
     const price = compileKlingBatchPrice(row, '1.50');
     assert.equal(evaluateManualTariffPrice(price, { billable_seconds: 15.25 }).customerTotalCents, example);

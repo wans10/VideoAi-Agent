@@ -128,25 +128,28 @@ const KLING_3_PRO_ENGINE: EngineCaps = {
       minImageSidePx: 300,
     },
   },
+  // Bailian list (primary route; Kling's own list is equal): 1080P 1.2 CNY/s with audio, 0.8 silent
+  // (kling-v3-video-generation.md, checked 2026-11-13), at 8 CNY/USD.
   pricingDetails: {
     currency: 'USD',
     perSecondCents: {
-      default: 16.8,
+      default: 15,
     },
     addons: {
       audio_off: {
-        perSecondCents: -5.6,
+        perSecondCents: -5,
       },
+      // Neither Bailian nor Kling lists a voice-control surcharge for Kling 3 (checked 2026-11-13): no extra cost.
       voice_control: {
-        perSecondCents: 2.8,
+        perSecondCents: 0,
       },
     },
   },
   pricing: {
     unit: 'USD/s',
-    base: 0.168,
+    base: 0.15,
     currency: 'USD',
-    notes: 'Provider cost: $0.112/s audio off and $0.168/s audio on. Keyvo display prices add platform margin before showing quotes.',
+    notes: 'Provider cost: Bailian list CNY 0.8/s audio off and 1.2/s audio on. Keyvo customer prices are 80% of the list price.',
   },
   updatedAt: '2026-04-25T00:00:00Z',
   ttlSec: 600,
@@ -250,7 +253,7 @@ export const KLING_3_PRO_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     pricingHint: {
       currency: 'USD',
-      amountCents: 84,
+      amountCents: 75,
       durationSeconds: 5,
       resolution: '1080p',
       label: 'Audio on',

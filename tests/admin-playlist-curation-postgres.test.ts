@@ -125,7 +125,9 @@ test('curation is opt-in, eligible, stable, local and protected against stale sa
     const legacyFamily = await getCurationSnapshot(familyId);
     const oldFamilyPreview = await previewCuration(familyId, oldFamilyDraft, legacyFamily.revision);
     await db.pool.query(
-      "INSERT INTO playlists(id,slug,is_public) VALUES ('44444444-4444-4444-8444-444444444444','examples-wan-2-6',true)",
+      // Keyvo 2026-11-13: Wan 2.6 is retired (examples unpublished); the published Wan 3 Prime playlist is the family
+      // source that changes.
+      "INSERT INTO playlists(id,slug,is_public) VALUES ('44444444-4444-4444-8444-444444444444','examples-wan-3-prime',true)",
     );
     await appendPlaylistItem('44444444-4444-4444-8444-444444444444', 'b');
     await assert.rejects(
@@ -214,6 +216,9 @@ test('curation is opt-in, eligible, stable, local and protected against stale sa
     const {listCatalogPage} = await import('../frontend/server/videos-catalog-page');
     // Remove family override so its inherited model source owns this assertion.
     await db.pool.query('DELETE FROM playlist_curations WHERE playlist_id=$1',[familyId]);
+    // Keyvo 2026-11-13: Wan 3 Prime (familyRank 0) is inherited before Wan 3, unlike the retired Wan 2.6 source
+    // (familyRank 2) that held 'b' upstream; empty it so the Wan 3 opening owns the first family positions.
+    await removePlaylistItem('44444444-4444-4444-8444-444444444444', 'b');
     const page = await listCatalogPage({familyId:'wan',sort:'playlist',limit:4,offset:0});
     assert.deepEqual(page.items.map(item=>item.id),openingDraft.openingIds);
     assert.equal(new Set(page.items.map(item=>item.id)).size,4);

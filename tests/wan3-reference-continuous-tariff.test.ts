@@ -27,13 +27,19 @@ test('Wan mixed references share an authored source curve including no-video inp
     assert.ok(selector);
     assert.deepEqual(selector, continuousWan3TariffSelector(project(3.25).selector));
     assert.equal(project(0).quantities.input_video_seconds, 0);
+    // Keyvo 2026-11-13: without an engine-specific rule Wan 3 sells at 80% of the Bailian list (official-list-80), which
+    // the migration compiler refuses (tariffs never cut Keyvo's below-list price over). The shared source curve is
+    // therefore checked on the margin path an engine-specific admin rule selects.
+    const listQuote = await computeCanonicalBillingSnapshot(project(3.25).context, { pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [] }) } });
+    assert.equal((listQuote.meta?.pricingPolicy as { compatibilityProfile?: string } | undefined)?.compatibilityProfile, 'official-list-80');
+    const engineRule = { ...document.rules[0], id: 'engine-margin', engineId: modelId };
     const policy = resolvePricingPolicy({ scenario: { engineId: modelId, mode: context.mode, resolution: context.resolution },
-      versionedRules: document.rules, databaseRules: [] });
+      versionedRules: document.rules, databaseRules: [engineRule] });
     const price = compileWan3ContinuousTariffPrice({ context, policy, compatibilityProfile: document.compatibilityProfiles.find(p => p.id === 'standard')! });
     assert.ok(validateWan3ContinuousTariffDomain({ context, price }).checkedBoundaries > 2);
     for (const seconds of [0, Number.MIN_VALUE, 0.00005, 3.25, 15]) {
       const selected = project(seconds);
-      const current = await computeCanonicalBillingSnapshot(selected.context, { pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [] }) } });
+      const current = await computeCanonicalBillingSnapshot(selected.context, { pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [engineRule] }) } });
       assert.equal(evaluateManualTariffPrice(price, selected.quantities).customerTotalCents, current.totalCents);
       const publicScenario = resolvePublicModelScenario({ modelId, mode: 'ref2v', resolution: '720p', durationSec: 5,
         referenceImageCount: 1, audio: false, inputVideoDurationSec: seconds });

@@ -178,8 +178,14 @@ test('Wan editing and extension preserve owned image/audio guidance alongside th
 });
 
 test('H3 accepts an owned final frame alone and projects target audio by its schema field', async () => {
-  // Keyvo hides MiniMax-H3-Max (no mainland route), so MCP model details reject it; H3 carries this contract.
-  await assert.rejects(getAgentModelDetails('minimax-h3-max', detailsDeps('minimax-h3-max')), { code: 'ENGINE_UNAVAILABLE' });
+  // MiniMax-H3-Max is served on Keyvo (MiniMax's own API): a final frame alone stays valid, but the V2 API has no
+  // soundtrack input, so H3 carries the target-audio contract.
+  const max = await getAgentModelDetails('minimax-h3-max', detailsDeps('minimax-h3-max'));
+  assert.deepEqual(max.modes.find(({ mode }) => mode === 'i2v')?.referenceRequirement?.alternatives,
+    [{ type: 'image', roles: ['source', 'first_frame'] }, { type: 'image', roles: ['last_frame'] }]);
+  for (const mode of ['t2v', 'i2v'] as const) {
+    assert.equal(max.modes.find((entry) => entry.mode === mode)?.references.some(({ type }) => type === 'audio'), false, mode);
+  }
   const engine = candidate('minimax-h3');
   const details = await getAgentModelDetails(engine.engine.id, detailsDeps(engine.engine.id));
   assert.deepEqual(details.modes.find(({ mode }) => mode === 'i2v')?.referenceRequirement, {
@@ -309,7 +315,8 @@ test('H3 Max prepares and reprices the customer quote from freshly resolved refe
 });
 
 test('Wan reference pricing includes unique persisted video durations in prepare and confirmation', async () => {
-  for (const [engineId, vendorCents, customerCents] of [['wan-3', 150, 195], ['wan-3-prime', 210, 273]] as const) {
+  // Keyvo 2026-11-13: 15 billable s at the Bailian 720p list (7.5 / 11.25 cents) x 0.8; the vendor share is the total.
+  for (const [engineId, vendorCents, customerCents] of [['wan-3', 90, 90], ['wan-3-prime', 135, 135]] as const) {
     for (const mode of ['ref2v', 'v2v', 'extend'] as const) {
       const canonical = request(engineId, mode, {
         references: [{ kind: 'asset', assetId: 'video', role: mode === 'ref2v' ? 'reference' : 'source' }],
@@ -351,13 +358,13 @@ test('Wan reference pricing includes unique persisted video durations in prepare
       resolved('image', 'image'),
     ],
   });
-  assert.equal(price.priceCents, 195, 'Duplicate asset aliases of one video are charged once.');
+  assert.equal(price.priceCents, 90, 'Duplicate asset aliases of one video are charged once.');
   const imageOnly = { ...canonical, references: canonical.references.filter((reference) => reference.kind === 'asset' && reference.assetId === 'image') };
   const imagePrice = await priceCanonicalGenerationInExecutor(imageOnly, 'member', {
     executor: { query: async () => [] } as TransactionQueryExecutor,
     candidate: candidate('wan-3'), resolvedReferences: [resolved('image', 'image')],
   });
-  assert.equal(imagePrice.priceCents, 65);
+  assert.equal(imagePrice.priceCents, 30);
   assert.throws(() => request('wan-3', 'ref2v', { settings: { ...canonical.settings, inputVideoDurationSec: 0 } }));
 });
 

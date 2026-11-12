@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { h3MaxCustomerCents } from './helpers/minimax-h3-max-customer-price';
 
 import { NextRequest } from 'next/server';
 
@@ -20,6 +21,30 @@ function publicEngine(engineId: string): EngineCaps {
   assert.ok(engine, `Missing public engine ${engineId}`);
   return engine;
 }
+
+// Keyvo 2026-11-12 (notes_turbo): Kling 3.0 Turbo no longer falls back to Fal when Fal is not configured. Without a
+// Bailian or official Kling route it is refused before any charge (`kling_direct_unavailable`, 503). These boundary
+// tests therefore configure the official Turbo route explicitly (test-only placeholder values, no real credential).
+const TURBO_ROUTE_ENV_KEYS = ['KLING_DIRECT_ENABLED', 'KLING_API_KEY', 'KLING_ACCESS_KEY', 'KLING_SECRET_KEY',
+  'KLING_DIRECT_ADMIN_ONLY', 'KLING_DIRECT_PUBLIC_ROUTING_ENABLED', 'FAL_API_KEY', 'FAL_KEY',
+  'ALIBABA_MODEL_STUDIO_ENABLED', 'ALIBABA_MODEL_STUDIO_API_KEY', 'KLING_ROUTE_ORDER'] as const;
+async function withTurboRouteEnv<T>(values: Partial<Record<(typeof TURBO_ROUTE_ENV_KEYS)[number], string>>, run: () => Promise<T>): Promise<T> {
+  const saved = new Map(TURBO_ROUTE_ENV_KEYS.map((key) => [key, process.env[key]] as const));
+  for (const key of TURBO_ROUTE_ENV_KEYS) {
+    if (values[key] === undefined) delete process.env[key];
+    else process.env[key] = values[key];
+  }
+  try {
+    return await run();
+  } finally {
+    for (const [key, value] of saved) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+}
+const OFFICIAL_TURBO_ROUTE_ENV = { KLING_DIRECT_ENABLED: 'true', KLING_API_KEY: 'test-only-kling-key',
+  KLING_DIRECT_ADMIN_ONLY: 'false', KLING_DIRECT_PUBLIC_ROUTING_ENABLED: 'true', KLING_ROUTE_ORDER: 'direct' };
 
 async function resolveModeAtGenerateBoundary(input: {
   engine: EngineCaps;
@@ -53,14 +78,25 @@ test('generate defaults only a truly absent mode and keeps normalized public mod
   const publicPika = getFalEngineById('pika-text-to-video')?.engine;
   assert.ok(publicPika);
 
+  // Keyvo: with no Turbo route at all, the omitted mode still normalizes but the request is refused before charging.
+  const unrouted = await withTurboRouteEnv({}, () => resolveModeAtGenerateBoundary({
+    engine: KLING_3_TURBO_STANDARD_ENGINE,
+    modePresent: false,
+  }));
+  assert.equal(unrouted.result.ok, false);
+  if (!unrouted.result.ok) {
+    assert.equal(unrouted.result.status, 503);
+    assert.equal((unrouted.result.body as { error?: unknown }).error, 'Engine unavailable');
+  }
+
   for (const fixture of [
     { engine: KLING_3_TURBO_STANDARD_ENGINE },
     { engine: publicPika },
   ]) {
-    const omitted = await resolveModeAtGenerateBoundary({
+    const omitted = await withTurboRouteEnv(OFFICIAL_TURBO_ROUTE_ENV, () => resolveModeAtGenerateBoundary({
       ...fixture,
       modePresent: false,
-    });
+    }));
     assert.equal(omitted.result.ok, true);
     if (omitted.result.ok) assert.equal(omitted.result.context.mode, 't2v');
     assert.equal(omitted.databaseChecks, 1);
@@ -154,7 +190,9 @@ async function computeOmittedPreflight(
   return computeConfiguredPreflight(request, { resolvedEngine: engine });
 }
 
-test('H3 Max omitted-resolution preflight uses the same 768P setting and 52-cent price as generation', async () => {
+// Keyvo prices H3-Max at MiniMax's official PROVISIONAL cost (5 s 768P: CNY 2.50 = USD 0.3125; 41 cents with the 30%
+// margin, 25 under the 2026-11-13 official-list rule) instead of Fal's USD 0.40 (52 cents); preflight and generation agree.
+test('H3 Max omitted-resolution preflight uses the same 768P setting and official-cost price as generation', async () => {
   const generate = buildOmittedGenerateOptions(MINIMAX_H3_MAX_ENGINE, 't2v');
   assert.deepEqual({
     supportsResolution: generate.supportsResolution,
@@ -174,9 +212,9 @@ test('H3 Max omitted-resolution preflight uses the same 768P setting and 52-cent
     't2v',
     generate.durationSec,
   );
-  assert.equal(finalPrice.totalCents, 52);
+  assert.equal(finalPrice.totalCents, h3MaxCustomerCents(31.25));
   assert.equal(preflight.ok, true);
-  assert.equal(preflight.total, 52);
+  assert.equal(preflight.total, h3MaxCustomerCents(31.25));
   assert.equal(preflight.total, finalPrice.totalCents);
   assert.equal(
     (preflight.pricing?.meta?.cost_breakdown_usd as { resolution?: unknown } | undefined)?.resolution,
@@ -184,7 +222,8 @@ test('H3 Max omitted-resolution preflight uses the same 768P setting and 52-cent
   );
 });
 
-test('Kling Turbo i2v keeps resolution unset for dispatch while omitted preflight matches its 73-cent price', async () => {
+// Keyvo 2026-11-13: 5 s Turbo Standard at 80% of the Bailian list (CNY 0.8/s = 50 cents) -> 40 cents (formerly 73).
+test('Kling Turbo i2v keeps resolution unset for dispatch while omitted preflight matches its 40-cent price', async () => {
   const engine = KLING_3_TURBO_STANDARD_ENGINE;
   const generate = buildOmittedGenerateOptions(engine, 'i2v');
   assert.equal(generate.supportsResolution, false);
@@ -236,9 +275,9 @@ test('Kling Turbo i2v keeps resolution unset for dispatch while omitted prefligh
 
   const finalPrice = await computeFinalPrice(engine, 'i2v', generate);
   const preflight = await computeOmittedPreflight(engine, 'i2v', generate.durationSec);
-  assert.equal(finalPrice.totalCents, 73);
+  assert.equal(finalPrice.totalCents, 40);
   assert.equal(preflight.ok, true);
-  assert.equal(preflight.total, 73);
+  assert.equal(preflight.total, 40);
   assert.equal(preflight.total, finalPrice.totalCents);
 });
 
@@ -257,8 +296,9 @@ test('public omitted-resolution preflight preserves generation defaults when sch
 
   const finalPrice = await computeFinalPrice(engine, 't2v', generate);
   const preflight = await computeOmittedPreflight(engine, 't2v', generate.durationSec);
-  assert.equal(finalPrice.totalCents, 26);
+  // Keyvo 2026-11-13: 80% of the Bailian list, 4 s at 480p x CNY 0.3/s = 15c list -> 12c (formerly 26c at 30% margin).
+  assert.equal(finalPrice.totalCents, 12);
   assert.equal(preflight.ok, true);
-  assert.equal(preflight.total, 26);
+  assert.equal(preflight.total, 12);
   assert.equal(preflight.total, finalPrice.totalCents);
 });

@@ -38,8 +38,6 @@
           "ltx-2-3-fast"
         ],
         "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-pro",
           "kling-3-standard",
@@ -55,8 +53,7 @@
           "sora-2-pro",
           "veo-3-1",
           "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -361,8 +358,6 @@
           "sora-2"
         ],
         "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-pro",
           "kling-3-standard",
@@ -380,8 +375,7 @@
           "sora-2",
           "sora-2-pro",
           "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -891,8 +885,6 @@
           "veo-3-1"
         ],
         "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-pro",
           "kling-3-standard",
@@ -908,8 +900,7 @@
           "sora-2",
           "sora-2-pro",
           "veo-3-1",
-          "veo-3-1-lite",
-          "wan-2-6"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -1420,8 +1411,6 @@
           "sora-2"
         ],
         "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-pro",
           "kling-3-standard",
@@ -1437,8 +1426,7 @@
           "sora-2",
           "sora-2-pro",
           "veo-3-1",
-          "veo-3-1-fast",
-          "wan-2-6"
+          "veo-3-1-fast"
         ],
         "includeInHub": true
       },
@@ -2531,8 +2519,6 @@
           "kling-3-standard"
         ],
         "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-pro",
           "kling-3-standard",
@@ -2548,8 +2534,7 @@
           "sora-2-pro",
           "veo-3-1",
           "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -3025,8 +3010,6 @@
           "ltx-2-3-fast"
         ],
         "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-pro",
           "kling-3-standard",
@@ -3042,8 +3025,7 @@
           "sora-2-pro",
           "veo-3-1",
           "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -5368,8 +5350,6 @@
         ],
         "publishedPairs": [
           "grok-imagine-video-1-5",
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-pro",
           "kling-3-standard",
@@ -5385,8 +5365,7 @@
           "sora-2-pro",
           "veo-3-1",
           "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -5635,8 +5614,6 @@
       "compare": {
         "suggestOpponents": [],
         "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-pro",
           "kling-3-standard",
@@ -5652,8 +5629,7 @@
           "sora-2",
           "veo-3-1",
           "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -5901,9 +5877,7 @@
         "kling-o3-4k",
         "kling-3-pro",
         "kling-3-standard",
-        "kling-3-4k",
-        "kling-2-6-pro",
-        "kling-2-5-turbo"
+        "kling-3-4k"
       ],
       "currentModelSlugs": [
         "kling-v4",
@@ -5922,47 +5896,27 @@
     "availability": "available",
     "logoPolicy": "logoAllowed",
     "lifecycle": "legacy",
-    "successorId": null,
-    "successorSlug": null,
+    "successorId": "kling-3-turbo-standard",
+    "successorSlug": "kling-3-turbo-standard",
     "surfaces": {
       "modelPage": {
-        "indexable": true,
-        "includeInSitemap": true
+        "indexable": false,
+        "includeInSitemap": false
       },
       "examples": {
-        "includeInFamilyResolver": true,
-        "includeInFamilyCopy": true
+        "includeInFamilyResolver": false,
+        "includeInFamilyCopy": false
       },
       "compare": {
         "suggestOpponents": [],
-        "publishedPairs": [
-          "kling-2-6-pro",
-          "kling-3-4k",
-          "kling-3-pro",
-          "kling-3-standard",
-          "ltx-2",
-          "ltx-2-3-fast",
-          "ltx-2-3-pro",
-          "ltx-2-fast",
-          "luma-ray-2",
-          "luma-ray-2-flash",
-          "minimax-hailuo-02-text",
-          "pika-text-to-video",
-          "seedance-2-0",
-          "sora-2",
-          "sora-2-pro",
-          "veo-3-1",
-          "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
-        ],
-        "includeInHub": true
+        "publishedPairs": [],
+        "includeInHub": false
       },
       "app": {
-        "enabled": true
+        "enabled": false
       },
       "pricing": {
-        "includeInEstimator": true
+        "includeInEstimator": false
       }
     },
     "surfacesSource": "registry",
@@ -6248,9 +6202,7 @@
         "kling-o3-4k",
         "kling-3-pro",
         "kling-3-standard",
-        "kling-3-4k",
-        "kling-2-6-pro",
-        "kling-2-5-turbo"
+        "kling-3-4k"
       ],
       "currentModelSlugs": [
         "kling-v4",
@@ -6269,47 +6221,27 @@
     "availability": "available",
     "logoPolicy": "logoAllowed",
     "lifecycle": "legacy",
-    "successorId": null,
-    "successorSlug": null,
+    "successorId": "kling-3-pro",
+    "successorSlug": "kling-3-pro",
     "surfaces": {
       "modelPage": {
-        "indexable": true,
-        "includeInSitemap": true
+        "indexable": false,
+        "includeInSitemap": false
       },
       "examples": {
-        "includeInFamilyResolver": true,
-        "includeInFamilyCopy": true
+        "includeInFamilyResolver": false,
+        "includeInFamilyCopy": false
       },
       "compare": {
         "suggestOpponents": [],
-        "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-3-4k",
-          "kling-3-pro",
-          "kling-3-standard",
-          "ltx-2",
-          "ltx-2-3-fast",
-          "ltx-2-3-pro",
-          "ltx-2-fast",
-          "luma-ray-2",
-          "luma-ray-2-flash",
-          "minimax-hailuo-02-text",
-          "pika-text-to-video",
-          "seedance-2-0",
-          "sora-2",
-          "sora-2-pro",
-          "veo-3-1",
-          "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
-        ],
-        "includeInHub": true
+        "publishedPairs": [],
+        "includeInHub": false
       },
       "app": {
-        "enabled": true
+        "enabled": false
       },
       "pricing": {
-        "includeInEstimator": true
+        "includeInEstimator": false
       }
     },
     "surfacesSource": "registry",
@@ -6603,9 +6535,7 @@
         "kling-o3-4k",
         "kling-3-pro",
         "kling-3-standard",
-        "kling-3-4k",
-        "kling-2-6-pro",
-        "kling-2-5-turbo"
+        "kling-3-4k"
       ],
       "currentModelSlugs": [
         "kling-v4",
@@ -6642,8 +6572,6 @@
           "veo-3-1"
         ],
         "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-standard",
           "ltx-2",
@@ -6660,8 +6588,7 @@
           "sora-2-pro",
           "veo-3-1",
           "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -6854,22 +6781,22 @@
       "pricingDetails": {
         "currency": "USD",
         "perSecondCents": {
-          "default": 16.8
+          "default": 15
         },
         "addons": {
           "audio_off": {
-            "perSecondCents": -5.6
+            "perSecondCents": -5
           },
           "voice_control": {
-            "perSecondCents": 2.8
+            "perSecondCents": 0
           }
         }
       },
       "pricing": {
         "unit": "USD/s",
-        "base": 0.168,
+        "base": 0.15,
         "currency": "USD",
-        "notes": "Provider cost: $0.112/s audio off and $0.168/s audio on. Keyvo display prices add platform margin before showing quotes."
+        "notes": "Provider cost: Bailian list CNY 0.8/s audio off and 1.2/s audio on. Keyvo customer prices are 80% of the list price."
       },
       "updatedAt": "2026-04-25T00:00:00Z",
       "ttlSec": 600,
@@ -7001,9 +6928,7 @@
         "kling-o3-4k",
         "kling-3-pro",
         "kling-3-standard",
-        "kling-3-4k",
-        "kling-2-6-pro",
-        "kling-2-5-turbo"
+        "kling-3-4k"
       ],
       "currentModelSlugs": [
         "kling-v4",
@@ -7040,8 +6965,6 @@
           "ltx-2-3-fast"
         ],
         "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-pro",
           "ltx-2",
@@ -7057,8 +6980,7 @@
           "sora-2-pro",
           "veo-3-1",
           "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -7251,22 +7173,22 @@
       "pricingDetails": {
         "currency": "USD",
         "perSecondCents": {
-          "default": 12.6
+          "default": 11.25
         },
         "addons": {
           "audio_off": {
-            "perSecondCents": -4.2
+            "perSecondCents": -3.75
           },
           "voice_control": {
-            "perSecondCents": 2.8
+            "perSecondCents": 0
           }
         }
       },
       "pricing": {
         "unit": "USD/s",
-        "base": 0.126,
+        "base": 0.1125,
         "currency": "USD",
-        "notes": "Provider cost: $0.084/s audio off and $0.126/s audio on. Keyvo display prices add platform margin before showing quotes."
+        "notes": "Provider cost: Bailian list CNY 0.6/s audio off and 0.9/s audio on. Keyvo customer prices are 80% of the list price."
       },
       "updatedAt": "2026-04-25T00:00:00Z",
       "ttlSec": 600,
@@ -7398,9 +7320,7 @@
         "kling-o3-4k",
         "kling-3-pro",
         "kling-3-standard",
-        "kling-3-4k",
-        "kling-2-6-pro",
-        "kling-2-5-turbo"
+        "kling-3-4k"
       ],
       "currentModelSlugs": [
         "kling-v4",
@@ -7615,20 +7535,20 @@
       "pricingDetails": {
         "currency": "USD",
         "perSecondCents": {
-          "default": 42,
+          "default": 37.5,
           "byResolution": {
-            "4k": 42
+            "4k": 37.5
           }
         }
       },
       "pricing": {
         "unit": "USD/s",
-        "base": 0.42,
+        "base": 0.375,
         "byResolution": {
-          "4k": 0.42
+          "4k": 0.375
         },
         "currency": "USD",
-        "notes": "Provider cost: $0.420/s native 4K output. Keyvo display prices add platform margin before showing quotes."
+        "notes": "Provider cost: Bailian list CNY 3.0/s native 4K output. Keyvo customer prices are 80% of the list price."
       },
       "updatedAt": "2026-04-25T00:00:00Z",
       "ttlSec": 600,
@@ -7759,9 +7679,7 @@
         "kling-o3-4k",
         "kling-3-pro",
         "kling-3-standard",
-        "kling-3-4k",
-        "kling-2-6-pro",
-        "kling-2-5-turbo"
+        "kling-3-4k"
       ],
       "currentModelSlugs": [
         "kling-v4",
@@ -8029,27 +7947,27 @@
       "pricingDetails": {
         "currency": "USD",
         "perSecondCents": {
-          "default": 12.6,
+          "default": 11.25,
           "byResolution": {
-            "1080p": 12.6,
-            "720p": 12.6
+            "1080p": 11.25,
+            "720p": 11.25
           }
         },
         "addons": {
           "audio_off": {
-            "perSecondCents": -4.2
+            "perSecondCents": -3.75
           }
         }
       },
       "pricing": {
         "unit": "USD/s",
-        "base": 0.126,
+        "base": 0.113,
         "byResolution": {
-          "1080p": 0.126,
-          "720p": 0.126
+          "1080p": 0.113,
+          "720p": 0.113
         },
         "currency": "USD",
-        "notes": "Provider cost: $0.084/s audio off and $0.126/s audio on for Kling 3.0 Omni Standard. Keyvo display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.075/s audio off and $0.113/s audio on for Kling 3.0 Omni Standard. Keyvo customer prices are 80% of the Bailian list price."
       },
       "updatedAt": "2026-06-01T00:00:00Z",
       "ttlSec": 600,
@@ -8751,9 +8669,7 @@
         "kling-o3-4k",
         "kling-3-pro",
         "kling-3-standard",
-        "kling-3-4k",
-        "kling-2-6-pro",
-        "kling-2-5-turbo"
+        "kling-3-4k"
       ],
       "currentModelSlugs": [
         "kling-v4",
@@ -9022,25 +8938,25 @@
       "pricingDetails": {
         "currency": "USD",
         "perSecondCents": {
-          "default": 16.8,
+          "default": 15,
           "byResolution": {
-            "1080p": 16.8
+            "1080p": 15
           }
         },
         "addons": {
           "audio_off": {
-            "perSecondCents": -5.6
+            "perSecondCents": -5
           }
         }
       },
       "pricing": {
         "unit": "USD/s",
-        "base": 0.168,
+        "base": 0.15,
         "byResolution": {
-          "1080p": 0.168
+          "1080p": 0.15
         },
         "currency": "USD",
-        "notes": "Provider cost: $0.112/s audio off and $0.168/s audio on for Kling 3.0 Omni Pro. Keyvo display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.100/s audio off and $0.150/s audio on for Kling 3.0 Omni Pro. Keyvo customer prices are 80% of the Bailian list price."
       },
       "updatedAt": "2026-06-01T00:00:00Z",
       "ttlSec": 600,
@@ -9741,9 +9657,7 @@
         "kling-o3-4k",
         "kling-3-pro",
         "kling-3-standard",
-        "kling-3-4k",
-        "kling-2-6-pro",
-        "kling-2-5-turbo"
+        "kling-3-4k"
       ],
       "currentModelSlugs": [
         "kling-v4",
@@ -10021,20 +9935,20 @@
       "pricingDetails": {
         "currency": "USD",
         "perSecondCents": {
-          "default": 42,
+          "default": 37.5,
           "byResolution": {
-            "4k": 42
+            "4k": 37.5
           }
         }
       },
       "pricing": {
         "unit": "USD/s",
-        "base": 0.42,
+        "base": 0.375,
         "byResolution": {
-          "4k": 0.42
+          "4k": 0.375
         },
         "currency": "USD",
-        "notes": "Provider cost: $0.420/s for Kling 3.0 Omni 4K. Keyvo display prices add platform margin before showing quotes."
+        "notes": "Provider cost: $0.375/s for Kling 3.0 Omni 4K. Keyvo customer prices are 80% of the Bailian list price."
       },
       "updatedAt": "2026-06-01T00:00:00Z",
       "ttlSec": 600,
@@ -10748,9 +10662,7 @@
         "kling-o3-4k",
         "kling-3-pro",
         "kling-3-standard",
-        "kling-3-4k",
-        "kling-2-6-pro",
-        "kling-2-5-turbo"
+        "kling-3-4k"
       ],
       "currentModelSlugs": [
         "kling-v4",
@@ -10933,15 +10845,15 @@
       "pricingDetails": {
         "currency": "USD",
         "perSecondCents": {
-          "default": 11.2
+          "default": 10
         },
         "maxDurationSec": 15
       },
       "pricing": {
         "unit": "USD/s",
-        "base": 0.11199999999999999,
+        "base": 0.1,
         "currency": "USD",
-        "notes": "Provider-cost ceiling: $0.112/s until direct Kling account pricing is proven lower."
+        "notes": "Provider cost: Bailian / Kling list price, $0.1000/s at 8 CNY/USD. Keyvo customer prices are 80% of the list price."
       },
       "updatedAt": "2026-09-03T00:00:00Z",
       "ttlSec": 600,
@@ -11134,9 +11046,7 @@
         "kling-o3-4k",
         "kling-3-pro",
         "kling-3-standard",
-        "kling-3-4k",
-        "kling-2-6-pro",
-        "kling-2-5-turbo"
+        "kling-3-4k"
       ],
       "currentModelSlugs": [
         "kling-v4",
@@ -11323,15 +11233,15 @@
       "pricingDetails": {
         "currency": "USD",
         "perSecondCents": {
-          "default": 14
+          "default": 12.5
         },
         "maxDurationSec": 15
       },
       "pricing": {
         "unit": "USD/s",
-        "base": 0.14,
+        "base": 0.125,
         "currency": "USD",
-        "notes": "Provider-cost ceiling: $0.140/s until direct Kling account pricing is proven lower."
+        "notes": "Provider cost: Bailian / Kling list price, $0.1250/s at 8 CNY/USD. Keyvo customer prices are 80% of the list price."
       },
       "updatedAt": "2026-09-03T00:00:00Z",
       "ttlSec": 600,
@@ -11524,9 +11434,7 @@
         "kling-o3-4k",
         "kling-3-pro",
         "kling-3-standard",
-        "kling-3-4k",
-        "kling-2-6-pro",
-        "kling-2-5-turbo"
+        "kling-3-4k"
       ],
       "currentModelSlugs": [
         "kling-v4",
@@ -12556,24 +12464,24 @@
       "pricingDetails": {
         "currency": "USD",
         "perSecondCents": {
-          "default": 14,
+          "default": 11.25,
           "byResolution": {
-            "480p": 7,
-            "720p": 14,
-            "1080p": 18
+            "480p": 5.625,
+            "720p": 11.25,
+            "1080p": 15
           }
         }
       },
       "pricing": {
         "unit": "USD/s",
-        "base": 0.14,
+        "base": 0.1125,
         "byResolution": {
-          "480p": 0.07,
-          "720p": 0.14,
-          "1080p": 0.18
+          "480p": 0.05625,
+          "720p": 0.1125,
+          "1080p": 0.15
         },
         "currency": "USD",
-        "notes": "Provider cost: $0.14/s for 720p and $0.18/s for 1080p on Happy Horse 1.1 text, image, and reference-to-video runs. Keyvo display prices add platform margin before showing quotes."
+        "notes": "Provider cost: Bailian list CNY 0.45/s (480p), 0.9/s (720p) and 1.2/s (1080p) on Happy Horse 1.1 text, image, and reference-to-video runs. Keyvo customer prices are 80% of the list price."
       },
       "updatedAt": "2026-06-22T00:00:00Z",
       "ttlSec": 600,
@@ -13907,8 +13815,6 @@
           "sora-2"
         ],
         "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-pro",
           "kling-3-standard",
@@ -13925,7 +13831,6 @@
           "veo-3-1",
           "veo-3-1-fast",
           "veo-3-1-lite",
-          "wan-2-6",
           "seedance-2-0-fast",
           "seedance-2-5"
         ],
@@ -14282,11 +14187,37 @@
         "currency": "USD",
         "tokenPricing": {
           "model": "byteplus_tokens",
-          "unitPriceUsdPer1kTokens": 0.013461538461538462,
-          "unitPriceUsdPer1kTokensByResolution": {
-            "1080p": 0.014807692307692306,
-            "4k": 0.007692307692307692
+          "unitPriceUsdPer1kTokens": 0.00575,
+          "unitPriceUsdPer1kTokensByInputType": {
+            "no_video_input": 0.00575,
+            "video_input": 0.0035
           },
+          "unitPriceUsdPer1kTokensByResolution": {
+            "480p": 0.00575,
+            "720p": 0.00575,
+            "1080p": 0.006375,
+            "4k": 0.00325
+          },
+          "unitPriceUsdPer1kTokensByResolutionAndInputType": {
+            "480p": {
+              "no_video_input": 0.00575,
+              "video_input": 0.0035
+            },
+            "720p": {
+              "no_video_input": 0.00575,
+              "video_input": 0.0035
+            },
+            "1080p": {
+              "no_video_input": 0.006375,
+              "video_input": 0.003875
+            },
+            "4k": {
+              "no_video_input": 0.00325,
+              "video_input": 0.002
+            }
+          },
+          "pricingSource": "volcengine_ark_cn_beijing_list_2026_11_13",
+          "inputVideoTokenBasis": "input_plus_output",
           "framesPerSecond": 24,
           "defaultAspectRatio": "16:9",
           "dimensions": {
@@ -14417,7 +14348,7 @@
       "pricing": {
         "unit": "USD/s",
         "currency": "USD",
-        "notes": "Seedance 2 is billed from output tokens. Keyvo adds its margin and rounds up to the next cent before showing the live quote."
+        "notes": "Seedance 2 is billed from tokens at the Volcengine Ark list price (input video seconds count when present). Keyvo customer prices are 80% of the list price."
       },
       "updatedAt": "2026-04-05T00:00:00Z",
       "ttlSec": 600,
@@ -14752,8 +14683,6 @@
           "sora-2"
         ],
         "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-pro",
           "kling-3-standard",
@@ -14770,8 +14699,7 @@
           "sora-2-pro",
           "veo-3-1",
           "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -15123,7 +15051,27 @@
         "currency": "USD",
         "tokenPricing": {
           "model": "byteplus_tokens",
-          "unitPriceUsdPer1kTokens": 0.010769230769230769,
+          "unitPriceUsdPer1kTokens": 0.004625,
+          "unitPriceUsdPer1kTokensByInputType": {
+            "no_video_input": 0.004625,
+            "video_input": 0.00275
+          },
+          "unitPriceUsdPer1kTokensByResolution": {
+            "480p": 0.004625,
+            "720p": 0.004625
+          },
+          "unitPriceUsdPer1kTokensByResolutionAndInputType": {
+            "480p": {
+              "no_video_input": 0.004625,
+              "video_input": 0.00275
+            },
+            "720p": {
+              "no_video_input": 0.004625,
+              "video_input": 0.00275
+            }
+          },
+          "pricingSource": "volcengine_ark_cn_beijing_list_2026_11_13",
+          "inputVideoTokenBasis": "input_plus_output",
           "framesPerSecond": 24,
           "defaultAspectRatio": "16:9",
           "dimensions": {
@@ -15254,7 +15202,7 @@
       "pricing": {
         "unit": "USD/s",
         "currency": "USD",
-        "notes": "Seedance 2 Fast is billed from output tokens. Keyvo adds its margin and rounds up to the next cent before showing the live quote."
+        "notes": "Seedance 2 Fast is billed from tokens at the Volcengine Ark list price (input video seconds count when present). Keyvo customer prices are 80% of the list price."
       },
       "updatedAt": "2026-04-05T00:00:00Z",
       "ttlSec": 600,
@@ -15933,8 +15881,27 @@
         "currency": "USD",
         "tokenPricing": {
           "model": "byteplus_tokens",
-          "unitPriceUsdPer1kTokens": 0.006730769230769231,
-          "pricingSource": "byteplus_seedance_2_0_mini_flat_markup",
+          "unitPriceUsdPer1kTokens": 0.002875,
+          "unitPriceUsdPer1kTokensByInputType": {
+            "no_video_input": 0.002875,
+            "video_input": 0.00175
+          },
+          "unitPriceUsdPer1kTokensByResolution": {
+            "480p": 0.002875,
+            "720p": 0.002875
+          },
+          "unitPriceUsdPer1kTokensByResolutionAndInputType": {
+            "480p": {
+              "no_video_input": 0.002875,
+              "video_input": 0.00175
+            },
+            "720p": {
+              "no_video_input": 0.002875,
+              "video_input": 0.00175
+            }
+          },
+          "pricingSource": "volcengine_ark_cn_beijing_list_2026_11_13",
+          "inputVideoTokenBasis": "input_plus_output",
           "framesPerSecond": 24,
           "defaultAspectRatio": "16:9",
           "dimensions": {
@@ -16005,7 +15972,7 @@
       "pricing": {
         "unit": "USD/s",
         "currency": "USD",
-        "notes": "Seedance 2 Mini is billed from output tokens with one flat public Keyvo rate across text, image, reference, source-video, and extend workflows."
+        "notes": "Seedance 2 Mini is billed from tokens at the Volcengine Ark list price (a lower rate when the input contains video, whose seconds also count). Keyvo customer prices are 80% of the list price."
       },
       "updatedAt": "2026-06-15T00:00:00Z",
       "ttlSec": 600,
@@ -17082,12 +17049,32 @@
         "currency": "USD",
         "tokenPricing": {
           "model": "byteplus_tokens",
-          "unitPriceUsdPer1kTokens": 0.020576923076923076,
+          "unitPriceUsdPer1kTokens": 0.00875,
           "unitPriceUsdPer1kTokensByInputType": {
-            "no_video_input": 0.020576923076923076,
-            "video_input": 0.012307692307692308
+            "no_video_input": 0.00875,
+            "video_input": 0.00525
           },
-          "pricingSource": "byteplus_seedance_2_5_260628_approved_2_5x",
+          "unitPriceUsdPer1kTokensByResolution": {
+            "480p": 0.00875,
+            "720p": 0.00875,
+            "1080p": 0.009625
+          },
+          "unitPriceUsdPer1kTokensByResolutionAndInputType": {
+            "480p": {
+              "no_video_input": 0.00875,
+              "video_input": 0.00525
+            },
+            "720p": {
+              "no_video_input": 0.00875,
+              "video_input": 0.00525
+            },
+            "1080p": {
+              "no_video_input": 0.009625,
+              "video_input": 0.00575
+            }
+          },
+          "pricingSource": "volcengine_ark_cn_beijing_list_2026_11_13",
+          "inputVideoTokenBasis": "input_plus_output",
           "framesPerSecond": 24,
           "defaultAspectRatio": "16:9",
           "dimensions": {
@@ -17548,8 +17535,7 @@
       "showInNav": true,
       "publishedModelSlugs": [
         "wan-3-prime",
-        "wan-3",
-        "wan-2-6"
+        "wan-3"
       ],
       "currentModelSlugs": [
         "wan-3-prime",
@@ -17847,8 +17833,7 @@
       "showInNav": true,
       "publishedModelSlugs": [
         "wan-3-prime",
-        "wan-3",
-        "wan-2-6"
+        "wan-3"
       ],
       "currentModelSlugs": [
         "wan-3-prime",
@@ -17863,49 +17848,23 @@
     "successorSlug": "wan-3",
     "surfaces": {
       "modelPage": {
-        "indexable": true,
-        "includeInSitemap": true
+        "indexable": false,
+        "includeInSitemap": false
       },
       "examples": {
-        "includeInFamilyResolver": true,
-        "includeInFamilyCopy": true
+        "includeInFamilyResolver": false,
+        "includeInFamilyCopy": false
       },
       "compare": {
-        "suggestOpponents": [
-          "wan-3",
-          "sora-2",
-          "veo-3-1",
-          "ltx-2-3-fast"
-        ],
-        "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
-          "kling-3-4k",
-          "kling-3-pro",
-          "kling-3-standard",
-          "ltx-2",
-          "ltx-2-3-fast",
-          "ltx-2-3-pro",
-          "ltx-2-fast",
-          "luma-ray-2",
-          "luma-ray-2-flash",
-          "minimax-hailuo-02-text",
-          "pika-text-to-video",
-          "seedance-2-0",
-          "sora-2",
-          "sora-2-pro",
-          "veo-3-1",
-          "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-3"
-        ],
-        "includeInHub": true
+        "suggestOpponents": [],
+        "publishedPairs": [],
+        "includeInHub": false
       },
       "app": {
-        "enabled": true
+        "enabled": false
       },
       "pricing": {
-        "includeInEstimator": true
+        "includeInEstimator": false
       }
     },
     "surfacesSource": "registry",
@@ -18270,8 +18229,6 @@
           "ltx-2-3-fast"
         ],
         "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-pro",
           "kling-3-standard",
@@ -18287,8 +18244,7 @@
           "sora-2-pro",
           "veo-3-1",
           "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -18585,8 +18541,6 @@
       "compare": {
         "suggestOpponents": [],
         "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-pro",
           "kling-3-standard",
@@ -18602,8 +18556,7 @@
           "sora-2-pro",
           "veo-3-1",
           "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -18890,8 +18843,6 @@
           "ltx-2-fast"
         ],
         "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-pro",
           "kling-3-standard",
@@ -18908,8 +18859,7 @@
           "sora-2-pro",
           "veo-3-1",
           "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -19255,8 +19205,6 @@
           "sora-2"
         ],
         "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-pro",
           "kling-3-standard",
@@ -19273,8 +19221,7 @@
           "sora-2-pro",
           "veo-3-1",
           "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -20324,26 +20271,26 @@
       "pricingDetails": {
         "currency": "USD",
         "perSecondCents": {
-          "default": 13,
+          "default": 10,
           "byResolution": {
             "480P": 5,
-            "768P": 6,
-            "2K": 13,
+            "768P": 6.25,
+            "2K": 10,
             "4K": 16
           }
         }
       },
       "pricing": {
         "unit": "USD/s",
-        "base": 0.13,
+        "base": 0.1,
         "byResolution": {
           "480P": 0.05,
-          "768P": 0.06,
-          "2K": 0.13,
+          "768P": 0.0625,
+          "2K": 0.1,
           "4K": 0.16
         },
         "currency": "USD",
-        "notes": "Provider cost varies by resolution; reference images above five add USD 0.08 each."
+        "notes": "Provider cost (Bailian / MiniMax list): CNY 0.50/s at 768P and 0.80/s at 2K; reference-video seconds at the same rate and reference images above five at CNY 0.20 each. Keyvo customer prices are 80% of the list price."
       },
       "updatedAt": "2026-09-22T00:00:00Z",
       "ttlSec": 600,
@@ -20582,8 +20529,7 @@
       "maxDurationSec": 15,
       "resolutions": [
         "480P",
-        "768P",
-        "1080P"
+        "768P"
       ],
       "aspectRatios": [
         "21:9",
@@ -20605,7 +20551,7 @@
       "params": {},
       "inputLimits": {
         "videoMaxDurationSec": 15,
-        "promptMaxChars": 50000,
+        "promptMaxChars": 7000,
         "promptMaxCharsSource": "official"
       },
       "inputSchema": {
@@ -20661,49 +20607,6 @@
         ],
         "optional": [
           {
-            "id": "middle_image_url",
-            "type": "image",
-            "acceptedMimeTypes": [
-              "image/jpeg",
-              "image/png",
-              "image/webp"
-            ],
-            "acceptedFileExtensions": [
-              "jpg",
-              "jpeg",
-              "png",
-              "webp"
-            ],
-            "label": "Middle frame",
-            "description": "Requires start and end frames and native 480P or 768P.",
-            "modes": [
-              "ref2v"
-            ],
-            "minCount": 0,
-            "maxCount": 1,
-            "source": "either"
-          },
-          {
-            "id": "middle_frame_time",
-            "type": "number",
-            "label": "Middle frame time (seconds)",
-            "modes": [
-              "ref2v"
-            ],
-            "min": 0,
-            "max": 15,
-            "step": 0.041666666666666664
-          },
-          {
-            "id": "reference_order",
-            "type": "text",
-            "label": "Reference order",
-            "description": "Optional complete order, for example video1,image1,audio1. List every attached reference exactly once. Leave empty to use the separate image/video/audio lists.",
-            "modes": [
-              "ref2v"
-            ]
-          },
-          {
             "id": "image_url",
             "type": "image",
             "acceptedMimeTypes": [
@@ -20720,8 +20623,7 @@
             "label": "Start image",
             "description": "First frame; supply a start image, an end image, or both.",
             "modes": [
-              "i2v",
-              "ref2v"
+              "i2v"
             ],
             "minCount": 0,
             "maxCount": 1,
@@ -20744,8 +20646,7 @@
             "label": "End image",
             "description": "Final frame; may be supplied alone or with a start image.",
             "modes": [
-              "i2v",
-              "ref2v"
+              "i2v"
             ],
             "minCount": 0,
             "maxCount": 1,
@@ -20826,46 +20727,6 @@
             "source": "either"
           },
           {
-            "id": "target_audio_url",
-            "type": "audio",
-            "acceptedMimeTypes": [
-              "audio/mpeg",
-              "audio/mp3",
-              "audio/wav",
-              "audio/x-wav",
-              "audio/wave",
-              "audio/vnd.wave"
-            ],
-            "acceptedFileExtensions": [
-              "mp3",
-              "wav"
-            ],
-            "label": "Soundtrack",
-            "description": "Use this audio as the soundtrack. It is trimmed or padded to the video duration, without changing playback speed.",
-            "modes": [
-              "t2v",
-              "i2v"
-            ],
-            "minCount": 0,
-            "maxCount": 1,
-            "minDurationSec": 2,
-            "maxSizeMB": 15,
-            "source": "either"
-          },
-          {
-            "id": "seed",
-            "type": "number",
-            "label": "Seed",
-            "modes": [
-              "t2v",
-              "i2v",
-              "ref2v"
-            ],
-            "min": 0,
-            "max": 2147483647,
-            "step": 1
-          },
-          {
             "id": "duration",
             "type": "enum",
             "label": "Duration (seconds)",
@@ -20902,8 +20763,7 @@
             ],
             "values": [
               "480P",
-              "768P",
-              "1080P"
+              "768P"
             ],
             "default": "768P"
           },
@@ -21021,6 +20881,10 @@
           "countUniqueUrls": true
         },
         "constraints": {
+          "minImageSidePx": 256,
+          "maxImageSizeMB": 30,
+          "maxVideoSizeMB": 50,
+          "maxAudioSizeMB": 15,
           "maxCombinedVideoDurationSec": 15,
           "maxCombinedAudioDurationSec": 15,
           "ownedAssetModes": [
@@ -21045,21 +20909,19 @@
       "pricingDetails": {
         "currency": "USD",
         "perSecondCents": {
-          "default": 8,
+          "default": 6.25,
           "byResolution": {
-            "480P": 5,
-            "768P": 8,
-            "1080P": 16
+            "480P": 4.125,
+            "768P": 6.25
           }
         },
         "byMode": {
           "ref2v": {
             "perSecondCents": {
-              "default": 8,
+              "default": 6.25,
               "byResolution": {
-                "480P": 5,
-                "768P": 8,
-                "1080P": 16
+                "480P": 4.125,
+                "768P": 6.25
               }
             }
           }
@@ -21068,16 +20930,15 @@
       },
       "pricing": {
         "unit": "USD/s",
-        "base": 0.08,
+        "base": 0.0625,
         "byResolution": {
-          "480P": 0.05,
-          "768P": 0.08,
-          "1080P": 0.16
+          "480P": 0.04125,
+          "768P": 0.0625
         },
         "currency": "USD",
-        "notes": "Output catalog rates are $0.05/s at 480P, $0.08/s at 768P, and $0.16/s at 1080P. Reference generation also bills normalized media tokens above 4,096; Keyvo quotes a fixed price from a conservative budget based on verified reference metadata."
+        "notes": "MiniMax official output rates are CNY 0.33/s at 480P and CNY 0.50/s at 768P. Reference generation adds reference-video seconds (CNY 0.37/s at 480P, CNY 0.97/s at 768P) and CNY 0.50 per image beyond two, measured from verified media."
       },
-      "updatedAt": "2026-09-03T00:00:00Z",
+      "updatedAt": "2026-11-12T00:00:00Z",
       "ttlSec": 600,
       "providerMeta": {
         "provider": "minimax",
@@ -21114,8 +20975,7 @@
           },
           "resolution": [
             "480P",
-            "768P",
-            "1080P"
+            "768P"
           ],
           "aspectRatio": [
             "21:9",
@@ -21150,11 +21010,10 @@
           },
           "resolution": [
             "480P",
-            "768P",
-            "1080P"
+            "768P"
           ],
           "audioToggle": false,
-          "notes": "Animate a start image, end image, or both, with native audio or an imposed soundtrack."
+          "notes": "Animate a start image, end image, or both, with native audio."
         },
         "ref2v": {
           "modes": [
@@ -21187,8 +21046,7 @@
           },
           "resolution": [
             "480P",
-            "768P",
-            "1080P"
+            "768P"
           ],
           "audioToggle": false,
           "notes": "Combine image, video, and audio references, including audio-only references."
@@ -21476,8 +21334,7 @@
           },
           "resolution": [
             "480P",
-            "768P",
-            "1080P"
+            "768P"
           ],
           "aspectRatio": [
             "21:9",
@@ -21516,11 +21373,10 @@
           },
           "resolution": [
             "480P",
-            "768P",
-            "1080P"
+            "768P"
           ],
           "audioToggle": false,
-          "notes": "Animate a start image, end image, or both, with native audio or an imposed soundtrack."
+          "notes": "Animate a start image, end image, or both, with native audio."
         }
       },
       {
@@ -21557,8 +21413,7 @@
           },
           "resolution": [
             "480P",
-            "768P",
-            "1080P"
+            "768P"
           ],
           "audioToggle": false,
           "notes": "Combine image, video, and audio references, including audio-only references."
@@ -21634,8 +21489,6 @@
       "compare": {
         "suggestOpponents": [],
         "publishedPairs": [
-          "kling-2-5-turbo",
-          "kling-2-6-pro",
           "kling-3-4k",
           "kling-3-pro",
           "kling-3-standard",
@@ -21651,8 +21504,7 @@
           "sora-2-pro",
           "veo-3-1",
           "veo-3-1-fast",
-          "veo-3-1-lite",
-          "wan-2-6"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -21784,18 +21636,18 @@
       "pricingDetails": {
         "currency": "USD",
         "perSecondCents": {
-          "default": 4.5,
+          "default": 4.166666666666667,
           "byResolution": {
-            "512P": 4,
-            "768P": 4.5
+            "512P": 1.25,
+            "768P": 4.166666666666667
           }
         }
       },
       "pricing": {
         "unit": "USD/s",
-        "base": 0.045,
+        "base": 0.041666666666666664,
         "currency": "USD",
-        "notes": "$0.045/s standard tier"
+        "notes": "MiniMax list: CNY 2.00 per 6 s 768P video. Keyvo customer prices are 80% of the list price."
       },
       "updatedAt": "2025-02-14T00:00:00Z",
       "ttlSec": 600,
@@ -25831,9 +25683,7 @@
         "kling-o3-4k",
         "kling-3-pro",
         "kling-3-standard",
-        "kling-3-4k",
-        "kling-2-6-pro",
-        "kling-2-5-turbo"
+        "kling-3-4k"
       ],
       "currentModelSlugs": [
         "kling-v4",
@@ -26835,23 +26685,23 @@
       "pricingDetails": {
         "currency": "USD",
         "perSecondCents": {
-          "default": 12,
+          "default": 7.5,
           "byResolution": {
-            "2K": 12
+            "2K": 7.5
           }
         },
         "flatCents": {
-          "default": 12,
+          "default": 7.5,
           "byResolution": {
-            "2K": 12
+            "2K": 7.5
           }
         }
       },
       "pricing": {
         "unit": "image",
-        "base": 0.12,
+        "base": 0.075,
         "byResolution": {
-          "2K": 0.12
+          "2K": 0.075
         },
         "currency": "USD",
         "notes": "Seedream 5.0 Pro is billed per successfully generated professional image."
@@ -27112,15 +26962,15 @@
       "pricingDetails": {
         "currency": "USD",
         "perSecondCents": {
-          "default": 2,
+          "default": 1.5,
           "byResolution": {
-            "2K": 2
+            "2K": 1.5
           }
         },
         "flatCents": {
-          "default": 2,
+          "default": 1.5,
           "byResolution": {
-            "2K": 2
+            "2K": 1.5
           }
         }
       },
@@ -27753,8 +27603,7 @@
       "showInNav": true,
       "publishedModelSlugs": [
         "wan-3-prime",
-        "wan-3",
-        "wan-2-6"
+        "wan-3"
       ],
       "currentModelSlugs": [
         "wan-3-prime",
@@ -27779,12 +27628,10 @@
       "compare": {
         "suggestOpponents": [
           "seedance-2-5",
-          "wan-3-prime",
-          "wan-2-6"
+          "wan-3-prime"
         ],
         "publishedPairs": [
           "seedance-2-5",
-          "wan-2-6",
           "wan-3-prime"
         ],
         "includeInHub": true
@@ -28149,21 +27996,21 @@
       "pricingDetails": {
         "currency": "USD",
         "perSecondCents": {
-          "default": 20,
+          "default": 15,
           "byResolution": {
-            "480p": 5,
-            "720p": 10,
-            "1080p": 20
+            "480p": 3.75,
+            "720p": 7.5,
+            "1080p": 15
           }
         }
       },
       "pricing": {
         "unit": "USD/s",
-        "base": 0.2,
+        "base": 0.15,
         "byResolution": {
-          "480p": 0.05,
-          "720p": 0.1,
-          "1080p": 0.2
+          "480p": 0.0375,
+          "720p": 0.075,
+          "1080p": 0.15
         },
         "currency": "USD",
         "notes": "Provider cost per input and generated output video second, selected by output resolution."
@@ -28500,8 +28347,7 @@
       "showInNav": true,
       "publishedModelSlugs": [
         "wan-3-prime",
-        "wan-3",
-        "wan-2-6"
+        "wan-3"
       ],
       "currentModelSlugs": [
         "wan-3-prime",
@@ -28894,21 +28740,21 @@
       "pricingDetails": {
         "currency": "USD",
         "perSecondCents": {
-          "default": 28,
+          "default": 22.5,
           "byResolution": {
-            "480p": 6.8,
-            "720p": 14,
-            "1080p": 28
+            "480p": 5.625,
+            "720p": 11.25,
+            "1080p": 22.5
           }
         }
       },
       "pricing": {
         "unit": "USD/s",
-        "base": 0.28,
+        "base": 0.225,
         "byResolution": {
-          "480p": 0.068,
-          "720p": 0.14,
-          "1080p": 0.28
+          "480p": 0.05625,
+          "720p": 0.1125,
+          "1080p": 0.225
         },
         "currency": "USD",
         "notes": "Provider cost per input and generated output video second, selected by output resolution."

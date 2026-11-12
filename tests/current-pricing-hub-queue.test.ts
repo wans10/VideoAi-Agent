@@ -13,11 +13,14 @@ const exact = (amountCents: number): PublicModelQuote => ({
   status: 'exact', amountCents, currency: 'USD', revision: 'controlled-current', scenarioLabel: 'Current scenario',
 });
 const flush = () => new Promise<void>((resolve) => setImmediate(resolve));
-// Keyvo's public pricing hub excludes hidden-vendor families, so it quotes 70 distinct model inputs:
-// 64 video presets (including the November Kling launch) and 6 t2i image presets. Each distinct input is still quoted once.
+// Keyvo's public pricing hub excludes hidden-vendor families, so it quotes 71 distinct model inputs:
+// 65 video presets (including the November Kling launch) and 6 t2i image presets. Each distinct input is still quoted once.
 // The 2026-11-11 provider work removed 8 video inputs (HappyHorse 1.0 retired: 4; MiniMax-H3-Max hidden on Keyvo: 3;
 // H3 4K removed: 1) and net one image input (Seedream 5.0 Lite retired: 2; Seedream 5.0 Flash added: 1).
-const VIDEO_QUOTES = 72 - 4 - 3 - 1;
+// 2026-11-12: MiniMax-H3-Max returns on MiniMax's own API at 480P/768P, so only its native entry-route preset is quoted
+// (its former 1080P presets have no tier): +1.
+// 2026-11-13: Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro went offline (no mainland route) and leave the hub: -9.
+const VIDEO_QUOTES = 72 - 4 - 3 - 1 + 1 - 9;
 const T2I_IMAGE_QUOTES = 7 - 2 + 1;
 const MODEL_QUOTES = VIDEO_QUOTES + T2I_IMAGE_QUOTES;
 const TOTAL_QUOTES = MODEL_QUOTES + 21;
@@ -67,10 +70,14 @@ test('a hub quotes each authored exact input once through at most eight distinct
     assert.deepEqual(new Set(requests.map(key)), new Set(authored.map(key)), 'every exact authored input remains quoted');
     assert.equal(requests.length, new Set(requests.map(key)).size, 'identical matrix inputs share one quote');
     assert.equal(requests.filter((input) => input.mode !== 't2i').length, VIDEO_QUOTES);
-    assert.equal(MODEL_QUOTES, 70);
-    for (const retired of ['happy-horse-1-0', 'minimax-h3-max', 'seedream']) {
+    assert.equal(MODEL_QUOTES, 62);
+    for (const retired of ['happy-horse-1-0', 'seedream']) {
       assert.equal(requests.some((input) => input.modelId === retired), false, retired);
     }
+    // MiniMax-H3-Max is quoted only at its official tiers; no 1080P input remains.
+    const h3Max = requests.filter((input) => input.modelId === 'minimax-h3-max');
+    assert.equal(h3Max.length, 1);
+    assert.ok(h3Max.every((input) => ['480P', '768P'].includes(input.resolution)));
     assert.equal(requests.some((input) => input.modelId === 'minimax-h3' && input.resolution === '4K'), false);
     assert.ok(requests.some((input) => input.modelId === 'seedream-5-0-flash' && input.mode === 't2i'));
     assert.equal(requests.filter((input) => input.mode === 't2i').length, T2I_IMAGE_QUOTES);

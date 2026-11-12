@@ -110,5 +110,6 @@ test('every exposed video pricing row has an exact price or an explicit current-
   assert.deepEqual(missingExactPrice, []);
   const kling = rows.find((row) => row.id === 'kling-v4');
   assert.ok(kling);
-  assert.ok(Object.values(kling.quotes).every((quote) => quote.status !== 'exact'));
+  // Keyvo 2026-11-13: Kling 4.0 quotes on the official-list rule (80% of Kling's list) instead of awaiting a tariff.
+  assert.ok(Object.values(kling.quotes).some((quote) => quote.status === 'exact'));
 });

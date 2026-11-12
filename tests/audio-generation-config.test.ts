@@ -99,11 +99,12 @@ test('audio pricing uses voice clone request and preview costs', () => {
     script: 'Short cloned narration.',
   });
 
-  assert.equal(pricing.vendorShareCents, 6);
-  assert.equal(pricing.totalCents, 20);
-  assert.equal(pricing.base.amountCents, 6.25);
+  // Keyvo 2026-11-13: Seed Audio list CNY 1.00/min (12.5 cents) x 1/3 min = 4.17 cents, sold at 80% -> 3 cents.
+  assert.equal(pricing.vendorShareCents, 3);
+  assert.equal(pricing.totalCents, 3);
+  assert.ok(Math.abs(pricing.base.amountCents - 12.5 / 3) < 1e-9);
   assert.deepEqual(pricing.addons, []);
-  assert.equal(pricing.margin.amountCents, 14);
+  assert.equal(pricing.margin.amountCents, 0);
   assert.deepEqual(pricing.meta.vendorCostComponents, [
     {
       type: 'voice_seed_audio_1_0',
@@ -111,7 +112,7 @@ test('audio pricing uses voice clone request and preview costs', () => {
       model: 'bytedance/seed-audio-1.0',
       unit: 'minute',
       units: 1 / 3,
-      amountCents: 6.25,
+      amountCents: 4.166666666666666,
     },
   ]);
 });
@@ -182,9 +183,10 @@ test('audio pricing does not cap voice script estimates at the music duration li
 
   assert.equal(estimatedDuration, 400);
   assert.equal(pricing.base.seconds, 400);
-  assert.equal(pricing.vendorShareCents, 125);
-  assert.equal(pricing.margin.amountCents, 250);
-  assert.equal(pricing.totalCents, 375);
+  // Keyvo 2026-11-13: 400 s of Seed Audio at CNY 1.00/min = 83.33 cents, sold at 80% -> 67 cents.
+  assert.equal(pricing.vendorShareCents, 67);
+  assert.equal(pricing.margin.amountCents, 0);
+  assert.equal(pricing.totalCents, 67);
 });
 
 test('audio pricing includes sound design and optional music for cinematic renders', () => {

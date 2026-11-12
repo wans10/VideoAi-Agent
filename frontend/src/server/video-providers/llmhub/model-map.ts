@@ -23,6 +23,8 @@ const MODELS = {
 const MINIMAX_OFFICIAL_ONLY_MODELS: Readonly<Record<string, Readonly<{ model: string; modes: readonly string[] }>>> = {
   'minimax-hailuo-2-3': { model: 'MiniMax-Hailuo-2.3', modes: ['t2v', 'i2v'] },
   'minimax-hailuo-2-3-fast': { model: 'MiniMax-Hailuo-2.3-Fast', modes: ['i2v'] },
+  // V2 API; Recast/Relight (v2v) are Fal endpoints with no MiniMax API equivalent.
+  'minimax-h3-max': { model: 'MiniMax-H3-Max', modes: ['t2v', 'i2v', 'ref2v'] },
 };
 
 export function resolveLlmhubVideoModel(

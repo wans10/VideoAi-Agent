@@ -11,6 +11,7 @@ import {
 import type { AudioPricingInput } from '../frontend/src/lib/audio-generation';
 import { quotePublicAudioPricingSnapshot } from '../frontend/src/lib/pricing-public-quote';
 import { repriceCanonicalFixedProductSnapshot } from '../frontend/src/lib/billing-products';
+import { isOfficialListPricedEngine, OFFICIAL_LIST_PRICE_PROFILE_ID } from '../frontend/src/lib/official-list-pricing';
 import type { PricingSnapshot } from '@maxvideoai/pricing';
 
 const entriesById = new Map(listFalEngines().map((entry) => [entry.id, entry.engine]));
@@ -127,6 +128,11 @@ function withoutCanonicalPolicy(snapshot: PricingSnapshot): PricingSnapshot {
 for (const scenario of scenarios) {
   test(`canonical billing preserves ${scenario.id} financial and provider snapshot fields`, async () => {
     assert.ok(scenario.context.engine, `missing engine for ${scenario.id}`);
+    assert.equal(
+      isOfficialListPricedEngine(scenario.context.engine.id),
+      scenario.id === 'standard-video' || scenario.id === 'seedance-token',
+      `${scenario.id} official-list membership`
+    );
     const context = scenario.context as Parameters<typeof computePricingSnapshot>[0];
     const expected = await computePricingSnapshot(context);
     const actual = await computeCanonicalBillingSnapshot(context);
@@ -139,8 +145,11 @@ for (const scenario of scenarios) {
       source: 'versioned',
       matchedBy: 'global',
       sourceRuleId: 'default',
-      compatibilityProfile:
-        scenario.id === 'luma-reference-image' ||
+      // Keyvo 2026-11-13: re-priced mainland engines (HappyHorse 1.1, Seedance 2.0) quote through the official-list-80
+      // profile, which replaces their supplier-fact rounding profile; billing and public financial fields still match.
+      compatibilityProfile: isOfficialListPricedEngine(scenario.context.engine?.id)
+        ? OFFICIAL_LIST_PRICE_PROFILE_ID
+        : scenario.id === 'luma-reference-image' ||
         scenario.id === 'luma-ray-3-2' ||
         scenario.id === 'seedance-token'
           ? 'provider-reference-current'

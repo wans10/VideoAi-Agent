@@ -66,7 +66,9 @@ function projection(document: Document) {
 
 // Keyvo's published video pricing rows issue 64 current quotes (66 before MiniMax-H3-Max was hidden and
 // Happy Horse 1.0 went offline, 2026-11-11); the unfiltered upstream catalog issues 125.
-const KEYVO_VIDEO_QUOTE_CALLS = 64;
+// 2026-11-12/13 (same video presets as tests/current-pricing-hub-queue.test.ts): MiniMax-H3-Max returns at its native
+// entry-route preset (+1); Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro went offline without a mainland route (-9).
+const KEYVO_VIDEO_QUOTE_CALLS = 64 + 1 - 9;
 const UPSTREAM_VIDEO_QUOTE_CALLS = 125;
 
 test('PAYG emits its hero before held current prices, then preserves the settled localized page', async t => {

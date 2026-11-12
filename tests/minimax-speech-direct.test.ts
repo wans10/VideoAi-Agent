@@ -322,8 +322,8 @@ test('the workspace model choice is validated, priced per model, and absent for 
   assert.equal(countMinimaxBillingCharacters('你好 world'), 10);
   const script = '你好 world';
   const price = (minimaxSpeechModel?: string) => buildAudioPricingPresentation({ pack: 'voice_only', durationSec: 3, voiceModel: 'minimax', script, ...(minimaxSpeechModel ? { minimaxSpeechModel } : {}) } as never);
-  // Historical speech-02-hd price is unchanged, also when chosen explicitly.
-  assert.equal(price().vendorSubtotalCents, Array.from(script).length * 0.01);
+  // Keyvo 2026-11-13: speech-02-hd (the default without a model) also uses MiniMax's list, CNY 3.50 / 10k billing chars.
+  assert.ok(Math.abs(price().vendorSubtotalCents - 10 * 3.5 / 10_000 * 100 / 8) < 1e-9);
   assert.equal(price('speech-02-hd').vendorSubtotalCents, price().vendorSubtotalCents);
   // PROVISIONAL CNY list prices: HD 3.50, Turbo 2.00 per 10,000 billing characters at 8 CNY/USD.
   assert.ok(Math.abs(price('speech-2.8-hd').vendorSubtotalCents - 10 * 3.5 / 10_000 * 100 / 8) < 1e-9);

@@ -34,13 +34,19 @@ test('public HTTP quotes admit the reviewed open integer domains without generic
     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(input),
   }));
   const luma = { modelId: 'lumaRay2', mode: 'v2v', resolution: '720p', durationSec: 131 };
-  const references = { modelId: 'minimax-h3-max', mode: 'ref2v', resolution: '768P', durationSec: 5, referenceTokenBudget: 20000 };
+  // Keyvo: MiniMax-H3-Max reference quotes use MiniMax's own pricing (reference images and whole video seconds), so
+  // Fal's open reference-token budget is no longer an accepted quote quantity.
+  const references = { modelId: 'minimax-h3-max', mode: 'ref2v', resolution: '768P', durationSec: 5, referenceImageCount: 4 };
   assert.equal((await request(luma)).status, 200);
   assert.equal((await request(references)).status, 200);
+  assert.equal((await request({ ...references, referenceTokenBudget: 20000 })).status, 400);
   for (const quantity of [-1, 1.5, Number.MAX_SAFE_INTEGER + 1]) {
     assert.equal((await request({ ...luma, durationSec: quantity })).status, 400);
-    assert.equal((await request({ ...references, referenceTokenBudget: quantity })).status, 400);
+  }
+  // Reference image counts are request facts with the route's generic bounds (a fractional count quotes nothing).
+  for (const quantity of [-1, Number.MAX_SAFE_INTEGER + 1]) {
+    assert.equal((await request({ ...references, referenceImageCount: quantity })).status, 400);
   }
   assert.equal((await request({ ...luma, mode: 't2v' })).status, 400);
-  assert.equal((await request({ ...references, modelId: 'pika-text-to-video' })).status, 400);
+  assert.equal((await request({ ...references, modelId: 'pika-text-to-video', referenceTokenBudget: 20000 })).status, 400);
 });

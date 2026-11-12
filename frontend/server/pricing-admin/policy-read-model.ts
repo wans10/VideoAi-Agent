@@ -1,3 +1,4 @@
+import { isMinimaxHailuoOfficialEngineId } from '@/lib/minimax-hailuo-pricing';
 import { gptImage26TariffScenarios } from '@/lib/pricing-audit/manual-tariff-coverage';
 import {klingV4FamilyTariffScenarios} from '@/lib/pricing-audit/kling-v4-tariff-scenario';
 import {
@@ -57,7 +58,8 @@ export function buildAllModelComparisonScenarios(auditScenarios: PricingAuditSce
     const resolution = !image && entry.engine.resolutions.includes('720p') ? '720p' : baseline?.resolution ?? entry.engine.resolutions[0];
     const durationUi = entry.modes.find((item) => item.mode === mode)?.ui.duration;
     const durationOptions = durationUi && 'options' in durationUi ? durationUi.options.map(Number).filter(Number.isFinite) : [];
-    const durationSec = image ? 1 : !baseline && durationOptions.length && !durationOptions.includes(5)
+    // MiniMax prices Hailuo per listed clip (6 / 10 s), so a 5 s comparison does not exist for it.
+    const durationSec = image ? 1 : (!baseline || isMinimaxHailuoOfficialEngineId(entry.id)) && durationOptions.length && !durationOptions.includes(5)
       ? Number(durationUi && 'default' in durationUi ? durationUi.default : durationOptions[0]) || durationOptions[0]! : 5;
     if (!resolution || !entry.modes.some((item) => item.mode === mode)) return [];
     const scenario: PricingAuditScenario = {

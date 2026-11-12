@@ -38,7 +38,9 @@ test('profitable Mini manual price uses signed cost and retains the below-cost g
   const below = selected(ctx, 15);
   assert.throws(() => resolveCustomerTariffQuote({ context: ctx, facts: below.billing.facts, state: below.state, at }),
     error => error instanceof ManualTariffError && error.code === 'below_cost');
-  assert.ok(billing.facts.vendorSubtotalExactCents > 72, 'the legacy retail basis must stay intact');
+  // Keyvo 2026-11-13: the billing facts are the Volcengine Ark list cost (108,000 tokens x CNY 23/M = 31.05 cents), no
+  // longer the padded 2.5x retail basis; the signed contract cost above stays separate.
+  assert.ok(Math.abs(billing.facts.vendorSubtotalExactCents - 31.05) < 1e-6, 'the Ark list basis');
 });
 
 test('contract cost does not reprice current customer cents and expires back to LIST', () => {

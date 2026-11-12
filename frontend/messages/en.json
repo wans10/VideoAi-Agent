@@ -878,18 +878,18 @@
           },
           {
             "id": "fallback-wan",
-            "title": "Wan 2.6",
-            "engine": "Wan 2.6",
-            "engineId": "wan-2-6",
-            "modelSlug": "wan-2-6",
+            "title": "Wan 3",
+            "engine": "Wan 3",
+            "engineId": "wan-3",
+            "modelSlug": "wan-3",
             "mode": "Text/image-to-video",
             "duration": "5s",
             "price": "Live price",
             "useCase": "Structured video workflows",
             "cta": "Examples & prompts",
             "modelCta": "Specs & pricing",
-            "imageSrc": "/hero/wan-26.jpg",
-            "imageAlt": "Wan 2.6 AI video example for structured video workflows.",
+            "imageSrc": "/hero/showcase-wan-3-city-22s.webp",
+            "imageAlt": "Wan 3 AI video example for structured video workflows.",
             "examplesSlug": "wan"
           }
         ]

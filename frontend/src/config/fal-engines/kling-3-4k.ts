@@ -114,23 +114,24 @@ const KLING_3_4K_ENGINE: EngineCaps = {
       minImageSidePx: 300,
     },
   },
+  // Bailian list (primary route): 4K 3.0 CNY/s with or without audio (kling-v3-video-generation.md, 2026-11-13).
   pricingDetails: {
     currency: 'USD',
     perSecondCents: {
-      default: 42,
+      default: 37.5,
       byResolution: {
-        '4k': 42,
+        '4k': 37.5,
       },
     },
   },
   pricing: {
     unit: 'USD/s',
-    base: 0.42,
+    base: 0.375,
     byResolution: {
-      '4k': 0.42,
+      '4k': 0.375,
     },
     currency: 'USD',
-    notes: 'Provider cost: $0.420/s native 4K output. Keyvo display prices add platform margin before showing quotes.',
+    notes: 'Provider cost: Bailian list CNY 3.0/s native 4K output. Keyvo customer prices are 80% of the list price.',
   },
   updatedAt: '2026-04-25T00:00:00Z',
   ttlSec: 600,
@@ -233,7 +234,7 @@ export const KLING_3_4K_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     pricingHint: {
       currency: 'USD',
-      amountCents: 210,
+      amountCents: 188,
       durationSeconds: 5,
       resolution: '4k',
       label: 'Native 4K',

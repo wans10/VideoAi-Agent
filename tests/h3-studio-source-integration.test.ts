@@ -28,16 +28,21 @@ for(const operation of ['h3-recast','h3-relight'] as const) test(`Studio ${opera
  await assert.rejects(pending.materialize(),/changed before quote preparation/);
 });
 
-test('Studio mixed ordered references traverse initial validation, owned kinds and materialization without reordering',async()=>{
+// Keyvo: H3-Max runs on MiniMax's own API, which has no explicit cross-modality reference order (a Fal-only control);
+// Studio refuses that setting, and the same mixed references still materialize as owned assets (canonical order).
+test('Studio refuses an explicit H3-Max reference order and materializes the same mixed owned references',async()=>{
  const kinds=['image','image','video','audio'] as const;
  const selection=[2,1,3,4].map((n,index)=>({ref:{type:'asset' as const,assetId:`ma_${String(n).padStart(32,'0')}`,kind:kinds[index]},role:'reference' as const,slot:index}));
  const selectedMedia=selection.map(({ref},index)=>({...media[0],id:ref.assetId,ref,kind:ref.kind,url:`https://media.maxvideoai.com/${index}`,mime:index<2?'image/png':index===2?'video/mp4':'audio/mpeg',durationSec:index<2?null:5,originalName:index<2?'image.png':index===2?'video.mp4':'audio.mp3'}));
- const action=studioMediaIntentSchema.parse({action:'video.prepare',reply:'Review',modelId:engine.id,mode:'ref2v',prompt:'Follow the reference sequence',aspectRatio:'auto',source:null,references:selection,settings:[{name:'resolution',value:'768P'},{name:'durationSec',value:5},{name:'referenceOrder',value:'video1,image1,audio1,image2'}]});
+ const ordered=studioMediaIntentSchema.parse({action:'video.prepare',reply:'Review',modelId:engine.id,mode:'ref2v',prompt:'Follow the reference sequence',aspectRatio:'auto',source:null,references:selection,settings:[{name:'resolution',value:'768P'},{name:'durationSec',value:5},{name:'referenceOrder',value:'video1,image1,audio1,image2'}]});
+ const action={...ordered,settings:ordered.settings?.filter(setting=>setting.name!=='referenceOrder')};
  const attached={...input,references:selection.slice(0,2).map(s=>s.ref.assetId),attachments:selection.slice(2).map(s=>s.ref)};
  const factories={video:()=>({catalog:async()=>[{engine,surface:'video',publicModes:['ref2v'],modeCaps:engine.modeCaps}]})} as unknown as StudioMediaFactories;
- const validated=await validateStudioMediaRequest(actor,action,attached,factories,true,{resolveMedia:async(_user,ref)=>selectedMedia.find(m=>m.ref.assetId===(ref as {assetId:string}).assetId)!});
+ const resolveMedia=async(_user:string,ref:unknown)=>selectedMedia.find(m=>m.ref.assetId===(ref as {assetId:string}).assetId)!;
+ await assert.rejects(async()=>(await validateStudioMediaRequest(actor,ordered,attached,factories,true,{resolveMedia})).materialize(),/referenceOrder/);
+ const validated=await validateStudioMediaRequest(actor,action as typeof ordered,attached,factories,true,{resolveMedia});
  const request=await validated.materialize();
- assert.deepEqual(request.references.map(r=>r.kind==='asset'?r.assetId:''),selection.map(s=>s.ref.assetId));
+ assert.deepEqual(request.references.map(r=>r.kind==='asset'?r.assetId:'').sort(),selection.map(s=>s.ref.assetId).sort());
 });
 
 for(const operation of ['h3-recast','h3-relight'] as const) test(`Studio ${operation} binds ready video/image promotion to original provenance and bytes`,async()=>{

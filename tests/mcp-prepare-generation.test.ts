@@ -1102,7 +1102,8 @@ test('generation pricing forwards MiniMax H3 reference counts to both canonical 
   const references: CanonicalGenerationRequest['references'] = [
     { kind: 'https', url: 'https://cdn.example.com/image-a.png', role: 'reference', mediaKind: 'image' },
     { kind: 'https', url: 'https://cdn.example.com/image-b.png', role: 'reference', mediaKind: 'image' },
-    { kind: 'https', url: 'https://cdn.example.com/video-a.mp4', role: 'reference', mediaKind: 'video' },
+    // Keyvo 2026-11-13: MiniMax-H3 ref2v bills input-video seconds (Bailian list), so a video must be an owned asset with
+    // verified duration; an unmeasurable https video is refused (asserted below) instead of being priced at zero.
     { kind: 'https', url: 'https://cdn.example.com/audio-a.wav', role: 'reference', mediaKind: 'audio' },
     { kind: 'asset', assetId: 'private-image', role: 'reference' },
     { kind: 'asset', assetId: 'private-video', role: 'reference' },
@@ -1124,6 +1125,7 @@ test('generation pricing forwards MiniMax H3 reference counts to both canonical 
       storageUrl: 'https://assets.example.com/private-video.mp4',
       width: 1920,
       height: 1080,
+      durationSec: 6.2,
       mimeType: 'video/mp4',
     },
   ];
@@ -1158,6 +1160,11 @@ test('generation pricing forwards MiniMax H3 reference counts to both canonical 
       ?.trustedMediaPricingFacts?.referenceImageCount),
     3,
   );
+  assert.equal(
+    ((capturedPreflight?.options as { trustedMediaPricingFacts?: { inputVideoDurationSec?: number } } | undefined)
+      ?.trustedMediaPricingFacts?.inputVideoDurationSec),
+    6.2,
+  );
   assert.equal(capturedPreflight?.extraInputValues, undefined);
 
   let capturedBillingContext: Record<string, unknown> | null = null;
@@ -1177,6 +1184,14 @@ test('generation pricing forwards MiniMax H3 reference counts to both canonical 
     },
   });
   assert.equal(capturedBillingContext?.referenceImageCount, 3);
+  assert.equal(capturedBillingContext?.inputVideoDurationSec, 6.2);
+  await assert.rejects(priceCanonicalGeneration({
+    ...ref2vRequest,
+    references: [...references, { kind: 'https', url: 'https://cdn.example.com/video-a.mp4', role: 'reference', mediaKind: 'video' }],
+  }, 'member', {
+    computeVideoPreflight: async () => { throw new Error('pricing must not run'); },
+    estimateImage: async () => { throw new Error('unused'); },
+  }, { resolvedReferences }), /Owned video metadata is required/);
 
   for (const mode of ['t2v', 'ref2v'] as const) {
     const request: CanonicalGenerationRequest = {

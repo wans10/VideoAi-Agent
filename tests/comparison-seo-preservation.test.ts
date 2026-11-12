@@ -46,7 +46,9 @@ test('comparison descriptions announce the criteria actually available in the sc
       assert.equal(metadata.twitter.description, descriptions[locale]);
     });
     await t.test('authored English 11-point wording announces the displayed count', async () => {
-      const metadata = await buildComparePageMetadata({ params: Promise.resolve({ locale: 'en', slug: 'kling-2-6-pro-vs-ltx-2' }) });
+      // The fixture was kling-2-6-pro-vs-ltx-2 until Kling 2.6 Pro left the published set (2026-11-13); LTX 2 vs
+      // Veo 3.1 carries the same authored "an 11-point scorecard" wording on an audio pair (10 criteria).
+      const metadata = await buildComparePageMetadata({ params: Promise.resolve({ locale: 'en', slug: 'ltx-2-vs-veo-3-1' }) });
       assert.match(metadata.description, /a 10-criterion scorecard/);
       assert.equal(metadata.openGraph.description, metadata.description);
       assert.equal(metadata.twitter.description, metadata.description);

@@ -109,7 +109,7 @@ export function normalizeMinimaxH3MaxRequest(
   }
   const resolution = input.resolution?.trim() || '768P';
   if (!(MINIMAX_H3_MAX_RESOLUTIONS as readonly string[]).includes(resolution)) {
-    throw new Error('MiniMax H3 Max resolution must be 480P, 768P, or 1080P.');
+    throw new Error('MiniMax H3 Max resolution must be 480P or 768P.');
   }
   const promptExpansionMode = input.promptExpansionMode?.trim() || 'balanced';
   if (!(MINIMAX_H3_MAX_PROMPT_EXPANSION_MODES as readonly string[]).includes(promptExpansionMode)) {

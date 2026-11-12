@@ -9,16 +9,31 @@ import {
   quoteByteDanceBaselineRows,
   type ByteDanceBaselineScenario,
 } from '../frontend/scripts/pricing-effective-bytedance-baseline';
+import { isOfficialListPricedEngine } from '../frontend/src/lib/official-list-pricing';
 
 const fixture = JSON.parse(readFileSync(
   new URL('./fixtures/bytedance-versioned-price-baseline-2026-09-28.json', import.meta.url),
   'utf8',
 )) as { rows: ByteDanceBaselineScenario[] };
 
-test('the 202 frozen ByteDance scenarios still reproduce their original versioned customer totals', async () => {
+// Keyvo 2026-11-13: every ByteDance (Seedance) engine is re-priced at 80% of the Volcengine Ark list, a reviewed
+// commercial change (docs/engineering/pricing-engine.md "Keyvo official list price rule"). The 2026-09-28 fixture stays
+// immutable evidence; the parity guard now reports that reviewed drift, and every current quote is lower.
+test('the 202 frozen ByteDance scenarios are re-priced only downward by the reviewed Keyvo official list rule', async () => {
   const quotes = await quoteByteDanceBaselineRows(fixture.rows, []);
   assert.equal(quotes.length, 202);
-  assertVersionedByteDanceParity(fixture.rows, quotes);
+  assert.throws(() => assertVersionedByteDanceParity(fixture.rows, quotes), /Frozen versioned baseline drift/);
+  const frozen = new Map(fixture.rows.map((row) => [row.scenarioId, row]));
+  for (const quote of quotes) {
+    const row = frozen.get(quote.scenarioId);
+    assert.ok(row, quote.scenarioId);
+    const frozenCents = (row as unknown as { customerTotalCents: number }).customerTotalCents;
+    // Only the Keyvo official-list engines move; a retired ByteDance engine outside that set (Seedance 1.5 Pro) keeps
+    // its frozen customer amount exactly.
+    if (isOfficialListPricedEngine(row.engineId)) assert.ok(quote.customerTotalCents < frozenCents, quote.scenarioId);
+    else assert.equal(quote.customerTotalCents, frozenCents, quote.scenarioId);
+  }
+  assert.ok(quotes.some((quote) => isOfficialListPricedEngine(frozen.get(quote.scenarioId)!.engineId)));
   assert.ok(quotes.every((quote) => quote.policySource === 'versioned'));
   assert.ok(quotes.every((quote) => Number.isSafeInteger(quote.customerTotalCents)));
 });

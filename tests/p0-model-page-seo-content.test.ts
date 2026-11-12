@@ -56,7 +56,8 @@ const FAMILY_HREF = {
 } as const;
 
 const COMPARISON_SLUGS = {
-  'wan-3': ['wan-2-6-vs-wan-3'],
+  // Keyvo 2026-11-13: Wan 2.6 is offline (no mainland route), so its comparison toward Wan 3 left the published set.
+  'wan-3': [],
   'wan-3-prime': ['wan-3-vs-wan-3-prime'],
   'ltx-2-5-fast': ['ltx-2-3-fast-vs-ltx-2-5-fast', 'ltx-2-5-fast-vs-ltx-2-5-pro'],
   'ltx-2-5-pro': ['ltx-2-3-pro-vs-ltx-2-5-pro', 'ltx-2-5-fast-vs-ltx-2-5-pro'],
@@ -80,7 +81,6 @@ const LIFECYCLE = {
   'ltx-2-3-fast': { state: 'legacy', successor: 'ltx-2-5-fast', futureComparison: 'ltx-2-3-fast-vs-ltx-2-5-fast' },
   'ltx-2': { state: 'deep_legacy', successor: 'ltx-2-5-pro', futureComparison: null },
   'ltx-2-fast': { state: 'deep_legacy', successor: 'ltx-2-5-fast', futureComparison: null },
-  'wan-2-6': { state: 'legacy', successor: 'wan-3', futureComparison: 'wan-2-6-vs-wan-3' },
   'wan-2-5': { state: 'deep_legacy', successor: 'wan-3', futureComparison: null },
 } as const;
 

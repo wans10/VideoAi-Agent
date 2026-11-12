@@ -57,7 +57,8 @@ const INITIAL_LOW_SIGNAL_WAVE_SIZE = 30;
 // Keyvo retired Seedance 1.5 Pro and took Wan 2.5 offline on every surface (owner decision 2026-11-11),
 // so their comparison URLs left the published set after the 2026-09-04 evidence wave. Approved slugs
 // that name such a model are no longer routes; the remaining approved selection must still hold.
-const RETIRED_COMPARISON_MODEL_SLUGS = ['seedance-1-5-pro', 'wan-2-5'] as const;
+// Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro followed on 2026-11-13 (no mainland route).
+const RETIRED_COMPARISON_MODEL_SLUGS = ['seedance-1-5-pro', 'wan-2-5', 'wan-2-6', 'kling-2-5-turbo', 'kling-2-6-pro'] as const;
 const namesRetiredModel = (slug: string) =>
   slug.split('-vs-').some((modelSlug) => (RETIRED_COMPARISON_MODEL_SLUGS as readonly string[]).includes(modelSlug));
 const SAFE_GSC_CLEANUP_SIZE = {
@@ -224,7 +225,8 @@ test('wave 1 sitemap omits every comparison URL while Keyvo hides comparison pag
     const slug = englishPath.slice('/ai-video-engines/'.length);
     return englishPath.startsWith('/ai-video-engines/') && publishedSlugSet.has(slug);
   });
-  assert.equal(publishedSlugs.length, 269);
+  // 269 before 2026-11-13; Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro took 58 comparison slugs offline.
+  assert.equal(publishedSlugs.length, 211);
   // Keyvo hides comparison pages (404), so route discovery keeps every comparison URL out of the sitemap.
   assert.equal(comparisonEntries.length, 0, 'comparison pages must not be listed in the Keyvo sitemap');
   assert.equal(
@@ -443,7 +445,9 @@ test('wave 1 renders only published, locale-indexable suggested opponents and re
     {
       locale: 'fr' as const,
       engineSlug: 'kling-o3-pro',
-      unpublishedSlug: 'kling-2-5-turbo-vs-kling-o3-pro',
+      // Was kling-2-5-turbo-vs-kling-o3-pro until Kling 2.5 Turbo left the hub list (2026-11-13); this unpublished
+      // pair now sits fourth in the same candidate stream, ahead of the refilled kling-o3-pro-vs-minimax-h3.
+      unpublishedSlug: 'kling-3-4k-vs-kling-o3-pro',
     },
     {
       locale: 'es' as const,

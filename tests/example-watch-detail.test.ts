@@ -63,9 +63,14 @@ test('measured configuration wins, references need explicit editorial approval, 
 test('public comparisons use the canonical price owner while prioritizing identical configurations',async()=>{
  const {computeCanonicalPublicSnapshot}=await import('../frontend/server/pricing/quote-public');
  const detail=await projectExampleWatchDetail(video,null,context=>computeCanonicalPublicSnapshot(context,{pricingPolicy:{loadOverrides:async()=>({status:'loaded',rules:[],routingRules:[]})}}));
- assert.equal(detail?.quotes.find(quote=>quote.engineId==='wan-3-prime')?.amountCents,401);
- assert.equal(detail?.quotes.find(quote=>quote.engineId==='wan-3')?.amountCents,286);
- assert.equal(detail?.quotes.find(quote=>quote.engineId==='seedance-2-5')?.amountCents,1272);
+ // Keyvo 2026-11-13: current Prime quote = 22 s x 11.25 cents x 0.8 = 198 (the historical 401 stays the paid cost).
+ assert.equal(detail?.quotes.find(quote=>quote.engineId==='wan-3-prime')?.amountCents,198);
+ assert.equal(detail?.quotes.find(quote=>quote.engineId==='wan-3')?.amountCents,132);
+ // Kling 4.0 became quotable on its official list (720p CNY 1.0/s x 0.8 x 22 s = CNY 17.60 = 220) and now
+ // takes the third identical-configuration proposal that Seedance 2.5 held before.
+ assert.equal(detail?.quotes.find(quote=>quote.engineId==='kling-v4')?.amountCents,220);
+ assert.equal(detail?.quotes.length,3);
+ assert.ok(detail?.quotes.every(quote=>quote.changed.length===0),'identical configurations stay prioritized');
 });
 
 test('unusual output sizes and aspect ratios still get three honest, executable configurations',async()=>{

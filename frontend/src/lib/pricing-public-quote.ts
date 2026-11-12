@@ -14,6 +14,7 @@ import { buildAudioPricingPresentation, type AudioPricingInput } from '@/lib/aud
 import { getVersionedPricingPolicy, resolveLiveAudioPricingProfile } from '@/lib/pricing-policy-defaults';
 import { selectPricingRule, type PricingRuleLite } from '@/lib/pricing-rules';
 import { customerQuote, USD_TO_CNY_CUSTOMER_RATE } from '@/lib/customer-currency';
+import { isOfficialListPricedAudio, OFFICIAL_LIST_PRICE_PROFILE_ID, resolveOfficialListCompatibilityProfile } from '@/lib/official-list-pricing';
 
 export type PublicPricingMembershipTier = 'member' | 'plus' | 'pro';
 
@@ -80,8 +81,10 @@ export function quotePublicPricing(input: QuotePublicPricingInput): CanonicalPri
     databaseRules: buildEffectiveDatabaseRule(selectedRule, versionedPolicy.rule),
     versionedRules: policyDocument.rules,
   });
-  const profileId =
-    input.compatibilityProfileId ?? (input.scenario.engineId === 'audio-generation' ? resolveLiveAudioPricingProfile(policy.rule) : policy.rule.compatibilityProfile ?? 'standard');
+  const officialAudio = input.compatibilityProfileId === OFFICIAL_LIST_PRICE_PROFILE_ID && input.scenario.engineId === 'audio-generation'
+    && policy.source === 'database' && policy.matchedBy !== 'global';
+  const profileId = officialAudio ? resolveLiveAudioPricingProfile(policy.rule) : resolveOfficialListCompatibilityProfile(input.scenario.engineId,
+    input.compatibilityProfileId ?? (input.scenario.engineId === 'audio-generation' ? resolveLiveAudioPricingProfile(policy.rule) : policy.rule.compatibilityProfile ?? 'standard'), policy);
   const compatibilityProfile = policyDocument.compatibilityProfiles.find(
     (candidate) => candidate.id === profileId
   );
@@ -155,7 +158,7 @@ export function quotePublicAudioPricingSnapshot(input: AudioPricingInput): Prici
       membershipTier: 'member',
       discountPercent: 0,
     },
-
+    ...(isOfficialListPricedAudio(input) ? { compatibilityProfileId: OFFICIAL_LIST_PRICE_PROFILE_ID } : {}),
   });
   const snapshot = projectPublicPricingSnapshot({
     quote,

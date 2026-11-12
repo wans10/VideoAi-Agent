@@ -27,6 +27,13 @@ export function isKeyvoToolDisabled(toolId: string | null | undefined): boolean 
  */
 export const KEYVO_WORKSPACE_VARIANT_HIDDEN: boolean = true;
 
+/**
+ * Google sign-in is unreachable from mainland China, so the "Continue with Google" button is not offered on the
+ * login page. Email/password (and phone one-time code, once enabled) remain. Typed as boolean so guarded code stays
+ * type-checked; flip to false to show the button again.
+ */
+export const KEYVO_GOOGLE_LOGIN_HIDDEN: boolean = true;
+
 export function isKeyvoAudioDisabled(): boolean {
   return KEYVO_FAL_FEATURES_HIDDEN;
 }

@@ -1,4 +1,4 @@
-// The frozen audit evidence covers the upstream catalog, including MiniMax-H3-Max that Keyvo hides at runtime.
+// The frozen audit evidence covers the unfiltered upstream catalog (KEYVO_MODEL_VISIBILITY=off), as the generators do.
 import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, statSync } from 'node:fs';
@@ -144,13 +144,14 @@ test('registry publication shadow additions are reproducible through the canonic
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
 });
 
-test('the pricing audit reports the reviewed Gemini refresh without failing the release gate', () => {
+test('the pricing audit reports the reviewed Gemini refresh and Keyvo official list changes without failing the release gate', () => {
   const result = spawnSync('pnpm', ['--silent', 'pricing:audit'], {
     cwd: process.cwd(),
     encoding: 'utf8',
   });
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
-  assert.match(result.stdout, /4 approved changes; 0 mismatches/u);
+  // 4 Gemini Omni 1.2 rows plus 48 Keyvo official list price rows (2026-11-13).
+  assert.match(result.stdout, /52 approved changes; 0 mismatches/u);
 });
 
 test('historical Sora and Seedance 1.5 billing and estimator evidence remains independently reproducible after retirement', async () => {
@@ -178,7 +179,7 @@ test('historical Sora and Seedance 1.5 billing and estimator evidence remains in
   }
 });
 
-test('canonical shadow quotes match frozen outputs except the Omni 1.2 supplier-cost projection refresh', async () => {
+test('canonical shadow quotes match frozen outputs except the Omni 1.2 refresh and Keyvo official list prices', async () => {
   const matrixPath = 'frontend/src/lib/pricing-audit/matrix.ts';
   assert.equal(existsSync(matrixPath), true, `${matrixPath} should exist`);
   const { buildPricingAuditMatrix } = await import('../frontend/src/lib/pricing-audit/matrix.ts');
@@ -189,11 +190,20 @@ test('canonical shadow quotes match frozen outputs except the Omni 1.2 supplier-
   ];
   const matrix = await buildPricingAuditMatrix(rows);
   assert.equal(matrix.rows.length > 0, true);
-  assert.equal(matrix.summary.approvedChanges, 4);
+  // Keyvo's official list price rule (2026-11-13) adds 48 reviewed changes on the frozen rows of its 12 re-priced
+  // engines (approved-changes.ts); each carries exact field deltas and lowers the customer total.
+  const keyvoOfficial = matrix.rows.filter((row) => row.status === 'approved-change'
+    && row.approvalReason?.startsWith('Keyvo official list price rule'));
+  assert.equal(keyvoOfficial.length, 48);
+  assert.ok(keyvoOfficial.every((row) => row.deltaCents < 0 && row.fieldDeltas.marginCents?.canonical === 0), 'official-list rows');
+  assert.deepEqual([...new Set(keyvoOfficial.map((row) => row.engineId))].sort(), ['happy-horse-1-1', 'kling-3-4k', 'kling-3-pro',
+    'kling-3-standard', 'kling-o3-4k', 'kling-o3-pro', 'kling-o3-standard', 'minimax-hailuo-02-text', 'seedance-2-0',
+    'seedance-2-0-fast', 'seedance-2-0-mini', 'seedream-5-0-pro']);
+  assert.equal(matrix.summary.approvedChanges, 4 + 48);
   assert.equal(matrix.summary.mismatches, 0);
   assert.deepEqual(
     matrix.rows
-      .filter((row) => row.status !== 'match')
+      .filter((row) => row.status !== 'match' && !keyvoOfficial.includes(row))
       .map((row) => ({
         scenarioId: row.scenarioId,
         currentTotalCents: row.currentTotalCents,

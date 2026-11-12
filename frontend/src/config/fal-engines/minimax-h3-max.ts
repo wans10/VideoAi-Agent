@@ -12,7 +12,8 @@ export const MINIMAX_H3_MAX_ENDPOINTS = {
 
 export const MINIMAX_H3_MAX_MODES = ['t2v', 'i2v', 'ref2v'] as const;
 export const MINIMAX_H3_MAX_DURATION_OPTIONS = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] as const;
-export const MINIMAX_H3_MAX_RESOLUTIONS = ['480P', '768P', '1080P'] as const;
+// Keyvo runs H3-Max on MiniMax's own V2 API: 480P or 768P only (Fal's 1080P refinement does not exist there).
+export const MINIMAX_H3_MAX_RESOLUTIONS = ['480P', '768P'] as const;
 export const MINIMAX_H3_MAX_TEXT_ASPECT_RATIOS = [
   '21:9',
   '16:9',
@@ -23,7 +24,7 @@ export const MINIMAX_H3_MAX_TEXT_ASPECT_RATIOS = [
 ] as const satisfies readonly AspectRatio[];
 export const MINIMAX_H3_MAX_PROMPT_EXPANSION_MODES = ['disabled', 'balanced', 'quality'] as const;
 
-// Supported MaxVideoAI upload formats; Fal does not publish general file-size limits for H3 Max.
+// Supported upload formats. MiniMax's V2 API limits (images 30 MB, video 50 MB, audio 15 MB) mirror MiniMax-H3.
 const IMAGE_UPLOAD = { acceptedMimeTypes: ['image/jpeg', 'image/png', 'image/webp'], acceptedFileExtensions: ['jpg', 'jpeg', 'png', 'webp'] };
 const AUDIO_UPLOAD = { acceptedMimeTypes: ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/x-wav', 'audio/wave', 'audio/vnd.wave'], acceptedFileExtensions: ['mp3', 'wav'] };
 
@@ -41,16 +42,14 @@ const inputSchema: NonNullable<EngineCaps['inputSchema']> = {
     },
   ],
   optional: [
-    {id:'middle_image_url',type:'image',...IMAGE_UPLOAD,label:'Middle frame',description:'Requires start and end frames and native 480P or 768P.',modes:['ref2v'],minCount:0,maxCount:1,source:'either'},
-    {id:'middle_frame_time',type:'number',label:'Middle frame time (seconds)',modes:['ref2v'],min:0,max:15,step:1/24},
-    {id:'reference_order',type:'text',label:'Reference order',description:'Optional complete order, for example video1,image1,audio1. List every attached reference exactly once. Leave empty to use the separate image/video/audio lists.',modes:['ref2v']},
+    // Keyvo (MiniMax V2 API): no middle frame or reference order, and frames cannot be combined with references.
     {
       id: 'image_url',
       type: 'image',
       ...IMAGE_UPLOAD,
       label: 'Start image',
       description: 'First frame; supply a start image, an end image, or both.',
-      modes: ['i2v','ref2v'],
+      modes: ['i2v'],
       minCount: 0,
       maxCount: 1,
       source: 'either',
@@ -61,7 +60,7 @@ const inputSchema: NonNullable<EngineCaps['inputSchema']> = {
       ...IMAGE_UPLOAD,
       label: 'End image',
       description: 'Final frame; may be supplied alone or with a start image.',
-      modes: ['i2v','ref2v'],
+      modes: ['i2v'],
       minCount: 0,
       maxCount: 1,
       source: 'either',
@@ -104,12 +103,7 @@ const inputSchema: NonNullable<EngineCaps['inputSchema']> = {
       maxDurationSec: 15,
       source: 'either',
     },
-    {
-      id: 'target_audio_url', type: 'audio', ...AUDIO_UPLOAD, label: 'Soundtrack',
-      description: 'Use this audio as the soundtrack. It is trimmed or padded to the video duration, without changing playback speed.',
-      modes: ['t2v', 'i2v'], minCount: 0, maxCount: 1, minDurationSec: 2, maxSizeMB: 15, source: 'either',
-    },
-    { id: 'seed', type: 'number', label: 'Seed', modes: COMMON_MODES, min: 0, max: 2147483647, step: 1 },
+    // No soundtrack or seed: MiniMax's V2 API has no equivalent (Fal-only controls).
     {
       id: 'duration',
       type: 'enum',
@@ -156,6 +150,11 @@ const inputSchema: NonNullable<EngineCaps['inputSchema']> = {
     countUniqueUrls: true,
   },
   constraints: {
+    // MiniMax V2 media limits (video-generation-v2-create.md), enforced before billing like MiniMax-H3.
+    minImageSidePx: 256,
+    maxImageSizeMB: 30,
+    maxVideoSizeMB: 50,
+    maxAudioSizeMB: 15,
     maxCombinedVideoDurationSec: 15,
     maxCombinedAudioDurationSec: 15,
     ownedAssetModes: COMMON_MODES,
@@ -179,7 +178,7 @@ const modeCaps: NonNullable<EngineCaps['modeCaps']> = {
     duration: { options: [...MINIMAX_H3_MAX_DURATION_OPTIONS], default: 5 },
     resolution: [...MINIMAX_H3_MAX_RESOLUTIONS],
     audioToggle: false,
-    notes: 'Animate a start image, end image, or both, with native audio or an imposed soundtrack.',
+    notes: 'Animate a start image, end image, or both, with native audio.',
   },
   ref2v: {
     modes: ['ref2v'],
@@ -213,29 +212,32 @@ export const MINIMAX_H3_MAX_ENGINE: EngineCaps = {
   params: {},
   inputLimits: {
     videoMaxDurationSec: 15,
-    promptMaxChars: 50_000,
+    promptMaxChars: 7_000,
     promptMaxCharsSource: 'official',
   },
   inputSchema,
+  // PROVISIONAL MiniMax official CNY list price (pricing/overview.md, 2026-11-12) at the accounting rate of CNY 8 per
+  // USD: output 480P 0.33, 768P 0.50 CNY/s. Reference video seconds (0.37 / 0.97 CNY/s) and images beyond two
+  // (0.50 CNY each) are added from verified media in src/lib/minimax-h3-max-pricing.ts.
   pricingDetails: {
     currency: 'USD',
     perSecondCents: {
-      default: 8,
-      byResolution: { '480P': 5, '768P': 8, '1080P': 16 },
+      default: 6.25,
+      byResolution: { '480P': 4.125, '768P': 6.25 },
     },
     byMode: {
-      ref2v: { perSecondCents: { default: 8, byResolution: { '480P': 5, '768P': 8, '1080P': 16 } } },
+      ref2v: { perSecondCents: { default: 6.25, byResolution: { '480P': 4.125, '768P': 6.25 } } },
     },
     maxDurationSec: 15,
   },
   pricing: {
     unit: 'USD/s',
-    base: 0.08,
-    byResolution: { '480P': 0.05, '768P': 0.08, '1080P': 0.16 },
+    base: 0.0625,
+    byResolution: { '480P': 0.04125, '768P': 0.0625 },
     currency: 'USD',
-    notes: 'Output catalog rates are $0.05/s at 480P, $0.08/s at 768P, and $0.16/s at 1080P. Reference generation also bills normalized media tokens above 4,096; Keyvo quotes a fixed price from a conservative budget based on verified reference metadata.',
+    notes: 'MiniMax official output rates are CNY 0.33/s at 480P and CNY 0.50/s at 768P. Reference generation adds reference-video seconds (CNY 0.37/s at 480P, CNY 0.97/s at 768P) and CNY 0.50 per image beyond two, measured from verified media.',
   },
-  updatedAt: '2026-09-03T00:00:00Z',
+  updatedAt: '2026-11-12T00:00:00Z',
   ttlSec: 600,
   providerMeta: {
     provider: 'minimax',
@@ -252,6 +254,9 @@ export const MINIMAX_H3_MAX_ENGINE: EngineCaps = {
   modeCaps,
 };
 
+// Recast/Relight are Fal endpoints (minimax/h3-max/recast|relight). MiniMax's own API has no equivalent, so on Keyvo
+// they route to Fal only and are not executable, offered in the workspace or sold (video-operation-tariff-inventory.ts).
+// The upstream operation contracts stay defined here.
 MINIMAX_H3_MAX_ENGINE.operationCaps = buildH3OperationCaps();
 const recastSchema = MINIMAX_H3_MAX_ENGINE.operationCaps['h3-recast']!.inputSchema;
 MINIMAX_H3_MAX_ENGINE.inputSchema = { ...inputSchema,
@@ -279,12 +284,12 @@ export const MINIMAX_H3_MAX_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [{
   })), { mode: 'v2v', falModelId: 'minimax/h3-max/recast', ui: MINIMAX_H3_MAX_ENGINE.modeCaps.v2v! }],
   defaultFalModelId: MINIMAX_H3_MAX_ENDPOINTS.t2v,
   seo: {
-    title: 'MiniMax H3 Max – 1080P Video, References and Audio',
-    description: 'Create 5–15-second MiniMax H3 Max videos from text, frames or mixed references at 480P, 768P or 1080P, with native audio or a supplied soundtrack.',
+    title: 'MiniMax H3 Max – 768P Video, References and Audio',
+    description: 'Create 5–15-second MiniMax H3 Max videos from text, frames or mixed references at 480P or 768P, with native audio.',
     canonicalPath: '/models/minimax-h3-max',
   },
   type: 'Text + Image + References · Native audio',
-  seoText: 'Create MiniMax H3 Max video from text, opening or ending frames, or image, video and audio references. Supply a soundtrack in text and image modes or generate native audio.',
+  seoText: 'Create MiniMax H3 Max video from text, opening or ending frames, or image, video and audio references, with native audio.',
   demoUrl: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/1b29e9b2-c68d-46a3-8415-7677deed674a.mp4',
   media: {
     videoUrl: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/1b29e9b2-c68d-46a3-8415-7677deed674a.mp4',

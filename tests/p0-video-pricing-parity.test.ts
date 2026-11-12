@@ -28,12 +28,13 @@ type Scenario = P0VideoPricingScenario & {
 };
 
 const EXPECTED_FACTS_BY_SCENARIO = {
-  'wan-3:t2v:6:480p': { expectedVendorSubtotalCents: 30 },
-  'wan-3:t2v:6:720p': { expectedVendorSubtotalCents: 60 },
-  'wan-3:t2v:6:1080p': { expectedVendorSubtotalCents: 120 },
-  'wan-3-prime:t2v:6:480p': { expectedVendorSubtotalCents: 40.8 },
-  'wan-3-prime:t2v:6:720p': { expectedVendorSubtotalCents: 84 },
-  'wan-3-prime:t2v:6:1080p': { expectedVendorSubtotalCents: 168 },
+  // Keyvo 2026-11-13: Bailian list CNY 0.3/0.6/1.2 (Wan 3) and 0.45/0.9/1.8 (Prime) per second at 8 CNY/USD.
+  'wan-3:t2v:6:480p': { expectedVendorSubtotalCents: 22.5 },
+  'wan-3:t2v:6:720p': { expectedVendorSubtotalCents: 45 },
+  'wan-3:t2v:6:1080p': { expectedVendorSubtotalCents: 90 },
+  'wan-3-prime:t2v:6:480p': { expectedVendorSubtotalCents: 33.75 },
+  'wan-3-prime:t2v:6:720p': { expectedVendorSubtotalCents: 67.5 },
+  'wan-3-prime:t2v:6:1080p': { expectedVendorSubtotalCents: 135 },
   'ltx-2-5-fast:t2v:6:720p': { expectedVendorSubtotalCents: 54 },
   'ltx-2-5-fast:t2v:6:1080p': { expectedVendorSubtotalCents: 78 },
   'ltx-2-5-fast:t2v:6:1440p': { expectedVendorSubtotalCents: 114 },
@@ -216,9 +217,9 @@ test('Wan Prime keeps fractional-cent factual precision through multiplication',
   const definition = buildPricingDefinition(engineFor(scenario.engineId));
   assert.ok(definition);
   const facts = computePricingDefinitionFacts(definition, factsInput(scenario) as never);
-  assert.equal(facts.base.rate, 0.068);
-  assert.equal(facts.base.amountCents, 40.8);
-  assert.equal(facts.vendorSubtotalExactCents, 40.8);
+  assert.equal(facts.base.rate, 0.05625);
+  assert.equal(facts.base.amountCents, 33.75);
+  assert.equal(facts.vendorSubtotalExactCents, 33.75);
 });
 
 test('Wan edit and extend keep the canonical output-duration customer quote basis', () => {

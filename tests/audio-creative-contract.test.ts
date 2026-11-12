@@ -26,7 +26,8 @@ test('factual costs identify the executed provider, not a Lyria estimate', () =>
   assert.equal(buildAudioVendorCostFacts({ pack: 'song', durationSec: 3 }).vendorSubtotalCents, 15);
   assert.equal(buildAudioVendorCostFacts({ pack: 'ambience_only', durationSec: 90 }).vendorSubtotalCents, 20);
   const voice = buildAudioVendorCostFacts({ pack: 'voice_only', voiceModel: 'minimax', script: 'a'.repeat(1000), durationSec: 50 });
-  assert.equal(voice.vendorSubtotalCents, 10);
+  // Keyvo 2026-11-13: speech-02-hd uses MiniMax's list, CNY 3.50 / 10k billing characters (1,000 Latin = 4.375 cents).
+  assert.equal(voice.vendorSubtotalCents, 4.375);
   assert.equal(voice.components[0].model, 'fal-ai/minimax/speech-02-hd');
 });
 test('exact adapters send provider-native fields and make only one attempt on failure', async () => {

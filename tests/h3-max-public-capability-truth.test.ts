@@ -1,5 +1,5 @@
-// MiniMax-H3-Max (Recast/Relight, 1080P) is hidden on Keyvo (KEYVO_HIDDEN_MODEL_IDS, no mainland route); its
-// upstream contracts still run on the unfiltered catalog. This import must stay first.
+// MiniMax-H3-Max runs on MiniMax's own API on Keyvo (480P/768P; Recast/Relight stay Fal-only and unsold). These
+// upstream contracts run on the unfiltered catalog like the other Keyvo-adapted tests. This import must stay first.
 import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -37,7 +37,7 @@ test('H3 Max public specs and comparisons expose its executable image and refere
   assert.equal(resolveSupported(model.textToVideo), true);
   assert.equal(resolveSupported(model.audioOutput), true);
   assert.equal(resolveSupported(model.nativeAudioGeneration), true);
-  assert.deepEqual(h3Max.engine.resolutions, ['480P', '768P', '1080P']);
+  assert.deepEqual(h3Max.engine.resolutions, ['480P', '768P']);
   assert.equal(h3Max.engine.maxDurationSec, 15);
   assert.ok((resolveModelOfferAmountCents(h3Max, h3Max.engine) ?? 0) > 0);
 
@@ -52,6 +52,7 @@ test('localized H3 Max metadata and Product descriptions agree on multimodal ava
     const document = JSON.parse(readFileSync(`content/models/${locale}/minimax-h3-max.json`, 'utf8'));
     assert.deepEqual(document.seo, document.decision.meta);
     assert.match(JSON.stringify(document.seo), /references|références|referencias/i);
+    // The EN/FR/ES documents are upstream copy (Keyvo renders zh only) and still describe Fal's 1080P tier.
     assert.match(document.seo.description, /1080P/);
     assert.match(document.decision.hero.paragraph, /MCP/);
     assert.ok(document.decision.referenceWorkflows.length >= 3);
@@ -68,6 +69,12 @@ test('localized H3 Max metadata and Product descriptions agree on multimodal ava
     assert.equal(product.description, document.seo.description);
     assert.ok(Number(product.offers.price) > 0);
   }
+  // Keyvo's zh page describes the official route only: 480P/768P, no 1080P/4K.
+  const zh = JSON.parse(readFileSync('content/models/zh/minimax-h3-max.json', 'utf8'));
+  assert.deepEqual(zh.seo, zh.decision.meta);
+  assert.match(zh.seo.description, /480P 或 768P/);
+  assert.doesNotMatch(JSON.stringify(zh), /1080P|4K/);
+  assert.doesNotMatch(h3Max.seo.description, /1080P/);
   assert.match(h3Max.seo.description, /references/i);
   assert.match(h3Max.type!, /References/i);
   const guidance = getAgentModelGuidance(h3Max.id)!;

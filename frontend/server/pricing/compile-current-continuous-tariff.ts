@@ -8,6 +8,7 @@ import { ltx25AudioTariffBounds } from '@/lib/ltx25-audio-tariff';
 import { compileLtx25AudioContinuousTariffPrice, validateLtx25AudioContinuousTariffDomain } from '@/server/pricing/ltx25-audio-continuous-tariff';
 import { compileOmniContinuousTariffPrice, validateOmniContinuousTariffDomain } from '@/server/pricing/omni-continuous-tariff';
 import { buildBillingPricingFacts } from '@/lib/pricing-billing-facts';
+import { resolveOfficialListCompatibilityProfile } from '@/lib/official-list-pricing';
 import { getVersionedPricingPolicy } from '@/lib/pricing-policy-defaults';
 import { resolveServerBillingPolicy } from '@/server/pricing/resolve-pricing-policy';
 import { compileWan3ContinuousTariffPrice } from '@/server/pricing/wan3-continuous-tariff';
@@ -25,7 +26,12 @@ export async function compileCurrentContinuousTariffPrice(scenario: ManualTariff
   const { policy } = await resolveServerBillingPolicy({ engineId: scenario.modelId, mode: scenario.context.mode, resolution: scenario.context.resolution },
     null, { loadOverrides: async () => rules });
   const facts = buildBillingPricingFacts(scenario.context, scenario.context.engine.pricingDetails, 'USD');
-  const profile = getVersionedPricingPolicy().compatibilityProfiles.find(p => p.id === (policy.rule.compatibilityProfile ?? facts.compatibilityProfileId));
+  // Same profile as the live quote (Keyvo official-list rule included), so a frozen tariff never claims a parity it lacks.
+  // Video operations keep their own reviewed operation policy (as in quote-billing.ts).
+  const ruleProfileId = policy.rule.compatibilityProfile ?? facts.compatibilityProfileId;
+  const profileId = scenario.context.operation ? ruleProfileId
+    : resolveOfficialListCompatibilityProfile(scenario.modelId, ruleProfileId, policy);
+  const profile = getVersionedPricingPolicy().compatibilityProfiles.find(p => p.id === profileId);
   if (!profile) throw new Error('Current price rounding is unavailable');
   const compile = isOperationContinuousTariff(scenario.context) ? compileOperationContinuousTariffPrice
     : isOpenQuantityTariff(scenario.modelId, scenario.selector.mode) ? compileOpenQuantityTariffPrice

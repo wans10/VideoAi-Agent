@@ -7,21 +7,27 @@ import { computeCanonicalBillingSnapshot } from '../frontend/server/pricing/quot
 import { auditReviewedCustomerTariffSeed } from '../frontend/server/pricing/customer-tariff-reviewed-seed';
 import { readFileSync } from 'node:fs';
 
+// Keyvo 2026-11-13: Wan 3 and H3-Max sell at 80% of their official list cost (below cost), which a manual tariff cannot
+// represent. These fixtures exercise the seed machinery on the margin path, so explicit engine rules (an admin
+// decision) keep the two Keyvo engines on it; the official-list prices themselves are never seeded into tariffs.
 const policy = { status: 'loaded' as const, rules: [{ id: 'default', marginPercent: 0.3, marginFlatCents: 0,
-  surchargeAudioPercent: 0.2, surchargeUpscalePercent: 0.5, currency: 'USD' }] };
+  surchargeAudioPercent: 0.2, surchargeUpscalePercent: 0.5, currency: 'USD' },
+  ...['minimax-h3-max', 'wan-3'].map(engineId => ({ id: `margin-${engineId}`, engineId, marginPercent: 0.3, marginFlatCents: 0,
+    surchargeAudioPercent: 0.2, surchargeUpscalePercent: 0.5, currency: 'USD' }))] };
 const rulesHash = createHash('sha256').update(JSON.stringify(policy.rules)).digest('hex');
 const scenarios = [
   { engine: getFalEngineById('wan-3')!.engine, mode: 'v2v' as const, resolution: '720p', durationSec: 5, inputVideoDurationSec: 3.25 },
   { engine: getFalEngineById('wan-3')!.engine, mode: 'v2v' as const, resolution: '720p', durationSec: 5, inputVideoDurationSec: 4.75 },
   { engine: getFalEngineById('ltx-2-5-fast')!.engine, mode: 'a2v' as const, resolution: '1080p', durationSec: 5, inputAudioDurationSec: 9.25 },
   { engine: getFalEngineById('gemini-omni-flash')!.engine, mode: 'retake' as const, resolution: '720p', durationSec: 5, inheritedDurationSec: 4.75 },
-  { engine: getFalEngineById('minimax-h3-max')!.engine, mode: 'ref2v' as const, resolution: '768P', durationSec: 5, referenceTokenBudget: 4097 },
+  // Keyvo: MiniMax-H3-Max reference pricing is exact (reference images + whole reference-video seconds on MiniMax's own
+  // API), so this scenario is a fixed point cell with no coverage gap (no reviewed continuous class).
+  { engine: getFalEngineById('minimax-h3-max')!.engine, mode: 'ref2v' as const, resolution: '768P', durationSec: 5, referenceImageCount: 3, inputVideoDurationSec: 1 },
 ].map(context => buildManualTariffCoverageScenario(context, 'fixture'));
 const gaps = [
   { modelId: 'wan-3', reason: 'v2v: fractional input video duration needs a continuous unit tariff' },
   { modelId: 'ltx-2-5-fast', reason: 'a2v: open input audio duration needs a continuous unit tariff' },
   { modelId: 'gemini-omni-flash', reason: 'retake: open input video duration needs a continuous unit tariff' },
-  { modelId: 'minimax-h3-max', reason: 'ref2v: unbounded reference token budget needs a continuous unit tariff' },
   { modelId: 'wan-3', reason: 'v2v: unrelated unreviewed control' },
 ];
 async function input() {
@@ -31,13 +37,28 @@ async function input() {
   return { baseline: { ...baseline, databaseRulesHash: rulesHash }, scenarios, registryHash: baseline.registryHash, coverageGaps: gaps, policy };
 }
 
+test('Keyvo official-list Wan prices are refused by the seed audit instead of being frozen into tariffs', async () => {
+  // Without the explicit engine rules, Wan 3 quotes the official-list-80 rule (80% of the Bailian list, below cost); the
+  // continuous compiler refuses that profile, so the reviewed seed cannot carry Keyvo's prices into a manual tariff.
+  const defaultOnly = { status: 'loaded' as const, rules: [policy.rules[0]!] };
+  const wanScenarios = scenarios.filter(row => row.modelId === 'wan-3');
+  const baseline = await collectEffectiveCustomerTariffBaseline({ at: '2026-09-30T12:00:00Z', registryHash: 'reviewed-registry',
+    databaseIdentity: 'private-test', scenarios: wanScenarios, quote: row => computeCanonicalBillingSnapshot(row.context,
+      { pricingPolicy: { loadOverrides: async () => defaultOnly } }) });
+  const databaseRulesHash = createHash('sha256').update(JSON.stringify(defaultOnly.rules)).digest('hex');
+  await assert.rejects(auditReviewedCustomerTariffSeed({ baseline: { ...baseline, databaseRulesHash }, scenarios: wanScenarios,
+    registryHash: baseline.registryHash, coverageGaps: gaps, policy: defaultOnly }), /Unsupported Wan continuous tariff profile/);
+});
+
 test('read-only candidate collapses reviewed continuous classes with full-domain guards and zero captured cent deltas', async () => {
   const audit = await auditReviewedCustomerTariffSeed(await input());
   assert.equal(audit.cells.length, 4);
-  assert.equal(audit.reviewedContinuousClasses.length, 4);
+  assert.equal(audit.reviewedContinuousClasses.length, 3);
+  assert.equal(audit.reviewedContinuousClasses.some(item => item.modelId === 'minimax-h3-max'), false);
+  assert.ok(audit.cells.some(cell => cell.selector.engineId === 'minimax-h3-max' && cell.price.kind === 'fixed'));
   assert.ok(audit.reviewedContinuousClasses.every(item => item.domain.minimumGrossCents >= 0));
   assert.equal(audit.checkedScenarios, 5);
-  assert.deepEqual(audit.remainingCoverageGaps, gaps.slice(4));
+  assert.deepEqual(audit.remainingCoverageGaps, gaps.slice(3));
   assert.equal(audit.activationReady, false, 'a partial read-only certificate cannot authorize activation');
   assert.ok(audit.cells.some(cell => cell.price.kind === 'unit_bands'));
 });

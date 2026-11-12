@@ -45,10 +45,11 @@ read server environment), so set the variables before deploying this change or t
   volume (0, 10], integer pitch -12..12, sample rate 8000/16000/22050/24000/32000/44100, 1 or 2 channels, no
   Persian/Filipino/Tamil `language_boost` on `speech-02-*`. Emotions a model does not accept (`fluent`/`whisper`
   outside `speech-2.6-*`) are not sent; the workspace sends none.
-- Price: `speech-02-hd` keeps the historical vendor cost (0.01 US cents per character). The other models use the
-  official CNY list price, PROVISIONAL until the owner reviews it: HD 3.50 and Turbo 2.00 CNY per 10,000 billing
-  characters (a CJK character counts as 2), converted with `USD_TO_CNY_CUSTOMER_RATE` and then the normal audio margin.
-  Source: `https://platform.minimaxi.com/docs/pricing/overview.md`, checked 2026-11-11.
+- Price: every model, including `speech-02-hd` (MCP, agents, Studio), uses the official CNY list price: HD 3.50 and
+  Turbo 2.00 CNY per 10,000 billing characters (a CJK character counts as 2), converted with `USD_TO_CNY_CUSTOMER_RATE`.
+  Seed Audio 1.0 costs CNY 1.00 per output minute (owner-supplied; not on the Ark price page). Since 2026-11-13 voice
+  over is sold at 80% of these list prices (`pricing-engine.md` "Keyvo official list price rule") instead of the 3×
+  audio margin. Source: `https://platform.minimaxi.com/docs/pricing/overview.md`, checked 2026-11-13.
 - Rate limit: T2A V2 allows 20 requests per minute on a paid account. `src/server/minimax-rate-limit.ts` refuses the
   21st call in a sliding minute per process before contacting MiniMax; a MiniMax `429` or `1002`/`1039`/`2045` answer is
   treated the same. Both refund the charge and answer `429 provider_rate_limited`, which the workspace shows as

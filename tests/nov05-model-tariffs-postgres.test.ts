@@ -29,16 +29,18 @@ test('new model tariff previews are concrete, revisioned and inactive until appr
       const request = image ? { mode: 't2i', resolution: '1024x1024', durationSec: '1', quality: 'high' }
         : { mode: 'ref2v', resolution: '720p', durationSec: '5', billingInputType: 'video_input', inputVideoDurationSec: '10.2501' };
       const detail = await loadCustomerTariffScenarioDetail(id, request);
-      assert.equal(detail.currentCents, null);
+      // Keyvo 2026-11-13: Flash has a current official-list rule quote (15.2501 billable s x 5 cents x 80% -> 61).
+      const current = image ? null : 61;
+      assert.equal(detail.currentCents, current);
       if (!image) assert.equal(detail.choices.find(choice => choice.key === 'inputVideoDurationSec')?.range?.max, 20);
       const proposal = image ? { operation: 'create' as const, scenarioId: detail.scenarioId, customerCents: 100 }
         : { operation: 'create' as const, scenarioId: detail.scenarioId, scope: 'continuous_input' as const, price: { kind: 'kling_v4_billable' as const, customerCentsPerBillableSecond: 12 } };
       const preview = await previewCustomerTariffChange(proposal);
-      assert.equal(preview.active, false); assert.equal(preview.currentCents, null); assert.equal(preview.proposedCents, image ? 100 : 184);
+      assert.equal(preview.active, false); assert.equal(preview.currentCents, current); assert.equal(preview.proposedCents, image ? 100 : 184);
       const changed = image ? { ...proposal, customerCents: 101 } : { ...proposal, price: { kind: 'kling_v4_billable' as const, customerCentsPerBillableSecond: 13 } };
       await assert.rejects(confirmCustomerTariffChange(changed, preview.fingerprint, actor, () => undefined), /preview changed/i);
       await confirmCustomerTariffChange(proposal, preview.fingerprint, actor, () => undefined);
-      assert.equal((await loadCustomerTariffScenarioDetail(id, detail.selector)).currentCents, null);
+      assert.equal((await loadCustomerTariffScenarioDetail(id, detail.selector)).currentCents, current);
       assert.equal(getRuntimeModelById(id)?.publication.app.published, false);
     }
     // Activate only this disposable database to verify canonical price parity.

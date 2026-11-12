@@ -33,16 +33,27 @@ test('continuous Wan price edits cover the full source range, refresh public quo
     await db.pool.query(readFileSync('neon/migrations/55_customer_tariff_versions.sql', 'utf8'));
     const selected = await loadCustomerTariffScenarioDetail('wan-3', { mode: 'v2v', resolution: '720p',
       durationSec: '5', aspectRatio: '16:9', inputVideoDurationSec: '3.25' });
-    assert.ok(selected.continuousInputTariff);
-    assert.equal(selected.continuousInputTariff.maxInputSeconds, 15);
     const preserve = { operation: 'create' as const, scenarioId: selected.scenarioId,
       scope: 'continuous_input' as const, price: { kind: 'preserve_current' as const } };
+    // Keyvo 2026-11-13: under the database-wide rule Wan 3 sells at 80% of the Bailian list (8.25 s x 7.5 cents x 0.8
+    // = 49.5 -> 50, below cost); preserving that price as a tariff is refused instead of approximated.
+    assert.equal(selected.currentCents, 50);
+    assert.equal(selected.continuousInputTariff, undefined, 'no continuous tariff can preserve the official-list price');
+    await assert.rejects(previewCustomerTariffChange(preserve), /Unsupported Wan continuous tariff profile/);
+    // The tariff editor mechanics are exercised on the margin path, which an engine-specific admin rule selects.
+    await db.pool.query(`INSERT INTO app_pricing_rules (id, engine_id, margin_percent, margin_flat_cents,
+      surcharge_audio_percent, surcharge_upscale_percent, currency) VALUES ('margin-wan-3', 'wan-3', 0.3, 0, 0.2, 0.5, 'USD')`);
+    const marginPath = await loadCustomerTariffScenarioDetail('wan-3', selected.selector);
+    assert.ok(marginPath.continuousInputTariff);
+    assert.equal(marginPath.continuousInputTariff.maxInputSeconds, 15);
     const preview = await previewCustomerTariffChange(preserve);
-    assert.equal(preview.proposedCents, 108);
+    // 61.875 cents of Bailian list cost with the 30% margin (formerly 108 on the $0.10/s cost).
+    assert.equal(preview.proposedCents, 81);
     assert.equal(preview.selector.inputVideoDurationSec, 'continuous');
-    assert.ok(preview.continuousInputRange!.checkedBoundaries > 150);
+    // Every supplier-cent jump of the 37.5 + 7.5 x source cents cost is checked: 39..150 plus both endpoints (was > 150).
+    assert.equal(preview.continuousInputRange!.checkedBoundaries, 114);
     const staged = await confirmCustomerTariffChange(preserve, preview.fingerprint, actor);
-    assert.equal((await loadCustomerTariffScenarioDetail('wan-3', selected.selector)).currentCents, 108);
+    assert.equal((await loadCustomerTariffScenarioDetail('wan-3', selected.selector)).currentCents, 81);
     await db.pool.query('UPDATE app_customer_tariff_state SET active = TRUE');
     const input = { modelId: 'wan-3', mode: 'v2v', durationSec: 5, resolution: '720p', aspectRatio: '16:9', inputVideoDurationSec: 3.25 };
     for (const seconds of [0.000016, 0.00005, 3.25, 3.2501, 15]) {
@@ -67,13 +78,14 @@ test('continuous Wan price edits cover the full source range, refresh public quo
     const rollback = { operation: 'rollback' as const, scope: 'continuous_input' as const,
       scenarioId: neighbor.id, eventId: updated.event.id };
     const rollbackPreview = await previewCustomerTariffChange(rollback);
-    assert.equal(rollbackPreview.proposedCents, 111);
+    assert.equal(rollbackPreview.proposedCents, 84); // 8.5 s x 7.5 cents on the margin path (formerly 111)
     await confirmCustomerTariffChange(rollback, rollbackPreview.fingerprint, actor, () => {});
-    assert.equal((await computeCanonicalPublicSnapshot(scenario.context)).totalCents, 108);
+    assert.equal((await computeCanonicalPublicSnapshot(scenario.context)).totalCents, 81);
     assert.equal(paid.totalCents, 129);
     assert.equal((await loadCustomerTariffHistory(staged.event.targetId)).length, 3);
     assert.equal((await db.pool.query('SELECT count(*)::integer AS n FROM app_customer_tariff_cell_versions')).rows[0].n, 2);
-    const unsafe = { ...update, price: { kind: 'linear_input' as const, outputCents: 50, inputCentsPerSecond: 10 } };
+    // Below the 37.5 + 7.5 x source cents list cost from the first source second (formerly 50 + 10/s at $0.10/s).
+    const unsafe = { ...update, price: { kind: 'linear_input' as const, outputCents: 37, inputCentsPerSecond: 7 } };
     await assert.rejects(previewCustomerTariffChange(unsafe), /below.cost/i);
     await assert.rejects(previewCustomerTariffChange({ ...update, price: { kind: 'linear_input' as const, outputCents: 80, inputCentsPerSecond: -1 } }), /invalid/i);
   } finally {

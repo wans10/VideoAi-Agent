@@ -46,7 +46,7 @@ test('homepage curation reads share only the invocation and preserve PostgreSQL 
         '2026-09-20'::timestamptz + n * interval '1 minute' FROM generate_series(1,130) n;
     INSERT INTO app_jobs(job_id,engine_id,thumb_url,video_url,created_at)
       SELECT engine,engine,'https://media.maxvideoai.com/fixture/'||engine||'.webp','https://media.maxvideoai.com/fixture/'||engine||'.mp4','2026-09-21'
-      FROM unnest(ARRAY['seedance-2-0','veo-3-1','happy-horse-1-1','ltx-2-3-fast','wan-2-6','ltx-2-5-pro']) engine;
+      FROM unnest(ARRAY['seedance-2-0','veo-3-1','happy-horse-1-1','ltx-2-3-fast','wan-3','ltx-2-5-pro']) engine;
     INSERT INTO app_jobs(job_id,engine_id,thumb_url,video_url,created_at,visibility,indexable,status,surface)
       SELECT id,'kling-3-pro','https://media.maxvideoai.com/fixture/'||id||'.webp','https://media.maxvideoai.com/fixture/'||id||'.mp4','2026-09-22',visibility,indexable,status,surface
       FROM (VALUES ('private','private',true,'completed','video'),('hidden','public',false,'completed','video'),

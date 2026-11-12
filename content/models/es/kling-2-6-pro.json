@@ -13,7 +13,7 @@
     "badge": "1080p · 5–10 s · Audio on/off",
     "ctaPrimary": {
       "label": "Generar con Kling 2.6 Pro",
-      "href": "/app?engine=kling-2-6-pro"
+      "href": "/es/modelos/kling-3-pro"
     },
     "secondaryLinks": [
       {
@@ -241,7 +241,7 @@
       "paragraph": "Usa Kling 2.6 Pro cuando necesitas una ruta Kling anterior aún compatible para clips cortos con audio, arranque con texto o imagen, prompt negativo, seed y salida 1080p antes de mover el trabajo actual a Kling 3 Pro.",
       "primaryCta": {
         "label": "Generar con Kling 2.6 Pro",
-        "href": "/app?engine=kling-2-6-pro"
+        "href": "/es/modelos/kling-3-pro"
       },
       "secondaryCta": {
         "label": "Ver ejemplos",

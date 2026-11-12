@@ -163,8 +163,8 @@ Media is sent as one-hour owner-checked read grants (`createWanMediaTransport`),
 `KLING_ROUTE_ORDER` (all Kling 3 / Omni / Turbo engines) and `MINIMAX_H3_ROUTE_ORDER` take `bailian,direct`
 (default), `direct,bailian`, `bailian` or `direct`. `resolveVideoProviderRoutingPlan` wraps the vendor plan in
 `applyBailianRouteOrder`: a leg is usable when its gates pass (Bailian: `ALIBABA_MODEL_STUDIO_ENABLED`, key,
-admin-only/public routing; direct: the existing `kling_direct_primary` legacy plan or the MiniMax `llmhub_primary`
-plan) and, for Bailian, when the request is portable (`isBailianHostedRequestCompatible`: no Kling subjects,
+admin-only/public routing; direct: the existing `kling_direct_primary` plan — legacy for Kling 3 / Omni, new design
+for 3.0 Turbo (`kling-official-provider.md`) — or the MiniMax `llmhub_primary` plan) and, for Bailian, when the request is portable (`isBailianHostedRequestCompatible`: no Kling subjects,
 voice IDs, camera control or motion brush — Bailian element IDs are a separate catalogue; H3 exactly the
 official V2 inputs). With neither leg usable, the vendor plan is returned unchanged. Kling 4.0 / 4.0 Flash and
 H3-Max are not hosted here. `cfg_scale` has no Bailian parameter and is dropped on that leg.
@@ -240,7 +240,7 @@ The attempt ledger separately stores a catalog-rate provider-cost estimate for m
 - HappyHorse 1.1 counts generated output duration;
 - returned provider usage units replace estimated units when available.
 
-This estimate uses the dated Singapore catalog rates encoded in the adapter. It does not know the Alibaba account's remaining free quota, temporary promotions, negotiated discounts, credits, taxes, or final invoice adjustments. Alibaba billing is therefore authoritative for cash cost and reconciliation; do not present `provider_cost_usd` as an invoiced amount when one of those account-level adjustments applies.
+Keyvo (2026-11-13): the adapter now records the Bailian cn-beijing CNY list (source `bailian_cn_beijing_list_2026-11-13`, converted at 8 CNY/USD): Wan 3 0.3/0.6/1.2, Prime 0.45/0.9/1.8, HappyHorse 1.1 0.45/0.9/1.2 CNY/s at 480p/720p/1080p. The Singapore figures below are historical. This estimate uses the dated catalog rates encoded in the adapter. It does not know the Alibaba account's remaining free quota, temporary promotions, negotiated discounts, credits, taxes, or final invoice adjustments. Alibaba billing is therefore authoritative for cash cost and reconciliation; do not present `provider_cost_usd` as an invoiced amount when one of those account-level adjustments applies.
 
 October 1 verification: Singapore LIST remains $0.05/$0.10/$0.20 per second for
 Wan 3 at 480p/720p/1080p, and $0.068/$0.14/$0.28 for Prime. Both input and output

@@ -18,7 +18,8 @@ test('real generation zero media counts and unused source metadata resolve the c
     const context = { ...scenario.context, referenceImageCount: scenario.context.referenceImageCount ?? 0,
       inputImageCount: scenario.context.inputImageCount ?? 0, inputVideoDurationSec: scenario.context.inputVideoDurationSec ?? 0 };
     assert.deepEqual(project(context).selector, scenario.selector, scenario.id);
-    if (!['gemini-omni-flash', 'wan-3', 'wan-3-prime', 'kling-v4', 'kling-v4-flash'].includes(scenario.modelId)
+    // MiniMax-H3 / H3-Max reference mode bills owned reference-video seconds (Keyvo 2026-11-13), like Wan 3.
+    if (!['gemini-omni-flash', 'wan-3', 'wan-3-prime', 'kling-v4', 'kling-v4-flash', 'minimax-h3', 'minimax-h3-max'].includes(scenario.modelId)
       && !supportsSeedanceInputTariff(scenario.modelId,scenario.selector.mode,scenario.selector.billingInputType)) {
       const extra = { ...context, inputVideoDurationSec: 3.25 };
       assert.equal(project(extra).facts.vendorSubtotalExactCents, project(context).facts.vendorSubtotalExactCents);
@@ -113,20 +114,16 @@ test('a rate override that retains the factual reference surcharge cannot erase 
   assert.notDeepEqual(selected[0].selector, selected[1].selector);
 });
 
-test('Kling voice control is a separately priced authored extra and coverage includes its actual audio-on variant', () => {
+// Keyvo 2026-11-13: neither Bailian nor Kling lists a voice-control surcharge for Kling 3, so the former fal extra
+// (+2.8 cents/s) is gone and a voice request has the same supplier facts and tariff identity as the audio-on request.
+test('Kling voice control carries no official surcharge and keeps the audio-on tariff identity', () => {
   for (const modelId of ['kling-3-standard', 'kling-3-pro']) {
     const engine = getFalEngineById(modelId)!.engine;
     const context = { engine, mode: 't2v' as const, resolution: '1080p', durationSec: 5,
       addons: buildEngineAddonInput(engine, { audioEnabled: true }) };
     const voice = { ...context, addons: buildEngineAddonInput(engine, { audioEnabled: true, voiceControl: true }) };
-    assert.equal(project(voice).selector.voiceControl, 'true');
-    assert.notDeepEqual(project(voice).selector, project(context).selector);
-    assert.ok(project(voice).facts.vendorSubtotalExactCents > project(context).facts.vendorSubtotalExactCents);
-    assert.ok(collectSellableManualTariffCoverage().scenarios.some(s => JSON.stringify(s.selector) === JSON.stringify(project(voice).selector)));
-    const publicScenario = resolvePublicModelScenario({ modelId, mode: 't2v', resolution: '1080p', durationSec: 5, audio: false, voiceControl: true });
-    assert.ok(publicScenario);
-    assert.equal(publicScenario.selector.voiceControl, 'true');
-    assert.equal(publicScenario.selector.audio, 'true', 'generation forces audio on for voices');
-    assert.deepEqual(project(publicScenario.context).selector, project(voice).selector);
+    assert.equal(project(voice).facts.vendorSubtotalExactCents, project(context).facts.vendorSubtotalExactCents);
+    assert.deepEqual(project(voice).selector, project(context).selector);
+    assert.equal(project(voice).selector.audio, 'true', 'generation forces audio on for voices');
   }
 });

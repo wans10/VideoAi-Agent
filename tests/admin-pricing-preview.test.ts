@@ -183,15 +183,17 @@ test('canonical admin quotes compare only affected totals and preserve provenanc
   const preview = compareCanonicalAdminScenarios(current, proposed);
 
   assert.deepEqual(preview.map((row) => row.scenarioId), [kling1080.id]);
-  assert.equal(preview[0]?.currentTotalCents, 130);
-  assert.equal(preview[0]?.proposedTotalCents, 140);
-  assert.equal(preview[0]?.deltaCents, 10);
-  assert.equal(preview[0]?.deltaPercent, 10 / 130);
+  // Keyvo 2026-11-13: a database-wide rule keeps Kling 3 Pro on the official-list rule (80% of 75 cents = 60); the
+  // precise rule is an explicit admin decision and prices margin-on-cost (75 + 56 flat = 131).
+  assert.equal(preview[0]?.currentTotalCents, 60);
+  assert.equal(preview[0]?.proposedTotalCents, 131);
+  assert.equal(preview[0]?.deltaCents, 71);
+  assert.equal(preview[0]?.deltaPercent, 71 / 60);
   assert.deepEqual(preview[0]?.currentProvenance, {
     source: 'database',
     matchedBy: 'global',
     sourceRuleId: globalRule.id,
-    compatibilityProfile: 'standard',
+    compatibilityProfile: 'official-list-80',
   });
   assert.deepEqual(preview[0]?.proposedProvenance, {
     source: 'database',
@@ -247,9 +249,11 @@ test('an explicit database compatibility profile overrides a provider-reference 
 
   requireQuoted(baseline);
   requireQuoted(quote);
-  assert.equal(baseline.customerTotalCents, 31);
+  // Keyvo 2026-11-13: 1 s 720p Fast = 9.99 cents of Ark list cost; official-list rule 80% -> 8; the explicit
+  // standard rule prices 30% on that cost -> 13.
+  assert.equal(baseline.customerTotalCents, 8);
   assert.equal(quote.policyProvenance.compatibilityProfile, 'standard');
-  assert.equal(quote.customerTotalCents, 30);
+  assert.equal(quote.customerTotalCents, 13);
 });
 
 test('public scenario facts keep their authoritative compatibility profile over a database profile', () => {
@@ -431,7 +435,8 @@ test('requested audio coverage builds a selector-aware canonical Kling scenario'
   assert.equal(requested.policyProvenance.sourceRuleId, currentRule.id);
   const preview = compareCanonicalAdminScenarios(current, proposed);
   assert.deepEqual(preview.map((row) => row.scenarioId), [requested.scenarioId]);
-  assert.equal(preview[0]?.deltaCents, 17);
+  // 20% more audio surcharge on Kling 3 Pro's 75-cent Bailian list cost (Keyvo 2026-11-13).
+  assert.equal(preview[0]?.deltaCents, 15);
 });
 
 test('requested upscale coverage blocks an ordinary selector without an authoritative scenario', () => {

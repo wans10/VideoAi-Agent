@@ -330,53 +330,33 @@
       },
       "publication": {
         "model": {
-          "published": true,
-          "indexable": true
+          "published": false,
+          "indexable": false
         },
         "examples": {
-          "published": true,
-          "includeInFamilyCopy": true,
-          "current": false,
-          "familyRank": 7
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
         },
         "compare": {
-          "published": true,
-          "indexed": true,
+          "published": false,
+          "indexed": false,
           "suggestedOpponentIds": [],
-          "publishedPairIds": [
-            "kling-2-6-pro",
-            "kling-3-4k",
-            "kling-3-pro",
-            "kling-3-standard",
-            "ltx-2",
-            "ltx-2-3-fast",
-            "ltx-2-3",
-            "ltx-2-fast",
-            "lumaRay2",
-            "lumaRay2_flash",
-            "minimax-hailuo-02-text",
-            "pika-text-to-video",            "seedance-2-0",
-            "sora-2",
-            "sora-2-pro",
-            "veo-3-1",
-            "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
-          ]
+          "publishedPairIds": []
         },
         "app": {
-          "published": true
+          "published": false
         },
         "pricing": {
-          "published": true
+          "published": false
         },
         "sitemap": {
-          "published": true
+          "published": false
         }
       },
       "replacement": null,
       "lifecycle": "legacy",
-      "successorId": null
+      "successorId": "kling-3-turbo-standard"
     },
     {
       "id": "kling-2-6-pro",
@@ -389,53 +369,33 @@
       },
       "publication": {
         "model": {
-          "published": true,
-          "indexable": true
+          "published": false,
+          "indexable": false
         },
         "examples": {
-          "published": true,
-          "includeInFamilyCopy": true,
-          "current": false,
-          "familyRank": 6
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
         },
         "compare": {
-          "published": true,
-          "indexed": true,
+          "published": false,
+          "indexed": false,
           "suggestedOpponentIds": [],
-          "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-3-4k",
-            "kling-3-pro",
-            "kling-3-standard",
-            "ltx-2",
-            "ltx-2-3-fast",
-            "ltx-2-3",
-            "ltx-2-fast",
-            "lumaRay2",
-            "lumaRay2_flash",
-            "minimax-hailuo-02-text",
-            "pika-text-to-video",            "seedance-2-0",
-            "sora-2",
-            "sora-2-pro",
-            "veo-3-1",
-            "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
-          ]
+          "publishedPairIds": []
         },
         "app": {
-          "published": true
+          "published": false
         },
         "pricing": {
-          "published": true
+          "published": false
         },
         "sitemap": {
-          "published": true
+          "published": false
         }
       },
       "replacement": null,
       "lifecycle": "legacy",
-      "successorId": null
+      "successorId": "kling-3-pro"
     },
     {
       "id": "kling-3-4k",
@@ -568,8 +528,6 @@
             "veo-3-1"
           ],
           "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-standard",
             "ltx-2",
@@ -585,8 +543,7 @@
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -641,8 +598,6 @@
             "ltx-2-3-fast"
           ],
           "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-pro",
             "ltx-2",
@@ -657,8 +612,7 @@
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -981,8 +935,6 @@
           "indexed": true,
           "suggestedOpponentIds": [],
           "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-pro",
             "kling-3-standard",
@@ -997,8 +949,7 @@
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -1051,8 +1002,6 @@
             "sora-2"
           ],
           "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-pro",
             "kling-3-standard",
@@ -1068,8 +1017,7 @@
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -1119,8 +1067,6 @@
             "ltx-2-fast"
           ],
           "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-pro",
             "kling-3-standard",
@@ -1136,8 +1082,7 @@
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -1184,8 +1129,6 @@
             "ltx-2-3-fast"
           ],
           "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-pro",
             "kling-3-standard",
@@ -1200,8 +1143,7 @@
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -1390,8 +1332,6 @@
             "kling-3-standard"
           ],
           "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-pro",
             "kling-3-standard",
@@ -1406,8 +1346,7 @@
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -1460,8 +1399,6 @@
             "ltx-2-3-fast"
           ],
           "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-pro",
             "kling-3-standard",
@@ -1476,8 +1413,7 @@
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -1635,8 +1571,6 @@
           "indexed": true,
           "suggestedOpponentIds": [],
           "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-pro",
             "kling-3-standard",
@@ -1651,8 +1585,7 @@
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -1957,8 +1890,6 @@
             "ltx-2-3-fast"
           ],
           "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-pro",
             "kling-3-standard",
@@ -1973,8 +1904,7 @@
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -2071,8 +2001,6 @@
             "sora-2"
           ],
           "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-pro",
             "kling-3-standard",
@@ -2088,7 +2016,6 @@
             "veo-3-1",
             "veo-3-1-fast",
             "veo-3-1-lite",
-            "wan-2-6",
             "seedance-2-0-fast",
             "seedance-2-5"
           ]
@@ -2152,8 +2079,6 @@
             "sora-2"
           ],
           "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-pro",
             "kling-3-standard",
@@ -2169,8 +2094,7 @@
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -2506,8 +2430,6 @@
           ],
           "publishedPairIds": [
             "grok-imagine-video-1-5",
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-pro",
             "kling-3-standard",
@@ -2522,8 +2444,7 @@
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -2571,8 +2492,6 @@
           "indexed": true,
           "suggestedOpponentIds": [],
           "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-pro",
             "kling-3-standard",
@@ -2587,8 +2506,7 @@
             "sora-2",
             "veo-3-1",
             "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -2644,8 +2562,6 @@
             "sora-2"
           ],
           "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-pro",
             "kling-3-standard",
@@ -2662,8 +2578,7 @@
             "sora-2",
             "sora-2-pro",
             "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-2-6"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -2724,8 +2639,6 @@
             "veo-3-1"
           ],
           "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-pro",
             "kling-3-standard",
@@ -2740,8 +2653,7 @@
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
-            "veo-3-1-lite",
-            "wan-2-6"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -2799,8 +2711,6 @@
             "sora-2"
           ],
           "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
             "kling-3-4k",
             "kling-3-pro",
             "kling-3-standard",
@@ -2815,8 +2725,7 @@
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
-            "veo-3-1-fast",
-            "wan-2-6"
+            "veo-3-1-fast"
           ]
         },
         "app": {
@@ -2893,54 +2802,28 @@
       },
       "publication": {
         "model": {
-          "published": true,
-          "indexable": true
+          "published": false,
+          "indexable": false
         },
         "examples": {
-          "published": true,
-          "includeInFamilyCopy": true,
-          "current": false,
-          "familyRank": 2
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
         },
         "compare": {
-          "published": true,
-          "indexed": true,
-          "suggestedOpponentIds": [
-            "wan-3",
-            "sora-2",
-            "veo-3-1",
-            "ltx-2-3-fast"
-          ],
-          "publishedPairIds": [
-            "kling-2-5-turbo",
-            "kling-2-6-pro",
-            "kling-3-4k",
-            "kling-3-pro",
-            "kling-3-standard",
-            "ltx-2",
-            "ltx-2-3-fast",
-            "ltx-2-3",
-            "ltx-2-fast",
-            "lumaRay2",
-            "lumaRay2_flash",
-            "minimax-hailuo-02-text",
-            "pika-text-to-video",            "seedance-2-0",
-            "sora-2",
-            "sora-2-pro",
-            "veo-3-1",
-            "veo-3-1-fast",
-            "veo-3-1-lite",
-            "wan-3"
-          ]
+          "published": false,
+          "indexed": false,
+          "suggestedOpponentIds": [],
+          "publishedPairIds": []
         },
         "app": {
-          "published": true
+          "published": false
         },
         "pricing": {
-          "published": true
+          "published": false
         },
         "sitemap": {
-          "published": true
+          "published": false
         }
       },
       "replacement": null,
@@ -2972,12 +2855,10 @@
           "indexed": true,
           "suggestedOpponentIds": [
             "seedance-2-5",
-            "wan-3-prime",
-            "wan-2-6"
+            "wan-3-prime"
           ],
           "publishedPairIds": [
             "seedance-2-5",
-            "wan-2-6",
             "wan-3-prime"
           ]
         },

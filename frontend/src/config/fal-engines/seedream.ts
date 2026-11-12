@@ -206,26 +206,29 @@ export const SEEDREAM_PRO_ENGINE: EngineCaps = {
       maxImageSizeMB: 10,
     },
   },
+  // Volcengine Ark cn-beijing list: CNY 0.60 per image above 2.61 MP (every 2K size), 0.30 at or below
+  // (https://ark.volcengine.com/region:cn-beijing/docs/model-pricing.md, checked 2026-11-13); 8 CNY/USD.
+  // The second and later input images cost CNY 0.02 each (billed in pricing-billing-facts.ts).
   pricingDetails: {
     currency: 'USD',
     perSecondCents: {
-      default: 12,
+      default: 7.5,
       byResolution: {
-        '2K': 12,
+        '2K': 7.5,
       },
     },
     flatCents: {
-      default: 12,
+      default: 7.5,
       byResolution: {
-        '2K': 12,
+        '2K': 7.5,
       },
     },
   },
   pricing: {
     unit: 'image',
-    base: 0.12,
+    base: 0.075,
     byResolution: {
-      '2K': 0.12,
+      '2K': 0.075,
     },
     currency: 'USD',
     notes: 'Seedream 5.0 Pro is billed per successfully generated professional image.',
@@ -406,7 +409,7 @@ export const SEEDREAM_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
     ],
     pricingHint: {
       currency: 'USD',
-      amountCents: 12,
+      amountCents: 8,
       resolution: '2K',
       label: 'Per 2K image',
     },

@@ -32,13 +32,6 @@ import {
 import { extractMaxDuration } from '../frontend/app/(localized)/[locale]/(marketing)/models/_lib/models-catalog-utils.ts';
 import { parseMaxDurationNumber } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-score-utils.ts';
 
-const DEFAULT_MAXVIDEOAI_MARGIN_FACTOR = 1.3;
-
-function targetCustomerUnitPriceUsdPer1kTokens(unitPriceUsdPer1kTokens: number | undefined): number | null {
-  if (typeof unitPriceUsdPer1kTokens !== 'number') return null;
-  return Number((unitPriceUsdPer1kTokens * DEFAULT_MAXVIDEOAI_MARGIN_FACTOR).toFixed(6));
-}
-
 function collectPublicCopy(value: unknown): string[] {
   if (typeof value === 'string') return [value];
   if (Array.isArray(value)) return value.flatMap(collectPublicCopy);
@@ -75,21 +68,13 @@ test('Seedance 2 registry centralizes provisional Fal IDs and keeps both launch 
   assert.deepEqual(fast.engine.resolutions, ['480p', '720p']);
   assert.deepEqual(seedance.engine.aspectRatios, ['auto', '21:9', '16:9', '4:3', '1:1', '3:4', '9:16']);
   assert.deepEqual(fast.engine.aspectRatios, ['auto', '21:9', '16:9', '4:3', '1:1', '3:4', '9:16']);
-  assert.equal(targetCustomerUnitPriceUsdPer1kTokens(seedance.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokens), 0.0175);
-  assert.equal(
-    targetCustomerUnitPriceUsdPer1kTokens(
-      seedance.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokensByResolution?.['1080p']
-    ),
-    0.01925
-  );
-  assert.equal(
-    targetCustomerUnitPriceUsdPer1kTokens(
-      seedance.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokensByResolution?.['4k']
-    ),
-    0.01
-  );
-  assert.equal(fast.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokensByInputType, undefined);
-  assert.equal(targetCustomerUnitPriceUsdPer1kTokens(fast.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokens), 0.014);
+  // Keyvo 2026-11-13: the token fact is the Volcengine Ark list (CNY 46/M tokens at 720p, 8 CNY/USD), sold at 80%.
+  assert.equal(seedance.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokens, 46 / 8 / 1000);
+  assert.equal(seedance.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokensByResolution?.['1080p'], 51 / 8 / 1000);
+  assert.equal(seedance.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokensByResolution?.['4k'], 26 / 8 / 1000);
+  // Ark lists a lower rate for requests with video input (CNY 22/M for Fast).
+  assert.equal(fast.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokensByInputType?.video_input, 22 / 8 / 1000);
+  assert.equal(fast.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokens, 37 / 8 / 1000);
   assert.equal(seedance.engine.pricingDetails?.tokenPricing?.defaultAspectRatio, '16:9');
   assert.equal(fast.engine.pricingDetails?.tokenPricing?.defaultAspectRatio, '16:9');
   assert.equal(mini.defaultFalModelId, 'byteplus/dreamina-seedance-2.0-mini/text-to-video');
@@ -99,9 +84,9 @@ test('Seedance 2 registry centralizes provisional Fal IDs and keeps both launch 
   assert.deepEqual(mini.engine.resolutions, ['480p', '720p']);
   assert.deepEqual(mini.engine.fps, [24]);
   assert.equal(mini.engine.audio, true);
-  assert.equal(targetCustomerUnitPriceUsdPer1kTokens(mini.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokens), 0.00875);
-  assert.equal(mini.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokensByInputType, undefined);
-  assert.equal(mini.engine.pricingDetails?.tokenPricing?.pricingSource, 'byteplus_seedance_2_0_mini_flat_markup');
+  assert.equal(mini.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokens, 23 / 8 / 1000);
+  assert.equal(mini.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokensByInputType?.video_input, 14 / 8 / 1000);
+  assert.equal(mini.engine.pricingDetails?.tokenPricing?.pricingSource, 'volcengine_ark_cn_beijing_list_2026_11_13');
   assert.deepEqual(Object.keys(mini.engine.pricingDetails?.tokenPricing?.dimensions ?? {}), ['480p', '720p']);
 
   const seedanceI2v = seedance.modes.find((mode) => mode.mode === 'i2v');
@@ -191,11 +176,14 @@ test('Seedance 2 registry centralizes provisional Fal IDs and keeps both launch 
   assert.equal(fast.surfaces.compare.includeInHub, true);
   assert.equal(seedance.surfaces.modelPage.indexable, true);
   assert.equal(fast.surfaces.modelPage.indexable, true);
-  // Seedance 1.5 Pro and Wan 2.5 are retired on Keyvo, so their pairs left both lists.
-  assert.equal(seedance.surfaces.compare.publishedPairs.length, 21);
-  assert.equal(fast.surfaces.compare.publishedPairs.length, 20);
-  assert.equal(seedance.surfaces.compare.publishedPairs.includes('wan-2-5'), false);
-  assert.equal(fast.surfaces.compare.publishedPairs.includes('wan-2-5'), false);
+  // Seedance 1.5 Pro and Wan 2.5 are retired on Keyvo, so their pairs left both lists. Keyvo 2026-11-13: Wan 2.6, Kling 2.5
+  // Turbo and Kling 2.6 Pro went offline too (21 -> 18, 20 -> 17).
+  assert.equal(seedance.surfaces.compare.publishedPairs.length, 18);
+  assert.equal(fast.surfaces.compare.publishedPairs.length, 17);
+  for (const retired of ['wan-2-5', 'wan-2-6', 'kling-2-5-turbo', 'kling-2-6-pro']) {
+    assert.equal(seedance.surfaces.compare.publishedPairs.includes(retired), false, retired);
+    assert.equal(fast.surfaces.compare.publishedPairs.includes(retired), false, retired);
+  }
   assert.equal(mini.surfaces.app.enabled, true);
   assert.equal(mini.surfaces.modelPage.indexable, true);
   assert.equal(mini.surfaces.examples.includeInFamilyResolver, true);
@@ -211,7 +199,7 @@ test('Seedance 2 registry centralizes provisional Fal IDs and keeps both launch 
   ['veo-3-1', 'kling-3-pro', 'sora-2', 'seedance-2-0-fast'].forEach((slug) =>
     assert.ok(seedance.surfaces.compare.publishedPairs.includes(slug), `Seedance 2.0 missing published pair ${slug}`)
   );
-  ['veo-3-1-fast', 'ltx-2-3-fast', 'seedance-2-0', 'wan-2-6'].forEach((slug) =>
+  ['veo-3-1-fast', 'ltx-2-3-fast', 'seedance-2-0', 'kling-3-pro'].forEach((slug) =>
     assert.ok(fast.surfaces.compare.publishedPairs.includes(slug), `Seedance 2.0 Fast missing published pair ${slug}`)
   );
 });
@@ -394,16 +382,16 @@ test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter mark
   assert.ok(!appEngineIds.includes('sora-2'));
   assert.ok(!appEngineIds.includes('sora-2-pro'));
 
-  // Keyvo hides MiniMax-H3-Max on every surface (KEYVO_HIDDEN_MODEL_IDS: no mainland route), so it leaves the nav.
+  // MiniMax-H3-Max is served on Keyvo again (MiniMax's own API), so it and the H3 vs H3 Max pair return to the nav.
   assert.deepEqual(
     MARKETING_NAV_MODELS.map((item) => item.key),
-    ['kling-v4-flash', 'kling-v4', 'minimax-h3', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1'],
+    ['kling-v4-flash', 'kling-v4', 'minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1'],
   );
   assert.deepEqual(
     MARKETING_NAV_COMPARE.map((item) => item.key),
-    ['kling-v4-vs-kling-v4-flash', 'kling-v4-vs-seedance-2-5', 'kling-v4-vs-wan-3-prime', 'minimax-h3-vs-seedance-2-5', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'wan-3-vs-wan-3-prime', 'seedance-2-0-vs-seedance-2-0-fast'],
+    ['kling-v4-vs-kling-v4-flash', 'kling-v4-vs-seedance-2-5', 'kling-v4-vs-wan-3-prime', 'minimax-h3-vs-seedance-2-5', 'minimax-h3-vs-minimax-h3-max', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'wan-3-vs-wan-3-prime', 'seedance-2-0-vs-seedance-2-0-fast'],
   );
-  assert.equal(MARKETING_NAV_COMPARE.length, 8, 'the H3 vs H3 Max pair leaves with the hidden H3 Max');
+  assert.equal(MARKETING_NAV_COMPARE.length, 9);
   const expectedExampleFamilies = [
     'seedance',
     'kling',
@@ -428,8 +416,7 @@ test('Seedance 1.5 Pro is retired while Seedance 2.0 keeps the primary alias and
 });
 
 test('Header model menu keeps H3 and the current P1 representatives in the bounded set', () => {
-  assert.deepEqual(MARKETING_NAV_MODELS.map((item) => item.key), ['kling-v4-flash', 'kling-v4', 'minimax-h3', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1']);
-  assert.equal(MARKETING_NAV_MODELS.some((item) => item.key === 'minimax-h3-max'), false, 'H3 Max is hidden on Keyvo');
+  assert.deepEqual(MARKETING_NAV_MODELS.map((item) => item.key), ['kling-v4-flash', 'kling-v4', 'minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1']);
 });
 
 test('Examples hub family order follows the current business priority without reordering global families', () => {
@@ -464,9 +451,13 @@ test('Examples family current model groups do not classify new delivery models a
     'kling-3-pro',
     'kling-3-standard',
     'kling-3-4k',
-    'kling-2-6-pro',
-    'kling-2-5-turbo',
   ]);
+  // Keyvo 2026-11-13: Kling 2.6 Pro and 2.5 Turbo are retired (examples unpublished, like HappyHorse 1.0); their ids
+  // still resolve to the family for historical links.
+  for (const retired of ['kling-2-6-pro', 'kling-2-5-turbo']) {
+    assert.equal(resolveExampleFamilyId(retired), 'kling', retired);
+    assert.equal(getExampleFamilyModelSlugs('kling').includes(retired), false, retired);
+  }
   assert.deepEqual(getExampleFamilyCurrentModelSlugs('kling'), [
     'kling-v4',
     'kling-v4-flash',

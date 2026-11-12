@@ -56,11 +56,15 @@ test('Modify omission binds exact owned source duration to the quote and leaves 
 
 test('V4 supplier usage remains factual while exact reviewed admin cells own retail and revision',async()=>{
  const billing=buildBillingPricingFacts(context,undefined,'USD');
- assert.equal(billing.facts.vendorSubtotalExactCents,15.25*9.4);
+ // Keyvo 2026-11-13: Kling's official list (CNY 0.6/s with video input at 720p = 7.5 cents) replaces fal's 9.4 cents.
+ assert.equal(billing.facts.vendorSubtotalExactCents,15.25*7.5);
  const scenario=buildManualTariffScenario(context,billing.facts);
  assert.equal(scenario.selector.billingInputType,'video_input');assert.equal(scenario.selector.inputVideoDurationSec,'10.25');
  assert.equal(scenario.quantities.input_video_seconds,10.25);assert.equal(scenario.quantities.output_seconds,5);
- for(const active of [false,true]) await assert.rejects(computeCanonicalBillingSnapshot(context,{pricingPolicy:policy,loadCustomerTariffState:async()=>state(active)}));
+ // Inactive tariff state: Keyvo's official-list rule path (80% of 114.375 cents = 91.5 -> 92); an active state without
+ // a cell still refuses.
+ assert.equal((await computeCanonicalBillingSnapshot(context,{pricingPolicy:policy,loadCustomerTariffState:async()=>state(false)})).totalCents,92);
+ await assert.rejects(computeCanonicalBillingSnapshot(context,{pricingPolicy:policy,loadCustomerTariffState:async()=>state(true)}));
  const cell:ManualTariffCell={id:'test-reviewed-v4',selector:scenario.selector,source:'database',version:3,currency:'USD',effectiveFrom:'2026-10-01T00:00:00Z',price:{kind:'fixed',customerCents:999}};
  const quote=await computeCanonicalBillingSnapshot(context,{pricingPolicy:policy,loadCustomerTariffState:async()=>state(true,[cell])});
  assert.equal(quote.totalCents,999);assert.equal(quote.meta?.customerTariffRevision,71);assert.equal(quote.meta?.customerTariffCellId,cell.id);

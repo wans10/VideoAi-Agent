@@ -31,9 +31,10 @@ test('Recast admin quotes reject global fallback and apply the multiplier only t
   assert.ok(quoted.every(s => s.status === 'quoted'));
   const sample = quoted.find(s => s.scenarioId === 'admin-recast:720p:5:3.25');
   assert.ok(sample && sample.status === 'quoted');
-  // Prime 720p: (5 output + 3.25 source) × 14 cents = 115.5 exact supplier cents.
-  assert.equal(sample.vendorSubtotalCents, 116);
-  assert.equal(sample.customerTotalCents, 232);
+  // Prime 720p: (5 output + 3.25 source) × 11.25 cents (Bailian list CNY 0.9/s, Keyvo 2026-11-13) = 92.8125 exact
+  // supplier cents; the Recast rule adds 100% (rounded up) -> 185.8125 -> 186.
+  assert.equal(sample.vendorSubtotalCents, 93);
+  assert.equal(sample.customerTotalCents, 186);
   assert.equal(sample.policyProvenance.sourceRuleId, 'recast-only');
 });
 

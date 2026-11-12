@@ -859,18 +859,18 @@
           },
           {
             "id": "fallback-wan",
-            "title": "Wan 2.6",
-            "engine": "Wan 2.6",
-            "engineId": "wan-2-6",
-            "modelSlug": "wan-2-6",
+            "title": "Wan 3",
+            "engine": "Wan 3",
+            "engineId": "wan-3",
+            "modelSlug": "wan-3",
             "mode": "文生/图生视频",
             "duration": "5s",
             "price": "实时价格",
             "useCase": "结构化视频工作流",
             "cta": "示例与提示词",
             "modelCta": "参数与价格",
-            "imageSrc": "/hero/wan-26.jpg",
-            "imageAlt": "Wan 2.6 结构化视频工作流 AI 视频示例。",
+            "imageSrc": "/hero/showcase-wan-3-city-22s.webp",
+            "imageAlt": "Wan 3 结构化视频工作流 AI 视频示例。",
             "examplesSlug": "wan"
           }
         ]

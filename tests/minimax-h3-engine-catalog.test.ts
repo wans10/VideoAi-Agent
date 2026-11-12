@@ -76,14 +76,15 @@ test('MiniMax H3 raw contract encodes every duration, rate, and reference bound'
 
   assert.equal(entry.engine.inputSchema?.constraints?.maxCombinedVideoDurationSec, 15);
   assert.equal(entry.engine.inputSchema?.constraints?.maxCombinedAudioDurationSec, 15);
-  // Existing per-second display rates are unchanged (the retired 480P/4K rows stay for historical quotes).
+  // Keyvo 2026-11-13: per-second display rates follow the Bailian / MiniMax list (768P CNY 0.50, 2K 0.80 at 8 CNY/USD);
+  // the retired 480P/4K rows stay for historical quotes.
   assert.deepEqual(entry.engine.pricingDetails?.perSecondCents?.byResolution, {
     '480P': 5,
-    '768P': 6,
-    '2K': 13,
+    '768P': 6.25,
+    '2K': 10,
     '4K': 16,
   });
-  assert.equal(entry.engine.pricing?.base, 0.13);
+  assert.equal(entry.engine.pricing?.base, 0.1);
 });
 
 test('MiniMax H3 exposes no user-facing audio switch', () => {

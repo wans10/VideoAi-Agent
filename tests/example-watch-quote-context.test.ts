@@ -44,7 +44,8 @@ test('watch quote preparation overlaps catalog and policy reads and reuses their
   assert.ok(detail);
   assert.equal(detail.quotes.length, 1, 'do not replace a configured catalog with authored defaults');
   assert.equal(detail.quotes[0].engineId, 'wan-3-prime');
-  assert.equal(detail.quotes[0].amountCents, 401, 'the canonical price formula remains authoritative');
+  // Keyvo 2026-11-13: 22 s at the Bailian Prime 720p list (11.25 cents/s = 247.5) x 0.8 = 198; the paid 401 is history.
+  assert.equal(detail.quotes[0].amountCents, 198, 'the canonical price formula remains authoritative');
   assert.equal(detail.quotes[0].settings.durationSec, 22);
   assert.equal(detail.recreateHref, '/app?from=prepared-watch');
   assert.deepEqual(events, ['engines', 'policy'], 'building the detail does not read the context again');

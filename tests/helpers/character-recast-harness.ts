@@ -6,6 +6,7 @@ import { startDisposablePostgres, createPaidGenerationTestSchema } from './dispo
 import { addTopup, ProviderHarness } from './mcp-paid-e2e-harness';
 import { resolvePublicModelScenario } from '../../frontend/server/pricing/quote-public-model-scenario';
 import { computeCanonicalBillingSnapshot } from '../../frontend/server/pricing/quote-billing';
+import { buildBillingPricingFacts } from '../../frontend/src/lib/pricing-billing-facts';
 import { upsertCustomerTariffCell } from '../../frontend/server/pricing/customer-tariff-store';
 import { getDb, withDbTransaction } from '../../frontend/src/lib/db';
 import { getFalEngineById } from '../../frontend/src/config/falEngines';
@@ -67,6 +68,13 @@ export async function recastHarness(t: TestContext, options: {userId?:string} = 
           });
           assert.ok(scenario);
           const baseline = await computeCanonicalBillingSnapshot(scenario.context);
+          // Keyvo 2026-11-13: Wan 3 Prime is sold at 80% of the Bailian list (official-list-80), i.e. below its
+          // supplier cost, and a manual tariff cell below cost is refused by the settlement guard ("A below-cost tariff
+          // needs a separate settlement policy."). This fixture grid only has to keep model tariffs active next to the
+          // independent Recast product, so each cell is floored at the exact supplier cost the guard accepts.
+          const supplierCents = Math.ceil(
+            buildBillingPricingFacts(scenario.context, scenario.context.engine.pricingDetails, 'USD').facts.vendorSubtotalExactCents - 1e-9);
+          assert.ok(baseline.totalCents < supplierCents, 'the official-list retail price itself cannot be a tariff cell');
           await withDbTransaction((tx) =>
             upsertCustomerTariffCell(
               tx,
@@ -77,7 +85,7 @@ export async function recastHarness(t: TestContext, options: {userId?:string} = 
                 source: 'database',
                 version: 1,
                 effectiveFrom: '2026-01-01T00:00:00Z',
-                price: { kind: 'fixed', customerCents: baseline.totalCents },
+                price: { kind: 'fixed', customerCents: supplierCents },
               },
               '11111111-1111-4111-8111-111111111111',
             ),

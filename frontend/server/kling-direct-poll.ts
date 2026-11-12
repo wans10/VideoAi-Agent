@@ -293,7 +293,11 @@ function buildV2CostBreakdown(job: KlingDirectPendingJob, task: NormalizedVideoP
 }
 
 function buildCostBreakdown(job: KlingDirectPendingJob, task: NormalizedVideoProviderTask, requestSnapshot?: unknown) {
-  if (isKlingDirectV2Route(resolveKlingDirectModelRoute(job.engine_id))) return buildV2CostBreakdown(job, task, requestSnapshot);
+  // Kling 3.0 Turbo moved to the new design on 2026-11-12; a job submitted earlier on the legacy path keeps legacy costing.
+  const storedPollPath = getStoredPollPathPrefix(requestSnapshot);
+  const v2Task = storedPollPath ? storedPollPath === KLING_DIRECT_V2_TASKS_PATH
+    : isKlingDirectV2Route(resolveKlingDirectModelRoute(job.engine_id));
+  if (v2Task) return buildV2CostBreakdown(job, task, requestSnapshot);
   const providerCostUnits = task.providerCostUnits ?? null;
   const providerCostUsd = task.providerCostUsd ?? computeKlingDirectProviderCostUsd(providerCostUnits);
   return {

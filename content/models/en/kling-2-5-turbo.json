@@ -13,7 +13,7 @@
     "badge": "1080p · 5–10s · Text or Image input · Silent output",
     "ctaPrimary": {
       "label": "Start generating with Kling 2.5 Turbo",
-      "href": "/app?engine=kling-2-5-turbo"
+      "href": "/models/kling-3-turbo-standard"
     },
     "secondaryLinks": [
       {
@@ -336,7 +336,7 @@
       "paragraph": "Use Kling 2.5 Turbo when you need a supported older Kling route for silent short drafts, single-image motion tests, camera-first look-dev, and lower-cost prompt cleanup before moving approved shots into Kling 3.",
       "primaryCta": {
         "label": "Draft with Kling 2.5 Turbo",
-        "href": "/app?engine=kling-2-5-turbo"
+        "href": "/models/kling-3-turbo-standard"
       },
       "secondaryCta": {
         "label": "View examples",

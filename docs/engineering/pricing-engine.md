@@ -956,6 +956,69 @@ per-image rates are unchanged; the provisional H3 reference-video cost stays out
 - Sellable coverage follows Keyvo's app publication: hidden H3-Max sells neither creation cells nor Recast/Relight
   operation cells, and Hailuo 2.3 / 2.3 Fast sell only MiniMax's listed pairs (768P for 6 or 10 s, 1080P for 6 s).
 
+## Keyvo MiniMax-H3-Max official pricing transition — 2026-11-12
+
+MiniMax-H3-Max returns to Keyvo on MiniMax's own V2 API (`KEYVO_HIDDEN_MODEL_IDS` is empty). Its facts are MiniMax's
+PROVISIONAL CNY list price at the accounting rate (480P CNY 0.33/s, 768P CNY 0.50/s; reference video 0.37 / 0.97 per
+whole billed second; images beyond two CNY 0.50) with the unchanged margin rule; see
+[the provider guide](minimax-official-provider.md#h3-max-pricing-provisional). No other model's price changes.
+
+- Public baseline: `tests/fixtures/keyvo-h3-max-official-public-pricing-2026-11-12.json` records the nine changed
+  H3-Max public rows (estimator 5 s 480P 33 -> 28 cents, model page / Product 5 s 768P 52 -> 41, pricing-hub entry
+  route 10 s 768P 104 -> 82, and the three 1080P pricing-hub presets now unavailable). `pricing:public-baseline` applies
+  it after the 2026-11-11 transition and validates every previous row; the older fixtures stay frozen.
+- Shadow additions: the four `minimax-h3-max` rows of `tests/fixtures/pricing-shadow-additions.v1.json` (billing and
+  estimator 5 s 768P) follow the new facts after `pnpm pricing:shadow-additions:generate`.
+- Sellable coverage: H3-Max sells 3564 exact cells (t2v/i2v 5-15 s × 480P/768P; ref2v also × 0-9 reference images ×
+  0-15 billed reference-video seconds) and no gap. Its reference tariff is no longer an open reference-token class
+  (`isOpenQuantityTariff`). Recast/Relight stay out of the inventory (`KEYVO_UNSERVED_VIDEO_OPERATIONS`: Fal-only), except
+  in the unfiltered upstream catalogue used by the audit generators.
+
+## Keyvo official list price rule — 2026-11-13
+
+Owner decision: every Keyvo-visible model is sold at **80% of the supplier's official mainland list price** (CNY),
+taken from the route that primarily serves it (Bailian for Kling 3 / 3 Omni / 3 Turbo and MiniMax-H3; the vendor's own
+API for Kling 4.0 / Flash, Hailuo, Seedance, Seedream, Seed Audio, MiniMax Speech, Wan, HappyHorse and Qwen Image).
+Promotions (for example Bailian's limited-time 70% on Wan 3) and free quotas are not applied.
+
+- **Supplier facts are the true list cost.** Each engine's facts record the official CNY price at the fixed
+  accounting rate (CNY / 8 → USD cents) for everything the supplier bills: per second, per token (Seedance, with
+  input-video seconds counted in the tokens), per clip (Hailuo), per image, per 10,000 billing characters, input-video
+  seconds (Wan 3, MiniMax-H3, Kling 4.0), images beyond MiniMax-H3's five and resolution/audio tiers.
+- **The customer price is an explicit rule, not a smaller cost.** The versioned `official-list-80` compatibility
+  profile in `frontend/config/pricing-policy.json` sets `marginPercentOverride: -0.2` with `subtotalRounding: nearest`,
+  so the kernel quotes `round(0.8 × vendor exact cents)`, never below 1 cent (`minimumSubtotalCents: 1`, so a tiny
+  voice-over script is not free). The margin component stays at zero (it is clamped), the
+  platform fee is zero and the vendor share is the customer total; `breakdown.marginPercent` records `-0.2` and
+  `base`/`addons` keep the full supplier cost. `packages/pricing/src/policy.ts` accepts a negative override only on a
+  profile (never on a rule or database override), only above -1, and only with subtotal rounding and a zero flat
+  override.
+- **Selection.** `frontend/src/lib/official-list-pricing.ts` lists the re-priced engines and replaces the supplier-fact
+  rounding profiles (`standard`, `public-rounded-vendor-current`, `provider-reference-current`) with `official-list-80`
+  in billing (`quote-billing.ts`), public quotes (`pricing-public-quote.ts`) and admin/audit projections
+  (`canonical-scenarios.ts`). Authored offers (`schema-current`), fixed products and other models are unchanged.
+  Mainland voice over (`voice_only` with MiniMax or Seed Audio) uses the same profile. A database-wide rule (the
+  `default` row seeded by `ensureBillingCoreSchema`, which outranks versioned engine rules) does not change these
+  prices; an engine-specific or precise database rule created in the admin policy editor is an explicit decision and
+  returns that engine to the margin path on the official-list cost.
+- **Kling 4.0 / Flash** no longer require a customer tariff: their former gate existed because their facts were
+  unreviewed fal list rates. They quote on the rule path from Kling's official list; the customer-tariff state is not
+  touched.
+- **Rounding.** Totals are whole USD cents converted at ×8, so every CNY amount is a multiple of ¥0.08 and can differ
+  from the ideal `0.8 × list` by up to ¥0.04 (for example Wan 3 Prime 480P 5 s: ideal ¥1.80, quoted ¥1.84).
+- **Baselines.** `tests/fixtures/keyvo-official-list-public-pricing-2026-11-13.json` records every changed public row
+  (previous and current) and the rows of the retired Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro; the billing audit
+  records the field deltas in `frontend/src/lib/pricing-audit/approved-changes.ts`; the older fixtures stay frozen.
+  Regenerate the shadow additions with `pnpm pricing:shadow-additions:generate`.
+- **Customer tariffs.** A manual tariff cell refuses a below-cost price (`below_cost`), and the continuous tariff
+  compilers refuse the `official-list-80` profile, so Keyvo's official-list prices can never be frozen into tariff cells
+  or cut over; the rule path is their only price path (never activate `app_customer_tariff_state`). Video operations
+  (Kling Edit, H3 source operations) keep their own reviewed operation policy. Cutover/seed rehearsal tests keep
+  these engines on the margin path with explicit engine rules in their disposable databases.
+- **Not modelled:** Seedance's minimum-token rule for requests with video input (published only as an external table)
+  and Volcengine/Bailian account discounts. Seedream 5.0 Pro's CNY 0.02 for the second and later input images is
+  billed (`input_images_after_first`) but public estimates carry no input images.
+
 ## Gated Studio assistance product
 
 Studio assistant usage has a separate dated customer tariff and provider-cost ledger.

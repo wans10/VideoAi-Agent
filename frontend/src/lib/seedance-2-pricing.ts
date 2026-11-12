@@ -15,6 +15,8 @@ export type Seedance2TokenQuote = {
   legacyRetailBasisPerSecondUsd: number;
   billingInputType?: Seedance2BillingInputType;
   pricingSource?: string;
+  /** Input-video seconds included in tokenCount (Ark list pricing with video input). */
+  inputVideoSeconds?: number;
 };
 
 export type Seedance2BillingInputType = 'no_video_input' | 'video_input';
@@ -128,15 +130,22 @@ export function computeSeedance2TokenQuote(params: {
   resolution: string;
   aspectRatio?: string | null;
   billingInputType?: Seedance2BillingInputType;
+  /** Verified input-video seconds; counted only when the pricing bills input video tokens (Ark list). */
+  inputVideoDurationSec?: number;
 }): Seedance2TokenQuote {
   const durationSec = Math.max(1, Math.round(params.durationSec));
+  const inputVideoSeconds = params.billingInputType === 'video_input'
+    && params.details.tokenPricing.inputVideoTokenBasis === 'input_plus_output'
+    && typeof params.inputVideoDurationSec === 'number' && Number.isFinite(params.inputVideoDurationSec)
+    && params.inputVideoDurationSec > 0
+    ? params.inputVideoDurationSec : 0;
   const { resolution, aspectRatio, width, height } = resolveSeedance2Dimensions(
     params.details,
     params.resolution,
     params.aspectRatio
   );
   const frameRate = params.details.tokenPricing.framesPerSecond;
-  const tokenCount = (width * height * durationSec * frameRate) / 1024;
+  const tokenCount = (width * height * (durationSec + inputVideoSeconds) * frameRate) / 1024;
   const legacyRetailUnitPriceUsdPer1kTokens = resolveSeedance2UnitPriceUsdPer1kTokens({
     tokenPricing: params.details.tokenPricing,
     resolution,
@@ -156,6 +165,7 @@ export function computeSeedance2TokenQuote(params: {
     legacyRetailBasisPerSecondUsd: Number((legacyRetailBasisPerSecondUsd + EPSILON).toFixed(6)),
     billingInputType: params.billingInputType,
     pricingSource: params.details.tokenPricing.pricingSource,
+    ...(inputVideoSeconds > 0 ? { inputVideoSeconds } : {}),
   };
 }
 

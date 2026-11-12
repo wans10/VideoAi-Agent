@@ -74,12 +74,12 @@ function request(input: Record<string, unknown>): CanonicalGenerationRequest {
 test('MCP discovery exposes the executable first/last-frame and reference-video workflows', async () => {
   const deps = realRegistryDeps();
   const [veo] = await listAgentModels({ id: 'veo-3-1' }, deps);
-  const [wan] = await listAgentModels({ id: 'wan-2-6' }, deps);
+  // Keyvo 2026-11-13: Wan 2.6 (the only r2v model) is offline, so MCP no longer lists a reference-video r2v route.
+  const wan = await listAgentModels({ id: 'wan-2-6' }, deps);
 
   assert.ok(veo);
-  assert.ok(wan);
+  assert.deepEqual(wan, []);
   assert.ok(veo.modes.includes('fl2v' as never));
-  assert.ok(wan.modes.includes('r2v' as never));
 });
 
 test('Wan 3 edit and extension use canonical source-video contracts without provider selection', async () => {
@@ -155,7 +155,7 @@ test('MCP mode parity audit identifies every remaining specialized public workfl
   const videoModes = new Set(CANONICAL_VIDEO_GENERATION_MODES);
   const imageModes = new Set(['t2i', 'i2i']);
   // Keyvo-hidden models (KEYVO_HIDDEN_MODEL_IDS) keep upstream registry publication but are projected out of the
-  // app and MCP on Keyvo.
+  // app and MCP on Keyvo. The list is empty since MiniMax-H3-Max moved to MiniMax's own API (2026-11-12).
   const keyvoHiddenEntries = listFalEngines().filter((entry) =>
     getModelRegistryEntryById(entry.id)?.publication.app.published === true && isKeyvoHiddenModel(entry.id)
   );
@@ -178,7 +178,8 @@ test('MCP mode parity audit identifies every remaining specialized public workfl
   ]);
 
   const deps = realRegistryDeps();
-  assert.deepEqual(keyvoHiddenEntries.map(({ id }) => id), ['minimax-h3-max']);
+  assert.deepEqual(keyvoHiddenEntries.map(({ id }) => id), []);
+  assert.ok(publicEntries.some(({ id }) => id === 'minimax-h3-max'));
   for (const entry of keyvoHiddenEntries) {
     assert.deepEqual(await listAgentModels({ id: entry.id }, deps), [], `${entry.id} is hidden from MCP discovery on Keyvo`);
   }
@@ -213,6 +214,14 @@ test('the specialized-mode audit verifies H3 Max owned-media modes are executabl
     assert.equal(resolveAgentGenerationRequestExecutability(normalizeGenerationRequest({surface:'video',engineId:h3Max.id,mode:'v2v',operation,prompt:operation==='h3-recast'?'Edit the setting':'',settings:{resolution:'720p'}}), h3Max.engine, [], {
       bytePlusEnabled: false, bytePlusApiKey: undefined, falApiKey: 'test-credential', providerEnv: {},
     }).executable, true, operation);
+  }
+  // Keyvo (no Fal, MiniMax's own API): creation and reference modes run; the Fal-only source operations do not.
+  const keyvo = { bytePlusEnabled: false, bytePlusApiKey: undefined, falApiKey: '',
+    providerEnv: { MINIMAX_OFFICIAL_ENABLED: 'true', MINIMAX_API_KEY: 'test-credential' } };
+  assert.deepEqual(h3Max.engine.modes.filter((mode) => resolveAgentGenerationModeExecutability(h3Max.engine, mode, keyvo).executable),
+    ['t2v', 'i2v', 'ref2v']);
+  for (const operation of ['h3-recast', 'h3-relight'] as const) {
+    assert.equal(resolveAgentGenerationRequestExecutability(normalizeGenerationRequest({surface:'video',engineId:h3Max.id,mode:'v2v',operation,prompt:operation==='h3-recast'?'Edit the setting':'',settings:{resolution:'720p'}}), h3Max.engine, [], keyvo).executable, false, operation);
   }
 });
 
@@ -255,9 +264,9 @@ test('the paid MCP continuation accepts every canonical public video mode', () =
 });
 
 test('Kling 2.5 Standard is a clear video alias while the site keeps its legacy i2i route', async () => {
-  const [model] = await listAgentModels({ id: 'kling-2-5-turbo' }, realRegistryDeps());
-  assert.ok(model?.modes.includes('i2v_standard'));
-  assert.equal(model?.modes.includes('i2i'), false);
+  // Keyvo 2026-11-13: Kling 2.5 Turbo is offline (no mainland route) and leaves MCP discovery; the canonical alias and
+  // its legacy i2i projection stay intact for upstream.
+  assert.deepEqual(await listAgentModels({ id: 'kling-2-5-turbo' }, realRegistryDeps()), []);
 
   const sourceUrl = 'https://cdn.example.com/kling-standard.png';
   const standard = request({

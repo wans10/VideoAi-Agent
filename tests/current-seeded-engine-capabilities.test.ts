@@ -13,11 +13,9 @@ import {
 import { getPublicConfiguredEnginesByCategoryInExecutor } from '../frontend/src/server/engines';
 import type { EngineCaps } from '../frontend/types/engines';
 
-// MiniMax-H3-Max has no mainland route and is hidden on Keyvo (KEYVO_HIDDEN_MODEL_IDS): a stale settings row
-// for it must not bring it back into the app or MCP catalogs, so only H3 is asserted as refreshed.
-const HIDDEN_ID = 'minimax-h3-max';
-const ids = ['minimax-h3'];
-const staleRows: EngineSettingsRecord[] = [...ids, HIDDEN_ID].map((engine_id) => ({
+// MiniMax-H3-Max is served on Keyvo again (MiniMax's own API, 2026-11-12), so both H3 engines are refreshed.
+const ids = ['minimax-h3', 'minimax-h3-max'];
+const staleRows: EngineSettingsRecord[] = ids.map((engine_id) => ({
   engine_id, updated_by: null, updated_at: '2026-08-01T00:00:00Z', pricing: null,
   options: { modes: ['t2v', 'i2v'], resolutions: ['768P'],
     inputLimits: { promptMaxChars: 7000, audioMaxDurationSec: 15 } },
@@ -32,9 +30,23 @@ function assertCurrent(engine: EngineCaps | undefined, id: string) {
   assert.ok(engine);
   assert.deepEqual(engine.modes, base.modes);
   assert.deepEqual(engine.resolutions, base.resolutions);
-  assert.equal(engine.inputLimits.promptMaxChars, 50_000);
+  // H3 keeps the catalogue's 50,000 characters; H3-Max now carries MiniMax's own 7,000-character limit.
+  assert.equal(engine.inputLimits.promptMaxChars, id === 'minimax-h3-max' ? 7000 : 50_000);
+  assert.equal(engine.inputLimits.promptMaxChars, base.inputLimits.promptMaxChars);
   assert.equal(engine.inputLimits.audioMaxDurationSec, undefined);
-  assert.deepEqual(engine.inputSchema, base.inputSchema);
+  if (id !== 'minimax-h3-max') {
+    assert.deepEqual(engine.inputSchema, base.inputSchema);
+    return;
+  }
+  // H3-Max's engine resolutions are MiniMax's own 480P/768P, so the configured projection also narrows the upstream
+  // Fal-only Recast resolution field (768P/1080P) to 768P. Recast is never offered on Keyvo; every creation and
+  // reference field matches the base engine exactly.
+  const creation = (schema: EngineCaps['inputSchema']) => ({ ...schema,
+    required: schema?.required?.filter((field) => field.modes?.some((mode) => mode !== 'v2v') ?? true),
+    optional: schema?.optional?.filter((field) => field.modes?.some((mode) => mode !== 'v2v') ?? true) });
+  assert.deepEqual(creation(engine.inputSchema), creation(base.inputSchema));
+  const recastResolution = engine.inputSchema?.optional?.find((field) => field.id === 'resolution' && field.modes?.includes('v2v'));
+  assert.deepEqual([recastResolution?.values, recastResolution?.default], [['768P'], '768P']);
 }
 
 test('app and MCP read-only catalogs refresh stale H3 system defaults consistently', async () => {
@@ -44,8 +56,6 @@ test('app and MCP read-only catalogs refresh stale H3 system defaults consistent
     assertCurrent(await getReadOnlyConfiguredEngine(id, false, dependencies), id);
     assertCurrent(await getReadOnlyConfiguredEngineIncludingHidden(id, false, dependencies), id);
   }
-  assert.equal(list.some((engine) => engine.id === HIDDEN_ID), false, 'hidden H3 Max stays out of the catalog');
-  assert.equal(await getReadOnlyConfiguredEngine(HIDDEN_ID, false, dependencies), undefined);
   assert.equal(settings.get('minimax-h3')?.options?.inputLimits &&
     (settings.get('minimax-h3')!.options!.inputLimits as { promptMaxChars: number }).promptMaxChars, 7000);
 });
@@ -79,7 +89,6 @@ test('transactional app and MCP readers use current system capabilities with onl
     await getPublicConfiguredEnginesByCategoryInExecutor('video', executor),
   ]) {
     for (const id of ids) assertCurrent(list.find((engine) => engine.id === id), id);
-    assert.equal(list.some((engine) => engine.id === HIDDEN_ID), false, 'hidden H3 Max stays out of the catalog');
   }
   for (const id of ids) assertCurrent(await getReadOnlyConfiguredEngineIncludingHiddenInExecutor(id, executor), id);
   assert.ok(statements.every((statement) => /^(?:LOCK|SELECT)\b/u.test(statement.trim())));

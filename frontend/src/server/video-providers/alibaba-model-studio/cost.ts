@@ -1,12 +1,14 @@
 import type { ProviderCostEstimate, ProviderCostInput } from '../types';
 import { isAlibabaThirdPartyRoute, resolveAlibabaModelRoute, type AlibabaModelRoute } from './model-map';
 
-const SOURCE = 'alibaba_singapore_2026-09-12';
+// Bailian cn-beijing CNY list prices (wan3-0-video.md, wan3-0-video-prime.md, happyhorse-1-1-*.md, checked
+// 2026-11-13) recorded in USD at 8 CNY/USD; promotions and free quotas are not applied.
+const SOURCE = 'bailian_cn_beijing_list_2026-11-13';
 
 const RATES_BY_ENGINE: Record<string, Record<string, number>> = {
-  'wan-3': { '480p': 0.05, '720p': 0.1, '1080p': 0.2 },
-  'wan-3-prime': { '480p': 0.068, '720p': 0.14, '1080p': 0.28 },
-  'happy-horse-1-1': { '480p': 0.07, '720p': 0.14, '1080p': 0.18 },
+  'wan-3': { '480p': 0.0375, '720p': 0.075, '1080p': 0.15 },
+  'wan-3-prime': { '480p': 0.05625, '720p': 0.1125, '1080p': 0.225 },
+  'happy-horse-1-1': { '480p': 0.05625, '720p': 0.1125, '1080p': 0.15 },
 };
 
 function roundUsd(value: number): number {
