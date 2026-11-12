@@ -1,4 +1,5 @@
 import guidanceDocument from '@/config/agent-model-guidance.json' with { type: 'json' };
+import { isKeyvoHiddenModel } from '@/config/keyvo-model-visibility';
 import { getModelRegistryEntries, getModelRegistryEntryById } from '@/config/model-registry';
 export {getAgentModelEditorialGuidance,getAgentModelEditorialSummary,type AgentModelEditorialGuidance,type AgentModelEditorialSummary} from './model-editorial-policy';
 
@@ -175,10 +176,15 @@ const knownEngineIds = new Set(getModelRegistryEntries().map((entry) => entry.id
 const guidance = parseAgentModelGuidance(guidanceDocument, knownEngineIds);
 const guidanceByEngineId = new Map(guidance.map((entry) => [entry.engineId, entry]));
 
+// Keyvo-hidden models (no mainland route, e.g. MiniMax-H3-Max) are unavailable to MCP, so their guidance is withheld.
+function isGuidancePublished(engineId: string): boolean {
+  return Boolean(getModelRegistryEntryById(engineId)?.publication.model.published) && !isKeyvoHiddenModel(engineId);
+}
+
 export function listAgentModelGuidance(): readonly AgentModelGuidance[] {
-  return Object.freeze(guidance.filter(entry => getModelRegistryEntryById(entry.engineId)?.publication.model.published));
+  return Object.freeze(guidance.filter(entry => isGuidancePublished(entry.engineId)));
 }
 
 export function getAgentModelGuidance(engineId: string): AgentModelGuidance | null {
-  return getModelRegistryEntryById(engineId)?.publication.model.published ? guidanceByEngineId.get(engineId) ?? null : null;
+  return isGuidancePublished(engineId) ? guidanceByEngineId.get(engineId) ?? null : null;
 }

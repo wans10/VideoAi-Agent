@@ -1,3 +1,5 @@
+// The audit evidence is the upstream catalog, independent of Keyvo's model hiding (MiniMax-H3-Max).
+import './lib/disable-keyvo-model-visibility';
 import { readFile } from 'node:fs/promises';
 
 import { buildPricingAuditMatrix } from '../frontend/src/lib/pricing-audit/matrix';

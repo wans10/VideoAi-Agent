@@ -44,27 +44,44 @@ async function admitted(input:ReturnType<typeof fixture>) {
   return {body,result};
 }
 
-test('43 actual owned originals traverse canonical and paid admission without flattening subjects into flat budgets',async()=>{
-  const input=fixture();
+// Keyvo submits Kling 4.0 directly to Kling (no fal); the official limits count each subject as one of at most 15
+// images, videos and subjects, and video subjects inside the 5-video budget (src/lib/kling-v4-official-limits.ts).
+// Subject views still never count as flat images: seven four-view subjects are 7 items, not 28.
+function rejectedField(input:ReturnType<typeof fixture>) {
+  try { validateCanonicalGenerationCapabilities(input.request,candidate,{resolvedReferences:input.resolved}); }
+  catch(error) { return (error as {field?:unknown}).field; }
+  return null;
+}
+
+test('36 actual owned originals traverse canonical and paid admission without flattening subjects into flat budgets',async()=>{
+  const input=fixture(5,3);
   const {body,result}=await admitted(input);
-  assert.equal(input.request.references.length,43);
+  assert.equal(input.request.references.length,36);
   assert.equal((body.elements as MaxVideoProviderElement[]).length,7);
-  assert.equal((body.inputs as unknown[]).length,15);
-  assert.equal((body.referenceImages as string[]).length,10);
-  if(result.ok) assert.equal(result.trustedMediaReferences?.length,43);
-  assert.deepEqual(canonicalKlingV4PricingFacts(input.request,input.resolved),{hasVideoInput:true,inputVideoDurationSec:15});
+  assert.equal((body.inputs as unknown[]).length,8);
+  assert.equal((body.referenceImages as string[]).length,5);
+  if(result.ok) assert.equal(result.trustedMediaReferences?.length,36);
+  assert.deepEqual(canonicalKlingV4PricingFacts(input.request,input.resolved),{hasVideoInput:true,inputVideoDurationSec:9});
   const reordered=normalizeGenerationRequest({...input.raw,subjects:[...input.raw.subjects].reverse()});
   assert.notEqual(hashCanonicalGenerationRequest(input.request),hashCanonicalGenerationRequest(reordered));
+  // The former 43-original request (7 subjects + 10 images + 5 videos = 22 items) exceeds the official 15-item total.
+  const overflow=fixture();
+  assert.equal(overflow.request.references.length,43);
+  assert.equal(rejectedField(overflow),'references');
 });
 
-test('mixed video subjects retain each supplier occurrence; Modify admits 39 image/source members',async()=>{
-  const mixed=fixture(10,5,3);
+test('mixed video subjects retain each supplier occurrence; Modify admits 36 image/source members',async()=>{
+  const mixed=fixture(6,2,3);
   const {result}=await admitted(mixed);
-  if(result.ok) assert.equal(result.trustedMediaReferences?.length,34);
-  assert.deepEqual(canonicalKlingV4PricingFacts(mixed.request,mixed.resolved),{hasVideoInput:true,inputVideoDurationSec:24});
-  const edit=fixture(10,0,0,'v2v');
+  if(result.ok) assert.equal(result.trustedMediaReferences?.length,27);
+  assert.deepEqual(canonicalKlingV4PricingFacts(mixed.request,mixed.resolved),{hasVideoInput:true,inputVideoDurationSec:15});
+  // 5 videos + 3 video subjects exceed the official 5-video budget.
+  assert.equal(rejectedField(fixture(10,5,3)),'video_urls');
+  const edit=fixture(7,0,0,'v2v');
   const validated=await admitted(edit);
-  if(validated.result.ok) assert.equal(validated.result.trustedMediaReferences?.length,39);
+  if(validated.result.ok) assert.equal(validated.result.trustedMediaReferences?.length,36);
+  // 10 images + the source video + 7 subjects = 18 items.
+  assert.equal(rejectedField(fixture(10,0,0,'v2v')),'references');
 });
 
 test('flat images/videos and opening-frame aggregation remain independently bounded',async()=>{

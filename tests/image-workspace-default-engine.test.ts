@@ -5,19 +5,19 @@ import {
   sortImageWorkspaceEngineOptions,
 } from '../frontend/app/(core)/(workspace)/app/image/_lib/image-workspace-engine-options.ts';
 
-test('image workspace promotes Seedream as the default engine option', () => {
+test('image workspace promotes Seedream 5.0 Flash as the default engine option (Lite is retired)', () => {
   const engines = [
     { id: 'nano-banana', label: 'Nano Banana' },
     { id: 'gpt-image-2', label: 'GPT Image 2' },
-    { id: 'seedream', label: 'Seedream' },
+    { id: 'seedream-5-0-flash', label: 'Seedream 5.0 Flash' },
   ];
 
   const sorted = sortImageWorkspaceEngineOptions(engines);
 
-  assert.equal(DEFAULT_IMAGE_WORKSPACE_ENGINE_ID, 'seedream');
+  assert.equal(DEFAULT_IMAGE_WORKSPACE_ENGINE_ID, 'seedream-5-0-flash');
   assert.deepEqual(
     sorted.map((engine) => engine.id),
-    ['seedream', 'nano-banana', 'gpt-image-2']
+    ['seedream-5-0-flash', 'nano-banana', 'gpt-image-2']
   );
 });
 

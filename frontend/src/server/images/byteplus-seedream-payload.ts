@@ -21,8 +21,13 @@ export type BytePlusSeedreamPayload = {
   };
 };
 
-function isSeedreamProModel(modelId: string): boolean {
-  return /seedream-5-0-pro/i.test(modelId);
+/** Seedream 5.0 pro and flash return one image per request (no image sets, no streaming). */
+function isSeedreamSingleImageModel(modelId: string): boolean {
+  return /seedream-5-0-(pro|flash)/i.test(modelId);
+}
+
+function seedreamSingleImageLabel(modelId: string): string {
+  return /seedream-5-0-flash/i.test(modelId) ? 'Seedream 5.0 Flash' : 'Seedream 5.0 Pro';
 }
 
 function uniqueNonEmptyUrls(values: Array<string | null | undefined> | undefined): string[] {
@@ -81,8 +86,8 @@ export function buildBytePlusSeedreamPayload(params: {
     });
   }
   const outputImageCount = Math.max(1, Math.round(params.numImages));
-  if (isSeedreamProModel(model) && outputImageCount > 1) {
-    throw new BytePlusSeedreamError('Seedream 5.0 Pro supports one generated image per request.', {
+  if (isSeedreamSingleImageModel(model) && outputImageCount > 1) {
+    throw new BytePlusSeedreamError(`${seedreamSingleImageLabel(model)} supports one generated image per request.`, {
       code: 'IMAGE_COUNT_LIMIT',
       status: 400,
       detail: { max: 1 },

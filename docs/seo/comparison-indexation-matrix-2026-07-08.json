@@ -38,23 +38,23 @@
     "safety": "Recommendation only; no sitemap, robots, canonical, or noindex change is applied."
   },
   "summary": {
-    "publishedSlugs": 316,
-    "totalUrls": 948,
-    "withGscRows": 639,
-    "withoutGscRows": 309,
-    "withClicks": 144,
-    "gscRowsOutsidePublishedSet": 21,
-    "gscRowsOutsidePublishedSetWithClicks": 2,
+    "publishedSlugs": 269,
+    "totalUrls": 807,
+    "withGscRows": 535,
+    "withoutGscRows": 272,
+    "withClicks": 115,
+    "gscRowsOutsidePublishedSet": 125,
+    "gscRowsOutsidePublishedSetWithClicks": 31,
     "byLocale": {
-      "en": 316,
-      "fr": 316,
-      "es": 316
+      "en": 269,
+      "fr": 269,
+      "es": 269
     },
     "byClassification": {
-      "keep": 365,
-      "enrich": 28,
-      "review": 342,
-      "noindex_candidate": 213
+      "keep": 319,
+      "enrich": 23,
+      "review": 289,
+      "noindex_candidate": 176
     }
   },
   "rows": [
@@ -417,95 +417,6 @@
       "classification": "keep",
       "rationale": [
         "localized_editorial_override",
-        "english_strategic_surface"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/happy-horse-1-0-vs-happy-horse-1-1",
-      "locale": "en",
-      "slug": "happy-horse-1-0-vs-happy-horse-1-1",
-      "clicks": 0,
-      "impressions": 66,
-      "ctr": 0,
-      "position": 13.2,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/happy-horse-1-0-vs-happy-horse-1-1"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "opponent_override",
-        "popular"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "english_strategic_surface"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/happy-horse-1-0-vs-kling-3-pro",
-      "locale": "en",
-      "slug": "happy-horse-1-0-vs-kling-3-pro",
-      "clicks": 1,
-      "impressions": 287,
-      "ctr": 0.3,
-      "position": 9.2,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/happy-horse-1-0-vs-kling-3-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "opponent_override"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "english_strategic_surface"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/happy-horse-1-0-vs-seedance-2-0",
-      "locale": "en",
-      "slug": "happy-horse-1-0-vs-seedance-2-0",
-      "clicks": 2,
-      "impressions": 540,
-      "ctr": 0.4,
-      "position": 14.6,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/happy-horse-1-0-vs-seedance-2-0"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "opponent_override"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "gsc_high_impressions",
-        "english_strategic_surface"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/happy-horse-1-0-vs-veo-3-1",
-      "locale": "en",
-      "slug": "happy-horse-1-0-vs-veo-3-1",
-      "clicks": 1,
-      "impressions": 192,
-      "ctr": 0.5,
-      "position": 14,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/happy-horse-1-0-vs-veo-3-1"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "opponent_override"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
         "english_strategic_surface"
       ]
     },
@@ -929,25 +840,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/kling-2-5-turbo-vs-seedance-1-5-pro",
-      "locale": "en",
-      "slug": "kling-2-5-turbo-vs-seedance-1-5-pro",
-      "clicks": 1,
-      "impressions": 303,
-      "ctr": 0.3,
-      "position": 6.6,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/kling-2-5-turbo-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/kling-2-5-turbo-vs-seedance-2-0",
       "locale": "en",
       "slug": "kling-2-5-turbo-vs-seedance-2-0",
@@ -1080,25 +972,6 @@
       "classification": "keep",
       "rationale": [
         "gsc_clicks"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/kling-2-5-turbo-vs-wan-2-5",
-      "locale": "en",
-      "slug": "kling-2-5-turbo-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 69,
-      "ctr": 0,
-      "position": 8.1,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/kling-2-5-turbo-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_review_opportunity"
       ]
     },
     {
@@ -1329,26 +1202,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/kling-2-6-pro-vs-seedance-1-5-pro",
-      "locale": "en",
-      "slug": "kling-2-6-pro-vs-seedance-1-5-pro",
-      "clicks": 1,
-      "impressions": 708,
-      "ctr": 0.1,
-      "position": 9.8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/kling-2-6-pro-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "gsc_high_impressions"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/kling-2-6-pro-vs-seedance-2-0",
       "locale": "en",
       "slug": "kling-2-6-pro-vs-seedance-2-0",
@@ -1486,25 +1339,6 @@
       "classification": "review",
       "rationale": [
         "gsc_review_opportunity"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/kling-2-6-pro-vs-wan-2-5",
-      "locale": "en",
-      "slug": "kling-2-6-pro-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 187,
-      "ctr": 0,
-      "position": 9.9,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/kling-2-6-pro-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
       ]
     },
     {
@@ -1725,25 +1559,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/kling-3-4k-vs-seedance-1-5-pro",
-      "locale": "en",
-      "slug": "kling-3-4k-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 44,
-      "ctr": 0,
-      "position": 11.7,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/kling-3-4k-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_review_opportunity"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/kling-3-4k-vs-seedance-2-0",
       "locale": "en",
       "slug": "kling-3-4k-vs-seedance-2-0",
@@ -1878,25 +1693,6 @@
       "classification": "review",
       "rationale": [
         "gsc_review_opportunity"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/kling-3-4k-vs-wan-2-5",
-      "locale": "en",
-      "slug": "kling-3-4k-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 29,
-      "ctr": 0,
-      "position": 7,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/kling-3-4k-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
       ]
     },
     {
@@ -2196,29 +1992,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/kling-3-pro-vs-seedance-1-5-pro",
-      "locale": "en",
-      "slug": "kling-3-pro-vs-seedance-1-5-pro",
-      "clicks": 1,
-      "impressions": 56,
-      "ctr": 1.8,
-      "position": 9.8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/kling-3-pro-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "popular",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "english_strategic_surface"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/kling-3-pro-vs-seedance-2-0",
       "locale": "en",
       "slug": "kling-3-pro-vs-seedance-2-0",
@@ -2389,25 +2162,6 @@
       "classification": "noindex_candidate",
       "rationale": [
         "low_demand_outside_top_10"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/kling-3-pro-vs-wan-2-5",
-      "locale": "en",
-      "slug": "kling-3-pro-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 20,
-      "ctr": 0,
-      "position": 9.1,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/kling-3-pro-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
       ]
     },
     {
@@ -2640,26 +2394,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/kling-3-standard-vs-seedance-1-5-pro",
-      "locale": "en",
-      "slug": "kling-3-standard-vs-seedance-1-5-pro",
-      "clicks": 4,
-      "impressions": 1265,
-      "ctr": 0.3,
-      "position": 6.9,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/kling-3-standard-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "gsc_high_impressions"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/kling-3-standard-vs-seedance-2-0",
       "locale": "en",
       "slug": "kling-3-standard-vs-seedance-2-0",
@@ -2790,29 +2524,6 @@
       "classification": "keep",
       "rationale": [
         "gsc_clicks"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/kling-3-standard-vs-wan-2-5",
-      "locale": "en",
-      "slug": "kling-3-standard-vs-wan-2-5",
-      "clicks": 1,
-      "impressions": 737,
-      "ctr": 0.1,
-      "position": 8.4,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/kling-3-standard-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "gsc_high_impressions",
-        "english_strategic_surface"
       ]
     },
     {
@@ -3210,23 +2921,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/ltx-2-3-fast-vs-seedance-1-5-pro",
-      "locale": "en",
-      "slug": "ltx-2-3-fast-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/ltx-2-3-fast-vs-seedance-2-0",
       "locale": "en",
       "slug": "ltx-2-3-fast-vs-seedance-2-0",
@@ -3372,27 +3066,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/ltx-2-3-fast-vs-wan-2-5",
-      "locale": "en",
-      "slug": "ltx-2-3-fast-vs-wan-2-5",
-      "clicks": 6,
-      "impressions": 2814,
-      "ctr": 0.2,
-      "position": 10.6,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/ltx-2-3-fast-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "gsc_high_impressions",
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/ltx-2-3-fast-vs-wan-2-6",
       "locale": "en",
       "slug": "ltx-2-3-fast-vs-wan-2-6",
@@ -3515,23 +3188,6 @@
       "url": "https://maxvideoai.com/ai-video-engines/ltx-2-3-pro-vs-pika-text-to-video",
       "locale": "en",
       "slug": "ltx-2-3-pro-vs-pika-text-to-video",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/ltx-2-3-pro-vs-seedance-1-5-pro",
-      "locale": "en",
-      "slug": "ltx-2-3-pro-vs-seedance-1-5-pro",
       "clicks": 0,
       "impressions": 0,
       "ctr": 0,
@@ -3686,23 +3342,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/ltx-2-3-pro-vs-wan-2-5",
-      "locale": "en",
-      "slug": "ltx-2-3-pro-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/ltx-2-3-pro-vs-wan-2-6",
       "locale": "en",
       "slug": "ltx-2-3-pro-vs-wan-2-6",
@@ -3817,25 +3456,6 @@
       "classification": "review",
       "rationale": [
         "gsc_review_opportunity"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/ltx-2-fast-vs-seedance-1-5-pro",
-      "locale": "en",
-      "slug": "ltx-2-fast-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 105,
-      "ctr": 0,
-      "position": 8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/ltx-2-fast-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "enrich",
-      "rationale": [
-        "gsc_enrichment_opportunity"
       ]
     },
     {
@@ -3974,31 +3594,6 @@
       "classification": "review",
       "rationale": [
         "gsc_review_opportunity"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/ltx-2-fast-vs-wan-2-5",
-      "locale": "en",
-      "slug": "ltx-2-fast-vs-wan-2-5",
-      "clicks": 1,
-      "impressions": 1872,
-      "ctr": 0.1,
-      "position": 10.9,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/ltx-2-fast-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "opponent_override",
-        "popular",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "gsc_high_impressions",
-        "english_strategic_surface"
       ]
     },
     {
@@ -4159,28 +3754,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/ltx-2-vs-seedance-1-5-pro",
-      "locale": "en",
-      "slug": "ltx-2-vs-seedance-1-5-pro",
-      "clicks": 1,
-      "impressions": 200,
-      "ctr": 0.5,
-      "position": 6.8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/ltx-2-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "english_strategic_surface"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/ltx-2-vs-seedance-2-0",
       "locale": "en",
       "slug": "ltx-2-vs-seedance-2-0",
@@ -4325,25 +3898,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/ltx-2-vs-wan-2-5",
-      "locale": "en",
-      "slug": "ltx-2-vs-wan-2-5",
-      "clicks": 2,
-      "impressions": 276,
-      "ctr": 0.7,
-      "position": 14.4,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/ltx-2-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/ltx-2-vs-wan-2-6",
       "locale": "en",
       "slug": "ltx-2-vs-wan-2-6",
@@ -4403,25 +3957,6 @@
       "classification": "noindex_candidate",
       "rationale": [
         "low_demand_outside_top_10"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/luma-ray-2-flash-vs-seedance-1-5-pro",
-      "locale": "en",
-      "slug": "luma-ray-2-flash-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 28,
-      "ctr": 0,
-      "position": 9.6,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/luma-ray-2-flash-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
       ]
     },
     {
@@ -4559,25 +4094,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/luma-ray-2-flash-vs-wan-2-5",
-      "locale": "en",
-      "slug": "luma-ray-2-flash-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 31,
-      "ctr": 0,
-      "position": 8.5,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/luma-ray-2-flash-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_review_opportunity"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/luma-ray-2-flash-vs-wan-2-6",
       "locale": "en",
       "slug": "luma-ray-2-flash-vs-wan-2-6",
@@ -4672,25 +4188,6 @@
       "classification": "enrich",
       "rationale": [
         "gsc_enrichment_opportunity"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/luma-ray-2-vs-seedance-1-5-pro",
-      "locale": "en",
-      "slug": "luma-ray-2-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 46,
-      "ctr": 0,
-      "position": 5.9,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/luma-ray-2-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_review_opportunity"
       ]
     },
     {
@@ -4825,25 +4322,6 @@
       "classification": "review",
       "rationale": [
         "gsc_review_opportunity"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/luma-ray-2-vs-wan-2-5",
-      "locale": "en",
-      "slug": "luma-ray-2-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 28,
-      "ctr": 0,
-      "position": 7,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/luma-ray-2-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
       ]
     },
     {
@@ -5063,23 +4541,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/minimax-hailuo-02-text-vs-seedance-1-5-pro",
-      "locale": "en",
-      "slug": "minimax-hailuo-02-text-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/minimax-hailuo-02-text-vs-seedance-2-0",
       "locale": "en",
       "slug": "minimax-hailuo-02-text-vs-seedance-2-0",
@@ -5216,25 +4677,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/minimax-hailuo-02-text-vs-wan-2-5",
-      "locale": "en",
-      "slug": "minimax-hailuo-02-text-vs-wan-2-5",
-      "clicks": 3,
-      "impressions": 457,
-      "ctr": 0.7,
-      "position": 9.2,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/minimax-hailuo-02-text-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/minimax-hailuo-02-text-vs-wan-2-6",
       "locale": "en",
       "slug": "minimax-hailuo-02-text-vs-wan-2-6",
@@ -5251,25 +4693,6 @@
       "classification": "keep",
       "rationale": [
         "localized_editorial_override"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/pika-text-to-video-vs-seedance-1-5-pro",
-      "locale": "en",
-      "slug": "pika-text-to-video-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 145,
-      "ctr": 0,
-      "position": 10.3,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/pika-text-to-video-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "enrich",
-      "rationale": [
-        "gsc_enrichment_opportunity"
       ]
     },
     {
@@ -5410,26 +4833,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/pika-text-to-video-vs-wan-2-5",
-      "locale": "en",
-      "slug": "pika-text-to-video-vs-wan-2-5",
-      "clicks": 2,
-      "impressions": 1309,
-      "ctr": 0.2,
-      "position": 8.8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/pika-text-to-video-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "gsc_high_impressions"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/pika-text-to-video-vs-wan-2-6",
       "locale": "en",
       "slug": "pika-text-to-video-vs-wan-2-6",
@@ -5446,180 +4849,6 @@
       "classification": "keep",
       "rationale": [
         "localized_editorial_override"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-seedance-2-0",
-      "locale": "en",
-      "slug": "seedance-1-5-pro-vs-seedance-2-0",
-      "clicks": 74,
-      "impressions": 13976,
-      "ctr": 0.5,
-      "position": 5.8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-seedance-2-0"
-      ],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "gsc_high_impressions",
-        "localized_editorial_override"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-seedance-2-0-fast",
-      "locale": "en",
-      "slug": "seedance-1-5-pro-vs-seedance-2-0-fast",
-      "clicks": 8,
-      "impressions": 2385,
-      "ctr": 0.3,
-      "position": 8.8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-seedance-2-0-fast"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "gsc_high_impressions"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-sora-2",
-      "locale": "en",
-      "slug": "seedance-1-5-pro-vs-sora-2",
-      "clicks": 0,
-      "impressions": 58,
-      "ctr": 0,
-      "position": 11,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-sora-2"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_review_opportunity"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-sora-2-pro",
-      "locale": "en",
-      "slug": "seedance-1-5-pro-vs-sora-2-pro",
-      "clicks": 0,
-      "impressions": 17,
-      "ctr": 0,
-      "position": 8.5,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-sora-2-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-veo-3-1",
-      "locale": "en",
-      "slug": "seedance-1-5-pro-vs-veo-3-1",
-      "clicks": 1,
-      "impressions": 1190,
-      "ctr": 0.1,
-      "position": 8.5,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-veo-3-1"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "gsc_high_impressions"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-veo-3-1-fast",
-      "locale": "en",
-      "slug": "seedance-1-5-pro-vs-veo-3-1-fast",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-veo-3-1-lite",
-      "locale": "en",
-      "slug": "seedance-1-5-pro-vs-veo-3-1-lite",
-      "clicks": 0,
-      "impressions": 115,
-      "ctr": 0,
-      "position": 6.9,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-veo-3-1-lite"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "enrich",
-      "rationale": [
-        "gsc_enrichment_opportunity"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-wan-2-5",
-      "locale": "en",
-      "slug": "seedance-1-5-pro-vs-wan-2-5",
-      "clicks": 1,
-      "impressions": 464,
-      "ctr": 0.2,
-      "position": 6.5,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-wan-2-6",
-      "locale": "en",
-      "slug": "seedance-1-5-pro-vs-wan-2-6",
-      "clicks": 3,
-      "impressions": 1532,
-      "ctr": 0.2,
-      "position": 7.4,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-wan-2-6"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "gsc_high_impressions"
       ]
     },
     {
@@ -5724,25 +4953,6 @@
       "rationale": [
         "gsc_clicks",
         "english_strategic_surface"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/seedance-2-0-fast-vs-wan-2-5",
-      "locale": "en",
-      "slug": "seedance-2-0-fast-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 876,
-      "ctr": 0,
-      "position": 8.2,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/seedance-2-0-fast-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_high_impressions"
       ]
     },
     {
@@ -5920,27 +5130,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/seedance-2-0-vs-wan-2-5",
-      "locale": "en",
-      "slug": "seedance-2-0-vs-wan-2-5",
-      "clicks": 15,
-      "impressions": 4140,
-      "ctr": 0.4,
-      "position": 8.4,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/seedance-2-0-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "gsc_high_impressions",
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/seedance-2-0-vs-wan-2-6",
       "locale": "en",
       "slug": "seedance-2-0-vs-wan-2-6",
@@ -6073,27 +5262,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/sora-2-pro-vs-wan-2-5",
-      "locale": "en",
-      "slug": "sora-2-pro-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 55,
-      "ctr": 0,
-      "position": 9.5,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/sora-2-pro-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "related_graph"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "english_strategic_surface"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/sora-2-pro-vs-wan-2-6",
       "locale": "en",
       "slug": "sora-2-pro-vs-wan-2-6",
@@ -6202,28 +5370,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/sora-2-vs-wan-2-5",
-      "locale": "en",
-      "slug": "sora-2-vs-wan-2-5",
-      "clicks": 1,
-      "impressions": 137,
-      "ctr": 0.7,
-      "position": 8.8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/sora-2-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "related_graph"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "english_strategic_surface"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/sora-2-vs-wan-2-6",
       "locale": "en",
       "slug": "sora-2-vs-wan-2-6",
@@ -6272,25 +5418,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/veo-3-1-fast-vs-wan-2-5",
-      "locale": "en",
-      "slug": "veo-3-1-fast-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 185,
-      "ctr": 0,
-      "position": 13.5,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/veo-3-1-fast-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/veo-3-1-fast-vs-wan-2-6",
       "locale": "en",
       "slug": "veo-3-1-fast-vs-wan-2-6",
@@ -6307,25 +5434,6 @@
       "classification": "review",
       "rationale": [
         "gsc_review_opportunity"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/veo-3-1-lite-vs-wan-2-5",
-      "locale": "en",
-      "slug": "veo-3-1-lite-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 116,
-      "ctr": 0,
-      "position": 8.6,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/veo-3-1-lite-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "enrich",
-      "rationale": [
-        "gsc_enrichment_opportunity"
       ]
     },
     {
@@ -6393,25 +5501,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/veo-3-1-vs-wan-2-5",
-      "locale": "en",
-      "slug": "veo-3-1-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 192,
-      "ctr": 0,
-      "position": 7.9,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/veo-3-1-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/veo-3-1-vs-wan-2-6",
       "locale": "en",
       "slug": "veo-3-1-vs-wan-2-6",
@@ -6434,25 +5523,6 @@
       "classification": "keep",
       "rationale": [
         "english_strategic_surface"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/wan-2-5-vs-wan-2-6",
-      "locale": "en",
-      "slug": "wan-2-5-vs-wan-2-6",
-      "clicks": 0,
-      "impressions": 870,
-      "ctr": 0,
-      "position": 10.3,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/ai-video-engines/wan-2-5-vs-wan-2-6"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_high_impressions"
       ]
     },
     {
@@ -6846,90 +5916,6 @@
       "classification": "keep",
       "rationale": [
         "localized_editorial_override"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/happy-horse-1-0-vs-happy-horse-1-1",
-      "locale": "fr",
-      "slug": "happy-horse-1-0-vs-happy-horse-1-1",
-      "clicks": 1,
-      "impressions": 15,
-      "ctr": 6.7,
-      "position": 9.3,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/happy-horse-1-0-vs-happy-horse-1-1"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "opponent_override",
-        "popular"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/happy-horse-1-0-vs-kling-3-pro",
-      "locale": "fr",
-      "slug": "happy-horse-1-0-vs-kling-3-pro",
-      "clicks": 0,
-      "impressions": 17,
-      "ctr": 0,
-      "position": 4,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/happy-horse-1-0-vs-kling-3-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "opponent_override"
-      ],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review",
-        "strategic_localization_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/happy-horse-1-0-vs-seedance-2-0",
-      "locale": "fr",
-      "slug": "happy-horse-1-0-vs-seedance-2-0",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "opponent_override"
-      ],
-      "classification": "review",
-      "rationale": [
-        "strategic_localization_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/happy-horse-1-0-vs-veo-3-1",
-      "locale": "fr",
-      "slug": "happy-horse-1-0-vs-veo-3-1",
-      "clicks": 0,
-      "impressions": 11,
-      "ctr": 0,
-      "position": 19.9,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/happy-horse-1-0-vs-veo-3-1"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "opponent_override"
-      ],
-      "classification": "review",
-      "rationale": [
-        "strategic_localization_review"
       ]
     },
     {
@@ -7330,23 +6316,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/kling-2-5-turbo-vs-seedance-1-5-pro",
-      "locale": "fr",
-      "slug": "kling-2-5-turbo-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/kling-2-5-turbo-vs-seedance-2-0",
       "locale": "fr",
       "slug": "kling-2-5-turbo-vs-seedance-2-0",
@@ -7467,25 +6436,6 @@
       "classification": "noindex_candidate",
       "rationale": [
         "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/kling-2-5-turbo-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "kling-2-5-turbo-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/kling-2-5-turbo-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
       ]
     },
     {
@@ -7705,25 +6655,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/kling-2-6-pro-vs-seedance-1-5-pro",
-      "locale": "fr",
-      "slug": "kling-2-6-pro-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 2,
-      "ctr": 0,
-      "position": 9.5,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/kling-2-6-pro-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/kling-2-6-pro-vs-seedance-2-0",
       "locale": "fr",
       "slug": "kling-2-6-pro-vs-seedance-2-0",
@@ -7856,25 +6787,6 @@
       "classification": "noindex_candidate",
       "rationale": [
         "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/kling-2-6-pro-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "kling-2-6-pro-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 6,
-      "ctr": 0,
-      "position": 6.8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/kling-2-6-pro-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
       ]
     },
     {
@@ -8086,25 +6998,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/kling-3-4k-vs-seedance-1-5-pro",
-      "locale": "fr",
-      "slug": "kling-3-4k-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 5,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/kling-3-4k-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/kling-3-4k-vs-seedance-2-0",
       "locale": "fr",
       "slug": "kling-3-4k-vs-seedance-2-0",
@@ -8238,25 +7131,6 @@
       "classification": "noindex_candidate",
       "rationale": [
         "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/kling-3-4k-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "kling-3-4k-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 7,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/kling-3-4k-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
       ]
     },
     {
@@ -8541,26 +7415,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/kling-3-pro-vs-seedance-1-5-pro",
-      "locale": "fr",
-      "slug": "kling-3-pro-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "popular",
-        "use_case_bucket"
-      ],
-      "classification": "review",
-      "rationale": [
-        "strategic_localization_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/kling-3-pro-vs-seedance-2-0",
       "locale": "fr",
       "slug": "kling-3-pro-vs-seedance-2-0",
@@ -8722,25 +7576,6 @@
       "classification": "noindex_candidate",
       "rationale": [
         "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/kling-3-pro-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "kling-3-pro-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 4,
-      "ctr": 0,
-      "position": 10.3,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/kling-3-pro-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "low_demand_outside_top_10"
       ]
     },
     {
@@ -8958,23 +7793,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/kling-3-standard-vs-seedance-1-5-pro",
-      "locale": "fr",
-      "slug": "kling-3-standard-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/kling-3-standard-vs-seedance-2-0",
       "locale": "fr",
       "slug": "kling-3-standard-vs-seedance-2-0",
@@ -9099,28 +7917,6 @@
       "classification": "review",
       "rationale": [
         "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/kling-3-standard-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "kling-3-standard-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 15,
-      "ctr": 0,
-      "position": 5.8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/kling-3-standard-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "use_case_bucket"
-      ],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review",
-        "strategic_localization_review"
       ]
     },
     {
@@ -9503,23 +8299,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/ltx-2-3-fast-vs-seedance-1-5-pro",
-      "locale": "fr",
-      "slug": "ltx-2-3-fast-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/ltx-2-3-fast-vs-seedance-2-0",
       "locale": "fr",
       "slug": "ltx-2-3-fast-vs-seedance-2-0",
@@ -9653,25 +8432,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/ltx-2-3-fast-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "ltx-2-3-fast-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 11,
-      "ctr": 0,
-      "position": 4.7,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/ltx-2-3-fast-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/ltx-2-3-fast-vs-wan-2-6",
       "locale": "fr",
       "slug": "ltx-2-3-fast-vs-wan-2-6",
@@ -9802,23 +8562,6 @@
       "classification": "review",
       "rationale": [
         "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/ltx-2-3-pro-vs-seedance-1-5-pro",
-      "locale": "fr",
-      "slug": "ltx-2-3-pro-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
       ]
     },
     {
@@ -9957,25 +8700,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/ltx-2-3-pro-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "ltx-2-3-pro-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 3,
-      "ctr": 0,
-      "position": 4.7,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/ltx-2-3-pro-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/ltx-2-3-pro-vs-wan-2-6",
       "locale": "fr",
       "slug": "ltx-2-3-pro-vs-wan-2-6",
@@ -10083,25 +8807,6 @@
       "classification": "noindex_candidate",
       "rationale": [
         "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/ltx-2-fast-vs-seedance-1-5-pro",
-      "locale": "fr",
-      "slug": "ltx-2-fast-vs-seedance-1-5-pro",
-      "clicks": 1,
-      "impressions": 2,
-      "ctr": 50,
-      "position": 2.5,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/ltx-2-fast-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks"
       ]
     },
     {
@@ -10230,30 +8935,6 @@
       "classification": "noindex_candidate",
       "rationale": [
         "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/ltx-2-fast-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "ltx-2-fast-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 8,
-      "ctr": 0,
-      "position": 5.4,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/ltx-2-fast-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "opponent_override",
-        "popular",
-        "use_case_bucket"
-      ],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review",
-        "strategic_localization_review"
       ]
     },
     {
@@ -10404,25 +9085,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/ltx-2-vs-seedance-1-5-pro",
-      "locale": "fr",
-      "slug": "ltx-2-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "use_case_bucket"
-      ],
-      "classification": "review",
-      "rationale": [
-        "strategic_localization_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/ltx-2-vs-seedance-2-0",
       "locale": "fr",
       "slug": "ltx-2-vs-seedance-2-0",
@@ -10560,25 +9222,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/ltx-2-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "ltx-2-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 9,
-      "ctr": 0,
-      "position": 12.1,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/ltx-2-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "low_demand_outside_top_10"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/ltx-2-vs-wan-2-6",
       "locale": "fr",
       "slug": "ltx-2-vs-wan-2-6",
@@ -10620,23 +9263,6 @@
       "url": "https://maxvideoai.com/fr/comparatif/luma-ray-2-flash-vs-pika-text-to-video",
       "locale": "fr",
       "slug": "luma-ray-2-flash-vs-pika-text-to-video",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/luma-ray-2-flash-vs-seedance-1-5-pro",
-      "locale": "fr",
-      "slug": "luma-ray-2-flash-vs-seedance-1-5-pro",
       "clicks": 0,
       "impressions": 0,
       "ctr": 0,
@@ -10776,23 +9402,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/luma-ray-2-flash-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "luma-ray-2-flash-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/luma-ray-2-flash-vs-wan-2-6",
       "locale": "fr",
       "slug": "luma-ray-2-flash-vs-wan-2-6",
@@ -10884,23 +9493,6 @@
       "classification": "review",
       "rationale": [
         "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/luma-ray-2-vs-seedance-1-5-pro",
-      "locale": "fr",
-      "slug": "luma-ray-2-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
       ]
     },
     {
@@ -11015,23 +9607,6 @@
       "url": "https://maxvideoai.com/fr/comparatif/luma-ray-2-vs-veo-3-1-lite",
       "locale": "fr",
       "slug": "luma-ray-2-vs-veo-3-1-lite",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/luma-ray-2-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "luma-ray-2-vs-wan-2-5",
       "clicks": 0,
       "impressions": 0,
       "ctr": 0,
@@ -11248,25 +9823,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/minimax-hailuo-02-text-vs-seedance-1-5-pro",
-      "locale": "fr",
-      "slug": "minimax-hailuo-02-text-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 5,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/minimax-hailuo-02-text-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/minimax-hailuo-02-text-vs-seedance-2-0",
       "locale": "fr",
       "slug": "minimax-hailuo-02-text-vs-seedance-2-0",
@@ -11392,25 +9948,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/minimax-hailuo-02-text-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "minimax-hailuo-02-text-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 3,
-      "ctr": 0,
-      "position": 12.7,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/minimax-hailuo-02-text-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "low_demand_outside_top_10"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/minimax-hailuo-02-text-vs-wan-2-6",
       "locale": "fr",
       "slug": "minimax-hailuo-02-text-vs-wan-2-6",
@@ -11425,25 +9962,6 @@
       "classification": "keep",
       "rationale": [
         "localized_editorial_override"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/pika-text-to-video-vs-seedance-1-5-pro",
-      "locale": "fr",
-      "slug": "pika-text-to-video-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 3,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/pika-text-to-video-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
       ]
     },
     {
@@ -11575,25 +10093,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/pika-text-to-video-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "pika-text-to-video-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 3,
-      "ctr": 0,
-      "position": 4.7,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/pika-text-to-video-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/pika-text-to-video-vs-wan-2-6",
       "locale": "fr",
       "slug": "pika-text-to-video-vs-wan-2-6",
@@ -11608,166 +10107,6 @@
       "classification": "keep",
       "rationale": [
         "localized_editorial_override"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/seedance-1-5-pro-vs-seedance-2-0",
-      "locale": "fr",
-      "slug": "seedance-1-5-pro-vs-seedance-2-0",
-      "clicks": 1,
-      "impressions": 81,
-      "ctr": 1.2,
-      "position": 4.7,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/seedance-1-5-pro-vs-seedance-2-0"
-      ],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "localized_editorial_override"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/seedance-1-5-pro-vs-seedance-2-0-fast",
-      "locale": "fr",
-      "slug": "seedance-1-5-pro-vs-seedance-2-0-fast",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/seedance-1-5-pro-vs-seedance-2-0-fast"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/seedance-1-5-pro-vs-sora-2",
-      "locale": "fr",
-      "slug": "seedance-1-5-pro-vs-sora-2",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/seedance-1-5-pro-vs-sora-2-pro",
-      "locale": "fr",
-      "slug": "seedance-1-5-pro-vs-sora-2-pro",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/seedance-1-5-pro-vs-veo-3-1",
-      "locale": "fr",
-      "slug": "seedance-1-5-pro-vs-veo-3-1",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/seedance-1-5-pro-vs-veo-3-1-fast",
-      "locale": "fr",
-      "slug": "seedance-1-5-pro-vs-veo-3-1-fast",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/seedance-1-5-pro-vs-veo-3-1-lite",
-      "locale": "fr",
-      "slug": "seedance-1-5-pro-vs-veo-3-1-lite",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/seedance-1-5-pro-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "seedance-1-5-pro-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/seedance-1-5-pro-vs-wan-2-6",
-      "locale": "fr",
-      "slug": "seedance-1-5-pro-vs-wan-2-6",
-      "clicks": 0,
-      "impressions": 5,
-      "ctr": 0,
-      "position": 6.8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/seedance-1-5-pro-vs-wan-2-6"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
       ]
     },
     {
@@ -11869,25 +10208,6 @@
       "rationale": [
         "gsc_top_10_review",
         "strategic_localization_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/seedance-2-0-fast-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "seedance-2-0-fast-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 7,
-      "ctr": 0,
-      "position": 3.3,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/seedance-2-0-fast-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
       ]
     },
     {
@@ -12054,23 +10374,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/seedance-2-0-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "seedance-2-0-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/seedance-2-0-vs-wan-2-6",
       "locale": "fr",
       "slug": "seedance-2-0-vs-wan-2-6",
@@ -12193,28 +10496,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/sora-2-pro-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "sora-2-pro-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 7,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/sora-2-pro-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "related_graph"
-      ],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review",
-        "strategic_localization_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/sora-2-pro-vs-wan-2-6",
       "locale": "fr",
       "slug": "sora-2-pro-vs-wan-2-6",
@@ -12324,28 +10605,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/sora-2-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "sora-2-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/sora-2-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "related_graph"
-      ],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review",
-        "strategic_localization_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/sora-2-vs-wan-2-6",
       "locale": "fr",
       "slug": "sora-2-vs-wan-2-6",
@@ -12390,25 +10649,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/veo-3-1-fast-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "veo-3-1-fast-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 1,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/veo-3-1-fast-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/veo-3-1-fast-vs-wan-2-6",
       "locale": "fr",
       "slug": "veo-3-1-fast-vs-wan-2-6",
@@ -12425,23 +10665,6 @@
       "classification": "review",
       "rationale": [
         "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/veo-3-1-lite-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "veo-3-1-lite-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
       ]
     },
     {
@@ -12505,23 +10728,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/veo-3-1-vs-wan-2-5",
-      "locale": "fr",
-      "slug": "veo-3-1-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/veo-3-1-vs-wan-2-6",
       "locale": "fr",
       "slug": "veo-3-1-vs-wan-2-6",
@@ -12545,25 +10751,6 @@
       "rationale": [
         "gsc_top_10_review",
         "strategic_localization_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/wan-2-5-vs-wan-2-6",
-      "locale": "fr",
-      "slug": "wan-2-5-vs-wan-2-6",
-      "clicks": 0,
-      "impressions": 21,
-      "ctr": 0,
-      "position": 8.6,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/fr/comparatif/wan-2-5-vs-wan-2-6"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
       ]
     },
     {
@@ -12957,91 +11144,6 @@
       "classification": "keep",
       "rationale": [
         "localized_editorial_override"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/happy-horse-1-0-vs-happy-horse-1-1",
-      "locale": "es",
-      "slug": "happy-horse-1-0-vs-happy-horse-1-1",
-      "clicks": 0,
-      "impressions": 6,
-      "ctr": 0,
-      "position": 35,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/happy-horse-1-0-vs-happy-horse-1-1"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "opponent_override",
-        "popular"
-      ],
-      "classification": "review",
-      "rationale": [
-        "strategic_localization_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/happy-horse-1-0-vs-kling-3-pro",
-      "locale": "es",
-      "slug": "happy-horse-1-0-vs-kling-3-pro",
-      "clicks": 0,
-      "impressions": 15,
-      "ctr": 0,
-      "position": 5.3,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/happy-horse-1-0-vs-kling-3-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "opponent_override"
-      ],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review",
-        "strategic_localization_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/happy-horse-1-0-vs-seedance-2-0",
-      "locale": "es",
-      "slug": "happy-horse-1-0-vs-seedance-2-0",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "opponent_override"
-      ],
-      "classification": "review",
-      "rationale": [
-        "strategic_localization_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/happy-horse-1-0-vs-veo-3-1",
-      "locale": "es",
-      "slug": "happy-horse-1-0-vs-veo-3-1",
-      "clicks": 0,
-      "impressions": 6,
-      "ctr": 0,
-      "position": 2.2,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/happy-horse-1-0-vs-veo-3-1"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "opponent_override"
-      ],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review",
-        "strategic_localization_review"
       ]
     },
     {
@@ -13451,25 +11553,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/kling-2-5-turbo-vs-seedance-1-5-pro",
-      "locale": "es",
-      "slug": "kling-2-5-turbo-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 2,
-      "ctr": 0,
-      "position": 5,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/kling-2-5-turbo-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/kling-2-5-turbo-vs-seedance-2-0",
       "locale": "es",
       "slug": "kling-2-5-turbo-vs-seedance-2-0",
@@ -13597,23 +11680,6 @@
       "classification": "review",
       "rationale": [
         "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/kling-2-5-turbo-vs-wan-2-5",
-      "locale": "es",
-      "slug": "kling-2-5-turbo-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
       ]
     },
     {
@@ -13839,25 +11905,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/kling-2-6-pro-vs-seedance-1-5-pro",
-      "locale": "es",
-      "slug": "kling-2-6-pro-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 3,
-      "ctr": 0,
-      "position": 6.3,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/kling-2-6-pro-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/kling-2-6-pro-vs-seedance-2-0",
       "locale": "es",
       "slug": "kling-2-6-pro-vs-seedance-2-0",
@@ -13991,25 +12038,6 @@
       "classification": "review",
       "rationale": [
         "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/kling-2-6-pro-vs-wan-2-5",
-      "locale": "es",
-      "slug": "kling-2-6-pro-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 8,
-      "ctr": 0,
-      "position": 5.9,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/kling-2-6-pro-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
       ]
     },
     {
@@ -14226,25 +12254,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/kling-3-4k-vs-seedance-1-5-pro",
-      "locale": "es",
-      "slug": "kling-3-4k-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 3,
-      "ctr": 0,
-      "position": 23,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/kling-3-4k-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "low_demand_outside_top_10"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/kling-3-4k-vs-seedance-2-0",
       "locale": "es",
       "slug": "kling-3-4k-vs-seedance-2-0",
@@ -14380,25 +12389,6 @@
       "classification": "noindex_candidate",
       "rationale": [
         "low_demand_outside_top_10"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/kling-3-4k-vs-wan-2-5",
-      "locale": "es",
-      "slug": "kling-3-4k-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 5,
-      "ctr": 0,
-      "position": 5.8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/kling-3-4k-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
       ]
     },
     {
@@ -14690,29 +12680,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/kling-3-pro-vs-seedance-1-5-pro",
-      "locale": "es",
-      "slug": "kling-3-pro-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 4,
-      "ctr": 0,
-      "position": 6.5,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/kling-3-pro-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "popular",
-        "use_case_bucket"
-      ],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review",
-        "strategic_localization_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/kling-3-pro-vs-seedance-2-0",
       "locale": "es",
       "slug": "kling-3-pro-vs-seedance-2-0",
@@ -14875,25 +12842,6 @@
       "classification": "review",
       "rationale": [
         "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/kling-3-pro-vs-wan-2-5",
-      "locale": "es",
-      "slug": "kling-3-pro-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 10,
-      "ctr": 0,
-      "position": 44.6,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/kling-3-pro-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "low_demand_outside_top_10"
       ]
     },
     {
@@ -15129,25 +13077,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/kling-3-standard-vs-seedance-1-5-pro",
-      "locale": "es",
-      "slug": "kling-3-standard-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 192,
-      "ctr": 0,
-      "position": 8.8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/kling-3-standard-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "enrich",
-      "rationale": [
-        "gsc_enrichment_opportunity"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/kling-3-standard-vs-seedance-2-0",
       "locale": "es",
       "slug": "kling-3-standard-vs-seedance-2-0",
@@ -15278,28 +13207,6 @@
       "classification": "review",
       "rationale": [
         "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/kling-3-standard-vs-wan-2-5",
-      "locale": "es",
-      "slug": "kling-3-standard-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 5,
-      "ctr": 0,
-      "position": 7.8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/kling-3-standard-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "use_case_bucket"
-      ],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review",
-        "strategic_localization_review"
       ]
     },
     {
@@ -15692,25 +13599,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/ltx-2-3-fast-vs-seedance-1-5-pro",
-      "locale": "es",
-      "slug": "ltx-2-3-fast-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 8,
-      "ctr": 0,
-      "position": 7,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/ltx-2-3-fast-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/ltx-2-3-fast-vs-seedance-2-0",
       "locale": "es",
       "slug": "ltx-2-3-fast-vs-seedance-2-0",
@@ -15851,25 +13739,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/ltx-2-3-fast-vs-wan-2-5",
-      "locale": "es",
-      "slug": "ltx-2-3-fast-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 45,
-      "ctr": 0,
-      "position": 9.2,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/ltx-2-3-fast-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/ltx-2-3-fast-vs-wan-2-6",
       "locale": "es",
       "slug": "ltx-2-3-fast-vs-wan-2-6",
@@ -16002,25 +13871,6 @@
       "classification": "noindex_candidate",
       "rationale": [
         "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/ltx-2-3-pro-vs-seedance-1-5-pro",
-      "locale": "es",
-      "slug": "ltx-2-3-pro-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 3,
-      "ctr": 0,
-      "position": 2,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/ltx-2-3-pro-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
       ]
     },
     {
@@ -16164,25 +14014,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/ltx-2-3-pro-vs-wan-2-5",
-      "locale": "es",
-      "slug": "ltx-2-3-pro-vs-wan-2-5",
-      "clicks": 1,
-      "impressions": 67,
-      "ctr": 1.5,
-      "position": 11.2,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/ltx-2-3-pro-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/ltx-2-3-pro-vs-wan-2-6",
       "locale": "es",
       "slug": "ltx-2-3-pro-vs-wan-2-6",
@@ -16281,23 +14112,6 @@
       "url": "https://maxvideoai.com/es/comparativa/ltx-2-fast-vs-pika-text-to-video",
       "locale": "es",
       "slug": "ltx-2-fast-vs-pika-text-to-video",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/ltx-2-fast-vs-seedance-1-5-pro",
-      "locale": "es",
-      "slug": "ltx-2-fast-vs-seedance-1-5-pro",
       "clicks": 0,
       "impressions": 0,
       "ctr": 0,
@@ -16446,30 +14260,6 @@
       "classification": "review",
       "rationale": [
         "gsc_review_opportunity"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/ltx-2-fast-vs-wan-2-5",
-      "locale": "es",
-      "slug": "ltx-2-fast-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 17,
-      "ctr": 0,
-      "position": 9.4,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/ltx-2-fast-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "opponent_override",
-        "popular",
-        "use_case_bucket"
-      ],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review",
-        "strategic_localization_review"
       ]
     },
     {
@@ -16623,28 +14413,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/ltx-2-vs-seedance-1-5-pro",
-      "locale": "es",
-      "slug": "ltx-2-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 5,
-      "ctr": 0,
-      "position": 6.2,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/ltx-2-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "use_case_bucket"
-      ],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review",
-        "strategic_localization_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/ltx-2-vs-seedance-2-0",
       "locale": "es",
       "slug": "ltx-2-vs-seedance-2-0",
@@ -16786,25 +14554,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/ltx-2-vs-wan-2-5",
-      "locale": "es",
-      "slug": "ltx-2-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 23,
-      "ctr": 0,
-      "position": 13.7,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/ltx-2-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "low_demand_outside_top_10"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/ltx-2-vs-wan-2-6",
       "locale": "es",
       "slug": "ltx-2-vs-wan-2-6",
@@ -16847,23 +14596,6 @@
       "url": "https://maxvideoai.com/es/comparativa/luma-ray-2-flash-vs-pika-text-to-video",
       "locale": "es",
       "slug": "luma-ray-2-flash-vs-pika-text-to-video",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/luma-ray-2-flash-vs-seedance-1-5-pro",
-      "locale": "es",
-      "slug": "luma-ray-2-flash-vs-seedance-1-5-pro",
       "clicks": 0,
       "impressions": 0,
       "ctr": 0,
@@ -17003,25 +14735,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/luma-ray-2-flash-vs-wan-2-5",
-      "locale": "es",
-      "slug": "luma-ray-2-flash-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 2,
-      "ctr": 0,
-      "position": 9,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/luma-ray-2-flash-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/luma-ray-2-flash-vs-wan-2-6",
       "locale": "es",
       "slug": "luma-ray-2-flash-vs-wan-2-6",
@@ -17112,23 +14825,6 @@
       "classification": "review",
       "rationale": [
         "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/luma-ray-2-vs-seedance-1-5-pro",
-      "locale": "es",
-      "slug": "luma-ray-2-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
       ]
     },
     {
@@ -17255,25 +14951,6 @@
       "hasGscRow": true,
       "gscSourceUrls": [
         "https://maxvideoai.com/es/comparativa/luma-ray-2-vs-veo-3-1-lite"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "low_demand_outside_top_10"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/luma-ray-2-vs-wan-2-5",
-      "locale": "es",
-      "slug": "luma-ray-2-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 2,
-      "ctr": 0,
-      "position": 20,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/luma-ray-2-vs-wan-2-5"
       ],
       "hasLocalizedOverride": false,
       "strategicSignals": [],
@@ -17490,25 +15167,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/minimax-hailuo-02-text-vs-seedance-1-5-pro",
-      "locale": "es",
-      "slug": "minimax-hailuo-02-text-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 18,
-      "ctr": 0,
-      "position": 20.2,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/minimax-hailuo-02-text-vs-seedance-1-5-pro"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "low_demand_outside_top_10"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/minimax-hailuo-02-text-vs-seedance-2-0",
       "locale": "es",
       "slug": "minimax-hailuo-02-text-vs-seedance-2-0",
@@ -17642,25 +15300,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/minimax-hailuo-02-text-vs-wan-2-5",
-      "locale": "es",
-      "slug": "minimax-hailuo-02-text-vs-wan-2-5",
-      "clicks": 2,
-      "impressions": 15,
-      "ctr": 13.3,
-      "position": 16.9,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/minimax-hailuo-02-text-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/minimax-hailuo-02-text-vs-wan-2-6",
       "locale": "es",
       "slug": "minimax-hailuo-02-text-vs-wan-2-6",
@@ -17677,23 +15316,6 @@
       "classification": "keep",
       "rationale": [
         "localized_editorial_override"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/pika-text-to-video-vs-seedance-1-5-pro",
-      "locale": "es",
-      "slug": "pika-text-to-video-vs-seedance-1-5-pro",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
       ]
     },
     {
@@ -17832,25 +15454,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/pika-text-to-video-vs-wan-2-5",
-      "locale": "es",
-      "slug": "pika-text-to-video-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 12,
-      "ctr": 0,
-      "position": 6.8,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/pika-text-to-video-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/pika-text-to-video-vs-wan-2-6",
       "locale": "es",
       "slug": "pika-text-to-video-vs-wan-2-6",
@@ -17867,170 +15470,6 @@
       "classification": "keep",
       "rationale": [
         "localized_editorial_override"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-seedance-2-0",
-      "locale": "es",
-      "slug": "seedance-1-5-pro-vs-seedance-2-0",
-      "clicks": 3,
-      "impressions": 200,
-      "ctr": 1.5,
-      "position": 4.9,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-seedance-2-0"
-      ],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks",
-        "localized_editorial_override"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-seedance-2-0-fast",
-      "locale": "es",
-      "slug": "seedance-1-5-pro-vs-seedance-2-0-fast",
-      "clicks": 3,
-      "impressions": 209,
-      "ctr": 1.4,
-      "position": 7.9,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-seedance-2-0-fast"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-sora-2",
-      "locale": "es",
-      "slug": "seedance-1-5-pro-vs-sora-2",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-sora-2-pro",
-      "locale": "es",
-      "slug": "seedance-1-5-pro-vs-sora-2-pro",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-veo-3-1",
-      "locale": "es",
-      "slug": "seedance-1-5-pro-vs-veo-3-1",
-      "clicks": 0,
-      "impressions": 1,
-      "ctr": 0,
-      "position": 9,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-veo-3-1"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-veo-3-1-fast",
-      "locale": "es",
-      "slug": "seedance-1-5-pro-vs-veo-3-1-fast",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-veo-3-1-lite",
-      "locale": "es",
-      "slug": "seedance-1-5-pro-vs-veo-3-1-lite",
-      "clicks": 0,
-      "impressions": 21,
-      "ctr": 0,
-      "position": 4.6,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-veo-3-1-lite"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-wan-2-5",
-      "locale": "es",
-      "slug": "seedance-1-5-pro-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 8,
-      "ctr": 0,
-      "position": 6.1,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-wan-2-6",
-      "locale": "es",
-      "slug": "seedance-1-5-pro-vs-wan-2-6",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "noindex_candidate",
-      "rationale": [
-        "no_gsc_row_or_editorial_signal"
       ]
     },
     {
@@ -18134,25 +15573,6 @@
       "classification": "keep",
       "rationale": [
         "gsc_clicks"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/seedance-2-0-fast-vs-wan-2-5",
-      "locale": "es",
-      "slug": "seedance-2-0-fast-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 8,
-      "ctr": 0,
-      "position": 7.4,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/seedance-2-0-fast-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
       ]
     },
     {
@@ -18327,25 +15747,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/seedance-2-0-vs-wan-2-5",
-      "locale": "es",
-      "slug": "seedance-2-0-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 8,
-      "ctr": 0,
-      "position": 6.3,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/seedance-2-0-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/seedance-2-0-vs-wan-2-6",
       "locale": "es",
       "slug": "seedance-2-0-vs-wan-2-6",
@@ -18470,25 +15871,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/sora-2-pro-vs-wan-2-5",
-      "locale": "es",
-      "slug": "sora-2-pro-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "related_graph"
-      ],
-      "classification": "review",
-      "rationale": [
-        "strategic_localization_review"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/sora-2-pro-vs-wan-2-6",
       "locale": "es",
       "slug": "sora-2-pro-vs-wan-2-6",
@@ -18599,27 +15981,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/sora-2-vs-wan-2-5",
-      "locale": "es",
-      "slug": "sora-2-vs-wan-2-5",
-      "clicks": 1,
-      "impressions": 7,
-      "ctr": 14.3,
-      "position": 18.3,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/sora-2-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [
-        "related_graph"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "gsc_clicks"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/sora-2-vs-wan-2-6",
       "locale": "es",
       "slug": "sora-2-vs-wan-2-6",
@@ -18668,25 +16029,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/veo-3-1-fast-vs-wan-2-5",
-      "locale": "es",
-      "slug": "veo-3-1-fast-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 3,
-      "ctr": 0,
-      "position": 8.3,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/veo-3-1-fast-vs-wan-2-5"
-      ],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/veo-3-1-fast-vs-wan-2-6",
       "locale": "es",
       "slug": "veo-3-1-fast-vs-wan-2-6",
@@ -18697,25 +16039,6 @@
       "hasGscRow": true,
       "gscSourceUrls": [
         "https://maxvideoai.com/es/comparativa/veo-3-1-fast-vs-wan-2-6"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/veo-3-1-lite-vs-wan-2-5",
-      "locale": "es",
-      "slug": "veo-3-1-lite-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 7,
-      "ctr": 0,
-      "position": 6.3,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/veo-3-1-lite-vs-wan-2-5"
       ],
       "hasLocalizedOverride": false,
       "strategicSignals": [],
@@ -18785,23 +16108,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/veo-3-1-vs-wan-2-5",
-      "locale": "es",
-      "slug": "veo-3-1-vs-wan-2-5",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/veo-3-1-vs-wan-2-6",
       "locale": "es",
       "slug": "veo-3-1-vs-wan-2-6",
@@ -18822,25 +16128,6 @@
       "classification": "review",
       "rationale": [
         "strategic_localization_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/wan-2-5-vs-wan-2-6",
-      "locale": "es",
-      "slug": "wan-2-5-vs-wan-2-6",
-      "clicks": 0,
-      "impressions": 42,
-      "ctr": 0,
-      "position": 8.3,
-      "hasGscRow": true,
-      "gscSourceUrls": [
-        "https://maxvideoai.com/es/comparativa/wan-2-5-vs-wan-2-6"
-      ],
-      "hasLocalizedOverride": false,
-      "strategicSignals": [],
-      "classification": "review",
-      "rationale": [
-        "gsc_review_opportunity"
       ]
     },
     {
@@ -18891,6 +16178,240 @@
   ],
   "legacyGscRows": [
     {
+      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-seedance-2-0",
+      "locale": "en",
+      "slug": "seedance-1-5-pro-vs-seedance-2-0",
+      "clicks": 74,
+      "impressions": 13976,
+      "ctr": 0.5,
+      "position": 5.8
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/seedance-2-0-vs-wan-2-5",
+      "locale": "en",
+      "slug": "seedance-2-0-vs-wan-2-5",
+      "clicks": 15,
+      "impressions": 4140,
+      "ctr": 0.4,
+      "position": 8.4
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-seedance-2-0-fast",
+      "locale": "en",
+      "slug": "seedance-1-5-pro-vs-seedance-2-0-fast",
+      "clicks": 8,
+      "impressions": 2385,
+      "ctr": 0.3,
+      "position": 8.8
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/ltx-2-3-fast-vs-wan-2-5",
+      "locale": "en",
+      "slug": "ltx-2-3-fast-vs-wan-2-5",
+      "clicks": 6,
+      "impressions": 2814,
+      "ctr": 0.2,
+      "position": 10.6
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/kling-3-standard-vs-seedance-1-5-pro",
+      "locale": "en",
+      "slug": "kling-3-standard-vs-seedance-1-5-pro",
+      "clicks": 4,
+      "impressions": 1265,
+      "ctr": 0.3,
+      "position": 6.9
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-wan-2-6",
+      "locale": "en",
+      "slug": "seedance-1-5-pro-vs-wan-2-6",
+      "clicks": 3,
+      "impressions": 1532,
+      "ctr": 0.2,
+      "position": 7.4
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/minimax-hailuo-02-text-vs-wan-2-5",
+      "locale": "en",
+      "slug": "minimax-hailuo-02-text-vs-wan-2-5",
+      "clicks": 3,
+      "impressions": 457,
+      "ctr": 0.7,
+      "position": 9.2
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-seedance-2-0-fast",
+      "locale": "es",
+      "slug": "seedance-1-5-pro-vs-seedance-2-0-fast",
+      "clicks": 3,
+      "impressions": 209,
+      "ctr": 1.4,
+      "position": 7.9
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-seedance-2-0",
+      "locale": "es",
+      "slug": "seedance-1-5-pro-vs-seedance-2-0",
+      "clicks": 3,
+      "impressions": 200,
+      "ctr": 1.5,
+      "position": 4.9
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/pika-text-to-video-vs-wan-2-5",
+      "locale": "en",
+      "slug": "pika-text-to-video-vs-wan-2-5",
+      "clicks": 2,
+      "impressions": 1309,
+      "ctr": 0.2,
+      "position": 8.8
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/happy-horse-1-0-vs-seedance-2-0",
+      "locale": "en",
+      "slug": "happy-horse-1-0-vs-seedance-2-0",
+      "clicks": 2,
+      "impressions": 540,
+      "ctr": 0.4,
+      "position": 14.6
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/ltx-2-vs-wan-2-5",
+      "locale": "en",
+      "slug": "ltx-2-vs-wan-2-5",
+      "clicks": 2,
+      "impressions": 276,
+      "ctr": 0.7,
+      "position": 14.4
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/minimax-hailuo-02-text-vs-wan-2-5",
+      "locale": "es",
+      "slug": "minimax-hailuo-02-text-vs-wan-2-5",
+      "clicks": 2,
+      "impressions": 15,
+      "ctr": 13.3,
+      "position": 16.9
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/ltx-2-fast-vs-wan-2-5",
+      "locale": "en",
+      "slug": "ltx-2-fast-vs-wan-2-5",
+      "clicks": 1,
+      "impressions": 1872,
+      "ctr": 0.1,
+      "position": 10.9
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-veo-3-1",
+      "locale": "en",
+      "slug": "seedance-1-5-pro-vs-veo-3-1",
+      "clicks": 1,
+      "impressions": 1190,
+      "ctr": 0.1,
+      "position": 8.5
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/kling-3-standard-vs-wan-2-5",
+      "locale": "en",
+      "slug": "kling-3-standard-vs-wan-2-5",
+      "clicks": 1,
+      "impressions": 737,
+      "ctr": 0.1,
+      "position": 8.4
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/kling-2-6-pro-vs-seedance-1-5-pro",
+      "locale": "en",
+      "slug": "kling-2-6-pro-vs-seedance-1-5-pro",
+      "clicks": 1,
+      "impressions": 708,
+      "ctr": 0.1,
+      "position": 9.8
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-wan-2-5",
+      "locale": "en",
+      "slug": "seedance-1-5-pro-vs-wan-2-5",
+      "clicks": 1,
+      "impressions": 464,
+      "ctr": 0.2,
+      "position": 6.5
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/kling-2-5-turbo-vs-seedance-1-5-pro",
+      "locale": "en",
+      "slug": "kling-2-5-turbo-vs-seedance-1-5-pro",
+      "clicks": 1,
+      "impressions": 303,
+      "ctr": 0.3,
+      "position": 6.6
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/happy-horse-1-0-vs-kling-3-pro",
+      "locale": "en",
+      "slug": "happy-horse-1-0-vs-kling-3-pro",
+      "clicks": 1,
+      "impressions": 287,
+      "ctr": 0.3,
+      "position": 9.2
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/ltx-2-vs-seedance-1-5-pro",
+      "locale": "en",
+      "slug": "ltx-2-vs-seedance-1-5-pro",
+      "clicks": 1,
+      "impressions": 200,
+      "ctr": 0.5,
+      "position": 6.8
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/happy-horse-1-0-vs-veo-3-1",
+      "locale": "en",
+      "slug": "happy-horse-1-0-vs-veo-3-1",
+      "clicks": 1,
+      "impressions": 192,
+      "ctr": 0.5,
+      "position": 14
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/sora-2-vs-wan-2-5",
+      "locale": "en",
+      "slug": "sora-2-vs-wan-2-5",
+      "clicks": 1,
+      "impressions": 137,
+      "ctr": 0.7,
+      "position": 8.8
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/seedance-1-5-pro-vs-seedance-2-0",
+      "locale": "fr",
+      "slug": "seedance-1-5-pro-vs-seedance-2-0",
+      "clicks": 1,
+      "impressions": 81,
+      "ctr": 1.2,
+      "position": 4.7
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/ltx-2-3-pro-vs-wan-2-5",
+      "locale": "es",
+      "slug": "ltx-2-3-pro-vs-wan-2-5",
+      "clicks": 1,
+      "impressions": 67,
+      "ctr": 1.5,
+      "position": 11.2
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/kling-3-pro-vs-seedance-1-5-pro",
+      "locale": "en",
+      "slug": "kling-3-pro-vs-seedance-1-5-pro",
+      "clicks": 1,
+      "impressions": 56,
+      "ctr": 1.8,
+      "position": 9.8
+    },
+    {
       "url": "https://maxvideoai.com/ai-video-engines/veo-3-1-first-last-vs-wan-2-5",
       "locale": "en",
       "slug": "veo-3-1-first-last-vs-wan-2-5",
@@ -18900,6 +16421,15 @@
       "position": 10.8
     },
     {
+      "url": "https://maxvideoai.com/fr/comparatif/happy-horse-1-0-vs-happy-horse-1-1",
+      "locale": "fr",
+      "slug": "happy-horse-1-0-vs-happy-horse-1-1",
+      "clicks": 1,
+      "impressions": 15,
+      "ctr": 6.7,
+      "position": 9.3
+    },
+    {
       "url": "https://maxvideoai.com/ai-video-engines/sora-2-vs-veo-3-1-first-last",
       "locale": "en",
       "slug": "sora-2-vs-veo-3-1-first-last",
@@ -18907,6 +16437,78 @@
       "impressions": 10,
       "ctr": 10,
       "position": 5.7
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/sora-2-vs-wan-2-5",
+      "locale": "es",
+      "slug": "sora-2-vs-wan-2-5",
+      "clicks": 1,
+      "impressions": 7,
+      "ctr": 14.3,
+      "position": 18.3
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/ltx-2-fast-vs-seedance-1-5-pro",
+      "locale": "fr",
+      "slug": "ltx-2-fast-vs-seedance-1-5-pro",
+      "clicks": 1,
+      "impressions": 2,
+      "ctr": 50,
+      "position": 2.5
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/seedance-2-0-fast-vs-wan-2-5",
+      "locale": "en",
+      "slug": "seedance-2-0-fast-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 876,
+      "ctr": 0,
+      "position": 8.2
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/wan-2-5-vs-wan-2-6",
+      "locale": "en",
+      "slug": "wan-2-5-vs-wan-2-6",
+      "clicks": 0,
+      "impressions": 870,
+      "ctr": 0,
+      "position": 10.3
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/veo-3-1-vs-wan-2-5",
+      "locale": "en",
+      "slug": "veo-3-1-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 192,
+      "ctr": 0,
+      "position": 7.9
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/kling-3-standard-vs-seedance-1-5-pro",
+      "locale": "es",
+      "slug": "kling-3-standard-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 192,
+      "ctr": 0,
+      "position": 8.8
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/kling-2-6-pro-vs-wan-2-5",
+      "locale": "en",
+      "slug": "kling-2-6-pro-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 187,
+      "ctr": 0,
+      "position": 9.9
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/veo-3-1-fast-vs-wan-2-5",
+      "locale": "en",
+      "slug": "veo-3-1-fast-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 185,
+      "ctr": 0,
+      "position": 13.5
     },
     {
       "url": "https://maxvideoai.com/ai-video-engines/ltx-2-3-fast-vs-veo-3-1-first-last",
@@ -18927,6 +16529,51 @@
       "position": 7.3
     },
     {
+      "url": "https://maxvideoai.com/ai-video-engines/pika-text-to-video-vs-seedance-1-5-pro",
+      "locale": "en",
+      "slug": "pika-text-to-video-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 145,
+      "ctr": 0,
+      "position": 10.3
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/veo-3-1-lite-vs-wan-2-5",
+      "locale": "en",
+      "slug": "veo-3-1-lite-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 116,
+      "ctr": 0,
+      "position": 8.6
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-veo-3-1-lite",
+      "locale": "en",
+      "slug": "seedance-1-5-pro-vs-veo-3-1-lite",
+      "clicks": 0,
+      "impressions": 115,
+      "ctr": 0,
+      "position": 6.9
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/ltx-2-fast-vs-seedance-1-5-pro",
+      "locale": "en",
+      "slug": "ltx-2-fast-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 105,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/kling-2-5-turbo-vs-wan-2-5",
+      "locale": "en",
+      "slug": "kling-2-5-turbo-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 69,
+      "ctr": 0,
+      "position": 8.1
+    },
+    {
       "url": "https://maxvideoai.com/ai-video-engines/seedance-2-0-vs-veo-3-1-first-last",
       "locale": "en",
       "slug": "seedance-2-0-vs-veo-3-1-first-last",
@@ -18934,6 +16581,33 @@
       "impressions": 68,
       "ctr": 0,
       "position": 8
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/happy-horse-1-0-vs-happy-horse-1-1",
+      "locale": "en",
+      "slug": "happy-horse-1-0-vs-happy-horse-1-1",
+      "clicks": 0,
+      "impressions": 66,
+      "ctr": 0,
+      "position": 13.2
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-sora-2",
+      "locale": "en",
+      "slug": "seedance-1-5-pro-vs-sora-2",
+      "clicks": 0,
+      "impressions": 58,
+      "ctr": 0,
+      "position": 11
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/sora-2-pro-vs-wan-2-5",
+      "locale": "en",
+      "slug": "sora-2-pro-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 55,
+      "ctr": 0,
+      "position": 9.5
     },
     {
       "url": "https://maxvideoai.com/ai-video-engines/ltx-2-fast-vs-veo-3-1-first-last",
@@ -18945,6 +16619,15 @@
       "position": 8.6
     },
     {
+      "url": "https://maxvideoai.com/ai-video-engines/luma-ray-2-vs-seedance-1-5-pro",
+      "locale": "en",
+      "slug": "luma-ray-2-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 46,
+      "ctr": 0,
+      "position": 5.9
+    },
+    {
       "url": "https://maxvideoai.com/ai-video-engines/minimax-hailuo-02-text-vs-veo-3-1-first-last",
       "locale": "en",
       "slug": "minimax-hailuo-02-text-vs-veo-3-1-first-last",
@@ -18952,6 +16635,33 @@
       "impressions": 45,
       "ctr": 0,
       "position": 7.3
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/ltx-2-3-fast-vs-wan-2-5",
+      "locale": "es",
+      "slug": "ltx-2-3-fast-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 45,
+      "ctr": 0,
+      "position": 9.2
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/kling-3-4k-vs-seedance-1-5-pro",
+      "locale": "en",
+      "slug": "kling-3-4k-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 44,
+      "ctr": 0,
+      "position": 11.7
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/wan-2-5-vs-wan-2-6",
+      "locale": "es",
+      "slug": "wan-2-5-vs-wan-2-6",
+      "clicks": 0,
+      "impressions": 42,
+      "ctr": 0,
+      "position": 8.3
     },
     {
       "url": "https://maxvideoai.com/ai-video-engines/pika-text-to-video-vs-veo-3-1-first-last",
@@ -18963,6 +16673,78 @@
       "position": 7.1
     },
     {
+      "url": "https://maxvideoai.com/ai-video-engines/luma-ray-2-flash-vs-wan-2-5",
+      "locale": "en",
+      "slug": "luma-ray-2-flash-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 31,
+      "ctr": 0,
+      "position": 8.5
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/kling-3-4k-vs-wan-2-5",
+      "locale": "en",
+      "slug": "kling-3-4k-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 29,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/luma-ray-2-flash-vs-seedance-1-5-pro",
+      "locale": "en",
+      "slug": "luma-ray-2-flash-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 28,
+      "ctr": 0,
+      "position": 9.6
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/luma-ray-2-vs-wan-2-5",
+      "locale": "en",
+      "slug": "luma-ray-2-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 28,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/ltx-2-vs-wan-2-5",
+      "locale": "es",
+      "slug": "ltx-2-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 23,
+      "ctr": 0,
+      "position": 13.7
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-veo-3-1-lite",
+      "locale": "es",
+      "slug": "seedance-1-5-pro-vs-veo-3-1-lite",
+      "clicks": 0,
+      "impressions": 21,
+      "ctr": 0,
+      "position": 4.6
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/wan-2-5-vs-wan-2-6",
+      "locale": "fr",
+      "slug": "wan-2-5-vs-wan-2-6",
+      "clicks": 0,
+      "impressions": 21,
+      "ctr": 0,
+      "position": 8.6
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/kling-3-pro-vs-wan-2-5",
+      "locale": "en",
+      "slug": "kling-3-pro-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 20,
+      "ctr": 0,
+      "position": 9.1
+    },
+    {
       "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-veo-3-1-first-last",
       "locale": "en",
       "slug": "seedance-1-5-pro-vs-veo-3-1-first-last",
@@ -18970,6 +16752,24 @@
       "impressions": 19,
       "ctr": 0,
       "position": 12.2
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/minimax-hailuo-02-text-vs-seedance-1-5-pro",
+      "locale": "es",
+      "slug": "minimax-hailuo-02-text-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 18,
+      "ctr": 0,
+      "position": 20.2
+    },
+    {
+      "url": "https://maxvideoai.com/ai-video-engines/seedance-1-5-pro-vs-sora-2-pro",
+      "locale": "en",
+      "slug": "seedance-1-5-pro-vs-sora-2-pro",
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 8.5
     },
     {
       "url": "https://maxvideoai.com/ai-video-engines/veo-3-1-vs-veo-3-1-first-last",
@@ -18981,6 +16781,24 @@
       "position": 6.5
     },
     {
+      "url": "https://maxvideoai.com/es/comparativa/ltx-2-fast-vs-wan-2-5",
+      "locale": "es",
+      "slug": "ltx-2-fast-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 9.4
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/happy-horse-1-0-vs-kling-3-pro",
+      "locale": "fr",
+      "slug": "happy-horse-1-0-vs-kling-3-pro",
+      "clicks": 0,
+      "impressions": 17,
+      "ctr": 0,
+      "position": 4
+    },
+    {
       "url": "https://maxvideoai.com/ai-video-engines/kling-2-6-pro-vs-veo-3-1-first-last",
       "locale": "en",
       "slug": "kling-2-6-pro-vs-veo-3-1-first-last",
@@ -18988,6 +16806,24 @@
       "impressions": 15,
       "ctr": 0,
       "position": 7.8
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/happy-horse-1-0-vs-kling-3-pro",
+      "locale": "es",
+      "slug": "happy-horse-1-0-vs-kling-3-pro",
+      "clicks": 0,
+      "impressions": 15,
+      "ctr": 0,
+      "position": 5.3
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/kling-3-standard-vs-wan-2-5",
+      "locale": "fr",
+      "slug": "kling-3-standard-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 15,
+      "ctr": 0,
+      "position": 5.8
     },
     {
       "url": "https://maxvideoai.com/ai-video-engines/kling-2-5-turbo-vs-veo-3-1-first-last",
@@ -19008,6 +16844,33 @@
       "position": 15.4
     },
     {
+      "url": "https://maxvideoai.com/es/comparativa/pika-text-to-video-vs-wan-2-5",
+      "locale": "es",
+      "slug": "pika-text-to-video-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 12,
+      "ctr": 0,
+      "position": 6.8
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/happy-horse-1-0-vs-veo-3-1",
+      "locale": "fr",
+      "slug": "happy-horse-1-0-vs-veo-3-1",
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 19.9
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/ltx-2-3-fast-vs-wan-2-5",
+      "locale": "fr",
+      "slug": "ltx-2-3-fast-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 11,
+      "ctr": 0,
+      "position": 4.7
+    },
+    {
       "url": "https://maxvideoai.com/ai-video-engines/ltx-2-vs-veo-3-1-first-last",
       "locale": "en",
       "slug": "ltx-2-vs-veo-3-1-first-last",
@@ -19015,6 +16878,15 @@
       "impressions": 10,
       "ctr": 0,
       "position": 7.9
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/kling-3-pro-vs-wan-2-5",
+      "locale": "es",
+      "slug": "kling-3-pro-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 10,
+      "ctr": 0,
+      "position": 44.6
     },
     {
       "url": "https://maxvideoai.com/es/comparativa/happy-horse-1-0-vs-sora-2-pro",
@@ -19026,6 +16898,231 @@
       "position": 3.9
     },
     {
+      "url": "https://maxvideoai.com/fr/comparatif/ltx-2-vs-wan-2-5",
+      "locale": "fr",
+      "slug": "ltx-2-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 9,
+      "ctr": 0,
+      "position": 12.1
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/kling-2-6-pro-vs-wan-2-5",
+      "locale": "es",
+      "slug": "kling-2-6-pro-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 5.9
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/ltx-2-3-fast-vs-seedance-1-5-pro",
+      "locale": "es",
+      "slug": "ltx-2-3-fast-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-wan-2-5",
+      "locale": "es",
+      "slug": "seedance-1-5-pro-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 6.1
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/seedance-2-0-fast-vs-wan-2-5",
+      "locale": "es",
+      "slug": "seedance-2-0-fast-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 7.4
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/seedance-2-0-vs-wan-2-5",
+      "locale": "es",
+      "slug": "seedance-2-0-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 6.3
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/ltx-2-fast-vs-wan-2-5",
+      "locale": "fr",
+      "slug": "ltx-2-fast-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 8,
+      "ctr": 0,
+      "position": 5.4
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/veo-3-1-lite-vs-wan-2-5",
+      "locale": "es",
+      "slug": "veo-3-1-lite-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 6.3
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/seedance-2-0-fast-vs-wan-2-5",
+      "locale": "fr",
+      "slug": "seedance-2-0-fast-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 7,
+      "ctr": 0,
+      "position": 3.3
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/happy-horse-1-0-vs-happy-horse-1-1",
+      "locale": "es",
+      "slug": "happy-horse-1-0-vs-happy-horse-1-1",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 35
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/happy-horse-1-0-vs-veo-3-1",
+      "locale": "es",
+      "slug": "happy-horse-1-0-vs-veo-3-1",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 2.2
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/kling-2-6-pro-vs-wan-2-5",
+      "locale": "fr",
+      "slug": "kling-2-6-pro-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 6,
+      "ctr": 0,
+      "position": 6.8
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/kling-3-4k-vs-wan-2-5",
+      "locale": "es",
+      "slug": "kling-3-4k-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 5.8
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/kling-3-standard-vs-wan-2-5",
+      "locale": "es",
+      "slug": "kling-3-standard-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 7.8
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/ltx-2-vs-seedance-1-5-pro",
+      "locale": "es",
+      "slug": "ltx-2-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 6.2
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/seedance-1-5-pro-vs-wan-2-6",
+      "locale": "fr",
+      "slug": "seedance-1-5-pro-vs-wan-2-6",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0,
+      "position": 6.8
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/kling-3-pro-vs-seedance-1-5-pro",
+      "locale": "es",
+      "slug": "kling-3-pro-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 6.5
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/kling-3-pro-vs-wan-2-5",
+      "locale": "fr",
+      "slug": "kling-3-pro-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0,
+      "position": 10.3
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/kling-2-6-pro-vs-seedance-1-5-pro",
+      "locale": "es",
+      "slug": "kling-2-6-pro-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 6.3
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/kling-3-4k-vs-seedance-1-5-pro",
+      "locale": "es",
+      "slug": "kling-3-4k-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 23
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/ltx-2-3-pro-vs-seedance-1-5-pro",
+      "locale": "es",
+      "slug": "ltx-2-3-pro-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 2
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/veo-3-1-fast-vs-wan-2-5",
+      "locale": "es",
+      "slug": "veo-3-1-fast-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 8.3
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/ltx-2-3-pro-vs-wan-2-5",
+      "locale": "fr",
+      "slug": "ltx-2-3-pro-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 4.7
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/minimax-hailuo-02-text-vs-wan-2-5",
+      "locale": "fr",
+      "slug": "minimax-hailuo-02-text-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 12.7
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/pika-text-to-video-vs-wan-2-5",
+      "locale": "fr",
+      "slug": "pika-text-to-video-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 3,
+      "ctr": 0,
+      "position": 4.7
+    },
+    {
       "url": "https://maxvideoai.com/fr/comparatif/veo-3-1-first-last-vs-wan-2-5",
       "locale": "fr",
       "slug": "veo-3-1-first-last-vs-wan-2-5",
@@ -19035,6 +17132,33 @@
       "position": 9.3
     },
     {
+      "url": "https://maxvideoai.com/es/comparativa/kling-2-5-turbo-vs-seedance-1-5-pro",
+      "locale": "es",
+      "slug": "kling-2-5-turbo-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/luma-ray-2-flash-vs-wan-2-5",
+      "locale": "es",
+      "slug": "luma-ray-2-flash-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 9
+    },
+    {
+      "url": "https://maxvideoai.com/es/comparativa/luma-ray-2-vs-wan-2-5",
+      "locale": "es",
+      "slug": "luma-ray-2-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 20
+    },
+    {
       "url": "https://maxvideoai.com/es/comparativa/veo-3-1-vs-veo-3-1-first-last",
       "locale": "es",
       "slug": "veo-3-1-vs-veo-3-1-first-last",
@@ -19042,6 +17166,15 @@
       "impressions": 2,
       "ctr": 0,
       "position": 9
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/kling-2-6-pro-vs-seedance-1-5-pro",
+      "locale": "fr",
+      "slug": "kling-2-6-pro-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0,
+      "position": 9.5
     },
     {
       "url": "https://maxvideoai.com/fr/comparatif/ltx-2-fast-vs-veo-3-1-first-last",
@@ -19062,6 +17195,15 @@
       "position": 8
     },
     {
+      "url": "https://maxvideoai.com/es/comparativa/seedance-1-5-pro-vs-veo-3-1",
+      "locale": "es",
+      "slug": "seedance-1-5-pro-vs-veo-3-1",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 9
+    },
+    {
       "url": "https://maxvideoai.com/es/comparativa/seedance-2-0-vs-veo-3-1-first-last",
       "locale": "es",
       "slug": "seedance-2-0-vs-veo-3-1-first-last",
@@ -19078,6 +17220,87 @@
       "impressions": 1,
       "ctr": 0,
       "position": 11
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/kling-2-5-turbo-vs-wan-2-5",
+      "locale": "fr",
+      "slug": "kling-2-5-turbo-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/kling-3-4k-vs-seedance-1-5-pro",
+      "locale": "fr",
+      "slug": "kling-3-4k-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/kling-3-4k-vs-wan-2-5",
+      "locale": "fr",
+      "slug": "kling-3-4k-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/minimax-hailuo-02-text-vs-seedance-1-5-pro",
+      "locale": "fr",
+      "slug": "minimax-hailuo-02-text-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 5
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/pika-text-to-video-vs-seedance-1-5-pro",
+      "locale": "fr",
+      "slug": "pika-text-to-video-vs-seedance-1-5-pro",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 3
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/seedance-1-5-pro-vs-seedance-2-0-fast",
+      "locale": "fr",
+      "slug": "seedance-1-5-pro-vs-seedance-2-0-fast",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/sora-2-pro-vs-wan-2-5",
+      "locale": "fr",
+      "slug": "sora-2-pro-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 7
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/sora-2-vs-wan-2-5",
+      "locale": "fr",
+      "slug": "sora-2-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 8
+    },
+    {
+      "url": "https://maxvideoai.com/fr/comparatif/veo-3-1-fast-vs-wan-2-5",
+      "locale": "fr",
+      "slug": "veo-3-1-fast-vs-wan-2-5",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0,
+      "position": 1
     }
   ]
 }

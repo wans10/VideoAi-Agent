@@ -13,8 +13,8 @@
     "intro": "Seedance 1.5 Pro 仍作为受支持的旧版 Seedance Pro 工作流提供，适用于生成短小、可复现的电影级短片；而 Seedance 2.0 现已成为主流的 Seedance 模型，提供更强的多镜头连贯性、更丰富的音频以及更广泛的参考工作流。",
     "badge": "480p–1080p · 4–12秒 · 音频开启/关闭",
     "ctaPrimary": {
-      "label": "使用 Seedance 1.5 Pro 开始生成",
-      "href": "/app?engine=seedance-1-5-pro"
+      "label": "改用 Seedance 2.0 Mini",
+      "href": "/zh/models/dreamina-seedance-2-0-mini"
     },
     "secondaryLinks": [
       {
@@ -219,8 +219,8 @@
       ],
       "paragraph": "当您需要受支持的旧版 Seedance 路线时使用 Seedance 1.5 Pro：可复现的短片段、可选音频、随机种子控制、固定机位设置以及图生视频落幅。若进行当前的 2.0 生产级创作，请使用 Seedance 2.0。",
       "primaryCta": {
-        "label": "使用 Seedance 1.5 Pro 生成",
-        "href": "/app?engine=seedance-1-5-pro"
+        "label": "改用 Seedance 2.0 Mini",
+        "href": "/zh/models/dreamina-seedance-2-0-mini"
       },
       "secondaryCta": {
         "label": "查看 Seedance 2.0",

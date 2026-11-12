@@ -13,7 +13,8 @@ import {
   SEEDANCE_REFERENCE_MEDIA_UNAVAILABLE,
   SEEDANCE_REFERENCE_VIDEO_DURATION_EXCEEDED,
 } from '@/lib/video-failure-codes';
-import { getSeedanceFailureMessage } from '@/lib/seedance-failure-messages';
+import { getSeedanceFailureMessage, SEEDANCE_4K_CAPACITY_BUSY } from '@/lib/seedance-failure-messages';
+import { BYTEPLUS_4K_CONCURRENCY_LIMIT_CODE } from './byteplus-modelark-capacity';
 import { sanitizeProviderMediaDiagnostics } from '@/server/provider-media-diagnostics';
 
 export type BytePlusTaskResponse = Record<string, unknown>;
@@ -109,6 +110,22 @@ export function normalizeBytePlusTask(task: unknown): NormalizedVideoProviderTas
   };
 }
 
+/**
+ * Ark error responses nest the code: `{ "error": { "code": "InputImageSensitiveContentDetected", ... } }`
+ * (https://ark.volcengine.com/region:cn-beijing/docs/error-codes.md). Older/LAS shapes put it at the top.
+ */
+export function bytePlusErrorCode(parsed: unknown): string | null {
+  return firstString(parsed, ['code', 'error_code']) ?? (isRecord(parsed) ? firstString(parsed.error, ['code']) : null);
+}
+
+/** Documented Ark capacity/quota codes (HTTP 429/500/503) that mean "busy, retry later". */
+const BYTEPLUS_BUSY_CODE_PATTERN =
+  /^(?:RateLimitExceeded|ModelAccount\w*LimitExceeded|AccountRateLimitExceeded|RequestBurstTooFast|ServerOverloaded|QuotaExceeded|SetLimitExceeded|ModelLoading|NoAvailableService)(?:\.|$)/i;
+
+export function isBytePlusBusyErrorCode(providerErrorCode?: string | null): boolean {
+  return BYTEPLUS_BUSY_CODE_PATTERN.test(providerErrorCode?.trim() ?? '');
+}
+
 export function scrubBytePlusError(error: unknown): string {
   error = sanitizeProviderMediaDiagnostics(error);
   const nestedError = isRecord(error) && isRecord(error.error) ? error.error : null;
@@ -146,6 +163,8 @@ function getSeedanceInputFailureCode(message: string, providerErrorCode?: string
   if (inputKind === 'video') return SEEDANCE_REFERENCE_VIDEO_BLOCKED;
   if (inputKind === 'audio') return SEEDANCE_REFERENCE_MEDIA_BLOCKED;
   if (/^output\w+sensitivecontentdetected(?:\.|$)/i.test(code)) return SEEDANCE_CONTENT_BLOCKED;
+  if (/^inputimageriskdetection(?:\.|$)/i.test(code)) return SEEDANCE_REFERENCE_IMAGE_BLOCKED;
+  if (/^output\w*riskdetection(?:\.|$)/i.test(code)) return SEEDANCE_CONTENT_BLOCKED;
   if (/video total duration.*(?:30\.2|30\b)/i.test(message)) return SEEDANCE_REFERENCE_VIDEO_DURATION_EXCEEDED;
   if (/^sensitivecontentdetected(?:\.|$)/i.test(code)
     || /real person|private information|private content|recognizable|recognisable|identifiable|sensitive|policy|safety|moderation|prohibited|blocked/.test(normalized)) {
@@ -202,6 +221,9 @@ function getBytePlusUserSafeFailureMessage(
   providerErrorCode?: string | null
 ): string {
   const normalized = providerMessage.toLowerCase();
+  if (providerErrorCode === BYTEPLUS_4K_CONCURRENCY_LIMIT_CODE) {
+    return getSeedanceFailureMessage({ failureCode: SEEDANCE_4K_CAPACITY_BUSY })!;
+  }
   if (isBytePlusReferenceAccessFailure(providerMessage, providerErrorCode)) {
     return getSeedanceFailureMessage({ failureCode: SEEDANCE_REFERENCE_MEDIA_UNAVAILABLE })!;
   }
@@ -227,6 +249,7 @@ function getBytePlusUserSafeFailureMessage(
     return "Seedance follows the start image's aspect ratio automatically. Re-upload the start image and try again.";
   }
   if (
+    isBytePlusBusyErrorCode(providerErrorCode) ||
     normalized.includes('quota') ||
     normalized.includes('resource pack') ||
     normalized.includes('credits exhausted') ||
@@ -274,6 +297,7 @@ export function getBytePlusTaskFailureCode(
   providerErrorCode?: string | null
 ): string | null {
   const message = providerMessage ?? '';
+  if (providerErrorCode === BYTEPLUS_4K_CONCURRENCY_LIMIT_CODE) return SEEDANCE_4K_CAPACITY_BUSY;
   if (isBytePlusReferenceAccessFailure(message, providerErrorCode)) return SEEDANCE_REFERENCE_MEDIA_UNAVAILABLE;
   if (isBytePlusOutputAudioFailure(providerErrorCode)) return SEEDANCE_OUTPUT_AUDIO_BLOCKED;
   if (isBytePlusTaskTypeConstraint(providerErrorCode)) {

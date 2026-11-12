@@ -122,7 +122,8 @@ test('the paid submission consumer sends source-preserving ModelArk Edit once an
       durationSec: 3.708333, videoDurationSec: 3.708333, containerDurationSec: 3.708333, audioDurationSec: null };
     let payload: Record<string, unknown> | undefined;
     globalThis.fetch = (async (input, init) => {
-      assert.match(String(input), /^https:\/\/ark\.ap-southeast\.bytepluses\.com\/api\/v3\/contents\/generations\/tasks/);
+      // Keyvo: the unset BYTEPLUS_ARK_BASE_URL defaults to the Volcengine Ark mainland node (env.ts).
+      assert.match(String(input), /^https:\/\/ark\.cn-beijing\.volces\.com\/api\/v3\/contents\/generations\/tasks/);
       if (init?.method === 'POST') {
         posts++;
         payload = JSON.parse(String(init.body));

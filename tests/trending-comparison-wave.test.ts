@@ -49,8 +49,11 @@ test('the two trend-led comparisons are reciprocally published from the model re
   for (const pair of TRENDING_PAIRS) {
     assert.ok(models.get(pair.leftId)?.publication.compare.publishedPairIds.includes(pair.rightId));
     assert.ok(models.get(pair.rightId)?.publication.compare.publishedPairIds.includes(pair.leftId));
-    assert.equal(isPublishedComparisonSlug(pair.slug), true, pair.slug);
-    assert.ok(published.includes(pair.slug), pair.slug);
+    // The registry pair stays authored upstream, but MiniMax-H3-Max has no mainland route and is hidden on
+    // Keyvo (KEYVO_HIDDEN_MODEL_IDS), so its comparison is not published.
+    const hiddenOnKeyvo = pair.leftId === 'minimax-h3-max';
+    assert.equal(isPublishedComparisonSlug(pair.slug), !hiddenOnKeyvo, pair.slug);
+    assert.equal(published.includes(pair.slug), !hiddenOnKeyvo, pair.slug);
   }
 });
 

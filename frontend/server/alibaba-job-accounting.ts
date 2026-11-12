@@ -1,8 +1,11 @@
 import { estimateAlibabaProviderCost } from '@/server/video-providers/alibaba-model-studio/cost';
+import { isAlibabaThirdPartyRoute, resolveAlibabaModelRoute } from '@/server/video-providers/alibaba-model-studio/model-map';
 import { isWan3EngineId } from '@/lib/wan3-pricing';
 import type { NormalizedVideoProviderTask, ProviderCostEstimate } from '@/server/video-providers/types';
 
-type AccountingJob = { engine_id: string; duration_sec: number; settings_snapshot: unknown; pricing_snapshot: unknown };
+type AccountingJob = {
+  engine_id: string; duration_sec: number; settings_snapshot: unknown; pricing_snapshot: unknown; has_audio?: boolean | null;
+};
 const record = (value: unknown): Record<string, unknown> | null => value && typeof value === 'object' && !Array.isArray(value)
   ? value as Record<string, unknown> : null;
 const duration = (value: unknown) => typeof value === 'number' && Number.isFinite(value) && value >= 0 ? value : null;
@@ -21,6 +24,24 @@ export function estimateAlibabaJobCost(job: AccountingJob, task?: NormalizedVide
   const reportedInput = duration(usage?.input_video_duration);
   const reportedOutput = duration(usage?.output_video_duration);
   const meta = record(record(job.pricing_snapshot)?.meta);
+  const route = resolveAlibabaModelRoute(job.engine_id, mode);
+  if (route && isAlibabaThirdPartyRoute(route)) {
+    // Bailian-hosted Kling / MiniMax: usage.duration is the billed total (H3: input video + output seconds).
+    const inputVideo = route.family === 'minimax_h3' ? duration(meta?.input_video_duration_sec) ?? 0 : 0;
+    const output = duration(job.duration_sec);
+    const audioSetting = settings?.audio ?? core?.audio ?? settings?.generateAudio ?? core?.generateAudio;
+    const estimate = estimateAlibabaProviderCost({
+      engineId: job.engine_id, mode, resolution, durationSec: output ?? 0, inputVideoDurationSec: inputVideo,
+      audioEnabled: job.has_audio === true || audioSetting === true,
+      referenceImageCount: duration(meta?.referenceImageCount ?? meta?.reference_image_count) ?? 0,
+      billedSeconds: aggregate,
+    });
+    const seconds = aggregate ?? output;
+    return { ...estimate, providerCostUnits: seconds, providerCostUsd: seconds == null ? null : estimate.providerCostUsd,
+      status: aggregate != null ? 'list_estimate_from_provider_usage' : output != null
+        ? 'list_estimate_from_verified_durations' : 'list_estimate_unavailable',
+      inputVideoDurationSec: inputVideo, outputVideoDurationSec: reportedOutput ?? output };
+  }
   const noVideoMode = ['t2v', 'i2v', 'fl2v'].includes(mode);
   const inputVideoDurationSec = !isWan3EngineId(job.engine_id) || noVideoMode ? 0
     : reportedInput ?? duration(meta?.input_video_duration_sec);

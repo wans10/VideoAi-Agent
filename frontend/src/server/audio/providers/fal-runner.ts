@@ -18,6 +18,10 @@ import type {
 export async function subscribeFalModel(model: string, input: Record<string, unknown>) {
   // MiniMax Speech runs on the mainland MiniMax API when it is configured; everything else stays on fal.
   if (model === AUDIO_MINIMAX_SPEECH_MODEL_ID && isMinimaxSpeechConfigured()) return subscribeMinimaxSpeech(input);
+  // fal only serves speech-02-hd; a newer T2A model must never silently fall back to it.
+  if (model === AUDIO_MINIMAX_SPEECH_MODEL_ID && input.model != null && input.model !== 'speech-02-hd') {
+    throw new Error('The selected MiniMax speech model needs the mainland MiniMax API.');
+  }
   if (model === AUDIO_SEED_AUDIO_MODEL_ID && isSeedAudioConfigured()) return subscribeSeedAudio(input);
   assertFalModelAllowed(model);
   const falClient = getFalClient();

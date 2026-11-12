@@ -72,7 +72,12 @@ test('model audit fails malformed and divergent localized Examples with critical
     updateDocument(contentRoot, 'fr', 'wan-2-6', (document) => {
       (document.examples as { showWhenEmpty: boolean }).showWhenEmpty = false;
     });
+    // Keyvo took Happy Horse 1.0 and Seedream 5.0 Lite offline, so their unpublished pages are no longer
+    // audited; the same strict-content mutations now target published Wan 3 and GPT Image 2.5 Flare pages.
     updateDocument(contentRoot, 'en', 'happy-horse-1-0', (document) => {
+      (document.examples as Record<string, unknown>).unexpected = true;
+    });
+    updateDocument(contentRoot, 'en', 'wan-3', (document) => {
       (document.examples as Record<string, unknown>).unexpected = true;
     });
     updateDocument(contentRoot, 'en', 'happy-horse-1-1', (document) => {
@@ -104,6 +109,9 @@ test('model audit fails malformed and divergent localized Examples with critical
       fallbackItems[1].id = fallbackItems[0].id;
     });
     updateDocument(contentRoot, 'en', 'seedream', (document) => {
+      (document.examples as { fallbackItems: Array<{ tags: string[] }> }).fallbackItems[0].tags = ['grounded'];
+    });
+    updateDocument(contentRoot, 'en', 'gpt-image-2-5-flare', (document) => {
       (document.examples as { fallbackItems: Array<{ tags: string[] }> }).fallbackItems[0].tags = ['grounded'];
     });
 
@@ -141,8 +149,13 @@ test('model audit fails malformed and divergent localized Examples with critical
     assert.ok(strictFailures.some(({ modelSlug, locale }) => modelSlug === 'sora-2-pro' && locale === 'fr'));
     assert.ok(strictFailures.some(({ modelSlug, locale }) => modelSlug === 'luma-uni-1' && locale === 'fr'));
     assert.equal(strictFailures.length, 13);
+    assert.equal(
+      strictFailures.some(({ modelSlug }) => modelSlug === 'happy-horse-1-0' || modelSlug === 'seedream'),
+      false,
+      'offline model pages are not audited',
+    );
     for (const modelSlug of [
-      'happy-horse-1-0',
+      'gpt-image-2-5-flare',
       'happy-horse-1-1',
       'kling-2-5-turbo',
       'kling-2-6-pro',
@@ -151,7 +164,7 @@ test('model audit fails malformed and divergent localized Examples with critical
       'kling-3-standard',
       'minimax-hailuo-02-text',
       'nano-banana',
-      'seedream',
+      'wan-3',
     ]) {
       assert.ok(
         strictFailures.some(({ modelSlug: candidate, locale }) =>

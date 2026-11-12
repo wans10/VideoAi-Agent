@@ -1,3 +1,6 @@
+// MiniMax-H3-Max Recast/Relight (6 of the 89 reviewed operation cells) is hidden on Keyvo (KEYVO_HIDDEN_MODEL_IDS); the
+// reviewed upstream operation-tariff initialization runs on the unfiltered catalog. This import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { withDbTransaction } from '../frontend/src/lib/db';

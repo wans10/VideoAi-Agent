@@ -58,6 +58,9 @@ function lifecycleDocument() {
   const copy = structuredClone(valid);
   copy.schemaVersion = 2;
   for (const model of copy.models) {
+    // Keyvo retired Seedance 1.5 Pro and Seedream 5.0 Lite with a registry replacement; a replacement
+    // is only valid on a retired model, so those identities keep their retired contract here.
+    if (model.lifecycle === 'retired') continue;
     model.lifecycle = 'current';
     model.successorId = null;
   }
@@ -216,7 +219,8 @@ test('retired lifecycle and replacement retirement remain one canonical contract
 });
 
 test('canonical registry validates the committed document', () => {
-  assert.equal(validateModelRegistryDocument(valid).models.length, 63);
+  // 63 upstream identities plus Keyvo's MiniMax Hailuo 2.3, Hailuo 2.3 Fast and Seedream 5.0 Flash.
+  assert.equal(validateModelRegistryDocument(valid).models.length, 66);
 });
 
 test('published model pages require localized content in en, fr, and es', () => {

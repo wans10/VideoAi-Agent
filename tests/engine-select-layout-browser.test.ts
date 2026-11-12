@@ -141,14 +141,15 @@ test('deferred registry metadata keeps workspace model/variant geometry stable w
     : [
         ...[0, 1, 2].map(repeat => ({ width: 390, locale: 'en', engineId: 'veo-3-1', branch: 'starter', repeat } as Scenario)),
         ...[320, 390, 768, 1440].flatMap(width => (['en', 'fr', 'es'] as const).flatMap(locale => [
-          { width, locale, engineId: 'minimax-h3-max', branch: 'empty', restored: true } as Scenario,
+          // MiniMax-H3-Max is hidden on Keyvo (no mainland route); H3 is the restored MiniMax scenario.
+          { width, locale, engineId: 'minimax-h3', branch: 'empty', restored: true } as Scenario,
           { width, locale, engineId: 'pika-text-to-video', branch: 'starter' } as Scenario,
         ])),
         { width: 390, locale: 'fr', engineId: 'veo-3-1', branch: 'starter', cached: true },
         { width: 390, locale: 'es', engineId: 'gpt-image-2-5-flare', branch: 'image', restored: true },
         { width: 320, locale: 'en', engineId: 'gpt-image-2-5-sunburst', branch: 'image' },
-        { width: 390, locale: 'en', engineId: 'minimax-h3-max', branch: 'empty', onlyEngineIds: ['minimax-h3-max'] },
-        { width: 390, locale: 'en', engineId: 'minimax-h3-max', branch: 'empty', onlyEngineIds: ['minimax-h3-max', 'minimax-h3'], pausedEngineIds: ['minimax-h3'] },
+        { width: 390, locale: 'en', engineId: 'minimax-h3', branch: 'empty', onlyEngineIds: ['minimax-h3'] },
+        { width: 390, locale: 'en', engineId: 'minimax-h3', branch: 'empty', onlyEngineIds: ['minimax-h3', 'minimax-hailuo-2-3'], pausedEngineIds: ['minimax-hailuo-2-3'] },
       ];
   try {
     for (const [index, scenario] of scenarios.entries()) {

@@ -1,3 +1,6 @@
+// MiniMax-H3-Max Recast/Relight (6 of the 89 reviewed operation cells) is hidden on Keyvo (KEYVO_HIDDEN_MODEL_IDS); the
+// reviewed upstream operation-tariff initialization runs on the unfiltered catalog. This import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {readFileSync} from 'node:fs';
@@ -156,7 +159,14 @@ test('all certified video tuples share MCP exact price, owned payload and one-at
     preparePriceGeneration:preparePrice,confirmPriceGeneration:confirmPrice,
     prepareResolveGenerationReferences:prepareReferences,confirmResolveGenerationReferences:confirmReferences});
   let totalCharge=0;
-  for(const candidate of catalog)for(const mode of candidate.publicModes)await t.test(candidate.engine.id+' '+mode,async()=>{
+  // Keyvo's official-only MiniMax Hailuo 2.3 / 2.3 Fast are app-published without a Conversation dispatch proof, so Studio
+  // does not certify them yet (owner decision pending; same boundary as studio-video-catalog-workflows.test.ts).
+  // They stay in the public MCP catalog; Studio refuses them before any quote, and every other tuple is still proven.
+  const studioUncertified=['minimax-hailuo-2-3','minimax-hailuo-2-3-fast'];
+  const certifiedCatalog=catalog.filter(candidate=>!studioUncertified.includes(candidate.engine.id));
+  for(const id of studioUncertified){const candidate=catalog.find(c=>c.engine.id===id);assert.ok(candidate,id);
+    await assert.rejects(studioMediaRequest(workflowActor,workflowAction(candidate,candidate.publicModes[0]),workflowInput,factories,true),{code:'ENGINE_UNAVAILABLE'},id);}
+  for(const candidate of certifiedCatalog)for(const mode of candidate.publicModes)await t.test(candidate.engine.id+' '+mode,async()=>{
     const action=workflowAction(candidate,mode);const request=await studioMediaRequest(workflowActor,action,workflowInput,factories,true) as CanonicalGenerationRequest;
     const before=provider.captures.length;const quote=await service.prepare(request);const oauthQuote=await mcp.prepareGeneration!(request,principal(workflowActor.userId));
     assert.deepEqual(quote.summary,oauthQuote.summary,'Same canonical request');assert.equal(quote.requestHash,oauthQuote.requestHash);assert.deepEqual(quote.price,oauthQuote.price,'Same real persisted tariff and owned facts');
@@ -266,5 +276,5 @@ test('all certified video tuples share MCP exact price, owned payload and one-at
     assert.equal((await pg.pool.query<{n:number}>("SELECT count(*)::int n FROM app_receipts WHERE type='charge' AND job_id IN (SELECT 'studio-assistance:'||id FROM studio_assistance_calls WHERE request_id=$1)",[input.requestId])).rows[0].n,1);
     assert.equal((await pg.pool.query<{n:number}>('SELECT count(*)::int n FROM mcp_generation_quotes')).rows[0].n,before);assert.equal(provider.captures.length,dispatches);
   });
-  assert.equal(provider.captures.length,catalog.reduce((total,candidate)=>total+candidate.publicModes.length,0)+4+flashFixtures.length);
+  assert.equal(provider.captures.length,certifiedCatalog.reduce((total,candidate)=>total+candidate.publicModes.length,0)+4+flashFixtures.length);
 });

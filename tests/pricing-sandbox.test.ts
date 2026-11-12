@@ -42,7 +42,7 @@ test('sandbox rejects remote database hosts and ambiguous socket overrides', () 
   ]) assert.throws(() => buildPricingSandboxEnvironment({ parent: {}, fileVariables: {}, databaseUrl, port: 3106 }), /local socket/i);
 });
 
-test('sandbox selects Alibaba for Wan 3 and Prime without credentials or Fal fallback', () => {
+test('sandbox selects Alibaba for Wan 3, Prime and Bailian-hosted H3 without credentials or Fal fallback', () => {
   const environment = buildPricingSandboxEnvironment({
     parent: { ALIBABA_MODEL_STUDIO_ENABLED: 'false', ALIBABA_MODEL_STUDIO_API_KEY: 'production',
       ALIBABA_MODEL_STUDIO_FALLBACK_TO_FAL_ENABLED: 'true' },
@@ -60,7 +60,14 @@ test('sandbox selects Alibaba for Wan 3 and Prime without credentials or Fal fal
       }
     }
   }
-  for (const engineId of ['minimax-h3', 'minimax-h3-max', 'minimax-hailuo-02-text']) {
+  // MiniMax-H3 is routed Bailian-first by default (MINIMAX_H3_ROUTE_ORDER=bailian,direct), still without a Fal fallback.
+  for (const isAdmin of [true, false]) {
+    assert.deepEqual(resolveVideoProviderRoutingPlan({ engineId: 'minimax-h3', mode: 't2v', isAdmin, env: environment }), {
+      kind: 'alibaba_model_studio_primary', primaryProvider: 'alibaba_model_studio',
+      fallbackProvider: 'fal', fallbackEnabled: false, bailianHosted: true,
+    });
+  }
+  for (const engineId of ['minimax-h3-max', 'minimax-hailuo-02-text']) {
     assert.deepEqual(resolveVideoProviderRoutingPlan({ engineId, mode: 't2v', isAdmin: true, env: environment }), {
       kind: 'fal_only', primaryProvider: 'fal', fallbackEnabled: false,
     });

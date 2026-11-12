@@ -1,4 +1,5 @@
 import { getKlingV4FlashConstraintViolation } from '@/lib/kling-v4-flash';
+import { getKlingV4OfficialLimitViolation } from '@/lib/kling-v4-official-limits';
 import { validateH3MiddleFrame, orderedH3References } from '@/lib/h3-reference-controls';
 import {
   isKlingMultiPromptEngine,
@@ -112,13 +113,13 @@ function validateMinimaxH3Constraints(params: {
   }
 
   const duration = minimaxH3StrictInteger(payload.duration ?? payload.duration_seconds);
-  if (duration === null || duration < 5 || duration > 15) {
-    return minimaxH3Error('duration', 'MiniMax H3 duration must be an integer from 5 through 15 seconds.', [5, 15], payload.duration ?? payload.duration_seconds);
+  if (duration === null || duration < 4 || duration > 15) {
+    return minimaxH3Error('duration', 'MiniMax H3 duration must be an integer from 4 through 15 seconds.', [4, 15], payload.duration ?? payload.duration_seconds);
   }
 
   const resolution = typeof payload.resolution === 'string' ? payload.resolution.trim() : '';
   if (!MINIMAX_H3_RESOLUTIONS.includes(resolution as (typeof MINIMAX_H3_RESOLUTIONS)[number])) {
-    return minimaxH3Error('resolution', 'MiniMax H3 resolution must be 480P, 768P, 2K, or 4K.', [...MINIMAX_H3_RESOLUTIONS], resolution);
+    return minimaxH3Error('resolution', 'MiniMax H3 resolution must be 768P or 2K.', [...MINIMAX_H3_RESOLUTIONS], resolution);
   }
 
   if (payload.seed !== undefined && !Number.isSafeInteger(payload.seed)) {
@@ -247,6 +248,20 @@ export function validateProviderSpecificConstraints(params: {
   normalizedMode: Mode;
   payload: Record<string, unknown>;
 }): VideoExecutionValidationResult {
+  if (params.engineId === 'kling-v4' || params.engineId === 'kling-v4-flash') {
+    // Official Kling 4.0 limits (prompt proration, 15 mixed references incl. subjects), checked before any charge.
+    const p = params.payload;
+    const list = (value: unknown) => Array.isArray(value) ? value.filter(entry => typeof entry === 'string' && entry.trim()).length : 0;
+    const elements = Array.isArray(p.elements) ? p.elements.filter(entry => entry && typeof entry === 'object') : [];
+    const violation = getKlingV4OfficialLimitViolation({
+      prompt: typeof p.prompt === 'string' ? p.prompt : null,
+      imageCount: list(p.image_urls) + (typeof p.image_url === 'string' && p.image_url.trim() ? 1 : 0),
+      videoCount: list(p.video_urls) + (typeof p.video_url === 'string' && p.video_url.trim() ? 1 : 0),
+      elementCount: elements.length,
+      videoElementCount: elements.filter(entry => typeof (entry as { videoUrl?: unknown }).videoUrl === 'string').length,
+    });
+    if (violation) return minimaxH3Error(violation.field, violation.message);
+  }
   if (params.engineId === 'kling-v4-flash') {
     const { image_url, elements, loop, prompt, ...input } = params.payload;
     delete input._uploadedFileMB;

@@ -855,6 +855,42 @@
       "equivalenceKey": "seedance-2-5:t2v:4:480p:pro"
     },
     {
+      "scenarioId": "billing:seedream-5-0-flash:t2i:1:2K:member",
+      "surface": "billing",
+      "currency": "USD",
+      "vendorSubtotalCents": 2,
+      "marginCents": 1,
+      "surchargeCents": 0,
+      "customerTotalCents": 3,
+      "unit": "sec",
+      "quantity": 1,
+      "equivalenceKey": "seedream-5-0-flash:t2i:1:2K:member"
+    },
+    {
+      "scenarioId": "billing:seedream-5-0-flash:t2i:1:2K:plus",
+      "surface": "billing",
+      "currency": "USD",
+      "vendorSubtotalCents": 2,
+      "marginCents": 1,
+      "surchargeCents": 0,
+      "customerTotalCents": 3,
+      "unit": "sec",
+      "quantity": 1,
+      "equivalenceKey": "seedream-5-0-flash:t2i:1:2K:plus"
+    },
+    {
+      "scenarioId": "billing:seedream-5-0-flash:t2i:1:2K:pro",
+      "surface": "billing",
+      "currency": "USD",
+      "vendorSubtotalCents": 2,
+      "marginCents": 1,
+      "surchargeCents": 0,
+      "customerTotalCents": 3,
+      "unit": "sec",
+      "quantity": 1,
+      "equivalenceKey": "seedream-5-0-flash:t2i:1:2K:pro"
+    },
+    {
       "scenarioId": "billing:wan-3-prime:t2v:5:1080p:member",
       "surface": "billing",
       "currency": "USD",
@@ -1094,6 +1130,19 @@
       "quantity": 4,
       "displayedAmount": "$1.03",
       "equivalenceKey": "seedance-2-5:t2v:4:480p:member"
+    },
+    {
+      "scenarioId": "estimator:seedream-5-0-flash:1:2K",
+      "surface": "estimator",
+      "currency": "USD",
+      "vendorSubtotalCents": 2,
+      "marginCents": 1,
+      "surchargeCents": 0,
+      "customerTotalCents": 3,
+      "unit": "sec",
+      "quantity": 1,
+      "displayedAmount": "$0.03",
+      "equivalenceKey": "seedream-5-0-flash:t2i:1:2K:member"
     },
     {
       "scenarioId": "estimator:wan-3-prime:5:1080p",

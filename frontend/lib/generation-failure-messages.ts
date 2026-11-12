@@ -1,5 +1,8 @@
 import { getSeedanceFailureMessage } from './seedance-failure-messages';
 import { getWanImageFailureMessage } from './wan-image-failure-messages';
+import { getAlibabaFailureMessage } from './alibaba-failure-messages';
+import { getMinimaxFailureMessage } from './minimax-failure-messages';
+import { getKlingFailureMessage } from './kling-failure-messages';
 
 type Locale = 'en' | 'fr' | 'es' | 'zh';
 const copy = {
@@ -148,6 +151,12 @@ export function getKnownGenerationFailureMessage(params: {
   if (seedance) return seedance;
   const wanImage = getWanImageFailureMessage(params.message, params.locale);
   if (wanImage) return wanImage;
+  const alibaba = getAlibabaFailureMessage(params.message, params.locale);
+  if (alibaba) return alibaba;
+  const minimax = getMinimaxFailureMessage(params.message, params.locale);
+  if (minimax) return minimax;
+  const kling = getKlingFailureMessage(params.message, params.locale);
+  if (kling) return kling;
   const outputImage = getGeneratedImageFailureMessage(params.message, params.locale);
   if (outputImage) return outputImage;
   const text = copy[localeKey(params.locale)];

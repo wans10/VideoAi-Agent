@@ -1,3 +1,6 @@
+// MiniMax-H3-Max (Recast/Relight, 1080P) is hidden on Keyvo (KEYVO_HIDDEN_MODEL_IDS, no mainland route); its
+// upstream contracts still run on the unfiltered catalog. This import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { JSDOM } from 'jsdom';

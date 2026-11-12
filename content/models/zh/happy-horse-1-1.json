@@ -7,7 +7,7 @@
     "image": "/assets/models/models-hero-horses-reference.webp"
   },
   "overview": "Happy Horse 1.1 是 VideoAI 上阿里巴巴的当前 AI 视频模型，支持文本提示词、首帧图像以及最多九张参考图像，并具备原生同步音频与唇形同步能力。",
-  "pricingNotes": "Happy Horse 1.1 对文本、图像和参考转视频运行采用当前的 Fal 费率。视频编辑仍保留在旧版 Happy Horse 1.0 上。",
+  "pricingNotes": "Happy Horse 1.1 的文本、图像和参考转视频按输出时长和分辨率计费。如需编辑已有视频，请使用 Wan 3 的视频编辑模式。",
   "hero": {
     "title": "Happy Horse 1.1 - 支持原生音频的阿里巴巴视频生成",
     "intro": "使用当前 Happy Horse 1.1 模型规格，通过文本生成、使图像动态化，或借助最多九张参考图像来执导场景。",
@@ -26,8 +26,8 @@
         "href": "/zh/ai-video-engines/happy-horse-1-1-vs-veo-3-1"
       },
       {
-        "label": "打开旧版 Happy Horse 1.0",
-        "href": "/zh/models/happy-horse-1-0"
+        "label": "需要视频编辑？查看 Wan 3",
+        "href": "/zh/models/wan-3"
       }
     ]
   },
@@ -80,7 +80,7 @@
     },
     {
       "label": "视频编辑",
-      "body": "Happy Horse 1.1 未开放视频编辑。当需要编辑源片段时，请使用旧版 Happy Horse 1.0 视频编辑路由。"
+      "body": "Happy Horse 1.1 未开放视频编辑。需要编辑源片段时，请使用 Wan 3 的视频编辑模式。"
     },
     {
       "label": "音频",
@@ -105,7 +105,7 @@
       "使用文生视频（T2V）获取新创意和代言人风格的原生音频镜头。",
       "当关键视觉效果或第一帧已获批准时，使用图生视频（I2V）。",
       "当身份、服装、产品形状或角色连贯性很重要时，使用参考转视频。",
-      "仅在任务明确需要旧版视频编辑时，才使用 Happy Horse 1.0。"
+      "需要编辑已有视频时，请改用 Wan 3 的视频编辑模式。"
     ]
   },
   "prompts": [
@@ -134,7 +134,7 @@
     },
     {
       "q": "Happy Horse 1.1 是否支持视频编辑？",
-      "a": "不支持。视频编辑仍可通过旧版 Happy Horse 1.0 路由使用。"
+      "a": "不支持。需要编辑已有视频时，请使用 Wan 3 的视频编辑模式。"
     }
   ],
   "custom": {
@@ -142,7 +142,7 @@
     "quickPricingItems": [
       "使用 720p 在文本、图像和参考转视频之间进行更经济的迭代。",
       "当镜头准备好审核或发布时，使用 1080p。",
-      "仅当已批准的源片段需要旧版视频编辑时，才使用 Happy Horse 1.0。"
+      "已批准的源片段需要编辑时，请使用 Wan 3 的视频编辑模式。"
     ],
     "relatedTitle": "Happy Horse 1.1 的适用场景",
     "relatedSubtitle": "当原生音频、唇形同步以及文本/图像/参考工作流至关重要时使用 Happy Horse 1.1，而在追求旗舰级画质表现时，Seedance、Kling 或 Veo 仍处于优先地位。",
@@ -163,7 +163,7 @@
       }
     ],
     "finalPara1": "当需求需要一款集提示词生成、图像动态化、参考引导一致性、原生音频和唇形同步于一体的阿里巴巴当前模型时，Happy Horse 1.1 最为合适；而当纯粹真实感、图像质量和运动控制是首要考量时，优先选择 Seedance、Kling 或 Veo。",
-    "finalPara2": "对于发布工作，先通过文本或参考转视频来确立镜头，仅在已批准的源片段需要定向旧版编辑时才使用 Happy Horse 1.0。",
+    "finalPara2": "对于发布工作，先通过文本或参考转视频来确立镜头；已批准的源片段需要定向编辑时，请使用 Wan 3 的视频编辑模式。",
     "finalButton": "使用 Happy Horse 1.1 生成"
   },
   "decision": {
@@ -177,7 +177,7 @@
         "图生视频",
         "参考转视频"
       ],
-      "paragraph": "当镜头需要从文本、起始图像或最多九张参考图像中生成同步语音或声音时，使用 Happy Horse 1.1。旧版视频编辑任务请保留使用 Happy Horse 1.0。",
+      "paragraph": "当镜头需要从文本、起始图像或最多九张参考图像中生成同步语音或声音时，使用 Happy Horse 1.1。编辑已有视频请使用 Wan 3。",
       "primaryCta": {
         "label": "使用 Happy Horse 1.1 生成",
         "href": "/app?engine=happy-horse-1-1"
@@ -255,10 +255,10 @@
       },
       {
         "title": "需要视频编辑？",
-        "body": "仅在明确需要旧版视频编辑端点时使用 Happy Horse 1.0。新的文本、图像和参考任务应在 1.1 上开始。",
+        "body": "需要编辑已有视频时，请使用 Wan 3 的视频编辑模式。新的文本、图像和参考任务可直接在 Happy Horse 1.1 上开始。",
         "cta": {
-          "label": "打开旧版 Happy Horse 1.0",
-          "href": "/zh/models/happy-horse-1-0"
+          "label": "查看 Wan 3",
+          "href": "/zh/models/wan-3"
         }
       },
       {
@@ -284,8 +284,8 @@
         "body": "将每个参考依次命名为 character1、character2 等，以保持角色清晰。"
       },
       {
-        "title": "旧版视频编辑",
-        "body": "仅当源视频必须编辑而非重新生成时，才切换到 Happy Horse 1.0。"
+        "title": "视频编辑",
+        "body": "源视频必须编辑而非重新生成时，请切换到 Wan 3 的视频编辑模式。"
       },
       {
         "title": "音频处理",

@@ -67,11 +67,10 @@ export const ENV = {
   FAL_API_KEY: falKey,
   FAL_KEY: falKey,
   ALIBABA_MODEL_STUDIO_API_KEY: getOptionalEnv('ALIBABA_MODEL_STUDIO_API_KEY'),
-  ALIBABA_MODEL_STUDIO_BASE_URL: getOptionalEnv(
-    'ALIBABA_MODEL_STUDIO_BASE_URL',
-    'https://dashscope-intl.aliyuncs.com'
-  ),
-  ALIBABA_MODEL_STUDIO_REGION: getOptionalEnv('ALIBABA_MODEL_STUDIO_REGION', 'ap-southeast-1'),
+  // Unset base URL resolves to the cn-beijing workspace host (via WORKSPACE_ID) or the Beijing DashScope endpoint.
+  ALIBABA_MODEL_STUDIO_BASE_URL: getOptionalEnv('ALIBABA_MODEL_STUDIO_BASE_URL'),
+  ALIBABA_MODEL_STUDIO_WORKSPACE_ID: getOptionalEnv('ALIBABA_MODEL_STUDIO_WORKSPACE_ID'),
+  ALIBABA_MODEL_STUDIO_REGION: getOptionalEnv('ALIBABA_MODEL_STUDIO_REGION', 'cn-beijing'),
   ALIBABA_MODEL_STUDIO_ENABLED: getOptionalEnv('ALIBABA_MODEL_STUDIO_ENABLED', 'false'),
   ALIBABA_MODEL_STUDIO_PUBLIC_ROUTING_ENABLED: getOptionalEnv(
     'ALIBABA_MODEL_STUDIO_PUBLIC_ROUTING_ENABLED',
@@ -86,8 +85,9 @@ export const ENV = {
   ALIBABA_MODEL_STUDIO_POLL_TIMEOUT_MS: getOptionalEnv('ALIBABA_MODEL_STUDIO_POLL_TIMEOUT_MS', '30000'),
   ALIBABA_MODEL_STUDIO_POLL_MAX_MINUTES: getOptionalEnv('ALIBABA_MODEL_STUDIO_POLL_MAX_MINUTES', '185'),
   BYTEPLUS_ARK_API_KEY: getOptionalEnv('BYTEPLUS_ARK_API_KEY'),
-  BYTEPLUS_ARK_REGION: getOptionalEnv('BYTEPLUS_ARK_REGION', 'ap-southeast-1'),
-  BYTEPLUS_ARK_BASE_URL: getOptionalEnv('BYTEPLUS_ARK_BASE_URL', 'https://ark.ap-southeast.bytepluses.com/api/v3'),
+  // Keyvo: code defaults are the Volcengine Ark mainland node; BytePlus international stays an env override.
+  BYTEPLUS_ARK_REGION: getOptionalEnv('BYTEPLUS_ARK_REGION', 'cn-beijing'),
+  BYTEPLUS_ARK_BASE_URL: getOptionalEnv('BYTEPLUS_ARK_BASE_URL', 'https://ark.cn-beijing.volces.com/api/v3'),
   BYTEPLUS_LAS_API_KEY: getOptionalEnv('BYTEPLUS_LAS_API_KEY'),
   BYTEPLUS_LAS_BASE_URL: getOptionalEnv(
     'BYTEPLUS_LAS_BASE_URL',
@@ -95,22 +95,26 @@ export const ENV = {
   ),
   BYTEPLUS_ARK_SEEDANCE_FAST_MODEL_ID: getOptionalEnv(
     'BYTEPLUS_ARK_SEEDANCE_FAST_MODEL_ID',
-    'dreamina-seedance-2-0-fast-260128'
+    'doubao-seedance-2-0-fast-260128'
   ),
-  BYTEPLUS_ARK_SEEDANCE_MODEL_ID: getOptionalEnv('BYTEPLUS_ARK_SEEDANCE_MODEL_ID', 'dreamina-seedance-2-0-260128'),
+  BYTEPLUS_ARK_SEEDANCE_MODEL_ID: getOptionalEnv('BYTEPLUS_ARK_SEEDANCE_MODEL_ID', 'doubao-seedance-2-0-260128'),
   BYTEPLUS_ARK_SEEDANCE_1_5_MODEL_ID: getOptionalEnv('BYTEPLUS_ARK_SEEDANCE_1_5_MODEL_ID'),
   BYTEPLUS_ARK_SEEDANCE_MINI_MODEL_ID: getOptionalEnv(
     'BYTEPLUS_ARK_SEEDANCE_MINI_MODEL_ID',
-    'dreamina-seedance-2-0-mini-260615'
+    'doubao-seedance-2-0-mini-260615'
   ),
   BYTEPLUS_ARK_SEEDANCE_2_5_MODEL_ID: getOptionalEnv(
     'BYTEPLUS_ARK_SEEDANCE_2_5_MODEL_ID',
-    'dreamina-seedance-2-5-260628'
+    'doubao-seedance-2-5-260628'
   ),
-  BYTEPLUS_ARK_SEEDREAM_MODEL_ID: getOptionalEnv('BYTEPLUS_ARK_SEEDREAM_MODEL_ID', 'seedream-5-0-260128'),
+  BYTEPLUS_ARK_SEEDREAM_MODEL_ID: getOptionalEnv('BYTEPLUS_ARK_SEEDREAM_MODEL_ID', 'doubao-seedream-5-0-260128'),
   BYTEPLUS_ARK_SEEDREAM_PRO_MODEL_ID: getOptionalEnv(
     'BYTEPLUS_ARK_SEEDREAM_PRO_MODEL_ID',
-    'dola-seedream-5-0-pro-260628'
+    'doubao-seedream-5-0-pro-260628'
+  ),
+  BYTEPLUS_ARK_SEEDREAM_FLASH_MODEL_ID: getOptionalEnv(
+    'BYTEPLUS_ARK_SEEDREAM_FLASH_MODEL_ID',
+    'doubao-seedream-5-0-flash-260915'
   ),
   BYTEPLUS_ARK_ENABLED: getOptionalEnv('BYTEPLUS_ARK_ENABLED', 'false'),
   SEEDANCE_1_5_BYTEPLUS_ENABLED: getOptionalEnv('SEEDANCE_1_5_BYTEPLUS_ENABLED', 'false'),
@@ -146,7 +150,7 @@ export const ENV = {
   KLING_API_KEY: getOptionalEnv('KLING_API_KEY'),
   KLING_ACCESS_KEY: getOptionalEnv('KLING_ACCESS_KEY'),
   KLING_SECRET_KEY: getOptionalEnv('KLING_SECRET_KEY'),
-  KLING_API_BASE_URL: getOptionalEnv('KLING_API_BASE_URL', 'https://api-singapore.klingai.com'),
+  KLING_API_BASE_URL: getOptionalEnv('KLING_API_BASE_URL', 'https://api-beijing.klingai.com'),
   LUMA_AGENTS_API_KEY: getOptionalEnv('LUMA_AGENTS_API_KEY'),
   LUMA_AGENTS_BASE_URL: getOptionalEnv('LUMA_AGENTS_BASE_URL', 'https://agents.lumalabs.ai'),
   LUMA_AGENTS_ENABLED: getOptionalEnv('LUMA_AGENTS_ENABLED', 'false'),

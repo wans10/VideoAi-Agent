@@ -43,6 +43,7 @@ import { FLUX_3_FAL_ENGINE_REGISTRY } from './flux-3';
 import { FLUX_3_MAX_FAL_ENGINE_REGISTRY } from './flux-3-max';
 import { FLUX_3_DRAFT_FAL_ENGINE_REGISTRY } from './flux-3-draft';
 import { HAILUO_FAL_ENGINE_REGISTRY } from './hailuo';
+import { MINIMAX_HAILUO_2_3_FAL_ENGINE_REGISTRY } from './minimax-hailuo-2-3';
 import { MINIMAX_H3_FAL_ENGINE_REGISTRY } from './minimax-h3';
 import { MINIMAX_H3_MAX_FAL_ENGINE_REGISTRY } from './minimax-h3-max';
 import { NANO_BANANA_FAL_ENGINE_REGISTRY } from './nano-banana';
@@ -53,6 +54,7 @@ import { NANO_BANANA_2_1_FAL_ENGINE_REGISTRY } from './nano-banana-2-1';
 import { GPT_IMAGE_2_FAL_ENGINE_REGISTRY } from './gpt-image-2';
 import { GPT_IMAGE_2_5_FAL_ENGINE_REGISTRY } from './gpt-image-2-5';
 import { SEEDREAM_FAL_ENGINE_REGISTRY } from './seedream';
+import { SEEDREAM_5_0_FLASH_FAL_ENGINE_REGISTRY } from './seedream-5-0-flash';
 import { QWEN_IMAGE_ENGINE_REGISTRY } from './qwen-image';
 
 // Build-only contracts awaiting a future model-registry publication gate.
@@ -95,6 +97,7 @@ export const RAW_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
   ...MINIMAX_H3_FAL_ENGINE_REGISTRY,
   ...MINIMAX_H3_MAX_FAL_ENGINE_REGISTRY,
   ...HAILUO_FAL_ENGINE_REGISTRY,
+  ...MINIMAX_HAILUO_2_3_FAL_ENGINE_REGISTRY,
   ...NANO_BANANA_FAL_ENGINE_REGISTRY,
   ...NANO_BANANA_LITE_FAL_ENGINE_REGISTRY,
   ...NANO_BANANA_PRO_FAL_ENGINE_REGISTRY,
@@ -105,6 +108,7 @@ export const RAW_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
   ...GPT_IMAGE_2_6_ENGINE_REGISTRY,
   ...KLING_V4_FLASH_FAL_ENGINE_REGISTRY,
   ...SEEDREAM_FAL_ENGINE_REGISTRY,
+  ...SEEDREAM_5_0_FLASH_FAL_ENGINE_REGISTRY,
   ...QWEN_IMAGE_ENGINE_REGISTRY,
   ...WAN_3_FAL_ENGINE_REGISTRY,
   ...WAN_3_PRIME_FAL_ENGINE_REGISTRY,

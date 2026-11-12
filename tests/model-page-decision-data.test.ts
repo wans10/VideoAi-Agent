@@ -105,7 +105,8 @@ test('Seedance 2.0 decision data returns localized hero, links, features, cards,
   assert.equal(en.features.length, 6);
   assert.deepEqual(
     en.decisionCards.map((card) => card.title),
-    ['Discover the latest Seedance 2.5', 'Seedance 2.0 or Fast?', 'Upgrading from Seedance 1.5?', 'Need prompt examples?']
+    // The Seedance 1.5 upgrade card links a comparison that left publication when Keyvo retired 1.5.
+    ['Discover the latest Seedance 2.5', 'Seedance 2.0 or Fast?', 'Need prompt examples?']
   );
   assert.deepEqual(
     en.referenceWorkflows.map((workflow) => workflow.title),
@@ -439,7 +440,8 @@ test('remaining video templates preserve Happy Horse, Hailuo, and Pika route int
   assert.equal(happyHorseLegacy.hero.title, 'Happy Horse 1.0');
   assert.match(happyHorseLegacy.hero.subtitle, /Legacy video-edit/);
   assert.match(happyHorseLegacy.hero.subtitle, /Happy Horse 1\.1/);
-  assert.equal(happyHorseLegacy.hero.primaryCta.href, '/app?engine=happy-horse-1-0');
+  // Happy Horse 1.0 is offline on Keyvo (app unpublished), so its CTA opens the Happy Horse 1.1 page.
+  assert.equal(happyHorseLegacy.hero.primaryCta.href, '/models/happy-horse-1-1');
   assert.deepEqual(
     happyHorseLegacy.pricing.scenarios.map((scenario) => scenario.id),
     ['5s-720p-audio', '10s-720p-audio', '15s-1080p-audio', 'max-duration']
@@ -746,7 +748,8 @@ test('Seedream returns reference-prep decision data for still preparation', () =
   assert.ok(es);
 
   assert.equal(en.hero.title, 'Seedream 5.0 Lite');
-  assert.equal(en.hero.primaryCta.href, '/app/image?engine=seedream');
+  // Retired on Keyvo: the CTA points at the replacement model page, never at the closed engine.
+  assert.equal(en.hero.primaryCta.href, '/models/seedream-5-0-pro');
   assert.equal(en.hero.secondaryCta.href, '/models/seedance-2-0');
   assert.match(visibleDecisionText(en), /reference prep|still/i);
   assert.match(visibleDecisionText(en), /video/i);

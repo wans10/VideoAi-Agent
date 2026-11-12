@@ -54,8 +54,10 @@ test('MiniMax family keeps H3 canonical while adding H3 Max and retaining Hailuo
   assert.ok(family);
   assert.ok(hailuo02);
   assert.equal(family.defaultModelSlug, slug);
-  assert.deepEqual(family.examplesPage.publishedModelSlugs, [slug, 'minimax-h3-max', 'minimax-hailuo-02-text']);
-  assert.deepEqual(family.examplesPage.currentModelSlugs, [slug, 'minimax-h3-max']);
+  // Keyvo hides H3 Max on every surface (KEYVO_HIDDEN_MODEL_IDS), so its examples leave the family page;
+  // the route aliases below stay so old links still resolve to the family.
+  assert.deepEqual(family.examplesPage.publishedModelSlugs, [slug, 'minimax-hailuo-02-text']);
+  assert.deepEqual(family.examplesPage.currentModelSlugs, [slug]);
   assert.equal(hailuo02.publication.examples.current, false);
   assert.equal(hailuo02.publication.examples.familyRank, 1);
   assert.ok(family.routeAliases.includes(slug));

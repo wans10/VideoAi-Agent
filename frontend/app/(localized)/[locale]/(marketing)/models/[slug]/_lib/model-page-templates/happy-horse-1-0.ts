@@ -6,7 +6,8 @@ export const happyHorse10TemplateConfig: ModelPageTemplateConfig = {
   hero: {
     eyebrow: 'ALIBABA LEGACY VIDEO EDIT ROUTE',
     subtitleHighlightTerms: ['legacy video edit', 'native audio', 'Happy Horse 1.1'],
-    primaryCtaHref: '/app?engine=happy-horse-1-0',
+    // Happy Horse 1.0 is offline on Keyvo (owner decision 2026-11-11); the CTA points at its successor, Happy Horse 1.1.
+    primaryCtaHref: '/models/happy-horse-1-1',
     secondaryCtaHref: '/examples/happy-horse',
     quickLinks: [
       {

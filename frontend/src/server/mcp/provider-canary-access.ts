@@ -4,6 +4,7 @@ import {
   type AgentGenerationExecutabilityEnvironment,
 } from '@/server/agent-runtime/model-executability';
 import { getRuntimeModelById } from '@/config/model-runtime';
+import { isKeyvoHiddenModel } from '@/config/keyvo-model-visibility';
 import { P0_VIDEO_MODEL_IDS } from '@/lib/pricing-audit/p0-video-scenarios';
 import { MODEL_LAUNCH_WAVES } from '@/config/model-launch-waves';
 
@@ -73,6 +74,8 @@ function resolvePrelaunchModelAccess(
       : []),
   ]));
   const ids = launchCanaryIds.filter((id) => {
+    // Keyvo-hidden models (no mainland route) project as app-unpublished; they are withdrawn, not awaiting launch.
+    if (isKeyvoHiddenModel(id)) return false;
     const model = resolveRuntimeModel(id);
     return model?.lifecycle === 'current' && model.publication.app.published === false;
   });

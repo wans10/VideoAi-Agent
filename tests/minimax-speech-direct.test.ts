@@ -7,7 +7,7 @@ import {
 } from '../frontend/config/keyvo-disabled-features';
 import { buildMinimaxSpeechRequest, subscribeMinimaxSpeech } from '../frontend/src/server/audio/providers/minimax-speech';
 import { subscribeFalModel } from '../frontend/src/server/audio/providers/fal-runner';
-import { buildSeedAudioDirectRequest, subscribeSeedAudio } from '../frontend/src/server/audio/providers/seed-audio-direct';
+import { buildSeedAudioDirectRequest, classifySeedAudioFailure, SeedAudioError, SEED_AUDIO_TEXT_PROMPT_MAX_LENGTH, subscribeSeedAudio } from '../frontend/src/server/audio/providers/seed-audio-direct';
 import { isSeedAudioConfigured } from '../frontend/config/keyvo-disabled-features';
 import { validateAudioGenerateRequest } from '../frontend/src/server/audio/audio-generate-validation';
 import { AUDIO_SEED_AUDIO_MODEL_ID, AUDIO_DOUBAO_SEED_VOICE_LABELS, AUDIO_DOUBAO_SEED_VOICE_VALUES, AUDIO_MINIMAX_SPEECH_MODEL_ID, AUDIO_MINIMAX_VOICE_LABELS, AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES } from '../frontend/src/lib/audio-generation';
@@ -185,6 +185,41 @@ test('Seed Audio returns the signed URL and fails on errors, bad codes and a mis
   await assert.rejects(subscribeSeedAudio({ prompt: 'p' }, { apiKey: '' }), /key is missing/);
 });
 
+test('Seed Audio follows the documented contract: model override, text limit and error classification', async () => {
+  // https://docs.volcengine.com/docs/doubao-voice/audio-generation-http
+  assert.equal((buildSeedAudioDirectRequest({ prompt: 'p' }) as any).model, 'seed-audio-1.0');
+  assert.equal((buildSeedAudioDirectRequest({ prompt: 'p' }, 'seed-audio-1.1') as any).model, 'seed-audio-1.1');
+  assert.equal(SEED_AUDIO_TEXT_PROMPT_MAX_LENGTH, 3000);
+  assert.doesNotThrow(() => buildSeedAudioDirectRequest({ prompt: 'x'.repeat(3000) }));
+  assert.throws(() => buildSeedAudioDirectRequest({ prompt: 'x'.repeat(3001) }), (error: unknown) => error instanceof SeedAudioError && error.kind === 'invalid_request');
+  assert.throws(() => buildSeedAudioDirectRequest({ prompt: '  ' }), /text prompt/);
+
+  let calls = 0;
+  const fetchFn = (async (_url: string, init?: RequestInit) => {
+    calls += 1;
+    return new Response(JSON.stringify({ url: 'https://cdn.example.com/a.mp3', model: JSON.parse(String(init?.body)).model }), { status: 200 });
+  }) as typeof fetch;
+  await assert.rejects(subscribeSeedAudio({ prompt: 'x'.repeat(3001) }, { apiKey: 'k', fetchFn }), /3000 characters/);
+  assert.equal(calls, 0, 'an over-long text is refused before any provider call');
+  let sentModel: unknown = null;
+  await subscribeSeedAudio({ prompt: 'p' }, { apiKey: 'k', model: 'seed-audio-1.1', fetchFn: (async (_u: string, init?: RequestInit) => {
+    sentModel = JSON.parse(String(init?.body)).model;
+    return new Response(JSON.stringify({ url: 'https://cdn.example.com/a.mp3' }), { status: 200 });
+  }) as typeof fetch });
+  assert.equal(sentModel, 'seed-audio-1.1');
+
+  // Documented audio-generation codes (https://docs.volcengine.com/docs/6561/2534853).
+  for (const code of [45001125, 45001104, 45001127, 45001130, 55001310, 55001311]) assert.equal(classifySeedAudioFailure(400, code), 'content_rejected');
+  for (const code of [45001001, 45001115, 45001116, 45001117, 40000020, 40402002]) assert.equal(classifySeedAudioFailure(400, code), 'invalid_request');
+  assert.equal(classifySeedAudioFailure(403, 45000030), 'auth');
+  assert.equal(classifySeedAudioFailure(401, null), 'auth');
+  assert.equal(classifySeedAudioFailure(429, null), 'rate_limited');
+  assert.equal(classifySeedAudioFailure(500, 55001309), 'provider_error');
+  const reject = (body: unknown, status: number) => (async () => new Response(JSON.stringify(body), { status })) as typeof fetch;
+  await assert.rejects(subscribeSeedAudio({ prompt: 'p' }, { apiKey: 'k', fetchFn: reject({ code: 45001125, message: 'audit' }, 400) }),
+    (error: unknown) => error instanceof SeedAudioError && error.kind === 'content_rejected' && /review \(400, code 45001125\)/.test(error.message));
+});
+
 test('subscribeFalModel sends Seed Audio to the mainland API only when it is configured', async () => {
   const saved = { e: process.env.SEED_AUDIO_ENABLED, k: process.env.SEED_AUDIO_API_KEY, f: globalThis.fetch };
   try {
@@ -212,4 +247,109 @@ test('validation accepts a Doubao speaker and every listed Doubao voice has a la
   assert.throws(() => validateAudioGenerateRequest({ pack: 'voice_only', voiceModel: 'seed', script: 'x', seedAudioVoice: 'not_a_voice' } as never), /voice is invalid/i);
   assert.equal(AUDIO_DOUBAO_SEED_VOICE_VALUES.length, 20);
   for (const voice of AUDIO_DOUBAO_SEED_VOICE_VALUES) assert.ok(AUDIO_DOUBAO_SEED_VOICE_LABELS[voice], voice);
+});
+
+test('the selected T2A model is sent; requests without one keep speech-02-hd', () => {
+  const pick = (model: string, extra: Record<string, unknown> = {}) => buildMinimaxSpeechRequest({ ...falInput, model, ...extra }) as Record<string, any>;
+  assert.equal(pick('speech-2.8-hd').model, 'speech-2.8-hd');
+  assert.equal(pick('speech-02-turbo').model, 'speech-02-turbo');
+  assert.equal((buildMinimaxSpeechRequest(falInput) as Record<string, any>).model, 'speech-02-hd');
+  assert.throws(() => pick('speech-01-hd'), /model is unsupported/);
+  // fluent/whisper only reach speech-2.6-*; other models drop them and let the model choose.
+  const emotion = (model: string, value: string) => pick(model, { voice_setting: { voice_id: 'x', emotion: value } }).voice_setting.emotion;
+  assert.equal(emotion('speech-2.6-hd', 'whisper'), 'whisper');
+  assert.equal(emotion('speech-2.8-hd', 'whisper'), undefined);
+  assert.equal(emotion('speech-02-hd', 'fluent'), undefined);
+  assert.equal(emotion('speech-2.8-turbo', 'calm'), 'calm');
+  assert.throws(() => pick('speech-02-hd', { language_boost: 'Persian' }), /language/);
+  assert.equal(pick('speech-2.8-hd', { language_boost: 'Persian' }).language_boost, 'Persian');
+});
+
+test('documented T2A limits are enforced before the request is sent', () => {
+  const pick = (extra: Record<string, unknown>) => () => buildMinimaxSpeechRequest({ ...falInput, model: 'speech-2.8-hd', ...extra });
+  assert.throws(pick({ text: 'a'.repeat(10_000) }), /1 to 9999/);
+  assert.throws(pick({ text: '  ' }), /1 to 9999/);
+  assert.throws(pick({ voice_setting: { voice_id: 'x', speed: 2.5 } }), /speed/);
+  assert.throws(pick({ voice_setting: { voice_id: 'x', vol: 0 } }), /volume/);
+  assert.doesNotThrow(pick({ voice_setting: { voice_id: 'x', vol: 10 } }));
+  assert.throws(pick({ voice_setting: { voice_id: 'x', pitch: 1.5 } }), /pitch/);
+  assert.throws(pick({ audio_setting: { sample_rate: 48000 } }), /sample rate/);
+  assert.throws(pick({ audio_setting: { sample_rate: 44100, channel: 3 } }), /channel/);
+});
+
+test('rate limits: the local 20 RPM guard and MiniMax 1002/429 answers are reported as rate limited', async () => {
+  const { resetMinimaxRateLimits, MINIMAX_RATE_LIMITS } = await import('../frontend/src/server/minimax-rate-limit');
+  const { MinimaxSpeechError, MINIMAX_SPEECH_RATE_LIMIT_MARKER } = await import('../frontend/src/server/audio/providers/minimax-speech');
+  assert.equal(MINIMAX_RATE_LIMITS.speech_t2a.requestsPerMinute, 20);
+  resetMinimaxRateLimits();
+  try {
+    let calls = 0;
+    const fetchFn = (async () => { calls += 1; return ok(); }) as typeof fetch;
+    const now = 1_900_000_000_000;
+    for (let index = 0; index < 20; index += 1) await subscribeMinimaxSpeech(falInput, { apiKey: 'k', fetchFn, now });
+    const refused = await subscribeMinimaxSpeech(falInput, { apiKey: 'k', fetchFn, now: now + 1000 }).catch((error) => error);
+    assert.ok(refused instanceof MinimaxSpeechError);
+    assert.equal(refused.kind, 'rate_limited');
+    assert.ok(refused.message.includes(MINIMAX_SPEECH_RATE_LIMIT_MARKER));
+    assert.equal(refused.retryAfterMs, 59_000);
+    assert.equal(calls, 20);
+    await subscribeMinimaxSpeech(falInput, { apiKey: 'k', fetchFn, now: now + 60_001 });
+    assert.equal(calls, 21);
+    resetMinimaxRateLimits();
+    for (const response of [
+      new Response(JSON.stringify({ base_resp: { status_code: 1002, status_msg: 'rate limit' } }), { status: 200 }),
+      new Response('{}', { status: 429 }),
+    ]) {
+      const error = await subscribeMinimaxSpeech(falInput, { apiKey: 'k', fetchFn: (async () => response) as typeof fetch }).catch((caught) => caught);
+      assert.equal(error.kind, 'rate_limited');
+      assert.ok(error.message.includes(MINIMAX_SPEECH_RATE_LIMIT_MARKER));
+    }
+  } finally {
+    resetMinimaxRateLimits();
+  }
+});
+
+test('the workspace model choice is validated, priced per model, and absent for MCP-shaped requests', async () => {
+  const { buildAudioPricingPresentation } = await import('../frontend/src/lib/audio-generation');
+  const { minimaxSpeechVendorCostUsdCents, countMinimaxBillingCharacters } = await import('../frontend/src/lib/minimax-speech-models');
+  const valid = validateAudioGenerateRequest({ pack: 'voice_only', voiceModel: 'minimax', script: '你好 world', minimaxSpeechModel: 'speech-2.8-turbo' } as never);
+  assert.equal(valid.minimaxSpeechModel, 'speech-2.8-turbo');
+  const legacy = validateAudioGenerateRequest({ pack: 'voice_only', voiceModel: 'minimax', script: '你好 world' } as never);
+  assert.equal('minimaxSpeechModel' in legacy, false);
+  assert.throws(() => validateAudioGenerateRequest({ pack: 'voice_only', voiceModel: 'minimax', script: 'x', minimaxSpeechModel: 'speech-01-hd' } as never), /model is unsupported/);
+  assert.throws(() => validateAudioGenerateRequest({ pack: 'voice_only', voiceModel: 'seed', script: 'x', minimaxSpeechModel: 'speech-2.8-hd' } as never), /model is unsupported/);
+
+  assert.equal(countMinimaxBillingCharacters('你好 world'), 10);
+  const script = '你好 world';
+  const price = (minimaxSpeechModel?: string) => buildAudioPricingPresentation({ pack: 'voice_only', durationSec: 3, voiceModel: 'minimax', script, ...(minimaxSpeechModel ? { minimaxSpeechModel } : {}) } as never);
+  // Historical speech-02-hd price is unchanged, also when chosen explicitly.
+  assert.equal(price().vendorSubtotalCents, Array.from(script).length * 0.01);
+  assert.equal(price('speech-02-hd').vendorSubtotalCents, price().vendorSubtotalCents);
+  // PROVISIONAL CNY list prices: HD 3.50, Turbo 2.00 per 10,000 billing characters at 8 CNY/USD.
+  assert.ok(Math.abs(price('speech-2.8-hd').vendorSubtotalCents - 10 * 3.5 / 10_000 * 100 / 8) < 1e-9);
+  assert.ok(Math.abs(price('speech-2.8-turbo').vendorSubtotalCents - minimaxSpeechVendorCostUsdCents('speech-2.8-turbo', script).usdCents) < 1e-9);
+  assert.equal(price('speech-2.6-turbo').meta.minimaxSpeechModel, 'speech-2.6-turbo');
+  assert.equal('minimaxSpeechModel' in price().meta, false);
+});
+
+test('the voice-over draft defaults to speech-2.8-hd and repairs unknown stored models', async () => {
+  const { newAudioDraft, repairAudioCreationDraft, buildAudioCreationRequest } = await import('../frontend/src/lib/audio-creation');
+  const draft = newAudioDraft('voice');
+  assert.equal(draft.minimaxSpeechModel, 'speech-2.8-hd');
+  const repaired = repairAudioCreationDraft('voice', { ...draft, minimaxSpeechModel: 'speech-01-hd' as never });
+  assert.equal(repaired.minimaxSpeechModel, 'speech-2.8-hd');
+  const request = buildAudioCreationRequest('voice', { ...draft, voiceModel: 'minimax', script: 'x', minimaxSpeechModel: 'speech-2.6-hd' }, 'zh');
+  assert.equal(request.minimaxSpeechModel, 'speech-2.6-hd');
+  const seed = buildAudioCreationRequest('voice', { ...draft, voiceModel: 'seed', script: 'x' }, 'zh');
+  assert.equal('minimaxSpeechModel' in seed, false);
+});
+
+test('fal never receives a newer T2A model when the mainland API is off', async () => {
+  const saved = process.env.MINIMAX_SPEECH_ENABLED;
+  try {
+    delete process.env.MINIMAX_SPEECH_ENABLED;
+    await assert.rejects(subscribeFalModel(AUDIO_MINIMAX_SPEECH_MODEL_ID, { ...falInput, model: 'speech-2.8-hd' }), /mainland MiniMax API/);
+  } finally {
+    if (saved === undefined) delete process.env.MINIMAX_SPEECH_ENABLED; else process.env.MINIMAX_SPEECH_ENABLED = saved;
+  }
 });

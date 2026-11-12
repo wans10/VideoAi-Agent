@@ -1,3 +1,6 @@
+// The picker contracts below cover the upstream catalog, including MiniMax-H3-Max that Keyvo hides at runtime
+// (tests/minimax-keyvo-visibility.test.ts owns the Keyvo hiding). Must load before the engine modules.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { getBaseEnginesByCategory } from '../frontend/src/lib/engines';
@@ -36,7 +39,9 @@ for (const [locale, fixedAudio, optionalAudio] of [
   const rows = buildWorkspacePickerOptions({ current, engines, locale, memberTier: 'Member', overrides: { audio: false } });
   assert.ok(rows['wan-3'].summary.endsWith(optionalAudio));
   assert.equal(rows['wan-3'].request?.audio, false);
-  for (const id of ['minimax-h3', 'minimax-h3-max', 'happy-horse-1-0']) {
+  // HappyHorse 1.0 is retired; HappyHorse 1.1 carries the same always-on native audio.
+  assert.equal(rows['happy-horse-1-0'], undefined);
+  for (const id of ['minimax-h3', 'minimax-h3-max', 'happy-horse-1-1']) {
     assert.ok(rows[id].summary.endsWith(fixedAudio), rows[id].summary);
     assert.ok(rows[id].request);
     assert.equal('audio' in rows[id].request!, false);

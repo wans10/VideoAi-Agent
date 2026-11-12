@@ -275,6 +275,8 @@ test('Qwen image engines are executable with a Beijing Model Studio key and hidd
     withEnv({ ALIBABA_MODEL_STUDIO_API_KEY: SECRET, ALIBABA_MODEL_STUDIO_BASE_URL: 'https://dashscope.aliyuncs.com' }),
     available,
   );
-  assert.deepEqual(withEnv({ ALIBABA_MODEL_STUDIO_API_KEY: SECRET }), missing);
+  // Without an endpoint override the client defaults to the mainland Beijing account.
+  assert.deepEqual(withEnv({ ALIBABA_MODEL_STUDIO_API_KEY: SECRET }), available);
+  assert.deepEqual(withEnv({ ALIBABA_MODEL_STUDIO_API_KEY: SECRET, ALIBABA_MODEL_STUDIO_REGION: 'ap-southeast-1' }), missing);
   assert.deepEqual(withEnv({}), missing);
 });

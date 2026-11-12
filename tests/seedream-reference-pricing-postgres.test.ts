@@ -44,7 +44,11 @@ test('Seedream actual billing, image estimates, MCP settlement and admin guards 
       for (const snapshot of [generated.pricing, estimated.pricing, agent.pricingSnapshot]) {
         assert.equal(snapshot.totalCents, 16);
         assert.equal((snapshot.meta as { providerCostUsage: {inputImages:number} }).providerCostUsage.inputImages, count);
-        assert.equal((snapshot.base as {amountCents:number}).amountCents, count === 1 ? 8.1 : 10.53);
+        // Keyvo's code default is the mainland Ark region (BYTEPLUS_ARK_REGION=cn-beijing), where upstream's signed
+        // ap-southeast-1 contract (10% off: 8.1 / 10.53) does not apply, so the supplier estimate is the published
+        // LIST cost. The customer price (16 cents above) is unchanged.
+        assert.equal((snapshot.meta as { providerCostKind?: string }).providerCostKind, 'published_list_estimate');
+        assert.equal((snapshot.base as {amountCents:number}).amountCents, count === 1 ? 9 : 11.7);
       }
     }
     const ten = rows.find(row => row.context.referenceImageCount === 9)!;

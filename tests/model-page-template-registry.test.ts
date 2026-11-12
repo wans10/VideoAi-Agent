@@ -162,7 +162,8 @@ test('template registry enables Seedance production and draft model templates', 
   assert.equal(lumaUni.hero.primaryCtaHref, '/app/image?engine=luma-uni-1');
   assert.equal(lumaUniMax.hero.primaryCtaHref, '/app/image?engine=luma-uni-1-max');
   assert.equal(happyHorse.hero.primaryCtaHref, '/app?engine=happy-horse-1-1');
-  assert.equal(happyHorseLegacy.hero.primaryCtaHref, '/app?engine=happy-horse-1-0');
+  // Happy Horse 1.0 is offline on Keyvo (app unpublished), so its CTA opens the Happy Horse 1.1 page.
+  assert.equal(happyHorseLegacy.hero.primaryCtaHref, '/models/happy-horse-1-1');
   assert.equal(hailuo.hero.primaryCtaHref, '/app?engine=minimax-hailuo-02-text');
   assert.equal(pika.hero.primaryCtaHref, '/app?engine=pika-text-to-video');
   assert.equal(gptImage.hero.primaryCtaHref, '/app/image?engine=gpt-image-2');
@@ -417,7 +418,8 @@ test('priority production and reference-prep models have distinct template inten
   const expectations = [
     ['veo-3-1', 'production', '/app?engine=veo-3-1'],
     ['kling-3-pro', 'production', '/app?engine=kling-3-pro'],
-    ['seedream', 'reference-prep', '/app/image?engine=seedream'],
+    // Seedream 5.0 Lite is retired on Keyvo; its CTA points at the replacement model page.
+    ['seedream', 'reference-prep', '/models/seedream-5-0-pro'],
   ] as const;
 
   for (const [slug, intent, primaryCtaHref] of expectations) {
@@ -515,12 +517,12 @@ test('Sora templates preserve standard and Pro route intent', () => {
   assert.equal(soraPro.hero.quickLinks.some((link) => link.href === '#prompting'), true);
 });
 
-test('Seedance 1.5 Pro template preserves supported legacy route intent', () => {
+test('Seedance 1.5 Pro template points at its Keyvo replacement instead of the retired route', () => {
   const seedance15 = getModelPageTemplateConfig('seedance-1-5-pro');
 
   assert.ok(seedance15);
   assert.equal(seedance15.intent, 'specialized');
-  assert.equal(seedance15.hero.primaryCtaHref, '/app?engine=seedance-1-5-pro');
+  assert.equal(seedance15.hero.primaryCtaHref, '/models/dreamina-seedance-2-0-mini');
   assert.equal(seedance15.pricing.anchorHref, '/pricing#seedance-1-5-pro-pricing');
   assert.equal(seedance15.hero.quickLinks.some((link) => link.href === '#prompting'), true);
   assert.deepEqual(

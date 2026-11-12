@@ -140,6 +140,26 @@ async function main(): Promise<void> {
     row.previous.id !== row.current.id || row.current.engineId !== 'gemini-omni-flash'
   )) throw new Error('Invalid Omni 1.2 supplier-cost projection matrix.');
   const appliedOmniChanges = new Set<string>();
+  // Keyvo provider completeness (2026-11-11): retired models leave the public surfaces, MiniMax-H3's default estimate
+  // follows its remaining 768P/2K tiers, and Seedream 5.0 Flash is added at its PROVISIONAL list cost.
+  const keyvoTransition = JSON.parse(await readFile(new URL(
+    '../../tests/fixtures/keyvo-provider-transition-public-pricing-2026-11-11.json', import.meta.url,
+  ), 'utf8')) as { retiredEngineIds: string[]; retiredRowIds: string[];
+    changes: Array<{ previous: typeof rows[number]; current: typeof rows[number] }>; rows: typeof rows };
+  const keyvoRetiredEngines = new Set(keyvoTransition.retiredEngineIds);
+  const keyvoRetiredRows = new Set(keyvoTransition.retiredRowIds);
+  const keyvoChanges = new Map(keyvoTransition.changes.map(row => [row.previous.id, row]));
+  if (!isDeepStrictEqual([...keyvoRetiredEngines].sort(), ['happy-horse-1-0', 'seedance-1-5-pro', 'seedream', 'wan-2-5'])
+    || keyvoRetiredRows.size !== 25 || keyvoRetiredRows.size !== keyvoTransition.retiredRowIds.length
+    || keyvoTransition.retiredRowIds.some(id => !keyvoRetiredEngines.has(id.split(':')[1] ?? ''))
+    || keyvoChanges.size !== 4 || keyvoChanges.size !== keyvoTransition.changes.length
+    || keyvoTransition.changes.some(({ previous, current }) => previous.id !== current.id || current.engineId !== 'minimax-h3')
+    || keyvoTransition.rows.length !== 7 || new Set(keyvoTransition.rows.map(row => row.id)).size !== 7
+    || keyvoTransition.rows.some(row => row.engineId !== 'seedream-5-0-flash' || row.status !== 'exact')) {
+    throw new Error('Invalid Keyvo provider-completeness public pricing transition.');
+  }
+  const appliedKeyvoRetirements = new Set<string>();
+  const appliedKeyvoChanges = new Set<string>();
   const byId = new Map(fixture.rows.map((row) => [row.id, row]));
   const expected = fixture.rows.map((row) => {
     const standardId = row.id.replace(/:(plus|pro):/u, ':member:');
@@ -247,7 +267,28 @@ async function main(): Promise<void> {
       appliedOmniChanges.add(row.id);
       return change.current;
     })
+    .map(row => {
+      const change = keyvoChanges.get(row.id);
+      if (!change) return row;
+      if (!isDeepStrictEqual(row, change.previous)) throw new Error(`Keyvo H3 transition does not match historical evidence: ${row.id}`);
+      appliedKeyvoChanges.add(row.id);
+      return change.current;
+    })
+    .filter(row => {
+      if (!keyvoRetiredRows.has(row.id)) {
+        if (keyvoRetiredEngines.has(row.engineId)) throw new Error(`Keyvo retirement leaves an unlisted public row: ${row.id}`);
+        return true;
+      }
+      appliedKeyvoRetirements.add(row.id);
+      return false;
+    })
+    .concat(keyvoTransition.rows.map(row => {
+      if (historicalIds.has(row.id) || launchIds.has(row.id)) throw new Error(`Keyvo launch row is not new: ${row.id}`);
+      return row;
+    }))
     .sort((left, right) => left.id.localeCompare(right.id));
+  if (appliedKeyvoChanges.size !== keyvoChanges.size) throw new Error('Missing Keyvo H3 transition scenario.');
+  if (appliedKeyvoRetirements.size !== keyvoRetiredRows.size) throw new Error('Missing Keyvo retired public pricing scenario.');
   if (appliedOmniChanges.size !== omniChanges.size) throw new Error('Missing Omni 1.2 supplier-cost projection scenario.');
   if (appliedCharacterChanges.size !== characterChanges.size) throw new Error('Missing Character Studio pricing transition scenario.');
   if (appliedH3Changes.size !== h3Changes.size) throw new Error('Missing H3 capability pricing scenario.');

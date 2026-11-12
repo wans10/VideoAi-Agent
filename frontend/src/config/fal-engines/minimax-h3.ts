@@ -9,8 +9,9 @@ export const MINIMAX_H3_ENDPOINTS = {
   ref2v: 'minimax/h3/reference-to-video',
 } as const;
 
-export const MINIMAX_H3_DURATION_OPTIONS = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] as const;
-export const MINIMAX_H3_RESOLUTIONS = ['480P', '768P', '2K', '4K'] as const;
+// MiniMax's own V2 API (Keyvo's route) accepts 4-15 s at 768P or 2K only; 480P and 4K are not MiniMax-H3 tiers.
+export const MINIMAX_H3_DURATION_OPTIONS = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] as const;
+export const MINIMAX_H3_RESOLUTIONS = ['768P', '2K'] as const;
 export const MINIMAX_H3_PROMPT_EXPANSION_MODES = ['disabled', 'fast', 'balanced', 'quality'] as const;
 export const MINIMAX_H3_FIXED_ASPECT_RATIOS = ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16'] as const;
 export const MINIMAX_H3_ASPECT_RATIOS = [
@@ -169,7 +170,7 @@ export const MINIMAX_H3_ENGINE: EngineCaps = {
         modes: ['t2v', 'i2v', 'ref2v'],
         values: MINIMAX_H3_DURATION_OPTIONS.map(String),
         default: '10',
-        min: 5,
+        min: 4,
         max: 15,
       },
       {

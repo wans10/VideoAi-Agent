@@ -6,12 +6,13 @@ export const seedreamTemplateConfig: ModelPageTemplateConfig = {
   hero: {
     eyebrow: 'REFERENCE IMAGE PREP MODEL',
     subtitleHighlightTerms: ['clean still references', 'product frames', 'video reference prep'],
-    primaryCtaHref: '/app/image?engine=seedream',
+    // Seedream 5.0 Lite is retired on Keyvo; every CTA points at its replacement, Seedream 5.0 Pro.
+    primaryCtaHref: '/models/seedream-5-0-pro',
     secondaryCtaHref: '/models/seedance-2-0',
     quickLinks: [
       {
         labelKey: 'openImageWorkspace',
-        href: '/app/image?engine=seedream',
+        href: '/app/image?engine=seedream-5-0-pro',
         icon: 'image',
       },
       {

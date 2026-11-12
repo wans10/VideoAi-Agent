@@ -1,6 +1,6 @@
 import type { ImageEngineOption } from './image-workspace-types';
 
-export const DEFAULT_IMAGE_WORKSPACE_ENGINE_ID = 'seedream';
+export const DEFAULT_IMAGE_WORKSPACE_ENGINE_ID = 'seedream-5-0-flash';
 
 const IMAGE_WORKSPACE_ENGINE_PRIORITY = new Map<string, number>([[DEFAULT_IMAGE_WORKSPACE_ENGINE_ID, 0]]);
 

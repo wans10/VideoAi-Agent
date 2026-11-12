@@ -258,7 +258,7 @@ const MODEL_FAMILY_SOURCES = [
     navLabel: 'MiniMax H3',
     brandId: 'minimax',
     defaultModelId: 'minimax-h3',
-    modelOrderIds: ['minimax-h3', 'minimax-h3-max', 'minimax-hailuo-02-text', 'minimax-hailuo-02-image'],
+    modelOrderIds: ['minimax-h3', 'minimax-h3-max', 'minimax-hailuo-2-3', 'minimax-hailuo-2-3-fast', 'minimax-hailuo-02-text', 'minimax-hailuo-02-image'],
     routeAliases: ['minimax-h3', 'minimax-h3-max', 'minimax-hailuo-02-text', 'minimax-hailuo-02-image'],
     aliases: ['minimax-h3', 'minimax-h3-max', 'hailuo-h3', 'hailuo-03', 'minimax-hailuo-02'],
     prefixes: ['minimax/h3', 'minimax-h3', 'hailuo-h3', 'minimax-hailuo-02'],

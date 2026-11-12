@@ -34,7 +34,7 @@ function form(): FormState {
     mode: 'ref2v',
     durationSec: 15,
     durationOption: 15,
-    resolution: '4K',
+    resolution: '2K',
     aspectRatio: 'auto',
     fps: 24,
     iterations: 1,
@@ -140,6 +140,6 @@ test('MiniMax H3 workspace retains exact multimodal slot IDs and omits an audio 
   assert.equal('audio' in built.payload, false);
   assert.strictEqual(built.payload.inputs, prepared.inputsPayload);
   assert.equal(built.payload.durationOption, 15);
-  assert.equal(built.payload.resolution, '4K');
+  assert.equal(built.payload.resolution, '2K');
   assert.equal(built.payload.aspectRatio, 'auto');
 });

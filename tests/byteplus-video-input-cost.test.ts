@@ -5,6 +5,10 @@ import { estimateBytePlusBillableTokens, buildBytePlusListCostBreakdown, bytePlu
 import { getFalEngineById } from '../frontend/src/config/falEngines';
 import { normalBytePlusSupplierCost } from '../frontend/server/byteplus-normal-cost';
 import { buildProviderCostComparisonRows, providerComparisonInputFromScenario } from '../frontend/server/pricing-admin/provider-cost-comparison';
+import { ENV } from '../frontend/src/lib/env';
+
+// The signed contract belongs to the BytePlus international account; the code default is the mainland node.
+ENV.BYTEPLUS_ARK_REGION = 'ap-southeast-1';
 
 test('supplier video-input minimums match every row of the independent public 2.0/2.5 tables', () => {
   assert.equal(fixture.rows.length, 531);

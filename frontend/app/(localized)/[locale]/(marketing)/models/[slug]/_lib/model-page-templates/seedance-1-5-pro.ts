@@ -6,7 +6,8 @@ export const seedance15ProTemplateConfig: ModelPageTemplateConfig = {
   hero: {
     eyebrow: 'SUPPORTED SEEDANCE LEGACY PRO ROUTE',
     subtitleHighlightTerms: ['camera-fixed shots', 'seeded variants', 'start/end frame control'],
-    primaryCtaHref: '/app?engine=seedance-1-5-pro',
+    // Seedance 1.5 Pro is retired on Keyvo; every CTA points at its replacement, Seedance 2.0 Mini.
+    primaryCtaHref: '/models/dreamina-seedance-2-0-mini',
     secondaryCtaHref: '/examples/seedance',
     quickLinks: [
       {

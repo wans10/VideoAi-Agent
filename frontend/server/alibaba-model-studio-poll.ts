@@ -24,6 +24,7 @@ import { estimateAlibabaJobCost } from '@/server/alibaba-job-accounting';
 import { classifyAlibabaModelStudioError } from '@/server/video-providers/alibaba-model-studio/errors';
 import {
   ALIBABA_MODEL_STUDIO_PROVIDER,
+  isAlibabaThirdPartyRoute,
   resolveAlibabaModelRoute,
 } from '@/server/video-providers/alibaba-model-studio/model-map';
 import { normalizeAlibabaTask } from '@/server/video-providers/alibaba-model-studio/response';
@@ -77,6 +78,16 @@ const POLL_INITIAL_DELAY_MS = 5_000;
 const DEFAULT_POLL_MAX_DURATION_MINUTES = 185;
 const ACTIVE_JOB_STATUSES = ['pending', 'queued', 'running', 'processing', 'in_progress'];
 const STALLED_MESSAGE = 'This render needs manual review before retrying or refunding.';
+/**
+ * Alibaba returns task_status UNKNOWN when the task does not exist or has expired (task IDs live 24 hours;
+ * wan3-video-generation-api-reference "任务查询过期"). A task that keeps answering UNKNOWN never produces
+ * output and is not billed, so after a bounded window it fails and the wallet is refunded instead of
+ * staying "queued" until the manual-review threshold.
+ */
+export const ALIBABA_UNKNOWN_TASK_MESSAGE = 'The render task could no longer be found, so it was stopped.';
+const UNKNOWN_FAIL_AFTER_MS = 15 * 60_000;
+const UNKNOWN_MIN_OBSERVATIONS = 3;
+const TASK_ID_TTL_MS = 24 * 60 * 60_000;
 
 function flagEnabled(value: string | undefined): boolean {
   return ['1', 'true', 'yes', 'on'].includes((value ?? '').trim().toLowerCase());
@@ -110,6 +121,35 @@ function modeForJob(job: AlibabaPendingJob): string {
 
 function resolutionForJob(job: AlibabaPendingJob): string {
   return cleanString(nestedValue(job.settings_snapshot, 'resolution')) ?? '720p';
+}
+
+type UnknownStatusMarker = { firstSeenAt: string; observations: number };
+
+function unknownStatusMarker(settingsSnapshot: unknown): UnknownStatusMarker | null {
+  const marker = asRecord(asRecord(settingsSnapshot)?.alibabaUnknownStatus);
+  const firstSeenAt = cleanString(marker?.firstSeenAt);
+  const observations = Number(marker?.observations);
+  if (!firstSeenAt || !Number.isFinite(Date.parse(firstSeenAt)) || !Number.isInteger(observations) || observations < 1) {
+    return null;
+  }
+  return { firstSeenAt, observations };
+}
+
+/** Decides whether a persistent UNKNOWN status is terminal; otherwise returns the updated marker. */
+export function evaluateAlibabaUnknownStatus(
+  job: { settings_snapshot: unknown; created_at: string },
+  nowMs = Date.now()
+): { terminal: true } | { terminal: false; marker: UnknownStatusMarker } {
+  const previous = unknownStatusMarker(job.settings_snapshot);
+  const marker = previous
+    ? { firstSeenAt: previous.firstSeenAt, observations: previous.observations + 1 }
+    : { firstSeenAt: new Date(nowMs).toISOString(), observations: 1 };
+  const createdAtMs = Date.parse(job.created_at);
+  if (Number.isFinite(createdAtMs) && nowMs - createdAtMs >= TASK_ID_TTL_MS) return { terminal: true };
+  if (marker.observations >= UNKNOWN_MIN_OBSERVATIONS && nowMs - Date.parse(marker.firstSeenAt) >= UNKNOWN_FAIL_AFTER_MS) {
+    return { terminal: true };
+  }
+  return { terminal: false, marker };
 }
 
 const costForJob = estimateAlibabaJobCost;
@@ -355,14 +395,34 @@ export async function runAlibabaModelStudioPoll(options: { jobId?: string; deps?
     if (!pollClaim) continue;
     try {
       const attempt = await findAttempt(job, queryFn);
+      const pollRoute = resolveAlibabaModelRoute(job.engine_id, modeForJob(job));
+      // Wan and the Bailian-hosted Kling/MiniMax models received signed media grants; keep them out of diagnostics.
       const task = normalizePolledTask(await client.getTask(job.provider_job_id), job.provider_job_id,
-        resolveAlibabaModelRoute(job.engine_id, modeForJob(job))?.family === 'wan3');
+        pollRoute?.family === 'wan3' || isAlibabaThirdPartyRoute(pollRoute));
       await pollClaim.checked();
       const estimate = costForJob(job, task);
+      if (task.rawStatus?.toUpperCase() === 'UNKNOWN') {
+        const decision = evaluateAlibabaUnknownStatus(job);
+        if (decision.terminal) {
+          if (await markJobFailed(job, ALIBABA_UNKNOWN_TASK_MESSAGE, 'ALIBABA_TASK_UNKNOWN', task.raw, queryFn)) updates += 1;
+          continue;
+        }
+        await queryFn(
+          `UPDATE app_jobs
+              SET settings_snapshot = jsonb_set(COALESCE(settings_snapshot, '{}'::jsonb), '{alibabaUnknownStatus}', $2::jsonb, true),
+                  updated_at = NOW()
+            WHERE job_id = $1 AND status = ANY($3::text[])`,
+          [job.job_id, JSON.stringify(decision.marker), ACTIVE_JOB_STATUSES]
+        );
+        updates += 1;
+        continue;
+      }
       if (task.status === 'queued' || task.status === 'running') {
         const progressRows = await queryFn<{ job_id: string }>(
           `UPDATE app_jobs
-              SET status = $2, progress = GREATEST(progress, $3), message = $4, updated_at = NOW()
+              SET status = $2, progress = GREATEST(progress, $3), message = $4,
+                  settings_snapshot = settings_snapshot - 'alibabaUnknownStatus',
+                  updated_at = NOW()
             WHERE job_id = $1 AND status = ANY($5::text[])
             RETURNING job_id`,
           [

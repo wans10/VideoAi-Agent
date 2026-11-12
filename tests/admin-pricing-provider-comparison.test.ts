@@ -1,3 +1,5 @@
+// Supplier comparisons are checked on the upstream catalog, including MiniMax-H3-Max that Keyvo hides at runtime.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
@@ -206,16 +208,23 @@ test('sandbox comparison uses Alibaba for Wan and Fal for MiniMax while generati
   for (const key of keys) process.env[key] = environment[key];
   try {
     const scenarios = collectSellableManualTariffCoverage().scenarios;
+    // MiniMax-H3 is routed Bailian-first (MINIMAX_H3_ROUTE_ORDER default bailian,direct); H3-Max and Hailuo 02 stay on Fal here.
     for (const [modelId, provider] of [['wan-3', 'alibaba_model_studio'], ['wan-3-prime', 'alibaba_model_studio'],
-      ['minimax-h3', 'fal'], ['minimax-h3-max', 'fal'], ['minimax-hailuo-02-text', 'fal']]) {
+      ['minimax-h3', 'alibaba_model_studio'], ['minimax-h3-max', 'fal'], ['minimax-hailuo-02-text', 'fal']]) {
       const scenario = scenarios.find(row => row.modelId === modelId && row.context.mode === 't2v');
       assert.ok(scenario, `Missing supported scenario for ${modelId}`);
       const [row] = buildProviderCostComparisonRows([providerComparisonForTariffScenario(scenario)], '2026-10-01T00:00:00Z');
       assert.equal(row.executionProvider, provider, modelId);
       assert.equal(row.routeConfigured, false);
       assert.equal(row.generationDisabledReason, 'local_sandbox');
-      assert.equal(row.supplierList.referenceProvider, provider);
-      assert.equal(row.supplierList.routeMatches, true);
+      if (modelId === 'minimax-h3') {
+        // The repository reference is Fal's documented H3 rate; it is never relabelled as a Bailian price.
+        assert.equal(row.supplierList.referenceProvider, 'fal');
+        assert.equal(row.supplierList.routeMatches, false);
+      } else {
+        assert.equal(row.supplierList.referenceProvider, provider);
+        assert.equal(row.supplierList.routeMatches, true);
+      }
       assert.equal(row.supplierEffective.amountUsd, null);
     }
   } finally {
@@ -226,12 +235,14 @@ test('sandbox comparison uses Alibaba for Wan and Fal for MiniMax while generati
 });
 
 test('Seedream exact options project output dimensions and references into published supplier cost', () => {
-  const [lite, pro2k, proEdit] = buildProviderCostComparisonRows([
-    exactInput('seedream', { mode: 't2i', resolution: '2K' }, 'byteplus_modelark', '1:1'),
+  // Seedream 5.0 Lite is retired; Seedream 5.0 Flash has a PROVISIONAL Volcengine list cost of CNY 0.12 = USD 0.015 per image.
+  assert.equal(collectSellableManualTariffCoverage().scenarios.some((row) => row.modelId === 'seedream'), false);
+  const [flash, pro2k, proEdit] = buildProviderCostComparisonRows([
+    exactInput('seedream-5-0-flash', { mode: 't2i', resolution: '2K' }, 'byteplus_modelark', '1:1'),
     exactInput('seedream-5-0-pro', { mode: 't2i', resolution: '2K' }, 'byteplus_modelark', '1:1'),
     exactInput('seedream-5-0-pro', { mode: 'i2i', resolution: '2K' }, 'byteplus_modelark', '1:1'),
   ], '2026-09-30T12:00:00Z');
-  assert.equal(lite.supplierList.amountUsd, 0.035);
+  assert.equal(flash.supplierList.amountUsd, 0.015);
   assert.equal(pro2k.supplierList.amountUsd, 0.09);
   assert.equal(proEdit.supplierList.amountUsd, 0.09);
   assert.deepEqual(pro2k.outputPixels, [2048 * 2048]);

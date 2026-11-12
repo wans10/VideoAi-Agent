@@ -81,11 +81,19 @@ export function classifyKlingDirectError(error: unknown): NormalizedProviderErro
   if (isNetworkOrTimeout(error, code, message)) {
     errorClass = 'network_or_timeout';
     fallbackEligible = true;
+  } else if (code === 'KLING_V2_REQUEST_INVALID') {
+    errorClass = 'invalid_request';
   } else if (code === 'KLING_TASK_ID_MISSING' || code === 'KLING_INVALID_RESPONSE') {
     errorClass = 'invalid_provider_response';
     fallbackEligible = true;
   } else if (status === 401 || (serviceCode !== null && serviceCode >= 1000 && serviceCode <= 1004)) {
     errorClass = 'auth_error';
+  } else if (serviceCode === 1100) {
+    // HTTP 429 "account abnormal": an account configuration problem, never a transient limit.
+    errorClass = 'provider_account_error';
+  } else if (serviceCode === 1304) {
+    // HTTP 429 IP whitelist policy: retrying from the same egress cannot succeed.
+    errorClass = 'provider_access_denied';
   } else if (serviceCode === 1101 || serviceCode === 1102) {
     errorClass = 'insufficient_provider_credits';
   } else if (serviceCode === 1103) {
@@ -113,6 +121,25 @@ export function classifyKlingDirectError(error: unknown): NormalizedProviderErro
     fallbackEligible,
     raw: error instanceof KlingDirectError ? error.body ?? error : error,
   };
+}
+
+/**
+ * 1302 (request rate) and 1303 (parallel tasks over the resource-pack limit) are definite rejections:
+ * no task was created. The docs recommend exponential backoff starting at 1 s.
+ */
+export function isKlingDirectBusyRejection(error: unknown): boolean {
+  const code = errorCode(error);
+  return code === '1302' || code === '1303';
+}
+
+/** Rejections where the provider certainly created no task, so a refund is safe. */
+export function isKlingDirectDefiniteRejection(error: unknown): boolean {
+  const normalized = classifyKlingDirectError(error);
+  if (normalized.code === 'KLING_V2_REQUEST_INVALID' || normalized.code === 'KLING_API_KEY_REQUIRED'
+    || normalized.code === 'KLING_ELEMENT_REGISTRATION_DISABLED') return true;
+  const serviceCode = normalized.code && /^\d+$/.test(normalized.code) ? Number(normalized.code) : null;
+  // Every documented 1xxx business code is a rejection of the request itself; 5xxx and transport are ambiguous.
+  return serviceCode !== null && serviceCode >= 1000 && serviceCode < 2000;
 }
 
 export function shouldFallbackFromKlingDirectSubmit(params: {

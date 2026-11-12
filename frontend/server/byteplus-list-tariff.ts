@@ -108,9 +108,33 @@ export function getSeedance25StepListRate(input: {
   };
 }
 
+/**
+ * PROVISIONAL Seedream 5.0 Flash list price: the Volcengine Ark mainland list price of 0.12 CNY per
+ * successful image (input images free), converted at the 8 CNY/USD customer rate to 0.015 USD.
+ * Flash is not on the BytePlus international list; replace once the owner confirms the account rate.
+ */
+export const VOLCENGINE_SEEDREAM_FLASH_LIST_PRICE_SOURCE = {
+  url: 'https://ark.volcengine.com/region:cn-beijing/docs/model-pricing.md',
+  checkedAt: '2026-11-11',
+  currency: 'CNY',
+  cnyPerImage: 0.12,
+  status: 'provisional',
+} as const;
+const SEEDREAM_FLASH_LIST_USD_PER_IMAGE = 0.015;
+
+export type SeedreamListModel = 'lite' | 'pro' | 'flash';
+
+/** Maps a Seedream engine id to its list-price model; null for any other engine. */
+export function seedreamListModelForEngine(engineId: string): SeedreamListModel | null {
+  if (engineId === 'seedream') return 'lite';
+  if (engineId === 'seedream-5-0-pro') return 'pro';
+  if (engineId === 'seedream-5-0-flash') return 'flash';
+  return null;
+}
+
 /** Estimates a successful Seedream generation from actual output pixel counts. */
 export function quoteSeedreamListCost(input: {
-  model: 'lite' | 'pro';
+  model: SeedreamListModel;
   outputPixels: number[];
   inputImages: number;
 }) {
@@ -120,6 +144,7 @@ export function quoteSeedreamListCost(input: {
   }
   const outputUsd = input.outputPixels.reduce((total, pixels) => {
     if (input.model === 'lite') return total + 0.035;
+    if (input.model === 'flash') return total + SEEDREAM_FLASH_LIST_USD_PER_IMAGE;
     return total + (pixels <= 2_610_000 ? 0.045 : 0.09);
   }, 0);
   const inputUsd = input.model === 'pro' && input.outputPixels.length > 0
@@ -131,6 +156,9 @@ export function quoteSeedreamListCost(input: {
     totalUsd: Number((outputUsd + inputUsd).toFixed(6)),
     effectiveUsd: null,
     status: 'published_list' as const,
-    source: BYTEPLUS_MODELARK_LIST_PRICE_SOURCE,
+    source: input.model === 'flash'
+      ? { url: VOLCENGINE_SEEDREAM_FLASH_LIST_PRICE_SOURCE.url, checkedAt: VOLCENGINE_SEEDREAM_FLASH_LIST_PRICE_SOURCE.checkedAt,
+        currency: 'USD' as const }
+      : BYTEPLUS_MODELARK_LIST_PRICE_SOURCE,
   };
 }

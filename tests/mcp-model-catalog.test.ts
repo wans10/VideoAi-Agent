@@ -316,7 +316,8 @@ test('catalog mirrors real execution gates for newly registered video models', {
         surface: 'video',
         modes: ['t2v', 'i2v', 'ref2v'],
         aspectRatios: ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16', 'auto'],
-        resolutions: ['480P', '768P', '2K', '4K'],
+        // MiniMax's official H3 API accepts 768P and 2K only (480P/4K were fal-only).
+        resolutions: ['768P', '2K'],
         maxDurationSec: 15,
         audio: true,
         referenceImages: true,
@@ -414,14 +415,14 @@ test('catalog mirrors direct Seedream credential readiness', { concurrency: fals
     ENV.BYTEPLUS_ARK_API_KEY = '';
 
     assert.equal(
-      (await listAgentModels({ id: 'seedream' }, registryDeps))[0]?.generationEnabled,
+      (await listAgentModels({ id: 'seedream-5-0-flash' }, registryDeps))[0]?.generationEnabled,
       false,
     );
 
     ENV.BYTEPLUS_ARK_API_KEY = 'test-key';
 
     assert.equal(
-      (await listAgentModels({ id: 'seedream' }, registryDeps))[0]?.generationEnabled,
+      (await listAgentModels({ id: 'seedream-5-0-flash' }, registryDeps))[0]?.generationEnabled,
       true,
     );
   } finally {

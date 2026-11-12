@@ -20,9 +20,17 @@ import {
   toUserFacingFailureMessage,
 } from '@/server/user-facing-failure-messages';
 import { getKlingDirectClient } from '@/server/video-providers/kling-direct/client';
-import { computeKlingDirectProviderCostUsd } from '@/server/video-providers/kling-direct/cost';
+import {
+  computeKlingDirectProviderCostUsd,
+  computeKlingDirectV2Credits,
+  computeKlingDirectV2ProviderCostUsd,
+  KLING_V2_COST_SOURCE,
+} from '@/server/video-providers/kling-direct/cost';
+import { extractKlingDirectV2Usage, pickKlingDirectV2Task } from '@/server/video-providers/kling-direct/response';
 import { classifyKlingDirectError } from '@/server/video-providers/kling-direct/errors';
 import {
+  isKlingDirectV2Route,
+  KLING_DIRECT_V2_TASKS_PATH,
   resolveKlingDirectModelRoute,
   resolveKlingDirectPollPathPrefix,
 } from '@/server/video-providers/kling-direct/model-map';
@@ -73,7 +81,7 @@ const POLL_INITIAL_DELAY_MS = 5_000;
 const POLL_MAX_DURATION_MS = 35 * 60_000;
 const ACTIVE_JOB_STATUSES = ['pending', 'queued', 'running', 'processing', 'in_progress'];
 const STALLED_MESSAGE = 'This render needs manual review before retrying or refunding.';
-const KLING_DIRECT_POLL_PATHS = new Set(['/v1/videos/text2video', '/v1/videos/image2video']);
+const KLING_DIRECT_POLL_PATHS = new Set(['/v1/videos/text2video', '/v1/videos/image2video', KLING_DIRECT_V2_TASKS_PATH]);
 
 function asRecord(value: unknown): Record<string, unknown> | null {
   return value && typeof value === 'object' && !Array.isArray(value) ? (value as Record<string, unknown>) : null;
@@ -253,7 +261,39 @@ async function deferStorageCopyRetry(
   );
 }
 
-function buildCostBreakdown(job: KlingDirectPendingJob, task: NormalizedVideoProviderTask) {
+/** Kling 4.0 / Flash: billed credits from `billing[]`, else the documented formula over `usage` (PROVISIONAL list). */
+function buildV2CostBreakdown(job: KlingDirectPendingJob, task: NormalizedVideoProviderTask, requestSnapshot: unknown) {
+  const route = resolveKlingDirectModelRoute(job.engine_id);
+  const usage = extractKlingDirectV2Usage(pickKlingDirectV2Task(task.raw, task.providerJobId));
+  const snapshotResolution = asRecord(requestSnapshot)?.resolution;
+  const resolution = typeof snapshotResolution === 'string' ? snapshotResolution : null;
+  const computedCredits = computeKlingDirectV2Credits({
+    engineId: job.engine_id,
+    resolution,
+    outputDurationSec: usage.outputDurationSec ?? job.duration_sec,
+    inputVideoDurationSec: usage.inputDurationSec,
+  });
+  const credits = usage.billedCredits ?? computedCredits;
+  const providerCostUsd = computeKlingDirectV2ProviderCostUsd(credits);
+  return {
+    provider: 'kling_direct',
+    provider_cost_source: usage.billedCredits !== null ? 'kling_billing_amount' : KLING_V2_COST_SOURCE,
+    provider_model: route.providerModel,
+    duration_sec: job.duration_sec,
+    has_audio: job.has_audio === true,
+    output_duration_sec: usage.outputDurationSec,
+    input_duration_sec: usage.inputDurationSec,
+    resolution,
+    provider_cost_units: credits,
+    provider_cost_cny_provisional: credits,
+    provider_cost_usd: providerCostUsd,
+    provider_cost_usd_effective: providerCostUsd,
+    vendor_cost_usd: providerCostUsd,
+  };
+}
+
+function buildCostBreakdown(job: KlingDirectPendingJob, task: NormalizedVideoProviderTask, requestSnapshot?: unknown) {
+  if (isKlingDirectV2Route(resolveKlingDirectModelRoute(job.engine_id))) return buildV2CostBreakdown(job, task, requestSnapshot);
   const providerCostUnits = task.providerCostUnits ?? null;
   const providerCostUsd = task.providerCostUsd ?? computeKlingDirectProviderCostUsd(providerCostUnits);
   return {
@@ -424,7 +464,7 @@ export async function runKlingDirectPoll(options: { jobId?: string; deps?: Kling
         }
       }
 
-      const costBreakdown = buildCostBreakdown(job, task);
+      const costBreakdown = buildCostBreakdown(job, task, attempt?.requestSnapshot);
       const completedRows = await queryFn<{ job_id: string }>(
         `UPDATE app_jobs
             SET status = 'completed',

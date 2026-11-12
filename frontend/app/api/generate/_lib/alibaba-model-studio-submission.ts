@@ -11,9 +11,16 @@ import {
 } from '@/server/video-providers/alibaba-model-studio/errors';
 import {
   ALIBABA_MODEL_STUDIO_PROVIDER,
+  isAlibabaThirdPartyRoute,
   resolveAlibabaModelRoute,
 } from '@/server/video-providers/alibaba-model-studio/model-map';
-import { buildAlibabaVideoPayload } from '@/server/video-providers/alibaba-model-studio/payload';
+import { buildAlibabaRequestPayload } from '@/server/video-providers/alibaba-model-studio/bailian-payload';
+import { shouldFallbackFromBailianSubmit } from '@/server/video-providers/alibaba-model-studio/bailian-routing';
+import {
+  ALIBABA_CAPACITY_BUSY_MESSAGE,
+  reserveAlibabaVideoCapacity,
+  type AlibabaCapacitySlot,
+} from '@/server/video-providers/alibaba-model-studio/capacity';
 import { createWanMediaTransport } from '@/server/video-providers/alibaba-model-studio/media-access';
 import type { createOwnedMediaReadUrl } from '@/server/owned-media-read-access';
 import { sanitizeProviderMediaDiagnostics } from '@/server/provider-media-diagnostics';
@@ -46,6 +53,7 @@ type AlibabaSubmissionDeps = {
   submitFalGenerateTaskFn?: typeof submitFalGenerateTask;
   queryFn?: QueryFn;
   rollbackPendingPaymentFn?: typeof rollbackPendingPayment;
+  reserveCapacityFn?: typeof reserveAlibabaVideoCapacity;
 };
 
 export type AlibabaModelStudioGenerateSubmissionResult =
@@ -133,6 +141,10 @@ function userSafeAlibabaMessage(errorClass: string, errorCode?: string | null): 
   }
   if (errorClass === 'moderation') {
     return 'This request was blocked by safety checks. Review the prompt and reference media before trying again.';
+  }
+  if (errorClass === 'rate_limit') {
+    // Local capacity guard or Alibaba 429 (Throttling.*): the reservation is rolled back by the caller.
+    return ALIBABA_CAPACITY_BUSY_MESSAGE;
   }
   if (errorClass === 'invalid_request' || errorClass === 'payload_too_large') {
     return 'This request is not supported with the selected inputs. Adjust the prompt, media, or settings and try again.';
@@ -291,7 +303,21 @@ async function submitFalFallback(params: {
   return { ok: true, kind: 'fal_result', generationResult: result.generationResult };
 }
 
-export async function submitAlibabaModelStudioGenerateTask(params: {
+type AlibabaGenerateSubmissionParams = Parameters<typeof submitAlibabaModelStudioGenerateTaskWithCapacity>[0];
+
+export async function submitAlibabaModelStudioGenerateTask(
+  params: AlibabaGenerateSubmissionParams
+): Promise<AlibabaModelStudioGenerateSubmissionResult> {
+  const capacity: { slot: AlibabaCapacitySlot | null } = { slot: null };
+  try {
+    return await submitAlibabaModelStudioGenerateTaskWithCapacity(params, capacity);
+  } finally {
+    // The slot covers the gap until the accepted task ID is stored, so the active-task count stays exact.
+    capacity.slot?.release();
+  }
+}
+
+async function submitAlibabaModelStudioGenerateTaskWithCapacity(params: {
   jobId: string;
   userId: string;
   engineId: string;
@@ -312,6 +338,13 @@ export async function submitAlibabaModelStudioGenerateTask(params: {
   walletChargeReserved: boolean;
   fallbackToFalEnabled: boolean;
   submitLlmhubFallback?: (directAttemptId: number) => Promise<AlibabaModelStudioGenerateSubmissionResult>;
+  /**
+   * Bailian-hosted Kling / MiniMax: the vendor's own route, called only after a definite pre-acceptance
+   * rejection (shouldFallbackFromBailianSubmit). It owns its attempt, acceptance and refund.
+   */
+  submitDirectFallback?: (bailianAttemptId: number) => Promise<AlibabaModelStudioGenerateSubmissionResult>;
+  /** Set when Bailian is itself the fallback leg after the vendor's route rejected the request. */
+  fallbackFromAttemptId?: number;
   falPayload: GeneratePayload;
   falInputSummary: FalInputSummary;
   isLumaRay2: boolean;
@@ -325,7 +358,7 @@ export async function submitAlibabaModelStudioGenerateTask(params: {
   logMetricFn: LogMetricFn;
   clientErrorPolicy?: ProviderClientErrorPolicy;
   deps?: AlibabaSubmissionDeps;
-}): Promise<AlibabaModelStudioGenerateSubmissionResult> {
+}, capacity: { slot: AlibabaCapacitySlot | null }): Promise<AlibabaModelStudioGenerateSubmissionResult> {
   const deps = params.deps ?? {};
   const queryFn = deps.queryFn ?? query;
   const route = resolveAlibabaModelRoute(params.engineId, params.mode);
@@ -334,19 +367,27 @@ export async function submitAlibabaModelStudioGenerateTask(params: {
   }
   const media = resolveAlibabaSubmissionMediaInputs({ imageUrl: params.imageUrl, falPayload: params.falPayload });
   const resolution = params.effectiveResolution ?? params.falPayload.resolution ?? '720p';
+  const bailianHosted = isAlibabaThirdPartyRoute(route);
   const estimate = estimateAlibabaProviderCost({
     engineId: params.engineId,
     mode: params.mode,
     durationSec: params.durationSec,
     inputVideoDurationSec: media.inputVideoDurationSec ?? undefined,
     resolution,
+    audioEnabled: params.audioEnabled === true,
+    referenceImageCount: media.referenceImages.length,
   });
   const attempt = await createProviderAttempt({
     publicJobId: params.jobId,
-    attemptIndex: 1,
+    attemptIndex: params.fallbackFromAttemptId ? 2 : 1,
     provider: ALIBABA_MODEL_STUDIO_PROVIDER,
     providerModel: route.model,
     requestSnapshot: {
+      ...(bailianHosted ? {
+        route: 'bailian',
+        routeRole: params.fallbackFromAttemptId ? 'fallback' : 'primary',
+        directFallbackAvailable: Boolean(params.submitDirectFallback),
+      } : {}),
       engineId: params.engineId,
       mode: params.mode,
       providerModel: route.model,
@@ -365,14 +406,18 @@ export async function submitAlibabaModelStudioGenerateTask(params: {
     },
     queryFn,
   });
+  if (params.fallbackFromAttemptId) {
+    await linkProviderFallbackAttempt({ fromAttemptId: params.fallbackFromAttemptId, toAttemptId: attempt.id, queryFn })
+      .catch(() => undefined);
+  }
 
   let acceptedTask: NormalizedVideoProviderTask;
   let acceptedProviderJobId: string | null = null;
-  let sanitizeDiagnostics: (value: unknown) => unknown = route.family === 'wan3'
+  let sanitizeDiagnostics: (value: unknown) => unknown = route.family === 'wan3' || bailianHosted
     ? sanitizeProviderMediaDiagnostics : value => value;
   try {
     const extraInputValues = params.falPayload.extraInputValues ?? {};
-    const payload = buildAlibabaVideoPayload({
+    const payload = buildAlibabaRequestPayload({
       engineId: params.engineId,
       mode: params.mode,
       prompt: params.prompt,
@@ -393,14 +438,21 @@ export async function submitAlibabaModelStudioGenerateTask(params: {
           ? extraInputValues.enable_prompt_expansion
           : undefined,
       seed: params.falPayload.seed,
+      negativePrompt: params.negativePrompt,
+      multiPrompt: params.falPayload.multiPrompt ?? null,
+      shotType: params.falPayload.shotType ?? null,
+      keepAudio: typeof extraInputValues.keep_audio === 'boolean' ? extraInputValues.keep_audio : null,
     });
     const transport = await createWanMediaTransport({ payload, userId: params.userId }, { read: deps.createOwnedMediaReadUrlFn });
     sanitizeDiagnostics = transport.sanitize;
+    capacity.slot = await (deps.reserveCapacityFn ?? reserveAlibabaVideoCapacity)({ model: route.model, queryFn });
     const task = await (deps.getAlibabaModelStudioClientFn ?? getAlibabaModelStudioClient)().createVideo(transport.payload);
     acceptedProviderJobId = task.providerJobId;
     acceptedTask = task;
   } catch (error) {
     const normalized = classifyAlibabaModelStudioError(error);
+    const directFallbackEligible = bailianHosted && Boolean(params.submitDirectFallback)
+      && shouldFallbackFromBailianSubmit({ acceptedProviderJobId, error });
     const llmhubFallbackEligible = Boolean(params.submitLlmhubFallback) && route.fallbackCompatible
       && !acceptedProviderJobId && [429, 503].includes(normalized.status ?? 0);
     const fallbackEligible = llmhubFallbackEligible || route.fallbackCompatible && shouldFallbackFromAlibabaSubmit({
@@ -413,12 +465,20 @@ export async function submitAlibabaModelStudioGenerateTask(params: {
         attemptId: attempt.id,
         errorCode: normalized.code,
         errorClass: normalized.errorClass,
-        fallbackEligible,
+        fallbackEligible: fallbackEligible || directFallbackEligible,
         responseSnapshot: sanitizeDiagnostics(normalized.raw),
         queryFn,
       });
     } catch {
       // The accepted task identity remains authoritative even if local persistence is degraded.
+    }
+
+    if (directFallbackEligible && params.submitDirectFallback) {
+      // No Bailian task exists; the charge stays reserved for the single direct submission.
+      params.logMetricFn('rejected', { jobId: params.jobId, errorCode: normalized.code ?? normalized.errorClass,
+        meta: { provider: ALIBABA_MODEL_STUDIO_PROVIDER, providerModel: route.model, fallbackTo: 'direct' } });
+      capacity.slot?.release();
+      return params.submitDirectFallback(attempt.id);
     }
 
     if (llmhubFallbackEligible && params.submitLlmhubFallback) {

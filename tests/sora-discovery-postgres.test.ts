@@ -49,7 +49,10 @@ test('public hub excludes archived identities before SQL limit while historical 
   const historical = await listExampleFamilyPage('sora', { sort: 'playlist', limit: 10 });
   assert.equal(historical.items.length, 3);
   const historicalSeedance = await listExampleFamilyPage('seedance', { sort: 'playlist', limit: 10 });
-  assert.deepEqual(historicalSeedance.items.map(item => item.engineId), ['seedance-1-5-pro', 'seedance-v1-5-pro', 'seedance-2-5']);
+  // Keyvo retired Seedance 1.5 Pro (owner decision 2026-11-11: offline on every public surface, examples included), so the
+  // seedance family reader no longer lists its identities; deep-legacy Sora above keeps its family media and the 1.5
+  // watch page below still resolves its historical row.
+  assert.deepEqual(historicalSeedance.items.map(item => item.engineId), ['seedance-2-5']);
   assert.equal((await getSeoVideoById('sora-2'))?.engineId, 'sora-2');
   assert.equal((await getSeoVideoById('seedance-1-5-pro'))?.engineId, 'seedance-1-5-pro');
   assert.deepEqual((await pg.pool.query('SELECT to_jsonb(j) AS row FROM app_jobs j ORDER BY job_id')).rows, before);

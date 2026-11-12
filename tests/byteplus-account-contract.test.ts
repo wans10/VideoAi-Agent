@@ -6,6 +6,7 @@ import React, { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { providerComparisonForTariffScenario } from '../frontend/server/pricing-admin/tariff-provider-comparison';
 import { collectSellableManualTariffCoverage } from '../frontend/lib/pricing-audit/manual-tariff-coverage';
+import { ENV } from '../frontend/src/lib/env';
 
 const at = '2026-10-01T12:00:00Z';
 function scenario(overrides: Partial<ProviderCostComparisonInput> = {}): ProviderCostComparisonInput {
@@ -70,6 +71,11 @@ test('unlisted Seedream Pro output size does not inherit the signed 2K SKU', () 
 });
 
 test('both admin summary and selected-scenario owner receive the account region', () => {
+  // The code default is the mainland node (cn-beijing); the signed contract belongs to the
+  // BytePlus international account, so pin that account region explicitly.
+  const previousRegion = ENV.BYTEPLUS_ARK_REGION;
+  ENV.BYTEPLUS_ARK_REGION = 'ap-southeast-1';
+  try {
   const selected = collectSellableManualTariffCoverage().scenarios.find(row => row.modelId === 'seedance-2-0-mini'
     && row.selector.mode === 't2v' && row.selector.resolution === '720p');
   assert.ok(selected);
@@ -77,6 +83,9 @@ test('both admin summary and selected-scenario owner receive the account region'
   assert.equal(input.accountContractRegion, 'ap-southeast-1');
   const [row] = buildProviderCostComparisonRows([input], at);
   assert.equal(row.supplierEffective.contract?.discountPercent, 60);
+  } finally {
+    ENV.BYTEPLUS_ARK_REGION = previousRegion;
+  }
 });
 
 test('admin exposes contract discount, LIST, validity and native billing unit beside the estimated margin', async () => {

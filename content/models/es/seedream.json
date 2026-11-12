@@ -13,7 +13,7 @@
     "badge": "Text -> Image · Image -> Image · Series de imágenes",
     "ctaPrimary": {
       "label": "Abrir Seedream",
-      "href": "/app/image?engine=seedream"
+      "href": "/es/modelos/seedream-5-0-pro"
     },
     "secondaryLinks": [
       {
@@ -238,7 +238,7 @@
       "paragraph": "Usa Seedream como espacio de generación y edición de imágenes fuente: crea cuadros de producto, referencias de personaje, visuales para anuncios y sets controlados antes de enviar los mejores recursos a un modelo de video.",
       "primaryCta": {
         "label": "Preparar referencias con Seedream",
-        "href": "/app/image?engine=seedream"
+        "href": "/es/modelos/seedream-5-0-pro"
       },
       "secondaryCta": {
         "label": "Animar con Seedance",
@@ -247,7 +247,7 @@
       "quickLinks": [
         {
           "label": "Abrir espacio de imagen",
-          "href": "/app/image?engine=seedream"
+          "href": "/es/modelos/seedream-5-0-pro"
         },
         {
           "label": "Ver precios",
@@ -308,7 +308,7 @@
         "body": "Elige Seedream cuando el siguiente paso de video necesita primero referencias más limpias de producto, personaje, estilo o composición.",
         "cta": {
           "label": "Abrir espacio de imagen Seedream",
-          "href": "/app/image?engine=seedream"
+          "href": "/es/modelos/seedream-5-0-pro"
         }
       },
       {

@@ -1,8 +1,11 @@
 import { referenceFile } from '@/server/images/llmhub-flare-generation';
 import {
+  isMinimaxLegacyTaskId,
   isMinimaxOfficialTaskId,
   MinimaxOfficialVideoClient,
   shouldUseMinimaxOfficial,
+  type MinimaxOfficialCreateInput,
+  type MinimaxStatusResult,
 } from '@/server/video-providers/minimax-official/client';
 import { createSignedDownloadUrl, extractStorageKeyFromUrl, isAllowedAssetHost, isStorageConfigured } from '@/server/storage';
 
@@ -42,8 +45,9 @@ async function referenceUrl(url: string): Promise<string> {
 export class LlmhubVideoClient {
   constructor(private readonly apiKey = process.env.LLMHUB_API_KEY, private readonly fetchFn: typeof fetch = fetch) {}
 
-  // MiniMax-H3 can run on the official API when MINIMAX_OFFICIAL_ENABLED is on; its numeric task IDs
-  // keep status and download on that API, while jobs already accepted by LLM Hub keep polling LLM Hub.
+  // MiniMax-H3 and the Hailuo models run on the official API when MINIMAX_OFFICIAL_ENABLED is on; their task IDs
+  // (numeric for V2, `mmv1-` + numeric for legacy V1) keep status and download on that API, while jobs already
+  // accepted by LLM Hub keep polling LLM Hub.
   private official(): MinimaxOfficialVideoClient {
     return new MinimaxOfficialVideoClient(process.env.MINIMAX_API_KEY, this.fetchFn, referenceUrl);
   }
@@ -58,6 +62,8 @@ export class LlmhubVideoClient {
     audioEnabled?: boolean;
     imageUrl?: string | null;
     jobId: string;
+    /** MiniMax official route only: last frame, multimodal references and the legacy prompt optimiser. */
+    minimax?: Pick<MinimaxOfficialCreateInput, 'endImageUrl' | 'referenceImageUrls' | 'referenceVideoUrls' | 'referenceAudioUrls' | 'promptOptimizer'>;
   }): Promise<{ id: string; raw: unknown }> {
     if (shouldUseMinimaxOfficial(input.model)) {
       return this.official().create({
@@ -67,6 +73,7 @@ export class LlmhubVideoClient {
         resolution: input.resolution,
         aspectRatio: input.aspectRatio,
         imageUrl: input.imageUrl,
+        ...(input.minimax ?? {}),
       });
     }
     // The three Veo 3.1 channels accept JSON on the OpenAI video path.
@@ -178,8 +185,9 @@ export class LlmhubVideoClient {
     return { id: taskId(raw), raw };
   }
 
-  async status(id: string): Promise<{ status: 'queued' | 'running' | 'completed' | 'failed'; progress: number; raw: unknown }> {
-    if (isMinimaxOfficialTaskId(id)) return this.official().status(id);
+  async status(id: string): Promise<{ status: 'queued' | 'running' | 'completed' | 'failed'; progress: number; raw: unknown }
+    & Pick<MinimaxStatusResult, 'failureMessage' | 'errorCode'>> {
+    if (isMinimaxOfficialTaskId(id) || isMinimaxLegacyTaskId(id)) return this.official().status(id);
     const response = await this.fetchFn(`${BASE_URL}/${encodeURIComponent(id)}`, {
       headers: { Authorization: `Bearer ${key(this.apiKey)}` },
       signal: AbortSignal.timeout(30_000),
@@ -199,7 +207,7 @@ export class LlmhubVideoClient {
   }
 
   async content(id: string): Promise<Response> {
-    if (isMinimaxOfficialTaskId(id)) return this.official().content(id);
+    if (isMinimaxOfficialTaskId(id) || isMinimaxLegacyTaskId(id)) return this.official().content(id);
     const response = await this.fetchFn(`${BASE_URL}/${encodeURIComponent(id)}/content`, {
       headers: { Authorization: `Bearer ${key(this.apiKey)}` },
       signal: AbortSignal.timeout(300_000),

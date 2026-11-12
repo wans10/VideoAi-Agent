@@ -22,7 +22,7 @@
       },
       {
         "label": "Préparer des références avec Seedream",
-        "href": "/models/seedream"
+        "href": "/models/seedream-5-0-pro"
       },
       {
         "label": "Voir Seedance 2.0 Fast",
@@ -257,7 +257,7 @@
         "brand": "bytedance",
         "title": "Préparer des références avec Seedream",
         "description": "Créez ou nettoyez une image fixe dans Seedream avant de l’utiliser comme référence contrôlée pour l’image-to-video Seedance.",
-        "modelSlug": "seedream",
+        "modelSlug": "seedream-5-0-pro",
         "ctaLabel": "Explorer Seedream ->"
       },
       {

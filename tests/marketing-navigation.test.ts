@@ -75,12 +75,11 @@ test('public dropdowns limit launch badges to the eight promoted current models 
     .filter(({ badge }) => badge === 'new')
     .map(({ key }) => key);
 
-  // FLUX 3 Max is hidden by the Keyvo visibility policy.
+  // FLUX 3 Max is hidden by the Keyvo visibility policy; MiniMax-H3-Max has no mainland route and is hidden too.
   assert.deepEqual(badgedEntries, [
     'kling-v4-flash',
     'kling-v4',
     'minimax-h3',
-    'minimax-h3-max',
     'seedance-2-5',
     'wan-3',
     'wan-3-prime',

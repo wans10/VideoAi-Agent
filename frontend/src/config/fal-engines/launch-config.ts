@@ -18,9 +18,9 @@ export const SEEDANCE_2_ENDPOINTS = {
   },
 } as const;
 
-export const BYTEPLUS_SEEDANCE_2_FAST_MODEL_ID = 'dreamina-seedance-2-0-fast-260128';
+export const BYTEPLUS_SEEDANCE_2_FAST_MODEL_ID = 'doubao-seedance-2-0-fast-260128';
 export const BYTEPLUS_SEEDANCE_2_FAST_CAPS_ID = 'byteplus/dreamina-seedance-2.0-fast/text-to-video';
-export const BYTEPLUS_SEEDANCE_2_MINI_MODEL_ID = 'dreamina-seedance-2-0-mini-260615';
+export const BYTEPLUS_SEEDANCE_2_MINI_MODEL_ID = 'doubao-seedance-2-0-mini-260615';
 export const BYTEPLUS_SEEDANCE_2_MINI_ENDPOINTS = {
   t2v: 'byteplus/dreamina-seedance-2.0-mini/text-to-video',
   i2v: 'byteplus/dreamina-seedance-2.0-mini/image-to-video',
@@ -28,7 +28,7 @@ export const BYTEPLUS_SEEDANCE_2_MINI_ENDPOINTS = {
   v2v: 'byteplus/dreamina-seedance-2.0-mini/video-to-video',
   extend: 'byteplus/dreamina-seedance-2.0-mini/extend',
 } as const;
-export const BYTEPLUS_SEEDANCE_2_5_MODEL_ID = 'dreamina-seedance-2-5-260628';
+export const BYTEPLUS_SEEDANCE_2_5_MODEL_ID = 'doubao-seedance-2-5-260628';
 export const BYTEPLUS_SEEDANCE_2_5_ENDPOINTS = {
   t2v: 'byteplus/dreamina-seedance-2.5/text-to-video',
   i2v: 'byteplus/dreamina-seedance-2.5/image-to-video',

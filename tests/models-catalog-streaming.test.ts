@@ -108,9 +108,11 @@ test('catalogue streams the complete stable hero before prices and reveals exact
         const catalogBase={en:'/models',fr:'/fr/modeles',es:'/es/modelos',zh:'/zh/models'}[locale as 'en'|'fr'|'es'|'zh'];
         const targets=new Set([...initial.window.document.querySelectorAll('a[href]')].map(a=>a.getAttribute('href')));
         for (const suffix of ['/video','/image']) assert.ok(targets.has(catalogBase+suffix), `Missing hub ${catalogBase}${suffix}`);
-        if(scope!=='video')for(const slug of ['seedream','seedream-5-0-pro']) {
+        if(scope!=='video')for(const slug of ['seedream-5-0-pro']) {
           assert.ok(targets.has(`${catalogBase}/${slug}`), `Missing initial image model ${slug}`);
         }
+        // Seedream 5.0 Lite is retired (replacement Seedream 5.0 Pro) and must not be linked.
+        assert.ok(!targets.has(`${catalogBase}/seedream`), 'Retired Seedream 5.0 Lite must not be linked');
         // Keyvo hides non-Chinese-vendor image models from the public catalogue.
         for(const slug of ['nano-banana-2','gpt-image-2-5-sunburst']) assert.ok(!targets.has(`${catalogBase}/${slug}`), `Hidden image model ${slug} must not be linked`);
         assert.equal(discovery.querySelectorAll('img,video').length,0,'Discovery must not load another media gallery');
@@ -145,7 +147,9 @@ test('catalogue streams the complete stable hero before prices and reveals exact
           // Keyvo's visible families exclude FLUX, so its draft and Max cards are not built on this deployment.
           assert.equal(cards.some((card:any)=>card.id==='flux-3-draft'),false,'FLUX is hidden on Keyvo');
           assert.equal([...final.window.document.querySelectorAll('#models-grid article')].some(card=>card.querySelector('h3')?.textContent==='FLUX 3 Max'),false,'FLUX 3 Max is hidden on Keyvo');
-          assert.equal(cards.find((card:any)=>card.id==='minimax-h3-max')?.stats.maxDuration,'15s','Relight/Recast source limits cannot replace H3 Max creation timing');
+          // MiniMax-H3-Max has no mainland route and is hidden on Keyvo; H3 keeps its 15 s creation timing.
+          assert.equal(cards.some((card:any)=>card.id==='minimax-h3-max'),false,'H3 Max is hidden on Keyvo');
+          assert.equal(cards.find((card:any)=>card.id==='minimax-h3')?.stats.maxDuration,'15s','H3 card shows its creation timing');
         }
         for(const card of cards)assert.ok(targets.has(`${catalogBase}/${card.id}`), `Missing SSR directory destination ${card.id}`);
         assert.ok(cards.every((card:any)=>card.filterMeta.priceFrom===7.31||card.filterMeta.priceFrom===null));

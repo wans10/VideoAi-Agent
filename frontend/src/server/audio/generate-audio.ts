@@ -34,6 +34,7 @@ import {
   updateAudioJob,
 } from '@/server/audio/audio-generate-jobs';
 import { refundAudioCharge } from '@/server/audio/audio-generate-receipts';
+import { MINIMAX_SPEECH_RATE_LIMIT_MARKER } from './providers/minimax-speech';
 import {
   buildProviderSnapshot,
   parseProviderFailures,
@@ -399,6 +400,15 @@ export async function executeReservedAudioRun(params: ReservedAudioRun): Promise
       throw new AudioGenerationError(`${message} Wallet refund reconciliation is pending.`, {
         status: 502,
         code: 'audio_refund_reconciliation_pending',
+        providerFailures,
+      });
+    }
+
+    // The provider refused for rate limiting (MiniMax 1002/1039/2045/429 or our local 20 RPM guard): the charge is refunded above.
+    if (providerFailures?.some((failure) => failure.message.includes(MINIMAX_SPEECH_RATE_LIMIT_MARKER))) {
+      throw new AudioGenerationError('请求过于频繁，请稍后再试。本次费用已退回。', {
+        status: 429,
+        code: 'provider_rate_limited',
         providerFailures,
       });
     }

@@ -126,16 +126,20 @@ test('comparison detail page applies legacy replacements as permanent redirects'
 });
 
 test('comparison routing accepts public P1 engines while preserving unresolved-pair notFound handling', () => {
-  const publicP1Pair = resolveEngines('kling-3-turbo-pro-vs-minimax-h3-max');
+  const publicP1Pair = resolveEngines('kling-3-turbo-pro-vs-minimax-h3');
   assert.equal(publicP1Pair?.left.modelSlug, 'kling-3-turbo-pro');
-  assert.equal(publicP1Pair?.right.modelSlug, 'minimax-h3-max');
+  assert.equal(publicP1Pair?.right.modelSlug, 'minimax-h3');
   assert.equal(resolveEngines('missing-model-vs-veo-3-1'), null);
 
   // Keyvo hides non-Chinese-vendor models, so a pair that includes one no longer resolves.
   assert.equal(resolveEngines('gemini-omni-flash-vs-veo-3-1'), null);
-  const publishedPair = resolveEngines('minimax-h3-vs-minimax-h3-max');
+  // H3 Max has no mainland route and is hidden on Keyvo; Wan 2.5 is offline.
+  assert.equal(resolveEngines('kling-3-turbo-pro-vs-minimax-h3-max'), null);
+  assert.equal(resolveEngines('minimax-h3-vs-minimax-h3-max'), null);
+  assert.equal(resolveEngines('seedance-2-0-vs-wan-2-5'), null);
+  const publishedPair = resolveEngines('minimax-h3-vs-seedance-2-5');
   assert.equal(publishedPair?.left.modelSlug, 'minimax-h3');
-  assert.equal(publishedPair?.right.modelSlug, 'minimax-h3-max');
+  assert.equal(publishedPair?.right.modelSlug, 'seedance-2-5');
   assert.match(pageSource, /const resolved = resolveEngines\(canonicalInfo\.canonicalSlug\);[\s\S]*if \(!resolved\) \{[\s\S]*notFound\(\);/);
 });
 const scorecardSource = readFileSync(

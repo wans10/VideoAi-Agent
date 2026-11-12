@@ -34,9 +34,13 @@ test('specialized exclusions never borrow a different model endpoint',()=>{
 import { getRuntimeModelById } from '../frontend/config/model-runtime';
 test('30 current and eight exact-ID legacy models remain distinct discovery classes',()=>{
  const legacy=['lumaRay2','lumaRay2_flash','kling-2-5-turbo','kling-2-6-pro','happy-horse-1-0','wan-2-6','ltx-2-3-fast','ltx-2-3'];
+ const keyvoOffline=['happy-horse-1-0','minimax-h3-max'];
+ for(const id of keyvoOffline)assert.ok(id in expected,id);
  assert.equal(Object.keys(expected).filter(id=>!legacy.includes(id)).length,30);
  for(const id of Object.keys(expected)){
   const model=getRuntimeModelById(id)!;assert.equal(model.lifecycle,legacy.includes(id)?'legacy':'current',id);
-  assert.ok(model.publication.app.published,id);assert.ok(getFalEngineById(id),`${id}: exact discovery retained`);
+  // Keyvo: HappyHorse 1.0 is offline (owner decision 2026-11-11) and MiniMax-H3-Max is hidden (KEYVO_HIDDEN_MODEL_IDS);
+  // both leave the app while their engines stay for historical jobs.
+  assert.equal(model.publication.app.published,!keyvoOffline.includes(id),id);assert.ok(getFalEngineById(id),`${id}: exact discovery retained`);
  }
 });

@@ -11,7 +11,7 @@ import { evaluateManualTariffPrice, isValidManualTariffPrice } from '../packages
 import { prepareContinuousInputTariffChange, continuousInputTariffDetail } from '../frontend/server/pricing-admin/continuous-input-tariff';
 import { chooseCustomerTariffScenario } from '../frontend/server/pricing-admin/customer-tariff-service';
 import { collectSellableManualTariffCoverage } from '../frontend/lib/pricing-audit/manual-tariff-coverage';
-import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility';
+import { isKeyvoHiddenModel, isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility';
 import { resolvePublicModelScenario } from '../frontend/server/pricing/quote-public-model-scenario';
 
 const policy = { status: 'loaded' as const, rules: [{ id: 'default', currency: 'USD', marginPercent: .3,
@@ -23,11 +23,19 @@ test('admin and public current quotes accept unseen supported output seconds and
     const tokens = modelId === 'minimax-h3-max';
     const mode = tokens ? 'ref2v' : 'v2v';
     const requested = { mode, resolution: tokens ? '768P' : '720p', ...(tokens ? { referenceTokenBudget: '9096' } : { durationSec: '131' }) };
-    const selected = chooseCustomerTariffScenario(scenarios.filter(row => row.modelId === modelId), requested);
+    const hidden = isKeyvoHiddenModel(modelId);
+    // Keyvo hides MiniMax-H3-Max: it has no sellable coverage, so the upstream open-budget contract is checked on the
+    // engine's own sampled 4096/4097 reference-token cells.
+    if (hidden) assert.equal(scenarios.some(row => row.modelId === modelId), false);
+    const candidates = hidden
+      ? [4096, 4097].map(referenceTokenBudget => buildManualTariffCoverageScenario({ engine: getFalEngineById(modelId)!.engine,
+        mode: 'ref2v', durationSec: 5, resolution: '768P', referenceTokenBudget }, 'keyvo-hidden'))
+      : scenarios.filter(row => row.modelId === modelId);
+    const selected = chooseCustomerTariffScenario(candidates, requested);
     assert.equal(selected.scenario.selector[tokens ? 'referenceTokenBudget' : 'durationSec'], tokens ? '9096' : '131');
     const publicScenario = resolvePublicModelScenario({ modelId, mode, resolution: requested.resolution,
       durationSec: tokens ? 5 : 131, ...(tokens ? { referenceTokenBudget: 9096 } : {}) });
-    if (!isKeyvoVisibleFamily(getFalEngineById(modelId)!.family)) {
+    if (hidden || !isKeyvoVisibleFamily(getFalEngineById(modelId)!.family)) {
       // Keyvo hides this model's page, so its public quote does not resolve; the admin tariff above still does.
       assert.equal(publicScenario ?? null, null, modelId);
       continue;

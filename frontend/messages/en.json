@@ -1791,7 +1791,9 @@
         "veo-3-1-fast": "Use Veo 3.1 Fast for quick text, start-image, last-frame, and extend passes.",
         "veo-3-1-lite": "Use Veo 3.1 Lite for lower-cost text, start-image, and last-frame passes with audio always on.",
         "pika-text-to-video": "Quick social loops with captions and remix-friendly settings.",
-        "minimax-hailuo-02-text": "Prompt-optimised drafts before the hero generation."
+        "minimax-hailuo-02-text": "Prompt-optimised drafts before the hero generation.",
+        "minimax-hailuo-2-3": "Priced per clip: 768P for 6 or 10 seconds, 1080P for 6 seconds.",
+        "minimax-hailuo-2-3-fast": "Start-image video priced per clip: 768P for 6 or 10 seconds, 1080P for 6 seconds."
       },
       "engineRateLabel": "Engine rate",
       "durationLabel": "Duration",
@@ -3740,6 +3742,22 @@
             "badges": [
               "Prompt optimiser",
               "Image input",
+              "6–10s silent"
+            ]
+          },
+          "minimax-hailuo-2-3": {
+            "description": "Hailuo 2.3 renders text-to-video and first-frame image-to-video on MiniMax's own API; 1080P is 6 seconds only.",
+            "badges": [
+              "Prompt optimiser",
+              "Image input",
+              "6–10s silent"
+            ]
+          },
+          "minimax-hailuo-2-3-fast": {
+            "description": "Hailuo 2.3 Fast animates a start image faster and for less; 1080P is 6 seconds only.",
+            "badges": [
+              "Image to video",
+              "Fast",
               "6–10s silent"
             ]
           },

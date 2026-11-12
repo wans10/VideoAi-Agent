@@ -49,7 +49,9 @@ test('automatic timing covers every normalized integer price class without chang
 
 test('finite modes retain every reviewed current and historical billing class', () => {
   const coverage = collectSellableManualTariffCoverage();
-  for (const [modelId, mode, max] of [['happy-horse-1-0', 'v2v', 15], ['ltx-2-3', 'a2v', 20],
+  // HappyHorse 1.0 (and its 1-15 s v2v classes) is retired on Keyvo and no longer sellable.
+  assert.ok(!coverage.scenarios.some(row => row.modelId === 'happy-horse-1-0'));
+  for (const [modelId, mode, max] of [['ltx-2-3', 'a2v', 20],
     ['luma-ray-3-2', 'reframe', 30], ['lumaRay2', 'reframe', 9],
     ['lumaRay2_flash', 'reframe', 9]] as const) {
     const rows = coverage.scenarios.filter(row => row.modelId === modelId && row.context.mode === mode);

@@ -17,8 +17,8 @@
     },
     "secondaryLinks": [
       {
-        "label": "打开 Seedream Lite",
-        "href": "/zh/models/seedream"
+        "label": "试用 Seedream 5.0 Flash",
+        "href": "/app/image?engine=seedream-5-0-flash"
       },
       {
         "label": "使用 Seedance 2.0 制作动画",
@@ -52,7 +52,7 @@
     "items": [
       "当页面需要层次结构、标签、文字或密集构图时，使用 Pro。",
       "保持简报结构化：主体、版式、视觉层次、文字元素和照明。",
-      "批量快速处理使用 Seedream Lite；Pro 每次请求输出一张专业图像。",
+      "快速、低成本出图使用 Seedream Flash；Pro 每次请求输出一张专业图像。",
       "在将其发送到 Seedance 进行动态处理前，准备好已批准的静态图像。"
     ]
   },
@@ -68,8 +68,8 @@
   ],
   "faqs": [
     {
-      "q": "Seedream 5.0 Pro 与 Seedream 5.0 Lite 有何区别？",
-      "a": "Pro 适用于专业最终成品、密集信息图表、复杂编辑和 4K 广告静态图像。Lite 适用于更快速的图像集和参考准备。"
+      "q": "Seedream 5.0 Pro 与 Seedream 5.0 Flash 有何区别？",
+      "a": "Pro 适用于专业最终成品、密集信息图表、复杂编辑和 4K 广告静态图像。Flash 适用于更快速、更低成本的参考图准备。"
     },
     {
       "q": "Seedream 5.0 Pro 支持批量输出吗？",
@@ -98,7 +98,7 @@
     ],
     "whyTitle": "为何使用 Seedream Pro",
     "heroDesc1": "Seedream 5.0 Pro 是字节跳动专为需要层次结构、标签、精美构图和专业质感的视觉工作设计的路线。",
-    "heroDesc2": "它与 Seedream Lite 互补：Lite 适合快速批量和参考准备；Pro 适合您想要展示或制作动画的图像。",
+    "heroDesc2": "它与 Seedream Flash 互补：Flash 适合快速、低成本的参考准备；Pro 适合您想要展示或制作动画的图像。",
     "heroHighlights": [
       "专业构图||使用 Pro 制作密集信息图表、广告图像和视觉说明。",
       "受控编辑||通过精确的保留/更改指令，将多个参考图整合为一张精美图像。",
@@ -124,19 +124,12 @@
     "boundaries": [
       "仅限静态图像。",
       "每次请求生成一张图像。",
-      "批量图像集请使用 Seedream Lite。",
+      "快速、低成本草图请使用 Seedream Flash。",
       "Seedance 在视频生成前仍会评估任何图像。"
     ],
     "relatedTitle": "Seedream 系列",
-    "relatedSubtitle": "速度和图像集使用 Lite；精美图像使用 Pro。",
+    "relatedSubtitle": "速度与成本优先使用 Flash；精美图像使用 Pro。",
     "relatedItems": [
-      {
-        "brand": "ByteDance",
-        "title": "Seedream 5.0 Lite",
-        "modelSlug": "seedream",
-        "description": "适用于更快的参考帧、批量图像集以及 Seedance 前的源准备。",
-        "ctaLabel": "打开 Seedream Lite"
-      },
       {
         "brand": "ByteDance",
         "title": "Seedance 2.0",
@@ -167,8 +160,8 @@
         "href": "/app/image?engine=seedream-5-0-pro"
       },
       "secondaryCta": {
-        "label": "打开 Seedream Lite",
-        "href": "/zh/models/seedream"
+        "label": "试用 Seedream 5.0 Flash",
+        "href": "/app/image?engine=seedream-5-0-flash"
       },
       "quickLinks": [
         {
@@ -224,11 +217,11 @@
     ],
     "decisionCards": [
       {
-        "title": "打开 Seedream Lite",
+        "title": "试用 Seedream 5.0 Flash",
         "body": "Seedream 5.0 Pro 是 VideoAI 中字节跳动的专业图像路线。适用于密集信息图表、高级编辑、多语言视觉版式、电影级静态图像以及动画前的精美参考帧。",
         "cta": {
-          "label": "打开 Seedream Lite",
-          "href": "/zh/models/seedream"
+          "label": "试用 Seedream 5.0 Flash",
+          "href": "/app/image?engine=seedream-5-0-flash"
         }
       },
       {

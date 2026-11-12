@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { listFalEngines } from '../frontend/src/config/falEngines';
 import { calculateQwenImageCost, QWEN_IMAGE_IDS, QWEN_IMAGE_RATIOS, resolveQwenImageSize } from '../frontend/src/lib/image/qwen-image';
-import { buildQwenImagePayload, callQwenImage, extractQwenImageResult, getQwenImageConfig } from '../frontend/src/server/images/alibaba-qwen-image-client';
+import { buildQwenImagePayload, callQwenImage, extractQwenImageResult, getQwenImageConfig, QwenImageError, QWEN_IMAGE_BUSY_MESSAGE, reserveQwenImageRateSlot } from '../frontend/src/server/images/alibaba-qwen-image-client';
 import { buildBillingPricingFacts } from '../frontend/src/lib/pricing-billing-facts';
 import { buildPublicPricingFacts } from '../frontend/src/lib/pricing-public-facts';
 import { resolveImageProviderSelection } from '../frontend/src/server/images/image-provider-routing';
@@ -76,7 +76,7 @@ test('Qwen client uses the workspace endpoint once and preserves request id and 
 
 test('Qwen rejects provider failures, empty results and non-HTTPS output; never resubmits', async () => {
   const config = { apiKey: 'test', baseUrl: 'https://dashscope.aliyuncs.com' };
-  for (const status of [200, 400, 403, 429, 500]) {
+  for (const status of [200, 400, 403, 500]) {
     let calls = 0;
     await assert.rejects(callQwenImage(config, buildQwenImagePayload(input), async () => {
       calls++; return Response.json({ code: 'InvalidParameter', message: 'Rejected' }, { status });
@@ -87,4 +87,30 @@ test('Qwen rejects provider failures, empty results and non-HTTPS output; never 
   assert.throws(() => extractQwenImageResult({ output: { choices: [{ message: { content: [{ image: 'http://example.com/a.png' }] } }] } }), /Invalid/);
   assert.throws(() => getQwenImageConfig({}), /required/);
   assert.throws(() => getQwenImageConfig({ ALIBABA_MODEL_STUDIO_API_KEY: 'test', ALIBABA_MODEL_STUDIO_BASE_URL: 'https://dashscope.aliyuncs.com/api/v1' }), /without a path/);
+});
+
+test('Qwen sends thinking explicitly, maps throttling to a clear refundable rejection and defaults to Beijing', async () => {
+  assert.equal(buildQwenImagePayload(input).parameters.enable_thinking, true);
+  const config = { apiKey: 'test', baseUrl: 'https://dashscope.aliyuncs.com' };
+  let calls = 0;
+  const throttled = await callQwenImage(config, buildQwenImagePayload(input), async () => {
+    calls++; return Response.json({ code: 'Throttling.RateQuota', message: 'Requests rate limit exceeded' }, { status: 429 });
+  }).catch(error => error);
+  assert.equal(calls, 1, 'a throttled request is never resubmitted automatically');
+  assert.ok(throttled instanceof QwenImageError);
+  assert.equal(throttled.status, 429);
+  assert.equal(throttled.definitiveRejection, true);
+  assert.equal(throttled.message, QWEN_IMAGE_BUSY_MESSAGE);
+  assert.equal(getQwenImageConfig({ ALIBABA_MODEL_STUDIO_API_KEY: 'test' }).baseUrl, 'https://dashscope.aliyuncs.com');
+  assert.equal(getQwenImageConfig({ ALIBABA_MODEL_STUDIO_API_KEY: 'test', ALIBABA_MODEL_STUDIO_WORKSPACE_ID: 'llm-test01' }).baseUrl,
+    'https://llm-test01.cn-beijing.maas.aliyuncs.com');
+  assert.throws(() => getQwenImageConfig({ ALIBABA_MODEL_STUDIO_API_KEY: 'test', ALIBABA_MODEL_STUDIO_REGION: 'ap-southeast-1' }), /Beijing/);
+});
+
+test('Qwen enforces the documented per-minute submission limit before the paid call', () => {
+  let allowed = true;
+  assert.doesNotThrow(() => reserveQwenImageRateSlot('qwen-image-3.0-pro', () => ({ ok: true })));
+  allowed = false;
+  assert.throws(() => reserveQwenImageRateSlot('qwen-image-3.0-pro', () => allowed ? { ok: true } : { ok: false, retryAfterMs: 1000 }),
+    (error: unknown) => error instanceof QwenImageError && error.status === 429 && error.definitiveRejection);
 });

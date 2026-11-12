@@ -26,7 +26,7 @@
       },
       {
         "label": "Preparar referencias con Seedream",
-        "href": "/models/seedream"
+        "href": "/models/seedream-5-0-pro"
       },
       {
         "label": "Ver ejemplos de video IA de Seedance",
@@ -231,9 +231,9 @@
     "relatedItems": [
       {
         "brand": "bytedance",
-        "title": "Seedream 5.0 Lite",
+        "title": "Seedream 5.0 Pro",
         "description": "Genera o limpia una imagen fija en Seedream antes de usar Seedance 2.0 Fast para borradores rápidos de movimiento.",
-        "modelSlug": "seedream",
+        "modelSlug": "seedream-5-0-pro",
         "ctaLabel": "Preparar referencias con Seedream ->"
       },
       {

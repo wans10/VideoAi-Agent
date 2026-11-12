@@ -94,7 +94,7 @@ test('Seedance 2 registry centralizes provisional Fal IDs and keeps both launch 
   assert.equal(fast.engine.pricingDetails?.tokenPricing?.defaultAspectRatio, '16:9');
   assert.equal(mini.defaultFalModelId, 'byteplus/dreamina-seedance-2.0-mini/text-to-video');
   assert.equal(mini.engine.providerMeta?.provider, 'byteplus_modelark');
-  assert.equal(mini.engine.providerMeta?.modelSlug, 'dreamina-seedance-2-0-mini-260615');
+  assert.equal(mini.engine.providerMeta?.modelSlug, 'doubao-seedance-2-0-mini-260615');
   assert.deepEqual(mini.engine.modes, ['t2v', 'i2v', 'ref2v', 'v2v', 'extend']);
   assert.deepEqual(mini.engine.resolutions, ['480p', '720p']);
   assert.deepEqual(mini.engine.fps, [24]);
@@ -191,8 +191,11 @@ test('Seedance 2 registry centralizes provisional Fal IDs and keeps both launch 
   assert.equal(fast.surfaces.compare.includeInHub, true);
   assert.equal(seedance.surfaces.modelPage.indexable, true);
   assert.equal(fast.surfaces.modelPage.indexable, true);
-  assert.equal(seedance.surfaces.compare.publishedPairs.length, 23);
-  assert.equal(fast.surfaces.compare.publishedPairs.length, 22);
+  // Seedance 1.5 Pro and Wan 2.5 are retired on Keyvo, so their pairs left both lists.
+  assert.equal(seedance.surfaces.compare.publishedPairs.length, 21);
+  assert.equal(fast.surfaces.compare.publishedPairs.length, 20);
+  assert.equal(seedance.surfaces.compare.publishedPairs.includes('wan-2-5'), false);
+  assert.equal(fast.surfaces.compare.publishedPairs.includes('wan-2-5'), false);
   assert.equal(mini.surfaces.app.enabled, true);
   assert.equal(mini.surfaces.modelPage.indexable, true);
   assert.equal(mini.surfaces.examples.includeInFamilyResolver, true);
@@ -205,10 +208,10 @@ test('Seedance 2 registry centralizes provisional Fal IDs and keeps both launch 
     'veo-3-1-fast',
     'luma-ray-3-2',
   ]);
-  ['veo-3-1', 'kling-3-pro', 'sora-2', 'seedance-1-5-pro', 'seedance-2-0-fast'].forEach((slug) =>
+  ['veo-3-1', 'kling-3-pro', 'sora-2', 'seedance-2-0-fast'].forEach((slug) =>
     assert.ok(seedance.surfaces.compare.publishedPairs.includes(slug), `Seedance 2.0 missing published pair ${slug}`)
   );
-  ['veo-3-1-fast', 'ltx-2-3-fast', 'seedance-1-5-pro', 'seedance-2-0', 'wan-2-6'].forEach((slug) =>
+  ['veo-3-1-fast', 'ltx-2-3-fast', 'seedance-2-0', 'wan-2-6'].forEach((slug) =>
     assert.ok(fast.surfaces.compare.publishedPairs.includes(slug), `Seedance 2.0 Fast missing published pair ${slug}`)
   );
 });
@@ -228,13 +231,11 @@ test('Seedance aliases, family routing, hub publication, and locale coverage are
     'seedance-2-0',
     'seedance-2-0-fast',
     'dreamina-seedance-2-0-mini',
-    'seedance-1-5-pro',
   ]);
 
   const publishedComparisonSlugs = getPublishedComparisonSlugs();
   [
     'kling-3-pro-vs-seedance-2-0',
-    'seedance-1-5-pro-vs-seedance-2-0-fast',
     'dreamina-seedance-2-0-mini-vs-seedance-2-0',
     'dreamina-seedance-2-0-mini-vs-seedance-2-0-fast',
   ].forEach((slug) => assert.ok(publishedComparisonSlugs.includes(slug), `Missing published comparison ${slug}`));
@@ -393,15 +394,16 @@ test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter mark
   assert.ok(!appEngineIds.includes('sora-2'));
   assert.ok(!appEngineIds.includes('sora-2-pro'));
 
+  // Keyvo hides MiniMax-H3-Max on every surface (KEYVO_HIDDEN_MODEL_IDS: no mainland route), so it leaves the nav.
   assert.deepEqual(
     MARKETING_NAV_MODELS.map((item) => item.key),
-    ['kling-v4-flash', 'kling-v4', 'minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1'],
+    ['kling-v4-flash', 'kling-v4', 'minimax-h3', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1'],
   );
   assert.deepEqual(
     MARKETING_NAV_COMPARE.map((item) => item.key),
-    ['kling-v4-vs-kling-v4-flash', 'kling-v4-vs-seedance-2-5', 'kling-v4-vs-wan-3-prime', 'minimax-h3-vs-seedance-2-5', 'minimax-h3-vs-minimax-h3-max', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'wan-3-vs-wan-3-prime', 'seedance-2-0-vs-seedance-2-0-fast'],
+    ['kling-v4-vs-kling-v4-flash', 'kling-v4-vs-seedance-2-5', 'kling-v4-vs-wan-3-prime', 'minimax-h3-vs-seedance-2-5', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'wan-3-vs-wan-3-prime', 'seedance-2-0-vs-seedance-2-0-fast'],
   );
-  assert.equal(MARKETING_NAV_COMPARE.length, 9);
+  assert.equal(MARKETING_NAV_COMPARE.length, 8, 'the H3 vs H3 Max pair leaves with the hidden H3 Max');
   const expectedExampleFamilies = [
     'seedance',
     'kling',
@@ -413,21 +415,21 @@ test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter mark
   assert.deepEqual(MARKETING_FOOTER_EXAMPLES.map((item) => item.key).sort(), expectedExampleFamilies.slice().sort());
 });
 
-test('Seedance 1.5 Pro stays historical while Seedance 2.0 keeps the primary alias and promoted slots', () => {
+test('Seedance 1.5 Pro is retired while Seedance 2.0 keeps the primary alias and promoted slots', () => {
   const seedance15 = listFalEngines().find((entry) => entry.id === 'seedance-1-5-pro');
 
-  assert.ok(seedance15);
-  assert.equal(Boolean(seedance15.isLegacy), true);
+  assert.ok(seedance15, 'the engine definition stays for historical jobs');
   assert.equal(seedance15.surfaces.app.enabled, false);
-  assert.equal(seedance15.surfaces.compare.includeInHub, true);
-  assert.equal(getPublishedComparisonSlugs().includes('seedance-1-5-pro-vs-seedance-2-0-fast'), true);
+  assert.equal(seedance15.surfaces.compare.includeInHub, false);
+  assert.equal(getPublishedComparisonSlugs().some((slug) => slug.includes('seedance-1-5-pro')), false);
   assert.equal(normalizeEngineId('seedance'), 'seedance-2-0');
   assert.equal(MARKETING_NAV_MODELS.some((item) => item.key === 'seedance-1-5-pro'), false);
   assert.equal(getHubEngines().some((engine) => engine.modelSlug === 'seedance-1-5-pro'), false);
 });
 
 test('Header model menu keeps H3 and the current P1 representatives in the bounded set', () => {
-  assert.deepEqual(MARKETING_NAV_MODELS.map((item) => item.key), ['kling-v4-flash', 'kling-v4', 'minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1']);
+  assert.deepEqual(MARKETING_NAV_MODELS.map((item) => item.key), ['kling-v4-flash', 'kling-v4', 'minimax-h3', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1']);
+  assert.equal(MARKETING_NAV_MODELS.some((item) => item.key === 'minimax-h3-max'), false, 'H3 Max is hidden on Keyvo');
 });
 
 test('Examples hub family order follows the current business priority without reordering global families', () => {
@@ -444,7 +446,8 @@ test('Happy Horse has a crawlable examples family and appears in example family 
   assert.equal(isIndexedExampleFamilyId('happy-horse'), true);
   assert.equal(resolveExampleFamilyId('happy-horse-1-1'), 'happy-horse');
   assert.equal(resolveExampleFamilyId('happy-horse-1-0'), 'happy-horse');
-  assert.deepEqual(getExampleFamilyModelSlugs('happy-horse'), ['happy-horse-1-1', 'happy-horse-1-0']);
+  // HappyHorse 1.0 is retired (examples unpublished); old ids still resolve to the family for historical links.
+  assert.deepEqual(getExampleFamilyModelSlugs('happy-horse'), ['happy-horse-1-1']);
   assert.deepEqual(getExampleFamilyCurrentModelSlugs('happy-horse'), ['happy-horse-1-1']);
   assert.equal(getExampleNavFamilyIds().includes('happy-horse'), true);
 });

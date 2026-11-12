@@ -82,7 +82,10 @@ test('public pricing baseline exhaustively covers eligible catalog and public su
   assert.ok(klingPricingDiscovery.rows.every((row) => row.engineId === 'kling-v4' && row.status === 'unavailable'));
   assert.equal(novemberMarketing.rows.length, 28);
   assert.ok(novemberMarketing.rows.every(row => row.status === 'unavailable' && row.customerTotalCents === undefined));
-  const rows = [...fixture.rows, ...launch.rows, ...fluxMaxLaunch.rows, ...nano21Launch.rows, ...klingPublicDiscovery.rows, ...klingPricingDiscovery.rows, ...novemberImages.rows, ...novemberMarketing.rows];
+  const keyvoTransition = JSON.parse(
+    readFileSync('tests/fixtures/keyvo-provider-transition-public-pricing-2026-11-11.json', 'utf8')
+  ) as PublicProjectionFixture;
+  const rows = [...fixture.rows, ...launch.rows, ...fluxMaxLaunch.rows, ...nano21Launch.rows, ...klingPublicDiscovery.rows, ...klingPricingDiscovery.rows, ...novemberImages.rows, ...novemberMarketing.rows, ...keyvoTransition.rows];
   const ids = rows.map((row) => row.id);
   assert.equal(new Set(ids).size, ids.length, 'public projection scenario ids must be unique');
 
@@ -153,7 +156,8 @@ test('Sora and Seedance 1.5 retirement removes purchasable projections without r
   for (const engineId of ['sora-2', 'sora-2-pro', 'seedance-1-5-pro']) {
     assert.equal(rows.some((row) => row.engineId === engineId
       && ['estimator', 'pricing-hub-video', 'workspace-preflight'].includes(row.surface)), false);
-    assert.deepEqual(rows.find((row) => row.id === `json-ld:${engineId}:offer`), {
+    // Keyvo retired Seedance 1.5 Pro entirely: no model page, so no Product offer row at all.
+    assert.deepEqual(rows.find((row) => row.id === `json-ld:${engineId}:offer`), engineId === 'seedance-1-5-pro' ? undefined : {
       id: `json-ld:${engineId}:offer`, surface: 'json-ld', engineId, status: 'unavailable',
     });
   }
@@ -173,6 +177,34 @@ test('public pricing baseline ignores machine-specific pricing environment overr
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
   // Keyvo's public baseline is a subset of upstream's rows; the exact count follows the merged registry projection.
   assert.match(result.stdout, /current \(\d+ rows\)/);
+});
+
+test('Keyvo provider transition retires four models, keeps H3 per-second rates and adds only Seedream Flash rows', async () => {
+  const transition = JSON.parse(readFileSync('tests/fixtures/keyvo-provider-transition-public-pricing-2026-11-11.json', 'utf8')) as {
+    retiredEngineIds: string[]; retiredRowIds: string[];
+    changes: Array<{ previous: PublicProjectionFixture['rows'][number] & { vendorSubtotalCents?: number }; current: PublicProjectionFixture['rows'][number] & { vendorSubtotalCents?: number } }>;
+    rows: PublicProjectionFixture['rows'];
+  };
+  const { collectPublicPricingProjectionRows } = await import('../frontend/scripts/pricing-public-baseline-collector');
+  const current = await collectPublicPricingProjectionRows();
+  assert.deepEqual(transition.retiredEngineIds, ['happy-horse-1-0', 'seedance-1-5-pro', 'seedream', 'wan-2-5']);
+  for (const engineId of transition.retiredEngineIds) assert.equal(current.some(row => row.engineId === engineId), false, engineId);
+  assert.ok(transition.retiredRowIds.every(id => !current.some(row => row.id === id)));
+  // H3's 10 s default moves from 480P (USD 0.05/s) to 768P (unchanged USD 0.06/s); 4K is no longer an H3 tier.
+  assert.equal(transition.changes.length, 4);
+  for (const change of transition.changes.filter(row => row.previous.surface === 'estimator')) {
+    assert.equal(change.previous.vendorSubtotalCents, 50);
+    assert.equal(change.current.vendorSubtotalCents, 60);
+    assert.equal(change.current.quantity, 10);
+  }
+  assert.deepEqual(transition.changes.find(row => row.previous.id === 'pricing-hub-video:minimax-h3:4k-route')?.current,
+    { id: 'pricing-hub-video:minimax-h3:4k-route', surface: 'pricing-hub-video', engineId: 'minimax-h3', status: 'unavailable' });
+  for (const change of transition.changes) assert.deepEqual(current.find(row => row.id === change.current.id), change.current);
+  assert.equal(transition.rows.length, 7);
+  for (const row of transition.rows) {
+    assert.equal(row.engineId, 'seedream-5-0-flash');
+    assert.deepEqual(current.find(candidate => candidate.id === row.id), row);
+  }
 });
 
 test('Character Studio static rows retire only four fixed prices and require a current native quote', async () => {

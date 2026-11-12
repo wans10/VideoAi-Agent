@@ -109,7 +109,8 @@ test('generate route resolves context before billing preflight', () => {
 
 test('registered non-Seedance BytePlus engines keep the controlled unknown-engine response', async () => {
   const result = await resolveGenerateRouteContext({
-    body: { engineId: 'seedream', mode: 't2v' },
+    // Seedream 5.0 Lite (`seedream`) is retired on Keyvo; Pro is the remaining non-Seedance BytePlus engine.
+    body: { engineId: 'seedream-5-0-pro', mode: 't2v' },
     req: new NextRequest('http://localhost/api/generate', { method: 'POST' }),
   });
 

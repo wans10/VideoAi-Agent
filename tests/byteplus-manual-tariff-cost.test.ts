@@ -7,6 +7,11 @@ import { buildManualTariffScenario } from '../frontend/src/lib/pricing-manual-sc
 import { resolveCustomerTariffQuote } from '../frontend/server/pricing/resolve-customer-tariff';
 import { computeCanonicalBillingSnapshot } from '../frontend/server/pricing/quote-billing';
 import type { PricingContext } from '../frontend/src/lib/pricing-context';
+import { ENV } from '../frontend/src/lib/env';
+
+// These scenarios price against the signed BytePlus international account contract. The code
+// default is now the Volcengine mainland node (cn-beijing), so pin the contract region here.
+ENV.BYTEPLUS_ARK_REGION = 'ap-southeast-1';
 
 const at = '2026-10-01T12:00:00Z';
 function context(modelId = 'seedance-2-0-mini', extra: Partial<PricingContext> = {}): PricingContext {

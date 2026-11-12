@@ -14,7 +14,10 @@ import { callBytePlusSeedream } from './byteplus-seedream-client';
 import {
   BYTEPLUS_SEEDREAM_DEFAULT_BASE_URL,
   BYTEPLUS_SEEDREAM_DEFAULT_MODEL_ID,
+  BYTEPLUS_SEEDREAM_FLASH_DEFAULT_MODEL_ID,
+  BYTEPLUS_SEEDREAM_PRO_DEFAULT_MODEL_ID,
   BYTEPLUS_SEEDREAM_PROVIDER,
+  SEEDREAM_FLASH_ENGINE_ID,
 } from './byteplus-seedream-constants';
 import { BytePlusSeedreamError } from './byteplus-seedream-error';
 import {
@@ -33,10 +36,13 @@ import { assertBytePlusSeedreamExecutable } from './byteplus-seedream-policy';
 const SIGNED_REFERENCE_URL_TTL_SECONDS = 60 * 60;
 const BYTEPLUS_PROVIDER_MODE = BYTEPLUS_SEEDREAM_PROVIDER;
 
-function resolveSeedreamModelId(engine: EngineCaps): string {
-  const configuredModel = engine.providerMeta?.modelSlug?.trim();
-  if (configuredModel?.includes('seedream-5-0-pro')) {
-    return ENV.BYTEPLUS_ARK_SEEDREAM_PRO_MODEL_ID ?? configuredModel;
+export function resolveSeedreamModelId(engine: EngineCaps): string {
+  const configuredModel = engine.providerMeta?.modelSlug?.trim() || undefined;
+  if (engine.id === SEEDREAM_FLASH_ENGINE_ID || configuredModel?.includes('seedream-5-0-flash')) {
+    return ENV.BYTEPLUS_ARK_SEEDREAM_FLASH_MODEL_ID ?? configuredModel ?? BYTEPLUS_SEEDREAM_FLASH_DEFAULT_MODEL_ID;
+  }
+  if (engine.id === 'seedream-5-0-pro' || configuredModel?.includes('seedream-5-0-pro')) {
+    return ENV.BYTEPLUS_ARK_SEEDREAM_PRO_MODEL_ID ?? configuredModel ?? BYTEPLUS_SEEDREAM_PRO_DEFAULT_MODEL_ID;
   }
   return ENV.BYTEPLUS_ARK_SEEDREAM_MODEL_ID ?? configuredModel ?? BYTEPLUS_SEEDREAM_DEFAULT_MODEL_ID;
 }

@@ -54,6 +54,7 @@ import {
 import type { EnginePricingDetails } from '@/types/engines';
 import { isMinimaxH3EngineId } from '@/lib/minimax-h3';
 import { calculateMinimaxH3ProviderPrice } from '@/lib/minimax-h3-pricing';
+import { calculateMinimaxHailuoCost, isMinimaxHailuoOfficialEngineId } from '@/lib/minimax-hailuo-pricing';
 import { isMinimaxH3MaxEngineId } from '@/lib/minimax-h3-max';
 import {
   calculateMinimaxH3MaxProviderCost,
@@ -205,6 +206,16 @@ function buildBillingPricingFactsInternal(
     });
   }
 
+  if (isMinimaxHailuoOfficialEngineId(engine.id)) {
+    const cost = calculateMinimaxHailuoCost({ engineId: engine.id, mode, resolution, durationSec });
+    return resultFromFacts({
+      engineId: engine.id, currency, vendorSubtotalExactCents: cost.subtotalUsdCents,
+      base: { seconds: durationSec, unit: 'sec', rate: cost.ratePerSecondUsd, amountCents: Math.ceil(cost.subtotalUsdCents - 1e-9) },
+      meta: { pricing_model: 'minimax_hailuo_per_video', provider_cost_source: cost.source,
+        provider_currency: 'CNY', output_cny: cost.outputCny, accounting_cny_per_usd: cost.accountingCnyPerUsd },
+    });
+  }
+
   if (engine.id === 'gemini-omni-flash') {
     const pricingInput = resolveGoogleOmniPricingInput({
       outputResolution: resolution,
@@ -280,6 +291,8 @@ function buildBillingPricingFactsInternal(
       durationSec,
       resolution: resolution as '480P' | '768P' | '2K' | '4K',
       referenceImageCount: context.referenceImageCount,
+      // Customer prices stay unchanged: the PROVISIONAL official reference-video cost
+      // (calculateMinimaxH3ProviderPrice inputVideoDurationSec) awaits the owner's re-pricing decision.
     });
     const baseAmountCents = Math.round(reference.breakdown.baseSubtotalUsd * 100);
     const surchargeCents = Math.round(reference.breakdown.referenceImageSurchargeUsd * 100);

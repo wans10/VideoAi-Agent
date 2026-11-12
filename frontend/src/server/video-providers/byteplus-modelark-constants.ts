@@ -7,12 +7,17 @@ export const PUBLIC_SEEDANCE_MINI_ENGINE_ID = 'seedance-2-0-mini';
 export const BYTEPLUS_SEEDANCE_FAST_ENGINE_ID = 'seedance-2-0-fast-byteplus';
 export const SEEDANCE_1_5_ENGINE_ID = 'seedance-1-5-pro';
 export const SEEDANCE_2_5_ENGINE_ID = 'seedance-2-5';
-export const BYTEPLUS_SEEDANCE_DEFAULT_MODEL_ID = 'dreamina-seedance-2-0-260128';
-export const BYTEPLUS_SEEDANCE_FAST_DEFAULT_MODEL_ID = 'dreamina-seedance-2-0-fast-260128';
-export const BYTEPLUS_SEEDANCE_MINI_DEFAULT_MODEL_ID = 'dreamina-seedance-2-0-mini-260615';
-export const BYTEPLUS_SEEDANCE_2_5_DEFAULT_MODEL_ID = 'dreamina-seedance-2-5-260628';
+// Keyvo code defaults are the Volcengine Ark mainland (cn-beijing) model ids and host. The
+// BytePlus ModelArk international names (dreamina-seedance-*) remain usable through the
+// BYTEPLUS_ARK_* env overrides.
+export const BYTEPLUS_SEEDANCE_DEFAULT_MODEL_ID = 'doubao-seedance-2-0-260128';
+export const BYTEPLUS_SEEDANCE_FAST_DEFAULT_MODEL_ID = 'doubao-seedance-2-0-fast-260128';
+export const BYTEPLUS_SEEDANCE_MINI_DEFAULT_MODEL_ID = 'doubao-seedance-2-0-mini-260615';
+export const BYTEPLUS_SEEDANCE_2_5_DEFAULT_MODEL_ID = 'doubao-seedance-2-5-260628';
+// LAS (Seedance 2.5 edit transport) is a BytePlus-only operator service; it has no mainland node.
 export const BYTEPLUS_SEEDANCE_2_5_DEFAULT_BASE_URL = 'https://operator.las.ap-southeast-1.bytepluses.com/api/v1';
-export const BYTEPLUS_SEEDANCE_FAST_DEFAULT_BASE_URL = 'https://ark.ap-southeast.bytepluses.com/api/v3';
+export const BYTEPLUS_SEEDANCE_FAST_DEFAULT_BASE_URL = 'https://ark.cn-beijing.volces.com/api/v3';
+export const BYTEPLUS_ARK_DEFAULT_REGION = 'cn-beijing';
 export const BYTEPLUS_SEEDANCE_MODES: Mode[] = ['t2v', 'i2v', 'ref2v', 'v2v', 'extend'];
 export const BYTEPLUS_SEEDANCE_1_5_MODES: Mode[] = ['t2v', 'i2v'];
 export const BYTEPLUS_SEEDANCE_1_5_DURATION_OPTIONS = [4, 5, 6, 7, 8, 9, 10, 11, 12] as const;

@@ -34,6 +34,8 @@ export type AudioJobSettingsSnapshot = {
   elevenStability?: number | null;
   elevenSimilarityBoost?: number | null;
   minimaxVoiceId?: string | null;
+  /** Web workspace MiniMax T2A model; absent on renders made with the historical speech-02-hd route. */
+  minimaxSpeechModel?: string | null;
   lyrics?: string | null;
   measuredDurationSec?: number | null;
   requestedDurationSec?: number | null;

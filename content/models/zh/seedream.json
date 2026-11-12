@@ -13,7 +13,7 @@
     "badge": "文字 -> 图像 · 图像 -> 图像 · 批量图像集",
     "ctaPrimary": {
       "label": "启动 Seedream",
-      "href": "/app/image?engine=seedream"
+      "href": "/zh/models/seedream-5-0-pro"
     },
     "secondaryLinks": [
       {
@@ -245,7 +245,7 @@
       "paragraph": "将 Seedream 作为源静态图的生成与编辑工作区：在将最佳素材交付给视频模型之前，创建产品帧、角色参考、广告视觉大片以及受控的系列套图。",
       "primaryCta": {
         "label": "使用 Seedream 准备参考图",
-        "href": "/app/image?engine=seedream"
+        "href": "/zh/models/seedream-5-0-pro"
       },
       "secondaryCta": {
         "label": "使用 Seedance 制作动画",
@@ -254,7 +254,7 @@
       "quickLinks": [
         {
           "label": "打开图像工作区",
-          "href": "/app/image?engine=seedream"
+          "href": "/zh/models/seedream-5-0-pro"
         },
         {
           "label": "查看价格",
@@ -315,7 +315,7 @@
         "body": "当下一步视频制作需要更干净的产品、角色、风格或构图参考时，优先选择 Seedream。",
         "cta": {
           "label": "打开 Seedream 图像工作区",
-          "href": "/app/image?engine=seedream"
+          "href": "/zh/models/seedream-5-0-pro"
         }
       },
       {

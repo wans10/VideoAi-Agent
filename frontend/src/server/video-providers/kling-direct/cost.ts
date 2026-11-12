@@ -1,15 +1,75 @@
-import { resolveKlingDirectModelRoute } from './model-map';
+import { isKlingDirectV2Route, resolveKlingDirectModelRoute, type KlingDirectModelRoute } from './model-map';
 import type { ProviderCostEstimate, ProviderCostInput } from '../types';
 
 const KLING_UNIT_PRICE_USD = 0.14;
+
+/**
+ * PROVISIONAL Kling 4.0 / 4.0 Flash vendor cost (not a customer price).
+ * Source: https://klingai.com/document-api/pricing/base/video.md (fetched 2026-11-11), which lists
+ * "1.0积分（¥1.0）/秒" etc., i.e. 1 credit = CNY 1 at list price. The account's actual pack/contract price
+ * may be lower; `billing[].amount` in the task response is preferred when present.
+ * Vendor costs are recorded in USD (docs/engineering/cny-migration.md), converted at the fixed
+ * launch policy rate of 1 USD = 8 CNY.
+ */
+export const KLING_V2_PROVISIONAL_CNY_PER_CREDIT = 1;
+export const KLING_V2_PROVISIONAL_CNY_PER_USD = 8;
+export const KLING_V2_COST_SOURCE = 'kling_cn_list_price_2026_11_11_provisional';
+
+/** Credits per second, keyed by input class then resolution (official CNY list). */
+const KLING_V2_CREDITS_PER_SECOND: Record<'kling-v4' | 'kling-v4-flash', Record<'none' | 'video', Record<string, number>>> = {
+  'kling-v4': { none: { '720p': 1.0, '1080p': 1.5 }, video: { '720p': 0.6, '1080p': 0.9 } },
+  'kling-v4-flash': { none: { '720p': 0.6 }, video: { '720p': 0.4 } },
+};
 
 export function computeKlingDirectProviderCostUsd(units: number | null | undefined): number | null {
   if (typeof units !== 'number' || !Number.isFinite(units)) return null;
   return Number((units * KLING_UNIT_PRICE_USD).toFixed(6));
 }
 
+export function computeKlingDirectV2ProviderCostUsd(credits: number | null | undefined): number | null {
+  if (typeof credits !== 'number' || !Number.isFinite(credits)) return null;
+  return Number(((credits * KLING_V2_PROVISIONAL_CNY_PER_CREDIT) / KLING_V2_PROVISIONAL_CNY_PER_USD).toFixed(6));
+}
+
+/**
+ * Billable seconds per the docs: with input video (reference videos, edited video and video
+ * subjects), input > output bills input + output, otherwise output x 2. No input video bills output.
+ */
+export function computeKlingDirectV2Credits(params: {
+  engineId: string;
+  resolution: string | null | undefined;
+  outputDurationSec: number;
+  inputVideoDurationSec?: number | null;
+}): number | null {
+  const rates = KLING_V2_CREDITS_PER_SECOND[params.engineId as 'kling-v4' | 'kling-v4-flash'];
+  if (!rates || !Number.isFinite(params.outputDurationSec) || params.outputDurationSec <= 0) return null;
+  const input = Math.max(0, Number(params.inputVideoDurationSec ?? 0) || 0);
+  const hasVideoInput = input > 0;
+  const resolution = (params.resolution ?? (params.engineId === 'kling-v4-flash' ? '720p' : '1080p')).toLowerCase();
+  const rate = rates[hasVideoInput ? 'video' : 'none'][resolution];
+  if (rate === undefined) return null;
+  const output = params.outputDurationSec;
+  const billableSeconds = !hasVideoInput ? output : input > output ? input + output : output * 2;
+  return Number((billableSeconds * rate).toFixed(6));
+}
+
+function estimateKlingDirectV2Cost(route: KlingDirectModelRoute, input: ProviderCostInput): ProviderCostEstimate {
+  const credits = computeKlingDirectV2Credits({
+    engineId: route.engineId,
+    resolution: input.resolution,
+    outputDurationSec: Math.max(0, input.durationSec),
+    inputVideoDurationSec: input.inputVideoDurationSec ?? null,
+  });
+  return {
+    providerCostUnits: credits,
+    providerCostUsd: computeKlingDirectV2ProviderCostUsd(credits),
+    source: KLING_V2_COST_SOURCE,
+  };
+}
+
 export function estimateKlingDirectCost(input: ProviderCostInput): ProviderCostEstimate {
   const route = resolveKlingDirectModelRoute(input.engineId);
+  if (isKlingDirectV2Route(route)) return estimateKlingDirectV2Cost(route, input);
   const duration = Math.max(0, Math.trunc(input.durationSec));
   let unitsPerSecond: number;
   if (route.mode === '4k') {

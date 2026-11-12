@@ -64,6 +64,11 @@ function projection(document: Document) {
   }));
 }
 
+// Keyvo's published video pricing rows issue 64 current quotes (66 before MiniMax-H3-Max was hidden and
+// Happy Horse 1.0 went offline, 2026-11-11); the unfiltered upstream catalog issues 125.
+const KEYVO_VIDEO_QUOTE_CALLS = 64;
+const UPSTREAM_VIDEO_QUOTE_CALLS = 125;
+
 test('PAYG emits its hero before held current prices, then preserves the settled localized page', async t => {
   // Next App Router uses this bundled React 19 renderer; package tests use React 18.
   const Module = requireFrontend('node:module'), priorResolve = Module._resolveFilename;
@@ -120,7 +125,7 @@ test('PAYG emits its hero before held current prices, then preserves the settled
         h.release('showcase');
         for (;;) { const next = await reader.read(); if (next.done) break; tail += decoder.decode(next.value, { stream: true }); }
         assert.deepEqual(errors, []);
-        assert.ok(h.calls.length >= 66 && h.calls.length <= 125, 'Hero and details consume one current video projection');
+        assert.ok(h.calls.length >= KEYVO_VIDEO_QUOTE_CALLS && h.calls.length <= UPSTREAM_VIDEO_QUOTE_CALLS, 'Hero and details consume one current video projection');
         assert.ok(h.calls.every((input: { mode: string }) => input.mode !== 't2i'));
         assert.equal(h.calls.filter((input: { modelId: string }) => input.modelId === 'kling-v4-flash').length, 2, 'Only two new Flash video scenarios are added');
         const final = new JSDOM(shell + tail, { runScripts: 'dangerously', pretendToBeVisual: true });
@@ -193,7 +198,7 @@ test('PAYG emits its hero before held current prices, then preserves the settled
       assert.ok(errors.length >= 1);
       assert.ok(errors.every(error => error === h.failure), 'Keep the original failed-read error for the server boundary');
       assert.equal(h.reads.length, 1);
-      if (showcaseFailure) assert.ok(h.calls.length >= 66 && h.calls.length <= 125);
+      if (showcaseFailure) assert.ok(h.calls.length >= KEYVO_VIDEO_QUOTE_CALLS && h.calls.length <= UPSTREAM_VIDEO_QUOTE_CALLS);
       else assert.equal(h.calls.length, 8);
       const doc = new JSDOM(html, { runScripts: 'dangerously', pretendToBeVisual: true });
       await new Promise(done => setTimeout(done, 60));
@@ -208,7 +213,7 @@ test('PAYG emits its hero before held current prices, then preserves the settled
       doc.window.close();
       h.configure(); h.release('prices'); h.release('showcase');
       const recovered = await h.buildCurrentVideoPricingData('fr');
-      assert.ok(h.calls.length >= 66 && h.calls.length <= 125, 'A later request owns fresh current quotes after failure');
+      assert.ok(h.calls.length >= KEYVO_VIDEO_QUOTE_CALLS && h.calls.length <= UPSTREAM_VIDEO_QUOTE_CALLS, 'A later request owns fresh current quotes after failure');
       assert.ok(recovered.video.rows.some((row: { quotes: Record<string, { amountCents?: number }> }) =>
         Object.values(row.quotes).some(quote => quote.amountCents === 1937)));
     });

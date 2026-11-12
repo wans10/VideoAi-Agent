@@ -46,7 +46,6 @@ test('guidance exposes exactly the reviewed engine records without pricing data'
     'ltx-2-5-fast',
     'ltx-2-5-pro',
     'minimax-h3',
-    'minimax-h3-max',
     'seedance-2-0-mini',
     'seedance-2-5',
     'wan-3',
@@ -65,6 +64,8 @@ test('guidance exposes exactly the reviewed engine records without pricing data'
   assert.equal(getAgentModelGuidance('seedance-2-5')?.bestFor.includes('product_video'), false);
   assert.equal(getAgentModelGuidance('ltx-2-5-fast')?.bestFor.includes('native_audio'), true);
   assert.equal(getAgentModelGuidance('unknown-model'), null);
+  // MiniMax-H3-Max has no mainland route and is hidden on Keyvo, so MCP withholds its reviewed guidance.
+  assert.equal(getAgentModelGuidance('minimax-h3-max'), null);
 });
 
 test('authored model and example evidence uses published canonical registry routes', () => {

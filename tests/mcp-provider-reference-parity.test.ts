@@ -177,8 +177,10 @@ test('Wan editing and extension preserve owned image/audio guidance alongside th
   }
 });
 
-test('H3 Max accepts an owned final frame alone and projects target audio by its schema field', async () => {
-  const engine = candidate('minimax-h3-max');
+test('H3 accepts an owned final frame alone and projects target audio by its schema field', async () => {
+  // Keyvo hides MiniMax-H3-Max (no mainland route), so MCP model details reject it; H3 carries this contract.
+  await assert.rejects(getAgentModelDetails('minimax-h3-max', detailsDeps('minimax-h3-max')), { code: 'ENGINE_UNAVAILABLE' });
+  const engine = candidate('minimax-h3');
   const details = await getAgentModelDetails(engine.engine.id, detailsDeps(engine.engine.id));
   assert.deepEqual(details.modes.find(({ mode }) => mode === 'i2v')?.referenceRequirement, {
     min: 1,

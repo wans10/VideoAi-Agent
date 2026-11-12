@@ -1,4 +1,4 @@
-import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility';
+import { isKeyvoHiddenModel, isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {
@@ -66,10 +66,12 @@ function countLocaleComparisons<T>(run: () => T): { result: T; calls: number } {
 }
 
 // Keyvo hides non-Chinese-vendor families, so pairs involving them leave the published graph and the menu.
-const KEYVO_EDITORIAL_COMPARISONS = EDITORIAL_COMPARISONS.filter(({ slug }) =>
-  slug.split('-vs-').every((id) => isKeyvoVisibleFamily(listRuntimeModels().find((entry) => entry.id === id)?.family)));
-const KEYVO_CURRENT_EDITORIAL_COMPARISONS = CURRENT_EDITORIAL_COMPARISONS.filter(({ slug }) =>
-  slug.split('-vs-').every((id) => isKeyvoVisibleFamily(listRuntimeModels().find((entry) => entry.id === id)?.family)));
+// Keyvo shows a comparison only when both models are visible: a mainland-vendor family and not a model
+// without a mainland route (KEYVO_HIDDEN_MODEL_IDS, e.g. MiniMax-H3-Max).
+const isKeyvoVisibleComparison = (slug: string) => slug.split('-vs-').every((id) =>
+  isKeyvoVisibleFamily(listRuntimeModels().find((entry) => entry.id === id)?.family) && !isKeyvoHiddenModel(id));
+const KEYVO_EDITORIAL_COMPARISONS = EDITORIAL_COMPARISONS.filter(({ slug }) => isKeyvoVisibleComparison(slug));
+const KEYVO_CURRENT_EDITORIAL_COMPARISONS = CURRENT_EDITORIAL_COMPARISONS.filter(({ slug }) => isKeyvoVisibleComparison(slug));
 
 test('each editorial comparison accepts a declaration from either canonical endpoint using IDs', () => {
   for (const item of CURRENT_EDITORIAL_COMPARISONS) {
@@ -204,6 +206,7 @@ test('live runtime comparison menu retains every link, label, brand and badge fr
   for (const slug of published) assert.equal(isPublished(slug), true, slug);
   assert.deepEqual(EDITORIAL_COMPARISONS.filter(({ slug }) => published.has(slug)), KEYVO_EDITORIAL_COMPARISONS);
   assert.deepEqual(buildMarketingCompareMenu(models), KEYVO_CURRENT_EDITORIAL_COMPARISONS);
+  assert.equal(buildMarketingCompareMenu(models).some(({ slug }) => slug.split('-vs-').includes('minimax-h3-max')), false);
 
   const brandsBySlug: Record<string, string> = {
     'minimax-h3': 'minimax', 'minimax-h3-max': 'minimax', 'seedance-2-5': 'bytedance',

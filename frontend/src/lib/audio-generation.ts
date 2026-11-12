@@ -1,4 +1,10 @@
 import type { PricingSnapshot } from '@maxvideoai/pricing';
+import {
+  AUDIO_MINIMAX_SPEECH_MODEL_LABELS,
+  MINIMAX_SPEECH_PRICING_SOURCE,
+  minimaxSpeechVendorCostUsdCents,
+  type AudioMinimaxSpeechModel,
+} from './minimax-speech-models';
 
 export const AUDIO_SURFACE = 'audio' as const;
 export const AUDIO_MIN_DURATION_SEC = 3;
@@ -151,6 +157,8 @@ export const AUDIO_LYRICS_MAX_LENGTH = 3500;
 
 export type AudioPricingInput = {
   voiceModel?: AudioVoiceModel | null;
+  /** Web workspace only; absent means the historical speech-02-hd route and price. */
+  minimaxSpeechModel?: AudioMinimaxSpeechModel | null;
   pack: AudioPackId;
   durationSec: number;
   voiceMode?: AudioVoiceMode | null;
@@ -294,6 +302,8 @@ export type AudioGenerateRequestBody = {
   elevenStability?: number;
   elevenSimilarityBoost?: number;
   minimaxVoiceId?: string;
+  /** Web workspace only (AUDIO_MINIMAX_WORKSPACE_SPEECH_MODEL_VALUES); not published through MCP. */
+  minimaxSpeechModel?: string;
   lyrics?: string;
   submissionId?: string;
   expectedQuote?: { inputKey: string; totalCents: number; currency: string; expiresAt: number };
@@ -483,11 +493,18 @@ function buildMusicVendorCostComponent(input: { durationSec: number; musicModel?
   };
 }
 
-function buildVoiceVendorCostComponent(durationSec: number, script?: string | null, voiceModel?: AudioVoiceModel | null, wholeCentEstimate = false) {
+function buildVoiceVendorCostComponent(durationSec: number, script?: string | null, voiceModel?: AudioVoiceModel | null, wholeCentEstimate = false, minimaxSpeechModel?: AudioMinimaxSpeechModel | null) {
   if (voiceModel === 'eleven-v4') {
     const characters = Array.from(script?.trim() ?? '').length;
     return { type: 'voice_eleven_v4', label: 'Eleven v4', model: 'elevenlabs/tts/eleven-v4',
       unit: 'character', units: characters, amountCents: characters * 0.008 };
+  }
+  if (voiceModel === 'minimax' && minimaxSpeechModel && minimaxSpeechModel !== 'speech-02-hd') {
+    // PROVISIONAL: official CNY list price per 10,000 billing characters (CJK counts twice).
+    const cost = minimaxSpeechVendorCostUsdCents(minimaxSpeechModel, script);
+    return { type: `voice_minimax_${minimaxSpeechModel.replace(/[.-]/g, '_')}`, label: AUDIO_MINIMAX_SPEECH_MODEL_LABELS[minimaxSpeechModel],
+      model: minimaxSpeechModel, unit: 'character', units: cost.billingCharacters, amountCents: cost.usdCents,
+      providerCurrency: 'CNY', providerCostCny: cost.cny, pricingSource: MINIMAX_SPEECH_PRICING_SOURCE };
   }
   if (voiceModel === 'minimax') {
     const characters = Array.from(script?.trim() ?? '').length;
@@ -509,6 +526,7 @@ function buildVoiceVendorCostComponent(durationSec: number, script?: string | nu
 function buildAudioVendorCostComponents(input: {
   wholeCentEstimate?: boolean;
   voiceModel?: AudioVoiceModel | null;
+  minimaxSpeechModel?: AudioMinimaxSpeechModel | null;
   pack: AudioPackId;
   durationSec: number;
   voiceMode?: AudioVoiceMode | null;
@@ -561,7 +579,7 @@ function buildAudioVendorCostComponents(input: {
   }
 
   if (config.includesVoice) {
-    components.push(buildVoiceVendorCostComponent(durationSec, input.script, input.voiceModel, input.wholeCentEstimate));
+    components.push(buildVoiceVendorCostComponent(durationSec, input.script, input.voiceModel, input.wholeCentEstimate, input.minimaxSpeechModel));
   }
 
   return components.length ? components : [buildMusicVendorCostComponent({
@@ -574,6 +592,7 @@ export function buildAudioVendorCostFacts(input: {
   /** Reproduce historical pre-2026-09-08 vendor estimates for frozen audits only. */
   wholeCentEstimate?: boolean;
   voiceModel?: AudioVoiceModel | null;
+  minimaxSpeechModel?: AudioMinimaxSpeechModel | null;
   pack: AudioPackId;
   durationSec: number;
   voiceMode?: AudioVoiceMode | null;
@@ -611,6 +630,7 @@ export function buildAudioPricingPresentation(input: AudioPricingInput): {
     durationSec,
     voiceMode,
     voiceModel: input.voiceModel,
+    ...(input.voiceModel === 'minimax' && input.minimaxSpeechModel ? { minimaxSpeechModel: input.minimaxSpeechModel } : {}),
     script: input.script,
     musicModel: input.musicModel,
     musicEnabled: input.musicEnabled,
@@ -639,6 +659,7 @@ export function buildAudioPricingPresentation(input: AudioPricingInput): {
       mood: input.mood ?? null,
       voiceMode,
       ...(input.voiceModel ? { voiceModel: input.voiceModel } : {}),
+      ...(input.voiceModel === 'minimax' && input.minimaxSpeechModel ? { minimaxSpeechModel: input.minimaxSpeechModel } : {}),
       pricingModel: 'audio_provider_cost_plus_margin',
       vendorCostCents: vendorFacts.vendorSubtotalCents,
       musicModel: input.musicModel ?? null,

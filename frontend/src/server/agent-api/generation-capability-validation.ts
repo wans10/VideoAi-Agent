@@ -917,7 +917,7 @@ function validateReferences(
       fail('references', generationReferences.length < constraints.min ? 'reference_required' : 'reference_invalid');
     }
     if (
-      (request.engineId === 'seedream' || request.engineId === 'seedream-5-0-pro')
+      (request.engineId === 'seedream' || request.engineId === 'seedream-5-0-pro' || request.engineId === 'seedream-5-0-flash')
       && generationReferences.length + request.outputCount > SEEDREAM_MAX_IMAGE_SET_IMAGES
     ) fail('references', 'reference_invalid');
   }

@@ -938,6 +938,24 @@ models; it must not silently backfill other models and report their new scenario
 IDs as price changes. No commercial rates or stored receipts change in this
 retirement projection.
 
+## Keyvo provider-completeness transition — 2026-11-11
+
+Keyvo retired HappyHorse 1.0, Seedance 1.5 Pro, Seedream 5.0 Lite (`seedream`) and Wan 2.5, removed MiniMax-H3's
+480P/4K tiers (MiniMax's own API offers 768P/2K and adds 4 s), hides MiniMax-H3-Max at runtime (`KEYVO_HIDDEN_MODEL_IDS`)
+and publishes Seedream 5.0 Flash with a PROVISIONAL Volcengine list cost (CNY 0.12 per image). Existing per-second and
+per-image rates are unchanged; the provisional H3 reference-video cost stays out of billed facts until the owner re-prices.
+
+- Public baseline: `tests/fixtures/keyvo-provider-transition-public-pricing-2026-11-11.json` lists the 25 retired public
+  rows, the four H3 rows whose default moved (10 s estimate from the former 480P default, $0.65, to the unchanged 768P
+  rate, $0.78; the 4K pricing-hub preset is unavailable) and the seven Seedream 5.0 Flash rows. The guard validates every
+  previous row, refuses any leftover row of a retired engine and checks each addition; the older fixtures stay frozen.
+- Billing audit: `happy-horse-1-0` and `seedream` join `FROZEN_LEGACY_AUDIT_ENGINE_IDS`, so their frozen rows remain
+  reproducible evidence without a live quote. `pricing:audit`, `pricing:shadow-additions` and `pricing:public-baseline`
+  read the upstream catalog (`scripts/lib/disable-keyvo-model-visibility.ts`), so H3-Max audit evidence is kept;
+  Seedream 5.0 Flash adds four shadow-addition rows (`pnpm pricing:shadow-additions:generate`).
+- Sellable coverage follows Keyvo's app publication: hidden H3-Max sells neither creation cells nor Recast/Relight
+  operation cells, and Hailuo 2.3 / 2.3 Fast sell only MiniMax's listed pairs (768P for 6 or 10 s, 1080P for 6 s).
+
 ## Gated Studio assistance product
 
 Studio assistant usage has a separate dated customer tariff and provider-cost ledger.

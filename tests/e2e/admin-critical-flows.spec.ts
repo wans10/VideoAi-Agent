@@ -119,7 +119,7 @@ test.describe('admin critical flows', () => {
     await page.keyboard.press('Home');
     await expect(page.getByRole('tab', { name: 'Pricing', exact: true })).toHaveAttribute('aria-selected', 'true');
     await page.getByRole('button', { name: 'Image', exact: true }).click();
-    await expect(page.locator('summary').filter({ hasText: 'Seedream 5.0 Lite' })).toBeVisible();
+    await expect(page.locator('summary').filter({ hasText: 'Seedream 5.0 Flash' })).toBeVisible();
     await page.getByRole('tab', { name: 'Pricing rules' }).click();
     const inventory = page.getByTestId('pricing-policy-inventory');
     await expect(inventory.locator('tbody tr').first()).toBeVisible({ timeout: 15_000 });

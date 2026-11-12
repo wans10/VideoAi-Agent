@@ -58,7 +58,9 @@ test('coverage captures priced image references, image batches and the exact bil
     assert.deepEqual(scenario.selector, buildManualTariffScenario(scenario.context, facts).selector);
   }
   assert.ok(scenarios.some(row => row.modelId === 'nano-banana' && row.context.durationSec === 8));
-  assert.ok(scenarios.some(row => row.modelId === 'seedream' && row.context.durationSec === 15));
+  // Seedream 5.0 Lite (and its 15-image batch) is retired; Seedream 5.0 Flash sells one image per request.
+  assert.ok(!scenarios.some(row => row.modelId === 'seedream'));
+  assert.deepEqual(scenarios.filter(row => row.modelId === 'seedream-5-0-flash').map(row => row.context.durationSec), [1, 1]);
   assert.ok(!scenarios.some(row => row.modelId === 'luma-uni-1' && row.context.durationSec !== 1));
   assert.ok(!scenarios.some(row => row.modelId === 'gpt-image-2-5-flare' && (row.context.referenceImageCount ?? 0) > 16));
 });
@@ -76,7 +78,9 @@ test('Seedream Pro covers all ten submitted sources without changing the origina
 
 test('reference bounds retain priced counts and group unpriced counts; unreviewed Wan sources remain unresolved', () => {
   const coverage = collectSellableManualTariffCoverage();
-  for (const [modelId, max] of [['gemini-omni-flash', 10], ['happy-horse-1-0', 9],
+  // HappyHorse 1.0 is retired; HappyHorse 1.1 keeps unpriced reference counts grouped into one cell.
+  assert.ok(!coverage.scenarios.some(row => row.modelId === 'happy-horse-1-0'));
+  for (const [modelId, max] of [['gemini-omni-flash', 10], ['happy-horse-1-1', 9],
     ['veo-3-1', 3], ['grok-imagine-video-1-5', 7]] as const) {
     const rows = coverage.scenarios.filter(row => row.modelId === modelId && row.context.mode === 'ref2v');
     const priced = rows.some(row => row.selector.referenceImageCount !== undefined || row.selector.inputImageCount !== undefined);
@@ -144,9 +148,17 @@ test('finite price-changing duration, resolution and audio boundaries are distin
   assert.ok(omni.some((row) => row.selector.inputVideoDurationSec === '3' && row.selector.inheritedDurationSec === '3'));
   assert.ok(coverage.scenarios.filter((row) => row.modelId === 'gemini-omni-flash' && row.selector.mode === 'fl2v')
     .every((row) => row.context.inputImageCount === 2 && row.selector.inputImageCount === '2'));
-  const h3 = coverage.scenarios.filter((row) => row.modelId === 'minimax-h3-max' && row.selector.mode === 'ref2v');
-  assert.ok(h3.some((row) => row.selector.referenceTokenBudget === '4096'));
-  assert.ok(coverage.gaps.some((gap) => gap.modelId === 'minimax-h3-max' && gap.reason.includes('reference token')));
+  // Keyvo hides MiniMax-H3-Max (no mainland route), so neither its reference-token cells nor its gap are sellable here;
+  // tests/open-quantity-customer-tariff.test.ts keeps the upstream H3-Max reference-budget contract on the upstream catalog.
+  assert.ok(!coverage.scenarios.some((row) => row.modelId === 'minimax-h3-max'));
+  assert.ok(!coverage.gaps.some((gap) => gap.modelId === 'minimax-h3-max'));
+  // Hailuo 2.3 sells only MiniMax's listed pairs: 768P for 6 or 10 s, 1080P for 6 s.
+  for (const modelId of ['minimax-hailuo-2-3', 'minimax-hailuo-2-3-fast']) {
+    const hailuo = coverage.scenarios.filter((row) => row.modelId === modelId);
+    assert.ok(hailuo.length > 0, modelId);
+    assert.ok(hailuo.every((row) => row.selector.resolution !== '1080P' || row.selector.durationSec === '6'), modelId);
+    assert.ok(hailuo.some((row) => row.selector.resolution === '768P' && row.selector.durationSec === '10'), modelId);
+  }
   const ltx = coverage.scenarios.filter((row) => row.modelId === 'ltx-2-5-fast' && row.selector.mode === 'a2v');
   assert.ok(ltx.some((row) => row.selector.inputAudioDurationSec === '9'));
   assert.ok(coverage.gaps.some((gap) => gap.modelId === 'ltx-2-5-fast' && gap.reason.includes('input audio')));

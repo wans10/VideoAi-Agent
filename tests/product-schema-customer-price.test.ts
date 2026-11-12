@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { listFalEngines } from '../frontend/src/config/falEngines';
+import { isKeyvoHiddenModel } from '../frontend/config/keyvo-model-visibility';
 import { getImagePresetQuote, getPresetQuote } from '../frontend/app/(localized)/[locale]/(marketing)/pricing/_lib/pricingHubData';
 import { buildProductSchema, resolveModelOfferAmountCents } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-schema';
 
@@ -14,11 +15,20 @@ test('repaired model Product offers match exact public customer quotes in all lo
     const engine = engines.find((entry) => entry.id === row.engineId)!;
     assert.ok(engine, row.engineId);
     // The frozen repair matrix predates these retirements; archived models cannot sell an offer.
-    if (['sora-2', 'sora-2-pro', 'seedance-1-5-pro'].includes(engine.id)) {
+    // Keyvo retired HappyHorse 1.0 and Seedream 5.0 Lite on 2026-11-11.
+    if (['sora-2', 'sora-2-pro', 'seedance-1-5-pro', 'happy-horse-1-0', 'seedream'].includes(engine.id)) {
       assert.equal(engine.surfaces.app.enabled, false);
       assert.equal(buildProductSchema({ engine, pricingEngine: engine.engine,
         canonical: `https://maxvideoai.com/models/${engine.modelSlug}`,
         description: 'Archived model', heroTitle: engine.marketingName, heroPosterAbsolute: null }), null);
+      continue;
+    }
+    // Keyvo hides MiniMax-H3-Max on every surface (no mainland route), so it sells no Product offer.
+    if (isKeyvoHiddenModel(engine.id)) {
+      assert.equal(engine.surfaces.app.enabled, false);
+      assert.equal(buildProductSchema({ engine, pricingEngine: engine.engine,
+        canonical: `https://maxvideoai.com/models/${engine.modelSlug}`,
+        description: 'Hidden model', heroTitle: engine.marketingName, heroPosterAbsolute: null }), null);
       continue;
     }
     // The September repair fixture remains immutable; 1.2 updates only the inactive-policy projection.

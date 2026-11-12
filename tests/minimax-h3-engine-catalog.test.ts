@@ -20,7 +20,8 @@ test('MiniMax H3 raw contract exposes one three-mode native-audio engine', () =>
   assert.ok(entry, 'MiniMax H3 raw engine entry should exist');
   assert.equal(entry.engine.provider, 'MiniMax');
   assert.deepEqual(entry.engine.modes, ['t2v', 'i2v', 'ref2v']);
-  assert.deepEqual(entry.engine.resolutions, ['480P', '768P', '2K', '4K']);
+  // Keyvo routes H3 to MiniMax's official V2 API, which accepts 768P and 2K only (480P/4K were fal tiers).
+  assert.deepEqual(entry.engine.resolutions, ['768P', '2K']);
   assert.deepEqual(entry.engine.aspectRatios, ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16', 'auto']);
   assert.deepEqual(entry.engine.fps, [24]);
   assert.equal(entry.engine.maxDurationSec, 15);
@@ -44,10 +45,12 @@ test('MiniMax H3 raw contract exposes one three-mode native-audio engine', () =>
 
 test('MiniMax H3 raw contract encodes every duration, rate, and reference bound', () => {
   assert.ok(entry, 'MiniMax H3 raw engine entry should exist');
+  // The official H3 API accepts 4-15 s.
   assert.deepEqual(requireField('duration').values, [
-    '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15',
+    '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15',
   ]);
-  assert.deepEqual(requireField('resolution').values, ['480P', '768P', '2K', '4K']);
+  assert.deepEqual(requireField('resolution').values, ['768P', '2K']);
+  assert.equal(requireField('duration').min, 4);
   assert.deepEqual(requireField('aspect_ratio', 't2v').values, [
     '21:9', '16:9', '4:3', '1:1', '3:4', '9:16',
   ]);
@@ -73,6 +76,7 @@ test('MiniMax H3 raw contract encodes every duration, rate, and reference bound'
 
   assert.equal(entry.engine.inputSchema?.constraints?.maxCombinedVideoDurationSec, 15);
   assert.equal(entry.engine.inputSchema?.constraints?.maxCombinedAudioDurationSec, 15);
+  // Existing per-second display rates are unchanged (the retired 480P/4K rows stay for historical quotes).
   assert.deepEqual(entry.engine.pricingDetails?.perSecondCents?.byResolution, {
     '480P': 5,
     '768P': 6,

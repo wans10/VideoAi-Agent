@@ -13,7 +13,7 @@
     "badge": "Text -> Image · Image -> Image · Batch image sets",
     "ctaPrimary": {
       "label": "Launch Seedream",
-      "href": "/app/image?engine=seedream"
+      "href": "/models/seedream-5-0-pro"
     },
     "secondaryLinks": [
       {
@@ -245,7 +245,7 @@
       "paragraph": "Use Seedream as an image generation and editing workspace for source stills: create product frames, character references, ad visuals and controlled image sets before sending the strongest assets to a video model.",
       "primaryCta": {
         "label": "Prepare references with Seedream",
-        "href": "/app/image?engine=seedream"
+        "href": "/models/seedream-5-0-pro"
       },
       "secondaryCta": {
         "label": "Animate with Seedance",
@@ -254,7 +254,7 @@
       "quickLinks": [
         {
           "label": "Open image workspace",
-          "href": "/app/image?engine=seedream"
+          "href": "/models/seedream-5-0-pro"
         },
         {
           "label": "View pricing",
@@ -315,7 +315,7 @@
         "body": "Choose Seedream when the next video pass needs cleaner product, character, style or composition references first.",
         "cta": {
           "label": "Open Seedream image workspace",
-          "href": "/app/image?engine=seedream"
+          "href": "/models/seedream-5-0-pro"
         }
       },
       {

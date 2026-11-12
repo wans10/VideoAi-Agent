@@ -51,6 +51,7 @@ const aggregatedModuleNames = [
   'nano-banana-2.ts',
   'gpt-image-2.ts',
   'seedream.ts',
+  'seedream-5-0-flash.ts',
 ];
 const p0ModuleNames = [
   'wan-3-shared.ts',
@@ -102,6 +103,7 @@ const aggregatedRegistryExports = [
   'NANO_BANANA_2_FAL_ENGINE_REGISTRY',
   'GPT_IMAGE_2_FAL_ENGINE_REGISTRY',
   'SEEDREAM_FAL_ENGINE_REGISTRY',
+  'SEEDREAM_5_0_FLASH_FAL_ENGINE_REGISTRY',
 ];
 const p0RegistryExports = [
   'WAN_3_FAL_ENGINE_REGISTRY',

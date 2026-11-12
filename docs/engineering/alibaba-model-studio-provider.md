@@ -22,7 +22,22 @@ The integration reuses the shared video-provider boundaries:
 | `wan-3-prime` | `wan3.0-video-prime` | T2V, I2V, Ref2V, edit, extend | T2V, I2V, Ref2V |
 | `happy-horse-1-1` | HappyHorse 1.1 mode-specific T2V/I2V/R2V models | T2V, I2V, Ref2V | all three |
 
-Wan 2.5, Wan 2.6, and HappyHorse 1.0 are intentionally outside this direct route.
+Wan 2.5, Wan 2.6, and HappyHorse 1.0 are intentionally outside this direct route. Keyvo has no Fal
+account, so Wan 2.5 and HappyHorse 1.0 are unpublished in `model-registry.json` (model page, examples,
+app, pricing, sitemap; HappyHorse 1.0 also comparisons). Keep `ALIBABA_MODEL_STUDIO_FALLBACK_TO_FAL_ENABLED`
+off for Keyvo.
+
+### Parameter contract (cn-beijing API references, checked 2026-11-11)
+
+- Wan 3 / Prime ratio: `adaptive` (default, shown as Auto), `21:9`, `16:9`, `4:3`, `1:1`, `3:4`, `9:16`.
+  Extension always sends `ratio: adaptive`, as the extension contract requires. Text-to-video needs a
+  prompt. Reference video/audio clips must be 1–15 seconds each.
+- HappyHorse 1.1 T2V/R2V ratio: `16:9` (default), `9:16`, `1:1`, `4:3`, `3:4`, `4:5`, `5:4`, `9:21`, `21:9`;
+  there is no adaptive value, so an unset/Auto ratio sends `16:9`. I2V takes no ratio. R2V accepts 1–9
+  JPEG/PNG/WEBP references; images are JPEG/PNG/WEBP only (no BMP).
+- Seeds: integers 0–2147483647 (`-1` means random and is omitted).
+- Qwen Image 3.0 sends `enable_thinking: true` explicitly (the documented default) with
+  `prompt_extend: true` / `prompt_extend_mode: direct`.
 
 ### Wan 3 input parity
 
@@ -73,19 +88,22 @@ Regression coverage lives in `wan-private-media-transport.test.ts`, the Alibaba 
 
 All routing switches are server-only. Never create `NEXT_PUBLIC_` aliases for them.
 
-The public Singapore base URL is `https://dashscope-intl.aliyuncs.com`, as listed in
-[Alibaba's regional endpoint documentation](https://www.alibabacloud.com/help/en/model-studio/singapore-regional-access-information).
-Workspace-specific hosts under `.ap-southeast-1.maas.aliyuncs.com` remain supported.
+Keyvo runs on the mainland **cn-beijing** account (2026-11-11). Without an override the client
+uses `https://{WorkspaceId}.cn-beijing.maas.aliyuncs.com` when `ALIBABA_MODEL_STUDIO_WORKSPACE_ID`
+is set, otherwise the public Beijing endpoint `https://dashscope.aliyuncs.com` (the DashScope domain
+receives no new features after 2026-09-30, so production sets the workspace host explicitly).
+Explicit `ALIBABA_MODEL_STUDIO_BASE_URL` values, including the international
+`https://dashscope-intl.aliyuncs.com` and other regional workspace hosts, remain accepted.
 Do not insert the region into the public DashScope hostname: the former
 `dashscope-intl.ap-southeast-1.aliyuncs.com` default did not resolve in the
-2026-11-04 Character Studio preview canary and prevented submission. Explicit
-environment overrides using that hostname must also be updated before redeployment.
+2026-11-04 Character Studio preview canary.
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
 | `ALIBABA_MODEL_STUDIO_API_KEY` | unset | DashScope API credential; secret |
-| `ALIBABA_MODEL_STUDIO_BASE_URL` | Singapore international endpoint | Optional DashScope public endpoint (`dashscope.aliyuncs.com`, `dashscope-intl.ap-southeast-1.aliyuncs.com`) or workspace host (`*.maas.aliyuncs.com`); treat a workspace hostname as private configuration |
-| `ALIBABA_MODEL_STUDIO_REGION` | `ap-southeast-1` | Configured region coupling (`cn-beijing`, `ap-southeast-1`, `us-east-1`, `eu-central-1`, `cn-hongkong`, `ap-northeast-1`) |
+| `ALIBABA_MODEL_STUDIO_BASE_URL` | unset → Beijing workspace host from `_WORKSPACE_ID`, else `https://dashscope.aliyuncs.com` | Optional DashScope public endpoint (`dashscope.aliyuncs.com`, `dashscope-intl.ap-southeast-1.aliyuncs.com`) or workspace host (`*.maas.aliyuncs.com`); treat a workspace hostname as private configuration |
+| `ALIBABA_MODEL_STUDIO_WORKSPACE_ID` | unset | Optional workspace ID used to build the regional MaaS host when no base URL is set; private configuration |
+| `ALIBABA_MODEL_STUDIO_REGION` | `cn-beijing` | Configured region coupling (`cn-beijing`, `ap-southeast-1`, `us-east-1`, `eu-central-1`, `cn-hongkong`, `ap-northeast-1`) |
 | `ALIBABA_MODEL_STUDIO_ENABLED` | `false` | Master direct-provider switch |
 | `ALIBABA_MODEL_STUDIO_PUBLIC_ROUTING_ENABLED` | `false` | Allows non-admin routing only after a separate launch decision |
 | `ALIBABA_MODEL_STUDIO_ADMIN_ONLY` | `true` | Keeps the enabled route restricted to administrators |
@@ -121,9 +139,81 @@ failed diagnostic sanitizer omits the snapshot rather than saving raw grants.
 Polling requires the ID in `app_jobs`; an ID retained only in a response or attempt
 record is not an automatic recovery guarantee. See the [acceptance contract](fal-job-failures.md#direct-acknowledgements-and-fallback-outcome-projection-30-october-2026).
 
+## Bailian-hosted Kling and MiniMax (owner decision 2026-11-11)
+
+Bailian (this Model Studio account, cn-beijing) also hosts third-party models on the same async
+`video-synthesis` endpoint, task polling, output copy, UNKNOWN handling and refund path as Wan:
+
+| Engine | Bailian model | Modes | Tier / limits |
+| --- | --- | --- | --- |
+| `kling-3-turbo-standard` / `-pro` | `kling/kling-v3-turbo-video-generation` | t2v, i2v (first frame only) | std 720P / pro 1080P, 16:9 9:16 1:1, 3–15 s, audio always on, no negative prompt, no subjects |
+| `kling-3-standard` / `-pro` / `-4k` | `kling/kling-v3-video-generation` | t2v, i2v (first or first+last) | std / pro / 4k, 16:9 9:16 1:1, 3–15 s, audio flag |
+| `kling-o3-standard` / `-pro` / `-4k` | `kling/kling-v3-omni-video-generation` | t2v, i2v, ref2v (`refer` ≤7, `feature` video + `refer` ≤4, `feature` + first frame), v2v (`feature` + `refer` ≤4, 3–10 s, audio off, `keep_original_sound`) | std / pro / 4k |
+| `minimax-h3` | `MiniMax/MiniMax-H3` | t2v (fixed ratio), i2v (first / last / both), ref2v (`image_url` ≤9, `feature` ≤3, `driving_audio` ≤3, 2–15 s each, ≤15 s total) | 768P / 2K, 4–15 s, prompt ≤7000 |
+
+Files: `bailian-models.ts` (engine → model/tier table, no imports), `bailian-payload.ts` (bodies and every
+limit above, enforced before the paid call), `bailian-routing.ts` (route order, Bailian compatibility, fallback
+decision tables). `resolveAlibabaModelRoute` returns these routes (families `kling_turbo`, `kling_v3`,
+`kling_omni`, `minimax_h3`); `isAlibabaDirectEngine` stays Wan/HappyHorse only. The Kling tier is the same one
+the Kling direct route uses, so primary and fallback render the same product. `watermark` is always false.
+Media is sent as one-hour owner-checked read grants (`createWanMediaTransport`), diagnostics are sanitized.
+
+### Route order and fallback
+
+`KLING_ROUTE_ORDER` (all Kling 3 / Omni / Turbo engines) and `MINIMAX_H3_ROUTE_ORDER` take `bailian,direct`
+(default), `direct,bailian`, `bailian` or `direct`. `resolveVideoProviderRoutingPlan` wraps the vendor plan in
+`applyBailianRouteOrder`: a leg is usable when its gates pass (Bailian: `ALIBABA_MODEL_STUDIO_ENABLED`, key,
+admin-only/public routing; direct: the existing `kling_direct_primary` legacy plan or the MiniMax `llmhub_primary`
+plan) and, for Bailian, when the request is portable (`isBailianHostedRequestCompatible`: no Kling subjects,
+voice IDs, camera control or motion brush — Bailian element IDs are a separate catalogue; H3 exactly the
+official V2 inputs). With neither leg usable, the vendor plan is returned unchanged. Kling 4.0 / 4.0 Flash and
+H3-Max are not hosted here. `cfg_scale` has no Bailian parameter and is dropped on that leg.
+
+The order is fixed before any provider task exists. The second leg is attempted only after a **definite
+pre-acceptance** rejection of the first:
+
+| First leg | Falls back on | Never falls back on |
+| --- | --- | --- |
+| Bailian (`shouldFallbackFromBailianSubmit`) | local validation or capacity guard, HTTP 400/404/422, 401/403 (key, model not activated), 402/quota, 413, 429, region mismatch | any task ID; timeout, network, 5xx, missing task ID (ambiguous); moderation; Keyvo media-access failures |
+| Kling direct (`shouldFallbackFromKlingDirectToBailian`) | 401, 1xxx account/credit/access/parameter codes, 429 (1302/1303/none) | 1300/1301 content review, 5xxx, timeout/network, any task ID |
+| MiniMax official (`shouldFallbackFromMinimaxDirectToBailian`) | the client's definite rejections (4xx, 529, local limits) | content review, 500/timeout (stall), any task ID |
+
+The single wallet charge is reserved once before the first leg. A fallback does not refund; the second leg
+owns acceptance and refund (exactly one refund if it fails too). An ambiguous Bailian failure keeps the
+existing Alibaba behaviour (job failed and refunded, no second task; a task created by an unanswered request
+cannot be found because the API has no idempotency key). Attempts: first leg `attempt_index` 1, second leg 2
+linked by `fallback_to_attempt_id`; `request_snapshot.route` = `bailian` / `direct` and `routeRole` =
+`primary` / `fallback`. The accepting leg writes `app_jobs.provider` + `provider_job_id`
+(`alibaba_model_studio`, `kling_direct` or `llmhub`), so the matching poller owns the job. A second leg never
+chains Fal or a third provider.
+
+Capacity: 300 RPM per hosted model (`capacity.ts`, per process); an exhausted window is a definite rejection.
+
+Vendor cost (PROVISIONAL, `bailian_cn_beijing_list_price_2026_11_11_provisional`, CNY list / 8 = USD; customer
+prices unchanged): Turbo 0.8 / 1.0 CNY/s; Kling 3.0 and Omni 0.9 / 1.2 / 3.0 with audio or a reference video,
+0.6 / 0.8 / 3.0 silent; H3 0.50 (768P) / 0.80 (2K) CNY/s over `usage.duration` (input video + output seconds),
+images beyond 5 at 0.20 each, audio free. Completion uses `usage.duration` when Bailian reports it.
+
+The workspace engine guide shows Turbo's limits in zh (`workspace.generate.engineSelect.guides`).
+
 ## Capacity, polling, and output ownership
 
-Treat 5 requests per second and 5 concurrent tasks as the current account safety ceiling. Verify the actual account quota before any later enablement and throttle below the lower of the documented and account-specific limits.
+The documented Beijing limits ([rate-limit](https://docs.bailian.console.aliyun.com/zh/model-studio/rate-limit),
+checked 2026-11-11) are 5 requests per second and 5 tasks in progress per model for `wan3.0-video`,
+`wan3.0-video-prime` and each `happyhorse-1.1-*` model; `qwen-image-3.0-pro` allows 5 and
+`qwen-image-3.0` 20 submissions per minute. `alibaba-model-studio/capacity.ts` enforces them before
+any paid call: video submissions reserve a slot (accepted in-progress tasks from `provider_attempts`
+plus in-process in-flight submissions, serialized per model) and wait at most 2 seconds for a
+per-second window; Qwen image fails immediately when its minute window is full. A full model, or
+an Alibaba HTTP 429 (`Throttling.*`), fails before acceptance with the localized busy message and
+the reservation is rolled back. Windows are per process, so a multi-instance deployment still
+relies on Alibaba's 429 as the final backstop.
+
+Alibaba reports `task_status: UNKNOWN` for a task that does not exist or whose 24-hour task ID has
+expired. The poller records the first UNKNOWN observation in `settings_snapshot.alibabaUnknownStatus`;
+after at least 3 consecutive UNKNOWN polls spanning 15 minutes (or once the job is 24 hours old) the
+job fails with `ALIBABA_TASK_UNKNOWN` and the paid wallet is refunded once. Any other status clears
+the marker.
 
 Alibaba task results are retained by the provider for approximately 24 hours. The application poller must therefore run continuously while direct routing is active. It polls only Alibaba-owned active jobs, records progress in the shared attempt ledger, and marks locally over-age jobs `polling_stalled` for manual review instead of blindly refunding them.
 

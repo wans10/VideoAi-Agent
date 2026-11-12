@@ -28,9 +28,9 @@ const BRAND_LABELS: Record<string, string> = { bytedance: 'ByteDance' };
 const MODEL_LABELS: Record<string, string> = {
   'seedance-2-0-mini': 'Seedance 2.0 Mini', 'seedance-2-0-fast': 'Seedance 2.0 Fast',
   'seedance-2-0': 'Seedance 2.0', 'seedance-2-5': 'Seedance 2.5',
-  seedream: 'Seedream 5.0 Lite', 'seedream-5-0-pro': 'Seedream 5.0 Pro',
+  seedream: 'Seedream 5.0 Lite', 'seedream-5-0-pro': 'Seedream 5.0 Pro', 'seedream-5-0-flash': 'Seedream 5.0 Flash',
 };
-const FEATURED_MODEL_ORDER = ['seedance-2-0-mini', 'seedance-2-0-fast', 'seedance-2-0', 'seedance-2-5', 'seedream', 'seedream-5-0-pro'];
+const FEATURED_MODEL_ORDER = ['seedance-2-0-mini', 'seedance-2-0-fast', 'seedance-2-0', 'seedance-2-5', 'seedream', 'seedream-5-0-pro', 'seedream-5-0-flash'];
 const PROVIDER_LABELS: Record<string, string> = { byteplus_modelark: 'BytePlus ModelArk', fal: 'Fal' };
 
 function displayName(id: string, overrides: Record<string, string>): string {

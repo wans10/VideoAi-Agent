@@ -108,7 +108,7 @@ const standardSeedancePayload = buildBytePlusSeedancePayload({
   generateAudio: true,
 });
 
-assert.equal(standardSeedancePayload.model, 'dreamina-seedance-2-0-260128');
+assert.equal(standardSeedancePayload.model, 'doubao-seedance-2-0-260128');
 assert.equal(standardSeedancePayload.resolution, '720p');
 assert.equal(standardSeedancePayload.generate_audio, true);
 assert.deepEqual(standardSeedancePayload.content, [

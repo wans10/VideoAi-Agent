@@ -157,8 +157,9 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
   const isKlingV4 = ['kling-v4', 'kling-v4-flash'].includes(engine.id);
   const klingV4InheritsDuration=engine.id==='kling-v4'&&mode==='v2v'&&body.durationSec===undefined&&body.durationOption==null;
   const isWan3 = engine.id === 'wan-3' || engine.id === 'wan-3-prime';
+  const isMinimaxH3Reference = engine.id === 'minimax-h3' && mode === 'ref2v'; // H3 ref2v bills reference-video seconds.
   let inputVideoDurationSec: number | undefined;
-  if (isWan3 || isBytePlus || isKlingV4) {
+  if (isWan3 || isBytePlus || isKlingV4 || isMinimaxH3Reference) {
     try {
       inputVideoDurationSec = isKlingV4 ? (attachmentProcessing.trustedMediaReferences ?? []).filter(ref=>ref.kind==='video').reduce((sum,ref)=>sum+(ref.durationSec??NaN),0) : finalFacts?.inputVideoDurationSec ?? (isBytePlus
         ? bytePlusInputVideoDurationSec(engine.id, attachmentProcessing.trustedMediaReferences ?? [])
@@ -319,7 +320,7 @@ export async function executeVideoGeneration(params: ExecuteVideoGenerationOptio
             ? normalizedReferenceImages.length
             : 0,
     inputVideoDurationSec:
-      isWan3 || isBytePlus || isKlingV4
+      isWan3 || isBytePlus || isKlingV4 || isMinimaxH3Reference
         ? inputVideoDurationSec
         : mode === 'v2v' || mode === 'extend'
           ? trustedSourceVideoDurationSec

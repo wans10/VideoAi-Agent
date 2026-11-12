@@ -22,7 +22,7 @@
       },
       {
         "label": "使用 Seedream 准备参考图",
-        "href": "/zh/models/seedream"
+        "href": "/zh/models/seedream-5-0-pro"
       },
       {
         "label": "查看 Seedance 2.0 Fast",
@@ -135,7 +135,7 @@
     "items": [
       "当需要最强的多镜头连贯性时，请按分镜逐一编写结构化提示词。",
       "利用多模态参考素材锁定各节拍间的服装造型、道具、节奏与环境氛围。",
-      "在启动图生视频前，可先使用 Seedream 5.0 Lite 生成或修饰一张干净的参考图片。",
+      "在启动图生视频前，可先使用 Seedream 5.0 Pro 生成或修饰一张干净的参考图片。",
       "在图生视频中需要明确的收尾落幅时，使用可选的尾帧图像。",
       "在最终高精渲染前，可切换至 Seedance 2.0 Fast 进行成本更低的草稿测试。",
       "仅当批量低成本生产或高性价比优先于最终成品精细度时，选用 Seedance 2.0 Mini。",
@@ -259,7 +259,7 @@
         "brand": "bytedance",
         "title": "使用 Seedream 准备参考图",
         "description": "在启动 Seedance 图生视频之前，先使用 Seedream 生成或修饰静止图片作为可控参考图。",
-        "modelSlug": "seedream",
+        "modelSlug": "seedream-5-0-pro",
         "ctaLabel": "探索 Seedream ->"
       },
       {

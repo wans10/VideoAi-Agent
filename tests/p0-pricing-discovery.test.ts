@@ -32,7 +32,9 @@ const isVisibleP0 = (id: string) => isKeyvoVisibleFamily(listFalEngines().find((
 const P0_IDS: string[] = ALL_P0_IDS.filter(isVisibleP0);
 const DEEP_LEGACY_IDS = ['ltx-2', 'ltx-2-fast', 'wan-2-5'] as const;
 const P0_REPRESENTATIVE_IDS = (['ltx-2-5-pro', 'wan-3-prime', 'grok-imagine-video-1-5'] as const).filter(isVisibleP0);
-const P0_VISIBLE_EXAMPLE_IDS = (['ltx-2-5-pro'] as const).filter(isVisibleP0);
+// The PAYG example strip keeps the first six visible preferred examples. Keyvo hides MiniMax-H3-Max (no mainland route),
+// so Wan 3 Prime, the next preferred example, now fills the sixth slot.
+const P0_VISIBLE_EXAMPLE_IDS = (['ltx-2-5-pro', 'wan-3-prime'] as const).filter(isVisibleP0);
 const P0_PAYG_PRESETS = {
   'ltx-2-5-pro': '10s-720p',
   'ltx-2-5-fast': '10s-720p',
@@ -370,9 +372,9 @@ test('PAYG copies a P0 canonical quote instead of an authored amount', () => {
     data.priceLookups.items.find((item) => item.id === 'wan-3-prime')?.price,
     '$432.10',
   );
-  // Upstream no longer lists Wan 3 Prime among the example costs (P0_VISIBLE_EXAMPLE_IDS), and the LTX row that
-  // carried this assertion is hidden in Keyvo, so there is no example-cost projection of the quote to compare.
+  // On Keyvo Wan 3 Prime is a visible example (H3-Max is hidden), so its example cost copies the same canonical quote.
   assert.deepEqual(p0IdsIn(data.exampleCosts.items), P0_VISIBLE_EXAMPLE_IDS);
+  assert.equal(data.exampleCosts.items.find((item) => item.id === 'wan-3-prime')?.price, '$432.10');
   assert.equal(
     data.hero.quote.previewRows.find((row) => row.id === 'wan-3-prime')?.quoteLabel,
     '$432.10',

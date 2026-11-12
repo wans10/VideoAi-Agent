@@ -3,7 +3,7 @@ export const SEEDREAM_MAX_REFERENCE_IMAGES = 10;
 export const SEEDREAM_MAX_IMAGE_SET_IMAGES = 15;
 
 export function isSeedreamEngineId(id: string): boolean {
-  return id === 'seedream' || id === 'seedream-5-0-pro';
+  return id === 'seedream' || id === 'seedream-5-0-pro' || id === 'seedream-5-0-flash';
 }
 
 /** Input images is the submitted total; references are additional images beyond the main edit source. */

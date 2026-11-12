@@ -5,7 +5,7 @@ import type { EngineCaps, PricingSnapshot } from '@/types/engines';
 import type { ImageGenerationMode, ImageGenerationResponse } from '@/types/image-generation';
 import { createSignedDownloadUrl, extractStorageKeyFromUrl, isStorageConfigured } from '@/server/storage';
 import { createImageThumbnailBatch } from '@/server/image-thumbnails';
-import { getQwenImageConfig, buildQwenImagePayload, callQwenImage, QwenImageError } from './alibaba-qwen-image-client';
+import { getQwenImageConfig, buildQwenImagePayload, callQwenImage, QwenImageError, reserveQwenImageRateSlot } from './alibaba-qwen-image-client';
 import { persistCompletedImageGeneration } from './image-generation-completion';
 import { persistFailedImageGeneration } from './image-generation-failure';
 import type { PendingReceipt } from './image-generation-receipts';
@@ -57,6 +57,7 @@ export async function executeAlibabaQwenImageGeneration(params: {
 }, deps: {
   getConfig?: typeof getQwenImageConfig;
   callProvider?: typeof callQwenImage;
+  reserveRateSlot?: (modelId: string) => void;
   signReferences?: typeof signReferenceUrls;
   copyOutputs?: typeof copyGeneratedImagesToStorage;
   createThumbnails?: typeof createImageThumbnailBatch;
@@ -76,6 +77,8 @@ export async function executeAlibabaQwenImageGeneration(params: {
       numImages: params.numImages, resolution: params.resolution, aspectRatio: params.resolvedAspectRatio,
       seed: params.normalizedSeed, watermark: params.watermark,
     });
+    // Documented Beijing limit (qwen-image-3.0-pro 5/min, 3.0 20/min): reject before the paid call.
+    (deps.reserveRateSlot ?? reserveQwenImageRateSlot)(modelId);
     providerAttempted = true;
     const result = await (deps.callProvider ?? callQwenImage)(config, payload);
     providerJobId = result.requestId;

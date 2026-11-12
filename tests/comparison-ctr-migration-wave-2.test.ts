@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { comparisonInvolvesHiddenModel } from './helpers/keyvo-hidden-comparisons.ts';
+import { comparisonInvolvesHiddenModel, KEYVO_OFFLINE_MODEL_SLUGS } from './helpers/keyvo-hidden-comparisons.ts';
 
 import engineCatalog from '../frontend/config/engine-catalog.json' with { type: 'json' };
 import { getComparePageOverride } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-overrides.ts';
@@ -282,7 +282,13 @@ test('wave-2 links resolve to public model and comparison routes', () => {
         if (link.href.startsWith('/models/')) {
           const model = CATALOG_BY_SLUG.get(link.href.slice('/models/'.length));
           assert.ok(model, `missing model route ${link.href}`);
-          assert.equal(model.surfaces.modelPage.indexable, true, `model route should be indexable: ${link.href}`);
+          // Models Keyvo took offline (Wan 2.5) keep their catalog identity but lose the indexable model page;
+          // the generated catalog is upstream-wide, so hidden families keep their upstream indexability.
+          assert.equal(
+            model.surfaces.modelPage.indexable,
+            !KEYVO_OFFLINE_MODEL_SLUGS.has(link.href.slice('/models/'.length)),
+            `model route indexability follows the Keyvo visibility policy: ${link.href}`,
+          );
         }
         if (link.href.startsWith('/ai-video-engines/')) {
           const comparisonSlug = link.href.slice('/ai-video-engines/'.length);

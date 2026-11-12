@@ -172,7 +172,10 @@ test('an overdue editorial review stops boosting a reference while on-request mo
   assert.ok(result.recommendations[1].tradeoffs.some(reason=>/does not boost/i.test(reason)));
 });
 
-test('H3 Max recommendations derive executable creation, reference and source operations from the shared runtime', async () => {
+// Keyvo hides MiniMax-H3-Max (KEYVO_HIDDEN_MODEL_IDS): MiniMax's official API offers no 1080P, middle frame or
+// Recast/Relight, so the upstream fal-backed H3 Max is not executable. MCP must neither describe nor recommend it,
+// while H3 keeps the reviewed creation and reference guidance.
+test('H3 Max is unavailable to MCP on Keyvo while H3 recommendations derive from the shared runtime', async () => {
   const catalogDeps: AgentModelCatalogDeps = {
     ...realRegistryDeps(),
     isModeExecutable: (engine, mode) => resolveAgentGenerationModeExecutability(engine, mode, {
@@ -182,31 +185,26 @@ test('H3 Max recommendations derive executable creation, reference and source op
       providerEnv: {},
     }).executable,
   };
-  const details = await getAgentModelDetails('minimax-h3-max', catalogDeps);
+  await assert.rejects(getAgentModelDetails('minimax-h3-max', catalogDeps), { code: 'ENGINE_UNAVAILABLE' });
+  assert.equal((await listAgentModels({}, catalogDeps)).some((model) => model.id === 'minimax-h3-max'), false);
+  for (const mode of [undefined, 'ref2v', 'v2v', 'extend', 'reframe'] as const) {
+    const result = await recommendAgentModels({ id: 'minimax-h3-max', ...(mode ? { mode } : {}) }, catalogDeps)
+      .catch((error: { code?: string }) => error);
+    if ('recommendations' in result) assert.deepEqual(result.recommendations, [], String(mode));
+    else assert.equal(result.code, 'ENGINE_UNAVAILABLE', String(mode));
+  }
+
+  const details = await getAgentModelDetails('minimax-h3', catalogDeps);
   assert.equal(details.lifecycle, 'current');
-  assert.deepEqual(details.modes.map((mode) => mode.mode), ['t2v', 'i2v', 'ref2v', 'v2v']);
-  const sourceOperations = details.modes.find((mode) => mode.mode === 'v2v')?.operations;
-  assert.deepEqual(sourceOperations?.map(({ operation, durationPolicy }) => ({ operation, durationPolicy })), [
-    { operation: 'h3-recast', durationPolicy: 'source_video' },
-    { operation: 'h3-relight', durationPolicy: 'source_video' },
-  ]);
-  assert.deepEqual(details.modes.flatMap((mode) => mode.operations?.map(({ operation }) => operation) ?? []),
-    ['h3-recast', 'h3-relight'], 'deferred H3 Extend, Insert and Reframe must not be advertised');
+  assert.deepEqual(details.modes.map((mode) => mode.mode), ['t2v', 'i2v', 'ref2v']);
+  assert.deepEqual(details.modes.flatMap((mode) => mode.operations?.map(({ operation }) => operation) ?? []), [],
+    'H3 advertises no source-video operations');
   assert.equal(details.modes[0].audio, 'always_generated');
-  assert.deepEqual(details.modes[0].resolutions, ['480P', '768P', '1080P']);
-  assert.ok(details.modes[0].settings.some((setting) => setting.key === 'promptExpansionMode'));
+  assert.deepEqual(details.modes[0].resolutions, ['768P', '2K']);
   assert.equal(details.guidance?.bestFor.includes('reference_guided'), true);
   assert.equal(details.links.examples, 'https://maxvideoai.com/examples/hailuo');
-  const recommendation = await recommendAgentModels({ id: 'minimax-h3-max', useCase: 'product_video' }, catalogDeps);
-  assert.equal(recommendation.recommendations[0]?.model.id, 'minimax-h3-max');
-  assert.ok(recommendation.recommendations[0].reasons.some((reason) => reason.includes('Reviewed guidance')));
-  assert.equal((await recommendAgentModels({ id: 'minimax-h3-max', mode: 'ref2v' }, catalogDeps)).recommendations[0]?.model.id, 'minimax-h3-max');
-  const sourceRecommendation = await recommendAgentModels({ id: 'minimax-h3-max', mode: 'v2v' }, catalogDeps);
-  assert.deepEqual(sourceRecommendation.recommendations.map(({ model }) => ({ id: model.id, modes: model.modes })),
-    [{ id: 'minimax-h3-max', modes: ['v2v'] }]);
-  for (const mode of ['extend', 'reframe'] as const) {
-    assert.deepEqual((await recommendAgentModels({ id: 'minimax-h3-max', mode }, catalogDeps)).recommendations, [], mode);
-  }
+  assert.equal((await recommendAgentModels({ id: 'minimax-h3', mode: 'ref2v' }, catalogDeps)).recommendations[0]?.model.id, 'minimax-h3');
+  assert.deepEqual((await recommendAgentModels({ id: 'minimax-h3', mode: 'v2v' }, catalogDeps)).recommendations, []);
 });
 
 test('recommendations keep explicit capabilities as hard constraints and cap stable ties at three', async () => {

@@ -32,6 +32,8 @@ export async function qualifyPaidSeedanceEdit(transport: 'las' | 'modelark') {
     const previousPublicBase = process.env.S3_PUBLIC_BASE_URL;
     const previousFetch = globalThis.fetch;
     const flags = { BYTEPLUS_ARK_ENABLED: 'true', BYTEPLUS_ARK_API_KEY: 'fixture-ark',
+      // The code defaults are the mainland node; this fixture exercises the BytePlus international account.
+      BYTEPLUS_ARK_REGION: 'ap-southeast-1', BYTEPLUS_ARK_BASE_URL: 'https://ark.ap-southeast.bytepluses.com/api/v3',
       SEEDANCE_2_5_BYTEPLUS_ENABLED: 'true', SEEDANCE_2_5_PROVIDER: 'byteplus_modelark',
       SEEDANCE_2_5_BYTEPLUS_ADMIN_ONLY: 'false', SEEDANCE_2_5_BYTEPLUS_MODES: 't2v,i2v,ref2v,v2v,extend',
       SEEDANCE_2_5_EDIT_TRANSPORT: transport, SEEDANCE_2_5_MODELARK_EDIT_ENABLED: transport === 'modelark' ? 'true' : 'false',

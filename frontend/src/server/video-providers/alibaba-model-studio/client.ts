@@ -2,10 +2,18 @@ import { ENV } from '@/lib/env';
 import type { NormalizedVideoProviderTask } from '../types';
 import { AlibabaModelStudioError } from './errors';
 import { normalizeAlibabaTask, parseAlibabaJsonResponse } from './response';
-import type { AlibabaVideoPayload } from './types';
+import type { AlibabaVideoRequestPayload } from './types';
 
-const DEFAULT_BASE_URL = 'https://dashscope-intl.aliyuncs.com';
+/**
+ * Keyvo runs on the mainland (cn-beijing) Model Studio account. Production sets the
+ * workspace host explicitly (`https://{WorkspaceId}.cn-beijing.maas.aliyuncs.com`);
+ * without an override the code builds that host from ALIBABA_MODEL_STUDIO_WORKSPACE_ID
+ * or falls back to the public Beijing DashScope endpoint.
+ */
+export const ALIBABA_MODEL_STUDIO_DEFAULT_REGION = 'cn-beijing';
+const DEFAULT_BASE_URL = 'https://dashscope.aliyuncs.com';
 const DEFAULT_TIMEOUT_MS = 30_000;
+const WORKSPACE_ID_PATTERN = /^[a-z0-9][a-z0-9-]{0,62}$/i;
 const CREATE_VIDEO_PATH = '/api/v1/services/aigc/video-generation/video-synthesis';
 
 export type AlibabaModelStudioClientConfig = {
@@ -67,6 +75,27 @@ export function normalizeAlibabaBaseUrl(value: string | null | undefined): strin
   return parsed.origin;
 }
 
+type AlibabaEndpointEnv = Readonly<Partial<Record<
+  'ALIBABA_MODEL_STUDIO_BASE_URL' | 'ALIBABA_MODEL_STUDIO_WORKSPACE_ID' | 'ALIBABA_MODEL_STUDIO_REGION',
+  string | undefined
+>>>;
+
+/** Explicit base URL wins; otherwise a workspace ID builds the regional MaaS host (Beijing by default). */
+export function resolveAlibabaModelStudioBaseUrl(env: AlibabaEndpointEnv): string {
+  const explicit = env.ALIBABA_MODEL_STUDIO_BASE_URL?.trim();
+  if (explicit) return normalizeAlibabaBaseUrl(explicit);
+  const workspaceId = env.ALIBABA_MODEL_STUDIO_WORKSPACE_ID?.trim();
+  if (!workspaceId) return normalizeAlibabaBaseUrl(DEFAULT_BASE_URL);
+  const region = env.ALIBABA_MODEL_STUDIO_REGION?.trim() || ALIBABA_MODEL_STUDIO_DEFAULT_REGION;
+  if (!WORKSPACE_ID_PATTERN.test(workspaceId) || !SUPPORTED_REGIONS.has(region)) {
+    throw new AlibabaModelStudioError('Alibaba Model Studio workspace ID or region is invalid.', {
+      code: 'ALIBABA_MODEL_STUDIO_BASE_URL_INVALID',
+      errorClass: 'invalid_request',
+    });
+  }
+  return normalizeAlibabaBaseUrl(`https://${workspaceId.toLowerCase()}.${region}.maas.aliyuncs.com`);
+}
+
 export function getAlibabaModelStudioConfig(): AlibabaModelStudioClientConfig {
   if (!ENV.ALIBABA_MODEL_STUDIO_API_KEY) {
     throw new AlibabaModelStudioError('ALIBABA_MODEL_STUDIO_API_KEY is missing.', {
@@ -83,7 +112,7 @@ export function getAlibabaModelStudioConfig(): AlibabaModelStudioClientConfig {
   }
   return {
     apiKey: ENV.ALIBABA_MODEL_STUDIO_API_KEY,
-    baseUrl: normalizeAlibabaBaseUrl(ENV.ALIBABA_MODEL_STUDIO_BASE_URL),
+    baseUrl: resolveAlibabaModelStudioBaseUrl(ENV),
     submitTimeoutMs: positiveInt(ENV.ALIBABA_MODEL_STUDIO_SUBMIT_TIMEOUT_MS, DEFAULT_TIMEOUT_MS),
     pollTimeoutMs: positiveInt(ENV.ALIBABA_MODEL_STUDIO_POLL_TIMEOUT_MS, DEFAULT_TIMEOUT_MS),
   };
@@ -158,7 +187,7 @@ export class AlibabaModelStudioClient {
     }
   }
 
-  async createVideo(payload: AlibabaVideoPayload): Promise<NormalizedVideoProviderTask> {
+  async createVideo(payload: AlibabaVideoRequestPayload): Promise<NormalizedVideoProviderTask> {
     const raw = await this.requestJson({
       path: CREATE_VIDEO_PATH,
       method: 'POST',

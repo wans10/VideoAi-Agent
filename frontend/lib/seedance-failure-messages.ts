@@ -12,6 +12,8 @@ import {
 } from './video-failure-codes';
 
 type Locale = 'en' | 'fr' | 'es' | 'zh';
+/** Local Volcengine Ark guard: Seedance 2.0 4K allows one concurrent task per account. */
+export const SEEDANCE_4K_CAPACITY_BUSY = 'SEEDANCE_4K_CAPACITY_BUSY';
 const SEEDANCE_EDIT_SOURCE_UNSUPPORTED = 'SEEDANCE_EDIT_SOURCE_UNSUPPORTED';
 const copy = {
   zh: {
@@ -33,6 +35,7 @@ const copy = {
     measured: '测得的总时长：{duration} 秒。',
     unverified: '无法确认一段参考视频的时长。请重新上传该视频，然后再尝试生成。',
     noCharge: '未扣除积分。',
+    fourKBusy: 'Seedance 2.0 的 4K 规格同一时间只能运行一个任务，当前已有 4K 任务在生成。请几分钟后重试，或改用 1080p。',
   },
   en: {
     prompt: 'Seedance blocked the prompt during its safety checks. Change the prompt before trying again.',
@@ -53,6 +56,7 @@ const copy = {
     measured: 'Measured total: {duration} seconds.',
     unverified: 'We could not verify the duration of a reference video. Upload the video again before trying to generate.',
     noCharge: 'No credits were charged.',
+    fourKBusy: 'Seedance 2.0 4K is busy: only one 4K render can run at a time. Try again in a few minutes or choose 1080p.',
   },
   fr: {
     prompt: 'Seedance a bloqué le prompt lors de ses contrôles de sécurité. Modifiez le prompt avant de réessayer.',
@@ -73,6 +77,7 @@ const copy = {
     measured: 'Durée totale mesurée : {duration} secondes.',
     unverified: 'Nous n’avons pas pu vérifier la durée d’une vidéo de référence. Importez-la à nouveau avant de relancer la génération.',
     noCharge: 'Aucun crédit n’a été débité.',
+    fourKBusy: 'Seedance 2.0 en 4K est occupé : un seul rendu 4K peut s’exécuter à la fois. Réessayez dans quelques minutes ou choisissez 1080p.',
   },
   es: {
     prompt: 'Seedance ha bloqueado el prompt durante sus controles de seguridad. Cambia el prompt antes de intentarlo de nuevo.',
@@ -93,6 +98,7 @@ const copy = {
     measured: 'Duración total medida: {duration} segundos.',
     unverified: 'No hemos podido verificar la duración de un vídeo de referencia. Vuelve a subirlo antes de generar.',
     noCharge: 'No se han descontado créditos.',
+    fourKBusy: 'Seedance 2.0 en 4K está ocupado: solo se puede ejecutar un renderizado 4K a la vez. Inténtalo de nuevo en unos minutos o elige 1080p.',
   },
 } satisfies Record<Locale, Record<string, string>>;
 
@@ -103,6 +109,7 @@ function localeKey(locale: string): Locale {
 // Match only known customer copy for historical jobs without structured codes.
 export function seedanceFailureCodeFromMessage(message: string | null | undefined): string | null {
   if (!message || !/seedance/i.test(message)) return null;
+  if (/Seedance 2\.0 4K is busy|Seedance 2\.0 的 4K 规格同一时间只能运行一个任务/i.test(message)) return SEEDANCE_4K_CAPACITY_BUSY;
   if (/blocked (?:the )?prompt|prompt was blocked/i.test(message)) return SEEDANCE_PROMPT_BLOCKED;
   if (/blocked this request|request was blocked/i.test(message)) return SEEDANCE_CONTENT_BLOCKED;
   if (/could not read (?:the )?reference media|reference media could not be read/i.test(message)) return SEEDANCE_REFERENCE_MEDIA_UNAVAILABLE;
@@ -136,6 +143,7 @@ export function getSeedanceFailureMessage(params: {
     case SEEDANCE_REFERENCE_VIDEO_DURATION_EXCEEDED: return text.duration;
     case SEEDANCE_TASK_TYPE_CONSTRAINT: return text.task;
     case 'seedance_inputs_rejected': return text.unsupported;
+    case SEEDANCE_4K_CAPACITY_BUSY: return text.fourKBusy;
     default: return params.failureCode ? getSeedanceFailureMessage({ message: params.message, locale: params.locale }) : null;
   }
 }
