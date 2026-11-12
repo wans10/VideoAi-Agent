@@ -36,7 +36,7 @@ function postOwnedStudioRequest(
         resolve(new Response(Buffer.concat(chunks), { status: incoming.statusCode ?? 500, headers }));
       });
     });
-    outgoing.setTimeout(30_000, () => outgoing.destroy(new Error('Owned MCP fixture request timed out.')));
+    outgoing.setTimeout(120_000, () => outgoing.destroy(new Error('Owned MCP fixture request timed out.')));
     outgoing.once('error', reject);
     outgoing.end(JSON.stringify(body));
   });

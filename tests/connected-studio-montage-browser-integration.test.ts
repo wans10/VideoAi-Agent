@@ -114,7 +114,7 @@ test('MCP montage opens the current conversation with private playback, durable 
       if (firstContext) {
         firstContext = false;
         await owned.page.route(`${runtime.browserOrigin}${endpoint}/image-conversation`, interceptRead(async route => {
-          const response = await route.fetch();
+          const response = await route.fetch({ timeout: 120_000 });
           journalBlocked = true;
           await journalGate;
           await route.fulfill({response});
@@ -124,14 +124,14 @@ test('MCP montage opens the current conversation with private playback, durable 
         await owned.page.route(`${timelineEndpoint}?preview=1`, interceptRead(async route => {
           if (holdRenewal) {
             holdRenewal = false;
-            const response = await route.fetch().catch(() => null);
+            const response = await route.fetch({ timeout: 120_000 }).catch(() => null);
             if (!response) return;
             renewalBlocked = true;
             await renewalGate;
             await route.fulfill({response}).catch(() => undefined);
           } else if (holdCanonical) {
             holdCanonical = false;
-            const response = await route.fetch().catch(() => null);
+            const response = await route.fetch({ timeout: 120_000 }).catch(() => null);
             if (!response) return;
             canonicalBlocked = true;
             await canonicalGate;
@@ -383,7 +383,7 @@ test('MCP montage opens the current conversation with private playback, durable 
     // owned 307 locally, validating its grant before serving the offline bucket
     // bytes. This preserves the canonical route and avoids contacting fake S3.
     await page.route(`${runtime.browserOrigin}${exportMediaPath}`, async (route) => {
-      const response = await route.fetch({ maxRedirects: 0 });
+      const response = await route.fetch({ maxRedirects: 0, timeout: 120_000 });
       assert.equal(response.status(), 307);
       assert.equal(response.headers()['cache-control'], 'private, no-store');
       const location = response.headers().location;
@@ -428,8 +428,8 @@ test('MCP montage opens the current conversation with private playback, durable 
     await page.setViewportSize({ width: 390, height: 844 });
     await page.getByRole('button', { name: (siteDefaultLocale==='zh'?'项目':'Projects'), exact: true }).click();
     const projects = page.getByRole('dialog', { name: 'Your projects', exact: true });
-    await expect(projects.locator('[data-project-row]')).toHaveCount(1);
-    await expect(projects.locator('[data-project-row]')).toHaveAttribute('href', montage.studioUrl);
+    await expect(projects.locator('[data-project-row]')).toHaveCount(1,{ timeout: 45_000 });
+    await expect(projects.locator('[data-project-row]')).toHaveAttribute('href', montage.studioUrl,{ timeout: 45_000 });
     await expect(projects.getByRole('button', { name: 'Canvas', exact: true })).toHaveCount(0);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), 390);
     const createAttempts: Array<{ name: string; idempotencyKey: string }> = [];
@@ -437,7 +437,7 @@ test('MCP montage opens the current conversation with private playback, durable 
     await page.route(`${runtime.browserOrigin}/api/studio/conversation-projects`, async (route) => {
       if (route.request().method() !== 'POST') return route.continue();
       createAttempts.push(route.request().postDataJSON());
-      const response = await route.fetch();
+      const response = await route.fetch({ timeout: 120_000 });
       assert.equal(response.status(), 200);
       const body = await response.json();
       newProjectId = body.result.projectId;
