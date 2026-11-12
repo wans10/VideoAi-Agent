@@ -77,8 +77,8 @@ test('creator landings show responsive art and truthful interactions on mobile a
       assert.equal(await released.locator('a[href="/app/tools/subtitles"]').count(),2);
       const schemas=await released.locator('script[type="application/ld+json"]').evaluateAll(nodes=>nodes.map(node=>JSON.parse(node.textContent!)));
       assert.deepEqual(schemas.map(schema=>schema['@type']),['BreadcrumbList','Service']);
-      assert.equal(schemas[0].itemListElement[2].item,'https://maxvideoai.com/fr/outils/subtitles');
-      assert.equal(schemas[1].url,'https://maxvideoai.com/fr/outils/subtitles');
+      assert.equal(schemas[0].itemListElement[2].item,'https://app.keyvo.cn/fr/outils/subtitles');
+      assert.equal(schemas[1].url,'https://app.keyvo.cn/fr/outils/subtitles');
       assert.equal(schemas[1].offers,undefined);
     } finally {await released.close();}
   } finally {await browser.close();await fixture.close();}
