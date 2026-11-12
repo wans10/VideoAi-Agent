@@ -372,7 +372,7 @@
       {
         "title": "无声草稿",
         "body": "生成纯视频片段，便于后期自由铺设音效或剪辑整合到更宏大的成片中。",
-        "tone": "video"
+        "tone": "quality"
       },
       {
         "title": "支持文本或图片",
@@ -382,12 +382,12 @@
       {
         "title": "运镜视觉探索",
         "body": "在投入更高成本渲染前，先测试跟拍、推拉、手持或产品环绕等运镜效果。",
-        "tone": "control"
+        "tone": "continuity"
       },
       {
         "title": "负向提示词",
         "body": "在短片段中有效阻断多余人物、文字、logo 以及视觉噪点瑕疵。",
-        "tone": "safety"
+        "tone": "reference"
       },
       {
         "title": "最长 10 秒",
