@@ -156,6 +156,8 @@
           "wan-2-6-vs-wan-3": "Wan 2.6 对比 Wan 3",
           "flux-3-vs-grok-imagine-video-1-5": "FLUX 3 对比 Grok Imagine Video 1.5",
           "grok-imagine-video-1-5-vs-sora-2": "Grok Imagine Video 1.5 对比 Sora 2",
+          "kling-v4-vs-seedance-2-5": "Kling 4.0 对比 Seedance 2.5",
+          "kling-v4-vs-wan-3-prime": "Kling 4.0 对比 Wan 3 Prime",
           "minimax-h3-vs-seedance-2-5": "MiniMax H3 对比 Seedance 2.5",
           "kling-o3-pro-vs-minimax-h3": "Kling 3.0 Omni Pro 对比 MiniMax H3",
           "minimax-h3-vs-veo-3-1": "MiniMax H3 对比 Veo 3.1",
@@ -201,7 +203,13 @@
           "image": "生成图像",
           "audio": "生成音频",
           "background-removal": "视频背景去除",
-          "upscale": "AI 画质超分"
+          "upscale": "AI 画质超分",
+          "studio": "Studio 编辑器",
+          "subtitles": "视频字幕",
+          "lip-sync": "口型同步",
+          "product-photo-editor": "商品图编辑",
+          "product-video-editor": "商品视频编辑",
+          "motion-transfer": "动作迁移"
         },
         "heading": "打造生动故事的下一个画面。",
         "intro": "创建参考角色、微调镜头角度并完善画面细节。",
@@ -212,6 +220,9 @@
               "get-started": "快速入门"
             }
           }
+        },
+        "descriptions": {
+          "studio": "借助 AI 的创意工作空间。"
         }
       },
       "workflows": {
@@ -583,6 +594,7 @@
             },
             {
               "engineId": "seedance-2-5",
+              "imageAlt": "使用 Seedance 2.5 生成的动作场景：一只毛茸茸的橘猫面对两名男子。",
               "name": "Seedance 2.5",
               "provider": "ByteDance",
               "bestFor": "复杂电影级物理模拟",
@@ -609,6 +621,7 @@
             },
             {
               "engineId": "wan-3-prime",
+              "imageAlt": "一支 22 秒的 Wan 3 音乐视频，融合城市声响、街头鼓手与地铁。",
               "name": "Wan 3 Prime",
               "provider": "Alibaba",
               "bestFor": "精细受控动态",
@@ -635,6 +648,7 @@
             },
             {
               "engineId": "kling-3-pro",
+              "imageAlt": "使用 Kling 3 Pro 生成的 12 秒图生视频预览。",
               "name": "Kling 3 Pro",
               "provider": "Kuaishou",
               "bestFor": "大幅度运镜",
@@ -657,6 +671,33 @@
                 "运镜",
                 "音频",
                 "多镜头"
+              ]
+            },
+            {
+              "engineId": "minimax-h3",
+              "name": "MiniMax H3",
+              "provider": "MiniMax",
+              "bestFor": "高速电影级动作",
+              "imageAlt": "一个飞行角色在热带海湾上空疾驰，由 MiniMax H3 生成的 15 秒视频。",
+              "fallbackPrice": "实时价格",
+              "scores": [
+                {
+                  "label": "动态",
+                  "value": 91
+                },
+                {
+                  "label": "真实感",
+                  "value": 88
+                },
+                {
+                  "label": "速度",
+                  "value": 92
+                }
+              ],
+              "tags": [
+                "动作",
+                "原生音频",
+                "电影质感"
               ]
             }
           ],
@@ -1124,17 +1165,17 @@
           {
             "providerKey": "ByteDance",
             "provider": "ByteDance",
-            "model": "Seedance"
+            "model": "Seedance 2.5"
           },
           {
             "providerKey": "Kling by Kuaishou",
             "provider": "Kling / Kuaishou",
-            "model": "Kling"
+            "model": "Kling 4.0"
           },
           {
             "providerKey": "Wan",
             "provider": "Wan",
-            "model": "Wan"
+            "model": "Wan 3"
           },
           {
             "providerKey": "Alibaba",
@@ -1150,7 +1191,7 @@
           {
             "providerKey": "MiniMax",
             "provider": "MiniMax",
-            "model": "MiniMax"
+            "model": "MiniMax H3"
           }
         ]
       },
@@ -1273,10 +1314,10 @@
     "worksWith": {
       "label": "支持模型",
       "brands": [
-        "Kling 2.6 Pro",
-        "MiniMax Hailuo 02",
-        "Kling 2.5",
-        "Wan 2.5"
+        "MiniMax H3",
+        "Kling 4.0",
+        "Seedance 2.5",
+        "Wan 3"
       ],
       "caption": "商标归各自所有者所有。",
       "availabilityNotice": "可用性可能因提供商而异；价格标签会自动实时刷新。",
@@ -2775,7 +2816,13 @@
       "liveLabel": "实时",
       "comingSoonLabel": "即将推出",
       "summaryLive": "浏览保存到您账户的可复用素材、预设和参考提示词。",
-      "summarySoon": "文档即将上线。"
+      "summarySoon": "文档即将上线。",
+      "steps": [
+        "查找结果：使用媒体类型筛选或搜索；切换到创作历史可查看任务状态。",
+        "查看可用内容：打开结果即可预览或试听，查看尺寸或时长，并在有记录时查看提示词或设置。",
+        "保留原件：对可用的输出使用“下载原件”。重要文件请直接下载，不要依赖可能过期的媒体复制链接。",
+        "基于它创作：选择兼容的参考或工具操作。提供该操作时可复用结果的设置，然后检查输入内容和新价格。"
+      ]
     },
     "feedback": {
       "srTitle": "反馈",
@@ -3961,7 +4008,14 @@
         "expandSection": "展开",
         "collapseSection": "收起",
         "saving": "保存中…",
-        "removing": "移除中…"
+        "removing": "移除中…",
+        "savePending": "正在保存到媒体库…",
+        "saveError": "无法保存到媒体库，请重试。",
+        "saveSuccess": "已保存到媒体库。",
+        "removePending": "正在从历史记录中移除…",
+        "removeError": "无法从历史记录中移除，请重试。",
+        "removeSuccess": "已从历史记录中移除。",
+        "dismiss": "关闭"
       },
       "table": {
         "title": "生成历史",
@@ -4353,6 +4407,7 @@
         "importing": "正在导入…",
         "importFailed": "导入失败，请重试。",
         "refresh": "刷新",
+        "loadMore": "加载更多",
         "searchSaved": "按名称或生成 ID 搜索…",
         "searchRenders": "按提示词或生成 ID 搜索…",
         "create": "创建"
@@ -4735,7 +4790,8 @@
         "jobLabel": "任务 {id}",
         "sourceLabel": "{label} 源",
         "uploadDurationWarning": "源视频已上传，但无法在浏览器中直接读取其时长。",
-        "selectedDurationWarning": "已加载所选视频，但无法在浏览器中确认其时长。"
+        "selectedDurationWarning": "已加载所选视频，但无法在浏览器中确认其时长。",
+        "previewUnavailable": "源视频预览不可用。"
       },
       "controls": {
         "eyebrow": "音频控制",
@@ -5048,6 +5104,8 @@
           "description": "专为机位视角一致性调优的 Qwen 图像编辑多视角引擎。"
         }
       },
+      "sourcePreviewUnavailable": "源图像预览不可用。",
+      "retrySourcePreview": "重试",
       "targetAngle": "目标视角角度",
       "pitchLabel": "俯仰角 (Pitch)",
       "yawLabel": "偏航角 (Yaw)",
@@ -8568,7 +8626,27 @@
           },
           {
             "question": "我能在图生视频流程中复用这些素材吗？",
-            "answer": "可以。你可以将其用于提示词、Nano Banana 首帧准备，以及支持静帧参考的视频模型。"
+            "answer": "可以。你可以将其用于提示词、首帧准备，以及支持静帧参考的视频模型。"
+          },
+          {
+            "question": "我能在图生视频流程中复用这些素材吗？",
+            "answer": "可以。你可以将其用于提示词、首帧准备，以及支持静帧参考的视频模型。"
+          },
+          {
+            "question": "可以保存角色并制作另一个造型吗？",
+            "answer": "可以。保存角色后，从你的角色库中打开它，并基于其身份创建新造型。保存的造型可在 Recast 中选用。"
+          },
+          {
+            "question": "Keyvo Recast 如何使用？",
+            "answer": "选择角色图像或已保存的造型，添加参考视频并选取片段。你还可以提供商品图、台词或音频片段。开始生成视频前，请确认时长、分辨率和确切报价。"
+          },
+          {
+            "question": "每张图像和每段视频都会完全一致吗？",
+            "answer": "不会。参考素材可以引导身份和外观，但 AI 生成仍可能改变面部、服装、动作或商品。请逐一检查结果，尤其是角色设定表的各个角度和商品细节。"
+          },
+          {
+            "question": "Character Studio 角色工作室的费用是多少？",
+            "answer": "应用会在生成前显示当前报价。图像输出与 Recast 分别计价。图像分辨率、视频时长、输入片段和视频分辨率都会影响金额；设置变更后需要更新报价。"
           }
         ]
       },
@@ -8619,6 +8697,62 @@
         "panelLeft": "锁定角色基准",
         "panelRight": "随时跨场景复用",
         "panelAlt": "使用 Keyvo Character Builder 生成的可复用角色设定图预览。"
+      },
+      "studio": {
+        "nav": [
+          "创建",
+          "新造型",
+          "角色设定表",
+          "Recast"
+        ],
+        "castingTitle": "一张面孔，一种个性，无限可能。",
+        "castingBody": "人类、动物或想象中的生物：描述面孔、年龄、肤色、发型、服装和场景。预设不够用时，随时加入你自己的创意指引。",
+        "castingCaption": "在 Character Studio 中生成的真实角色",
+        "looksTitle": "同一个角色，全新的造型。",
+        "looksBody": "从已保存的角色出发，更换服装或场景。可使用风格预设、描述你自己的服装，或添加服装参考。",
+        "identity": "已保存的身份",
+        "newLook": "新造型",
+        "looksNote": "Dixie Trouble · 两次实际生成。保存造型前请检查面部和细节。",
+        "outputsTitle": "为下一个镜头准备合适的参考。",
+        "outputsBody": "选择肖像或角色设定表，再选择格式和分辨率。确认前会实时更新生成价格。",
+        "portrait": "肖像",
+        "portraitBody": "一张图像，用于锚定面部和外观。",
+        "sheet": "角色设定表",
+        "sheetBody": "一张八宫格图像：四个全身角度和四个对应特写。复用前请检查每个视角。",
+        "sheetAlt": "AI 角色参考设定表，包含正面、侧面、四分之三侧面和背面视角，以及对应的特写。",
+        "recastEyebrow": "Keyvo Recast",
+        "recastTitle": "你的角色，你选择的动作。",
+        "recastBody": "选择已保存的角色或上传图像。添加视频并选取用作动作参考的片段。商品图、台词和音频参考可进一步引导场景。",
+        "recastSteps": [
+          "选择角色或已保存的造型",
+          "选取视频和音频片段",
+          "设置时长、画幅以及 720p 或 1080p",
+          "确认确切价格，然后生成"
+        ],
+        "recastNote": "Recast 会生成一段新视频。动作、身份和商品细节可能有所不同；用于营销活动前请检查结果。",
+        "filmLabels": [
+          "Dixie · 舞蹈",
+          "Vesper · 角色喜剧"
+        ],
+        "filmDescriptions": [
+          "粉白造型，带入一段舞蹈场景。",
+          "一位昆虫时装设计师出现在跑车场景中。"
+        ],
+        "frameLabel": "来自真实 Recast 的画面",
+        "videoLabel": "观看生成的视频",
+        "recastCta": "打开 Character Studio 角色工作室",
+        "priceTitle": "选择成果，查看价格，然后生成。",
+        "priceBody": "肖像、新造型和角色设定表属于图像生成。Recast 是单独的视频生成：所选时长和分辨率会影响其报价。请始终以应用中显示的当前价格为准。",
+        "priceLink": "按量付费如何运作",
+        "faqTitle": "创建 AI 角色之前",
+        "finalTitle": "认识你的下一个常驻角色。",
+        "finalBody": "一次建立身份，保存你喜欢的造型，再把角色带入新的场景。",
+        "secondaryCta": "了解工作流程",
+        "roles": [
+          "常驻角色",
+          "创作者与 UGC",
+          "品牌吉祥物"
+        ]
       }
     },
     "backgroundRemoval": {
