@@ -36,10 +36,13 @@ function shape(leaf: string): string {
   return leaf.split('.').map((segment) => (/^\d+$/.test(segment) ? '*' : segment)).join('.');
 }
 
+// Only the hidden FLUX 3 Max provider card carries a model-page href parameter in en; Keyvo does not list that card.
+const KEYVO_OMITTED_SHAPES = new Set(['home.redesign.providers.items.*.href.params.slug']);
+
 test('zh messages contain every en leaf key (list lengths may differ)', () => {
   const en = readMessages('en');
   const zh = readMessages('zh');
   const zhShapes = new Set(leafPaths(zh).map(shape));
-  const missing = [...new Set(leafPaths(en).map(shape))].filter((leaf) => !zhShapes.has(leaf));
+  const missing = [...new Set(leafPaths(en).map(shape))].filter((leaf) => !zhShapes.has(leaf) && !KEYVO_OMITTED_SHAPES.has(leaf));
   assert.deepEqual(missing, [], `zh.json is missing ${missing.length} en keys:\n${missing.join('\n')}`);
 });
