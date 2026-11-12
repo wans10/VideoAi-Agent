@@ -6,6 +6,7 @@ import type { Mode } from '@/types/engines';
 import {
   consumeWorkspaceOnboardingSkipIntent,
   resolveWorkspaceRequestParams,
+  type WorkspaceWorkflowRequest,
 } from '../_lib/workspace-hydration';
 import {
   readScopedWorkspaceStorage,
@@ -35,6 +36,7 @@ type UseWorkspaceDraftStorageResult = {
   requestedEngineToken: string;
   requestedMode: Mode | null;
   requestedPrompt: string | null;
+  requestedWorkflow: WorkspaceWorkflowRequest | null;
   searchString: string;
   loginRedirectTarget: string;
   effectiveRequestedEngineId: string | null;
@@ -96,6 +98,7 @@ export function useWorkspaceDraftStorage({
     requestedEngineToken,
     requestedMode,
     requestedPrompt,
+    requestedWorkflow,
     searchString,
     loginRedirectTarget,
   } = workspaceRequest;
@@ -175,6 +178,7 @@ export function useWorkspaceDraftStorage({
     requestedEngineToken,
     requestedMode,
     requestedPrompt,
+    requestedWorkflow,
     searchString,
     loginRedirectTarget,
     effectiveRequestedEngineId,

@@ -30,7 +30,7 @@ test('workspace media has semantic sibling actions, manual readers and exact sou
   assert.match(manager, /WorkspaceReferencePopup/);
   assert.match(manager, /flushSync\(\(\) => setActiveCommand\(null\)\)/);
   assert.doesNotMatch(manager, /<span><AppGlyph name="reference" \/>\{copy\.title\}/);
-  assert.match(manager, /<span className="app-reference-command-media"><AppGlyph name="reference" \/><\/span>/);
+  assert.match(manager, /<span className="app-reference-command-media"><WorkspaceComposerGlyph name="reference" \/><\/span>/);
   const popup = readFileSync('frontend/components/composer/WorkspaceReferencePopup.client.tsx', 'utf8');
   assert.match(popup, /useAccessibleModal/);
   assert.match(popup, /aria-modal="true"/);
@@ -51,7 +51,7 @@ test('workspace Options appears only for useful advanced controls and stale vide
   const composer = readFileSync('frontend/components/Composer.tsx', 'utf8');
   const video = readFileSync('frontend/app/(core)/(workspace)/app/_components/WorkspaceComposerSurface.tsx', 'utf8');
   const image = readFileSync('frontend/app/(core)/(workspace)/app/image/_components/ImageWorkspaceComposerSurface.tsx', 'utf8');
-  assert.match(composer, /price == null \|\| isPricing \|\| preflight\?\.ok === false/);
+  assert.match(composer, /price == null \|\| isPricing \|\| excerptEditorOpen \|\| excerptNeedsRange \|\| \(videoSourceWorkflow && extensionSourceState !== \'ready\'\) \|\| preflight\?\.ok === false/);
   assert.match(video, /isPricing=\{isPricing\}/);
   assert.match(video, /const showOptionsControl = Boolean\(/);
   assert.match(video, /selectedEngine\.params\?\.cfg_scale/);
@@ -59,6 +59,8 @@ test('workspace Options appears only for useful advanced controls and stale vide
   assert.match(video, /advancedOpen=\{showOptionsControl && optionsOpen\}/);
   assert.match(video, /optionsControl=\{showOptionsControl \? <WorkspaceOptionsButton/);
   assert.match(image, /<ImageAdvancedSettings\s+open=\{optionsOpen\}/);
-  assert.match(composer, /htmlFor=\{promptId\}/);
+  const promptHeader = readFileSync('frontend/components/composer/ComposerPromptHeader.client.tsx', 'utf8');
+  assert.match(composer, /<ComposerPromptHeader promptId=\{promptId\}/);
+  assert.match(promptHeader, /htmlFor=\{promptId\}/);
   assert.match(composer, /<textarea\s+id=\{promptId\}/);
 });

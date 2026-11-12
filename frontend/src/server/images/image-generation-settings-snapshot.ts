@@ -9,6 +9,7 @@ import type { GptImage2ImageSize } from '@/lib/image/gptImage2';
 
 export function buildDefaultSettingsSnapshot(args: {
   surface: JobSurface;
+  nano21Settings?: import('@/lib/nano-banana-2-1').Nano21Settings;
   engineEntry: FalEngineEntry;
   mode: ImageGenerationMode;
   prompt: string;
@@ -18,8 +19,10 @@ export function buildDefaultSettingsSnapshot(args: {
   customImageSize: GptImage2ImageSize | null;
   normalizedSeed: number | null;
   outputFormat: string | null;
+  outputCompression?: number;
   quality: string | null;
   background: string | null;
+  complexity?: string;
   style: string | null;
   maskUrl: string | null;
   enableWebSearch: boolean;
@@ -47,14 +50,17 @@ export function buildDefaultSettingsSnapshot(args: {
       customImageSize: args.customImageSize,
       seed: args.normalizedSeed,
       outputFormat: args.outputFormat,
+      ...(args.outputCompression === undefined ? {} : { outputCompression: args.outputCompression }),
       quality: args.quality,
       background: args.background,
+      ...(args.complexity ? { complexity: args.complexity } : {}),
       style: args.style,
       maskUrl: args.maskUrl,
       enableWebSearch: args.enableWebSearch,
       thinkingLevel: args.thinkingLevel,
       limitGenerations: args.limitGenerations,
       watermark: args.watermark,
+      ...(args.nano21Settings ? { ...args.nano21Settings, thinkingLevel: args.thinkingLevel } : {}),
     },
     refs: {
       imageUrls: args.imageUrls,

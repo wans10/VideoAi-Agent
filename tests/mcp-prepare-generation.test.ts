@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
+import type * as TypeScript from '../frontend/node_modules/typescript';
 import test from 'node:test';
 
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
@@ -303,6 +305,48 @@ async function expectAgentError(
     return true;
   });
 }
+
+test('Veo rejects unsupported reference hosts before pricing or persisting a payable quote', async () => {
+  for (const host of ['cloud.inference.sh', 'tempfile.redpandaai.co']) {
+    const { deps, captures } = baseDependencies({
+      listPublicEngines: async () => [registryCapability('veo-3-1-lite')],
+    });
+    await assert.rejects(prepareGeneration({
+      ...videoInput, engineId: 'veo-3-1-lite', mode: 'fl2v',
+      settings: { durationSec: 6, resolution: '720p', aspectRatio: '9:16', audio: false },
+      references: [
+        { kind: 'https', url: `https://${host}/private-first.png?token=private`, mediaKind: 'image', role: 'first_frame' },
+        { kind: 'https', url: `https://${host}/private-last.png`, mediaKind: 'image', role: 'last_frame' },
+      ],
+    }, principal, deps), (error: unknown) => {
+      assert.ok(error instanceof AgentApiError);
+      assert.equal(error.code, 'REFERENCE_INVALID');
+      assert.equal(error.retryable, false);
+      assert.match(error.message, /import|upload/i);
+      assert.doesNotMatch(error.message, /private|token|inference|redpanda/i);
+      return true;
+    });
+    assert.equal(captures.priced.length, 0);
+    assert.equal(captures.inserted.length, 0);
+    assert.equal(captures.events.includes('wallet'), false);
+  }
+});
+
+test('MiniMax rejects undersized owned start images before pricing or quote creation', async () => {
+  const { deps, captures } = baseDependencies({
+    listPublicEngines: async () => [registryCapability('minimax-h3')],
+    resolveGenerationReferences: async () => [{ assetId: 'small-image', role: 'source', mediaKind: 'image',
+      storageUrl: 'https://media.maxvideoai.com/small.png', mimeType: 'image/png',
+      width: 328, height: 172, sizeBytes: 14152, durationSec: null }],
+  });
+  await assert.rejects(prepareGeneration({ ...videoInput, engineId: 'minimax-h3', mode: 'i2v',
+    settings: { durationSec: 5, resolution: '480P' },
+    references: [{ kind: 'asset', assetId: 'small-image', role: 'source' }],
+  }, principal, deps), (error: unknown) => error instanceof AgentApiError
+    && error.code === 'REFERENCE_INVALID' && /image.*small|minimum.*256/i.test(error.message));
+  assert.equal(captures.priced.length, 0);
+  assert.equal(captures.inserted.length, 0);
+});
 
 test('valid video and image requests persist immutable exact quotes before returning', async () => {
   for (const [input, expectedPrice] of [[videoInput, 125], [imageInput, 45]] as const) {
@@ -688,8 +732,8 @@ test('request-aware provider readiness rejects an unavailable routed provider be
     surface: 'video',
     engineId: 'luma-ray-3-2',
     mode: 'i2v',
-    prompt: 'Animate this still image for ten seconds.',
-    settings: { durationSec: 10, resolution: '720p', aspectRatio: '16:9', loop: false },
+    prompt: 'Animate this still image for five seconds.',
+    settings: { durationSec: 5, resolution: '720p', aspectRatio: '16:9', loop: false },
     references: [{
       kind: 'https',
       url: 'https://cdn.maxvideoai.com/source.png',
@@ -1585,10 +1629,67 @@ test('paid generation tools can be gated out and prepare is accurately annotated
   assert.deepEqual(result.structuredContent, prepared);
 });
 
+const ts: typeof TypeScript = createRequire(import.meta.url)('../frontend/node_modules/typescript');
+const prepareAdapterImports = new Set([
+  '@modelcontextprotocol/sdk/server/mcp.js', 'zod/v4',
+  '@/server/agent-api/principal', '@/server/agent-api/generation-types',
+  '@/server/mcp/server', '@/server/mcp/optional-tool-input', '@/server/mcp/tool-result',
+  '@/lib/video-operation', '@/lib/generation-reference-limits',
+]);
+function assertPrepareAdapterBoundary(source: string): void {
+  const tree = ts.createSourceFile('prepare-generation.ts', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
+  function visit(node: TypeScript.Node): void {
+    if ((ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) && node.moduleSpecifier) {
+      assert.ok(ts.isStringLiteral(node.moduleSpecifier) && prepareAdapterImports.has(node.moduleSpecifier.text),
+        `Unexpected adapter dependency: ${node.moduleSpecifier.getText(tree)}`);
+      const pureSchemaOwner = node.moduleSpecifier.text === '@/lib/video-operation' ? 'VIDEO_OPERATIONS'
+        : node.moduleSpecifier.text === '@/lib/generation-reference-limits' ? 'MAX_GENERATION_REFERENCES' : null;
+      if (pureSchemaOwner) {
+        assert.ok(ts.isImportDeclaration(node) && node.importClause && !node.importClause.name
+          && node.importClause.namedBindings && ts.isNamedImports(node.importClause.namedBindings)
+          && node.importClause.namedBindings.elements.length === 1
+          && (node.importClause.namedBindings.elements[0].propertyName?.text ?? node.importClause.namedBindings.elements[0].name.text) === pureSchemaOwner,
+          'Only the reviewed pure schema constant may cross this adapter boundary');
+      }
+    }
+    assert.equal(ts.isImportEqualsDeclaration(node), false, 'Import-equals can bypass the reviewed dependency list');
+    if (ts.isCallExpression(node)) {
+      assert.equal(node.expression.kind === ts.SyntaxKind.ImportKeyword, false, 'Dynamic imports are not allowed in this adapter');
+      assert.equal(ts.isIdentifier(node.expression) && node.expression.text === 'require', false, 'Require bypasses the reviewed dependency list');
+    }
+    // Inspect executable identifiers and table access, not descriptive schema prose.
+    if (ts.isIdentifier(node)) assert.doesNotMatch(node.text, /provider|reserveWallet|app_receipts|create.*Job/i);
+    if (ts.isStringLiteralLike(node) || ts.isTemplateHead(node) || ts.isTemplateMiddle(node) || ts.isTemplateTail(node))
+      assert.doesNotMatch(node.text, /reserveWallet|app_receipts|create.*Job/i);
+    if (ts.isElementAccessExpression(node) && ts.isStringLiteralLike(node.argumentExpression))
+      assert.doesNotMatch(node.argumentExpression.text, /provider/i);
+    ts.forEachChild(node, visit);
+  }
+  visit(tree);
+}
+
 test('MCP tool adapter cannot import providers, wallet mutation, or job creation', () => {
   const source = readFileSync('frontend/src/server/mcp/tools/prepare-generation.ts', 'utf8');
-  assert.doesNotMatch(source, /video-providers|image-providers|provider|reserveWallet|app_receipts|create.*Job/i);
+  assertPrepareAdapterBoundary(source);
   assert.match(source, /readOnlyHint:\s*false/);
   assert.match(source, /destructiveHint:\s*false/);
   assert.match(source, /openWorldHint:\s*false/);
+});
+
+test('adapter boundary permits provider guidance but rejects executable dependency and mutation paths', () => {
+  assert.doesNotThrow(() => assertPrepareAdapterBoundary(`const schema = z.string().describe('Never pass provider voice IDs.');`));
+  for (const source of [
+    `import { submit as run } from '@/server/video-providers';`,
+    `import { resolveVideoOperationEngine } from '@/lib/video-operation';`,
+    `import * as operations from '@/lib/video-operation';`,
+    `export { VIDEO_OPERATIONS } from '@/lib/video-operation';`,
+    `import * as ledger from '@/server/wallet';`,
+    `export { createJob as run } from '@/server/jobs';`,
+    `const mod = import('@/server/video-providers');`,
+    `const mod = require('@/server/wallet');`,
+    `import ledger = require('@/server/wallet');`,
+    `services.reserveWallet();`, `services.createVideoJob();`, `services.provider.submit();`,
+    `services['reserveWallet']();`, `services['provider'].submit();`,
+    `query('INSERT INTO app_receipts VALUES (1)');`,
+  ]) assert.throws(() => assertPrepareAdapterBoundary(source), undefined, source);
 });

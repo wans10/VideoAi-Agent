@@ -124,7 +124,7 @@ test('the prompt link only seeds the composer prompt; generation, wallet and pol
   const hook = readFileSync(`${appDir}/_hooks/useWorkspaceRequestedPrompt.ts`, 'utf8');
   assert.match(hydration, /useWorkspaceRequestedPrompt\(\{[\s\S]*draftReady: activeDraft\.ready && hydratedForScope === storageScope && Boolean\(form\)/);
   const navigation = readFileSync(`${appDir}/_hooks/useWorkspaceRouteNavigation.ts`, 'utf8');
-  assert.match(storage, /requestedPrompt,\s*\n\s*searchString/);
+  assert.match(storage, /requestedPrompt,\s*\n\s*requestedWorkflow,\s*\n\s*searchString/);
   assert.match(client, /requestedPrompt: draft\.requestedPrompt, onRequestedPromptApplied: clearRequestedPrompt/);
   assert.match(navigation, /stripWorkspacePromptParam\(window\.location\.pathname, window\.location\.search\)/);
   assert.doesNotMatch(hook, /writeStorage|readStorage|setForm|runGenerate|wallet|poll/i);

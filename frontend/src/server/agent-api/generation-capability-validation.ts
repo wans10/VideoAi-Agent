@@ -1,3 +1,15 @@
+import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
+import { isWan3EngineId } from '@/lib/wan3-pricing';
+import { getWanReferenceValidationMessage } from '@/lib/wan-image-failure-messages';
+import { hasPromptDirectedNativeAudio } from '@/lib/prompt-directed-audio';
+import { gptImage26ReferenceFailure, isGptImage26EngineId } from '@/lib/image/gptImage26';
+import { isFluxLtxSourceOperation } from '@/lib/flux-ltx-operations';
+import { isH3SourceOperation } from '@/lib/h3-source-operations';
+import { validateLumaCanonicalShape } from './generation-luma-shape';
+import { validateOwnedKlingElements, isElementReference } from '@/lib/kling-owned-elements';
+import { resolveVideoOperationEngine } from '@/lib/video-operation';
+import { videoDurationPolicy, videoInheritsSourceFraming } from '@/lib/video-workflow-capabilities';
+import { isLumaSourceVideoMode, validateLumaSourceVideoTiming, LUMA_MODIFY_SOURCE_MAX_SEC } from '@/lib/luma-source-video';
 import {
   canonicalizeImageFieldValue,
   getImageCountConstraints,
@@ -7,7 +19,7 @@ import {
   resolveRequestedAspectRatio,
   resolveRequestedResolution,
 } from '@/lib/image/inputSchema';
-import type { EngineInputField, EngineModeUiCaps } from '@/types/engines';
+import type { EngineInputField, EngineModeUiCaps, Mode } from '@/types/engines';
 import type { ImageGenerationMode } from '@/types/image-generation';
 import { isLumaRay2EngineId } from '@/lib/luma-ray2';
 import { isGptImageFamilyEngineId, validateGptImage2CustomImageSize } from '@/lib/image/gptImage2';
@@ -38,9 +50,15 @@ import {
 } from '@/lib/media-field-constraints';
 
 const VIDEO_FIELD_BY_SETTING: Record<string, string> = {
+  keepAudio: 'keep_audio',
+  safetyTolerance: 'safety_tolerance',
+  audioSetting: 'audio_setting',
+  personGeneration: 'person_generation',
+  compressionQuality: 'compression_quality',
+  promptAudioDirection: 'prompt_audio_direction',
+  promptCameraDirection: 'prompt_camera_direction',
+  promptEditInstruction: 'prompt_edit_instruction',
   outputFormat: 'output_format',
-  returnLastFrame: 'return_last_frame',
-  watermark: 'watermark',
   cameraFixed: 'camera_fixed',
   cfgScale: 'cfg_scale',
   contextSec: 'context',
@@ -50,8 +68,17 @@ const VIDEO_FIELD_BY_SETTING: Record<string, string> = {
   cropStartY: 'y_start',
   documentUrl: 'file_url',
   editDepthBlur: 'edit_depth_blur',
+  extendDirection: 'extend_direction',
   editFace: 'edit_face',
+  editControlMode: 'edit_control_mode',
+  editPoseMode: 'edit_pose_mode',
+  editDepthMode: 'edit_depth_mode',
+  editNormalsMode: 'edit_normals_mode',
+  editTrajectoryMode: 'edit_trajectory_mode',
+  editFaceMode: 'edit_face_mode',
   editKeyframeIndexes: 'edit_keyframe_indexes',
+  reasoningLevel: 'reasoning_level',
+  keyframeIndexes: 'keyframe_indexes',
   editNormalsAugmentation: 'edit_normals_augmentation',
   editPoseStrength: 'edit_pose_strength',
   editStrength: 'edit_strength',
@@ -65,6 +92,9 @@ const VIDEO_FIELD_BY_SETTING: Record<string, string> = {
   multiPrompt: 'multi_prompt',
   negativePrompt: 'negative_prompt',
   promptExpansionMode: 'prompt_expansion_mode',
+  enhanceRealism: 'enhance_realism',
+  middleFrameTime: 'middle_frame_time',
+  referenceOrder: 'reference_order',
   reframeGridPositionX: 'grid_position_x',
   reframeGridPositionY: 'grid_position_y',
   retakeMode: 'retake_mode',
@@ -84,12 +114,16 @@ const IMAGE_FIELD_BY_SETTING: Record<string, string> = {
   imageHeight: 'image_height',
   imageWidth: 'image_width',
   limitGenerations: 'limit_generations',
+  outputCompression: 'output_compression',
   outputFormat: 'output_format',
   quality: 'quality',
+  complexity: 'complexity',
   seed: 'seed',
   style: 'style',
   thinkingLevel: 'thinking_level',
-  watermark: 'watermark',
+  maxOutputTokens: 'max_output_tokens',
+  systemInstruction: 'system_instruction',
+  enableImageSearch: 'enable_image_search',
 };
 
 export type ReferenceConstraintFailure =
@@ -100,7 +134,8 @@ export type ReferenceConstraintFailure =
   | 'combined_duration_exceeded'
   | 'size_exceeded'
   | 'format_unsupported'
-  | 'image_aspect_ratio_unsupported';
+  | 'image_aspect_ratio_unsupported'
+  | 'image_dimensions_too_small';
 
 export class GenerationCapabilityError extends Error {
   constructor(
@@ -119,6 +154,31 @@ function fail(
   referenceFailure?: ReferenceConstraintFailure,
 ): never {
   throw new GenerationCapabilityError(field, kind, referenceFailure);
+}
+
+// Only the known image constraint and bounded, verified dimensions can cross
+// the generic reference-error boundary into a quote or Studio response.
+export class WanImageCapabilityError extends GenerationCapabilityError {
+  constructor(referenceFailure: ReferenceConstraintFailure, readonly userMessage: string) {
+    super('references', 'reference_invalid', referenceFailure);
+  }
+}
+
+function failWanImageReference(
+  engineId: string,
+  failure: 'metadata_unverified' | 'dimensions_unverified' | 'image_dimensions_too_small',
+  dimensions?: Pick<ResolvedReference, 'width' | 'height'>,
+  minimumSidePx?: number,
+): never {
+  const userMessage = getWanReferenceValidationMessage({
+    engineId,
+    error: failure === 'image_dimensions_too_small' ? 'IMAGE_DIMENSIONS_TOO_SMALL' : 'IMAGE_DIMENSIONS_UNVERIFIED',
+    actualWidth: dimensions?.width,
+    actualHeight: dimensions?.height,
+    minimumSidePx,
+  });
+  if (userMessage) throw new WanImageCapabilityError(failure, userMessage);
+  fail('references', 'reference_invalid', failure);
 }
 
 function applicableField(
@@ -176,26 +236,34 @@ function validateVideoModeCaps(
   caps: EngineModeUiCaps,
   candidate: AgentPublicGenerationEngine,
 ): void {
+  if ((request.operation === 'kling-edit' || isH3SourceOperation(request.operation) || isFluxLtxSourceOperation(request.operation)) && (request.settings.durationSec !== undefined || request.settings.durationOption !== undefined)) fail('durationSec');
   const duration = request.settings.durationSec;
   if (request.settings.durationOption !== undefined && (request.settings.durationOption !== 'auto'
     || !seedanceAutomaticDurationBounds(candidate.engine.id) || !caps.duration || !('options' in caps.duration)
     || !caps.duration.options.includes('auto'))) fail('durationOption');
-  if (!Number.isSafeInteger(duration) || (duration as number) < 1) fail('durationSec');
-  if (caps.frames) fail('durationSec');
-  if (caps.duration && !isVideoDurationSupported(duration, caps.duration, candidate.engine.maxDurationSec)) {
-    fail('durationSec');
-  }
-  if (!caps.duration && (duration as number) > candidate.engine.maxDurationSec) fail('durationSec');
-  const durationField = applicableField(candidate, 'duration', request.mode);
-  if (durationField) {
-    if (durationField.type === 'enum') {
-      if (
-        !durationField.values?.length
-        || !isVideoDurationSupported(duration, { options: durationField.values })
-      ) fail('durationSec');
-    } else if (durationField.type === 'number') {
-      validateFieldValue(durationField, duration);
-    } else fail('durationSec');
+  const sourceDurationPending = duration === undefined
+    && (videoDurationPolicy(candidate.engine, request.mode as Mode, caps) === 'source_video'
+      || (request.engineId === 'kling-v4' && request.mode === 'v2v'));
+  if (!sourceDurationPending) {
+    if (!Number.isSafeInteger(duration) || (duration as number) < 1) fail('durationSec');
+    if (caps.frames) fail('durationSec');
+    if (caps.duration && !isVideoDurationSupported(duration, caps.duration, candidate.engine.maxDurationSec)) {
+      fail('durationSec');
+    }
+    const maximum = request.engineId === 'luma-ray-3-2' && request.mode === 'v2v'
+      ? LUMA_MODIFY_SOURCE_MAX_SEC : candidate.engine.maxDurationSec;
+    if (!caps.duration && (duration as number) > maximum) fail('durationSec');
+    const durationField = applicableField(candidate, 'duration', request.mode);
+    if (durationField) {
+      if (durationField.type === 'enum') {
+        if (
+          !durationField.values?.length
+          || !isVideoDurationSupported(duration, { options: durationField.values })
+        ) fail('durationSec');
+      } else if (durationField.type === 'number') {
+        validateFieldValue(durationField, duration);
+      } else fail('durationSec');
+    }
   }
 
   const resolution = request.settings.resolution;
@@ -224,7 +292,8 @@ function validateVideoModeCaps(
     candidate.engine.inputSchema,
   );
   const supportedAspectRatios = caps.aspectRatio ?? [];
-  if (supportedAspectRatios.length > 0 && (
+  const sourceFraming = aspectRatio === undefined && videoInheritsSourceFraming(candidate.engine, request.mode as Mode);
+  if (!sourceFraming && supportedAspectRatios.length > 0 && (
     typeof aspectRatio !== 'string'
     || (!supportedAspectRatios.includes(aspectRatio)
       && !supportedAspectRatios.some((value) => String(value) === String(providerAspectRatio)))
@@ -242,6 +311,7 @@ function validateVideoModeCaps(
   }
   const audio = request.settings.audio;
   if (audio !== undefined && (typeof audio !== 'boolean' || !caps.audioToggle)) fail('audio');
+  if (audio === false && hasPromptDirectedNativeAudio(candidate.engine, request.mode)) fail('audio');
 
   for (const [setting, fieldIds] of [
     ['resolution', ['resolution']],
@@ -264,12 +334,15 @@ function validateVideoModeCaps(
     const field = applicableField(candidate, fieldId, request.mode);
     if (!field) fail(setting);
     if (setting === 'multiPrompt') {
-      if (!Array.isArray(value) || value.length < 1 || value.length > 6) fail(setting);
+      const v4 = request.engineId === 'kling-v4';
+      if (!Array.isArray(value) || value.length < 1 || value.length > (v4 ? 30 : 6)) fail(setting);
       const total = value.reduce((sum, scene) => sum + scene.durationSec, 0);
       if (
         request.prompt.length > 0
         || total !== request.settings.durationSec
-        || value.some((scene) => !scene.prompt || scene.prompt.length > 512)
+        || value.some((scene) => !scene.prompt || scene.prompt.length > 512
+          || !Number.isInteger(scene.durationSec) || scene.durationSec < 1 || scene.durationSec > (v4 ? 30 : 15))
+        || (v4 && (total < 3 || total > 30))
       ) fail(setting);
       continue;
     }
@@ -375,7 +448,7 @@ function validateDerivedSourceFacts(
         || typeof resolved.durationSec !== 'number'
       ) fail('references', 'reference_invalid');
       if (
-        (request.mode === 'a2v' || request.mode === 'reframe')
+        (request.mode === 'a2v' || (request.mode === 'reframe' && request.engineId !== 'luma-ray-3-2' && request.operation!=='ltx23-reframe'))
         && request.settings.durationSec !== Math.max(1, Math.ceil(resolved.durationSec))
       ) fail('durationSec');
       if (request.mode === 'retake') {
@@ -430,8 +503,13 @@ function buildProviderConstraintPayload(
       ? value.map((scene) => ({ prompt: scene.prompt, duration: scene.durationSec }))
       : value;
   }
+  const subjectSlots = new Set((request.subjects ?? []).flatMap(subject => subject.kind === 'video' ? [subject.referenceSlot] : [subject.frontalReferenceSlot, ...subject.referenceSlots]));
+  if (request.subjects?.length) payload.elements = request.subjects.map(subject => subject.kind === 'video'
+    ? {videoUrl:`mcp-subject-${subject.referenceSlot}`}
+    : {frontalImageUrl:`mcp-subject-${subject.frontalReferenceSlot}`,referenceImageUrls:subject.referenceSlots.map(slot=>`mcp-subject-${slot}`)});
   const valuesByField = new Map<string, string[]>();
   for (const [index, reference] of request.references.entries()) {
+    if (reference.role === 'reference' && reference.slot !== undefined && subjectSlots.has(reference.slot)) continue;
     const fields = fieldsForReference(
       request,
       candidate,
@@ -457,6 +535,9 @@ function validateVideoExecutionConstraints(
   options: GenerationCapabilityValidationOptions,
 ): void {
   const payload = buildProviderConstraintPayload(request, candidate, options);
+  // Asset modality is unavailable during initial canonical ingress. Keep all other
+  // validation active; check the complete permutation after owned facts resolve.
+  if (request.engineId === 'minimax-h3-max' && request.references.some(reference => !resolvedMediaKind(reference, options))) delete payload.reference_order;
   const provider = validateProviderSpecificConstraints({
     engineId: request.engineId,
     normalizedMode: toEngineGenerationMode(request.engineId, request.mode),
@@ -527,7 +608,7 @@ function fieldIdsForRole(
   role: CanonicalGenerationReference['role'],
 ): readonly string[] {
   if (request.mode === 't2v') {
-    return role === 'reference' ? ['target_audio_url'] : [];
+    return role === 'reference' ? ['target_audio_url', 'keyframe_urls'] : [];
   }
   if (request.mode === 'i2v' || request.mode === 'i2v_standard') {
     if (role === 'source') return ['image_url', 'start_image_url', 'first_frame_url'];
@@ -536,6 +617,7 @@ function fieldIdsForRole(
     return role === 'reference' ? ['image_urls', 'reference_image_urls', 'target_audio_url'] : [];
   }
   if (request.mode === 'ref2v') {
+    if (role === 'middle_frame') return ['middle_image_url'];
     if (role === 'first_frame') return ['start_image_url', 'image_url'];
     if (role === 'last_frame') return ['end_image_url'];
     return role === 'reference'
@@ -564,6 +646,9 @@ function fieldIdsForRole(
         'edit_keyframe_urls',
         'image_urls',
         'reference_image_urls',
+        'reference_image_url',
+        'video_urls',
+        'reference_video_urls',
         'audio_urls',
         'reference_audio_urls',
       ]
@@ -640,6 +725,35 @@ function resolvedReference(
     && candidate.slot === reference.slot) ?? null;
 }
 
+/** Quote the same owned audio file that the paid submission will validate. */
+function validateTrustedAudioFormat(
+  reference: CanonicalGenerationReference,
+  fields: readonly EngineInputField[],
+  candidate: AgentPublicGenerationEngine,
+  options: GenerationCapabilityValidationOptions,
+): void {
+  if (fields.length !== 1 || fields[0]!.type !== 'audio'
+    || reference.kind !== 'asset' || !options.resolvedReferences) return;
+  const field = fields[0]!;
+  // These field-level audio formats also run at the paid attachment boundary.
+  if (!field.acceptedMimeTypes?.length && !field.acceptedFileExtensions?.length) return;
+  const resolved = resolvedReference(reference, options);
+  if (!resolved) fail('references', 'reference_invalid');
+  const sizeBytes = resolved.sizeBytes;
+  if (typeof sizeBytes !== 'number' || !Number.isSafeInteger(sizeBytes)
+    || sizeBytes <= 0 || !resolved.mimeType) {
+    fail('references', 'reference_invalid', 'metadata_unverified');
+  }
+  const validation = validateMediaFileAgainstConstraint({
+    name: resolved.originalName ?? resolved.storageUrl,
+    mimeType: resolved.mimeType,
+    sizeBytes,
+    constraint: resolveEngineMediaFieldConstraint({ engine: candidate.engine, field }),
+  });
+  if (!validation.ok) fail('references', 'reference_invalid',
+    validation.reason === 'size' ? 'size_exceeded' : 'format_unsupported');
+}
+
 function validateTrustedReferenceDuration(
   request: CanonicalGenerationRequest,
   reference: CanonicalGenerationReference,
@@ -658,6 +772,7 @@ function validateTrustedReferenceDuration(
     : field.type === 'audio'
       ? constraints?.maxCombinedAudioDurationSec
       : undefined;
+  if ((request.operation === 'kling-edit' || isH3SourceOperation(request.operation) || isFluxLtxSourceOperation(request.operation)) && reference.role === 'source' && reference.kind !== 'asset') fail('references', 'reference_invalid', 'duration_unverified');
   const exclusiveMaximum =
     requestModeForExclusiveDuration(candidate, field);
   const sourcePlusOutputMaximum = field.id === 'video_url'
@@ -672,6 +787,9 @@ function validateTrustedReferenceDuration(
   ) return;
   // Preparation validates role/schema shape before looking up owned media.
   // An asset reference is revalidated with persisted metadata immediately after resolution.
+  if (isLumaSourceVideoMode(candidate.engine.id, request.mode) && field.id === 'video_url' && reference.kind !== 'asset') {
+    fail('references', 'reference_invalid', 'duration_unverified');
+  }
   if (reference.kind === 'asset' && !options.resolvedReferences) return;
   if (reference.kind !== 'asset' || !options.resolvedReferences) {
     if (options.allowUnverifiedReferenceDuration) return;
@@ -685,6 +803,10 @@ function validateTrustedReferenceDuration(
   if (!resolved) fail('references', 'reference_invalid');
   const durationSec = resolved.durationSec;
   const requestedOutputDurationSec = request.settings.durationSec;
+  if (field.id === 'video_url' && validateLumaSourceVideoTiming({ engineId: candidate.engine.id, mode: request.mode,
+    sourceDurationSec: durationSec, durationSec: Number(requestedOutputDurationSec) })) {
+    fail('references', 'reference_invalid', 'duration_unsupported');
+  }
   if (
     typeof durationSec !== 'number'
     || !Number.isFinite(durationSec)
@@ -738,7 +860,10 @@ function validateCombinedReferenceDurations(
       ) fail('references', 'reference_invalid', 'duration_unverified');
       durations.set(resolved.storageUrl, resolved.durationSec);
     }
-    const total = [...durations.values()].reduce((sum, durationSec) => sum + durationSec, 0);
+    // V4 billing/limits count every submitted occurrence; never deduplicate repeated video inputs.
+    const total = isKlingV4FalQueueEngineId(request.engineId)
+      ? options.resolvedReferences.filter(reference=>reference.mediaKind===kind).reduce((sum,reference)=>sum+(reference.durationSec ?? 0),0)
+      : [...durations.values()].reduce((sum, durationSec) => sum + durationSec, 0);
     if (total > limit) fail('references', 'reference_invalid', 'combined_duration_exceeded');
   }
 }
@@ -755,17 +880,28 @@ function validateReferenceBudget(
   request: CanonicalGenerationRequest,
   candidate: AgentPublicGenerationEngine,
   selectedFields: readonly (readonly EngineInputField[])[],
+  subjectSlots: ReadonlyMap<number, 'image' | 'video'>,
 ): void {
   const budget = candidate.engine.inputSchema?.referenceBudget;
   const engineMode = toEngineGenerationMode(candidate.engine.id, request.mode);
   if (!budget || (budget.modes?.length && !budget.modes.includes(engineMode))) return;
   const budgetFieldIds = new Set(budget.fieldIds);
-  const budgetReferences = request.references.filter((_, index) =>
-    selectedFields[index]?.some((field) => budgetFieldIds.has(field.id)));
+  const budgetReferences = request.references.filter((reference, index) =>
+    !(reference.role === 'reference' && reference.slot !== undefined && subjectSlots.has(reference.slot))
+    && selectedFields[index]?.some((field) => budgetFieldIds.has(field.id)));
   const count = budget.countUniqueUrls
     ? new Set(budgetReferences.map(referenceSourceIdentity)).size
     : budgetReferences.length;
   if (count > budget.maxTotal) fail('references', 'reference_invalid');
+  for (const [kind, maximum] of Object.entries(budget.maxByType ?? {})) {
+    const typedReferences = request.references.filter((reference, index) =>
+      budgetReferences.includes(reference)
+      && selectedFields[index]?.every(field => field.type === kind));
+    const typedCount = budget.countUniqueUrls
+      ? new Set(typedReferences.map(referenceSourceIdentity)).size
+      : typedReferences.length;
+    if (typedCount > maximum) fail('references', 'reference_invalid');
+  }
 }
 
 function validateReferences(
@@ -773,6 +909,7 @@ function validateReferences(
   candidate: AgentPublicGenerationEngine,
   options: GenerationCapabilityValidationOptions,
 ): void {
+  if ((isKlingV4FalQueueEngineId(request.engineId) || isGptImage26EngineId(request.engineId)) && request.references.some(reference=>reference.kind!=='asset')) fail('references','reference_invalid');
   if (candidate.surface === 'image') {
     const constraints = getReferenceConstraints(candidate.engine, request.mode as ImageGenerationMode);
     const generationReferences = request.references.filter((reference) => reference.role !== 'mask');
@@ -787,6 +924,10 @@ function validateReferences(
   if (options.resolvedReferences) {
     const resolvedKeys = new Set<string>();
     for (const resolved of options.resolvedReferences) {
+      if (isGptImage26EngineId(request.engineId)) {
+        const failure = gptImage26ReferenceFailure(resolved);
+        if (resolved.mediaKind !== 'image' || failure) fail('references', 'reference_invalid', failure ?? 'format_unsupported');
+      }
       const key = `${resolved.assetId}\u0000${resolved.role}\u0000${resolved.slot ?? ''}`;
       if (resolvedKeys.has(key)) fail('references', 'reference_invalid');
       resolvedKeys.add(key);
@@ -798,9 +939,20 @@ function validateReferences(
       if (matchingReferences.length !== 1) fail('references', 'reference_invalid');
     }
   }
+  const subjectKinds = new Map<number, 'image' | 'video'>();
+  for (const subject of request.subjects ?? []) {
+    if (!(request.engineId === 'kling-v4' && ['ref2v','v2v'].includes(request.mode)) && !(request.engineId === 'kling-v4-flash' && request.mode === 'ref2v')) fail('subjects');
+    for (const slot of subject.kind === 'video' ? [subject.referenceSlot] : [subject.frontalReferenceSlot, ...subject.referenceSlots]) {
+      subjectKinds.set(slot, subject.kind);
+    }
+  }
   const selectedFields: EngineInputField[][] = [];
   const counts = new Map<EngineInputField, number>();
   for (const reference of request.references) {
+    const subjectKind = reference.role === 'reference' && reference.slot !== undefined ? subjectKinds.get(reference.slot) : undefined;
+    if (subjectKind && (reference.kind !== 'asset' || (options.resolvedReferences && resolvedMediaKind(reference, options) !== subjectKind))) {
+      fail('subjects', 'reference_invalid');
+    }
     const fields = fieldsForReference(
       request,
       candidate,
@@ -809,6 +961,34 @@ function validateReferences(
     );
     if (!fields.length) fail('references', 'reference_invalid');
     validateTrustedReferenceDuration(request, reference, fields, candidate, options);
+    validateTrustedAudioFormat(reference, fields, candidate, options);
+    const wanImage = isWan3EngineId(candidate.engine.id) && fields.length === 1 && fields[0]!.type === 'image';
+    if (wanImage && reference.kind !== 'asset' && !options.allowUnverifiedReferenceDuration) {
+      failWanImageReference(candidate.engine.id, 'dimensions_unverified');
+    }
+    if (wanImage && options.resolvedReferences) {
+      const resolved = resolvedReference(reference, options);
+      if (typeof resolved?.sizeBytes !== 'number' || !Number.isFinite(resolved.sizeBytes) || resolved.sizeBytes <= 0) {
+        failWanImageReference(candidate.engine.id, 'metadata_unverified');
+      }
+    }
+    // Executable references use owned, measured originals, never caller dimensions.
+    const minimumImageSide = ['minimax-h3', 'kling-v4', 'kling-v4-flash', 'wan-3', 'wan-3-prime'].includes(candidate.engine.id)
+      ? candidate.engine.inputSchema?.constraints?.minImageSidePx : undefined;
+    if (fields.length === 1 && fields[0]!.type === 'image'
+      && typeof minimumImageSide === 'number' && minimumImageSide > 0 && options.resolvedReferences) {
+      const resolved = resolvedReference(reference, options);
+      if (typeof resolved?.width !== 'number' || typeof resolved.height !== 'number'
+        || !Number.isFinite(resolved.width) || !Number.isFinite(resolved.height)
+        || resolved.width <= 0 || resolved.height <= 0) {
+        if (wanImage) failWanImageReference(candidate.engine.id, 'dimensions_unverified');
+        fail('references', 'reference_invalid', 'dimensions_unverified');
+      }
+      if (resolved.width < minimumImageSide || resolved.height < minimumImageSide) {
+        if (wanImage) failWanImageReference(candidate.engine.id, 'image_dimensions_too_small', resolved, minimumImageSide);
+        fail('references', 'reference_invalid', 'image_dimensions_too_small');
+      }
+    }
     if (fields.length === 1 && fields[0]!.imageAspectRatio) {
       if (reference.kind !== 'asset') {
         // Budget estimates may describe unverified media; executable quotes may not.
@@ -823,7 +1003,7 @@ function validateReferences(
       }
     }
     selectedFields.push(fields);
-    if (fields.length === 1) {
+    if (fields.length === 1 && !subjectKind) {
       const field = fields[0]!;
       counts.set(field, (counts.get(field) ?? 0) + 1);
     }
@@ -832,7 +1012,7 @@ function validateReferences(
     request.references.flatMap((reference) =>
       fieldsForReference(request, candidate, reference, null)),
   );
-  for (const role of ['source', 'reference', 'first_frame', 'last_frame', 'mask'] as const) {
+  for (const role of ['source', 'reference', 'first_frame', 'middle_frame', 'last_frame', 'mask'] as const) {
     const placeholder: CanonicalGenerationReference = {
       kind: 'asset',
       assetId: 'capability-placeholder',
@@ -881,7 +1061,22 @@ function validateReferences(
       reference.role === 'first_frame'
       && selectedFields[index]?.some((field) => field.type === 'image'))
   ) fail('prompt');
-  validateReferenceBudget(request, candidate, selectedFields);
+  if (isKlingV4FalQueueEngineId(request.engineId) && request.mode === 'ref2v') {
+    const flatImages = request.references.filter((reference,index)=>
+      !(reference.role==='reference' && reference.slot!==undefined && subjectKinds.has(reference.slot))
+      && selectedFields[index]?.length===1 && selectedFields[index][0].type==='image');
+    if (flatImages.length>10) fail('references','reference_invalid');
+  }
+  if (request.engineId === 'kling-v4-flash') {
+    if (request.references.length > 15) fail('references', 'reference_invalid');
+    for (const reference of request.references) {
+      if (reference.role === 'reference' && reference.slot !== undefined && subjectKinds.get(reference.slot) === 'video' && options.resolvedReferences) {
+        const seconds = resolvedReference(reference, options)?.durationSec;
+        if (typeof seconds !== 'number' || !Number.isFinite(seconds) || seconds < 3 || seconds > 8.05) fail('subjects', 'reference_invalid');
+      }
+    }
+  }
+  validateReferenceBudget(request, candidate, selectedFields, subjectKinds);
   validateCombinedReferenceDurations(request, candidate, options);
 }
 
@@ -890,6 +1085,13 @@ export function validateCanonicalGenerationCapabilities(
   candidate: AgentPublicGenerationEngine,
   options: GenerationCapabilityValidationOptions = {},
 ): void {
+  try {
+    const engine = resolveVideoOperationEngine(candidate.engine, request.mode as Mode, request.operation);
+    if (engine !== candidate.engine) {
+      const mode = request.mode as Mode;
+      candidate = { ...candidate, engine, modeCaps: { ...candidate.modeCaps, [request.mode]: engine.modeCaps?.[mode] } };
+    }
+  } catch { fail('operation'); }
   if (
     candidate.engine.id !== request.engineId
     || candidate.surface !== request.surface
@@ -905,9 +1107,19 @@ export function validateCanonicalGenerationCapabilities(
   }
   const modeCaps = candidate.modeCaps[request.mode];
   if (!modeCaps) fail('mode');
+  if (['h3-relight','ltx23-reframe','flux-draft-enhance'].includes(request.operation??'') && request.prompt.trim()) fail('prompt');
+  if (request.operation === 'h3-recast' && request.prompt.length>2000) fail('prompt');
   if (request.surface === 'video') validateVideoModeCaps(request, modeCaps, candidate);
   else validateImageSettings(request, candidate);
-  validateReferences(request, candidate, options);
-  validateDerivedSourceFacts(request, candidate, options);
-  if (request.surface === 'video') validateVideoExecutionConstraints(request, candidate, options);
+  try { validateOwnedKlingElements(request, options.resolvedReferences); } catch { fail('elements', 'reference_invalid'); }
+  const ordinaryRequest = request.engineId === 'luma-ray-3-2' && request.mode === 'extend' ? { ...request, references: [] } : request.elements ? { ...request, references: request.references.filter(ref => !isElementReference(ref, request.elements)) } : request;
+  const ordinaryOptions = request.elements && options.resolvedReferences ? { ...options, resolvedReferences: options.resolvedReferences.filter(ref => !isElementReference(ref, request.elements)) } : options;
+  validateReferences(ordinaryRequest, candidate, ordinaryOptions);
+  validateDerivedSourceFacts(ordinaryRequest, candidate, ordinaryOptions);
+  if (request.surface === 'video') validateVideoExecutionConstraints(ordinaryRequest, candidate, ordinaryOptions);
+  if (request.engineId === 'luma-ray-3-2') {
+    try { validateLumaCanonicalShape(request, Object.fromEntries(Object.entries(request.settings)
+      .map(([key, value]) => [VIDEO_FIELD_BY_SETTING[key] ?? key, value]))); }
+    catch { fail('settings'); }
+  }
 }

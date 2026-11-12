@@ -24,6 +24,7 @@ test('history filters before pagination, retains precision and resolves receipts
     );
     assert.equal(defaultArchive.transactions.length, 1, 'the default view includes older receipts');
     assert.equal(defaultArchive.transactions[0]?.isMcpGeneration, false, 'older schemas still serve receipts');
+    assert.equal(defaultArchive.transactions[0]?.isStudioGeneration, false);
     const all = await fetchTransactionHistory({ period: 'all', query: '', type: 'all', limit: 50 }, now);
     assert.equal(all.transactions.length, 50);
     assert.equal(String(all.transactions[0].receiptId), '120');
@@ -92,6 +93,64 @@ test('history filters before pagination, retains precision and resolves receipts
     const mcpHistory = await fetchTransactionHistory({ period: 'all', query: 'mcp-job', type: 'all', limit: 50 }, now);
     assert.equal(mcpHistory.transactions.length, 1);
     assert.equal(mcpHistory.transactions[0]?.isMcpGeneration, true);
+
+    await db.pool.query(`ALTER TABLE mcp_generation_quotes ADD COLUMN auth_origin text DEFAULT 'oauth'`);
+    const owner = '11111111-1111-4111-8111-111111111111';
+    for (const [id, jobId, origin, quoteOwner, mcp, studio] of [
+      [125, 'studio-image', 'studio-session', owner, false, true],
+      [126, 'studio-video', 'studio-session', owner, false, true],
+      [127, 'studio-audio', 'studio-session', owner, false, true],
+      [128, 'toolbox-job', 'toolbox-session', owner, false, false],
+      [129, 'unknown-origin', 'future-origin', owner, false, false],
+      [130, 'foreign-studio', 'studio-session', '22222222-2222-4222-8222-222222222222', false, false],
+    ] as const) {
+      await db.pool.query(`INSERT INTO app_receipts(id,user_id,type,amount_cents,currency,job_id,created_at)
+        VALUES ($1,$2,'charge',500,'USD',$3,'2026-09-22T10:00:00Z')`, [id, owner, jobId]);
+      await db.pool.query(`INSERT INTO mcp_generation_quotes(job_id,user_id,auth_origin) VALUES ($1,$2,$3)`,
+        [jobId, quoteOwner, origin]);
+      const receipt = await fetchTransactionReceipt(String(id));
+      assert.equal(receipt?.isMcpGeneration, mcp, `${jobId}: MCP attribution`);
+      assert.equal(receipt?.isStudioGeneration, studio, `${jobId}: Studio attribution`);
+    }
+    assert.equal((await fetchTransactionReceipt('123'))?.isMcpGeneration, true, 'OAuth remains MCP');
+    assert.equal((await fetchTransactionReceipt('123'))?.isStudioGeneration, false);
+    await db.pool.query(`INSERT INTO app_receipts(id,user_id,type,amount_cents,currency,job_id,created_at)
+      VALUES (131,$1,'refund',500,'USD','studio-image','2026-09-22T10:01:00Z')`, [owner]);
+    const studioHistory = await fetchTransactionHistory({ period: 'all', query: 'studio-image', type: 'all', limit: 50 }, now);
+    assert.equal(studioHistory.transactions.length, 2, 'the charge and its refund retain origin');
+    for (const receipt of studioHistory.transactions) {
+      assert.equal(receipt.isMcpGeneration, false);
+      assert.equal(receipt.isStudioGeneration, true);
+    }
+
+    // The first reader has no product column: historical prefix identity must still work.
+    await db.pool.query(`INSERT INTO app_receipts(id,user_id,type,amount_cents,currency,job_id,created_at)
+      VALUES (140,$1,'charge',500,'USD','studio-sol-pack:synthetic-pack','2026-09-22T10:05:00Z')`, [owner]);
+    const legacyPack = await fetchTransactionReceipt('140');
+    await db.pool.query(`ALTER TABLE app_receipts ADD COLUMN billing_product_key text`);
+    await db.pool.query(`INSERT INTO app_receipts(id,user_id,type,amount_cents,currency,job_id,created_at,billing_product_key)
+      VALUES (141,$1,'charge',500,'USD',NULL,'2026-09-22T10:10:00Z','studio_assistance_pack'),
+             (142,$1,'charge',500,'USD','product-only-reference','2026-09-22T10:11:00Z','studio_assistance_pack'),
+             (143,$1,'charge',500,'USD','missing-media','2026-09-22T10:09:00Z',NULL),
+             (144,$1,'charge',500,'USD','studio-sol-pack-lookalike','2026-09-22T10:08:00Z',NULL),
+             (145,$1,'charge',0,'USD',NULL,'2026-09-22T10:07:00Z','studio_assistance_pack')`, [owner]);
+    const attention = await fetchTransactionHistory({ period: 'all', query: '', type: 'attention', limit: 2 }, now);
+    assert.deepEqual(attention.transactions.map(row => String(row.receiptId)), ['143', '144'],
+      'positive packs are excluded before the attention page limit, while NULL-product media remains');
+    assert.ok(attention.nextCursor);
+    const nextAttention = await fetchTransactionHistory({ period: 'all', query: '', type: 'attention', limit: 2, cursor: attention.nextCursor! }, now);
+    assert.equal(String(nextAttention.transactions[0]?.receiptId), '145', 'a nonpositive pack charge still needs review');
+    const allAttention = await fetchTransactionHistory({ period: 'all', query: '', type: 'attention', limit: 50 }, now);
+    assert.equal(allAttention.transactions.some(row => ['140','141','142'].includes(String(row.receiptId))), false);
+    for (const id of ['141', '142']) {
+      const pack = await fetchTransactionReceipt(id);
+      assert.equal(pack?.billingProductKey, 'studio_assistance_pack');
+      assert.equal(pack?.canRefund, false);
+    }
+    assert.equal(legacyPack?.billingProductKey, null);
+    assert.equal(legacyPack?.canRefund, false);
+    assert.equal((await fetchTransactionReceipt('143'))?.canRefund, true, 'real historical missing-media eligibility is unchanged');
+    assert.equal((await fetchTransactionReceipt('123'))?.canRefund, true, 'real paid media remains refundable');
   } finally {
     await getDb().end();
     await db.cleanup();

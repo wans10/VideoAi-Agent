@@ -89,13 +89,16 @@ test('Wan i2v accepts its required start image without applying the ref2v refere
   for (const engineId of ['wan-3', 'wan-3-prime']) {
     const value = request(engineId, 'i2v', {
       references: [{
-        kind: 'https',
-        url: 'https://cdn.example.com/start.png',
+        kind: 'asset',
+        assetId: 'wan-start-image',
         role: 'first_frame',
-        mediaKind: 'image',
       }],
     });
-    assert.doesNotThrow(() => validateCanonicalGenerationCapabilities(value, candidate(engineId)));
+    assert.doesNotThrow(() => validateCanonicalGenerationCapabilities(value, candidate(engineId), {
+      resolvedReferences: [{ assetId: 'wan-start-image', role: 'first_frame', mediaKind: 'image',
+        storageUrl: 'https://cdn.example.com/start.png', width: 1280, height: 720,
+        durationSec: null, mimeType: 'image/png', sizeBytes: 1024 }],
+    }));
   }
 });
 
@@ -299,7 +302,7 @@ test('LTX 2.5 a2v requires private audio with trusted duration bounds', () => {
   const resolved = { resolvedReferences: [{
     assetId, role: 'source' as const, mediaKind: 'audio' as const,
     storageUrl: 'https://cdn.example.com/audio.wav', width: null, height: null,
-    durationSec: 8, mimeType: 'audio/wav',
+    durationSec: 8, mimeType: 'audio/wav', sizeBytes: 16000,
   }] };
   expectCapabilityFailure({ ...base, prompt: '' }, 'prompt', resolved);
   assert.doesNotThrow(() => validateCanonicalGenerationCapabilities({

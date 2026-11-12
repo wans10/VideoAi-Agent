@@ -29,7 +29,7 @@ async function openImageComposer({ navigationType, accountId, search = '' }: {
     mode: 't2i', prompt: 'My saved prompt', numImages: 3, referenceSlots: [] }));
   const initial = { engineId: 'saved', mode: 't2i', prompt: '', numImages: 1, aspectRatio: null, background: null, resolution: null,
     customImageWidth: '', customImageHeight: '', seed: '', outputFormat: null, quality: null, style: null, maskUrl: '',
-    enableWebSearch: false, thinkingLevel: null, limitGenerations: false, watermark: false, referenceSlots: [] };
+    enableWebSearch: false, thinkingLevel: null, complexity: null, limitGenerations: false, watermark: false, referenceSlots: [] };
   let observed: typeof initial;
   function Fixture() {
     const [state, setState] = React.useState(initial);

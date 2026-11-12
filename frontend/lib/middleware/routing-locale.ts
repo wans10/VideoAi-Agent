@@ -6,6 +6,7 @@ import { localePathnames, locales, publishedLocales, siteDefaultLocale, resolveS
 import { LOCALE_COOKIE } from '@/lib/i18n/constants';
 import { getAuthRequestUrl } from '@/lib/auth-request-url';
 import localizedSlugConfig from '@/config/localized-slugs.json';
+import { marketingPageFallback } from '@/lib/i18n/marketing-page-fallback';
 
 const NEXT_LOCALE_COOKIE = 'NEXT_LOCALE';
 const NON_LOCALIZED_PREFIXES = [
@@ -269,6 +270,8 @@ function localizePathForLocale(targetLocale: AppLocale, pathWithoutLocale: strin
   }
   const [first, ...rest] = segments;
   const english = LOCALIZED_SEGMENT_TO_ENGLISH.get(first.toLowerCase()) ?? first;
+  const fallback = marketingPageFallback(`/${[english, ...rest].join('/')}`, targetLocale);
+  if (fallback) return localizePathForLocale(targetLocale, fallback);
   const localizedFirst = ENGLISH_SEGMENT_TO_LOCALIZED.get(english.toLowerCase())?.[targetLocale] ?? english;
   return buildPathForLocale(targetLocale, [localizedFirst, ...rest]);
 }

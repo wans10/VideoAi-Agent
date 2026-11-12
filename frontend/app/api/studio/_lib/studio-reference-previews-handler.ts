@@ -1,9 +1,8 @@
-import {isStudioSameOriginRequest} from './studio-route-utils';
 import type {NextRequest} from 'next/server';
 import {resolveStudioApiAccess} from '@/server/studio/access';
 import {conversationReferencePreviewsSchema} from '@/lib/studio/conversation-reference-previews';
 import {readConversationReferencePreviews} from '@/server/studio/conversation-reference-previews';
-import {studioJson} from './studio-route-utils';
+import {isStudioSameOriginRequest, studioJson} from './studio-route-utils';
 
 export async function handleStudioReferencePreviews(req: NextRequest, projectId: string, dependencies: {
   enabled?: boolean;

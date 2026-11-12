@@ -1,13 +1,39 @@
+import type { MediaReadAccess } from '@/lib/media-read-access';
+import type { ToolAssetRef } from '@/lib/toolbox/contract';
+import type { VideoExcerptRange } from '@/lib/video-excerpt';
 import type { ChangeEvent, ClipboardEvent, DragEvent, ReactNode } from 'react';
 import type { getLocalizedAssetDropzoneCopy } from '@/lib/ltx-localization';
 import type { EngineInputField } from '@/types/engines';
 
-export type AssetSlotAttachment = {
+export type AssetSlotAttachment = MediaReadAccess & {
+  id?: string;
+  assetId?: string;
+  ref?: ToolAssetRef;
+  identityResolving?: boolean;
+  url?: string;
+  durationSec?: number | null;
+  excerptEditing?: boolean;
+  excerptSource?: {
+    id: string;
+    assetId?: string;
+    ref: ToolAssetRef;
+    url: string;
+    previewUrl: string;
+    thumbnailUrl?: string | null;
+    durationSec: number;
+    name: string;
+    type: string;
+    size: number;
+    width?: number | null;
+    height?: number | null;
+  };
+  excerptRange?: VideoExcerptRange;
   kind: 'image' | 'video' | 'audio';
   name: string;
   size: number;
   type: string;
   previewUrl: string;
+  thumbnailUrl?: string | null;
   status?: 'uploading' | 'ready' | 'error';
   error?: string;
   badge?: string;
@@ -33,13 +59,21 @@ export type AssetFieldConfig = {
 };
 
 export type AssetUploadMeta = {
+  prepareExcerpt?: boolean;
   durationSec?: number;
   width?: number;
   height?: number;
 };
 
 type AssetDropzoneCopy = ReturnType<typeof getLocalizedAssetDropzoneCopy>;
+export type WorkspaceAssetPresentation = {
+  label: string;
+  actions?: ReactNode;
+  selected?: boolean;
+};
 export type AssetDropzoneSlotProps = {
+  onMediaError?: () => void;
+  workspacePresentation?: WorkspaceAssetPresentation;
   accept: string;
   mediaKind?: 'image' | 'video' | 'audio';
   asset: AssetSlotAttachment | null;

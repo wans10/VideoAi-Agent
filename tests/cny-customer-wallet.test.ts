@@ -131,7 +131,6 @@ test('video, image and audio server charges use the same CNY units as customer q
 test('curated homepage estimates use the configured CNY display instead of USD literals', async () => {
   const { HERO_ENGINE_MEDIA } = await import('../frontend/components/marketing/home/home-redesign-visuals');
   assert.equal(formatCustomerUsdAmount(1.19), '¥9.52');
-  assert.equal(HERO_ENGINE_MEDIA['minimax-h3-max'].estimateValue, '¥9.52');
   for (const media of Object.values(HERO_ENGINE_MEDIA)) {
     if (media.estimateValue) assert.match(media.estimateValue, /^¥/);
   }

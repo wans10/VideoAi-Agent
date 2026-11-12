@@ -61,13 +61,13 @@ function signature(value: unknown): unknown {
   return typeof value;
 }
 
-test('all 54 executable model documents expose strict decision content in every locale', () => {
+test('all 60 normal-template model documents expose strict decision content in every locale', () => {
   const expectedFiles = listModelPageTemplateSlugs().map((slug) => `${slug}.json`).sort();
   const completeInventory = [
     ...expectedFiles,
     ...listPrelaunchModelPageTemplateSlugs().map((slug) => `${slug}.json`),
   ].sort();
-  assert.equal(expectedFiles.length, 54);
+  assert.equal(expectedFiles.length, 60);
   for (const locale of LOCALES) {
     assert.deepEqual(files(locale), completeInventory, `${locale} model inventory`);
     for (const fileName of expectedFiles) {
@@ -159,14 +159,14 @@ test('strict parser rejects missing, mismatched, unknown, and blank decision con
 
 test('strict parser accepts only shared or current-locale href families', () => {
   const accepted: Record<AppLocale, readonly string[]> = {
-    en: ['/models/x', '/examples/x', '/ai-video-engines/x?order=x', '/pricing#x'],
-    fr: ['/fr/modeles/x', '/fr/galerie/x', '/fr/comparatif/x-vs-y?order=x', '/fr/tarifs#x'],
-    es: ['/es/modelos/x', '/es/galeria/x', '/es/comparativa/x-vs-y?order=x', '/es/precios#x'],
+    en: ['/models/x', '/examples/x', '/ai-video-engines/x?order=x', '/pricing#x', '/mcp#the-hat-stays'],
+    fr: ['/fr/modeles/x', '/fr/galerie/x', '/fr/comparatif/x-vs-y?order=x', '/fr/tarifs#x', '/fr/mcp#the-hat-stays'],
+    es: ['/es/modelos/x', '/es/galeria/x', '/es/comparativa/x-vs-y?order=x', '/es/precios#x', '/es/mcp#the-hat-stays'],
   };
   const rejected: Record<AppLocale, readonly string[]> = {
-    en: ['/fr/modeles/x', '/es/modelos/x'],
-    fr: ['/models/x', '/es/modelos/x'],
-    es: ['/models/x', '/fr/modeles/x'],
+    en: ['/fr/modeles/x', '/es/modelos/x', '/fr/mcp#the-hat-stays', '/mcp#unknown', 'https://example.com/mcp#the-hat-stays'],
+    fr: ['/models/x', '/es/modelos/x', '/mcp#the-hat-stays', '/fr/mcp#unknown'],
+    es: ['/models/x', '/fr/modeles/x', '/mcp#the-hat-stays', '/es/mcp#unknown'],
   };
 
   for (const locale of LOCALES) {

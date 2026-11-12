@@ -50,5 +50,49 @@
     {"engineId": "flux-3", "level": "alternative", "rationale": "Consider when supported first/last frames or source-video continuation matter."},
     {"engineId": "flux-3-draft", "level": "alternative", "rationale": "Consider for compatible iteration, first/last-frame direction or continuation."},
     {"engineId": "pika-text-to-video", "level": "on_request", "rationale": "Use when the client explicitly asks for Pika and the exact executable settings fit."}
-  ]
+  ],
+  "workspaceSelection": {
+    "reviewedAt": "2026-10-27",
+    "source": "Approved picker decisions: Create quality order Seedance 2.5, Kling 4, Wan 3 Prime (2026-10-27). Mini retains first compatible Create budget position (2026-10-25); estimates remain scenario-specific canonical quotes.",
+    "create": [
+      {
+        "group": "quality",
+        "ids": [
+          "seedance-2-5",
+          "kling-v4",
+          "wan-3-prime"
+        ]
+      },
+      {
+        "group": "balanced",
+        "ids": [
+          "wan-3",
+          "flux-3-max"
+        ]
+      },
+      {
+        "group": "budget",
+        "ids": [
+          "seedance-2-0-mini",
+          "minimax-h3"
+        ]
+      }
+    ],
+    "modify": [
+      {
+        "group": "quality",
+        "ids": [
+          "luma-ray-3-2",
+          "kling-o3-pro",
+          "wan-3-prime"
+        ]
+      },
+      {
+        "group": "balanced",
+        "ids": [
+          "wan-3"
+        ]
+      }
+    ]
+  }
 }

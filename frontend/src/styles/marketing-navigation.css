@@ -20,6 +20,10 @@
 .marketing-mega-links.two-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .marketing-site > header .marketing-mega-link { display: grid; grid-template-columns: 20px minmax(0, 1fr) 16px; gap: 10px; align-items: center; min-height: 68px; padding: 12px 8px; border-bottom: 1px solid var(--hairline); border-radius: 0; font-size: 14px; color: var(--text-primary); transition: background .16s; }
 .marketing-site > header .marketing-mega-link:hover { background: var(--surface-2); }
+.marketing-site > header .marketing-mega-link.marketing-menu-featured {grid-column:1/-1;border-bottom:1px solid var(--hairline);border-radius:0;margin-bottom:8px;padding-bottom:18px}
+.marketing-menu-featured .marketing-entry-content {font-weight:600}
+.marketing-menu-subnav .marketing-menu-featured {border-bottom:1px solid var(--hairline);border-radius:0;padding-bottom:14px;margin-bottom:6px}
+.marketing-menu-subnav .marketing-menu-featured small {display:block;padding-left:40px;margin-top:3px;font-size:11px;line-height:1.5;color:var(--text-muted)}
 .studio-menu-index { font: 11px ui-monospace, monospace; color: var(--text-muted); }
 .studio-menu-arrow { color: var(--text-muted); }
 .studio-menu-entry { min-width: 0; }

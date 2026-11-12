@@ -1,7 +1,8 @@
 import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
 import { getSeedanceFailureMessage, seedanceFailureCodeFromMessage } from '@/lib/seedance-failure-messages';
 import { getGeneratedImageFailureMessage, getKnownGenerationFailureMessage, getTransportFailureMessage } from '@/lib/generation-failure-messages';
-import { SEEDANCE_OUTPUT_AUDIO_BLOCKED, SEEDANCE_REFERENCE_MEDIA_BLOCKED, SEEDANCE_REFERENCE_VIDEO_BLOCKED, SEEDANCE_REFERENCE_VIDEO_DURATION_EXCEEDED } from '@/lib/video-failure-codes';
+import { getWanImageFailureMessage } from '@/lib/wan-image-failure-messages';
+import { SEEDANCE_CONTENT_BLOCKED, SEEDANCE_OUTPUT_AUDIO_BLOCKED, SEEDANCE_PROMPT_BLOCKED, SEEDANCE_REFERENCE_MEDIA_BLOCKED, SEEDANCE_REFERENCE_MEDIA_UNAVAILABLE, SEEDANCE_REFERENCE_VIDEO_BLOCKED, SEEDANCE_REFERENCE_VIDEO_DURATION_EXCEEDED } from '@/lib/video-failure-codes';
 
 const DEFAULT_FAILURE_MESSAGE =
   `${PRODUCT_BRAND_NAME} could not complete this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.`;
@@ -10,7 +11,7 @@ const SEEDANCE_REFERENCE_FAILURE_MESSAGE =
   'Seedance blocked a reference image because it may contain a recognizable person or private content. Use a non-identifiable, stylized, or generated reference image and try again.';
 const SEEDANCE_REFERENCE_REFUND_REASON = 'Reference image was blocked by Seedance safety checks.';
 const SEEDANCE_START_FAILURE_MESSAGE =
-  'Seedance could not start this render. Remove recognizable people from reference images, reduce media complexity, or retry in a few moments.';
+  'Seedance could not start this render. Please retry in a few moments. If this keeps happening, contact support with your request ID.';
 const SEEDANCE_START_REFUND_REASON = 'Seedance render could not start.';
 const SEEDANCE_TASK_FAILURE_MESSAGE =
   'Seedance started this render but did not deliver a video. Retry with a simpler prompt or fewer reference assets.';
@@ -193,7 +194,7 @@ function messageForCategory(category: FailureCategory): string {
     case 'no_output':
       return 'The render finished without a usable output. Please retry or contact support with your request ID if it happens again.';
     case 'reference':
-      return 'MaxVideoAI could not read the reference media for this render. Select the reference again or upload a new file before trying again.';
+      return `${PRODUCT_BRAND_NAME} could not read the reference media for this render. Select the reference again or upload a new file before trying again.`;
     case 'safety':
       return 'This request was blocked by safety checks. Review the prompt and any reference images, video, or audio before trying again.';
     case 'start':
@@ -265,7 +266,8 @@ function normalizeDurationSec(value: number | string | null | undefined): number
 
 export function toUserFacingFailureMessage(message: string | null | undefined): string {
   const normalized = normalizeMessage(message);
-  const knownMessage = getSeedanceFailureMessage({ message: normalized }) ?? getGeneratedImageFailureMessage(normalized);
+  const knownMessage = getWanImageFailureMessage(normalized)
+    ?? getSeedanceFailureMessage({ message: normalized }) ?? getGeneratedImageFailureMessage(normalized);
   if (knownMessage) return knownMessage;
   // Raw socket/fetch errors are never customer copy; Keyvo publishes only zh.
   const transportMessage = getTransportFailureMessage(normalized, 'zh');
@@ -286,8 +288,13 @@ export function toUserFacingFailureMessage(message: string | null | undefined): 
 
 export function toUserFacingRefundReason(message: string | null | undefined): string {
   const normalized = normalizeMessage(message);
+  const wanImage = getWanImageFailureMessage(normalized);
+  if (wanImage) return wanImage;
   if (getGeneratedImageFailureMessage(normalized)) return 'Generated image was blocked by safety checks.';
   const specificCode = seedanceFailureCodeFromMessage(normalized);
+  if (specificCode === SEEDANCE_PROMPT_BLOCKED) return 'Prompt was blocked by Seedance safety checks.';
+  if (specificCode === SEEDANCE_CONTENT_BLOCKED) return 'Request was blocked by Seedance safety checks.';
+  if (specificCode === SEEDANCE_REFERENCE_MEDIA_UNAVAILABLE) return 'Reference media could not be read.';
   if (specificCode === SEEDANCE_OUTPUT_AUDIO_BLOCKED) return 'Generated audio was blocked by safety checks.';
   if (specificCode === SEEDANCE_REFERENCE_MEDIA_BLOCKED) return 'Reference media was blocked by Seedance safety checks.';
   if (specificCode === SEEDANCE_REFERENCE_VIDEO_BLOCKED) return 'Reference video was blocked by Seedance safety checks.';

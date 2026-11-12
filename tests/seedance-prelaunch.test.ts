@@ -395,13 +395,13 @@ test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter mark
 
   assert.deepEqual(
     MARKETING_NAV_MODELS.map((item) => item.key),
-    ['minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1']
+    ['kling-v4-flash', 'kling-v4', 'minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1'],
   );
   assert.deepEqual(
     MARKETING_NAV_COMPARE.map((item) => item.key),
-    ['minimax-h3-vs-seedance-2-5', 'minimax-h3-vs-minimax-h3-max', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'wan-3-vs-wan-3-prime', 'seedance-2-0-vs-seedance-2-0-fast']
+    ['kling-v4-vs-kling-v4-flash', 'kling-v4-vs-seedance-2-5', 'kling-v4-vs-wan-3-prime', 'minimax-h3-vs-seedance-2-5', 'minimax-h3-vs-minimax-h3-max', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'wan-3-vs-wan-3-prime', 'seedance-2-0-vs-seedance-2-0-fast'],
   );
-  assert.equal(MARKETING_NAV_COMPARE.length, 6);
+  assert.equal(MARKETING_NAV_COMPARE.length, 9);
   const expectedExampleFamilies = [
     'seedance',
     'kling',
@@ -427,7 +427,7 @@ test('Seedance 1.5 Pro stays historical while Seedance 2.0 keeps the primary ali
 });
 
 test('Header model menu keeps H3 and the current P1 representatives in the bounded set', () => {
-  assert.deepEqual(MARKETING_NAV_MODELS.map((item) => item.key), ['minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1']);
+  assert.deepEqual(MARKETING_NAV_MODELS.map((item) => item.key), ['kling-v4-flash', 'kling-v4', 'minimax-h3', 'minimax-h3-max', 'seedance-2-5', 'kling-3-pro', 'kling-3-turbo-pro', 'wan-3', 'wan-3-prime', 'happy-horse-1-1']);
 });
 
 test('Examples hub family order follows the current business priority without reordering global families', () => {
@@ -451,6 +451,8 @@ test('Happy Horse has a crawlable examples family and appears in example family 
 
 test('Examples family current model groups do not classify new delivery models as older', () => {
   assert.deepEqual(getExampleFamilyModelSlugs('kling'), [
+    'kling-v4',
+    'kling-v4-flash',
     'kling-3-turbo-pro',
     'kling-3-turbo-standard',
     'kling-o3-pro',
@@ -463,6 +465,8 @@ test('Examples family current model groups do not classify new delivery models a
     'kling-2-5-turbo',
   ]);
   assert.deepEqual(getExampleFamilyCurrentModelSlugs('kling'), [
+    'kling-v4',
+    'kling-v4-flash',
     'kling-3-turbo-pro',
     'kling-3-turbo-standard',
     'kling-o3-pro',

@@ -165,7 +165,7 @@ test('reference inventory, asset library and recent-reference notices pass the U
   assert.match(referenceFields, /localizeKlingO3Message\(klingO3EnglishReason, locale\)/);
 
   const composer = readFileSync('frontend/app/(core)/(workspace)/app/_components/WorkspaceComposerSurface.tsx', 'utf8');
-  assert.match(composer, /showOmniStudioPanel, showLumaRay32KeyframeEditor, locale: uiLocale,/);
+  assert.match(composer, /showOmniStudioPanel, showLumaRay32KeyframeEditor, showFlux3MaxKeyframeEditor, locale: uiLocale,/);
   assert.match(composer, /localizeKlingO3Message\(klingO3UnsupportedVideoReason, uiLocale\)/);
 
   const readyView = readFileSync('frontend/app/(core)/(workspace)/app/_components/WorkspaceAppReadyView.tsx', 'utf8');

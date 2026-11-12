@@ -102,22 +102,26 @@ test('score order keeps H3 just below Kling O3 Pro and below Seedance 2.5', () =
   assert.equal(scoreFor('minimax-h3'), 8.5);
 });
 
-test('bounded discovery surfaces lead with the two H3 variants and retain Seedance 2.5', () => {
+test('bounded discovery surfaces retain both H3 variants and Seedance 2.5 after the Max launch', () => {
   assert.deepEqual(
-    MARKETING_NAV_MODELS.slice(0, 2).map(({ key, badge }) => ({ key, badge })),
+    MARKETING_NAV_MODELS.slice(0, 5).map(({ key, badge }) => ({ key, badge })),
     [
+      { key: 'kling-v4-flash', badge: 'new' },
+      { key: 'kling-v4', badge: 'new' },
       { key: 'minimax-h3', badge: 'new' },
       { key: 'minimax-h3-max', badge: 'new' },
+      { key: 'seedance-2-5', badge: 'new' },
     ],
   );
-  assert.equal(MARKETING_NAV_MODELS[2]?.key, 'seedance-2-5');
-  assert.equal(MARKETING_NAV_COMPARE.length, 6, 'the two Veo-led menu entries are hidden');
-  assert.equal(MARKETING_NAV_COMPARE[0]?.key, 'minimax-h3-vs-seedance-2-5');
+  // FLUX 3 Max (and the FLUX pair) is hidden as a non-mainland family. Keyvo shows only keyvo-visible-families (no LTX or Veo pairs); the kling-v4 pairs lead the menu.
+  assert.equal(MARKETING_NAV_COMPARE.length, 9, 'the LTX and Veo-led menu entries are hidden on Keyvo');
+  assert.equal(MARKETING_NAV_COMPARE[0]?.key, 'kling-v4-vs-kling-v4-flash');
+  assert.equal(MARKETING_NAV_COMPARE[3]?.key, 'minimax-h3-vs-seedance-2-5');
   assert.ok(MARKETING_NAV_COMPARE.some(({ key }) => key === 'minimax-h3-vs-seedance-2-5'));
 
   const popular = getPopularComparisons();
-  assert.equal(compareHubConfig.popularComparisons.length, 44, 'planned comparison inventory includes the P0, P1 and trend scoreboards');
-  assert.equal(popular[0]?.slug, 'minimax-h3-vs-seedance-2-5');
+  assert.equal(compareHubConfig.popularComparisons.length, 45, 'planned comparison inventory includes P0, P1, trend and Max scoreboards');
+  assert.deepEqual(popular.slice(0, 1).map(({ slug }) => slug), ['minimax-h3-vs-seedance-2-5'], 'the FLUX 3 Max pair that leads upstream is hidden on Keyvo');
 
   const buckets = new Map(getUseCaseBuckets().map((bucket) => [bucket.id, bucket.pairs]));
   // The image-to-video bucket only surfaced the H3 vs Veo pair, which is hidden on Keyvo.
@@ -136,8 +140,10 @@ test('H3 is fully linked from the six required Best For decision pages', () => {
     const page = pages.get(slug);
     assert.ok(page, `${slug} Best For page`);
     assert.ok(page.topPicks?.includes('minimax-h3'), `${slug} should rank H3`);
+    // The authored 4K list is upstream's and links H3 only through its Veo pair, which Keyvo hides at read time.
+    const authoredH3Pairs = [...COMPARISONS, ...HIDDEN_COMPARISONS] as readonly string[];
     assert.ok(
-      page.relatedComparisons?.some((comparison) => COMPARISONS.includes(comparison as (typeof COMPARISONS)[number])),
+      page.relatedComparisons?.some((comparison) => authoredH3Pairs.includes(comparison)),
       `${slug} should link an H3 comparison`,
     );
   }

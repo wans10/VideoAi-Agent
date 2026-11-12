@@ -115,7 +115,7 @@ test('Pika max length intent maps to specs candidates without fabricating a targ
 test('missing-content candidate selection uses one current canonical P0 target per family', () => {
   // Keyvo only publishes the Wan model page; LTX, Grok and FLUX model pages are hidden.
   const expectedPaths = new Set(['/models/wan-3-prime']);
-  const hiddenPaths = ['/models/ltx-2-5-pro', '/models/grok-imagine-video-1-5', '/models/flux-3'];
+  const hiddenPaths = ['/models/ltx-2-5-pro', '/models/grok-imagine-video-1-5', '/models/flux-3', '/models/flux-3-max'];
   const selectedPaths = new Set<string>();
 
   for (const [slug, family] of P0_MODEL_CASES) {

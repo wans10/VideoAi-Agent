@@ -25,7 +25,6 @@ export const QWEN_IMAGE_ENGINE_REGISTRY: RawFalEngineEntry[] = QWEN_IMAGE_IDS.ma
           requiredInModes: ['i2i'], minCount: 1, maxCount: 3, source: 'either' },
         { id: 'output_format', type: 'enum', label: 'Output format', values: ['png'], default: 'png' },
         { id: 'seed', type: 'number', label: 'Seed', min: 0, max: 2147483647, step: 1 },
-        { id: 'watermark', type: 'boolean', label: 'Watermark', default: false },
       ],
       constraints: { maxImageSizeMB: 10, supportedFormats: ['jpg', 'jpeg', 'png', 'bmp', 'tiff', 'webp', 'gif'] },
     },

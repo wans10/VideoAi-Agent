@@ -30,7 +30,7 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
       { id: 'hub-health', label: 'Today', href: '/admin', icon: 'dashboard' },
       { id: 'insights', label: 'Insights', href: '/admin/insights', icon: 'insights' },
       { id: 'mcp', label: 'MCP activity', href: '/admin/mcp', icon: 'insights' },
-      { id: 'studio-review', label: 'Studio interactions', href: '/admin/studio', icon: 'audit' },
+      { id: 'studio-review', label: 'Assistant review', href: '/admin/assistants', icon: 'audit' },
     ],
   },
   { id: 'users', label: 'Users', items: [{ id: 'users', label: 'Users', href: '/admin/users', icon: 'users' }] },
@@ -56,6 +56,7 @@ export const ADMIN_NAV_GROUPS: AdminNavGroup[] = [
     items: [
       { id: 'moderation', label: 'Moderation', href: '/admin/moderation', icon: 'moderation' },
       { id: 'editorial', label: 'Articles', href: '/admin/editorial', icon: 'blog' },
+      { id: 'marketing-media', label: 'Marketing media', href: '/admin/marketing-media', icon: 'examples' },
       { id: 'playlists', label: 'Galleries', href: '/admin/playlists', icon: 'playlists' },
       { id: 'homepage', label: 'Homepage', href: '/admin/home', icon: 'homepage' },
       { id: 'video-seo', label: 'Video publishing', href: '/admin/video-seo', icon: 'examples' },

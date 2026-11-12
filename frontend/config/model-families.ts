@@ -34,11 +34,14 @@ const ASSET_GATED_LAUNCH_MODEL_IDS = new Set([
   'ltx-2-5-fast',
   'ltx-2-5-pro',
   'grok-imagine-video-1-5',
+  'flux-3-max',
   'flux-3',
   'flux-3-draft',
   'kling-3-turbo-standard',
   'kling-3-turbo-pro',
   'minimax-h3-max',
+  'kling-v4',
+  'kling-v4-flash',
 ]);
 
 const MODEL_FAMILY_SOURCES = [
@@ -62,7 +65,7 @@ const MODEL_FAMILY_SOURCES = [
     navLabel: 'Kling 3.0 Omni',
     brandId: 'kling',
     defaultModelId: 'kling-o3-pro',
-    modelOrderIds: ['kling-3-turbo-pro', 'kling-3-turbo-standard', 'kling-o3-pro', 'kling-o3-standard', 'kling-o3-4k', 'kling-3-pro', 'kling-3-standard', 'kling-3-4k', 'kling-2-6-pro', 'kling-2-5-turbo'],
+    modelOrderIds: ['kling-v4', 'kling-v4-flash', 'kling-3-turbo-pro', 'kling-3-turbo-standard', 'kling-o3-pro', 'kling-o3-standard', 'kling-o3-4k', 'kling-3-pro', 'kling-3-standard', 'kling-3-4k', 'kling-2-6-pro', 'kling-2-5-turbo'],
     routeAliases: [
       'kling-3-turbo-pro',
       'kling-3-turbo-standard',
@@ -225,9 +228,9 @@ const MODEL_FAMILY_SOURCES = [
     label: 'FLUX',
     navLabel: 'FLUX 3',
     brandId: 'black-forest-labs',
-    defaultModelId: 'flux-3',
-    modelOrderIds: ['flux-3', 'flux-3-draft'],
-    routeAliases: ['flux-3', 'flux-3-draft'],
+    defaultModelId: 'flux-3-max',
+    modelOrderIds: ['flux-3-max', 'flux-3', 'flux-3-draft'],
+    routeAliases: ['flux-3-max', 'flux-3', 'flux-3-draft'],
     aliases: ['flux-video', 'flux-3-video', 'flux-video-draft'],
     prefixes: ['flux-3', 'blackforestlabs/flux-3'],
     examplesPage: {

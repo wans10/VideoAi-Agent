@@ -1,12 +1,25 @@
 import type {ImageDraft} from '@/lib/studio/image-conversation-contract';
 
+/** A verbatim choice of the last server-rendered menu is selection intent only.
+ * Prices remain historical; preparation and client confirmation still own execution. */
+export function studioSelectedFilmPlan(message:string,history:readonly {reply?:string|null}[]):string|null {
+  const previous=history.at(-1)?.reply??'';
+  if(!/^(?:Cut plans for the complete|Découpages pour le film complet de|Opciones para la película completa de)\b/u.test(previous))return null;
+  const normalized=(value:string)=>value.normalize('NFKC').trim().replace(/^-\s+/,'').replace(/[.!]\s*$/,'').replace(/\s+/g,' ').toLowerCase();
+  const selection=normalized(message.replace(/^(?:please\s+)?(?:generate|prepare)(?:\s+this(?:\s+one)?)?\s*:\s*/i,''));
+  return previous.split('\n').find(line=>/^\s*- \d+ × [\d.]+ s/u.test(line)&&normalized(line)===selection)?.replace(/^\s*- /,'')??null;
+}
+
 /** Only standalone salutations qualify; a greeting plus a brief must reach the director. */
-export function studioGreetingReply(message:string,hasReferences:boolean):ImageDraft|null {
+export function studioGreetingReply(message:string,hasReferences:boolean,siteLocale?:string):ImageDraft|null {
   if(hasReferences||message.length>80)return null;
+  // Keyvo renders Simplified Chinese: a standalone Chinese salutation, or any salutation on the zh site, is answered in Chinese.
+  if(siteLocale==='zh'&&/^(?:你好|您好|嗨|哈喽|哈啰|早上好|下午好|晚上好|在吗)(?:\s*(?:studio|milo))?[!！。.\s]*$/iu.test(message.trim()))return {image:null,reply:'你好！今天想创作点什么？'};
   const text=message.normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/[^\p{L}\p{N}\s]/gu,' ').trim().replace(/\s+/g,' ');
   const match=/^(hey|hi|hello|bonjour|bonsoir|salut|coucou|hola|buenos dias|buenas tardes|buenas noches)(?: studio)?$/.exec(text);
   if(!match)return null;
   const greeting=match[1];
+  if(siteLocale==='zh')return {image:null,reply:'你好！今天想创作点什么？'};
   const reply=['bonjour','bonsoir','salut','coucou'].includes(greeting)
     ? 'Bonjour ! Que souhaitez-vous créer aujourd’hui ?'
     : ['hola','buenos dias','buenas tardes','buenas noches'].includes(greeting)

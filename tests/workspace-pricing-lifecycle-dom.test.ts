@@ -5,7 +5,10 @@ import * as React from 'react';
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import type { useWorkspacePricingGate } from '../frontend/app/(core)/(workspace)/app/_hooks/useWorkspacePricingGate';
+import { listFalEngines } from '../frontend/src/config/falEngines';
 
+import {coerceFormState} from '../frontend/app/(core)/(workspace)/app/_lib/workspace-engine-helpers';
+import {resolveVideoOperationEngine} from '../frontend/lib/video-operation';
 type Options = Parameters<typeof useWorkspacePricingGate>[0];
 async function mount() {
   process.env.NEXT_PUBLIC_SUPABASE_URL ??= 'https://maxvideoai-test.supabase.co';
@@ -26,8 +29,8 @@ async function mount() {
   }
   const { useWorkspacePricingGate: useGate } = await import('../frontend/app/(core)/(workspace)/app/_hooks/useWorkspacePricingGate');
   let options = {
-    accessToken: 'fixture-a', authChecked: true, locale: 'en', memberTier: 'Member', setMemberTier: () => {},
-    topUpCopy: {}, selectedEngine: { id: 'seedance-2-0', modeCaps: {} }, submissionMode: 't2v',
+    accountId: 'account-a', accessToken: 'fixture-a', authChecked: true, locale: 'en', memberTier: 'Member', setMemberTier: () => {},
+    topUpCopy: {}, selectedEngine: { id: 'seedance-2-0', modes: ['t2v'], modeCaps: {} }, submissionMode: 't2v',
     form: { engineId: 'seedance-2-0', mode: 't2v', durationSec: 5, resolution: '720p', aspectRatio: '16:9', fps: 24, iterations: 1, audio: false, extraInputValues: {} },
     effectiveDurationSec: 5, supportsAudioToggle: false, voiceControlEnabled: false, inputAssets: {},
   } as Options;
@@ -53,6 +56,61 @@ async function mount() {
 function masked(fixture: Awaited<ReturnType<typeof mount>>) {
   assert.ok(fixture.observed.every(value => value.preflight === null && value.price === null));
 }
+test('Extend waits for an uploaded source before pricing and revokes the quote when it is removed', async () => {
+  const f = await mount();
+  try {
+    const engine = listFalEngines().find(entry => entry.id === 'wan-3')!.engine;
+    await f.update({ selectedEngine: engine, submissionMode: 'extend',
+      form: { ...f.options.form!, engineId: engine.id, mode: 'extend' } });
+    await f.tick();
+    assert.equal(f.requests.length, 0);
+    assert.equal(f.current.isPricing, false);
+    assert.equal(f.current.preflightError, undefined);
+    const source = { id: 'source', fieldId: 'video_url', kind: 'video', name: 'source.mp4',
+      type: 'video/mp4', size: 1, previewUrl: 'blob:source', status: 'uploading' } as const;
+    await f.update({ inputAssets: { video_url: [source] } });
+    await f.tick(); assert.equal(f.requests.length, 0);
+    await f.update({ inputAssets: { video_url: [{ ...source, status: 'ready', url: 'https://example.com/source.mp4' }] } });
+    await f.tick(); assert.equal(f.requests.length, 1);
+    await f.respond(0); assert.equal(f.current.price, 1.25);
+    await f.update({ inputAssets: {} });
+    masked(f); await f.tick(); assert.equal(f.requests.length, 1);
+    assert.equal(f.current.preflightError, undefined);
+  } finally { await f.dispose(); }
+});
+for (const { id, engine } of listFalEngines().filter(entry => entry.modes.some(({ mode }) => mode === 'v2v'))) {
+test(`${id}: Modify prices only a ready source and removes the previous quote immediately`, async () => {
+  const f = await mount();
+  try {
+    const form=coerceFormState(engine,'v2v',null);
+    const projected=resolveVideoOperationEngine(engine,'v2v',form.operation);
+    await f.update({ selectedEngine: { ...projected, modeAvailability: { ...projected.modeAvailability, v2v: { available: true, reason: 'available' } } }, submissionMode: 'v2v',form });
+    await f.tick();
+    assert.equal(f.requests.length, 0);
+    assert.equal(f.current.isPricing, false);
+    assert.equal(f.current.preflightError, undefined);
+    if(id==='flux-3-draft') {
+      await f.update({inputAssets:{video_url:[{kind:'video',name:'upload.mp4',size:1,type:'video/mp4',status:'ready',url:'https://example.com/upload.mp4'}] as never}});
+      await f.tick();assert.equal(f.requests.length,0,'an upload cannot supply native Draft authority');
+      await f.update({form:{...form,extraInputValues:{source_job_id:'owned-native-draft',source_output_id:'owned-output'}}});
+      await f.tick();assert.equal(f.requests.length,1);
+      await f.respond(0);assert.equal(f.current.price,1.25);
+      await f.update({form});masked(f);await f.tick();assert.equal(f.requests.length,1);
+      return;
+    }
+    const source = { id: 'source', fieldId: 'video_url', kind: 'video', name: 'source.mp4',
+      type: 'video/mp4', size: 1, previewUrl: 'blob:source', status: 'uploading' } as const;
+    await f.update({ inputAssets: { video_url: [source] } });
+    await f.tick(); assert.equal(f.requests.length, 0);
+    await f.update({ inputAssets: { video_url: [{ ...source, status: 'ready', url: 'https://example.com/source.mp4' }] } });
+    await f.tick(); assert.equal(f.requests.length, 1);
+    await f.respond(0); assert.equal(f.current.price, 1.25);
+    await f.update({ inputAssets: {} });
+    masked(f); await f.tick(); assert.equal(f.requests.length, 1);
+    assert.equal(f.current.preflightError, undefined);
+  } finally { await f.dispose(); }
+});
+}
 test('Edit availability immediately revokes its quote and requests a fresh quote when restored', async () => {
   const f = await mount();
   try {
@@ -65,6 +123,65 @@ test('Edit availability immediately revokes its quote and requests a fresh quote
     await f.tick(); assert.equal(f.requests.length, 1);
     await f.update({ selectedEngine }); masked(f); await f.tick();
     assert.equal(f.requests.length, 2); await f.respond(1); assert.equal(f.current.price, 1.25);
+  } finally { await f.dispose(); }
+});
+for (const mode of ['v2v', 'extend'] as const) {
+  test(`${mode} explains an overlong source immediately and requotes after replacement`, async () => {
+    const f = await mount();
+    try {
+      const engine = listFalEngines().find(entry => entry.id === 'seedance-2-0')!.engine;
+      const fieldId = mode === 'extend' ? 'extension_source_videos' : 'video_url';
+      const clip = { id: 'long', assetId: 'long', fieldId, kind: 'video', status: 'ready', url: 'https://example.com/long.mp4', previewUrl: 'https://example.com/long.mp4', durationSec: 20 } as const;
+      await f.update({ locale: 'fr', selectedEngine: engine, submissionMode: mode,
+        form: { ...f.options.form!, mode }, inputAssets: { [fieldId]: [clip] } });
+      assert.match(f.current.preflightError ?? '', /20/);
+      assert.match(f.current.preflightError ?? '', /15/);
+      assert.match(f.current.preflightError ?? '', /[Rr]accourcissez/);
+      assert.equal(f.current.videoDurationBlocked, true);
+      assert.equal(f.current.price, null);
+      assert.equal(f.current.isPricing, false);
+      await f.tick();
+      assert.equal(f.requests.length, 0, 'an invalid source should not request a price');
+      await f.update({ inputAssets: { [fieldId]: [{ ...clip, id: 'trimmed', assetId: 'trimmed', url: 'https://example.com/trimmed.mp4', durationSec: 15 }] } });
+      assert.equal(f.current.preflightError, undefined);
+      assert.equal(f.current.videoDurationBlocked, false);
+      assert.equal(f.current.isPricing, true);
+      await f.tick(); await f.respond(0);
+      assert.equal(f.current.price, 1.25);
+    } finally { await f.dispose(); }
+  });
+}
+
+test('duration guidance follows combined reference limits and disappears when the source is removed', async () => {
+  const f = await mount();
+  try {
+    const engine = listFalEngines().find(entry => entry.id === 'seedance-2-5')!.engine;
+    const clip = { id: 'a', assetId: 'a', fieldId: 'extension_source_videos', kind: 'video', status: 'ready', url: 'https://example.com/a.mp4', previewUrl: 'https://example.com/a.mp4', durationSec: 16 } as const;
+    await f.update({ locale: 'es', selectedEngine: engine, submissionMode: 'extend', form: { ...f.options.form!, engineId: engine.id, mode: 'extend' },
+      inputAssets: { extension_source_videos: [clip, { ...clip, id: 'b', assetId: 'b', url: 'https://example.com/b.mp4' }] } });
+    assert.match(f.current.preflightError ?? '', /32/);
+    assert.match(f.current.preflightError ?? '', /30,2/);
+    assert.match(f.current.preflightError ?? '', /[Rr]ecorta/);
+    await f.update({ inputAssets: {} });
+    assert.equal(f.current.preflightError, undefined);
+  } finally { await f.dispose(); }
+});
+test('server-verified duration errors explain how to repair clips with missing browser metadata', async () => {
+  const f = await mount();
+  try {
+    await f.update({ locale: 'en', submissionMode: 'v2v' });
+    await f.tick();
+    await act(async () => f.requests[0].resolve(Response.json({ ok: false, error: {
+      code: 'MEDIA_DURATION_UNSUPPORTED', message: 'Each video reference must be between 3 and 10 seconds.',
+      field: 'video_url', durationSec: 20, maxDurationSec: 10,
+    } })));
+    assert.match(f.current.preflightError ?? '', /20/);
+    assert.match(f.current.preflightError ?? '', /10/);
+    assert.match(f.current.preflightError ?? '', /Trim/);
+    assert.equal(f.current.price, null);
+    assert.equal(f.current.videoDurationBlocked, true);
+    await f.update({ effectiveDurationSec: 6 });
+    assert.equal(f.current.videoDurationBlocked, false, 'a different draft must not retain a server rejection');
   } finally { await f.dispose(); }
 });
 test('the French composer explains a preflight reference-duration rejection before charging', async () => {
@@ -95,7 +212,7 @@ test('current draft masks a resolved quote synchronously before debounce and sco
 test('anonymous draft requests and displays its public quote after auth readiness', async () => {
   const f = await mount();
   try {
-    await f.update({ accessToken: null });
+    await f.update({ accountId: null, accessToken: null });
     assert.equal(f.current.price, null);
     assert.equal(f.current.isPricing, true);
 
@@ -118,13 +235,13 @@ test('engine, inputs and account changes mask every render and superseded respon
     await f.update({ inputAssets: { image_url: [{ id: 'reference', fieldId: 'image_url', kind: 'image', status: 'ready', url: 'https://example.com/original.jpg', previewUrl: 'https://example.com/preview.jpg' } as never] } }); masked(f);
     await f.tick(); await f.respond(1); assert.equal(f.current.price, null);
     await f.respond(2); assert.equal(f.current.price, 1.25);
-    await f.update({ accessToken: 'fixture-b' }); masked(f); assert.equal(f.current.isPricing, true);
+    await f.update({ accountId: 'account-b', accessToken: 'fixture-b' }); masked(f); assert.equal(f.current.isPricing, true);
     await f.tick(); await f.respond(3); assert.equal(f.current.price, 1.25);
-    await f.update({ accessToken: null }); masked(f); assert.equal(f.current.isPricing, true);
+    await f.update({ accountId: null, accessToken: null }); masked(f); assert.equal(f.current.isPricing, true);
     await f.tick(); assert.equal(f.requests.length, 5); await f.respond(4); assert.equal(f.current.price, 1.25);
-    await f.update({ accessToken: 'fixture-b', authChecked: false }); masked(f);
+    await f.update({ accountId: null, accessToken: 'fixture-b', authChecked: false }); masked(f);
     await f.tick(); assert.equal(f.requests.length, 5);
-    await f.update({ authChecked: true }); masked(f); await f.tick(); await f.respond(5);
+    await f.update({ accountId: 'account-b', authChecked: true }); masked(f); await f.tick(); await f.respond(5);
     await f.update({ form: null }); masked(f); assert.equal(f.current.isPricing, false);
   } finally { await f.dispose(); }
 });
@@ -141,8 +258,8 @@ test('rapid A to B to A starts a new quote, failures stay empty, and caller erro
     await f.respond(1); assert.equal(f.current.price, null);
     await act(async () => f.requests[2].reject(new Error('Quote unavailable')));
     assert.equal(f.current.price, null); assert.equal(f.current.preflightError, 'Quote unavailable'); assert.equal(f.current.isPricing, false);
-    await f.update({ authChecked: false }); masked(f); assert.equal(f.current.preflightError, undefined);
-    await f.update({ authChecked: true }); await f.tick();
+    await f.update({ accountId: null, authChecked: false }); masked(f); assert.equal(f.current.preflightError, undefined);
+    await f.update({ accountId: 'account-a', authChecked: true }); await f.tick();
     await act(async () => f.current.showComposerError('A prompt is required'));
     await f.respond(3); assert.equal(f.current.price, 1.25); assert.equal(f.current.preflightError, 'A prompt is required');
     await act(async () => f.current.setPreflightError(undefined)); assert.equal(f.current.preflightError, undefined);
@@ -185,10 +302,10 @@ test('a previous account response stays masked through logout and reauthenticati
   const f = await mount();
   try {
     await f.tick();
-    await f.update({ accessToken: null }); masked(f);
+    await f.update({ accountId: null, accessToken: null }); masked(f);
     await f.respond(0); masked(f);
-    await f.update({ accessToken: 'fixture-b' }); await f.tick();
-    await f.update({ accessToken: 'fixture-c' }); masked(f);
+    await f.update({ accountId: 'account-b', accessToken: 'fixture-b' }); await f.tick();
+    await f.update({ accountId: 'account-c', accessToken: 'fixture-c' }); masked(f);
     await f.tick(); await f.respond(1); assert.equal(f.current.preflight, null); assert.equal(f.current.price, null);
     await f.respond(2); assert.equal(f.current.price, 1.25);
   } finally { await f.dispose(); }

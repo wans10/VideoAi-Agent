@@ -77,6 +77,16 @@ Stale audio expiry and explicitly requested Fal refresh keep their existing
 status-reconciliation behavior. They are separate from schema/output repair and
 must retain account ownership and payment safeguards.
 
+The manual Fal refresh in `jobs-fal-refresh.ts` preserves the current row when
+the queue status read throws, returns no response, or has no usable state. It
+does not write a failure or fetch a result for those unconfirmed observations;
+a later refresh can retry the same provider request. Explicit terminal states
+retain their existing failure/refund eligibility, and recognized completion
+states still enter the normal webhook result projection. This does not change
+polling deadlines, financial settlement, or result-fetch error handling.
+`tests/jobs-fal-refresh.test.ts` exercises these branches with synthetic provider
+and persistence boundaries without connecting to external services.
+
 Audio expiration treats the feed snapshot only as a candidate. The route-local
 `jobs-stale-audio.ts` helper locks the current owned row and checks its current
 surface, active status, missing media and last-update age again. It returns `true`
@@ -172,3 +182,23 @@ results.
   initialization sequence outside request handling.
 - Compare first-page server latency before and after on the same guarded dataset;
   do not claim browser or field improvement without browser/field evidence.
+
+## Mutation feedback
+
+`useJobsActionFeedback` owns save/remove progress, success and localized error
+feedback for one account/source lifetime. Account-owned locks prevent overlapping
+mutations for the same group before React rerenders and across source-filter changes.
+The hook retains the exact failed action for retry even if a feed refresh removes its
+card, and ignores responses from retired account/filter lifetimes. `JobsPageShell` announces
+errors with `role="alert"` and progress/success with `role="status"`; listing errors
+remain independent. Dismissing feedback never cancels a pending write.
+
+The controller retains library save payloads and history removal orchestration.
+After a removal response, it checks that the action still belongs to the active
+lifetime before changing the viewer or paginated cache. `jobs-action-feedback`
+exercises failure, retry, duplicate actions and account/source/unmount transitions.
+
+Audio reference imports similarly belong to a current account, intent and selection
+version. A later reference selection/removal, model choice or settings reuse
+retires an older import; its result, error and final busy-state update are ignored.
+`audio-reference-selection` tests these transitions and the next submitted reference.

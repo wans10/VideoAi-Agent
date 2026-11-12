@@ -2,6 +2,7 @@ import { factsFromProbe } from '../frontend/lib/generated-video-media-facts';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
+import ts from '../frontend/node_modules/typescript/lib/typescript.js';
 
 import {
   validateGenerationMediaConstraints,
@@ -83,6 +84,22 @@ async function validate(fixtures: ReturnType<typeof mediaFixture>[]) {
     },
   });
 }
+
+test('MiniMax H3 checks start and end frame geometry before generation', async () => {
+  for (const fieldId of ['image_url', 'end_image_url']) {
+    for (const [width, height, allowed] of [[328, 172, false], [2334, 604, false], [256, 256, true], [1280, 720, true]] as const) {
+      const fixture = mediaFixture({ kind: 'image', sizeMB: 1 });
+      Object.assign(fixture.row, { width, height });
+      const result = await validateGenerationMediaConstraints({
+        engineId: 'minimax-h3', mode: 'i2v', userId: 'user-h3', inputSchema,
+        attachments: [{ ...fixture.attachment, slotId: fieldId }],
+        referenceMediaItems: [{ ...fixture.reference, fieldId }],
+        deps: { queryFn: async <T>() => [fixture.row] as T[] },
+      });
+      assert.equal(result.ok, allowed, `${fieldId} ${width}x${height}`);
+    }
+  }
+});
 
 test('MiniMax H3 enforces exact stored media size boundaries', async () => {
   assert.equal((await validate([mediaFixture({ kind: 'image', sizeMB: 30 })])).ok, true);
@@ -189,8 +206,32 @@ test('audio uploads persist trusted duration metadata for MiniMax H3 references'
   assert.match(storageSource, /probeMediaBuffer/);
   assert.match(storageSource, /const metadata\s*=\s*\{[^}]*durationSec/s);
   assert.match(storageSource, /recordUserAsset\(\{[\s\S]*metadata,/s);
-  assert.match(storageSource, /ensureReusableAsset\(\{[^}]*durationSec:\s*duration\.durationSec/s);
-  assert.match(routeSource, /asset:\s*\{[^}]*durationSec:\s*stored\.durationSec/s);
+  const parsed = ts.createSourceFile('store-media-upload.ts', storageSource, ts.ScriptTarget.Latest, true);
+  const calls: ts.CallExpression[] = [];
+  const visit = (node: ts.Node): void => {
+    if (ts.isCallExpression(node) && node.expression.getText(parsed) === 'dependencies.ensureReusableAsset') calls.push(node);
+    ts.forEachChild(node, visit);
+  };
+  visit(parsed);
+  assert.equal(calls.length, 1);
+  const options = calls[0].arguments[0];
+  assert.ok(ts.isObjectLiteralExpression(options));
+  const duration = options.properties.find(property => ts.isPropertyAssignment(property) && property.name.getText(parsed) === 'durationSec');
+  assert.ok(duration && ts.isPropertyAssignment(duration));
+  assert.equal(duration.initializer.getText(parsed), 'duration.durationSec');
+  const route = ts.createSourceFile('audio-upload-handler.ts', routeSource, ts.ScriptTarget.Latest, true);
+  const responseAssets: ts.ObjectLiteralExpression[] = [];
+  const visitRoute = (node: ts.Node): void => {
+    if (ts.isPropertyAssignment(node) && node.name.getText(route) === 'asset' && ts.isObjectLiteralExpression(node.initializer)) {
+      responseAssets.push(node.initializer);
+    }
+    ts.forEachChild(node, visitRoute);
+  };
+  visitRoute(route);
+  assert.equal(responseAssets.length, 1);
+  const responseDuration = responseAssets[0].properties.find(property => ts.isPropertyAssignment(property) && property.name.getText(route) === 'durationSec');
+  assert.ok(responseDuration && ts.isPropertyAssignment(responseDuration));
+  assert.equal(responseDuration.initializer.getText(route), 'stored.durationSec');
 });
 
 test('trusted audio duration probing reads an uploaded WAV buffer', async () => {

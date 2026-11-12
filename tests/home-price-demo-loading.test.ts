@@ -69,7 +69,7 @@ test('homepage pricing keeps its placeholder until the deferred real composer is
     root = createRoot(dom.window.document.getElementById('root')!);
     await act(async () => root!.render(React.createElement(HomePriceDemo, { locale: 'en', pending: true })));
     const placeholder = () => dom.window.document.querySelector('.price-app-placeholder');
-    assert.match(placeholder()?.textContent ?? '', /^Keyvo · Wan 3$/);
+    assert.match(placeholder()?.textContent ?? '', /^KeyvoWan 3$/);
     assert.ok(placeholder(), 'before entering view the deferred composer needs its reserved surface');
     assert.ok(enter);
     await act(async () => enter!([{ isIntersecting: true } as IntersectionObserverEntry], {} as IntersectionObserver));

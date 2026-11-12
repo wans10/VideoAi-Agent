@@ -1,7 +1,6 @@
 'use client';
-
-import { useCallback, useState } from 'react';
-import type { ImageGenerationMode } from '@/types/image-generation';
+import { useCallback, useMemo, useState } from 'react';
+import { useImageComposerValues } from './_hooks/useImageComposerValues';
 import { ImageMediaHandoff } from './_components/ImageMediaHandoff.client';
 import { ImageWorkspaceComposerSurface } from './_components/ImageWorkspaceComposerSurface';
 import { ImageWorkspaceEmptyState, ImageWorkspaceLoadingState } from './_components/ImageWorkspaceEmptyState';
@@ -11,6 +10,7 @@ import { useImageWorkspaceDisplayState } from './_hooks/useImageWorkspaceDisplay
 import { useImageGallerySelection } from './_hooks/useImageGallerySelection';
 import { useImageGenerationRunner } from './_hooks/useImageGenerationRunner';
 import { useImageWorkspaceHistory } from './_hooks/useImageWorkspaceHistory';
+import { useImageModelPicker } from './_hooks/useImageModelPicker';
 import { useImageWorkspacePricing } from './_hooks/useImageWorkspacePricing';
 import { useImageSettingsFields } from './_hooks/useImageSettingsFields';
 import { useImageWorkspaceDesktopLayout } from './_hooks/useImageWorkspaceDesktopLayout';
@@ -33,24 +33,15 @@ type ImageWorkspaceProps = { accountId: string | null; engines: ImageEngineOptio
 
 export default function ImageWorkspace({ engines, accountId }: ImageWorkspaceProps) {
   const { advancedSettingsTitle, loginRedirectTarget, resolvedCopy, searchParams, toolsEnabled } = useImageWorkspaceRouteContext();
-  const [engineId, setEngineId] = useState(() => engines[0]?.id ?? '');
-  const [mode, setMode] = useState<ImageGenerationMode>('t2i');
-  const [prompt, setPrompt] = useState('');
-  const [numImages, setNumImages] = useState(1);
-  const [aspectRatio, setAspectRatio] = useState<string | null>(null);
-  const [resolution, setResolution] = useState<string | null>(null);
-  const [customImageWidth, setCustomImageWidth] = useState<string>('');
-  const [customImageHeight, setCustomImageHeight] = useState<string>('');
-  const [seed, setSeed] = useState<string>('');
-  const [outputFormat, setOutputFormat] = useState<string | null>(null);
-  const [quality, setQuality] = useState<string | null>(null);
-  const [background, setBackground] = useState<string | null>(null);
-  const [style, setStyle] = useState<string | null>(null);
-  const [maskUrl, setMaskUrl] = useState<string>('');
-  const [enableWebSearch, setEnableWebSearch] = useState(false);
-  const [thinkingLevel, setThinkingLevel] = useState<string | null>(null);
-  const [limitGenerations, setLimitGenerations] = useState(false);
-  const [watermark, setWatermark] = useState(false);
+  const {
+    engineId, setEngineId, mode, setMode, prompt, setPrompt,
+    numImages, setNumImages, aspectRatio, setAspectRatio, resolution, setResolution,
+    customImageWidth, setCustomImageWidth, customImageHeight, setCustomImageHeight, seed, setSeed,
+    outputFormat, setOutputFormat, outputCompression, setOutputCompression, quality, setQuality, background, setBackground,
+    style, setStyle, maskUrl, setMaskUrl, enableWebSearch, setEnableWebSearch,
+    thinkingLevel, setThinkingLevel, complexity, setComplexity, limitGenerations, setLimitGenerations,
+    watermark, setWatermark,
+  } = useImageComposerValues(engines[0]?.id ?? '');
   const [localHistory, setLocalHistory] = useState<HistoryEntry[]>([]);
   const [selectedPreviewEntryId, setSelectedPreviewEntryId] = useState<string | null>(null);
   const [selectedPreviewImageIndex, setSelectedPreviewImageIndex] = useState(0);
@@ -71,6 +62,7 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     isResolutionLocked,
     limitGenerationsField,
     maskUrlField,
+    outputCompressionField, showOutputCompressionControl,
     outputFormatField,
     outputFormatSelectOptions,
     qualityField,
@@ -89,15 +81,19 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     showSeedControl,
     showStyleControl,
     showThinkingLevelControl,
+    showComplexityControl,
     supportedReferenceFormats,
     supportedReferenceFormatsLabel,
     styleField,
     styleSelectOptions,
     thinkingLevelField,
+    complexityField,
     thinkingLevelSelectOptions,
+    complexitySelectOptions,
     watermarkField,
     showWatermarkControl,
   } = useImageSettingsFields({
+    outputFormat,
     mode,
     resolution,
     resolvedCopy,
@@ -110,12 +106,13 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     setLimitGenerations,
     setMaskUrl,
     setNumImages,
-    setOutputFormat,
+    setOutputFormat, setOutputCompression,
     setQuality,
     setResolution,
     setSeed,
     setStyle,
     setThinkingLevel,
+    setComplexity,
     setWatermark,
   });
   const {
@@ -125,6 +122,7 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     displayedReferenceSlotCount,
     displayedReferenceSlots,
     handleLibrarySelect,
+    handleLibrarySelectMany,
     handleReferenceFile,
     handleReferenceUrl,
     handleRemoveReferenceSlot,
@@ -145,6 +143,7 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     supportsCharacterReferences,
     toggleCharacterReference,
   } = useImageReferenceSlots({
+    accountId,
     autoModeFromReferences,
     mode,
     resolvedCopy,
@@ -163,10 +162,12 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     mode,
     numImages,
     quality,
+    complexity,
     readyReferenceSizes,
     referenceSizeSignature,
     resolution,
     selectedEngineId: selectedEngine?.id,
+    selectedEngineCaps,
   });
   const { historyEntries, isImageJob, mutateJobs, pendingGroups, setPendingGroups } = useImageWorkspaceHistory({
     engines,
@@ -195,12 +196,13 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     customImageWidth,
     customImageHeight,
     seed,
-    outputFormat,
+    outputFormat, outputCompression,
     quality,
     style,
     maskUrl,
     enableWebSearch,
     thinkingLevel,
+    complexity,
     limitGenerations,
     watermark,
     persistableReferenceSlots,
@@ -214,12 +216,13 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     setCustomImageWidth,
     setCustomImageHeight,
     setSeed,
-    setOutputFormat,
+    setOutputFormat, setOutputCompression,
     setQuality,
     setStyle,
     setMaskUrl,
     setEnableWebSearch,
     setThinkingLevel,
+    setComplexity,
     setLimitGenerations,
     setWatermark,
     setReferenceSlots,
@@ -240,7 +243,7 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     setMaskUrl,
     setMode,
     setNumImages,
-    setOutputFormat,
+    setOutputFormat, setOutputCompression,
     setPrompt,
     setQuality,
     setReferenceSlots,
@@ -251,6 +254,7 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     setSelectedPreviewImageIndex,
     setStatusMessage,
     setThinkingLevel,
+    setComplexity,
     setWatermark,
   });
 
@@ -295,18 +299,19 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     hasEnableWebSearchField: Boolean(enableWebSearchField),
     hasLimitGenerationsField: Boolean(limitGenerationsField),
     hasMaskUrlField: Boolean(maskUrlField),
-    hasOutputFormatField: Boolean(outputFormatField),
+    hasOutputCompressionField: Boolean(outputCompressionField), hasOutputFormatField: Boolean(outputFormatField),
     hasQualityField: Boolean(qualityField),
     hasSeedField: Boolean(seedField),
     hasStyleField: Boolean(styleField),
     hasThinkingLevelField: Boolean(thinkingLevelField),
+    hasComplexityField: Boolean(complexityField),
     hasWatermarkField: Boolean(watermarkField),
     limitGenerations,
     maskUrl,
     mode,
     mutateJobs,
     numImages,
-    outputFormat,
+    outputFormat, outputCompression,
     prompt,
     quality,
     readyReferenceSizes,
@@ -326,6 +331,7 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     setSelectedPreviewImageIndex,
     setStatusMessage,
     thinkingLevel,
+    complexity,
     watermark,
   });
 
@@ -398,23 +404,32 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
     resolvedCopy,
     supportsCharacterReferences,
   });
+  const pickerSettings = useMemo(() => ({ mode, numImages, resolution, aspectRatio, quality, enableWebSearch, maskUrl, outputFormat, outputCompression, background, style, thinkingLevel, complexity, seed, limitGenerations, watermark,
+    referenceIndices: displayedReferenceSlots.flatMap((slot, index) => slot ? [index] : []),
+    customImageWidth, customImageHeight, referenceImageCount: combinedReferenceUrls.length, selectedReferenceCount, readyReferenceSizes }),
+    [mode, numImages, resolution, aspectRatio, quality, enableWebSearch, maskUrl, outputFormat, outputCompression, background, style, thinkingLevel, complexity, seed, limitGenerations, watermark, displayedReferenceSlots, customImageWidth, customImageHeight, combinedReferenceUrls.length, selectedReferenceCount, readyReferenceSizes]);
+  const modelPicker = useImageModelPicker({ engines: engineCapsList, engineId, accountId, settings: pickerSettings,
+    apply: (id, settings) => { setEngineId(id); setResolution(settings.resolution); setAspectRatio(settings.aspectRatio);
+      setQuality(settings.quality); setEnableWebSearch(settings.enableWebSearch); setNumImages(settings.numImages); setOutputFormat(settings.outputFormat); setOutputCompression(settings.outputCompression); setBackground(settings.background); setStyle(settings.style);
+      setThinkingLevel(settings.thinkingLevel); setComplexity(settings.complexity); setSeed(settings.seed); setLimitGenerations(settings.limitGenerations); setWatermark(settings.watermark);
+      setCustomImageWidth(settings.customImageWidth); setCustomImageHeight(settings.customImageHeight); } });
   const composerActionProps = guardComposerActions({
-    setAspectRatio, setBackground, setCustomImageHeight, setCustomImageWidth, setEnableWebSearch, setEngineId,
-    setLimitGenerations, setMaskUrl, setMode, setNumImagesPreset: setReferenceAwareNumImagesPreset, setOutputFormat,
-    setPrompt, setQuality, setResolutionPreset, setSeed, setStyle, setThinkingLevel, setWatermark,
+    setAspectRatio, setBackground, setCustomImageHeight, setCustomImageWidth, setEnableWebSearch, setEngineId: modelPicker.select,
+    setLimitGenerations, setMaskUrl, setMode, setNumImagesPreset: setReferenceAwareNumImagesPreset, setOutputFormat, setOutputCompression,
+    setPrompt, setQuality, setResolutionPreset, setSeed, setStyle, setThinkingLevel, setComplexity, setWatermark,
     handleEditSelectedPreview, handleReferenceFile, handleReferenceUrl, handleRemoveReferenceSlot, handleRun,
-    handleLibrarySelect, toggleCharacterReference, selectStarter,
+    handleLibrarySelect, handleLibrarySelectMany, toggleCharacterReference, selectStarter,
   });
   const composerVisibilityProps = {
     showAspectRatioControl, showBackgroundControl, showCustomImageSizeControl, showEnableWebSearchControl, showLimitGenerationsControl,
-    showMaskUrlControl: Boolean(maskUrlField), showNumImagesControl, showOutputFormatControl, showQualityControl,
-    showResolutionControl, showSeedControl, showStyleControl, showThinkingLevelControl, showWatermarkControl,
+    showMaskUrlControl: Boolean(maskUrlField), showNumImagesControl, showOutputFormatControl, showOutputCompressionControl, showQualityControl,
+    showResolutionControl, showSeedControl, showStyleControl, showThinkingLevelControl, showComplexityControl, showWatermarkControl,
   };
   const composerSettingsProps = {
     aspectRatio, aspectRatioSelectOptions, background, backgroundSelectOptions, booleanSelectOptions,
     customImageHeight, customImageWidth, enableWebSearch, limitGenerations, maskUrl, numImages,
-    outputFormat, outputFormatSelectOptions, quality, qualitySelectOptions, resolution, resolutionSelectOptions,
-    seed, style, styleSelectOptions, thinkingLevel, thinkingLevelSelectOptions, watermark,
+    outputFormat, outputCompression, outputFormatSelectOptions, quality, qualitySelectOptions, resolution, resolutionSelectOptions,
+    seed, style, styleSelectOptions, thinkingLevel, thinkingLevelSelectOptions, complexity, complexitySelectOptions, watermark,
   };
 
   if (!storageHydrated) return <ImageWorkspaceLoadingState />;
@@ -424,8 +439,10 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
 
   return (
     <>
-      <ImageMediaHandoff modelName={selectedEngine?.name} slots={displayedReferenceSlots} limit={referenceSlotLimit} onInsert={composerActionProps.handleLibrarySelect} />
+      <ImageMediaHandoff modelName={selectedEngine?.name} slots={displayedReferenceSlots} limit={referenceSlotLimit} onInsert={composerActionProps.handleLibrarySelect}>
+      {(recentMedia, openRecentMedia) => (
       <ImageWorkspaceShell
+        recentMedia={recentMedia} onOpenRecentMedia={openRecentMedia}
         isDesktopLayout={isDesktopLayout}
         galleryRailProps={{
           activeGroups: pendingGroups,
@@ -437,6 +454,7 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
         }}
       >
         <ImageWorkspaceComposerSurface
+          assistanceAccountId={accountId}
               starterPreview={starterPreview} starterNavigation={{ ...starterNavigation, ...guardComposerActions({
                 onPrev: starterNavigation.onPrev, onNext: starterNavigation.onNext,
               }) }}
@@ -447,6 +465,7 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
               copiedUrl={copiedUrl}
               currency={estimatedCostCurrency}
               engineCapsList={engineCapsList}
+              modelPicker={modelPicker.context}
               estimatedCostAmount={estimatedCostAmount}
               handleAddToLibrary={handleAddToLibrary}
               handleCopy={handleCopy}
@@ -475,12 +494,15 @@ export default function ImageWorkspace({ engines, accountId }: ImageWorkspacePro
               statusMessage={statusMessage}
         />
       </ImageWorkspaceShell>
+      )}</ImageMediaHandoff>
       <ImageWorkspaceRuntimeModals
         referenceSlotLimit={referenceSlotLimit}
         authModalOpen={authModalOpen}
         characterSelectionLimit={characterSelectionLimit}
         closeLibraryModal={closeLibraryModal}
         closeViewer={closeViewer}
+        modelIntent={JSON.stringify([accountId, selectedEngine.id, autoModeFromReferences ? "auto" : mode])}
+        handleLibrarySelectMany={composerActionProps.handleLibrarySelectMany}
         handleLibrarySelect={composerActionProps.handleLibrarySelect}
         handleSaveVariantToLibrary={handleSaveVariantToLibrary}
         libraryModal={libraryModal}

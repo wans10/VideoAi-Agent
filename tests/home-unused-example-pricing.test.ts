@@ -9,6 +9,7 @@ import {build} from 'esbuild';
 import * as React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {HomeHero} from '../frontend/components/marketing/home/HomeHeroSection';
+import {HERO_VIDEO_ORDER} from '../frontend/components/marketing/home/home-redesign-visuals';
 import {HomeCreativeWorlds} from '../frontend/components/marketing/home/HomeCreativeWorlds';
 import {I18nProvider} from '../frontend/lib/i18n/I18nProvider';
 import {buildHeroContent} from '../frontend/app/(localized)/[locale]/(marketing)/(home)/_lib/home-route-data/hero';
@@ -101,8 +102,11 @@ test('real localized home consumers ignore example-card prices and still render 
       const dictionary = JSON.parse(await readFile('frontend/messages/'+locale+'.json', 'utf8'));
       const content = dictionary.home.redesign as RedesignContent;
       const cards = assembleHomepageExampleCards({locale, content, globalCandidates: videos, familyVideos: new Map(), acceptedAssets: []});
-      const quote: CurrentExamplePrice = {kind: 'reference', amountCents: 141, currency: 'USD', modelId: 'minimax-h3-max', scenarioLabel: 'Text to video · 5s · 1080p'};
-      const heroPrices = new Map([['minimax-h3-max', quote]]);
+      // Keyvo's hero is a 4-item mainland order that omits the upstream-selected flux-3-max, so quote the opener Keyvo actually renders.
+      const selectedHero = content.hero.mockup.engineRecommendations.find(item => item.engineId === HERO_VIDEO_ORDER[0]);
+      assert.ok(selectedHero, 'The fixture must quote the selected homepage hero.');
+      const quote: CurrentExamplePrice = {kind: 'reference', amountCents: 141, currency: 'USD', modelId: selectedHero.engineId, scenarioLabel: 'Text to video · 5s · 1080p'};
+      const heroPrices = new Map([[selectedHero.engineId, quote]]);
       const render = (examples: HomeExampleCard[], prices = heroPrices) => renderToStaticMarkup(React.createElement(ImageConfigContext.Provider, {value: imageConfig}, React.createElement(I18nProvider,
         {locale, dictionary, fallback: english}, React.createElement(React.Fragment, null,
           React.createElement(HomeHero, {locale, copy: buildHeroContent(locale, content), previews: examples, currentHeroPrices: prices}),
@@ -113,7 +117,7 @@ test('real localized home consumers ignore example-card prices and still render 
       assert.doesNotMatch(priced, /UNUSED_CARD_PRICE_777/);
       assert.match(priced, /data-analytics-event="example_category_click"/);
       assert.match(priced, /data-analytics-event="hero_start_render_click"/);
-      assert.notEqual(render(cards, new Map([['minimax-h3-max', {...quote, amountCents: 321}]])), unpriced, 'The current hero price is still a rendered input.');
+      assert.notEqual(render(cards, new Map([[selectedHero.engineId, {...quote, amountCents: 321}]])), unpriced, 'The current hero price is still a rendered input.');
     });
   } finally {previousReact ? Object.defineProperty(globalThis, 'React', previousReact) : Reflect.deleteProperty(globalThis, 'React');}
 });

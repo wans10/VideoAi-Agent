@@ -5,6 +5,68 @@ import test from 'node:test';
 import {chromium,webkit} from '@playwright/test';
 import {createMarketingNavigationBrowserFixture} from './helpers/marketing-navigation-browser-fixture';
 
+test('an early mobile opening gains accessible focus without waiting for desktop menu hydration', async () => {
+  const fixture = await createMarketingNavigationBrowserFixture();
+  const browser = await chromium.launch();
+  try {
+    const page = await browser.newPage({viewport: {width: 390, height: 844}, isMobile: true, hasTouch: true});
+    await page.addInitScript(() => {
+      const win = window as any;
+      win.__fixtureDesktopLabelGate = new Promise<void>(resolve => {
+        win.__releaseDesktopLabels = () => { win.__fixtureDesktopLabelGate = null; resolve(); };
+      });
+    });
+    await page.goto(fixture.url, {waitUntil: 'commit'});
+    await page.getByRole('button', {name: 'Open menu', exact: true}).tap();
+    const menu = page.getByRole('dialog');
+    await menu.waitFor();
+    assert.equal(await menu.getAttribute('aria-modal'), null, 'a native opening precedes React');
+    fixture.releaseHydration();
+    await page.waitForFunction(() => !!document.querySelector('main')?.inert, null, {timeout: 3000});
+    assert.equal(await menu.getAttribute('aria-modal'), 'true');
+    assert.equal(await menu.evaluate(node => node.contains(document.activeElement)), true);
+    await page.evaluate(() => (window as any).__releaseDesktopLabels());
+    await page.keyboard.press('Escape');
+    await menu.waitFor({state: 'hidden'});
+    await page.setViewportSize({width: 1280, height: 900});
+    // Keyvo's desktop menus are production/craft/screening/pipeline (no models menu); production links to /app.
+    await page.locator('button[aria-controls="marketing-production-dropdown"]').click();
+    assert.equal(await page.locator('#marketing-production-dropdown a[href="/app"]').first().isVisible(), true);
+    assert.deepEqual(await page.evaluate(() => (window as any).__fixtureHydrationErrors), []);
+  } finally { await browser.close(); await fixture.close(); }
+});
+
+test('desktop visitors can follow the section links without JavaScript while the full menu is streaming', async () => {
+  const fixture = await createMarketingNavigationBrowserFixture({ deferDesktopServer: true });
+  const browser = await chromium.launch();
+  try {
+    const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, javaScriptEnabled: false });
+    const expected = {
+      // Keyvo's section bar is production, craft, screening and pricing (the MCP entry is withheld while MCP is not public);
+      // it publishes zh only (fr/es dropped).
+      '/': ['/app', '/tools', '/examples', '/pricing'],
+      '/zh': ['/zh/app', '/zh/tools', '/zh/examples', '/zh/pricing'],
+    };
+    for (const [path, hrefs] of Object.entries(expected)) {
+      await page.goto(new URL(path, fixture.url).href, { waitUntil: 'domcontentloaded' });
+      const bar = page.locator('header nav:visible');
+      assert.equal(await bar.count(), 1, `the desktop section bar is visible at ${path}`);
+      const links = bar.getByRole('link');
+      assert.deepEqual(await links.evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))), hrefs);
+      await links.last().focus();
+      await page.keyboard.press('Enter');
+      await page.waitForURL(url => url.pathname === hrefs.at(-1));
+      await page.goBack({ waitUntil: 'domcontentloaded' });
+      await page.setViewportSize({ width: 390, height: 844 });
+      assert.equal(await bar.count(), 0, 'the desktop fallback must not appear beside the mobile popover');
+      await page.setViewportSize({ width: 1440, height: 900 });
+    }
+  } finally {
+    await browser.close();
+    await fixture.close();
+  }
+});
+
 test('native mobile navigation keeps a small SSR DOM and stable decoration slots', async () => {
   const fixture=await createMarketingNavigationBrowserFixture();
   const browser=await chromium.launch({headless:true});
@@ -26,6 +88,7 @@ test('native mobile navigation keeps a small SSR DOM and stable decoration slots
     // Keyvo removed the Create block, so no 21px picto slots remain; each row owns one 18px slot.
     assert.equal(before.slots.length,before.rows,'each menu row must own exactly one decoration slot');
     assert.deepEqual(before.slots,Array.from({length:before.rows},()=>[18,18]));
+
     assert.equal(await menu.locator('.marketing-menu-close-icon').evaluate(node=>getComputedStyle(node,'::before').content),'""');
     assert.equal(await menu.locator('.marketing-menu-chevron').first().evaluate(node=>getComputedStyle(node,'::before').content),'""');
     fixture.releaseHydration();
@@ -37,6 +100,7 @@ test('native mobile navigation keeps a small SSR DOM and stable decoration slots
     }));
     // Opening adds the brand mark and one icon per row; the language control is absent on the single-locale site.
     assert.equal(after.svgCount,before.rows+1,'opening adopts the brand mark and one icon per row');
+
     assert.deepEqual(after.slots,before.slots,'enhancement must preserve icon geometry');
     assert.deepEqual(await page.evaluate(()=>(window as any).__fixtureHydrationErrors),[]);
     if(process.env.MARKETING_NAV_EVIDENCE_DIR) {

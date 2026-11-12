@@ -1,11 +1,10 @@
-import {isStudioSameOriginRequest} from './studio-route-utils';
 import type {NextRequest} from 'next/server';
 import {ZodError} from 'zod';
 import {resolveStudioApiAccess,type StudioAccessDecision} from '@/server/studio/access';
 import {readStudioAssistanceStatus,chooseStudioAssistance} from '@/server/studio/assistance-ledger';
 import {studioAssistanceChoiceSchema} from '@/lib/studio/assistance-contract';
 import {AgentApiError} from '@/server/agent-api/errors';
-import {studioJson} from './studio-route-utils';
+import {isStudioSameOriginRequest, studioJson} from './studio-route-utils';
 
 async function boundedChoice(req:NextRequest){
   if(!req.body)throw new SyntaxError('Missing body');

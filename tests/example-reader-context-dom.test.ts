@@ -6,6 +6,9 @@ import { createRoot } from 'react-dom/client';
 import { JSDOM } from 'jsdom';
 import { ExampleReaderContext } from '../frontend/components/examples/ExampleReaderContext';
 import type { ExampleWatchDetail } from '../frontend/lib/example-watch-detail';
+import { KEYVO_COMPARE_HIDDEN } from '../frontend/config/keyvo-model-visibility';
+import { buildCompareLinks } from '../frontend/server/watch-page-signals/recommendations';
+import { resolveEngineEntry } from '../frontend/server/watch-page-signals/engine';
 
 const emptyContext: ExampleWatchDetail['context'] = {
   intro: 'Video description', visualContext: null, negativePrompt: null, createdAt: '',
@@ -40,17 +43,41 @@ test('intro-only and blank context do not offer an empty disclosure or empty sec
 test('useful context stays in the initial watch HTML and sparse records have no empty headings', () => {
   const dom = renderContext({ ...emptyContext, notes: ['Keep one camera movement.'],
     controls: [{ key: 'seed', label: 'Seed', value: '42' }],
-    compareLinks: [{ href: '/compare/kling-vs-wan', label: 'Kling vs Wan', reason: '' }] }, 'fr');
+    compareLinks: [{ href: '/ai-video-engines/kling-vs-wan', label: 'Kling vs Wan', reason: '' }] }, 'fr');
   try {
     const doc = dom.window.document;
     assert.ok(doc.querySelector('details:not([open])'), 'native disclosure stays closed initially');
     assert.ok(doc.body.textContent?.includes('Keep one camera movement.'), 'editorial content is server-rendered before opening');
     assert.equal(doc.querySelector('dd')?.textContent, '42');
-    assert.equal(doc.querySelector('a')?.getAttribute('href'), '/compare/kling-vs-wan');
+    assert.equal(doc.querySelector('a')?.getAttribute('href'), '/fr/comparatif/kling-vs-wan');
     assert.deepEqual([...doc.querySelectorAll('h3')].map(node => node.textContent),
       ['Pour améliorer le prompt', 'Réglages du rendu original', 'Comparer ce modèle']);
     assert.equal(doc.querySelectorAll('ul:empty, dl:empty, p:empty').length, 0);
   } finally { dom.window.close(); }
+});
+
+test('localized reader comparisons retain the original model orientation and optional fragment', () => {
+  const engine = resolveEngineEntry('pika-text-to-video');
+  assert.ok(engine);
+  const href = '/ai-video-engines/kling-2-5-turbo-vs-pika-text-to-video?order=pika-text-to-video';
+  const published = buildCompareLinks({ engineSlug: 'pika-text-to-video', engineLabel: engine.marketingName, engineEntry: engine })
+    .find(item => item.href === href);
+  // Keyvo hides the overseas Pika family and every comparison, so no real published pair exists to exercise:
+  // the reader still has to render a supplied orientation and fragment faithfully.
+  assert.equal(Boolean(published), !KEYVO_COMPARE_HIDDEN, 'a real published comparison exists only when comparisons are shown');
+  const link = published ?? { href, label: 'Kling 2.5 Turbo vs Pika', reason: '' };
+  for (const [locale, path] of [
+    ['en', '/ai-video-engines/kling-2-5-turbo-vs-pika-text-to-video'],
+    ['fr', '/fr/comparatif/kling-2-5-turbo-vs-pika-text-to-video'],
+    ['es', '/es/comparativa/kling-2-5-turbo-vs-pika-text-to-video'],
+  ] as const) {
+    for (const hash of ['', '#pricing']) {
+      const dom = renderContext({ ...emptyContext, compareLinks: [{ ...link, href: `${link.href}${hash}` }] }, locale);
+      try {
+        assert.equal(dom.window.document.querySelector('a')?.getAttribute('href'), `${path}?order=pika-text-to-video${hash}`);
+      } finally { dom.window.close(); }
+    }
+  }
 });
 
 test('opening details at the bottom reveals the content; mounting, closing and already-visible content do not scroll', async () => {

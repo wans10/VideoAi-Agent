@@ -1,3 +1,5 @@
+import pLimit from 'p-limit';
+import type { prepareImageRenditions } from '@/server/image-thumbnails';
 import { normalizeMediaUrl } from '@/lib/media';
 import {
   extractStorageKeyFromUrl,
@@ -44,6 +46,7 @@ class ImageDownloadError extends Error {
     this.retryable = options.retryable;
   }
 }
+const copyLimit = pLimit(2);
 
 function inferImageExtension(mime: string | null, url: string): string {
   const normalizedMime = mime?.split(';')[0]?.trim().toLowerCase();
@@ -177,10 +180,13 @@ async function copyImageToStorage(params: {
   userId: string;
   requireOwnedOutput: boolean;
   deps: Required<ImageOutputStorageDeps>;
+  prepare?: typeof prepareImageRenditions;
 }): Promise<GeneratedImage> {
   const sourceUrl = normalizeMediaUrl(params.image.url) ?? params.image.url;
   if (!/^https?:\/\//i.test(sourceUrl)) return params.image;
-  if (params.deps.extractStorageKeyFromUrl(sourceUrl)) return params.image;
+  const prepare = async (imageUrl: string, data?: Buffer) => params.prepare
+    ? params.prepare({ imageUrl, data, jobId: params.jobId, userId: params.userId, index: params.index }).catch(() => ({})) : {};
+  if (params.deps.extractStorageKeyFromUrl(sourceUrl)) return { ...params.image, ...await prepare(sourceUrl) };
 
   try {
     const source = await downloadImageWithRetry({
@@ -204,6 +210,7 @@ async function copyImageToStorage(params: {
     return {
       ...params.image,
       url: storedUrl,
+      ...await prepare(storedUrl, source.data),
       width: upload.width ?? params.image.width ?? null,
       height: upload.height ?? params.image.height ?? null,
       mimeType: upload.mime ?? params.image.mimeType ?? mime,
@@ -228,6 +235,7 @@ export async function copyGeneratedImagesToStorage(params: {
   userId: string;
   requireOwnedOutput?: boolean;
   deps?: ImageOutputStorageDeps;
+  prepare?: typeof prepareImageRenditions;
 }): Promise<GeneratedImage[]> {
   const deps: Required<ImageOutputStorageDeps> = {
     extractStorageKeyFromUrl: params.deps?.extractStorageKeyFromUrl ?? extractStorageKeyFromUrl,
@@ -257,14 +265,15 @@ export async function copyGeneratedImagesToStorage(params: {
 
   return Promise.all(
     params.images.map((image, index) =>
-      copyImageToStorage({
+      copyLimit(() => copyImageToStorage({
         image,
         index,
         jobId: params.jobId,
         userId: params.userId,
         requireOwnedOutput: params.requireOwnedOutput === true,
         deps,
-      })
+        prepare: params.prepare,
+      }))
     )
   );
 }

@@ -37,7 +37,7 @@ const localCard: PublicExampleCard = {
 type Fixture = {
   local: boolean; videos: Record<string, GalleryVideo>; editorials: Record<string, PersistedVideoSeoEditorialEntry>;
   localCards: Record<string, PublicExampleCard>; ownerPriceCalls: number; events: string[];
-  resolveRolloutIds: typeof resolveVideoSeoRolloutIds;
+  resolveRolloutIds: typeof resolveVideoSeoRolloutIds; blockCatalogue?: boolean;
 };
 
 async function loadRealOwner() {
@@ -48,7 +48,7 @@ async function loadRealOwner() {
   const mocks: Record<string, string> = {
     react: 'export const cache = fn => fn;',
     './local-public-examples': `import {publicCardToVideo} from ${localData};export const isLocalPublicExamplesEnabled=()=>${fixture}.local;export function getLocalPublicExample(id){const f=${fixture};f.events.push('local:'+id);return f.localCards[id]?publicCardToVideo(f.localCards[id]):null;}`,
-    '@/server/videos': `export async function getSeoVideosByIds(ids){const f=${fixture};f.events.push('selected');return new Map(ids.flatMap(id=>f.videos[id]?[[id,f.videos[id]]]:[]));}export async function getSeoVideoById(id){const f=${fixture};f.events.push('video:'+id);return f.videos[id]??null;}`,
+    '@/server/videos': `export async function getSeoVideosByIds(ids){const f=${fixture};f.events.push('selected');if(f.blockCatalogue)throw Error('UNRELATED_CATALOGUE_READ');return new Map(ids.flatMap(id=>f.videos[id]?[[id,f.videos[id]]]:[]));}export async function getSeoVideoById(id){const f=${fixture};f.events.push('video:'+id);return f.videos[id]??null;}`,
     '@/server/video-seo-editorial': `export async function listVideoSeoEditorialEntryMap(){const f=${fixture};f.events.push('editorial');return new Map(Object.entries(f.editorials));}export const resolveVideoSeoRolloutIds=(...args)=>${fixture}.resolveRolloutIds(...args);export async function getResolvedVideoSeoEditorialEntryByIdentifier(id){const f=${fixture};f.events.push('identifier:'+id);return Object.values(f.editorials).find(e=>e.id===id||e.canonicalSlug===id)??null;}`,
     '@/server/watch-source-image-originals': `export async function resolveWatchSourceImageOriginalUrls({sourceImages}){${fixture}.events.push('source-images');return sourceImages;}`,
     '@/server/current-example-price': `export async function quoteCurrentExamplePrice(){${fixture}.ownerPriceCalls++;throw Error('UNUSED_WATCH_PRICE_READ');}`,
@@ -87,6 +87,8 @@ test('watch data preserves public semantics without an unused current-price depe
         ? 'wan-dance-film-price-boundary' : video.id;
       const page = await owner(id);
       assert.ok(page);
+      assert.deepEqual(await owner(id, { includeRelated: false }), { ...page, related: [] },
+        "bounded reader preserves every selected-page field");
       assert.equal(f.ownerPriceCalls, 0);
       assert.equal(Object.hasOwn(page, 'currentPrice'), false, 'price preparation belongs to the reader context');
       assert.equal(page.isSelected, selected);
@@ -145,4 +147,27 @@ test('an unselected but eligible watch page issues no price read and its route o
   const walk = (dir: string) => { for (const name of readdirSync(dir)) { const path = `${dir}/${name}`; statSync(path).isDirectory() ? walk(path) : /\.(ts|tsx)$/.test(name) && files.push(path); } };
   walk('frontend/app/(public-watch)/video');
   for (const file of files) assert.doesNotMatch(readFileSync(file, 'utf8'), /current-example-price|quoteCurrentExamplePrice/, file);
+});
+
+// A slow or unavailable recommendations catalogue must not block the selected
+// public reader or metadata. Keep real eligibility, canonical and duplicate QA.
+test('primary watch data reads only the selected video before related examples', async t => {
+  const owner = await loadRealOwner();
+  const globals = globalThis as typeof globalThis & { __watchNoUnusedPriceFixture?: Fixture };
+  t.after(() => { delete globals.__watchNoUnusedPriceFixture; });
+  const f: Fixture = { local: false, videos: { [video.id]: video }, editorials: { [video.id]: editorial },
+    localCards: {}, ownerPriceCalls: 0, events: [], resolveRolloutIds: resolveVideoSeoRolloutIds, blockCatalogue: true };
+  globals.__watchNoUnusedPriceFixture = f;
+  const page = await owner('wan-dance-film-price-boundary', { includeRelated: false });
+  assert.ok(page?.isEligible);
+  assert.equal(page.video.id, 'watch-price-boundary');
+  // Keyvo's canonical origin differs from upstream; the path is the contract.
+  assert.match(page.signals.canonicalUrl, /\/video\/wan-dance-film-price-boundary$/);
+  assert.deepEqual(page.related, []);
+  assert.deepEqual(f.events, ['editorial', 'video:watch-price-boundary', 'source-images']);
+  f.editorials.duplicate = { ...editorial, id: 'duplicate', canonicalSlug: 'another-watch' };
+  const duplicated = await owner(video.id, { includeRelated: false });
+  assert.equal(duplicated?.isEligible, false, 'duplicate editorial names still block indexability');
+  f.videos = {};
+  assert.equal(await owner(video.id, { includeRelated: false }), null, 'deleted/private records remain unavailable');
 });

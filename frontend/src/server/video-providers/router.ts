@@ -1,3 +1,4 @@
+import { videoOperationEndpoint } from '@/lib/video-operation';
 import type { Mode } from '@/types/engines';
 import { isAlibabaDirectEngine, isAlibabaDirectModeSupported, isAlibabaFalFallbackCompatible } from './alibaba-model-studio/model-map';
 import { isGoogleVertexOmniEngine, isGoogleVertexOmniModeSupported } from './google-vertex-omni/model-map';
@@ -88,6 +89,10 @@ export type VideoProviderRoutingPlan =
   | {
       kind: 'google_vertex_unavailable';
       reason: 'vertex_not_configured' | 'public_routing_disabled' | 'admin_only' | 'unsupported_mode';
+    }
+  | {
+      kind: 'luma_agents_unavailable';
+      reason: 'direct_not_configured' | 'public_routing_disabled' | 'admin_only';
     }
   | {
       kind: 'luma_agents_direct_primary';
@@ -188,6 +193,7 @@ export function hasUnsupportedLlmhubVideoInputs(body: Record<string, unknown>, m
 }
 
 export function resolveVideoProviderRoutingPlan(params: {
+  operation?: unknown;
   engineId: string;
   mode: Mode | string;
   isAdmin: boolean;
@@ -195,6 +201,7 @@ export function resolveVideoProviderRoutingPlan(params: {
   request?: Record<string, unknown>;
 }): VideoProviderRoutingPlan {
   const falOnly: VideoProviderRoutingPlan = { kind: 'fal_only', primaryProvider: 'fal', fallbackEnabled: false };
+  if (videoOperationEndpoint(params.engineId, params.mode, params.operation)) return falOnly;
   const llmhubModel = resolveLlmhubVideoModel(params.engineId, params.mode);
   const llmhubFallback = (): VideoProviderRoutingPlan | null => {
     if (!llmhubModel || !isLlmhubVideoRoutingSelected(params.engineId, params.mode, params.env, params.request)
@@ -326,20 +333,24 @@ export function resolveVideoProviderRoutingPlan(params: {
   }
 
   if (isLumaAgentsVideoEngine(params.engineId)) {
+    const unavailable = (reason: 'direct_not_configured' | 'public_routing_disabled' | 'admin_only'): VideoProviderRoutingPlan =>
+      params.mode === 'v2v' || params.mode === 'reframe' || params.mode === 'extend'
+        ? { kind: 'luma_agents_unavailable', reason }
+        : falOnly;
     const advancedDirectOnlyEnabled = flagEnabled(
       readEnv(params.env, 'LUMA_AGENTS_ADVANCED_DIRECT_ONLY_ENABLED')
     );
     if (!isLumaAgentsVideoModeSupported(params.mode)) {
       return falOnly;
     }
-    if (!flagEnabled(readEnv(params.env, 'LUMA_AGENTS_ENABLED'))) return falOnly;
-    if (!flagEnabled(readEnv(params.env, 'LUMA_AGENTS_VIDEO_DIRECT_ENABLED'))) return falOnly;
+    if (!flagEnabled(readEnv(params.env, 'LUMA_AGENTS_ENABLED'))) return unavailable('direct_not_configured');
+    if (!flagEnabled(readEnv(params.env, 'LUMA_AGENTS_VIDEO_DIRECT_ENABLED'))) return unavailable('direct_not_configured');
     if (!readEnv(params.env, 'LUMA_AGENTS_API_KEY')?.trim()) return falOnly;
 
     const publicRoutingEnabled = flagEnabled(readEnv(params.env, 'LUMA_AGENTS_PUBLIC_ROUTING_ENABLED'));
     const adminOnly = flagEnabled(readEnv(params.env, 'LUMA_AGENTS_ADMIN_ONLY') ?? 'true');
-    if (adminOnly && !params.isAdmin) return falOnly;
-    if (!publicRoutingEnabled && !params.isAdmin) return falOnly;
+    if (adminOnly && !params.isAdmin) return unavailable('admin_only');
+    if (!publicRoutingEnabled && !params.isAdmin) return unavailable('public_routing_disabled');
 
     return {
       kind: 'luma_agents_direct_primary',

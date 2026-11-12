@@ -1,3 +1,4 @@
+import './helpers/uppy-node-fixture';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { createRequire } from 'node:module';
@@ -15,6 +16,7 @@ import { DEFAULT_AUDIO_WORKSPACE_COPY } from '../frontend/app/(core)/(workspace)
 import { listFalEngines } from '../frontend/src/config/falEngines';
 import { useAccessibleModal } from '../frontend/components/ui/useAccessibleModal';
 import type { ComposerProps } from '../frontend/components/composer/composer-types';
+import { buildLoginHref } from '../frontend/lib/auth-entry-href';
 
 async function loadReferenceSection() {
   const require = createRequire(import.meta.url);
@@ -44,6 +46,31 @@ async function mount(element: React.ReactNode) {
     }
   } };
 }
+
+test('guest reference restrictions offer a native sign-in link without unlocking uploads or other restrictions', async () => {
+  const { WorkspaceReferenceSection } = await loadReferenceSection();
+  const engine = listFalEngines().find(entry => entry.id === 'seedance-2-0')!.engine;
+  const label = 'Inicia sesión para subir archivos';
+  const href = buildLoginHref({ mode: 'signin', nextPath: '/app?engine=seedance-2-0' });
+  const props = { engine, assets: {}, referenceWarning: '',
+    assetFields: [{ field: { id: 'refs', type: 'image' as const, maxCount: 2 }, required: false, disabled: true, disabledReason: label },
+      { field: { id: 'audio', type: 'audio' as const, maxCount: 1 }, required: false, disabled: true, disabledReason: 'Remove video first' }],
+    referenceAuthAction: { label, href } };
+  const fixture = await mount(React.createElement(WorkspaceReferenceSection, props));
+  try {
+    const link = fixture.container.querySelector<HTMLAnchorElement>('.app-reference-restrictions a');
+    assert.ok(link, 'the sign-in instruction must be actionable');
+    assert.equal(link.textContent, label);
+    assert.equal(link.getAttribute('href'), href);
+    assert.equal(fixture.container.querySelectorAll('.app-reference-restrictions a').length, 1);
+    const command = fixture.container.querySelector<HTMLButtonElement>('[data-reference-command="collections"]')!;
+    assert.equal(command.getAttribute('aria-disabled'), 'true');
+    await act(async () => command.click());
+    assert.equal(fixture.dom.window.document.querySelector('[role="dialog"]'), null);
+    await fixture.render(React.createElement(WorkspaceReferenceSection, { ...props, referenceAuthAction: undefined }));
+    assert.equal(fixture.container.querySelector('.app-reference-restrictions a'), null, 'unresolved or signed-in auth must not offer a guest redirect');
+  } finally { await fixture.cleanup(); }
+});
 
 test('audio keeps its actual preview node through empty, pending, running, result and failed states', async () => {
   const copy = DEFAULT_AUDIO_WORKSPACE_COPY;
@@ -325,12 +352,12 @@ test('actual image Media picker owns focus, Escape and body lock and restores it
     assert.equal(doc.body.style.overflow, '');
     const command = fixture.container.querySelector<HTMLButtonElement>('button')!;
     await act(async () => { command.click(); });
-    await act(async () => new Promise(resolve => setTimeout(resolve, 5)));
+    await act(async()=>new Promise(resolve=>setTimeout(resolve,5)));
     const dialog = doc.querySelector<HTMLElement>('[role="dialog"]')!;
     assert.equal(dialog.getAttribute('aria-label'), DEFAULT_COPY.library.modal.title);
     assert.equal(doc.body.style.overflow, 'hidden');
     assert.ok(dialog.contains(doc.activeElement));
-    assert.equal(dialog.querySelector('input[type="file"]')?.getAttribute('tabindex'), '-1');
+    assert.equal(dialog.getAttribute('tabindex'), '-1');
     await act(async () => dialog.dispatchEvent(new fixture.dom.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true })));
     assert.equal(doc.querySelector('[role="dialog"]'), null);
     assert.equal(doc.activeElement, command); assert.equal(doc.body.style.overflow, '');

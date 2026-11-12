@@ -17,6 +17,7 @@ function buildTransactionSelect(mcpQuotesAvailable: boolean) {
        r.description,
        CASE WHEN r.type = 'refund' THEN r.metadata ->> 'reason' END AS refund_reason_code,
        CASE WHEN r.type = 'refund' THEN r.metadata ->> 'note' END AS refund_note,
+       to_jsonb(r) ->> 'billing_product_key' AS billing_product_key,
        r.job_id,
        r.created_at,
        j.status AS job_status,
@@ -32,7 +33,14 @@ function buildTransactionSelect(mcpQuotesAvailable: boolean) {
          SELECT 1 FROM mcp_generation_quotes quote
          WHERE quote.job_id = r.job_id
            AND quote.user_id = r.user_id::text
+           AND COALESCE(to_jsonb(quote) ->> 'auth_origin', 'oauth') = 'oauth'
        )` : 'FALSE'} AS is_mcp_generation,
+       ${mcpQuotesAvailable ? `EXISTS (
+         SELECT 1 FROM mcp_generation_quotes quote
+         WHERE quote.job_id = r.job_id
+           AND quote.user_id = r.user_id::text
+           AND to_jsonb(quote) ->> 'auth_origin' = 'studio-session'
+       )` : 'FALSE'} AS is_studio_generation,
        EXISTS (
          SELECT 1
          FROM app_receipts r2

@@ -47,11 +47,11 @@ test('paginated server galleries project current quotes into cards and omit unav
 
 test('homepage hero replaces authored prices with current reference quotes', () => {
   (globalThis as typeof globalThis & { React: typeof React }).React = React;
-  const current = { kind: 'reference', amountCents: 141, currency: 'USD', modelId: 'minimax-h3-max', scenarioLabel: 'Text to video · 5s · 1080p' } as const;
+  const current = { kind: 'reference', amountCents: 141, currency: 'USD', modelId: 'minimax-h3', scenarioLabel: 'Text to video · 5s · 1080p' } as const;
   const home = HomeHero({
     copy: buildHeroContent('en', enMessages.home.redesign as RedesignContent),
     previews: [],
-    currentHeroPrices: new Map([['minimax-h3-max', current]]),
+    currentHeroPrices: new Map([['minimax-h3', current]]),
   });
   const pending: React.ReactNode[] = [home];
   let items: HeroVideoShowcaseItem[] = [];
@@ -64,9 +64,14 @@ test('homepage hero replaces authored prices with current reference quotes', () 
     }
     pending.push(...React.Children.toArray((node.props as { children?: React.ReactNode }).children));
   }
+  // Keyvo's hero opens with MiniMax H3 and omits the hidden flux-3-max opener.
+  assert.equal(items[0]?.engineId, 'minimax-h3');
   assert.equal(items[0]?.estimateValue, '$1.41');
   assert.equal(items[0]?.priceKind, 'reference');
   assert.equal(items[0]?.quoteScenario, 'Text to video · 5s · 1080p');
+  assert.equal(items.some((item) => item.engineId === 'flux-3-max'), false);
   assert.equal(items[1]?.priceKind, 'unavailable');
   assert.equal(items[1]?.estimateValue, 'Unavailable');
+  assert.equal(items[2]?.priceKind, 'unavailable');
+  assert.equal(items[2]?.estimateValue, 'Unavailable');
 });

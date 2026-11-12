@@ -251,51 +251,51 @@ export default async function BlogIndexPage(props: { params: Promise<{ locale: A
           </div>
 
           <article className="studio-journal-entry group">
-              <div className="relative min-h-[280px] overflow-hidden bg-bg sm:min-h-[360px]">
-                <Image
-                  src={normalizeImageSrc(featured.image)}
-                  alt={featured.title}
-                  fill
-                  priority
-                  fetchPriority="high"
-                  sizes="(min-width: 1280px) 760px, (min-width: 1024px) 60vw, 100vw"
-                  className="object-cover object-center transition duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent" />
-              </div>
-              <div className="flex flex-col justify-between px-6 py-6 sm:px-8 sm:py-8">
-                <div className="stack-gap">
-                  <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-micro">
-                    <span className="rounded-pill bg-surface-2 px-3 py-1 font-semibold text-brand">
-                      {new Date(featured.date).toLocaleDateString(localeDateMap[locale], {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric',
-                      })}
+            <div className="relative min-h-[280px] overflow-hidden bg-bg sm:min-h-[360px]">
+              <Image
+                src={normalizeImageSrc(featured.image)}
+                alt={featured.title}
+                fill
+                priority
+                fetchPriority="high"
+                sizes="(min-width: 1280px) 760px, (min-width: 1024px) 60vw, 100vw"
+                className="object-cover object-center transition duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent" />
+            </div>
+            <div className="flex flex-col justify-between px-6 py-6 sm:px-8 sm:py-8">
+              <div className="stack-gap">
+                <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-micro">
+                  <span className="rounded-pill bg-surface-2 px-3 py-1 font-semibold text-brand">
+                    {new Date(featured.date).toLocaleDateString(localeDateMap[locale], {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
+                  </span>
+                  {featured.keywords?.slice(0, 2).map((keyword) => (
+                    <span key={keyword} className="rounded-pill bg-bg px-3 py-1 font-semibold text-text-muted">
+                      {keyword}
                     </span>
-                    {featured.keywords?.slice(0, 2).map((keyword) => (
-                      <span key={keyword} className="rounded-pill bg-bg px-3 py-1 font-semibold text-text-muted">
-                        {keyword}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="stack-gap-sm">
-                    <h3 className="text-2xl font-semibold text-text-primary sm:text-3xl">
-                      <Link {...featuredLinkProps} className="transition hover:text-brandHover">
-                        {featured.title}
-                      </Link>
-                    </h3>
-                    <p className="text-base leading-relaxed text-text-secondary sm:text-lg">{featured.description}</p>
-                  </div>
+                  ))}
                 </div>
-                <Link
-                  {...featuredLinkProps}
-                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-link transition hover:text-link-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
-                >
-                  {formatReadMoreLabel(featured.title)}
-                  <span aria-hidden>→</span>
-                </Link>
+                <div className="stack-gap-sm">
+                  <h3 className="text-2xl font-semibold text-text-primary sm:text-3xl">
+                    <Link {...featuredLinkProps} className="transition hover:text-brandHover">
+                      {featured.title}
+                    </Link>
+                  </h3>
+                  <p className="text-base leading-relaxed text-text-secondary sm:text-lg">{featured.description}</p>
+                </div>
               </div>
+              <Link
+                {...featuredLinkProps}
+                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-link transition hover:text-link-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+              >
+                {formatReadMoreLabel(featured.title)}
+                <span aria-hidden>→</span>
+              </Link>
+            </div>
           </article>
         </section>
 

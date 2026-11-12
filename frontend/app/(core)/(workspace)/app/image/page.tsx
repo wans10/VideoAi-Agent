@@ -1,4 +1,3 @@
-import { AppCreationContent } from '@/components/app/AppCreationContent';
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { HeaderBar } from '@/components/HeaderBar';
@@ -41,7 +40,7 @@ export default async function ImageGeneratePage({ searchParams }: ImageGenerateP
     redirect('/app/tools/storyboard');
   }
 
-  const registryImageEntries = listFalEngines().filter((engine) => (engine.category ?? 'video') === 'image');
+  const registryImageEntries = listFalEngines().filter((engine) => (engine.category ?? 'video') === 'image' && engine.surfaces.app.enabled);
   if (!registryImageEntries.length) {
     notFound();
   }
@@ -95,9 +94,7 @@ export default async function ImageGeneratePage({ searchParams }: ImageGenerateP
       <HeaderBar />
       <div className="flex flex-1 min-w-0 flex-col md:flex-row">
         <AppSidebar />
-        <AppCreationContent>
-          <ImageWorkspaceSession engines={engines} />
-        </AppCreationContent>
+        <ImageWorkspaceSession engines={engines} />
       </div>
     </div>
   );

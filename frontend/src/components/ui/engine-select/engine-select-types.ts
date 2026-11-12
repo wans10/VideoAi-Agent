@@ -12,8 +12,9 @@ export type EngineLaunchBadge = 'new';
 
 export interface EngineSelectProps {
   /** Optional action trigger; reuses the family browser without composer controls. */
-  trigger?: { label: string; content: ReactNode; className?: string };
+  trigger?: { label: string; content: ReactNode; className?: string; variantClassName?: string };
   selectedIds?: string[];
+  picker?: import('./model-picker-types').EnginePickerContext;
   engines: EngineCaps[];
   engineId: string;
   onEngineChange: (engineId: string) => void;
@@ -24,6 +25,7 @@ export interface EngineSelectProps {
   modeLabelOverrides?: Partial<Record<Mode, string>>;
   disabledEngineReasons?: Record<string, string>;
   engineScores?: Record<string, number | null | undefined>;
+  engineScoreReviews?: import('@/types/engines').EngineScoreReviews;
   showModeSelect?: boolean;
   modeLayout?: 'inline' | 'stacked';
   variant?: 'card' | 'bar';

@@ -10,8 +10,7 @@ import { LanguageToggle } from '@/components/marketing/LanguageToggle';
 import { Button } from '@/components/ui/Button';
 import { UIIcon } from '@/components/ui/UIIcon';
 import { MarketingNavEntryContent } from '@/components/marketing/MarketingNavEntryContent';
-import { MARKETING_NAV_DROPDOWNS } from '@/config/navigation';
-import type { MarketingTopNavLink } from '@/config/navigation';
+import type { MarketingHeaderNavigation } from '@/config/public-marketing-navigation';
 import { buildLoginHref } from '@/lib/auth-entry-href';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 
@@ -20,9 +19,10 @@ const MENU_ICONS: Record<string, LucideIcon> = { production: Clapperboard, craft
 type MarketingTranslate = <T = unknown>(key: string, fallback?: T) => T | undefined;
 type MarketingMobileMenuProps = {
   cta: string;
+  dropdowns: MarketingHeaderNavigation['dropdowns'];
   generateLabel: string;
   isAuthenticated: boolean;
-  links: readonly MarketingTopNavLink[];
+  links: MarketingHeaderNavigation['links'];
   login: string;
   menuId: string;
   menuRef: RefObject<HTMLDivElement>;
@@ -34,6 +34,7 @@ type MarketingMobileMenuProps = {
 
 export function MarketingMobileMenu({
   cta,
+  dropdowns,
   generateLabel,
   isAuthenticated,
   links,
@@ -101,7 +102,7 @@ export function MarketingMobileMenu({
         <p className="marketing-menu-caption">{t('nav.menuExplore', 'Explore')}</p>
         <nav className="marketing-menu-nav">
           {links.map((item) => {
-            const dropdown = MARKETING_NAV_DROPDOWNS[item.key];
+            const dropdown = dropdowns[item.key];
             const Icon = MENU_ICONS[item.key] ?? Plug;
             const label = t(`nav.linkLabels.${item.key}`, item.key);
             if (!dropdown) {
@@ -120,6 +121,12 @@ export function MarketingMobileMenu({
               );
             }
             const allLabel = t(dropdown.allLabelKey, dropdown.allLabelFallback);
+            const allLink = !dropdown.allLinkInItems ? (
+              <Link prefetch={false} href={dropdown.allHref} onClick={onClose}
+                className="rounded-input px-2 py-2 text-sm font-semibold text-text-primary transition hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                {allLabel}
+              </Link>
+            ) : null;
             const panelId = `mobile-${item.key}-panel`;
             const isOpen = Boolean(mobileDropdownOpen[item.key]);
             return (
@@ -133,13 +140,7 @@ export function MarketingMobileMenu({
                   <span className="marketing-menu-chevron" aria-hidden="true" />
                 </summary>
                   <div id={panelId} className="marketing-menu-subnav flex flex-col gap-1 text-sm text-text-secondary">
-                    {!dropdown.allLinkInItems ? <Link prefetch={false}
-                      href={dropdown.allHref}
-                      onClick={onClose}
-                      className="rounded-input px-2 py-2 text-sm font-semibold text-text-primary transition hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    >
-                      {allLabel}
-                    </Link> : null}
+                    {!dropdown.mobileAllLinkAfterItems ? allLink : null}
                     {isOpen ? dropdown.items.map((entry) => {
                       const entryLabel = t<string>(`nav.dropdown.${item.key}.items.${entry.key}`, entry.label) ?? entry.label;
                       const badgeLabel = entry.badge ? t<string>(`nav.badges.${entry.badge}`, entry.badge) : undefined;
@@ -148,7 +149,7 @@ export function MarketingMobileMenu({
                           key={entry.key}
                           href={entry.href}
                           onClick={onClose}
-                          className="production-mobile-entry rounded-input px-2 py-2 transition hover:bg-surface-2 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                          className={clsx('production-mobile-entry rounded-input px-2 py-2 transition hover:bg-surface-2 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring', entry.emphasized && 'marketing-menu-featured')}
                         >
                           <MarketingNavEntryContent
                             entry={entry}
@@ -156,10 +157,11 @@ export function MarketingMobileMenu({
                             badgeLabel={badgeLabel}
                             showModelLogo={item.key === 'models'}
                           />
-                          {entry.description ? <small className="production-mobile-description">{t(`nav.dropdown.${item.key}.descriptions.${entry.key}`, entry.description)}</small> : null}
+                          {entry.emphasized && entry.description ? <small className="production-mobile-description">{t<string>(`nav.dropdown.${item.key}.descriptions.${entry.key}`, entry.description)}</small> : null}
                         </Link>
                       );
                     }) : null}
+                    {dropdown.mobileAllLinkAfterItems ? allLink : null}
                     {isOpen ? dropdown.sections?.map((section) => {
                       const sectionLabel = section.titleKey
                         ? t(section.titleKey, section.titleFallback ?? section.key)

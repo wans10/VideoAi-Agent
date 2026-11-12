@@ -4,8 +4,10 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import type { PoolClient, QueryResult } from 'pg';
 
+import { getBaseEnginesByCategory } from '../frontend/src/lib/engines';
 import { getDb } from '../frontend/src/lib/db';
-import { buildCurrentPricingHubData } from '../frontend/app/(localized)/[locale]/(marketing)/pricing/_lib/currentPricingHubData';
+import type { PublicModelQuoteInput } from '../frontend/lib/pricing-public-model-contract';
+import { buildCurrentPricingHubData as buildHub } from '../frontend/app/(localized)/[locale]/(marketing)/pricing/_lib/currentPricingHubData';
 import { createScopedPublicModelQuoter, quotePublicModelScenario, resolvePublicModelScenario } from '../frontend/server/pricing/quote-public-model-scenario';
 import { confirmCustomerTariffChange, previewCustomerTariffChange } from '../frontend/server/pricing-admin/customer-tariff-service';
 import { startDisposablePostgres, type DisposablePostgres } from './helpers/disposable-postgres';
@@ -17,18 +19,35 @@ type Observation = {
   before?: (category: keyof Counts, ordinal: number) => void | Promise<void>;
   after?: (category: keyof Counts, ordinal: number) => void | Promise<void>;
 };
+// This fixture isolates tariff SQL; availability is covered by the catalog contracts.
+const buildCurrentPricingHubData = (...args: Parameters<typeof buildHub>) =>
+  buildHub(args[0], args[1], args[2], async () => getBaseEnginesByCategory('all'));
+
 const freshCounts = (): Counts => ({ policy: 0, begin: 0, state: 0, selected: 0, commit: 0, rollback: 0, other: 0 });
 const unavailableOther = {
   audio: async () => { throw new Error('Audio is outside the model SQL fixture'); },
   product: async () => { throw new Error('Products are outside the model SQL fixture'); },
 };
 
-// Upstream quotes 132 distinct model inputs. The Keyvo branch also publishes qwen-image-3-0 and
-// qwen-image-3-0-pro (standard 1k and high-quality 2k t2i presets): 4 extra distinct inputs, so 136 attempts.
+// Upstream quotes 149 model inputs (November launch and Max/Nano21 included). The Keyvo branch also publishes
+// qwen-image-3-0 and qwen-image-3-0-pro (standard 1k and high-quality 2k t2i presets): 4 extra inputs, so 153 attempts.
 // Those four have no public tariff scenario, so they never reach the policy/tariff transactions: the
-// admitted transaction counts remain 126 (the same 126 as upstream), while each input is still attempted once.
-const MODEL_QUOTES = 136;
+// admitted transaction counts remain 143 (the same as upstream), while each input is still attempted once.
+const MODEL_QUOTES = 153;
 const pikaInput = { modelId: 'pika-text-to-video', mode: 't2v', durationSec: 5, resolution: '720p' };
+const flux3MaxInputs: PublicModelQuoteInput[] = [
+  { modelId: 'flux-3-max', mode: 't2v', durationSec: 10, resolution: '720p', audio: false },
+  { modelId: 'flux-3-max', mode: 't2v', durationSec: 5, resolution: '720p', audio: false },
+  { modelId: 'flux-3-max', mode: 't2v', durationSec: 8, resolution: '1080p', audio: false },
+  { modelId: 'flux-3-max', mode: 't2v', durationSec: 10, resolution: '1080p', audio: false },
+  { modelId: 'flux-3-max', mode: 't2v', durationSec: 10, resolution: '1080p', audio: true },
+];
+// Native fixed-price image rows add the standard 1K and high-quality 4K reads.
+// They must retain their individual tariff transactions like the existing models.
+const nano21Inputs: PublicModelQuoteInput[] = [
+  { modelId: 'nano-banana-2-1', mode: 't2i', durationSec: 1, resolution: '1k', quantity: 1 },
+  { modelId: 'nano-banana-2-1', mode: 't2i', durationSec: 1, resolution: '4k', quantity: 1 },
+];
 const actor = '11111111-1111-4111-8111-111111111111';
 const pikaAmount = (data: Awaited<ReturnType<typeof buildCurrentPricingHubData>>) =>
   data.video.rows.find(row => row.id === pikaInput.modelId)!.quotes['5s-720p'].amountCents;
@@ -81,18 +100,47 @@ test('default Pricing shares one successful policy read while preserving every i
     for (const locale of ['en', 'fr', 'es'] as const) {
       observe.reset();
       let attempts = 0;
+      const maxInputs: PublicModelQuoteInput[] = [];
+      const nativeInputs: PublicModelQuoteInput[] = [];
+      const launchInputs: PublicModelQuoteInput[] = [];
       const baseline = await buildCurrentPricingHubData(locale, async input => {
         attempts++;
+        if (input.modelId === 'flux-3-max') maxInputs.push(input);
+        if (input.modelId === 'nano-banana-2-1') nativeInputs.push(input);
+        if (['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst'].includes(input.modelId)) {
+          launchInputs.push(input);
+        }
         return quotePublicModelScenario(input);
       }, unavailableOther);
+      assert.deepEqual(maxInputs, flux3MaxInputs);
+      assert.deepEqual(nativeInputs, nano21Inputs);
+      for (const modelId of ['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst']) {
+        const inputs = launchInputs.filter(input => input.modelId === modelId);
+        assert.equal(inputs.length, 2, `${modelId} adds exactly two native quote transactions`);
+        assert.ok(inputs.every(input => resolvePublicModelScenario(input)), 'every launch input has a canonical scenario');
+      }
+      assert.deepEqual(nativeInputs.map(input => resolvePublicModelScenario(input)?.id), [
+        'engineId=nano-banana-2-1|mode=t2i|resolution=1K|durationSec=1',
+        'engineId=nano-banana-2-1|mode=t2i|resolution=4K|durationSec=1',
+      ]);
+      assert.deepEqual(maxInputs.map(input => resolvePublicModelScenario(input)?.id), [
+        'engineId=flux-3-max|mode=t2v|resolution=720p|durationSec=10',
+        'engineId=flux-3-max|mode=t2v|resolution=720p|durationSec=5',
+        'engineId=flux-3-max|mode=t2v|resolution=1080p|durationSec=8',
+        'engineId=flux-3-max|mode=t2v|resolution=1080p|durationSec=10',
+        'engineId=flux-3-max|mode=t2v|resolution=1080p|durationSec=10',
+      ]);
+      // Five Max inputs add five independent transactions, even when audio shares a tariff selector.
+      // The two Nano21 reads and six launch reads keep independent transactions.
+      // Six unsupported hub inputs still perform no policy or tariff I/O: 153 attempts, 143 transactions.
       assert.equal(attempts, MODEL_QUOTES);
-      assert.deepEqual(observe.counts, { policy: 126, begin: 126, state: 126, selected: 126,
-        commit: 126, rollback: 0, other: 0 });
+      assert.deepEqual(observe.counts, { policy: 143, begin: 143, state: 143, selected: 143,
+        commit: 143, rollback: 0, other: 0 });
       observe.reset();
       const current = await buildCurrentPricingHubData(locale, undefined, unavailableOther);
       assert.deepEqual(current, baseline, 'complete localized hub output must preserve stable canonical prices and fallbacks');
-      assert.deepEqual(observe.counts, { policy: 1, begin: 126, state: 126, selected: 126,
-        commit: 126, rollback: 0, other: 0 });
+      assert.deepEqual(observe.counts, { policy: 1, begin: 143, state: 143, selected: 143,
+        commit: 143, rollback: 0, other: 0 });
     }
   });
 });
@@ -126,14 +174,14 @@ test('active and missing tariff cells preserve complete EN/FR/ES hub output and 
       for (const locale of ['en', 'fr', 'es'] as const) {
         observe.reset();
         const baseline = await buildCurrentPricingHubData(locale, quotePublicModelScenario, unavailableOther);
-        assert.deepEqual(observe.counts, { policy: 126, begin: 126, state: 126, selected: 126,
-          commit: 126, rollback: 0, other: 0 });
+        assert.deepEqual(observe.counts, { policy: 143, begin: 143, state: 143, selected: 143,
+          commit: 143, rollback: 0, other: 0 });
         observe.reset();
         const current = await buildCurrentPricingHubData(locale, undefined, unavailableOther);
         assert.deepEqual(current, baseline);
         assert.equal(pikaAmount(current), hasCell ? 37 : undefined, 'missing active cells must not fall back to legacy prices');
-        assert.deepEqual(observe.counts, { policy: 1, begin: 126, state: 126, selected: 126,
-          commit: 126, rollback: 0, other: 0 });
+        assert.deepEqual(observe.counts, { policy: 1, begin: 143, state: 143, selected: 143,
+          commit: 143, rollback: 0, other: 0 });
       }
     }
   });
@@ -146,18 +194,18 @@ test('an unavailable policy remains unavailable across the whole hub and a fresh
       await database.pool.query('ALTER TABLE app_pricing_rules RENAME TO fixture_saved_pricing_rules');
       observe.reset();
       const baseline = await buildCurrentPricingHubData(locale, quotePublicModelScenario, unavailableOther);
-      assert.equal(observe.counts.policy, 126);
+      assert.equal(observe.counts.policy, 143);
       assert.equal(observe.counts.begin, 0);
       observe.reset();
       const current = await buildCurrentPricingHubData(locale, undefined, unavailableOther);
       assert.deepEqual(current, baseline, 'a failed policy read cannot turn versioned amounts into current prices');
-      assert.ok(observe.counts.policy > 1 && observe.counts.policy <= 126, 'unavailable loads must remain retryable in this render');
+      assert.ok(observe.counts.policy > 1 && observe.counts.policy <= 143, 'unavailable loads must remain retryable in this render');
       assert.equal(observe.counts.begin, 0);
       await database.pool.query('ALTER TABLE fixture_saved_pricing_rules RENAME TO app_pricing_rules');
       observe.reset();
       assert.deepEqual(await buildCurrentPricingHubData(locale, undefined, unavailableOther), healthy);
       assert.equal(observe.counts.policy, 1);
-      assert.equal(observe.counts.commit, 126);
+      assert.equal(observe.counts.commit, 143);
     }
   });
 });
@@ -171,13 +219,13 @@ test('a rejected default policy read can recover during the same hub without poi
     };
     const recovering = await buildCurrentPricingHubData('en', undefined, unavailableOther);
     assert.equal(observe.counts.policy, 2);
-    assert.ok(observe.counts.commit > 0 && observe.counts.commit < 126, 'affected quotes stay unavailable; later admitted inputs recover');
+    assert.ok(observe.counts.commit > 0 && observe.counts.commit < 143, 'affected quotes stay unavailable; later admitted inputs recover');
     assert.notDeepEqual(recovering, healthy);
     observe.before = undefined;
     observe.reset();
     assert.deepEqual(await buildCurrentPricingHubData('en', undefined, unavailableOther), healthy);
     assert.equal(observe.counts.policy, 1);
-    assert.equal(observe.counts.commit, 126);
+    assert.equal(observe.counts.commit, 143);
   });
 });
 
@@ -201,8 +249,8 @@ test('overlapping default hubs keep their captured policies isolated and the nex
       assert.equal(pikaAmount(second), 36);
       release();
       assert.deepEqual(await first, baseline, 'the first hub must retain the complete successful result captured before the update');
-      assert.deepEqual(observe.counts, { policy: 2, begin: 252, state: 252, selected: 252,
-        commit: 252, rollback: 0, other: 0 });
+      assert.deepEqual(observe.counts, { policy: 2, begin: 286, state: 286, selected: 286,
+        commit: 286, rollback: 0, other: 0 });
       observe.after = undefined;
       observe.reset();
       assert.deepEqual(await buildCurrentPricingHubData('en', undefined, unavailableOther), second);
@@ -250,19 +298,19 @@ test('tariff read failures retain independent rollback and truthful complete hub
       observe.before = category => { if (category === 'state') throw new Error('Tariff state unavailable'); };
       observe.reset();
       const baseline = await buildCurrentPricingHubData(locale, quotePublicModelScenario, unavailableOther);
-      assert.deepEqual(observe.counts, { policy: 126, begin: 126, state: 126, selected: 0,
-        commit: 0, rollback: 126, other: 0 });
+      assert.deepEqual(observe.counts, { policy: 143, begin: 143, state: 143, selected: 0,
+        commit: 0, rollback: 143, other: 0 });
       observe.reset();
       const current = await buildCurrentPricingHubData(locale, undefined, unavailableOther);
       assert.deepEqual(current, baseline);
       assert.notDeepEqual(current, healthy);
-      assert.deepEqual(observe.counts, { policy: 1, begin: 126, state: 126, selected: 0,
-        commit: 0, rollback: 126, other: 0 });
+      assert.deepEqual(observe.counts, { policy: 1, begin: 143, state: 143, selected: 0,
+        commit: 0, rollback: 143, other: 0 });
       observe.before = undefined;
       observe.reset();
       assert.deepEqual(await buildCurrentPricingHubData(locale, undefined, unavailableOther), healthy);
       assert.equal(observe.counts.policy, 1);
-      assert.equal(observe.counts.commit, 126);
+      assert.equal(observe.counts.commit, 143);
     }
   });
 });

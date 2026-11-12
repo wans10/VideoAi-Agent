@@ -4,7 +4,7 @@ import { AlibabaModelStudioError } from './errors';
 import { normalizeAlibabaTask, parseAlibabaJsonResponse } from './response';
 import type { AlibabaVideoPayload } from './types';
 
-const DEFAULT_BASE_URL = 'https://dashscope-intl.ap-southeast-1.aliyuncs.com';
+const DEFAULT_BASE_URL = 'https://dashscope-intl.aliyuncs.com';
 const DEFAULT_TIMEOUT_MS = 30_000;
 const CREATE_VIDEO_PATH = '/api/v1/services/aigc/video-generation/video-synthesis';
 

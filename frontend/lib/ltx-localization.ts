@@ -46,7 +46,7 @@ const MODE_LABELS: Record<UiLocale, Record<Mode, string>> = {
     v2v: 'Modifier la vidéo',
     r2v: 'Vidéo → Vidéo',
     a2v: 'Audio → Vidéo',
-    extend: 'Étendre la vidéo',
+    extend: 'Prolonger la vidéo',
     retake: 'Retake vidéo',
     reframe: 'Recadrer la vidéo',
     t2i: 'Texte → Image',
@@ -84,7 +84,7 @@ const MODE_LABELS: Record<UiLocale, Record<Mode, string>> = {
 
 const WORKFLOW_COPY: Record<UiLocale, WorkflowCopy> = {
   en: {
-    generateVideo: 'Generate Video',
+    generateVideo: 'Create video',
     removeAudioToUnlock: 'Remove the audio source to unlock Extend Video and Retake Video.',
     audioUnsupported: 'This engine does not support Audio → Video. Remove the audio source or switch to LTX 2.3 Pro.',
     audioLocked:
@@ -103,7 +103,7 @@ const WORKFLOW_COPY: Record<UiLocale, WorkflowCopy> = {
     defaultOption: 'Default',
   },
   fr: {
-    generateVideo: 'Générer la vidéo',
+    generateVideo: 'Créer une vidéo',
     removeAudioToUnlock: "Retirez l'audio source pour réactiver Étendre la vidéo et Retake vidéo.",
     audioUnsupported:
       "Ce moteur ne prend pas en charge Audio → Vidéo. Retirez l'audio source ou passez sur LTX 2.3 Pro.",
@@ -123,7 +123,7 @@ const WORKFLOW_COPY: Record<UiLocale, WorkflowCopy> = {
     defaultOption: 'Par défaut',
   },
   es: {
-    generateVideo: 'Generar video',
+    generateVideo: 'Crear vídeo',
     removeAudioToUnlock: 'Quita el audio fuente para desbloquear Extender video y Retake de video.',
     audioUnsupported:
       'Este motor no admite Audio → Video. Quita el audio fuente o cambia a LTX 2.3 Pro.',

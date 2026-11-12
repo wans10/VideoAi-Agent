@@ -1,3 +1,5 @@
+import type { FalQueueReceipt } from '@/lib/fal-queue-receipt';
+import type {NativeFluxDraftSubmission} from '@/server/flux-draft-provenance';
 import type { QueueStatus } from '@fal-ai/client';
 import type { SoraRequest } from '@/lib/sora';
 import type { MaxVideoProviderElement } from '@/lib/video-provider-elements';
@@ -20,6 +22,9 @@ export type GenerateAttachment = {
 };
 
 export type GeneratePayload = {
+  /** Server materialization only; never copied from a caller request. */
+  trustedFluxDraftCache?: {url:string;fingerprint:string;sourceJobId?:string;sourceOutputId?:string};
+  operation?: import('@/lib/video-operation').VideoOperation;
   /** Internal execution policy; MCP returns after queue acceptance. */
   submissionMode?: 'enqueue';
   engineId: string;
@@ -66,6 +71,6 @@ export type GenerateResult = {
 };
 
 export type GenerateHooks = {
-  onRequestId?: (requestId: string) => void | Promise<void>;
+  onRequestId?: (requestId: string, nativeDraftSubmission?: NativeFluxDraftSubmission, falQueueReceipt?: FalQueueReceipt) => void | Promise<void>;
   onQueueUpdate?: (status: QueueStatus) => void | Promise<void>;
 };

@@ -98,9 +98,11 @@ export const WAN_3_INPUT_SCHEMA: NonNullable<EngineCaps['inputSchema']> = {
     { id: 'aspect_ratio', type: 'enum', label: 'Aspect ratio', modes: COMMON_MODES, values: [...WAN_3_PROVIDER_ASPECT_RATIOS], default: 'adaptive' },
     { id: 'seed', type: 'number', label: 'Seed', modes: COMMON_MODES, min: 0, max: 2147483647, step: 1 },
     { id: 'audio', type: 'boolean', label: 'Generate audio', modes: COMMON_MODES, default: true },
-    { id: 'enable_prompt_expansion', type: 'boolean', label: 'Prompt expansion', modes: COMMON_MODES, default: true },
+    { id: 'enable_prompt_expansion', type: 'boolean', label: 'Prompt expansion', modes: ['t2v', 'i2v', 'ref2v', 'extend'], default: true },
+    { id: 'enable_prompt_expansion', type: 'boolean', label: 'Prompt expansion', modes: ['v2v'], default: false },
   ],
   constraints: {
+    minImageSidePx: 240,
     maxCombinedVideoDurationSec: 15,
     maxCombinedAudioDurationSec: 15,
     maxSourcePlusOutputDurationSec: 30,

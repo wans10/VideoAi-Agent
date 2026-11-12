@@ -1,13 +1,18 @@
 import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import { resolve } from 'node:path';
 import test from 'node:test';
 
 import type { ExampleGalleryVideo } from '../frontend/components/examples/ExamplesGalleryGrid.tsx';
 import {
   getHeroMediaBadges,
+  pickHeroAutoplayUrl,
+  pickDemoMedia,
   pickHeroMedia,
   type FeaturedMedia,
 } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-media.ts';
 import { PREFERRED_MEDIA } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-static-media.ts';
+import { requiresPinnedModelPromptingDemo } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-prompting-prompt-source.ts';
 
 const fallback: FeaturedMedia = {
   id: 'fallback',
@@ -42,6 +47,25 @@ test('Seedance 2.5 and Veo 3.1 pin reviewed clips from their own models', () => 
   assert.equal(PREFERRED_MEDIA['veo-3-1']?.hero, 'job_680c9803-172b-4179-950b-e56d288456c2');
 });
 
+test('Max pins the selected Unavailable hero and After the Bell Prompt Lab to their adopted jobs', () => {
+  assert.deepEqual(PREFERRED_MEDIA['flux-3-max'], {
+    hero: 'job_external_fal_38061bc977ff126b5248f9f835436a9370a2f7bb',
+    demo: 'job_external_fal_348334c2377e9d31bda23c030095861ad2e9d55c',
+  });
+});
+
+test('a pinned Prompt Lab waits for its selected scene without borrowing another clip or hero fallback', () => {
+  const other = card('other-scene', '16:9');
+  const selected = card('selected-scene', '16:9');
+  const requirePreferred = requiresPinnedModelPromptingDemo('flux-3-max');
+  assert.equal(requirePreferred, true);
+  assert.equal(requiresPinnedModelPromptingDemo('flux-3'), false);
+  assert.equal(pickDemoMedia([other], other.id, null, fallback, { requirePreferred }), null);
+  assert.equal(pickDemoMedia([other], other.id, selected.id, fallback, { requirePreferred }), null);
+  assert.equal(pickDemoMedia([other, selected], other.id, selected.id, fallback, { requirePreferred })?.id, selected.id);
+  assert.equal(pickDemoMedia([selected], selected.id, selected.id, fallback, { requirePreferred })?.id, selected.id);
+});
+
 test('video hero badges describe the displayed clip; image badges keep editorial copy', () => {
   const authored = ['Native audio', '30s', '1080p'];
   assert.deepEqual(
@@ -52,7 +76,38 @@ test('video hero badges describe the displayed clip; image badges keep editorial
     getHeroMediaBadges({ ...fallback, hasAudio: false, durationSec: 5, aspectRatio: '9:16' }, authored, 'Audio enabled'),
     [null, '5s', '9:16'],
   );
-  assert.deepEqual(getHeroMediaBadges({ ...fallback, videoUrl: null }, authored, 'Audio enabled'), authored);
+  assert.deepEqual(getHeroMediaBadges({ ...fallback, videoUrl: null, posterUrl: '/image.webp' }, authored, 'Audio enabled'), authored);
+});
+
+test('an absent model preview cannot claim audio, duration or a rendered example', () => {
+  assert.deepEqual(getHeroMediaBadges({ ...fallback, videoUrl: null, posterUrl: null, hasAudio: true },
+    ['Native audio', '30s', '1080p'], 'Audio enabled'), []);
+});
+
+test('model hero autoplay uses its lightweight preview while the full film remains the linked original', () => {
+  const media = { ...fallback, videoUrl: 'https://media.maxvideoai.com/full.mp4',
+    previewVideoUrl: 'https://media.maxvideoai.com/silent-preview.mp4', href: '/video/full' };
+  assert.equal(pickHeroAutoplayUrl(media), media.videoUrl);
+  assert.equal(pickHeroAutoplayUrl(media, true), media.previewVideoUrl);
+  assert.equal(media.videoUrl, 'https://media.maxvideoai.com/full.mp4');
+  assert.equal(media.href, '/video/full');
+  assert.equal(pickHeroAutoplayUrl({ ...media, previewVideoUrl: null }, true), media.videoUrl);
+  assert.equal(pickHeroAutoplayUrl({ ...media, previewVideoUrl: 'https://media.maxvideoai.com/poster.webp' }, true), media.videoUrl);
+});
+
+test('an empty hero card renders the localized empty state without a fabricated caption or watch link', async () => {
+  const requireFrontend = createRequire(resolve('frontend/package.json'));
+  const React = requireFrontend('react');
+  Object.assign(globalThis, { React });
+  const { renderToStaticMarkup } = requireFrontend('react-dom/server');
+  const { ModelDecisionMediaCard } = await import('../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/ModelDecisionMediaCard');
+  const markup = renderToStaticMarkup(React.createElement(ModelDecisionMediaCard, {
+    media: { ...fallback, videoUrl: null, posterUrl: null, href: '/video/not-a-render', hasAudio: true },
+    label: 'Invented render caption', description: 'Invented render description', badges: ['Native audio'],
+    renderLinkLabel: 'Watch invented render', locale: 'fr', audioBadgeLabel: 'Audio enabled', altContext: 'Preview',
+  }));
+  assert.match(markup, /Aucun aperçu disponible/);
+  assert.doesNotMatch(markup, /Invented render|Watch invented|not-a-render|Native audio|Audio enabled/);
 });
 
 

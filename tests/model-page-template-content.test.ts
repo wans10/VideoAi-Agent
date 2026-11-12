@@ -13,6 +13,8 @@ import { buildModelDecisionDataFromContent } from './helpers/model-decision-cont
 import { CNY_BUILD, expectedCustomerPrice, expectedOfferPrice } from './helpers/customer-currency-expectations.ts';
 
 const MIGRATED_TEMPLATE_SLUGS = [
+  'kling-v4',
+  'flux-3-max',
   'seedance-1-5-pro',
   'seedance-2-0',
   'seedance-2-0-fast',
@@ -333,7 +335,13 @@ test('migrated template prompt links keep users on the Prompt Lab section', () =
         .filter((link) => /prompt lab|prompt/i.test(link.label));
 
       assert.ok(promptQuickLinks.length > 0, `${slug}/${locale} should expose a prompt quick link`);
-      assert.ok(promptCardCtas.length > 0, `${slug}/${locale} should expose a Prompt Lab card CTA`);
+      const hasApprovedKlingBridge = ['kling-2-5-turbo', 'kling-2-6-pro', 'kling-3-pro', 'kling-3-standard', 'kling-3-4k'].includes(slug);
+      if (hasApprovedKlingBridge) {
+        const bridgeHref = { en: '/models/kling-v4', fr: '/fr/modeles/kling-v4', es: '/es/modelos/kling-v4' }[locale];
+        assert.ok(decision.decisionCards.some(card => card.cta.href === bridgeHref), `${slug}/${locale} should retain its approved current-model bridge`);
+      } else {
+        assert.ok(promptCardCtas.length > 0, `${slug}/${locale} should expose a Prompt Lab card CTA`);
+      }
       assert.ok(
         [...promptQuickLinks, ...promptCardCtas].every((link) => link.href === '#prompting'),
         `${slug}/${locale} prompt links should stay anchored to #prompting`

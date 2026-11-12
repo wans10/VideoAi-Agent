@@ -72,6 +72,9 @@ export class KlingDirectClient {
     this.apiKey = params.apiKey?.trim() || null;
     this.accessKey = params.accessKey ?? '';
     this.secretKey = params.secretKey ?? '';
+    if (!hasKlingCredentials({ KLING_API_KEY: this.apiKey ?? undefined, KLING_ACCESS_KEY: this.accessKey, KLING_SECRET_KEY: this.secretKey })) {
+      throw new KlingDirectError('Kling direct API keys are not configured.', { code: 'KLING_CREDENTIALS_MISSING' });
+    }
     this.baseUrl = trimTrailingSlash(params.baseUrl);
     this.timeoutMs = params.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   }
@@ -199,16 +202,5 @@ export class KlingDirectClient {
 }
 
 export function getKlingDirectClient(): KlingDirectClient {
-  const config = getKlingDirectConfig();
-  if (!hasKlingCredentials({ KLING_API_KEY: config.apiKey, KLING_ACCESS_KEY: config.accessKey, KLING_SECRET_KEY: config.secretKey })) {
-    throw new KlingDirectError('Kling direct API keys are not configured.', {
-      code: 'KLING_CREDENTIALS_MISSING',
-    });
-  }
-  return new KlingDirectClient({
-    apiKey: config.apiKey,
-    accessKey: config.accessKey,
-    secretKey: config.secretKey,
-    baseUrl: config.baseUrl,
-  });
+  return new KlingDirectClient(getKlingDirectConfig());
 }

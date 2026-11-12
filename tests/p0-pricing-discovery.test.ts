@@ -31,8 +31,8 @@ const P0_ID_SET = new Set<string>(ALL_P0_IDS);
 const isVisibleP0 = (id: string) => isKeyvoVisibleFamily(listFalEngines().find((entry) => entry.id === id)?.family);
 const P0_IDS: string[] = ALL_P0_IDS.filter(isVisibleP0);
 const DEEP_LEGACY_IDS = ['ltx-2', 'ltx-2-fast', 'wan-2-5'] as const;
-const P0_REPRESENTATIVE_IDS = (['ltx-2-5-pro', 'wan-3-prime', 'grok-imagine-video-1-5', 'flux-3'] as const).filter(isVisibleP0);
-const P0_VISIBLE_EXAMPLE_IDS = (['ltx-2-5-pro', 'wan-3-prime'] as const).filter(isVisibleP0);
+const P0_REPRESENTATIVE_IDS = (['ltx-2-5-pro', 'wan-3-prime', 'grok-imagine-video-1-5'] as const).filter(isVisibleP0);
+const P0_VISIBLE_EXAMPLE_IDS = (['ltx-2-5-pro'] as const).filter(isVisibleP0);
 const P0_PAYG_PRESETS = {
   'ltx-2-5-pro': '10s-720p',
   'ltx-2-5-fast': '10s-720p',
@@ -257,31 +257,13 @@ test('a future PAYG config fails closed until its canonical pricing row is visib
   assert.equal(visible.exampleCosts.items[0]?.href, `/app?engine=${futureId}`);
 });
 
-test('explicit published model fallbacks remain available without a pricing row', () => {
+test('editorial fallbacks cannot revive a model absent from the enabled pricing catalog', () => {
   const pricingHub = structuredClone(buildPricingHubData('en'));
   pricingHub.video.rows = [];
-  const data = buildPayAsYouGoPageData({
-    locale: 'en',
-    content: getPayAsYouGoContent('en'),
-    pricingHub,
-  });
-
+  const data = buildPayAsYouGoPageData({ locale: 'en', content: getPayAsYouGoContent('en'), pricingHub });
   assert.deepEqual(data.priceLookups.items, []);
   assert.deepEqual(data.exampleCosts.items, []);
-  assert.deepEqual(
-    data.modelTesting.items.map((item) => item.id),
-    [
-      'seedance-2-5',
-      'gemini-omni-flash',
-      'seedance-2-0',
-      'kling-3-pro',
-      'veo-3-1',
-      'happy-horse-1-1',
-      'seedance-2-0-mini',
-      'ltx-2-3-fast',
-      'wan-2-6',
-    ],
-  );
+  assert.deepEqual(data.modelTesting.items, []);
 });
 
 test('unpublished comparison suggestions cannot leak an unknown opponent', () => {
@@ -388,10 +370,9 @@ test('PAYG copies a P0 canonical quote instead of an authored amount', () => {
     data.priceLookups.items.find((item) => item.id === 'wan-3-prime')?.price,
     '$432.10',
   );
-  assert.equal(
-    data.exampleCosts.items.find((item) => item.id === 'wan-3-prime')?.price,
-    '$432.10',
-  );
+  // Upstream no longer lists Wan 3 Prime among the example costs (P0_VISIBLE_EXAMPLE_IDS), and the LTX row that
+  // carried this assertion is hidden in Keyvo, so there is no example-cost projection of the quote to compare.
+  assert.deepEqual(p0IdsIn(data.exampleCosts.items), P0_VISIBLE_EXAMPLE_IDS);
   assert.equal(
     data.hero.quote.previewRows.find((row) => row.id === 'wan-3-prime')?.quoteLabel,
     '$432.10',

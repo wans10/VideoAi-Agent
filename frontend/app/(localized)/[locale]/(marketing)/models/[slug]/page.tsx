@@ -1,5 +1,4 @@
 import { modelExamplePlaylistKeys, projectModelPageGallery } from '@/server/model-gallery-projection';
-import { hasPlaylistCuration } from '@/server/playlists/curation-service';
 import '@/styles/marketing-models.css';
 import { ModelArchivePage } from './_components/ModelArchivePage';
 import { buildModelArchiveMetadata } from './_lib/model-page-archive-metadata';
@@ -19,7 +18,7 @@ import { buildSeoMetadata } from '@/lib/seo/metadata';
 import { resolveLocalesForEnglishPath } from '@/lib/seo/alternateLocales';
 import { getEngineLocalized, type EngineLocalizedContent } from '@/lib/models/i18n';
 import { resolvePublicMarketingVideoUrl } from '@/lib/media';
-import { listPlaylistVideos, getPublicVideosByIds, getPublicVideoIds, type GalleryVideo } from '@/server/videos';
+import { listModelExamplePlaylist, getPublicVideosByIds, getPublicVideoIds, type GalleryVideo } from '@/server/videos';
 import { applyEnginePricingOverride } from '@/lib/pricing-definition';
 import { createScopedPublicPricingReaders } from '@/server/pricing/quote-public-model-scenario';
 import { prepareModelPageInputs } from './_lib/model-page-inputs';
@@ -31,6 +30,7 @@ import { buildModelDecisionData } from './_lib/model-page-decision-data';
 import { isPublishedModelPage } from './_lib/model-page-publication';
 import { buildModelPageSpecProjection } from './_lib/model-page-spec-projection';
 import { buildModelPagePriceProjection } from './_lib/model-page-pricing';
+import { requiresPinnedModelPromptingDemo } from './_lib/model-page-prompting-prompt-source';
 import {
   pickDemoMedia,
   pickHeroMedia,
@@ -198,12 +198,13 @@ async function renderMarketingModelPage({
     locale,
     async () => {
       let examples: GalleryVideo[] = [];
-      let managedCuration=false;
+      let managedCuration = false;
       const examplePlaylistKeys = modelExamplePlaylistKeys(engine.modelSlug);
       try {
         for (const playlistKey of examplePlaylistKeys) {
-          examples = await listPlaylistVideos(playlistKey, 200);
-          managedCuration=await hasPlaylistCuration(playlistKey);
+          const selection = await listModelExamplePlaylist(playlistKey, 200);
+          examples = selection.videos;
+          managedCuration = selection.managed;
           if (examples.length || managedCuration) break;
         }
       } catch (error) {
@@ -263,8 +264,11 @@ async function renderMarketingModelPage({
       heroMedia = toFeaturedMedia(heroCandidate) ?? heroMedia;
     }
   }
-  let demoMedia = pickDemoMedia(galleryVideos, heroMedia?.id ?? null, preferredIds.demo, fallbackMedia, {
+  const requirePinnedDemo = requiresPinnedModelPromptingDemo(engine.modelSlug);
+  const demoId = requirePinnedDemo ? PREFERRED_MEDIA[engine.modelSlug]?.demo ?? null : preferredIds.demo;
+  let demoMedia = pickDemoMedia(galleryVideos, heroMedia?.id ?? null, demoId, fallbackMedia, {
     allowFallbackReuse: engine.modelSlug === 'happy-horse-1-1',
+    requirePreferred: requirePinnedDemo,
   });
   if (engine.modelSlug === 'sora-2-pro') {
     demoMedia = heroMedia;

@@ -286,6 +286,23 @@ test('comparison returns a null percentage when the current total is zero', () =
   assert.equal(preview[0]?.deltaPercent, null);
 });
 
+test('published Kling 4, Flash and GPT 2.6 prices use approved tariffs rather than legacy percentage previews', () => {
+  const modelIds = ['kling-v4', 'kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst'];
+  const scenarios = buildPricingAuditScenarios().filter((scenario) => modelIds.includes(scenario.engineId));
+  assert.ok(scenarios.length > 0, 'published pricing must have audit scenarios');
+  assert.deepEqual([...new Set(scenarios.map(scenario => scenario.engineId))].sort(), [...modelIds].sort());
+  const outcomes = quoteCanonicalAdminScenarios({ databaseRules: [globalRule], scenarios });
+  assert.equal(outcomes.length, scenarios.length);
+  for (const outcome of outcomes) {
+    assert.equal(outcome.status, 'unsupported');
+    if (outcome.status !== 'unsupported') throw new Error('Legacy pricing unexpectedly invented a customer tariff');
+    assert.equal(outcome.reason, 'product_policy_not_authoritative');
+    assert.match(outcome.warning, outcome.engineId.startsWith('gpt-image-2-6-')
+      ? /reviewed customer tariffs; supplier input costs remain unqualified/
+      : /approved customer tariffs/);
+  }
+});
+
 test('canonical projection returns one explicit outcome for every selected scenario', () => {
   const scenarios = buildPricingAuditScenarios();
   const outcomes = quoteCanonicalAdminScenarios({ databaseRules: [], scenarios });
@@ -296,8 +313,18 @@ test('canonical projection returns one explicit outcome for every selected scena
   );
   const unsupported = outcomes.filter((outcome) => 'status' in outcome && outcome.status === 'unsupported');
   assert.deepEqual(
-    unsupported.map((outcome) => outcome.scenarioId),
+    unsupported.filter((outcome) => outcome.engineId !== 'kling-v4').map((outcome) => outcome.scenarioId),
     [
+      ...['flare', 'sunburst'].flatMap(variant => ['member', 'plus', 'pro'].map(tier =>
+        `billing:gpt-image-2-6-${variant}:t2i:10:1024x1024:${tier}`)),
+      ...['member', 'plus', 'pro'].map(tier => `billing:kling-v4-flash:t2v:5:720p:${tier}`),
+      'billing:nano-banana-2-1:t2i:1:1k:member',
+      'billing:nano-banana-2-1:t2i:1:1k:plus',
+      'billing:nano-banana-2-1:t2i:1:1k:pro',
+      'estimator:gpt-image-2-6-flare:10:1024x1024',
+      'estimator:gpt-image-2-6-sunburst:10:1024x1024',
+      'estimator:kling-v4-flash:5:720p',
+      'estimator:nano-banana-2-1:1:1k',
       'pricing-hub:pika-text-to-video:10s-1080p-audio',
       'pricing-hub:pika-text-to-video:4k-route',
       'pricing-hub:pika-text-to-video:8s-1080p',

@@ -1,0 +1,275 @@
+{
+  "marketingName": "GPT Image 2.6 Flare",
+  "versionLabel": "2.6",
+  "seo": {
+    "title": "GPT Image 2.6 Flare — Crear y editar imágenes ráster | MaxVideoAI",
+    "description": "Crea y edita imágenes cuadradas, horizontales o verticales, con formatos 16:9 y 9:16 y tamaños personalizados hasta 4K. Elige cinco niveles de calidad o Auto y ajusta la complejidad por separado."
+  },
+  "overview": "Crea y edita imágenes cuadradas, horizontales o verticales, con formatos 16:9 y 9:16 y tamaños personalizados hasta 4K. Elige cinco niveles de calidad o Auto y ajusta la complejidad por separado.",
+  "pricingNotes": [
+    "Crea y retoca imágenes en la App, en Studio o desde tu asistente conectado mediante MCP. Consulta el precio antes de cada generación.",
+    "Consulta el presupuesto actual antes de confirmar. Cambiar ajustes o referencias requiere un presupuesto nuevo.",
+    "El tamaño o la calidad automática utiliza un presupuesto conservador calculado sobre la salida máxima de los ajustes automáticos elegidos. El precio se muestra antes de confirmar la generación."
+  ],
+  "hero": {
+    "title": "GPT Image 2.6 Flare — Crear y editar imágenes ráster",
+    "intro": "Crea y edita imágenes cuadradas, horizontales o verticales, con formatos 16:9 y 9:16 y tamaños personalizados hasta 4K. Elige cinco niveles de calidad o Auto y ajusta la complejidad por separado.",
+    "badge": "PNG · JPEG · WebP",
+    "ctaPrimary": {
+      "label": "Abrir el espacio de creación",
+      "href": "/app/image?engine=gpt-image-2-6-flare"
+    },
+    "secondaryLinks": [
+      {
+        "label": "Leer especificaciones",
+        "href": "#specs"
+      }
+    ]
+  },
+  "bestUseCases": [
+    "Escena cinematográfica",
+    "Edición controlada"
+  ],
+  "faqs": [
+    {
+      "q": "Leer especificaciones",
+      "a": "Crea y edita imágenes cuadradas, horizontales o verticales, con formatos 16:9 y 9:16 y tamaños personalizados hasta 4K. Elige cinco niveles de calidad o Auto y ajusta la complejidad por separado. Se admiten PNG, JPEG y WebP. La transparencia requiere PNG o WebP. GIF, SVG, máscaras y edición por anotaciones quedan fuera de esta primera entrega."
+    },
+    {
+      "q": "Referencias visuales originales",
+      "a": "Edita con entre 1 y 16 imágenes originales PNG, JPEG o WebP de tu biblioteca, de hasta 25 MB cada una. Studio acepta dieciséis referencias y una salida por acción. El espacio de imágenes y MCP permiten hasta diez resultados por solicitud."
+    },
+    {
+      "q": "Precios",
+      "a": "Consulta el presupuesto actual antes de confirmar. Cambiar ajustes o referencias requiere un presupuesto nuevo."
+    },
+    {
+      "q": "Calidad y complejidad",
+      "a": "Flare y Sunburst son opciones distintas. No se anuncian resultados comparativos de calidad o latencia antes de realizar pruebas equivalentes."
+    }
+  ],
+  "custom": {
+    "whyTitle": "GPT Image 2.6 Flare",
+    "heroHighlights": [
+      "Calidad y complejidad||La calidad controla el renderizado. La complejidad controla la planificación. Define el sujeto y las restricciones en cada nivel.",
+      "Referencias visuales originales||Edita con entre 1 y 16 imágenes originales PNG, JPEG o WebP de tu biblioteca, de hasta 25 MB cada una. Studio acepta dieciséis referencias y una salida por acción. El espacio de imágenes y MCP permiten hasta diez resultados por solicitud.",
+      "Imagen ráster||Se admiten PNG, JPEG y WebP. La transparencia requiere PNG o WebP. GIF, SVG, máscaras y edición por anotaciones quedan fuera de esta primera entrega."
+    ],
+    "specTitle": "Leer especificaciones",
+    "specNote": "Se admiten PNG, JPEG y WebP. La transparencia requiere PNG o WebP. GIF, SVG, máscaras y edición por anotaciones quedan fuera de esta primera entrega.",
+    "specSections": [
+      {
+        "title": "Escena cinematográfica",
+        "body": "Crea y edita imágenes cuadradas, horizontales o verticales, con formatos 16:9 y 9:16 y tamaños personalizados hasta 4K. Elige cinco niveles de calidad o Auto y ajusta la complejidad por separado.",
+        "items": []
+      },
+      {
+        "title": "Edición controlada",
+        "body": "Edita con entre 1 y 16 imágenes originales PNG, JPEG o WebP de tu biblioteca, de hasta 25 MB cada una. Studio acepta dieciséis referencias y una salida por acción. El espacio de imágenes y MCP permiten hasta diez resultados por solicitud.",
+        "items": []
+      }
+    ]
+  },
+  "decision": {
+    "modelSlug": "gpt-image-2-6-flare",
+    "hero": {
+      "eyebrow": "GPT IMAGE 2.6 FLARE",
+      "title": "GPT Image 2.6 Flare — Crear y editar imágenes ráster",
+      "subtitle": "Crea y edita imágenes cuadradas, horizontales o verticales, con formatos 16:9 y 9:16 y tamaños personalizados hasta 4K. Elige cinco niveles de calidad o Auto y ajusta la complejidad por separado.",
+      "subtitleHighlights": [
+        "1024"
+      ],
+      "paragraph": "Crea y retoca imágenes en la App, en Studio o desde tu asistente conectado mediante MCP. Consulta el precio antes de cada generación.",
+      "primaryCta": {
+        "label": "Abrir el espacio de creación",
+        "href": "/app/image?engine=gpt-image-2-6-flare"
+      },
+      "secondaryCta": {
+        "label": "Leer especificaciones",
+        "href": "#specs"
+      },
+      "quickLinks": [
+        {
+          "label": "Explorar ideas de prompts",
+          "href": "#prompting"
+        },
+        {
+          "label": "Ver el precio actual",
+          "href": "/es/precios#gpt-image-2-6-flare-pricing"
+        }
+      ]
+    },
+    "media": {
+      "caption": "Un fotograma cinematográfico original generado con GPT Image 2.6 Flare, presentado a 1024 × 1024 píxeles.",
+      "description": "Un fotograma cinematográfico original generado con GPT Image 2.6 Flare, presentado a 1024 × 1024 píxeles.",
+      "renderLabel": "Ejemplos",
+      "badges": [
+        "GPT Image 2.6 Flare",
+        "PNG · JPEG · WebP"
+      ],
+      "altContext": "GPT Image 2.6 Flare — Un fotograma cinematográfico original generado con GPT Image 2.6 Flare, presentado a 1024 × 1024 píxeles."
+    },
+    "features": [
+      {
+        "title": "Calidad y complejidad",
+        "body": "La calidad controla el renderizado. La complejidad controla la planificación. Define el sujeto y las restricciones en cada nivel.",
+        "tone": "quality"
+      },
+      {
+        "title": "Referencias visuales originales",
+        "body": "Edita con entre 1 y 16 imágenes originales PNG, JPEG o WebP de tu biblioteca, de hasta 25 MB cada una. Studio acepta dieciséis referencias y una salida por acción. El espacio de imágenes y MCP permiten hasta diez resultados por solicitud.",
+        "tone": "reference"
+      },
+      {
+        "title": "Imagen ráster",
+        "body": "Se admiten PNG, JPEG y WebP. La transparencia requiere PNG o WebP. GIF, SVG, máscaras y edición por anotaciones quedan fuera de esta primera entrega.",
+        "tone": "quality"
+      }
+    ],
+    "decisionCards": [
+      {
+        "title": "Escena cinematográfica",
+        "body": "Describe qué conservar y qué cambiar. Asigna un papel concreto a cada referencia.",
+        "cta": {
+          "label": "Explorar ideas de prompts",
+          "href": "#prompting"
+        }
+      },
+      {
+        "title": "Calidad y complejidad",
+        "body": "Flare y Sunburst son opciones distintas. No se anuncian resultados comparativos de calidad o latencia antes de realizar pruebas equivalentes.",
+        "cta": {
+          "label": "GPT Image 2.6 Sunburst",
+          "href": "/es/modelos/gpt-image-2-6-sunburst"
+        }
+      }
+    ],
+    "referenceWorkflows": [
+      {
+        "title": "Escena cinematográfica",
+        "body": "Crea y edita imágenes cuadradas, horizontales o verticales, con formatos 16:9 y 9:16 y tamaños personalizados hasta 4K. Elige cinco niveles de calidad o Auto y ajusta la complejidad por separado."
+      },
+      {
+        "title": "Edición controlada",
+        "body": "Edita con entre 1 y 16 imágenes originales PNG, JPEG o WebP de tu biblioteca, de hasta 25 MB cada una. Studio acepta dieciséis referencias y una salida por acción. El espacio de imágenes y MCP permiten hasta diez resultados por solicitud."
+      }
+    ],
+    "pricingCopy": {
+      "title": "GPT Image 2.6 Flare — Precios",
+      "subtitle": "Consulta el presupuesto actual antes de confirmar. Cambiar ajustes o referencias requiere un presupuesto nuevo.",
+      "footnote": "Crea y retoca imágenes en la App, en Studio o desde tu asistente conectado mediante MCP. Consulta el precio antes de cada generación.",
+      "ctaLabel": "Ver el precio actual",
+      "ctaHref": "/es/precios#gpt-image-2-6-flare-pricing",
+      "maxDurationNote": "Hasta cuatro imágenes en App y MCP; una en Studio."
+    },
+    "meta": {
+      "title": "GPT Image 2.6 Flare — Crear y editar imágenes ráster | MaxVideoAI",
+      "description": "Crea y edita imágenes cuadradas, horizontales o verticales, con formatos 16:9 y 9:16 y tamaños personalizados hasta 4K. Elige cinco niveles de calidad o Auto y ajusta la complejidad por separado."
+    }
+  },
+  "prompting": {
+    "modelSlug": "gpt-image-2-6-flare",
+    "section": {
+      "title": "Explorar ideas de prompts — GPT Image 2.6 Flare",
+      "intro": "Crea un fotograma cinematográfico y después dirige un cambio preciso de vestuario conservando la escena.",
+      "tip": "Describe qué conservar y qué cambiar. Asigna un papel concreto a cada referencia.",
+      "guide": {
+        "label": "Leer la documentación del proveedor",
+        "href": "https://developers.openai.com/api/docs/guides/image-generation"
+      },
+      "referencesTitle": "Referencias visuales originales"
+    },
+    "tabs": [],
+    "tabNotes": [],
+    "globalPrinciples": [
+      "Describe qué conservar y qué cambiar. Asigna un papel concreto a cada referencia.",
+      "Utiliza tus propias imágenes y vídeos originales.",
+      "Consulta el presupuesto actual antes de confirmar. Cambiar ajustes o referencias requiere un presupuesto nuevo."
+    ],
+    "engineWhy": [
+      "La calidad controla el renderizado. La complejidad controla la planificación. Define el sujeto y las restricciones en cada nivel."
+    ],
+    "demo": null,
+    "imageExamples": {
+      "title": "Explorar ideas de prompts",
+      "intro": "Ambos retoques de vestuario parten del mismo original generado con GPT Image 2.6 Flare. El visor muestra esa fuente junto al resultado.",
+      "workspaceLabel": "Abrir el espacio de creación",
+      "items": [
+        {
+          "id": "cinema",
+          "title": "La última bobina — fotograma",
+          "badge": "1024 × 1024",
+          "kind": "image",
+          "prompt": "Create one photorealistic cinematic film still, a square 1024x1024 image, not a poster or a collage. An original fictional adult woman, about 32, short dark curly hair, expressive brown eyes, a worn ochre cotton chore jacket over a charcoal T-shirt and dark trousers, is caught mid-stride in the backstage corridor of a small 1970s cinema. She grips a round opaque dark blue matte film canister against her ribs with her left arm, her right hand reaching toward a heavy burgundy velvet curtain at the right edge. She has just found something important: breathless, determined, almost smiling, looking off-frame right toward a colleague. Strong diagonal composition with a readable face, natural skin texture, visible fingers and convincing weight. Eye-level medium shot, 35mm cinema lens, subtle analog grain, warm tungsten practical bulbs against teal painted plaster, low-key yet legible lighting. Rich burgundy, ochre and petrol-blue palette. Solid painted doors, opaque props and matte surfaces only; no mirrors, glass, transparent objects, glossy reflections, water, screens, text, logos or subtitles. The moment must feel like an actual frame from a character-driven caper film, with tension and life, not a fashion pose. Keep the face and canister within the central 70 percent for flexible gallery crops."
+        },
+        {
+          "id": "edit",
+          "title": "Retoque de continuidad del vestuario",
+          "badge": "1024 × 1024",
+          "kind": "edit",
+          "prompt": "Edit this exact cinematic still. Preserve the woman's identity, facial expression, short dark curls, visible fingers, body pose, film canister, camera position, background corridor and velvet curtain. Change only her ochre cotton jacket to a rich oxblood red fabric with the same cut, seams, wear and folds. Keep all skin tones, lighting direction, shadows, analog grain and the dark blue opaque matte canister unchanged. A seamless wardrobe continuity edit for a feature film. No mirrors, transparent objects, text, logos or extra people."
+        }
+      ]
+    }
+  },
+  "examples": {
+    "modelSlug": "gpt-image-2-6-flare",
+    "showWhenEmpty": false,
+    "section": {
+      "title": "GPT Image 2.6 Flare — Ejemplos",
+      "intro": "Dos resultados reales: una escena de cine y un retoque de vestuario. Abre una imagen para consultar el original, los ajustes y el prompt exacto.",
+      "defaultCtaLabel": null,
+      "recreateLabel": "Abrir el espacio de imágenes",
+      "afterGallery": "Ambos retoques de vestuario parten del mismo original generado con GPT Image 2.6 Flare. El visor muestra esa fuente junto al resultado."
+    },
+    "filters": [
+      {
+        "id": "all",
+        "label": "Todos"
+      }
+    ],
+    "proofItems": [
+      {
+        "id": "proof-0",
+        "icon": "image",
+        "title": "Escena cinematográfica",
+        "body": "Crea y edita imágenes cuadradas, horizontales o verticales, con formatos 16:9 y 9:16 y tamaños personalizados hasta 4K. Elige cinco niveles de calidad o Auto y ajusta la complejidad por separado."
+      },
+      {
+        "id": "proof-1",
+        "icon": "users",
+        "title": "Referencias visuales originales",
+        "body": "Usa tus propias imágenes originales."
+      },
+      {
+        "id": "proof-2",
+        "icon": "pen",
+        "title": "Explorar ideas de prompts",
+        "body": "Describe qué conservar y qué cambiar. Asigna un papel concreto a cada referencia."
+      },
+      {
+        "id": "proof-3",
+        "icon": "shield",
+        "title": "Precios",
+        "body": "Consulta el presupuesto actual antes de confirmar. Cambiar ajustes o referencias requiere un presupuesto nuevo."
+      },
+      {
+        "id": "proof-4",
+        "icon": "sparkles",
+        "title": "Originales de generación y edición",
+        "body": "Ambos retoques de vestuario parten del mismo original generado con GPT Image 2.6 Flare. El visor muestra esa fuente junto al resultado."
+      }
+    ],
+    "fallbackItems": null,
+    "editorialImages": [
+      {
+        "id": "gpt26-flare-generation",
+        "title": "La última bobina — generación · GPT Image 2.6 Flare"
+      },
+      {
+        "id": "gpt26-flare-edit",
+        "title": "La última bobina — edición del vestuario · GPT Image 2.6 Flare"
+      }
+    ]
+  }
+}

@@ -1,10 +1,71 @@
 # Studio architecture
 
+## Source continuity correction — 22 October 2026 candidate
+
+Full-source `assemble` clips may omit or pass null for `startFrame` and
+`durationFrames`. The existing revisioned command owner derives consecutive
+visual positions and floors the remaining measured source duration to whole
+sequence frames; images retain the five-second default and audio layers from
+zero. Explicit excerpt frames retain their existing meaning. Qualification,
+atomic receipts, ownership, manual revisions and track locks remain authoritative.
+For an original plus a separately delivered continuation, assemble both once;
+when the original is already on the timeline, append only the continuation.
+Generation completion alone does not establish an assembled sequence or MP4.
+
+For continuation-only extension modes, preparation freezes a deterministic
+assembly plan before quoting: sequence/revision, original identity, original
+URL/type/MIME hash, measured duration and known size facts. Legacy approximate
+durations do not masquerade as measured facts; qualification can refine them.
+The mode capability
+`extensionOutput: continuation` currently certifies Wan 3 only, based on the
+reviewed original and separate five-second production continuation. Other modes
+retain explicit assembly. A whole original at the correct sequence boundary is
+kept once; trimmed, displaced or ambiguous edits decline automatic planning.
+The director sets `assembleExtension: false` for an explicit continuation-only
+request or a request to leave the timeline alone; that choice persists in the draft.
+
+After an explicitly confirmed generation completes, the conversation hook calls
+the same-origin extension POST with only the turn request ID. The server derives
+the accepted quote and ready output from the account/project, then applies the
+canonical idempotent command. Original validation repeats under source/project
+locks after any qualification retry. A changed original or project revision
+blocks assembly. A completed job may precede its output projection: only the
+explicit retryable not-ready state retries, with five bounded delays totaling
+56 seconds. Other failures expose a manual retry or ask for a fresh source/edit
+review. Reopening the conversation resumes a pending plan; GET remains read-only.
+No extra assistant call, generation or charge is made, and MP4 export stays gated.
+
+Studio pricing accepts the same exact ready project-output references as video
+preparation. Read-only pricing aliases resolve through current project and media
+ownership checks without promoting outputs or writing library copies. Attached
+library assets still require attachment. The aliases are pricing-local and never
+become saved generation references. Confirmation continues through the canonical
+owned-asset generation boundary. Quote cards distinguish new text generation,
+source-guided regeneration and extension; director guidance must not substitute
+text-only creation for a failed source edit without agreement.
+
+Local qualification covers the one-request quote/confirmation/completion flow,
+five-second original/continuation assembly, fractional source boundaries,
+source replacement during qualification, manual revision conflicts, receipt
+replay, delayed output readiness, account isolation and project-output pricing
+without library writes. Production deployment and live assistant qualification
+are separate from these deterministic checks.
+
 The isolated 2026-10-06 task-budget candidate is documented in [Studio task budgets](studio-task-budgets.md); this link does not establish production activation.
 
 Reviewed 2026-10-05. Studio has one public conversational interface. The private React Flow Canvas, its templates and local-only project management were retired at the owner's request. Its personal saved projects are deleted without migration; current chats and MCP montages remain supported.
 
 ## Public presentation and current availability
+
+Studio presents its assistant as **Milo**. The composer’s Standard / Max controls
+open the existing assistance review dialog: Standard maps to `gpt-6-luna` and Max
+to `gpt-6.1-sol`. The information button opens settings and credits; technical
+model names remain available in pricing details. These are presentation names,
+not new model identities, task profiles, defaults or financial policy versions.
+Opening a mode does not select it, enable purchased usage or buy credits. Those
+actions retain their explicit confirmations and revision checks. Welcome starters
+only fill an editable draft; reference selection and media-side tools keep their
+existing behavior.
 
 The owner approved removing Studio's beta presentation on 2026-10-05. Marketing and navigation present Studio's creative conversation, image/video/audio creation, references, timeline editing and individual original-media access. Keep Sol/Luna assistance and media-generation quotes distinct, with their existing explicit spending confirmations. The production check at 2026-10-05T13:18:40Z confirmed assistance enabled under `studio-credits-2026-10-05-v2`: included monthly Sol credits precede purchased cumulative packs from the wallet; Luna has no monthly quota and retains request limits and sponsored availability. Marketing uses these current terms without hardcoded tariffs. The legacy one-time allowance uses introductory wording only when historical policy renders that interface; its frozen contracts remain unchanged. See [Studio assistance economics](studio-assistance-economics.md).
 
@@ -62,6 +123,19 @@ Studio entry opens the recent supported project or idempotently creates a fresh 
 
 The chat builds intent through the common agent/generation services. Owned media and measured reference facts are resolved before pricing or submission. Every generation requires a current exact quote and explicit confirmation. Request/response journal and assistance usage recovery are durable so lost replies can resume without repeating paid dispatch.
 
+Creative guidance belongs to `conversation-director-instructions.ts` and reaches
+all tiers through the active `createStudioConversationDirector`. Clients without
+assets receive concrete native direction, including coherent images then animation
+when useful and enabled, with optional references for realism, period details,
+places and continuity. This is advice, not a required recipe or permission to
+prepare/generate. Explicit real-footage constraints stay saved: any generated
+alternative is labeled and requires acceptance before substitution or preparation.
+External sourcing serves an explicit request or insistence on actual capture.
+Reference fidelity, enabled capabilities and individual-media/timeline/export
+boundaries remain authoritative. The synthetic scenario matrix in
+`../superpowers/specs/2026-11-03-studio-native-creation-guidance.md` distinguishes
+request-envelope/gate tests from a separately authorized real-model quality review.
+
 For an open simple image/video model choice, `pricing_compare` reads compatible
 current prices in one action before selection. It shares the MCP comparison
 owner and preserves certification, attached owned references and explicit
@@ -116,6 +190,20 @@ When required model/source facts are known, prepare by Response 3; optional `pro
 
 The visible timeline edits canonical sequence state with revision and ownership checks. It reuses pure frame-aware operations for clipping, source bounds and linked audio. Library selection does not automatically insert every new generation into the timeline. Preview media uses transient stored grants; signed URLs and private originals must not leak into journal/tool projections or saved command payloads.
 
+`workspace-audio-provenance.ts` owns clip audio mixing support for both revisioned
+edits and read-only timeline facts. Probe `hasAudio` remains tri-state: missing
+evidence is unknown, never silence. An explicit zero gain can mute an unknown
+video without asserting an audio stream exists or replacing its original; 100%
+restores the original level, including on repeated requests. Other gain settings
+require known embedded audio. Measured silent clips and separately linked
+audio remain protected. An explicit gain edit reconciles only its selected clip's
+stale audio flags with known facts or unknown status; reads never repair storage.
+Preview and MP4 rendering consume the same saved
+`audioMix`. `timeline_read` exposes only bounded `audio.source`, `canMute` and
+`canAdjustVolume`/`canRestoreOriginalVolume` facts; lock facts remain separate. Check/explain-only requests
+must use these reads rather than trial mutations. Pure edit, DOM playback, MCP
+schema and opt-in synthetic FFmpeg/Chromium rendering tests cover this contract.
+
 `useConversationTimeline` owns periodic preview refresh. Its polling waits for all current-project reads to settle, including a forced replacement for a refused grant that still appears valid to the browser clock. Explicit refreshes, revisioned edits and lifecycle invalidations retain their epoch ordering. Pending grant replacements belong to the project path and survive superseded or failed reads until the winning successful canonical response replaces those grants. A late journal response must not lose that renewal intent; the obsolete response still cannot reset canonical revisions. Replacement sources and decoder retry keys commit atomically in the hook; completing an obsolete or failed request never retries the refused source. Grant retention and retry keys never cross project boundaries. Read counts belong to each project path and are released in `finally`, so failed or obsolete reads cannot release another project's polling gate. `tests/studio-conversation-timeline-refresh-dom.test.ts` exercises the real hook with deferred responses; the connected montage browser test deliberately delivers the initial journal while renewal is pending, tests both response orders with the old URL persistently refused, and retains separate preview/new-grant diagnostic flags without exposing signed URLs.
 
 The 2026-10-06 branch candidate adds bounded atomic assembly (up to 12 insertions)
@@ -125,6 +213,28 @@ generation completion or polling. See [Studio media analysis](studio-media-analy
 for qualified profiles, shared-credit recovery and activation prerequisites.
 
 Exports use the canonical worker contract and backend pricing/idempotency. The browser estimates, confirms, polls and recovers; it does not manufacture completed MP4s. Completed exports and reusable library media remain account artifacts even if a project is later deleted.
+
+The generic missing-generation cron excludes Timeline's `timeline_export` surface,
+`server_render` product and exact account-owned export records, including legacy
+charges without product labels. The export owner handles failure refunds. Late
+completion locks the export and preserves an existing full same-account/job/currency
+charge/refund pair as `billing_status=refunded`; successful delivery does not reclaim
+that credit or alter receipts. Free and platform completion retain their own states.
+
+Milo's `project_read` keeps prepared quote cards in `exports` and separately
+projects the eight newest `renders` from `app_timeline_exports`, including manual
+footer submissions without a conversation quote receipt. The SELECT-only owner
+`conversation-export-facts.ts` joins live owned projects and sequences, exposing
+recorded status, progress, timestamps, framing and billing. It excludes original
+media URLs, storage grants, submission identities and arbitrary worker messages.
+`export_read` accepts one exact `exportId` from these facts or a historical owned
+`quoteId`; an exact older export remains readable outside the context's eight-row
+window. Missing optional export schema yields no render facts without bootstrap.
+Diagnosis never confirms, retries, reserves billing or launches a worker. Queued
+with no `startedAt` establishes that rendering has not begun. Timeline facts also
+expose the saved sequence's aspect ratio and resolution. The disposable PostgreSQL
+regression verifies manual and quoted exports, read-only access, isolation and
+the director's diagnostic tool turn.
 
 MP4 activation and worker provenance are documented in
 [Studio MP4 exports](../deployment/studio-timeline-exports.md). Completed chat
@@ -236,3 +346,105 @@ Video insertion requires original-byte probe facts for duration, width, height a
 Reinsertion refreshes measured media facts on the existing exact owned project asset reference without replacing its ID, authored name, URL, thumbnail or unrelated fields. The refresh is part of the same revisioned insertion transaction; receipt replay remains read-only. Historical caches require explicit bounded snapshot/revision-guarded repair, never a read-route backfill.
 
 Project asset identity compares typed reference fields, never serialized object key order. The same identity guard applies to conversational insertion attachment checks and measured-cache refresh; PostgreSQL jsonb key ordering must not duplicate assets or reject a valid already-owned project reference.
+
+## Revisioned subtitles (2026-10-19)
+
+`src/lib/subtitles` owns strict timed documents, plain-text serialization, speed-one
+trim projection and the shared browser/Remotion overlay. Documents and revisions
+belong to the account in migration70; a timeline item persists only
+`subtitle: {documentId, revision}`. The reversible `subtitles` timeline command
+checks account ownership and exact source reference inside the existing revisioned
+command transaction. Editing a document does not silently update a pinned clip.
+Moves, trims and splits retain its reference and derive captions from the current
+source interval. Preview/export read the pinned owned revision, and export intent
+includes its exact contents. `subtitleDocument` is a transient read/render projection
+and is stripped from saved workspace JSON.
+
+The inspector lists source-matching documents on explicit interaction. Existing
+source captions are independent of the final audio mix: replacing speech with an
+audio track does not make an earlier transcript describe that new sound. Standalone
+transcription and MP4 burn run through `src/server/subtitles` durable operations,
+not the Studio export flag or free allowance. The same wallet ledger is used;
+source bytes are remeasured before confirmation and canonical identity is locked
+before reservation. Unknown provider acceptance is never submitted again: the
+operation exposes attention state, then the reconciler refunds it exactly once
+after one hour while preserving the audit record. Polling a known request never
+purchases another transcription. Migrations70/73, renderer runtime and explicit
+commercial policy must be available before enabling execution.
+
+
+Saved sequence transcription uses `prepareStudioSubtitles` and a durable
+`mix-transcribe` operation. It snapshots the exact project revision, owned source
+identities and audio manifest hash before quoting. Confirmation locks and verifies
+the current project/media and pricing policy, checks account restrictions and
+shared MCP spending limits, then reserves one wallet charge for the displayed
+mix preparation and transcription line items. Mix preparation deliberately uses
+`timeline-export-paid-policy` with zero free exports; it is not supplier audio cost.
+
+The worker renders a WAV through the existing timeline composition's audio-only
+branch, preserving trims, timeline positions, gains, mutes and linked-audio rules.
+It never fetches still images or publishes an intermediate MP4. A private owned
+audio asset records `{sequenceId, revision, audioManifestHash}` and remains the
+subtitle document's real source. Unsupported transitions fail before quoting;
+speed remains one. The standalone mix path does not enable the Studio MP4 gate.
+
+`sequence-subtitles` attaches a pinned document at sequence level. Preview and
+canonical export use its global clock; source clip captions remain a separate
+attachment. Audio edit changes invalidate the mix document and block export until
+it is removed or regenerated. Names, captions and visual transforms do not affect
+the audio hash. The Studio picker opens the tool with exact saved revision and
+requires an explicit quote confirmation.
+
+Subtitle operations share the canonical quote ledger for accepted spending and
+refunds. Their public quotes expire after five minutes and every commercial
+snapshot is revalidated under policy locks before charging. A provider POST with
+unknown acceptance is never retried: status reports `needsAttention`, and durable
+reconciliation refunds once after one hour while retaining its audit. Temporary
+provider audio is cleaned after terminal state; owned sequence source audio remains
+available with the document. Apply migrations 70/72/73 explicitly before release.
+
+
+### Modify and Extend capability parity (23 October 2026 candidate)
+
+Studio's visual capability details project canonical per-mode settings, duration
+policy, reference capacities and extension output semantics. The shared attachment
+transport ceiling is 66; it does not replace individual model/role or combined
+reference limits. Image-generation selection retains its existing limit. Do not
+reintroduce a blanket eight-reference clamp for Modify/Extend. Their request paths
+retain owned attachment identity and canonical validation/quote approval.
+
+Recognizable-person notes for Seedance come from `video-workflow-capabilities.ts`
+and render on the quote card in its locale. They remain informational, including
+on Extend, and must not disable the paid confirmation control. Model-discovery
+notes let Studio mention the restriction before preparing a quote. Modify owner
+preferences carry their single-trial scope in mode details; Extend has no inherited
+quality ranking.
+
+## Mobile conversation space — 2026-10-25
+
+Authenticated conversation routes use the route-local `studio-mobile.module.css`
+shell below 768px. The existing app-menu trigger shares the Studio heading;
+its full menu retains navigation, connections, preferences and wallet access.
+The surrounding header actions and bottom navigation are hidden only within
+that shell. Desktop and guest entry retain their existing layouts.
+
+`useStudioMobileLayout` owns the mobile breakpoint subscription and visual viewport
+height/offset for the iPhone keyboard, with listener/style cleanup on exit. It
+does not reflow the shell during pinch zoom. The composer remains 16px on mobile
+and bounds its height against the visible viewport.
+
+`ConversationMobilePanel` presents the existing reference shelf and film timeline
+in native modal sheets on mobile, with Escape and trigger-focus restoration.
+The same dialog becomes a nonmodal presentation wrapper with `display: contents`
+on desktop. Its subtree remains mounted across breakpoints so a retained insertion
+cannot replay after rotation or resizing. The film stays mounted
+while its sheet is closed, but `ConversationTimeline.visible` stops playback and
+closes the monitor. Reference IDs, attachment session storage, preview grants,
+timeline persistence, generation confirmation and assistance policy stay with
+their existing owners. The references trigger counts attachments to the next
+message, not all historic shelf media.
+
+Mobile completed task receipts can expand from their summary; consumed credits
+remain in that summary. Tasks with errors, reserved credits or recovery actions
+retain the full presentation. Milo's compact mode trigger opens the existing
+settings/credits dialog without changing the selected model.

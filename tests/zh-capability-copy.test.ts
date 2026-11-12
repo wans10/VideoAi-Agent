@@ -44,7 +44,8 @@ test('zh-only phrases are case-insensitive and produce Chinese', () => {
 });
 
 test('zh-only phrases return null for fr, es and en so their existing behaviour is unchanged', () => {
-  const sample = 'Optional generated audio';
+  // Upstream now ships fr/es for 'Optional generated audio', so use a phrase that is still zh-only.
+  const sample = 'Related image-start workflow';
   assert.equal(localizeCapabilityDetail(sample, 'fr'), null);
   assert.equal(localizeCapabilityDetail(sample, 'es'), null);
   assert.equal(localizeCapabilityDetail(sample, 'en'), null);

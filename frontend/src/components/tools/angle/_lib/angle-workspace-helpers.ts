@@ -1,3 +1,4 @@
+import { serializeAngleSourceImage } from './angle-source-image';
 import { listAngleToolEngines } from '@/config/tools-angle-engines';
 import { dispatchAnalyticsEvent } from '@/lib/analytics-client';
 import { authFetch } from '@/lib/authFetch';
@@ -125,22 +126,9 @@ export function parsePersistedAngleToolState(value: string): PersistedAngleToolS
       typeof raw.sourceImage === 'object' &&
       typeof raw.sourceImage.url === 'string' &&
       raw.sourceImage.url.trim().length
-        ? {
-            id: typeof raw.sourceImage.id === 'string' ? raw.sourceImage.id : null,
-            url: raw.sourceImage.url,
-            previewUrl:
-              typeof raw.sourceImage.previewUrl === 'string' && raw.sourceImage.previewUrl.trim().length
-                ? raw.sourceImage.previewUrl
-                : raw.sourceImage.url,
-            width: typeof raw.sourceImage.width === 'number' ? raw.sourceImage.width : null,
-            height: typeof raw.sourceImage.height === 'number' ? raw.sourceImage.height : null,
-            name: typeof raw.sourceImage.name === 'string' ? raw.sourceImage.name : null,
-            source:
-              raw.sourceImage.source === 'upload' || raw.sourceImage.source === 'library' || raw.sourceImage.source === 'paste'
-                ? raw.sourceImage.source
-                : undefined,
-          }
+        ? serializeAngleSourceImage(raw.sourceImage)
         : null;
+    if (sourceImage?.readAccessRef) sourceImage.readAccessExpiresAt = new Date(0).toISOString();
     const result =
       raw.result &&
       typeof raw.result === 'object' &&
@@ -171,15 +159,18 @@ export function getUploadTooLargeMessage(copy: AngleCopy, maxMB: number): string
   return formatTemplate(copy.uploadTooLarge, { maxMB });
 }
 
-export async function uploadImage(file: File, copy: AngleCopy): Promise<UploadedImage> {
+export async function uploadImage(file: File, copy: AngleCopy, options: { signal?: AbortSignal } = {}): Promise<UploadedImage> {
   const preparedFile = await prepareImageFileForUpload(file, {
     maxBytes: DEFAULT_UPLOAD_LIMIT_MB * 1024 * 1024,
   });
+
+  options.signal?.throwIfAborted();
 
   const formData = new FormData();
   formData.set('file', preparedFile, preparedFile.name);
 
   const response = await authFetch('/api/uploads/image', {
+    signal: options.signal,
     method: 'POST',
     body: formData,
   });
@@ -205,10 +196,5 @@ export async function uploadImage(file: File, copy: AngleCopy): Promise<Uploaded
     throw new Error(payload?.error ?? `Upload failed (${response.status})`);
   }
 
-  return {
-    url: payload.asset.url,
-    width: payload.asset.width,
-    height: payload.asset.height,
-    name: payload.asset.name,
-  };
+  return { ...payload.asset };
 }

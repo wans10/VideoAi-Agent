@@ -238,8 +238,8 @@ test('public gallery traverses every eligible video beyond the old window and hy
       assert.deepEqual(page.items.map(item=>item.id),baseline.items.map(item=>item.id),'version discovery cannot change curation or poster order');
       assert.ok(!page.items.some(item=>item.id==='historical-version'));
       assert.deepEqual(page.versionSamples,[
-        {engineId:'kling-3-pro',videoId:'kling-1'},
-        {engineId:'kling-2-6-pro',videoId:'historical-version'},
+        {engineId:'kling-3-pro',videoId:'kling-1',engineLabel:'Fixture'},
+        {engineId:'kling-2-6-pro',videoId:'historical-version',engineLabel:'Fixture'},
       ]);
       assert.equal(statements.length,1,'use the existing catalogue snapshot, not N reads per model');
       assert.equal(statements[0].hydratedRows,24,'old-version discovery must not hydrate extra media/settings');
@@ -254,7 +254,7 @@ test('public gallery traverses every eligible video beyond the old window and hy
         }
         writeFileSync(process.env.EXAMPLES_VERSION_EVIDENCE_PATH,JSON.stringify({fixture:'same PostgreSQL17 family with 515 public members; only requested 24 media rows hydrated',sequence:'ABBAABBA',measurements},null,2)+'\n');
       }
-      assert.ok(page.versionSamples.every(sample=>Object.keys(sample).sort().join(',')==='engineId,videoId'));
+      assert.ok(page.versionSamples.every(sample=>Object.keys(sample).sort().join(',')==='engineId,engineLabel,videoId'));
       for(const whitespace of ['\t\n','\u00a0','\ufeff','\u1680\u2000\u200a\u2028\u2029\u202f\u205f\u3000']) {
         await db.query("UPDATE app_jobs SET prompt=$1 WHERE job_id='without-prompt'",[whitespace]);
         assert.deepEqual((await reader.listExampleFamilyPage('kling',{sort:'playlist',limit:24,offset:0,includeVersionSamples:true})).versionSamples,page.versionSamples,'whitespace-only prompts do not create discovery links');
@@ -267,7 +267,7 @@ test('public gallery traverses every eligible video beyond the old window and hy
       await db.query("DELETE FROM job_outputs WHERE job_id='historical-version'");
       await db.query(`INSERT INTO playlist_curations(playlist_id,mode,ordered_ids,excluded_ids)
         SELECT id,'manual',ARRAY['kling-20'],'{}' FROM playlists WHERE slug='family-kling'`);
-      assert.deepEqual((await reader.listExampleFamilyPage('kling',{sort:'playlist',limit:24,offset:0,includeVersionSamples:true})).versionSamples,[{engineId:'kling-3-pro',videoId:'kling-20'}],'explicit family selection remains authoritative');
+      assert.deepEqual((await reader.listExampleFamilyPage('kling',{sort:'playlist',limit:24,offset:0,includeVersionSamples:true})).versionSamples,[{engineId:'kling-3-pro',videoId:'kling-20',engineLabel:'Fixture'}],'explicit family selection remains authoritative');
     } finally {
       await db.query("DELETE FROM playlist_curations WHERE playlist_id=(SELECT id FROM playlists WHERE slug='family-kling');DELETE FROM job_outputs WHERE job_id='historical-version';DELETE FROM playlist_items WHERE video_id IN ('historical-version','without-prompt');DELETE FROM app_jobs WHERE job_id IN ('historical-version','without-prompt')");
     }
@@ -337,7 +337,7 @@ test('public gallery traverses every eligible video beyond the old window and hy
     await postgres.pool.query('ALTER TABLE playlist_curations RENAME TO unavailable_curations');
     try {
       const legacy=await read(504);assert.equal(legacy.total,513);assert.equal(legacy.items.length,9);
-      assert.deepEqual((await reader.listExampleFamilyPage('kling',{sort:'playlist',limit:24,offset:0,includeVersionSamples:true})).versionSamples,[{engineId:'kling-3-pro',videoId:'kling-1'}]);
+      assert.deepEqual((await reader.listExampleFamilyPage('kling',{sort:'playlist',limit:24,offset:0,includeVersionSamples:true})).versionSamples,[{engineId:'kling-3-pro',videoId:'kling-1',engineLabel:'Fixture'}]);
     }
     finally {await postgres.pool.query('ALTER TABLE unavailable_curations RENAME TO playlist_curations');}
   });
@@ -358,6 +358,7 @@ test('public gallery traverses every eligible video beyond the old window and hy
     for(const id of ['private','hidden','running','image','deleted-output','deleted-asset','missing']) {
       assert.equal(await reader.getExampleWatchDetail(id),null);
       assert.equal(await reader.getVideoWatchPageDataById(id),null,`direct watch rejects ${id}`);
+      assert.equal(await reader.getVideoWatchPageDataById(id,{includeRelated:false}),null,`bounded watch rejects ${id}`);
       assert.equal(await reader.loadStudioExampleEntry(id),null,`Studio rejects ${id}`);
     }
     await postgres.pool.query("UPDATE app_jobs SET visibility='private' WHERE job_id='kling-20'");
@@ -389,12 +390,16 @@ test('public gallery traverses every eligible video beyond the old window and hy
     for(const migration of ['23_video_seo_pages.sql','24_video_seo_canonical_slug.sql','25_video_seo_visual_context.sql','40_video_seo_rollout_exclusions.sql']) {
       await postgres.pool.query(readFileSync(`neon/migrations/${migration}`,'utf8'));
     }
-    await postgres.pool.query(`UPDATE app_jobs SET prompt=$1 WHERE job_id='kling-21'`, ['An original cinematic scene showing a dancer performing precise circular movements in a sunlit courtyard. The camera slowly orbits the dancer from left to right, preserving body proportions, natural lighting, soft shadows, stable architecture, expressive choreography and coherent realistic motion through a continuous five second landscape shot.']);
+    await postgres.pool.query(`UPDATE app_jobs SET prompt=$1,engine_label='Kling 3 Pro' WHERE job_id='kling-21'`, ['An original cinematic scene showing a dancer performing precise circular movements in a sunlit courtyard. The camera slowly orbits the dancer from left to right, preserving body proportions, natural lighting, soft shadows, stable architecture, expressive choreography and coherent realistic motion through a continuous five second landscape shot.']);
     await postgres.pool.query(`INSERT INTO video_seo_pages(video_id,seo_status,seo_title,meta_description,h1,video_object_name,short_description,target_keyword,intent,model_slug,examples_slug,canonical_slug)
       VALUES('kling-21','approved','Kling dance film — MaxVideoAI','Watch an original Kling dance film with a continuous camera orbit, natural lighting and the complete generation prompt.','Kling 3 Pro cinematic dance in a sunlit courtyard','Kling dance film','An original Kling 3 Pro dance film, with a continuous camera orbit around a sunlit courtyard and realistic choreography in a single flowing shot.','Kling dance film','camera-motion','kling-3-pro','kling','kling-dance-film')`);
     const popup=await reader.getExampleWatchDetail('kling-21');
     const page=await reader.getVideoWatchPageDataById('kling-dance-film');
     assert.ok(page);assert.equal(page.isEligible,true,JSON.stringify(page.signals.editorialQaErrors));
+    statements.length=0;
+    const primary=await reader.getVideoWatchPageDataById('kling-dance-film',{includeRelated:false});
+    assert.deepEqual(primary,{...page,related:[]},'bounded reader retains canonical, eligibility, editorial and media data');
+    assert.ok(statements.filter(statement=>statement.text.includes('FROM app_jobs')).every(statement=>statement.rows===1));
     statements.length=0;
     const direct=await reader.buildExampleWatchDetail(page.video,page.signals);
     assert.ok(!statements.some(statement=>statement.text.includes('video_seo_pages')),
@@ -404,12 +409,86 @@ test('public gallery traverses every eligible video beyond the old window and hy
     assert.deepEqual(popup,direct,'both surfaces project the same persisted editorial entry');
     await postgres.pool.query(`INSERT INTO media_assets(user_id,url,status) SELECT user_id,video_url,'deleted' FROM app_jobs WHERE job_id='kling-21'`);
     assert.equal(await reader.getVideoWatchPageDataById('kling-dance-film'),null,'an approved slug cannot expose a deleted output');
+    assert.equal(await reader.getVideoWatchPageDataById('kling-dance-film',{includeRelated:false}),null);
     await postgres.pool.query(`DELETE FROM media_assets WHERE url='https://media.maxvideoai.com/fixture/kling-21.mp4'`);
-    await postgres.pool.query(`UPDATE video_seo_pages SET h1='A new editorial title',seo_status='disabled' WHERE video_id='kling-21'`);
+    await postgres.pool.query(`UPDATE video_seo_pages SET h1='A new editorial title' WHERE video_id='kling-21'`);
+    const edited=await reader.getExampleWatchDetail('kling-21');
+    assert.equal(edited.title,'A new editorial title','approved admin edits remain visible');
+    await postgres.pool.query(`UPDATE video_seo_pages SET seo_status='disabled',short_description='Internal review note: inspect this scene before approval.' WHERE video_id='kling-21'`);
     const changed=await reader.getExampleWatchDetail('kling-21');
     const disabledPage=await reader.getVideoWatchPageDataById('kling-dance-film');
-    assert.equal(changed.title,'A new editorial title');assert.equal(disabledPage.isEligible,false);
+    assert.deepEqual((await postgres.pool.query(`SELECT h1,seo_status,short_description FROM video_seo_pages WHERE video_id='kling-21'`)).rows,
+      [{h1:'A new editorial title',seo_status:'disabled',short_description:'Internal review note: inspect this scene before approval.'}],
+      'public fallback must preserve persisted admin copy and review status');
+    assert.equal(changed.title,'Kling 3 Pro video example: An original cinematic scene showing a');
+    assert.match(changed.context.intro,/^This Kling 3 Pro text to video example shows/);
+    assert.doesNotMatch(JSON.stringify(changed),/A new editorial title|Internal review note/);
+    assert.equal(disabledPage.isEligible,false);
+    assert.equal(disabledPage.signals.seoStatus,'disabled');
+    assert.equal(changed.watchHref,'/video/kling-dance-film');
+    assert.equal(changed.videoUrl,popup.videoUrl);
+    assert.equal(changed.prompt,popup.prompt);
     assert.equal(disabledPage.signals.title,changed.title);
+    assert.deepEqual(await reader.buildExampleWatchDetail(disabledPage.video,disabledPage.signals),changed,
+      'disabled prose uses the same factual fallback in the popup and prepared direct reader');
+    assert.deepEqual(await reader.getVideoWatchPageDataById('kling-dance-film',{includeRelated:false}),{...disabledPage,related:[]});
+    await postgres.pool.query(`UPDATE video_seo_pages SET seo_status='approved',h1=$1,short_description=$2 WHERE video_id='kling-21'`,[popup.title,popup.context.intro]);
+    const restored=await reader.getExampleWatchDetail('kling-21');
+    const restoredPage=await reader.getVideoWatchPageDataById('kling-dance-film',{includeRelated:false});
+    assert.deepEqual(restored,popup,'explicit reapproval restores the approved public prose');
+    assert.equal(restoredPage.isEligible,true);
+    assert.deepEqual(await reader.buildExampleWatchDetail(restoredPage.video,restoredPage.signals),restored);
+  });
+
+  await t.test('ready marketing publication retains catalog order, approved watch slug and editorial output after deleting its source', async () => {
+    const previousFlag = process.env.MARKETING_MEDIA_ENABLED;
+    try {
+      await postgres.pool.query(readFileSync('neon/migrations/78_marketing_media.sql', 'utf8'));
+      await postgres.pool.query("UPDATE video_seo_pages SET seo_status='approved' WHERE video_id='kling-21'");
+      const beforePage = await reader.getVideoWatchPageDataById('kling-dance-film', {includeRelated:false});
+      const beforeCatalog = await reader.listExamplesPage({sort:'date-desc',limit:24,offset:0});
+      await postgres.pool.query(`INSERT INTO marketing_media(video_id,copy_id,state,source_fingerprint,source_snapshot,source_record,publication,recreation_snapshot,attempt_id,copied_by)
+        SELECT job_id,gen_random_uuid(),'ready','fixture','{}','{}',to_jsonb(j)||jsonb_build_object('user_id',NULL,'video_url','https://media.maxvideoai.com/marketing-media/site-copy.mp4'),
+        jsonb_build_object('schemaVersion',1,'surface','video','engineId',engine_id,'inputMode','t2v','prompt',prompt,'core','{}'::jsonb,'refs','{}'::jsonb),gen_random_uuid(),'admin'
+        FROM app_jobs j WHERE job_id='kling-21'`);
+      process.env.MARKETING_MEDIA_ENABLED='1';
+      await postgres.pool.query("DELETE FROM app_jobs WHERE job_id='kling-21'");
+      const afterPage = await reader.getVideoWatchPageDataById('kling-dance-film', {includeRelated:false});
+      const afterCatalog = await reader.listExamplesPage({sort:'date-desc',limit:24,offset:0});
+      assert.equal(afterPage?.isEligible,beforePage?.isEligible);
+      assert.equal(afterPage?.video.id,'kling-21');
+      assert.equal(afterPage?.signals.title,beforePage?.signals.title);
+      assert.equal(afterPage?.entry.canonicalSlug,beforePage?.entry.canonicalSlug);
+      assert.equal((await reader.getExampleWatchDetail('kling-21')).watchHref,'/video/kling-dance-film');
+      assert.equal(afterCatalog.total,beforeCatalog.total);
+      assert.deepEqual(afterCatalog.items.map((video:any)=>video.id),beforeCatalog.items.map((video:any)=>video.id));
+      // Returning only N rows does not prove PostgreSQL projected only N media.
+      // The marketing UNION used to let a pulled-up lateral join hydrate every job.
+      for (const limit of [1, 24]) {
+        statements.length = 0;
+        const page = await reader.listExamplesPage({sort:'date-desc',limit,offset:1,includeVersionSamples:true});
+        assert.equal(page.items.length, limit);
+        assert.equal(statements.length, 1, 'counts, membership and hydration share one read-only statement');
+        const statement = statements[0];
+        const explained = await reader.getDb().query(`EXPLAIN (ANALYZE, FORMAT JSON) ${statement.text}`, statement.params);
+        const dimensionScans: Array<Record<string, any>> = [];
+        let publicationDecodes = 0;
+        const visit = (node: Record<string, any>) => {
+          if (node['Function Name'] === 'jsonb_populate_record') publicationDecodes += node['Actual Loops'];
+          if (node['Relation Name'] === 'job_outputs' && node.Filter?.includes('width IS NOT NULL')) dimensionScans.push(node);
+          for (const child of node.Plans ?? []) visit(child);
+        };
+        visit(explained.rows[0]['QUERY PLAN'][0].Plan);
+        assert.ok(dimensionScans.length > 0, 'the real output-dimension lookup must be exercised');
+        const dimensionReads = dimensionScans.reduce((sum, node) => sum + node['Actual Loops'], 0);
+        assert.ok(dimensionReads <= 2 * limit,
+          `width/height lookups must stay within the selected page: ${dimensionReads} reads for ${limit} cards`);
+        assert.ok(publicationDecodes <= 1, 'decode the one ready publication at most once, not once per selected card');
+      }
+
+    } finally {
+      if(previousFlag===undefined)delete process.env.MARKETING_MEDIA_ENABLED;else process.env.MARKETING_MEDIA_ENABLED=previousFlag;
+    }
   });
 
 });

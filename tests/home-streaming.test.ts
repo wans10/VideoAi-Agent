@@ -18,6 +18,7 @@ async function bundle() {
   const directory = await mkdtemp(join(tmpdir(), 'home-streaming-'));
   const output = join(directory, 'owners.cjs');
   const mocks: Record<string, string> = {
+    '@/server/character-studio/marketing-demos': `export const getCharacterStudioMarketingVideos=async()=>[];`,
     probe: `
       export const calls=[], records=[];
       let released, gates;
@@ -31,7 +32,7 @@ async function bundle() {
     '@/server/homepage': `import {read} from 'probe';export const getHomepageSlotsCached=()=>read('hero-slots',{hero:[],gallery:[]});export const getSuccessfulGenerationCountCached=async()=>20000;`,
     '@/server/videos': `import {read,videos} from 'probe';export const listExamples=async(sort)=>read(sort==='playlist'?'example-playlist':'example-latest',videos);export const listExampleFamilyPage=async()=>({items:[],total:0,limit:24,offset:0,hasMore:false});export const listPlaylistVideos=async()=>[];`,
     '@/server/model-launch-assets': `export const ACCEPTED_DURABLE_MODEL_ASSETS=[];`,
-    '@/server/current-example-price': `import {read} from 'probe';export const quoteCurrentExamplePrices=()=>read('hero-pricing',new Map([['minimax-h3-max',{kind:'reference',modelId:'minimax-h3-max',amountCents:141,currency:'USD',scenarioLabel:'Text to video · 5s · 1080p'}]]));`,
+    '@/server/current-example-price': `import {read} from 'probe';export const quoteCurrentExamplePrices=()=>read('hero-pricing',new Map([['minimax-h3',{kind:'reference',modelId:'minimax-h3',amountCents:141,currency:'USD',scenarioLabel:'Text to video · 5s · 1080p'}]]));`,
     '@/server/public-page-timing': `import {withPublicPageTiming as actual} from ${JSON.stringify(resolve('frontend/server/public-page-timing.ts'))};import {records} from 'probe';export * from ${JSON.stringify(resolve('frontend/server/public-page-timing.ts'))};export const withPublicPageTiming=(context,load)=>actual(context,load,{enabled:true,deployment:'test',emit:record=>records.push(record)});`,
   };
   await build({
@@ -42,7 +43,7 @@ async function bundle() {
       builder.onResolve({ filter: /\.module\.css$/ }, args => ({ path: args.path, namespace: 'css-module' }));
       builder.onLoad({ filter: /.*/, namespace: 'css-module' }, () => ({ contents: 'export default new Proxy({}, { get: (_, key) => String(key) });', loader: 'js' }));
       builder.onResolve({ filter: /\.css$/ }, args => ({ path: args.path, namespace: 'empty' }));
-      builder.onLoad({ filter: /.*/, namespace: 'empty' }, () => ({ contents: '', loader: 'js' }));
+      builder.onLoad({ filter: /.*/, namespace: 'empty' }, () => ({ contents: 'export default new Proxy({},{get:(_,key)=>key});', loader: 'js' }));
       builder.onResolve({ filter: /.*/ }, args => {
         if (args.path.startsWith(resolve('frontend/messages') + '/')) return { path: args.path, external: true };
         if (args.path.startsWith('@/messages/')) return { path: resolve('frontend', args.path.slice(2)), external: true };
@@ -125,6 +126,7 @@ test('real homepage streams the prompt first screen and works wall before pendin
       const expectedPricing = renderToStaticMarkup(wrap(React.createElement(fixture.HomePricingSection, { locale, models: finalModels, copy: dictionary.home.redesign.pricingTrust })));
       assert.ok(tail.replace(/<!--[\s\S]*?-->/g, '').includes(expectedPricing), 'The revealed pricing demo preserves the exact canonical scenarios');
       assert.doesNotMatch(tail, /data-home-prompt-form|data-home-showcase/, 'The later reveal replaces pricing alone');
+
       await tick();
       assert.equal(fixture.records.length, 1);
       assert.equal(fixture.records[0].status, 'ok');

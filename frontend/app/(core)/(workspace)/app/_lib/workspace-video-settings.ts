@@ -1,7 +1,10 @@
+import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
+import { normalizeVideoOperation, resolveVideoOperationEngine } from '@/lib/video-operation';
+import { snapshotReferenceInputs } from './workspace-snapshot-reference-inputs';
 import { resolveExampleResolution } from './workspace-example-resolution';
-import { getArchivedWorkspaceEngine } from './workspace-archived-engine';
+import { resolveRecalledWorkspaceEngine } from './workspace-recall-engine';
 import type { MultiPromptScene } from '@/components/Composer';
-import type { KlingElementAsset, KlingElementState } from '@/components/KlingElementsBuilder';
+import type { KlingElementState } from '@/components/KlingElementsBuilder';
 import type { QuadPreviewTile } from '@/components/QuadPreviewPanel';
 import type { EngineCaps, Mode } from '@/types/engines';
 import type { ReferenceAsset } from './workspace-assets';
@@ -10,18 +13,18 @@ import {
   coerceFormState,
   getPreferredEngineMode,
   isModeValue,
-  matchesEngineToken,
-  normalizeEngineToken,
-  resolveAudioDefault,
-  resolveBooleanFieldDefault,
 } from './workspace-engine-helpers';
 import { resolveDerivedAspectRatio } from './workspace-derived-aspect-ratio';
 import { MULTI_PROMPT_MIN_SEC } from './workspace-input-helpers';
+import { readSnapshotKlingElements } from './workspace-video-settings-kling-elements';
 
 type MemberTier = 'Member' | 'Plus' | 'Pro';
 type ShotType = 'customize' | 'intelligent';
 
 type VideoSettingsRecord = {
+  sourceJobId?: unknown;
+  sourceOutputId?: unknown;
+  operation?: unknown;
   schemaVersion?: unknown;
   surface?: unknown;
   engineId?: unknown;
@@ -74,6 +77,7 @@ export type ResolvedVideoSettingsSnapshot = {
     scenes: MultiPromptScene[];
   };
   formValues: {
+    operation?: import('@/lib/video-operation').VideoOperation;
     durationSec?: number;
     durationOption?: number | string;
     numFrames?: number;
@@ -123,8 +127,13 @@ function readVoiceIdsInput(value: unknown): string {
   return ids.filter((entry) => entry.length > 0).join(', ');
 }
 
-function readMultiPromptScenes(value: unknown, createLocalId: CreateLocalId): MultiPromptScene[] | null {
+function readMultiPromptScenes(value: unknown, createLocalId: CreateLocalId, preserveExact = false): MultiPromptScene[] | null {
   if (!Array.isArray(value)) return null;
+  if (preserveExact) return value.map((entry) => {
+    const record = readRecord(entry);
+    if (typeof record.prompt !== 'string' || typeof record.duration !== 'number' || !Number.isFinite(record.duration)) throw new Error('Invalid Kling 4.0 shot plan in saved settings.');
+    return { id: typeof record.id === 'string' ? record.id : createLocalId('scene'), prompt: record.prompt, duration: record.duration };
+  });
   const scenes = value
     .map((entry) => {
       if (!entry || typeof entry !== 'object') return null;
@@ -183,67 +192,13 @@ function readSnapshotInputAssets(value: unknown): Record<string, (ReferenceAsset
       url,
       width,
       height,
+      durationSec: readFiniteNumber(attachment.durationSec) ?? null,
       assetId,
       status: 'ready',
     };
     next[slotId] = [...(next[slotId] ?? []), refAsset];
   });
   return next;
-}
-
-function buildKlingAssetFromUrl(
-  url: string,
-  kind: 'image' | 'video',
-  index: number,
-  createLocalId: CreateLocalId
-): KlingElementAsset {
-  return {
-    id: createLocalId(`kling_${kind}`),
-    previewUrl: url,
-    name: url.split('/').pop() ?? `${kind}-${index + 1}`,
-    kind,
-    status: 'ready',
-    url,
-  };
-}
-
-function readSnapshotKlingElements(
-  value: unknown,
-  createLocalId: CreateLocalId,
-  createFallbackKlingElement: () => KlingElementState
-): KlingElementState[] | null {
-  if (value !== null && !Array.isArray(value)) return null;
-  const elements = Array.isArray(value)
-    ? value
-        .map((entry, elementIndex) => {
-          if (!entry || typeof entry !== 'object') return null;
-          const record = entry as Record<string, unknown>;
-          const frontalUrl =
-            typeof record.frontalImageUrl === 'string' && record.frontalImageUrl.trim().length
-              ? record.frontalImageUrl.trim()
-              : null;
-          const referenceUrls = Array.isArray(record.referenceImageUrls)
-            ? record.referenceImageUrls
-                .map((entry: unknown) => (typeof entry === 'string' ? entry.trim() : ''))
-                .filter((entry): entry is string => entry.length > 0)
-                .slice(0, 3)
-            : [];
-          const videoUrl =
-            typeof record.videoUrl === 'string' && record.videoUrl.trim().length ? record.videoUrl.trim() : null;
-          if (!frontalUrl && referenceUrls.length === 0 && !videoUrl) return null;
-          const references = Array.from({ length: 3 }, (_, index) =>
-            referenceUrls[index] ? buildKlingAssetFromUrl(referenceUrls[index], 'image', index, createLocalId) : null
-          );
-          return {
-            id: createLocalId(`element_${elementIndex}`),
-            frontal: frontalUrl ? buildKlingAssetFromUrl(frontalUrl, 'image', 0, createLocalId) : null,
-            references,
-            video: videoUrl ? buildKlingAssetFromUrl(videoUrl, 'video', 0, createLocalId) : null,
-          } satisfies KlingElementState;
-        })
-        .filter((element): element is KlingElementState => Boolean(element))
-    : [];
-  return elements.length ? elements : [createFallbackKlingElement()];
 }
 
 export function resolveVideoSettingsSnapshot(
@@ -262,25 +217,21 @@ export function resolveVideoSettingsSnapshot(
   }
 
   const snapshotEngineId = typeof record.engineId === 'string' ? record.engineId : null;
-  const snapshotToken = snapshotEngineId ? normalizeEngineToken(snapshotEngineId) : null;
-  const engine =
-    getArchivedWorkspaceEngine(snapshotEngineId) ??
-    (snapshotEngineId ? options.engineMap.get(snapshotEngineId) : null) ??
-    (snapshotToken ? options.engines.find((candidate) => matchesEngineToken(candidate, snapshotToken)) : null) ??
-    options.engines[0] ??
-    null;
-  if (!engine) {
+  const baseEngine = resolveRecalledWorkspaceEngine(snapshotEngineId, options.engines, options.engineMap);
+  if (!baseEngine) {
     throw new Error('No engines available to apply this snapshot');
   }
 
   const snapshotModeRaw = typeof record.inputMode === 'string' ? record.inputMode : '';
-  const snapshotMode: Mode = isModeValue(snapshotModeRaw) ? snapshotModeRaw : getPreferredEngineMode(engine);
-  const mode = engine.modes.includes(snapshotMode) ? snapshotMode : getPreferredEngineMode(engine);
+  const snapshotMode: Mode = isModeValue(snapshotModeRaw) ? snapshotModeRaw : getPreferredEngineMode(baseEngine);
+  const mode = baseEngine.modes.includes(snapshotMode) ? snapshotMode : getPreferredEngineMode(baseEngine);
+  const operation = record.operation !== undefined ? normalizeVideoOperation(baseEngine.id, mode, record.operation) : undefined;
+  const engine = operation ? resolveVideoOperationEngine(baseEngine, mode, operation) : baseEngine;
   const core = readRecord(record.core);
   const advanced = readRecord(record.advanced);
   const refs = readRecord(record.refs);
   const meta = readRecord(record.meta);
-  const multiPromptScenes = readMultiPromptScenes(advanced.multiPrompt, options.createLocalId);
+  const multiPromptScenes = readMultiPromptScenes(advanced.multiPrompt, options.createLocalId, engine.id === 'kling-v4');
 
   return {
     engine,
@@ -296,6 +247,7 @@ export function resolveVideoSettingsSnapshot(
       scenes: multiPromptScenes ?? [options.createFallbackScene()],
     },
     formValues: {
+      ...(operation ? { operation } : {}),
       durationSec: readFiniteNumber(core.durationSec),
       durationOption:
         typeof core.durationOption === 'number' || typeof core.durationOption === 'string'
@@ -321,55 +273,54 @@ export function resolveVideoSettingsSnapshot(
       seed: readInteger(advanced.seed) ?? null,
       cameraFixed: typeof advanced.cameraFixed === 'boolean' ? advanced.cameraFixed : undefined,
       safetyChecker: typeof advanced.safetyChecker === 'boolean' ? advanced.safetyChecker : undefined,
-      extraInputValues: coerceStoredExtraInputValues(advanced.extraInputValues) ?? {},
+      extraInputValues: { ...(coerceStoredExtraInputValues(advanced.extraInputValues) ?? {}), ...(typeof record.sourceJobId === 'string' ? { source_job_id: record.sourceJobId } : {}), ...(typeof record.sourceOutputId === 'string' ? { source_output_id: record.sourceOutputId } : {}) },
     },
-    inputAssets: Object.prototype.hasOwnProperty.call(refs, 'inputs') ? readSnapshotInputAssets(refs.inputs) : null,
+    inputAssets: readSnapshotInputAssets(snapshotReferenceInputs(refs, engine, mode) ?? null) ?? {},
     klingElements: Object.prototype.hasOwnProperty.call(refs, 'elements')
-      ? readSnapshotKlingElements(refs.elements, options.createLocalId, options.createFallbackKlingElement)
-      : null,
+      ? readSnapshotKlingElements(refs.elements, options.createLocalId, options.createFallbackKlingElement, isKlingV4FalQueueEngineId(engine.id))
+      : [options.createFallbackKlingElement()],
   };
 }
 
 export function buildVideoSettingsFormState(
-  snapshot: ResolvedVideoSettingsSnapshot,
-  previous: FormState | null
+  snapshot: ResolvedVideoSettingsSnapshot
 ): FormState {
   const { engine, mode, formValues } = snapshot;
+  // Recalling a generation replaces the setup. Missing historical fields use
+  // this engine's defaults, never values from an unrelated in-progress draft.
+  const defaults = coerceFormState(engine, mode, null);
   const candidate: FormState = {
     engineId: engine.id,
+    ...(formValues.operation ? { operation: formValues.operation } : {}),
     mode,
-    durationSec: typeof formValues.durationSec === 'number' ? formValues.durationSec : previous?.durationSec ?? 4,
+    durationSec: formValues.durationSec ?? defaults.durationSec,
     durationOption:
       formValues.durationOption ??
-      (typeof formValues.durationSec === 'number' ? formValues.durationSec : previous?.durationOption ?? undefined),
-    numFrames: formValues.numFrames ?? previous?.numFrames ?? undefined,
-    resolution: formValues.resolution ?? previous?.resolution ?? (engine.resolutions[0] ?? '1080p'),
-    aspectRatio: formValues.aspectRatio ?? previous?.aspectRatio ?? (engine.aspectRatios[0] ?? '16:9'),
-    fps: formValues.fps ?? previous?.fps ?? (engine.fps?.[0] ?? 24),
-    iterations: formValues.iterations ?? previous?.iterations ?? 1,
-    seedLocked: previous?.seedLocked ?? false,
-    loop: typeof formValues.loop === 'boolean' ? formValues.loop : previous?.loop,
-    audio: typeof formValues.audio === 'boolean' ? formValues.audio : previous?.audio ?? resolveAudioDefault(engine, mode),
-    seed: formValues.seed ?? previous?.seed ?? null,
-    cameraFixed:
-      typeof formValues.cameraFixed === 'boolean'
-        ? formValues.cameraFixed
-        : previous?.cameraFixed ?? resolveBooleanFieldDefault(engine, mode, 'camera_fixed', false),
-    safetyChecker:
-      typeof formValues.safetyChecker === 'boolean'
-        ? formValues.safetyChecker
-        : previous?.safetyChecker ?? resolveBooleanFieldDefault(engine, mode, 'enable_safety_checker', true),
+      (typeof formValues.durationSec === 'number' ? formValues.durationSec : defaults.durationOption),
+    numFrames: formValues.numFrames,
+    resolution: formValues.resolution ?? defaults.resolution,
+    aspectRatio: formValues.aspectRatio ?? defaults.aspectRatio,
+    fps: formValues.fps ?? defaults.fps,
+    iterations: formValues.iterations ?? defaults.iterations,
+    seedLocked: false,
+    loop: formValues.loop ?? defaults.loop,
+    audio: formValues.audio ?? defaults.audio,
+    seed: formValues.seed ?? defaults.seed,
+    cameraFixed: formValues.cameraFixed ?? defaults.cameraFixed,
+    safetyChecker: formValues.safetyChecker ?? defaults.safetyChecker,
     extraInputValues: formValues.extraInputValues,
   };
   return coerceFormState(engine, mode, candidate);
 }
 
 export function buildVideoSettingsSnapshotFromTile(tile: QuadPreviewTile): unknown {
+  if (tile.settingsSnapshot != null) return tile.settingsSnapshot;
   return {
     schemaVersion: 1,
     surface: 'video',
     engineId: tile.engineId,
-    inputMode: 't2v',
+    inputMode: tile.generationMode ?? 't2v',
+    ...(tile.operation ? { operation: tile.operation } : {}),
     prompt: tile.prompt,
     negativePrompt: null,
     core: {

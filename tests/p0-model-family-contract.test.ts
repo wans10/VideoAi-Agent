@@ -40,7 +40,7 @@ const FAMILY_DEFAULTS = {
   ltx: 'ltx-2-5-pro',
   wan: 'wan-3-prime',
   grok: 'grok-imagine-video-1-5',
-  flux: 'flux-3',
+  flux: 'flux-3-max',
 } as const;
 
 const p0Ids = Object.keys(P0_MODELS);

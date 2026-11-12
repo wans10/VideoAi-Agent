@@ -1,22 +1,26 @@
+import { mediaReadAccessFields } from '@/lib/library-media-access';
+import type { MediaReadAccess } from '@/lib/media-read-access';
+import { useWorkspaceReferenceBatch } from './useWorkspaceReferenceBatch';
 import { useWorkspaceAssetLifetime } from './useWorkspaceAssetLifetime';
+import { useWorkspaceStoryboardReferences } from './useWorkspaceStoryboardReferences';
 import { useCallback, useEffect, useRef } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import { saveAssetToLibrary, saveImageToLibrary } from '@/lib/api';
-import { authFetch } from '@/lib/authFetch';
+import { useWorkspaceUploadOperation } from './useWorkspaceUploadOperation';
 import { prepareImageFileForUpload } from '@/lib/client-image-upload';
 import { uploadVideoFile } from '@/lib/client-video-upload';
 import { getSeedanceFieldBlockKey, isUnifiedSeedanceEngineId } from '@/lib/seedance-workflow';
-import type { EngineInputField, EngineInputSchema, Mode } from '@/types/engines';
+import type { EngineCaps, EngineInputField, EngineInputSchema, Mode } from '@/types/engines';
+import { getMediaInputEligibility } from '@/lib/media-input-eligibility';
+import { getMediaExcerptImportMode } from '@/lib/video-excerpt';
+import { mediaInputEligibilityMessage } from '@/components/library/media-input-eligibility-copy';
+import { readMediaDuration, validateEngineImageFile } from '@/components/asset-dropzone/asset-dropzone-helpers';
+import { getLocalizedAssetDropzoneCopy, normalizeUiLocale } from '@/lib/ltx-localization';
+import { normalizeMinimumImageSide } from '@/lib/image-dimension-constraints';
+import { resolveEngineMediaFieldConstraint } from '@/lib/media-field-constraints';
 import {
-  buildReferenceAssetFromLibraryAsset,
   getAssetLibrarySourceForField,
-  getLibraryAssetFieldMismatchMessage,
-  mergeMirroredLibraryAsset,
   removeReferenceAsset,
   revokeAssetPreview,
-  settleReferenceAssetReservation,
-  shouldMirrorCharacterImageAsset,
-  shouldMirrorVideoLibraryAsset,
   tryInsertReferenceAsset,
   type AssetLibrarySource,
   type AssetPickerTarget,
@@ -34,8 +38,12 @@ import type { CommitInputAssetMutation } from './useWorkspaceAssetState';
 type UseWorkspaceReferenceAssetsOptions = {
   accountScope?: string | null;
   engineId?: string | null;
+  engine?: EngineCaps | null;
+  locale?: string;
+  assetPickerTarget?: AssetPickerTarget | null;
   inputSchema?: EngineInputSchema | null;
   preferredMode: Mode;
+  workflowIntent?: Mode | null;
   workflowCopy: {
     clearReferencesToUseStartEnd: string;
     clearStartEndToUseReferences: string;
@@ -47,7 +55,6 @@ type UseWorkspaceReferenceAssetsOptions = {
   assetLibrarySource: AssetLibrarySource;
   resetAssetLibraryForSource: (nextSource: AssetLibrarySource) => void;
   setAssetPickerTarget: Dispatch<SetStateAction<AssetPickerTarget | null>>;
-  setAssetLibrary: Dispatch<SetStateAction<UserAsset[]>>;
 };
 
 function createReferenceAssetId(): string {
@@ -60,8 +67,12 @@ function createReferenceAssetId(): string {
 export function useWorkspaceReferenceAssets({
   accountScope,
   engineId,
+  engine,
+  locale = 'en',
+  assetPickerTarget,
   inputSchema,
   preferredMode,
+  workflowIntent,
   workflowCopy,
   showNotice,
   inputAssets,
@@ -70,10 +81,15 @@ export function useWorkspaceReferenceAssets({
   assetLibrarySource,
   resetAssetLibraryForSource,
   setAssetPickerTarget,
-  setAssetLibrary,
 }: UseWorkspaceReferenceAssetsOptions) {
+  useWorkspaceStoryboardReferences(accountScope, inputAssets, setInputAssets);
   const valid = useWorkspaceAssetLifetime(accountScope);
+  const beginUpload = useWorkspaceUploadOperation(accountScope, valid);
   const assetsRef = useRef<Record<string, (ReferenceAsset | null)[]>>({});
+  const importScope = useRef({ engineId, preferredMode, inputSchema, assetPickerTarget });
+  if (importScope.current.engineId !== engineId || importScope.current.preferredMode !== preferredMode
+    || importScope.current.inputSchema !== inputSchema || importScope.current.assetPickerTarget !== assetPickerTarget)
+    importScope.current = { engineId, preferredMode, inputSchema, assetPickerTarget };
 
   useEffect(() => {
     assetsRef.current = inputAssets;
@@ -122,164 +138,58 @@ export function useWorkspaceReferenceAssets({
       if (nextSource !== assetLibrarySource) {
         resetAssetLibraryForSource(nextSource);
       }
-      setAssetPickerTarget({ kind: 'field', field, slotIndex });
+      // An empty collection slot opens the same append intent as the group action.
+      const maxCount = field.maxCount ?? 1;
+      const append = maxCount > 1 && slotIndex !== undefined
+        && Number.isInteger(slotIndex) && slotIndex >= 0 && slotIndex < maxCount
+        && inputAssets[field.id]?.[slotIndex] == null;
+      setAssetPickerTarget({ kind: 'field', field, slotIndex: append ? undefined : slotIndex });
     },
     [
       valid,
       assetLibrarySource,
       getSeedanceFieldBlockedMessage,
+      inputAssets,
       resetAssetLibraryForSource,
       setAssetPickerTarget,
       showNotice,
     ],
   );
 
-  const handleSelectLibraryAsset = useCallback(
-    async (field: EngineInputField, asset: UserAsset, slotIndex?: number) => {
-      if (!valid()) return;
-      const blockedMessage = getSeedanceFieldBlockedMessage(field);
-      if (blockedMessage) {
-        showNotice(blockedMessage);
-        return blockedMessage;
-      }
-      const mismatchMessage = getLibraryAssetFieldMismatchMessage(field, asset);
-      if (mismatchMessage) {
-        showNotice(mismatchMessage);
-        return mismatchMessage;
-      }
+  const handleSelectLibraryAssets = useWorkspaceReferenceBatch({
+    opening: assetPickerTarget,
+    intent: JSON.stringify([accountScope, engineId, workflowIntent === undefined ? preferredMode : workflowIntent, assetPickerTarget?.kind === 'field' ? [assetPickerTarget.field.id,assetPickerTarget.slotIndex] : assetPickerTarget]),
+    currentField: assetPickerTarget?.kind === "field" ? assetPickerTarget.field : undefined,
+    accountId: accountScope, valid, engineId, engine, locale, mode: preferredMode, inputSchema, inputAssets, workflowCopy,
+    commit: commitInputAssetMutation, close: () => setAssetPickerTarget(null),
+  });
 
-      const shouldMirrorVideo =
-        field.type === 'video' && asset.kind === 'video' && shouldMirrorVideoLibraryAsset(asset);
-      const shouldMirrorImage =
-        field.type === 'image' && asset.kind === 'image' && shouldMirrorCharacterImageAsset(asset);
-      const reservationId =
-        shouldMirrorVideo || shouldMirrorImage ? createReferenceAssetId() : null;
-      const newAsset = buildReferenceAssetFromLibraryAsset(field, asset);
-      const reservedAsset = reservationId
-        ? {
-            ...newAsset,
-            id: reservationId,
-            status: 'uploading' as const,
-          }
-        : newAsset;
-
-      const insertion = commitInputAssetMutation((previous) =>
-        tryInsertReferenceAsset(previous, field, reservedAsset, slotIndex, {
-          inputSchema,
-          preferredMode,
-        }),
-      );
-      if (!insertion.accepted) {
-        const message =
-          insertion.reason === 'reference_budget'
-            ? `Maximum ${insertion.maxTotal} total references reached for this engine mode.`
-            : `Maximum ${field.label ?? 'reference image'} count reached for this engine.`;
-        showNotice(message);
-        return message;
-      }
-      setAssetPickerTarget(null);
-      if (!reservationId) {
-        if (insertion.replacedAsset) {
-          revokeAssetPreview(insertion.replacedAsset);
-        }
-        return;
-      }
-
-      try {
-        const mirrored = shouldMirrorVideo
-          ? await saveAssetToLibrary({
-              url: asset.url,
-              label: field.label ?? asset.url.split('/').pop() ?? 'Video',
-              source: asset.source === 'recent' ? 'saved_job_output' : asset.source,
-              kind: 'video',
-              jobId: asset.jobId ?? null,
-              sourceOutputId: asset.sourceOutputId ?? null,
-              durationSec: asset.durationSec ?? null,
-            })
-          : await saveImageToLibrary({
-              url: asset.url,
-              label: field.label ?? asset.url.split('/').pop() ?? 'Image',
-              source: asset.source,
-            });
-        if (!valid()) {
-          if (insertion.replacedAsset) revokeAssetPreview(insertion.replacedAsset);
-          return;
-        }
-        const resolvedAsset = mergeMirroredLibraryAsset(asset, mirrored);
-        const resolvedReferenceAsset = {
-          ...buildReferenceAssetFromLibraryAsset(field, resolvedAsset),
-          id: reservationId,
-        };
-        const settlement = commitInputAssetMutation((previous) =>
-          settleReferenceAssetReservation(previous, field, reservationId, resolvedReferenceAsset),
-        );
-        if (!settlement.settled) {
-          if (insertion.replacedAsset) {
-            revokeAssetPreview(insertion.replacedAsset);
-          }
-          return;
-        }
-        if (insertion.replacedAsset) {
-          revokeAssetPreview(insertion.replacedAsset);
-        }
-        setAssetLibrary((previous) =>
-          previous.map((entry) =>
-            entry.id === asset.id || entry.url === asset.url ? resolvedAsset : entry,
-          ),
-        );
-      } catch (error) {
-        if (!valid()) {
-          if (insertion.replacedAsset) revokeAssetPreview(insertion.replacedAsset);
-          return;
-        }
-        const rollback = commitInputAssetMutation((previous) =>
-          settleReferenceAssetReservation(previous, field, reservationId, insertion.replacedAsset),
-        );
-        if (rollback.settled && rollback.discardedAsset) {
-          revokeAssetPreview(rollback.discardedAsset);
-        } else if (!rollback.settled && insertion.replacedAsset) {
-          revokeAssetPreview(insertion.replacedAsset);
-        }
-        if (shouldMirrorVideo) {
-          console.error('[assets] failed to mirror generated video asset', error);
-          showNotice(
-            error instanceof Error
-              ? error.message
-              : 'Unable to prepare this video. Try importing the source clip directly.',
-          );
-        } else {
-          console.error('[assets] failed to mirror character library asset', error);
-          showNotice(
-            error instanceof Error
-              ? error.message
-              : 'Unable to prepare this character asset. Try another image.',
-          );
-        }
-      }
-    },
-    [
-      valid,
-      commitInputAssetMutation,
-      getSeedanceFieldBlockedMessage,
-      inputSchema,
-      preferredMode,
-      setAssetLibrary,
-      setAssetPickerTarget,
-      showNotice,
-    ],
-  );
+  const handleSelectLibraryAsset = async (field:EngineInputField,asset:UserAsset,slotIndex?:number) => {
+    const scope = importScope.current;
+    const isCurrent = () => valid() && importScope.current === scope;
+    if (!isCurrent()) return;
+    const result=await handleSelectLibraryAssets(field,[asset],{ isCurrent },slotIndex);
+    if (!isCurrent()) return;
+    if(result!==true){showNotice(result);return result;}
+  };
 
   const handleAssetAdd = useCallback(
     (
       field: EngineInputField,
       file: File,
       slotIndex?: number,
-      meta?: { durationSec?: number; width?: number; height?: number },
+      meta?: { durationSec?: number; width?: number; height?: number; prepareExcerpt?: boolean },
     ) => {
       if (!valid()) return;
       const blockedMessage = getSeedanceFieldBlockedMessage(field);
       if (blockedMessage) {
         showNotice(blockedMessage);
+        return;
+      }
+      const eligibility = getMediaInputEligibility({ asset: { kind: field.type as 'image' | 'video' | 'audio', url: file.name,
+        mime: file.type, size: file.size, ...meta }, field, engine, mode: preferredMode, context: 'file' });
+      if (eligibility.status === 'blocked') {
+        showNotice(mediaInputEligibilityMessage(eligibility, locale)!);
         return;
       }
       const assetId = createReferenceAssetId();
@@ -316,10 +226,11 @@ export function useWorkspaceReferenceAssets({
       if (insertion.replacedAsset) revokeAssetPreview(insertion.replacedAsset);
 
       const upload = async () => {
+        const operation = beginUpload();
         try {
           const assetResponse =
             field.type === 'video'
-              ? await uploadVideoFile(file)
+              ? await uploadVideoFile(file, { request: operation.request, abortRequest: operation.abortRequest })
               : await (async () => {
                   const preparedFile =
                     field.type === 'image'
@@ -328,18 +239,25 @@ export function useWorkspaceReferenceAssets({
                         })
                       : file;
                   if (!valid()) throw new Error('Retired upload');
+                  if (field.type === 'image') {
+                    const preparedEligibility = getMediaInputEligibility({ asset: { kind: 'image', url: preparedFile.name,
+                      mime: preparedFile.type, size: preparedFile.size, width: meta?.width, height: meta?.height }, field, engine, mode: preferredMode });
+                    if (preparedEligibility.status === 'blocked') throw new Error(mediaInputEligibilityMessage(preparedEligibility, locale)!);
+                  }
                   const formData = new FormData();
                   formData.append('file', preparedFile, preparedFile.name);
                   if (field.type === 'audio' && engineId) {
                     formData.append('engineId', engineId);
-                    formData.append('mode', preferredMode);
+                    const uploadMode = !field.modes?.length || field.modes.includes(preferredMode) ? preferredMode : field.modes[0];
+                    formData.append('mode', uploadMode);
                     formData.append('fieldId', field.id);
+                    if (meta?.prepareExcerpt) formData.append('prepareExcerpt', '1');
                   }
                   const uploadEndpoint =
                     field.type === 'audio' ? '/api/uploads/audio' : '/api/uploads/image';
                   const uploadAssetType: UploadableAssetKind =
                     field.type === 'audio' ? 'audio' : 'image';
-                  const response = await authFetch(uploadEndpoint, {
+                  const response = await operation.request(uploadEndpoint, {
                     method: 'POST',
                     body: formData,
                   });
@@ -373,13 +291,17 @@ export function useWorkspaceReferenceAssets({
               if (!entry || entry.id !== assetId) return entry;
               return {
                 ...entry,
+                ...mediaReadAccessFields(assetResponse as MediaReadAccess),
                 status: 'ready' as const,
                 url: assetResponse.url,
+                thumbnailUrl: 'thumbUrl' in assetResponse ? assetResponse.thumbUrl ?? entry.thumbnailUrl : entry.thumbnailUrl,
                 width: assetResponse.width ?? entry.width,
                 height: assetResponse.height ?? entry.height,
                 size: assetResponse.size ?? entry.size,
                 type: assetResponse.mime ?? entry.type,
-                assetId: assetResponse.id,
+                assetId: 'assetId' in assetResponse ? assetResponse.assetId ?? assetResponse.id : assetResponse.id,
+                ref: 'ref' in assetResponse ? assetResponse.ref : undefined,
+                durationSec: 'durationSec' in assetResponse ? assetResponse.durationSec ?? entry.durationSec : entry.durationSec,
               };
             });
             return { ...previous, [field.id]: next };
@@ -419,15 +341,21 @@ export function useWorkspaceReferenceAssets({
             return { ...previous, [field.id]: next };
           });
           showNotice(message);
+        } finally {
+          operation.finish();
         }
       };
 
       void upload();
+      return true;
     },
     [
       valid,
+      beginUpload,
       commitInputAssetMutation,
       engineId,
+      engine,
+      locale,
       getSeedanceFieldBlockedMessage,
       inputSchema,
       preferredMode,
@@ -435,6 +363,35 @@ export function useWorkspaceReferenceAssets({
       showNotice,
     ],
   );
+
+  const handleImportLibraryFile = useCallback(async (field: EngineInputField, file: File, slotIndex?: number) => {
+    const scope = importScope.current;
+    const isCurrent = () => valid() && importScope.current === scope;
+    if (!isCurrent()) return;
+    let meta: { durationSec?: number; width?: number; height?: number; prepareExcerpt?: boolean } = {};
+    if (field.type === 'image' && engine) {
+      const validation = await validateEngineImageFile({ file,
+        acceptFormats: resolveEngineMediaFieldConstraint({ engine, field }).acceptedFileExtensions,
+        minimumSidePx: normalizeMinimumImageSide(engine.inputSchema?.constraints?.minImageSidePx),
+        engineLabel: engine.label, assetCopy: getLocalizedAssetDropzoneCopy(normalizeUiLocale(locale)) });
+      if (!isCurrent()) return;
+      if (!validation.ok) return validation.message;
+      meta = validation.dimensions ?? {};
+    } else if (field.type === 'video' || field.type === 'audio') {
+      const durationSec = await readMediaDuration(file, field.type);
+      if (!isCurrent()) return;
+      if (durationSec === null) {
+        const copy = getLocalizedAssetDropzoneCopy(normalizeUiLocale(locale));
+        return field.type === 'audio' ? copy.unableToReadAudioDuration : copy.unableToReadVideoDuration;
+      }
+      meta = { durationSec, prepareExcerpt: Boolean(engine && getMediaExcerptImportMode(engine, preferredMode, field.id)) };
+    }
+    if (!isCurrent()) return;
+    const eligibility = getMediaInputEligibility({ asset: { kind: field.type as 'image' | 'video' | 'audio', url: file.name,
+      mime: file.type, size: file.size, ...meta }, field, engine, mode: preferredMode, context: 'file' });
+    if (eligibility.status === 'blocked') return mediaInputEligibilityMessage(eligibility, locale) ?? undefined;
+    if (handleAssetAdd(field, file, slotIndex, meta)) setAssetPickerTarget(null);
+  }, [engine, locale, preferredMode, valid, handleAssetAdd, setAssetPickerTarget]);
 
   const handleAssetRemove = useCallback(
     (field: EngineInputField, index: number) => {
@@ -447,8 +404,10 @@ export function useWorkspaceReferenceAssets({
   );
 
   return {
+    handleImportLibraryFile,
     handleOpenAssetLibrary,
     handleSelectLibraryAsset,
+    handleSelectLibraryAssets,
     handleAssetAdd,
     handleAssetRemove,
   };

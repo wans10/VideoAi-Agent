@@ -1,6 +1,9 @@
 'use client';
 import { isKeyvoAudioVoiceOnly } from '@/config/keyvo-disabled-features';
 import { useRef } from 'react';
+import { PromptAssistanceComposer, type PromptAssistanceGenerationState } from '@/components/composer/PromptAssistanceComposer.client';
+import { audioAssistanceContext } from '@/lib/prompt-assistance/client-context';
+import { PROMPT_ASSISTANCE_PREVIEW } from '@/lib/prompt-assistance/preview-state';
 import { AUDIO_ELEVEN_VOICES, findElevenVoice } from '@/lib/audio-eleven-voices';
 import {
   AUDIO_AMBIENCE_DURATION_OPTIONS_SEC,
@@ -19,11 +22,13 @@ import {
 } from '@/lib/audio-generation';
 import type { AudioCreationDraft, AudioCreationIntent } from '@/lib/audio-creation';
 import type { AudioCreationCopy } from '../_lib/audio-creation-copy';
+import { AudioSourcePreview } from './AudioSourcePreview.client';
 import { AudioVoicePreview } from './AudioVoicePreview.client';
 import styles from './audio-creation.module.css';
 
-type Props = { intent: AudioCreationIntent; draft: AudioCreationDraft; copy: AudioCreationCopy; onChange: (patch: Partial<AudioCreationDraft>) => void; onFile: (file: File) => void; uploading: boolean; onLibrary: () => void };
-export function AudioCreationEditor({ intent, draft, copy, onChange, onFile, uploading, onLibrary }: Props) {
+type Props = { locale?:string; assistanceAccountId?: string | null; intent: AudioCreationIntent; draft: AudioCreationDraft; copy: AudioCreationCopy; onChange: (patch: Partial<AudioCreationDraft>) => void; onFile: (file: File) => void; uploading: boolean; onLibrary: () => void; onGenerationStateChange?: (state:PromptAssistanceGenerationState)=>void };
+export function AudioCreationEditor({ locale='en', assistanceAccountId, intent, draft, copy, onChange, onFile, uploading, onLibrary, onGenerationStateChange }: Props) {
+  const assistanceEnabled = PROMPT_ASSISTANCE_PREVIEW && assistanceAccountId !== undefined;
   const input = useRef<HTMLInputElement>(null);
   const eleven = !draft.reference && draft.voiceModel === 'eleven-v4';
   const elevenVoice = findElevenVoice(draft.elevenVoiceId);
@@ -35,11 +40,20 @@ export function AudioCreationEditor({ intent, draft, copy, onChange, onFile, upl
   const max = spoken ? 5000 : 2000;
   const modelName = intent === 'voice'
     ? eleven ? copy.models.voiceEleven : draft.reference || draft.voiceModel === 'seed' ? copy.models.voiceSeed : copy.models.voiceMinimax
+    : intent === 'music' ? draft.musicModel === 'pro' ? copy.musicPro : copy.musicClip
     : intent === 'song' ? copy.models.song
       : intent === 'sfx' ? copy.models.sfx
         : copy.models.ambience;
   const voiceOnly = isKeyvoAudioVoiceOnly();
   const minimaxVoiceLabel = (voice: typeof AUDIO_MINIMAX_WORKSPACE_VOICE_VALUES[number]) => AUDIO_MINIMAX_VOICE_LABELS[voice];
+  const writing = (
+<div className={styles.writing}>
+      <div className={styles.fieldHeading}><label htmlFor="audio-creation-text">{title}</label><span>{draft[key].length}/{max}</span></div>
+      <textarea id="audio-creation-text" aria-describedby="audio-text-hint" placeholder={hint} value={draft[key]} maxLength={max} rows={4} onChange={event => onChange({ [key]: event.target.value })} />
+      <p id="audio-text-hint" className="sr-only">{hint}</p>
+      {!draft[key] ? <div className={styles.ideas}>{copy.examplesByIntent[intent].map((example, index) => <button type="button" key={example} onClick={() => onChange({ [key]: example })}>{copy.examples}{copy.examplesByIntent[intent].length > 1 ? ` ${index + 1}` : ''}<span aria-hidden> ↗</span></button>)}</div> : null}
+    </div>
+  );
   return <div className={styles.editor}>
     <div className={styles.modelRow}>
       <strong>{copy.intents[intent][0]}</strong>
@@ -48,12 +62,14 @@ export function AudioCreationEditor({ intent, draft, copy, onChange, onFile, upl
         <button type="button" aria-pressed={draft.musicModel === 'pro'} onClick={() => onChange({ musicModel: 'pro' })}>{copy.musicPro}<span>{copy.musicProMeta}</span></button>
       </div> : <div className={styles.modelIdentity}><span>{copy.model}</span><strong>{modelName}</strong></div>}
     </div>
-    <div className={styles.writing}>
-      <div className={styles.fieldHeading}><label htmlFor="audio-creation-text">{title}</label><span>{draft[key].length}/{max}</span></div>
-      <textarea id="audio-creation-text" aria-describedby="audio-text-hint" placeholder={hint} value={draft[key]} maxLength={max} rows={4} onChange={event => onChange({ [key]: event.target.value })} />
-      <p id="audio-text-hint" className="sr-only">{hint}</p>
-      {!draft[key] ? <div className={styles.ideas}>{copy.examplesByIntent[intent].map((example, index) => <button type="button" key={example} onClick={() => onChange({ [key]: example })}>{copy.examples}{copy.examplesByIntent[intent].length > 1 ? ` ${index + 1}` : ''}<span aria-hidden> ↗</span></button>)}</div> : null}
-    </div>
+    {assistanceEnabled ? <PromptAssistanceComposer context={{accountKey: assistanceAccountId ?? 'anonymous', scopeKey: JSON.stringify([assistanceAccountId, 'audio', intent]), contextKey: JSON.stringify({...draft, [key]: undefined}), live: audioAssistanceContext(intent, draft)}}
+      manageableReferenceFields={spoken&&draft.reference?['voice_sample']:[]}
+      onGenerationStateChange={onGenerationStateChange}
+      locale={locale} modelLabel={modelName} target={spoken ? 'script' : 'prompt'} draftText={draft[key]} maxLength={max} blocked={uploading} onApplyText={text => onChange({[key]: text})}
+      renderReferences={spoken && (draft.reference || draft.voiceModel === 'seed') ? (insert,manager) => <div className={styles.assistanceReferences}>
+        <button ref={node=>{if(manager)manager.current=node?()=>{node.focus();node.click();}:null;}} type="button" aria-label="Add audio reference" disabled={uploading} onClick={() => input.current?.click()}><span aria-hidden>＋</span> Reference</button>
+        {draft.reference ? <><button type="button" onClick={() => insert?.('@Audio1')} disabled={!insert}>Audio 1</button><button type="button" aria-label="Remove Audio 1" onClick={() => onChange({reference: null})}>×</button></> : null}
+      </div> : undefined}>{writing}</PromptAssistanceComposer> : writing}
     {song ? <div className={styles.writing}>
       <div className={styles.fieldHeading}><label htmlFor="audio-creation-lyrics">{copy.lyrics}</label><span>{draft.lyrics.length}/3500</span></div>
       <textarea id="audio-creation-lyrics" placeholder={copy.lyricsHint} aria-describedby="audio-lyrics-hint" value={draft.lyrics} maxLength={3500} rows={4} onChange={event => onChange({ lyrics: event.target.value })} />
@@ -100,7 +116,7 @@ export function AudioCreationEditor({ intent, draft, copy, onChange, onFile, upl
       </div></details>
       {!voiceOnly && (draft.reference || draft.voiceModel === 'seed') ? <div className={styles.reference}>
         <input ref={input} type="file" accept="audio/mpeg,audio/wav,.mp3,.wav" hidden tabIndex={-1} onChange={event => { const file = event.target.files?.[0]; if (file) onFile(file); event.target.value = ''; }} />
-        {draft.reference ? <><div><span>{copy.reference}</span><strong>{draft.reference.name}</strong></div><button type="button" onClick={() => onChange({ reference: null })}>{copy.remove}</button><audio controls preload="none" src={draft.reference.url} aria-label={copy.reference} /></> : <div className={styles.referenceSources}><span>{copy.reference}</span><button type="button" disabled={uploading} onClick={() => input.current?.click()}>{uploading ? copy.loading : copy.import}</button><button type="button" onClick={onLibrary}>{copy.library}</button></div>}
+        {draft.reference ? <><div><span>{copy.reference}</span><strong>{assistanceEnabled ? 'Audio 1' : draft.reference.name}</strong></div><button type="button" onClick={() => onChange({ reference: null })}>{copy.remove}</button><AudioSourcePreview source={draft.reference} kind="audio" label={copy.reference} errorLabel={copy.previewUnavailable} retryLabel={copy.retry} /></> : <div className={styles.referenceSources}><span>{copy.reference}</span><button type="button" disabled={uploading} onClick={() => input.current?.click()}>{uploading ? copy.loading : copy.import}</button><button type="button" onClick={onLibrary}>{copy.library}</button></div>}
         <p>{copy.referenceHint}</p>
       </div> : null}
     </> : intent === 'ambience' ? <p className={styles.note}>{copy.ambienceHint}</p> : null}

@@ -40,9 +40,6 @@ export const ZH_HUB_COPY: HubCopy = {
     complianceLabel: '查看合规说明',
     quickStartLabel: '快速开始',
     prelaunchSpotlightLabel: '发布前瞻速览',
-    prelaunchModelLabel: 'Seedance 2.0 规格档案',
-    prelaunchCompareLabel: 'Seedance 2.0 对比 Sora 2',
-    prelaunchCompareSecondaryLabel: 'Pika 2.2 对比 Seedance 2.0',
     useCasesFallback: '交互式标签可即时优化推荐。所有链接均为纯 HTML，便于检索。',
   },
   tagLabels: {

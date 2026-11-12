@@ -51,6 +51,7 @@ export function BackgroundRemovalSession({ auth }: { auth: ReturnType<typeof use
   const autoSelectedResultJobIdRef = useRef<string | null>(null);
 
   const sourceMedia = useBackgroundRemovalSourceMedia({
+    userId: user?.id,
     maxDurationSeconds: BACKGROUND_REMOVAL_MAX_STUDIO_DURATION_SECONDS,
     onSourceChanged: () => {
       setViewMode('source');
@@ -88,6 +89,8 @@ export function BackgroundRemovalSession({ auth }: { auth: ReturnType<typeof use
   const setRunnerResult = runner.setResult;
   const recentActions = useBackgroundRemovalRecentActions({
     onSelectResult: (nextResult) => {
+      // History does not carry a verified original; never pair it with the current input.
+      sourceMedia.changeVideoUrl('');
       runner.setResult(nextResult);
       setViewMode('result');
     },

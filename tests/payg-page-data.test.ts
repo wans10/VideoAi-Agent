@@ -14,6 +14,26 @@ const allP0Ids = [
 const p0Ids = new Set(allP0Ids.filter((id) => isKeyvoVisibleFamily(getFalEngineById(id)?.family)));
 const hiddenP0Ids = allP0Ids.filter((id) => !p0Ids.has(id));
 
+test('PAYG includes current launches and never revives disabled models through editorial fallbacks', () => {
+  for (const locale of ['en', 'fr', 'es'] as const) {
+    const content = getPayAsYouGoContent(locale);
+    const pricingHub = buildPricingHubData(locale);
+    const data = buildPayAsYouGoPageData({ locale, content, pricingHub });
+    // Keyvo hides the overseas FLUX family, so FLUX 3 Max must stay out of every PAYG surface.
+    for (const id of ['minimax-h3', 'kling-v4', 'seedance-2-5']) {
+      assert.ok(data.modelTesting.items.some(item => item.id === id), `${locale}:${id}:model`);
+      assert.ok(data.priceLookups.items.some(item => item.id === id), `${locale}:${id}:price`);
+      assert.ok(data.pricing.rows.some(item => item.id === id), `${locale}:${id}:table`);
+      assert.ok(data.exampleCosts.items.some(item => item.id === id), `${locale}:${id}:example`);
+    }
+    assert.ok(![...data.modelTesting.items, ...data.priceLookups.items, ...data.pricing.rows, ...data.exampleCosts.items].some(item => item.id === 'flux-3-max'), `${locale}:flux-3-max:hidden`);
+    const empty = buildPayAsYouGoPageData({ locale, content, pricingHub: { video: { ...pricingHub.video, rows: [] } } });
+    assert.deepEqual(empty.modelTesting.items, []);
+    assert.deepEqual(empty.priceLookups.items, []);
+    assert.deepEqual(empty.exampleCosts.items, []);
+  }
+});
+
 test('Pay-as-you-go data is render-ready and does not mutate content or pricing input', () => {
   const content = structuredClone(getPayAsYouGoContent('en'));
   const pricingHub = structuredClone(buildPricingHubData('en'));
@@ -59,9 +79,14 @@ test('displayed pricing remains a live projection of the pricing hub', () => {
   const sourceRow = pricingHub.video.rows.find((row) => row.id === sourceId);
   assert.ok(sourceRow);
   sourceRow.quotes['5s-720p'] = { status: 'exact', display: '$987.65' };
-    const sampleSourceRow = pricingHub.video.rows.find((row) => row.id === 'kling-3-turbo-pro');
+  // Keyvo hides the first upstream example models, so the sample cost is the first visible example (Kling 4.0).
+  const sampleSourceRow = pricingHub.video.rows.find((row) => row.id === 'kling-v4');
   assert.ok(sampleSourceRow);
-  sampleSourceRow.quotes['8s-1080p'] = { status: 'exact', display: '$876.54' };
+  sampleSourceRow.quotes['5s-720p'] = { status: 'exact', display: '$876.54' };
+  const exampleSourceId = 'kling-3-turbo-pro';
+  const exampleSourceRow = pricingHub.video.rows.find((row) => row.id === exampleSourceId);
+  assert.ok(exampleSourceRow);
+  exampleSourceRow.quotes['8s-1080p'] = { status: 'exact', display: '$543.21' };
 
   const data = buildPayAsYouGoPageData({ locale: 'en', content, pricingHub });
   const cell = data.pricing.rows
@@ -80,11 +105,15 @@ test('displayed pricing remains a live projection of the pricing hub', () => {
     '$987.65',
   );
   assert.equal(
-    data.exampleCosts.items.find((item) => item.id === sourceId)?.price,
-    '$987.65',
+    data.priceLookups.items.find((item) => item.id === exampleSourceId)?.price,
+    '$543.21',
+  );
+  assert.equal(
+    data.exampleCosts.items.find((item) => item.id === exampleSourceId)?.price,
+    '$543.21',
   );
   assert.equal(data.hero.quote.sampleCost?.price, '$876.54');
-  assert.doesNotMatch(JSON.stringify(content), /987\.65|876\.54/);
+  assert.doesNotMatch(JSON.stringify(content), /987\.65|876\.54|543\.21/);
 });
 
 test('live-quote status stays invisible independently of localized display prose', () => {
@@ -120,13 +149,13 @@ test('missing quotes preserve the current exact-locale live-quote fallback', () 
   for (const locale of ['en', 'fr', 'es'] as const) {
     const content = getPayAsYouGoContent(locale);
     const pricingHub = structuredClone(buildPricingHubData(locale));
-    const sourceRow = pricingHub.video.rows.find((row) => row.id === 'seedance-2-0');
+    const sourceRow = pricingHub.video.rows.find((row) => row.id === 'seedance-2-5');
     assert.ok(sourceRow);
     delete (sourceRow.quotes as Partial<typeof sourceRow.quotes>)['5s-720p'];
 
     const data = buildPayAsYouGoPageData({ locale, content, pricingHub });
     const cell = data.pricing.rows
-      .find((row) => row.id === 'seedance-2-0')
+      .find((row) => row.id === 'seedance-2-5')
       ?.priceCells.find((item) => item.presetId === '5s-720p');
 
     assert.equal(cell?.value, content.common.liveQuote);
@@ -136,18 +165,23 @@ test('missing quotes preserve the current exact-locale live-quote fallback', () 
 });
 
 
-test('Wan discovery uses a supported 5-second scenario and exact cents for three completed attempts', () => {
+test('Keyvo discovery uses a supported 5-second scenario and exact cents for three completed attempts', () => {
   const content = getPayAsYouGoContent('en');
   const pricingHub = structuredClone(buildPricingHubData('en'));
-  const row = pricingHub.video.rows.find((candidate) => candidate.id === 'wan-3-prime')!;
-  row.quotes['5s-720p'] = { status: 'exact', amountCents: 157, display: '$1.57', note: 'Audio included.' };
+  const quote = { status: 'exact', amountCents: 157, display: '$1.57', note: 'Audio included.' } as const;
+  // Wan 3 Prime owns the repeated budget; Kling 4.0 is the first visible example under Keyvo.
+  const budgetRow = pricingHub.video.rows.find((candidate) => candidate.id === 'wan-3-prime')!;
+  budgetRow.quotes['5s-720p'] = quote;
+  const row = pricingHub.video.rows.find((candidate) => candidate.id === 'kling-v4')!;
+  row.quotes['5s-720p'] = quote;
   const data = buildPayAsYouGoPageData({ locale: 'en', content, pricingHub });
+  assert.equal(data.priceLookups.items.find((item) => item.id === budgetRow.id)?.price, '$1.57');
   assert.equal(data.priceLookups.items.find((item) => item.id === row.id)?.price, '$1.57');
   const example = data.exampleCosts.items.find((item) => item.id === row.id)!;
   assert.equal(example.price, '$1.57');
   assert.match(example.context, /5s 720p/);
   assert.match(example.context, /Audio included/);
-  assert.equal(example.href, '/app?engine=wan-3-prime');
+  assert.equal(example.href, '/app?engine=kling-v4');
   assert.match(data.exampleCosts.budget ?? '', /\$1\.57/);
   assert.match(data.exampleCosts.budget ?? '', /\$4\.71/);
 });
@@ -157,8 +191,10 @@ test('unavailable or non-exact quotes cannot advertise a numeric shortcut or a r
     for (const locale of ['en', 'fr', 'es'] as const) {
       const content = getPayAsYouGoContent(locale);
       const pricingHub = structuredClone(buildPricingHubData(locale));
-      const row = pricingHub.video.rows.find((candidate) => candidate.id === 'wan-3-prime')!;
-      row.quotes['5s-720p'] = { status, amountCents: 157, display: '$1.57' };
+      const quote = { status, amountCents: 157, display: '$1.57' };
+      const row = pricingHub.video.rows.find((candidate) => candidate.id === 'kling-v4')!;
+      row.quotes['5s-720p'] = quote;
+      pricingHub.video.rows.find((candidate) => candidate.id === 'wan-3-prime')!.quotes['5s-720p'] = quote;
       const data = buildPayAsYouGoPageData({ locale, content, pricingHub });
       assert.equal(data.priceLookups.items.find((item) => item.id === row.id)?.price, content.common.liveQuote);
       assert.equal(data.exampleCosts.items.find((item) => item.id === row.id)?.price, content.common.liveQuote);

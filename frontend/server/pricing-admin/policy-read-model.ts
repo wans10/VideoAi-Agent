@@ -1,3 +1,5 @@
+import { gptImage26TariffScenarios } from '@/lib/pricing-audit/manual-tariff-coverage';
+import {klingV4FamilyTariffScenarios} from '@/lib/pricing-audit/kling-v4-tariff-scenario';
 import {
   resolvePricingPolicy,
   type PricingPolicyRule,
@@ -40,11 +42,12 @@ import {
   selectorKey,
   selectorOf,
 } from './policy-rules';
+import { RECAST_PRICING_SELECTOR } from '@/lib/character-recast-pricing';
 
 export function buildAllModelComparisonScenarios(auditScenarios: PricingAuditScenario[] = buildPricingAuditScenarios()) {
   const appPublished = new Set(listRuntimeModels().filter((model) => model.publication.app.published).map((model) => model.id));
   return listFalEngines().flatMap((entry) => {
-    if (!appPublished.has(entry.id)) return [];
+    if (!appPublished.has(entry.id) && !['kling-v4', 'kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst'].includes(entry.id)) return [];
     const baseline = auditScenarios.find((scenario) => scenario.engineId === entry.id
       && scenario.surface === 'billing' && scenario.membershipTier === 'member'
       && scenario.id.startsWith(`billing:${entry.id}:`));
@@ -147,6 +150,10 @@ export async function loadPricingPolicyInventory(
     const policyScenario: PricingPolicyScenario = { ...selector, engineId: scenario.engineId };
     const key = scenarioSelectorKey(selector);
     if (bySelector.has(key)) return;
+    if (selector.engineId === RECAST_PRICING_SELECTOR.engineId) {
+      bySelector.set(key, { selector, versionedRule: null, databaseOverride: null });
+      return;
+    }
     const versionedRule = resolvePricingPolicy({
       scenario: policyScenario,
       databaseRules: [],
@@ -169,6 +176,7 @@ export async function loadPricingPolicyInventory(
 
   bySelector.forEach((entry, key) => {
     if (!entry.selector.engineId) return;
+    if (entry.selector.engineId === RECAST_PRICING_SELECTOR.engineId) return;
     const effective = resolvePricingPolicy({
       scenario: { ...entry.selector, engineId: entry.selector.engineId },
       databaseRules,
@@ -213,7 +221,8 @@ export async function loadPricingPolicyInventory(
       (outcome): outcome is AdminCanonicalScenarioQuote => outcome.status === 'quoted'
     ).slice(0, 4);
     const representativeScenario = scenarios[0];
-    const matchedVersionedRule =
+    const recast = selector.engineId === RECAST_PRICING_SELECTOR.engineId;
+    const matchedVersionedRule = recast ? null :
       versionedRule ??
       (representativeScenario
         ? resolvePricingPolicy({
@@ -226,7 +235,7 @@ export async function loadPricingPolicyInventory(
             versionedRules: policy.rules,
           }).rule
         : null);
-    const effectiveProvenance = representativeScenario
+    const effectiveProvenance = representativeScenario && (!recast || representativeQuotes.length > 0)
       ? (() => {
           const resolved = resolveCanonicalAdminScenarioPolicy({ databaseRules, scenario: representativeScenario });
           const compatibilityProfile = representativeQuotes[0]?.policyProvenance.compatibilityProfile ??
@@ -261,7 +270,7 @@ export async function loadPricingPolicyInventory(
 
   const allModelScenarios = buildAllModelComparisonScenarios(buildPricingAuditScenarios());
   const coverageByModel = new Map<string, ReturnType<typeof collectSellableManualTariffCoverage>['scenarios']>();
-  for (const candidate of collectSellableManualTariffCoverage().scenarios) {
+  for (const candidate of [...collectSellableManualTariffCoverage().scenarios,...klingV4FamilyTariffScenarios(), ...gptImage26TariffScenarios()]) {
     const bucket = coverageByModel.get(candidate.modelId) ?? [];
     bucket.push(candidate);
     coverageByModel.set(candidate.modelId, bucket);

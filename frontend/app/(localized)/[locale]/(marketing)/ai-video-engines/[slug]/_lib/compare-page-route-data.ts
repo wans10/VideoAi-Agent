@@ -15,6 +15,7 @@ import {
   resolvePricingDisplay,
 } from './compare-page-helpers';
 import type { EngineCatalogEntry } from './compare-page-types';
+import { getComparisonCriteriaCount } from './compare-page-scorecard';
 
 export async function buildCompareRouteData({
   activeLocale,
@@ -52,7 +53,7 @@ export async function buildCompareRouteData({
   const leftSpecs = buildSpecValues(left, leftKeySpecs);
   const rightSpecs = buildSpecValues(right, rightKeySpecs);
   const pairHasNativeAudio = Boolean(left.engine?.audio) || Boolean(right.engine?.audio);
-  const criteriaCount = pairHasNativeAudio ? 10 : 9;
+  const criteriaCount = getComparisonCriteriaCount(pairHasNativeAudio);
   const pairHasKling3Native4k =
     left.modelSlug === 'kling-3-4k' || right.modelSlug === 'kling-3-4k';
   const leftOverall = computeOverall(leftScore);
@@ -62,6 +63,7 @@ export async function buildCompareRouteData({
       .map(([key, score]) => [key, computeOverall(score)] as const)
       .filter((entry): entry is readonly [string, number] => entry[1] != null)
   );
+  const engineScoreReviewsBySlug = Object.fromEntries(Array.from(scores.entries()).flatMap(([key, score]) => score.review ? [[key, score.review.status] as const] : []));
   const leftIsPrelaunch = isPrelaunchAvailability(left);
   const rightIsPrelaunch = isPrelaunchAvailability(right);
 
@@ -78,6 +80,7 @@ export async function buildCompareRouteData({
     leftScore,
     leftSpecs,
     engineScoresBySlug,
+    engineScoreReviewsBySlug,
     pairHasKling3Native4k,
     pairHasNativeAudio,
     right,

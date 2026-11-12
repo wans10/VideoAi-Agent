@@ -69,6 +69,9 @@ test('reader shows current original-model prices without historical charges and 
       const oldPrice = new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(1.39);
       assert.ok(!doc.body.textContent?.includes(oldPrice), `${locale}: hide the stored charge`);
       assert.ok(doc.querySelector('.video-reader-recorded')?.textContent?.includes(readerCopy(locale).currentPrice));
+      assert.equal(doc.querySelector('.video-reader-modelLink')?.getAttribute('href'), locale === 'fr' ? '/fr/modeles/kling-3-turbo-pro' : '/es/modelos/kling-3-turbo-pro');
+      assert.equal(doc.querySelector('a[href^="/app/studio?"]')?.getAttribute('href'), `/app/studio?example=example&lang=${locale}`);
+      assert.equal(doc.querySelector('#example-reader-prompt')?.textContent, detail.prompt);
     }
     await act(async () => root.render(React.createElement(ExampleReaderContent, { detail: { ...detail, quotes: [] }, copy: readerCopy('en'), locale: 'en', headingLevel: 'h1' })));
     assert.equal(doc.querySelector('.video-reader-recorded'), null, 'an unavailable current quote must never fall back to the stored charge');
@@ -81,7 +84,7 @@ test('reader shows current original-model prices without historical charges and 
     assert.ok(doc.querySelector('.video-reader-recorded')?.textContent?.includes('10 s · 720p · 16:9'), 'headline identifies the priced proposal rather than the original render settings');
     assert.ok(doc.querySelector('.video-reader-recorded')?.textContent?.includes('Adapted video settings'));
     await act(async () => root.render(React.createElement(ExampleReaderContent, { detail: { ...matching, scenario: null }, copy: readerCopy('en'), locale: 'en', headingLevel: 'h1' })));
-    assert.ok(doc.querySelector('.video-reader-comparisonNote')?.textContent?.includes('original settings are incomplete'));
+    assert.equal(doc.querySelector('.video-reader-comparisonNote')?.textContent, readerCopy('en').proposedNote);
     assert.ok([...doc.querySelectorAll('article')].every(quote => quote.textContent?.includes('Suggested video settings')), 'unknown originals must not claim matching settings');
   } finally {
     await act(async () => root.unmount());

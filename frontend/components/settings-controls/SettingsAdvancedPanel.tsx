@@ -1,8 +1,10 @@
 'use client';
 
+import { supportsVideoCfgScaleControl } from '@/lib/video-input-schema';
 import clsx from 'clsx';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import { Button } from '@/components/ui/Button';
+import { SettingsBooleanChoice } from './SettingsBooleanChoice';
 import {
   SettingsKlingV3Controls,
   SettingsSeedanceAdvancedControls,
@@ -97,28 +99,10 @@ function LoopModeControl({
 }) {
   return (
     <div className="grid gap-3 md:grid-cols-3">
-      <label className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-1.5">
         <span className="text-[11px] font-semibold uppercase tracking-micro text-text-muted">{copy.label}</span>
-        <div className="flex flex-wrap gap-2">
-          {[true, false].map((option) => (
-            <Button
-              key={option ? 'loop-on' : 'loop-off'}
-              type="button"
-              size="sm"
-              variant="outline"
-              onClick={() => onLoopChange(option)}
-              className={clsx(
-                'min-h-0 h-auto px-2.5 py-1 text-[12px]',
-                option === loopEnabled
-                  ? 'border-brand bg-brand text-on-brand'
-                  : 'border-hairline bg-surface text-text-secondary hover:border-text-muted hover:bg-surface-2'
-              )}
-            >
-              {option ? copy.on : copy.off}
-            </Button>
-          ))}
-        </div>
-      </label>
+        <SettingsBooleanChoice label={copy.label} value={loopEnabled} onChange={onLoopChange} onLabel={copy.on} offLabel={copy.off} />
+      </div>
     </div>
   );
 }
@@ -182,28 +166,10 @@ function StandaloneSeedControls({
         <span>{controlsCopy.seed.lock}</span>
       </label>
       {showSafetyCheckerControl ? (
-        <label className="flex flex-col gap-1.5 text-sm text-text-secondary">
+        <div className="flex flex-col gap-1.5 text-sm text-text-secondary">
           <span className="text-[11px] font-semibold uppercase tracking-micro text-text-muted">{locale === 'zh' ? '安全检查' : 'Safety checker'}</span>
-          <div className="flex flex-wrap gap-2">
-            {[true, false].map((option) => (
-              <Button
-                key={option ? 'generic-safety-on' : 'generic-safety-off'}
-                type="button"
-                size="sm"
-                variant="outline"
-                onClick={() => onSafetyCheckerChange?.(option)}
-                className={clsx(
-                  'min-h-0 h-auto px-3 py-1.5 text-[13px]',
-                  option === safetyChecker
-                    ? 'border-brand bg-brand text-on-brand'
-                    : 'border-hairline bg-surface text-text-secondary hover:border-text-muted hover:bg-surface-2'
-                )}
-              >
-                {locale === 'zh' ? (option ? '开启' : '关闭') : (option ? 'On' : 'Off')}
-              </Button>
-            ))}
-          </div>
-        </label>
+          <SettingsBooleanChoice label={locale === 'zh' ? '安全检查' : 'Safety checker'} value={safetyChecker ?? true} onChange={onSafetyCheckerChange} onLabel={locale === 'zh' ? '开启' : 'On'} offLabel={locale === 'zh' ? '关闭' : 'Off'} />
+        </div>
       ) : null}
     </div>
   );
@@ -304,7 +270,7 @@ function AdvancedRangeFields({
         </div>
       ) : null}
 
-      {engine.params.cfg_scale ? (
+      {supportsVideoCfgScaleControl(engine, mode) && engine.params.cfg_scale ? (
         <div className="space-y-2">
           <span className={labelClassName}>{controlsCopy.cfgScale}</span>
           <RangeWithInput

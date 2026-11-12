@@ -50,9 +50,23 @@
 .app-experience .app-model-strip { border: 0; border-radius: 0; background: transparent; box-shadow: none; padding: 0 0 20px; }
 .app-model-strip > div { padding: 0; }
 .app-experience [data-composer-density="workspace"] { border: 0; border-radius: 0; background: transparent; background-image: none; box-shadow: none; padding: 0; }
-.app-experience .app-mode-switch { gap: 22px; border-bottom: 1px solid var(--app-line); margin-bottom: 20px; }
+.app-experience .app-mode-switch { gap: 14px; border-bottom: 1px solid var(--app-line); margin-bottom: 6px; }
 .app-experience .app-mode-switch button { border: 0; border-radius: 0; background: transparent; background-image: none; color: var(--app-muted); box-shadow: none; padding: 0 0 9px; font-size: 13px; }
 .app-experience .app-mode-switch button[aria-pressed="true"] { color: var(--app-ink); box-shadow: inset 0 -2px var(--app-accent); }
+/* Approved A: a single compact rail with a clearly selected mode. */
+.app-experience .app-mode-switch-segmented { flex-wrap: nowrap; width: fit-content; max-width: 100%; gap: 3px; padding: 4px; border: 0; border-radius: 11px; background: var(--surface-2); }
+.app-experience .app-mode-switch-segmented button { flex: 1 1 172px; width: 172px; min-width: 0; min-height: 48px !important; gap: 10px; padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 570; letter-spacing: -.02em; line-height: 1.25; }
+.app-experience .app-mode-switch-segmented button svg { flex: none; width: 24px; height: 24px; }
+.app-experience .app-mode-switch-segmented button span { min-width: 0; overflow-wrap: anywhere; }
+.app-experience .app-mode-switch-segmented button:hover:not(:disabled):not([aria-pressed="true"]) { background: var(--app-panel); color: var(--app-ink); }
+.app-experience .app-mode-switch-segmented button[aria-pressed="true"] { background: var(--app-ink); color: #fff9e8; box-shadow: none; }
+[data-theme="dark"] .app-experience .app-mode-switch-segmented button[aria-pressed="true"] { background: var(--app-accent); color: var(--on-brand); }
+.app-experience .app-mode-switch-segmented button:focus-visible { outline: 2px solid var(--app-accent); outline-offset: 2px; }
+.app-experience .app-mode-switch-segmented button:disabled { opacity: .45; }
+@media (max-width: 640px) {
+  .app-experience .app-mode-switch-segmented { gap: 1px; padding: 3px; }
+  .app-experience .app-mode-switch-segmented button { flex-direction: column; min-height: 66px !important; gap: 6px; padding: 8px 4px; font-size: 11px; }
+}
 .app-experience .app-prompt-surface { border: 1px solid var(--app-line); border-radius: 12px; background: var(--app-panel); background-image: none; box-shadow: none; }
 .app-experience .app-prompt-heading { padding: 18px 20px 8px; }
 .app-experience .app-prompt-heading > div:first-child > span { font-size: 13px; font-weight: 550; text-transform: none; letter-spacing: -.01em; color: var(--app-ink); }
@@ -107,13 +121,13 @@
   .app-experience .app-results-rail { border-left: 0; border-top: 1px solid var(--app-line); }
 }
 @media (min-width: 768px) {
-  .app-experience .app-results-rail { flex: none; width: 240px; padding: 16px 0 16px 8px; border-top: 0; background: transparent; }
+  .app-experience .app-results-rail { flex: none; width: var(--app-creation-rail-width, 240px); padding: 16px 0 16px 8px; border-top: 0; background: transparent; }
 }
 @media (min-width: 900px) {
-  .app-experience .app-results-rail { width: 272px; }
+  .app-experience .app-results-rail { width: var(--app-creation-rail-width, 272px); }
 }
 @media (min-width: 1088px) {
-  .app-experience .app-results-rail { width: 320px; }
+  .app-experience .app-results-rail { width: var(--app-creation-rail-width, 320px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .app-experience *, .app-experience *::before, .app-experience *::after { scroll-behavior: auto !important; transition-duration: 0s !important; animation-duration: 0s !important; }
@@ -138,6 +152,11 @@
 .app-experience .app-empty-preview { display: flex; align-items: center; justify-content: center; gap: 14px; min-height: 106px; padding: 14px; border: 1px solid var(--app-line); border-radius: 7px; color: var(--app-muted); background: var(--app-panel); }
 .app-experience .app-empty-preview-frame { display: grid; place-items: center; width: 76px; height: 48px; border: 1px solid var(--app-line); border-radius: 4px; }
 .app-experience .app-empty-preview-frame svg { width: 26px; height: 26px; color: var(--app-accent); }
+.app-experience .app-empty-preview-frame { flex-shrink: 0; }
+.app-experience .app-empty-preview-copy { min-width: 0; max-width: 30rem; }
+.app-experience .app-empty-preview-hint { margin-top: 4px; font-size: 12px; line-height: 1.4; }
+.app-experience .app-reference-signin { display: inline-block; padding-block: 6px; color: var(--app-accent); text-decoration: underline; text-underline-offset: 3px; }
+.app-experience .app-reference-signin:focus-visible { outline: 2px solid var(--app-accent); outline-offset: 3px; }
 .app-experience .app-workspace-references { padding: 3px 0; }
 .app-experience .app-reference-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; }
 .app-experience .app-reference-heading > span { display: flex; align-items: center; gap: 8px; font-weight: 550; }
@@ -171,6 +190,9 @@
 .app-experience .app-prompt-heading { padding: 8px 12px 0; align-items: center; }
 .app-experience .app-prompt-heading label { font-size: 13px; font-weight: 550; text-transform: none; letter-spacing: 0; color: var(--app-ink); }
 .app-experience [data-workspace-prompt] { display: block; height: 96px; min-height: 96px; max-height: 240px; padding: 9px 12px 12px; font-size: 15px; line-height: 1.5; border-radius: 7px; }
+@media (pointer: coarse), (max-width: 639px) {
+  .app-experience [data-composer-density] :is(textarea, input) { font-size: 16px; }
+}
 .app-experience :is([data-workspace-prompt], .app-scroll-surface) { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--app-muted) 55%, transparent) transparent; scrollbar-gutter: stable; }
 @supports selector(::-webkit-scrollbar) {
   .app-experience :is([data-workspace-prompt], .app-scroll-surface) { scrollbar-width: auto; scrollbar-color: auto; }
@@ -218,6 +240,9 @@
 .app-settings-menu [role="option"][aria-selected="true"] { background: var(--app-accent-soft); color: var(--app-accent); }
 .app-experience .app-quote-status { max-width: 80px; font-size: 11px; color: var(--app-muted); }
 .app-experience .app-preview-frame.is-workspace { border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+/* The preview composer already separates the player, prompt and generation controls. */
+.app-experience .app-workspace-main:has([data-prompt-assistance-preview]) .app-preview-frame.is-workspace > header { border-bottom: 0; }
+.app-experience [data-prompt-assistance-preview] + .app-composer-toolbar { border-top: 0; }
 .app-experience .app-preview-frame.is-workspace .app-preview-media { border: 1px solid var(--app-line); border-bottom: 0; border-radius: 8px 8px 0 0; }
 .app-experience .app-preview-frame.is-workspace .app-preview-toolbar { min-height: 52px; border-color: var(--app-line); border-radius: 0 0 8px 8px; background: var(--app-panel); box-shadow: none; }
 .app-experience .app-preview-toolbar-actions { gap: 4px; }
@@ -249,7 +274,6 @@
   .app-experience .app-image-preview-toolbar { min-height: 54px; }
   .app-experience .app-image-composer { margin-top: 5px; }
 }
-.app-experience .app-mode-switch { margin-bottom: 6px; gap: 14px; }
 .app-experience .app-audio-workbench { padding-top: 14px; }
 .app-experience .app-audio-workbench > div:first-child { gap: 12px; padding-bottom: 230px; }
 .app-experience .app-audio-workbench section { border-radius: 7px; box-shadow: none; }
@@ -265,6 +289,7 @@
   .app-experience .app-creation-heading h1 { font-size: 20px; }
   .app-experience .app-empty-preview { min-height: 72px; padding: 8px; font-size: 12px; }
   .app-experience .app-empty-preview-frame { width: 58px; height: 38px; }
+  .app-experience .app-empty-preview-hint { min-block-size: 3lh; }
   .app-experience .app-reference-slot-actions button { padding-inline: 6px; font-size: 11px; }
   .app-experience .app-audio-generation-dock { left: 0; bottom: calc(70px + env(safe-area-inset-bottom)); padding: 8px 12px; }
   .app-experience .app-audio-workbench > div:first-child { padding-bottom: 300px; }
@@ -361,31 +386,52 @@
 
 /* Direct reference commands and the focused media popup share workspace primitives. */
 .app-experience .app-reference-heading { justify-content: flex-start; column-gap: 14px; }
-.app-experience .app-reference-commands { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; min-width: 0; }
-.app-experience .app-reference-command { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 44px; color: var(--app-accent); }
-.app-experience .app-reference-command-media { position: relative; display: inline-flex; flex: none; width: 20px; height: 20px; }
+.app-experience .app-reference-commands { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; min-width: 0; }
+.app-experience .app-workspace-references .app-reference-command { display: inline-flex; align-items: center; justify-content: flex-start; gap: 9px; min-width: 162px; max-width: 100%; min-height: 44px; padding: 8px 12px; border-radius: 9px; color: var(--app-accent); }
+.app-experience .app-reference-command-label { min-width: 0; color: var(--app-ink); overflow-wrap: anywhere; text-align: left; line-height: 1.25; }
+.app-experience .app-reference-command-media { position: relative; display: inline-flex; flex: none; width: 22px; height: 22px; }
+.app-experience .app-reference-command-media > svg { width: 100%; height: 100%; }
+.app-experience .app-reference-command-add { flex: none; width: 16px; height: 16px; margin-left: auto; color: var(--app-muted); }
+.app-experience .app-reference-command-count { margin-left: auto; color: var(--app-muted); }
+.app-experience .app-reference-command:hover:not([aria-disabled="true"]) { border-color: var(--app-accent); background: var(--app-accent-soft); }
 .app-experience .app-reference-command-media img { width: 100%; height: 100%; object-fit: cover; border-radius: 3px; }
 .app-experience .app-reference-command-media .app-reference-command-status { position: absolute; right: -3px; bottom: -3px; display: grid; place-items: center; width: 12px; height: 12px; border-radius: 50%; background: var(--app-panel); color: var(--app-accent); font-size: 10px; line-height: 1; }
 .app-experience .app-reference-command[aria-expanded="true"] { background: var(--app-accent-soft); border-color: var(--app-accent); }
-.app-experience .app-reference-command.is-add-disabled { border-color: var(--app-line); border-style: dashed; color: var(--app-muted); }
+.app-experience .app-reference-command.is-add-disabled { border-color: var(--app-line); border-style: dashed; }
+.app-experience .app-reference-command.is-add-disabled, .app-experience .app-reference-command.is-add-disabled .app-reference-command-label { color: var(--app-muted); }
 .app-experience .app-reference-command[aria-disabled="true"] { opacity: .55; cursor: not-allowed; }
 .app-experience .app-reference-command small { color: var(--app-muted); font-size: 10px; }
 @media (max-width: 640px) {
-  .app-experience .app-reference-commands .app-reference-command { padding-inline: 6px; }
-  .app-experience .app-reference-command-label { max-width: 52px; white-space: normal; text-align: left; line-height: 1.15; }
+  .app-experience .app-reference-commands { gap: 5px; }
+  .app-experience .app-workspace-references .app-reference-command { position: relative; flex: 1 1 80px; flex-direction: column; justify-content: center; min-width: 0; min-height: 67px; gap: 6px; padding: 8px 6px; }
+  .app-experience .app-reference-command-label { text-align: center; font-size: 11px; }
+  .app-experience .app-reference-command-add { position: absolute; top: 7px; right: 5px; width: 12px; height: 12px; }
+  .app-experience .app-reference-command-count { margin-left: 0; }
 }
 .app-experience .app-reference-restrictions { display: grid; gap: 2px; margin-top: 4px; color: var(--app-muted); font-size: 11px; line-height: 1.35; overflow-wrap: anywhere; }
 .app-experience .app-reference-restrictions p { margin: 0; }
 .app-experience .app-reference-required { margin-top: 4px; font-size: 11px; color: var(--app-muted); overflow-wrap: anywhere; }
 .app-experience .app-reference-selected-summary { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding-top: 6px; }
-.app-experience .app-reference-selected-item { position: relative; display: inline-flex; min-width: 0; max-width: 180px; }
-.app-experience .app-reference-selected-manage { display: inline-flex; align-items: center; gap: 6px; min-width: 0; max-width: 180px; padding-right: 36px !important; }
+.app-experience .app-reference-selected-item { position: relative; display: inline-flex; align-items: center; gap: 4px; min-width: 0; max-width: 100%; padding: 3px 34px 3px 3px; border: 1px solid var(--app-line); border-radius: 8px; background: var(--app-panel); }
+.app-experience .app-workspace-references .app-reference-selected-manage { display: inline-flex; align-items: center; gap: 7px; min-width: 0; padding: 0 4px 0 0; border: 0; background: transparent; }
 .app-experience .app-reference-selected-manage > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app-experience .app-workspace-references .app-reference-selected-mention { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 1px; min-height: 44px; padding: 0 4px; border: 0; background: transparent; color: var(--app-accent); }
+.app-experience .app-reference-selected-mention small { font-size: 10px; color: var(--app-muted); }
+.app-experience .app-reference-selected-duration { flex: none; padding-inline: 3px; color: var(--app-muted); font-size: 11px; }
 .app-experience .app-reference-selected-item > .app-reference-selected-remove { position: absolute; top: 50%; right: 4px; display: grid; place-items: center; width: 28px; min-width: 28px; height: 28px; min-height: 28px !important; padding: 0; transform: translateY(-50%); border: 0; border-radius: 50%; background: transparent; color: var(--app-muted); opacity: .62; }
 .app-experience .app-reference-selected-item > .app-reference-selected-remove:hover, .app-experience .app-reference-selected-item > .app-reference-selected-remove:focus-visible { background: var(--surface-2); color: var(--app-ink); opacity: 1; }
+/* Excerpt actions share the selected source row; reserve the remove button's space. */
+.app-experience .app-reference-selected-item:has(> .video-excerpt-trigger) { flex-wrap: wrap; max-width: 100%; }
+.app-experience .app-reference-selected-item > .video-excerpt-trigger { flex: none; white-space: nowrap; min-height: 44px; }
 .app-experience .app-reference-selected-remove > span { font-size: 18px; line-height: 1; }
-.app-experience .app-reference-selected-summary img { width: 28px; height: 28px; object-fit: cover; border-radius: 3px; }
+.app-experience .app-reference-thumbnail { position: relative; display: inline-grid; flex: none; place-items: center; width: 56px; height: 44px; overflow: hidden; border-radius: 5px; background: var(--surface-2); color: var(--app-muted); }
+.app-experience .app-reference-thumbnail > img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; max-height: 100%; object-fit: cover; }
+.app-experience .app-reference-thumbnail-kind { position: absolute; bottom: 2px; right: 2px; display: grid; place-items: center; width: 16px; height: 16px; border-radius: 3px; background: rgb(0 0 0 / .65); color: white; }
+.app-experience .app-reference-thumbnail-kind svg { width: 12px; height: 12px; }
+.app-experience .app-reference-command-media .app-reference-thumbnail { width: 22px; height: 22px; }
 .app-experience .app-reference-selected-summary small { max-width: 100px; overflow-wrap: anywhere; }
+.app-experience .app-reference-mention-review { display: grid; gap: 6px; padding: 10px; border: 1px solid var(--app-line); border-radius: 8px; background: var(--surface-2); font-size: 12px; }
+.app-experience .app-reference-mention-review button { justify-self: start; min-height: 44px; color: var(--app-accent); text-decoration: underline; }
 .app-experience.app-reference-modal-layer { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px; background: rgb(0 0 0 / .45); }
 .app-experience .app-reference-popup { width: min(620px, 100%); min-width: 0; max-height: calc(100dvh - 32px); padding: 16px; border: 1px solid var(--app-line); border-radius: 8px; background: var(--app-panel); box-shadow: 0 20px 60px rgb(0 0 0 / .2); }
 .app-experience .app-reference-popup > .app-reference-heading { justify-content: space-between; }
@@ -394,8 +440,6 @@
 .app-experience .app-reference-popup .app-reference-field { margin-top: 8px; }
 @media (max-width: 380px) {
   .app-experience .app-reference-heading > span { flex-basis: 100%; }
-  .app-experience .app-reference-command { gap: 5px; padding-inline: 6px; }
-  .app-experience .app-reference-command svg, .app-experience .app-reference-command-media { width: 18px; height: 18px; }
   .app-experience.app-reference-modal-layer { padding: 8px; }
   .app-experience .app-reference-popup { padding: 10px; }
 }
@@ -461,7 +505,33 @@
 .app-experience .app-rail-media-card .app-rail-caption { display: flex; align-items: center; gap: 7px; min-height: 48px; padding: 8px 10px; border-top: 1px solid var(--app-line); }
 .app-experience .app-rail-caption strong { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 550; }
 .app-experience .app-rail-caption > span { flex-shrink: 0; color: var(--app-muted); font-size: 11px; }
+.app-experience .app-rail-media-card .app-rail-caption-with-cost { flex-wrap: wrap; row-gap: 2px; }
+.app-experience .app-rail-caption-with-cost > .app-rail-cost { flex-basis: 100%; text-align: right; }
 .app-experience .app-rail-media-card > div:first-child > button { min-height: 44px; padding-inline: 10px; font-size: 12px; }
+/* Compact gallery actions: feedback stays inside the fixed visual button. */
+.app-experience .app-rail-media-card > div:first-child button.app-gallery-icon-action { position: relative; display: flex; align-items: center; justify-content: center; width: 32px; height: 44px; min-width: 32px; min-height: 44px; padding: 0; border: 0; background: transparent; outline: none; box-shadow: none; transform: none; cursor: pointer; }
+.app-experience .app-gallery-action-face { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; border: 1px solid rgb(78 70 52 / .14); border-radius: 6px; background: rgb(250 249 242 / .94); color: #494532; backdrop-filter: blur(6px); transition: background-color .12s ease, color .12s ease; }
+.app-experience .app-gallery-action-face svg { width: 14px; height: 14px; stroke-width: 1.65; }
+.app-experience .app-gallery-icon-action:is(:hover, :focus, [aria-expanded="true"]) .app-gallery-action-face { background: #e4dcc6; color: #534326; }
+.app-experience .app-gallery-icon-action:focus-visible .app-gallery-action-face { background: #7b6a45; color: #fffdf5; }
+.app-experience .app-gallery-icon-action:active .app-gallery-action-face { background: #6d5e3f; color: #fffdf5; }
+.app-experience .app-gallery-icon-action:disabled { cursor: wait; }
+.app-experience .app-gallery-icon-action:disabled .app-gallery-action-face { opacity: .65; }
+.app-experience .app-rail-media-card > div:first-child button.app-gallery-menu-action { position: absolute; right: 4px; top: 4px; width: 44px; min-width: 44px; }
+.app-experience .app-gallery-menu-action .app-gallery-action-face { width: 30px; height: 30px; border-radius: 7px; }
+.app-experience .app-gallery-continuation-actions { position: absolute; right: 4px; bottom: 0; display: flex; opacity: 0; pointer-events: none; transition: opacity .14s ease; }
+.app-experience .app-rail-media-card > div:first-child:is(:hover, :focus-within) .app-gallery-continuation-actions,
+.app-experience .app-gallery-continuation-actions[data-feedback] { opacity: 1; pointer-events: auto; }
+.app-experience .app-gallery-action-tooltip { position: absolute; right: 0; bottom: 43px; z-index: 20; visibility: hidden; opacity: 0; white-space: nowrap; padding: 5px 8px; border-radius: 5px; background: #302d25; color: #fffdf5; font-size: 11px; font-weight: 500; line-height: 1.4; pointer-events: none; }
+.app-experience .app-gallery-icon-action:is(:hover, :focus):not([data-tooltip-dismissed]) .app-gallery-action-tooltip { visibility: visible; opacity: 1; }
+.app-experience .app-gallery-menu-action .app-gallery-action-tooltip { right: 43px; top: 9px; bottom: auto; }
+.app-experience .app-gallery-action-error { position: absolute; bottom: 44px; right: 0; z-index: 21; width: 184px; padding: 8px; border: 1px solid var(--app-line); border-radius: 6px; background: var(--surface); color: var(--app-ink); font-size: 11px; line-height: 1.4; }
+@media (hover: none), (pointer: coarse), (max-width: 639px) {
+  .app-experience .app-gallery-continuation-actions { opacity: 1; pointer-events: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-experience .app-gallery-continuation-actions, .app-experience .app-gallery-action-face { transition: none; }
+}
 @media (min-width: 720px) and (max-width: 767px) {
   .app-experience .app-results-rail .app-gallery-rail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
   .app-experience .app-results-rail .app-gallery-rail-grid > :not([hidden]) ~ :not([hidden]) { margin-top: 0; }
@@ -495,6 +565,21 @@
 /* Focused reference selection: persistent controls, only the collection scrolls. */
 .app-experience.app-library-picker-layer { position: fixed; inset: 0; z-index: 10060; display: grid; place-items: center; padding: 16px; background: rgb(0 0 0 / .5); }
 .app-experience .app-picker-container { display: contents; }
+.app-experience .app-picker-host { width: min(960px, 100%); min-width: 0; }
+.app-experience .app-reference-picker[hidden] { display: none; }
+.app-experience .app-picker-item { min-width: 0; position: relative; }
+.app-experience .app-picker-item .app-picker-card { width: 100%; }
+.app-experience .app-picker-preview { width: 100%; color: var(--app-muted); font-size: 12px; }
+.app-experience .app-picker-basket { flex: none; max-height: 160px; overflow: auto; padding: 8px 16px; border-top: 1px solid var(--app-line); }
+.app-experience .app-picker-basket li { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.app-experience .app-picker-basket li > span:first-child { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app-experience .app-picker-basket li { min-height: 44px; }
+.app-experience .app-picker-basket button { display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 8px; border: 1px solid var(--app-line); }
+.app-experience .app-picker-order-actions { display: flex; gap: 4px; flex: none; }
+.app-experience .app-picker-order-actions button { width: 44px; }
+.app-experience .app-picker-management { display: flex; flex-wrap: wrap; gap: 8px; }
+.app-experience .app-reference-picker > .compact-library-collections { max-height: 200px; overflow: auto; }
+.app-experience .app-reference-picker > .app-media-detail-layout { min-height: 0; overflow: auto; }
 .app-experience .app-reference-picker { position: relative; z-index: 1; display: flex; flex-direction: column; width: min(960px, 100%); height: min(760px, calc(100dvh - 32px)); min-height: 0; overflow: hidden; border: 1px solid var(--app-line); border-radius: 10px; background: var(--app-panel); box-shadow: 0 24px 80px rgb(0 0 0 / .25); }
 .app-experience .app-picker-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex: none; padding: 12px 16px; border-bottom: 1px solid var(--app-line); }
 .app-experience .app-picker-heading h2 { font-size: 17px; font-weight: 600; line-height: 1.3; }
@@ -505,14 +590,27 @@
 .app-experience .app-reference-picker button:disabled, .app-experience .app-reference-picker fieldset:disabled { opacity: .5; cursor: not-allowed; }
 .app-experience .app-picker-filters { display: grid; grid-template-columns: minmax(100px, 1fr) minmax(120px, 180px) auto; gap: 8px; flex: none; padding: 12px 16px; border: 0; border-bottom: 1px solid var(--app-line); }
 .app-experience .app-picker-filters input, .app-experience .app-picker-filters select { width: 100%; min-width: 0; background: var(--app-canvas); border: 1px solid var(--app-line); color: var(--app-ink); padding: 8px 10px; font-size: 13px; }
+.app-experience .app-picker-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.app-experience .app-picker-field > label { font-size: 11px; font-weight: 500; color: var(--app-muted); }
+.app-experience .app-picker-select { position: relative; min-width: 0; }
+.app-experience .app-picker-select select { appearance: none; padding-right: 32px; }
+.app-experience .app-picker-select > svg { position: absolute; top: 50%; right: 10px; transform: translateY(-50%); pointer-events: none; color: var(--app-muted); }
+.app-experience .app-picker-instructions { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; flex: none; padding: 8px 16px; font-size: 12px; color: var(--app-muted); border-bottom: 1px solid var(--app-line); }
+.app-experience .app-picker-instructions > span { white-space: nowrap; }
+.app-experience .app-picker-character-link { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 6px 10px; font-size: 12px; border-radius: 6px; border: 1px solid var(--app-line); }
+.app-experience .app-picker-import { grid-column: 1 / -1; flex-wrap: wrap; }
+.app-experience .app-reference-picker .compact-media-inspect { min-height: 36px; }
+.app-experience .app-reference-picker .compact-media-check { min-width: 36px; min-height: 36px; align-items: center; justify-content: center; top: 0; left: 0; }
 .app-experience .app-picker-import { display: flex; align-items: center; gap: 6px; }
 .app-experience .app-picker-import button { box-shadow: none; font-size: 12px; font-weight: 500; padding-inline: 10px; background: transparent; color: var(--app-ink); border: 1px solid var(--app-line); }
 .app-experience .app-picker-body { min-height: 0; flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 16px; scrollbar-width: thin; scrollbar-color: var(--app-line) transparent; }
-.app-experience .app-picker-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-content: start; gap: 10px; }
+.app-experience .app-picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); align-content: start; gap: 10px; }
 .app-experience .app-picker-card { display: flex; flex-direction: column; min-width: 0; overflow: hidden; text-align: left; border: 1px solid var(--app-line); background: var(--app-canvas); color: var(--app-ink); }
 .app-experience .app-picker-card[aria-pressed="true"] { border-color: var(--app-accent); box-shadow: 0 0 0 2px var(--app-accent); background: var(--app-accent-soft); }
-.app-experience .app-picker-cover { position: relative; display: grid; place-items: center; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; background: var(--app-canvas); }
-.app-experience .app-picker-cover img { width: 100%; height: 100%; object-fit: cover; }
+.app-experience .app-picker-cover { position: relative; display: grid; place-items: center; flex: none; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; background: var(--app-canvas); }
+/* Bound replaced images to the cover: intrinsic portrait height must not size a WebKit grid track. */
+.app-experience .app-picker-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.app-experience .app-picker-cover[data-media-kind="video"] img { object-fit: contain; }
 .app-experience .app-picker-cover > svg { width: 36px; height: 36px; color: var(--app-muted); }
 .app-experience .app-picker-check { position: absolute; right: 8px; top: 8px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--app-panel); color: var(--app-ink); box-shadow: 0 1px 5px rgb(0 0 0 / .2); }
 .app-experience [aria-pressed="true"] .app-picker-check { background: var(--app-accent); color: var(--on-brand); }
@@ -543,6 +641,9 @@
   .app-experience .app-picker-heading { padding: 8px 12px; }
   .app-experience .app-picker-heading h2 { font-size: 15px; }
   .app-experience .app-picker-filters { grid-template-columns: minmax(80px, 1fr) minmax(100px, 1fr); padding: 8px 12px; }
+  .app-experience .app-picker-search-field { grid-column: 1 / -1; }
+  .app-experience .app-picker-instructions { padding-inline: 12px; }
+  .app-experience .app-reference-picker .compact-media-inspect { opacity: 1; }
   .app-experience .app-picker-import { grid-column: 1 / -1; }
   .app-experience .app-picker-body { padding: 12px; }
   .app-experience .app-picker-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -553,12 +654,28 @@
 .app-experience .app-reference-popup .app-reference-empty-actions > button { flex: 1; min-width: 0; min-height: 64px; justify-content: center; padding: 10px !important; border: 1px solid var(--app-line) !important; }
 .app-experience .app-reference-popup .app-reference-empty-actions > .app-reference-add-target { border-style: dashed !important; }
 .app-experience .app-reference-popup[data-single-role] .app-reference-field-heading { display: none; }
-.app-experience .app-reference-role-nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; padding: 8px 0 12px; border-bottom: 1px solid var(--app-line); }
+.app-experience .app-reference-role-nav { display: grid; gap: 6px; padding: 8px 0 12px; border-bottom: 1px solid var(--app-line); }
+.app-experience .app-reference-role-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
 .app-experience .app-reference-role-nav button { display: flex; align-items: center; gap: 6px; min-width: 0; min-height: 52px; padding: 6px 8px; text-align: left; border: 1px solid var(--app-line); border-radius: 6px; font-size: 12px; color: var(--app-muted); }
 .app-experience .app-reference-role-nav button[aria-pressed="true"] { background: var(--app-accent-soft); border-color: var(--app-accent); color: var(--app-accent); }
 .app-experience .app-reference-role-nav svg { width: 20px; height: 20px; flex: none; }
+.app-experience .app-reference-role-nav button > span { min-width: 0; overflow-wrap: anywhere; }
 .app-experience .app-reference-role-nav small { display: block; font-size: 10px; }
-@media (max-width: 479px) { .app-experience .app-reference-role-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 479px) {
+  .app-experience .app-reference-role-nav button { gap: 5px; padding-inline: 6px; font-size: 11px; }
+  .app-experience .app-reference-role-nav svg { width: 16px; height: 16px; }
+}
+.app-experience .app-reference-role-choice { position: relative; min-width: 0; }
+.app-experience .app-reference-role-choice > button { width: 100%; height: 100%; }
+.app-experience .app-reference-role-choice small { padding-right: 16px; }
+.app-experience .app-reference-roles-help { position: absolute; inset: 0; pointer-events: none; }
+.app-experience .app-reference-roles-help > button { position: absolute; bottom: 1px; right: 1px; display: inline-flex; justify-content: center; width: 24px; min-height: 24px; padding: 0; border: 0; border-radius: 50%; color: var(--app-muted); background: transparent; pointer-events: auto; }
+.app-experience .app-reference-roles-help > button svg { width: 13px; height: 13px; stroke-width: 1.5; }
+.app-experience .app-reference-roles-help > button:hover { color: var(--app-ink); }
+.app-experience .app-reference-roles-help > button:focus-visible { outline: 1px solid var(--app-accent); outline-offset: -2px; }
+.app-experience .app-reference-roles-tooltip { position: absolute; top: 100%; left: 0; z-index: 5; width: min(240px, calc(100vw - 72px)); padding: 8px 10px; border: 1px solid var(--app-line); border-radius: 6px; background: var(--app-panel); color: var(--app-muted); box-shadow: 0 4px 14px rgb(0 0 0 / .1); font-size: 12px; line-height: 1.45; pointer-events: auto; }
+.app-experience .app-reference-role-choice:nth-child(3n + 2) .app-reference-roles-tooltip { left: 50%; transform: translateX(-50%); }
+.app-experience .app-reference-role-choice:nth-child(3n) .app-reference-roles-tooltip { left: auto; right: 0; }
 .app-experience .app-picker-guidance { margin-bottom: 12px; color: var(--app-muted); font-size: 12px; }
 .app-experience .app-picker-guidance summary { display: list-item; min-height: 44px; padding-block: 12px; cursor: pointer; }
 .app-experience .app-picker-guidance p { padding: 4px 0 12px; }
@@ -671,3 +788,27 @@
 .app-experience .app-generation-info span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--app-muted); font-size: 11px; }
 .app-experience .app-generation-row > .app-generation-spinner { color: var(--app-accent); }
 @media (prefers-reduced-motion: reduce) { .app-generation-spinner { animation: none; } }
+
+/* Common inspector: contain media inside one modal host, with no intrinsic aspect override. */
+.app-experience .app-library-reader { position: relative; width: 100%; height: min(64dvh, 720px); min-height: 220px; background: var(--app-canvas); overflow: hidden; }
+.app-experience .app-library-reader-placeholder { position: absolute; inset: 0; display: grid; place-items: center; }
+.app-experience .app-library-reader-placeholder img { width: 100%; height: 100%; object-fit: contain; }
+.app-experience .app-library-reader .yarl__root { position: relative; width: 100%; height: 100%; }
+.app-experience .app-library-reader video { width: 100%; max-height: 100%; object-fit: contain; aspect-ratio: auto; }
+.app-experience .app-library-reader[data-media-kind="audio"] { height: auto; min-height: 120px; display: grid; place-items: center; }
+.app-experience .app-library-reader audio { width: min(100%, 640px); }
+.app-experience .app-library-reader [role="alert"] { position: absolute; bottom: 0; background: var(--app-panel); padding: 8px; color: var(--app-ink); }
+.app-experience .app-library-neighbors { display: flex; gap: 6px; align-items: center; overflow-x: auto; }
+.app-experience .app-library-neighbors button { flex: 0 0 48px; height: 48px; padding: 2px; }
+.app-experience .app-library-neighbors img { width: 100%; height: 100%; object-fit: contain; }
+
+.app-experience .app-library-import { padding: 16px; color: var(--app-ink); }
+.app-experience .app-library-import ul { list-style: none; margin: 12px 0; padding: 0; }
+.app-experience .app-library-import li { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; border-bottom: 1px solid var(--app-line); padding: 10px 0; }
+.app-experience .app-library-import li span:first-child { flex: 1; min-width: 120px; overflow-wrap: anywhere; }
+
+.app-experience .app-picker-collection-body { display: flex; flex-direction: column; overflow: hidden; }
+.app-experience .app-picker-collection-body > .compact-media-canvas { min-height: 0; }
+
+.app-experience .app-picker-collection-body .compact-media-grid { min-height: 0; }
+.app-experience .app-reference-picker > .app-library-import { min-height: 0; overflow: auto; }

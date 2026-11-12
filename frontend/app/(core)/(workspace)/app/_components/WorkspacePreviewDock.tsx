@@ -1,23 +1,14 @@
 'use client';
 
 import type { Dispatch, SetStateAction, ReactNode } from 'react';
-import dynamic from 'next/dynamic';
 import { WorkspaceEmptyPreview } from '@/components/composer/WorkspaceEmptyPreview.client';
 import { EngineSettingsBar } from '@/components/EngineSettingsBar';
-import type { CompositePreviewDockProps } from '@/components/groups/CompositePreviewDock';
+import { CompositePreviewDock, type CompositePreviewDockProps } from '@/components/groups/CompositePreviewDock';
 import type { EngineCaps, Mode } from '@/types/engines';
 import type { GroupSummary } from '@/types/groups';
 import type { VideoGroup } from '@/types/video-groups';
 import { getEngineModeLabel } from '../_lib/workspace-engine-helpers';
 import styles from './workspace-model-review.module.css';
-import { CompositePreviewDockSkeleton } from './WorkspaceBootSkeletons';
-
-const CompositePreviewDock = dynamic<CompositePreviewDockProps>(
-  () => import('@/components/groups/CompositePreviewDock').then((mod) => mod.CompositePreviewDock),
-  {
-    loading: () => <CompositePreviewDockSkeleton />,
-  }
-);
 
 export type WorkspaceViewerTarget =
   | { kind: 'pending'; id: string }
@@ -43,7 +34,8 @@ export function WorkspacePreviewDock({
   onModeChange,
   disabledEngineReasons,
   engineScores,
-  modelReviewCommands,
+  engineScoreReviews,
+  modelReviewCommands, modelPicker, hideModelStrip = false,
   renderGroups,
   compositeOverrideSummary,
   setViewerTarget,
@@ -65,7 +57,10 @@ export function WorkspacePreviewDock({
   onModeChange: (mode: Mode) => void;
   disabledEngineReasons?: Record<string, string>;
   engineScores?: Record<string, number>;
+  engineScoreReviews?: import('@/types/engines').EngineScoreReviews;
   modelReviewCommands?: ReactNode;
+  hideModelStrip?: boolean;
+  modelPicker?: import('@/components/ui/engine-select/model-picker-types').EnginePickerContext;
   renderGroups: ReadonlyMap<string, unknown>;
   compositeOverrideSummary: GroupSummary | null;
   setViewerTarget: Dispatch<SetStateAction<WorkspaceViewerTarget>>;
@@ -73,6 +68,7 @@ export function WorkspacePreviewDock({
   const engineSettings = (
     <div className={styles.modelStrip}>
         <div className={styles.modelSelector}><EngineSettingsBar
+          picker={modelPicker}
           engines={engines}
           engineId={engineId}
           onEngineChange={onEngineChange}
@@ -81,6 +77,7 @@ export function WorkspacePreviewDock({
           modeOptions={engineModeOptions}
           disabledEngineReasons={disabledEngineReasons}
           engineScores={engineScores}
+          engineScoreReviews={engineScoreReviews}
           modeLabel={getEngineModeLabel(selectedEngineId, activeMode, modeLabelLocale)}
           showModeBadge={false}
           controlPresentation="workspace"
@@ -91,9 +88,9 @@ export function WorkspacePreviewDock({
   );
   // A local illustration reserves the result location without mounting a media reader.
   if (!group && !isLoading) {
-    return <><section className="app-model-strip rounded-card border border-border bg-surface shadow-card">
+    return <>{!hideModelStrip ? <section className="app-model-strip rounded-card border border-border bg-surface shadow-card">
       <div className="px-4 py-1">{engineSettings}</div>
-    </section><WorkspaceEmptyPreview media="video" /></>;
+    </section> : null}<WorkspaceEmptyPreview media="video" /></>;
   }
 
   return (
@@ -106,7 +103,7 @@ export function WorkspacePreviewDock({
       onCopyPrompt={hasSharedVideoSettings ? undefined : sharedPrompt ? onCopySharedPrompt : undefined}
       showTitle={false}
       guidedNavigation={guidedNavigation}
-      engineSettings={engineSettings}
+      engineSettings={hideModelStrip ? undefined : engineSettings}
       onOpenModal={(nextGroup) => {
         if (!nextGroup) return;
         if (renderGroups.has(nextGroup.id)) {

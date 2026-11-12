@@ -3,11 +3,12 @@ import type { PayAsYouGoContent } from './types';
 export const frPayAsYouGoContent = {
   metadata: {
     title: 'Générateur de vidéos IA sans abonnement, paiement à l’usage',
-    description: 'Générez des vidéos IA avec des crédits prépayés sans abonnement mensuel. Comparez LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo et d’autres modèles avant de générer.',
+    description: "Créez des vidéos IA sans abonnement. Comparez FLUX 3 Max, MiniMax H3, Kling 4.0 et Seedance 2.5, préparez le prompt avec Milo et voyez le prix avant de générer.",
     imageAlt: 'Vidéo IA Keyvo à la demande.',
     keywords: ['générateur vidéo IA sans abonnement', 'générateur de vidéos IA paiement à l’usage', 'prix vidéo IA avant génération', 'comparer LTX 2.5 Wan 3 Grok Imagine FLUX 3', 'prix Grok Imagine Video', 'prix FLUX 3 Video'],
   },
   common: {
+    chapters: {"label":"Parcourir la page","workspace":"L’atelier","films":"Les films","models":"Les modèles","prices":"Les tarifs","questions":"Les questions"},
     aiVideoModelAlt: 'modèle de vidéo IA',
     liveQuote: 'Devis en temps réel',
     audioOff: 'Audio désactivé',
@@ -17,12 +18,14 @@ export const frPayAsYouGoContent = {
   hero: {
     eyebrow: 'Crédits vidéo IA, sans engagement mensuel',
     title: 'Générateur de vidéos IA sans abonnement',
-    intro: 'Générez des vidéos IA à partir de texte, d’images, d’audio ou de vidéo avec des crédits prépayés. Comparez LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo et d’autres modèles, puis validez le devis avant chaque génération.',
+    intro: "Partez de votre idée, choisissez un modèle et voyez le prix avant de créer la vidéo. Comparez FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5 et d’autres avec des crédits à la demande. Besoin d’aide pour le prompt ? Demandez à Milo.",
     primaryCta: 'Obtenir un devis vidéo',
     secondaryCta: 'Voir les prix par modèle',
     trustItems: ['Aucun abonnement requis', 'Crédits de départ dès 80 CNY', 'Prix affiché avant la génération', 'Échecs du fournisseur remboursés'],
+    film: { title: "Un clic en Californie", watch: "Voir le film", posterAlt: "Un grand curseur pixelisé pointe la glace rose qu’une femme tient à la main." },
     quote: {
-      consoleLabel: 'Simulateur de devis Keyvo',
+      consoleLabel: "Exemple de prix pour un nouveau clip",
+      detailsLabel: "Voir le prompt de l’exemple et d’autres tarifs",
       title: 'Prix avant la génération',
       promptLabel: 'Prompt',
       prompt: 'Présentation produit cinématographique, lent mouvement avant de caméra et éclairage studio épuré.',
@@ -34,35 +37,34 @@ export const frPayAsYouGoContent = {
     },
   },
   naturalQuestions: {
+    settingsLabel: "Durée et résolution",
     header: {
       eyebrow: 'Réponses rapides',
       title: 'L’essentiel avant d’utiliser vos crédits',
-      intro: 'Un générateur de vidéos IA sans abonnement vous permet d’acheter des crédits uniquement lorsque vous en avez besoin, de choisir un modèle par projet, de vérifier le prix avant le rendu et de ne dépenser les crédits qu’une fois le résultat terminé.',
+      intro: "Choisissez un modèle et une durée sur le devis d’exemple, ou ouvrez l’une des questions.",
     },
-    summaryLead: 'Avec Keyvo, vous pouvez :',
-    summaryItems: [
-      'Générez des vidéos IA à partir de texte, d’images ou de vidéo.',
-      'Comparez les routes actuelles LTX 2.5, Wan 3, Grok Imagine et FLUX.3 avec Seedance, Kling et Google Veo.',
-      'Consultez le prix estimé avant de lancer.',
-      'Utilisez des crédits uniquement pour les rendus terminés.',
-    ],
     items: [
-      { question: 'Où tester des modèles de vidéo IA sans abonnement ?', answer: 'Utilisez Keyvo pour comparer LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo et d’autres modèles avec des crédits prépayés plutôt qu’un forfait récurrent.' },
+      { question: 'Où tester des modèles de vidéo IA sans abonnement ?', answer: 'Utilisez Keyvo pour comparer FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5, LTX 2.5, Wan 3, Google Veo et d’autres modèles avec des crédits prépayés plutôt qu’un forfait récurrent.' },
       { question: 'Quelle plateforme de vidéo IA affiche les prix avant la génération ?', answer: 'Keyvo affiche le prix estimé avant de lancer un rendu, avec le modèle, la durée, la résolution et les options audio.' },
       { question: 'Quel modèle de vidéo IA sans abonnement tester en premier ?', answer: "Partez de votre tâche : texte-vers-vidéo, image-vers-vidéo ou un mode compatible avec une vidéo source. Comparez les modèles adaptés à partir d’exemples et de réglages identiques, puis examinez le devis exact avant de générer." },
-      { question: 'Où comparer les familles actuelles de modèles vidéo IA ?', answer: 'Keyvo réunit LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo et d’autres moteurs vidéo dans un même espace afin de comparer workflows, limites et prix avant de choisir.' },
+      { question: 'Où comparer les familles actuelles de modèles vidéo IA ?', answer: 'Keyvo réunit FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5, LTX 2.5, Wan 3, Google Veo et d’autres moteurs vidéo dans un même espace afin de comparer workflows, limites et prix avant de choisir.' },
       { question: 'Qu’est-ce qui fait un bon générateur de vidéo IA sans abonnement ?', answer: 'Une bonne solution avec paiement à l’usage permet de tester les modèles récents, de voir le prix avant de générer, de changer de moteur selon le projet et d’éviter les frais liés aux échecs du fournisseur.' },
     ],
   },
   modelTesting: {
+    contactIntro: "Ces planches montrent trois instants de chaque film. Ouvrez un modèle pour voir comment diriger votre propre scène.", intents: ["Découper une scène","Éclairer une scène de nuit","Monter en rythme"],
+    disclosure: "Explorer les usages de tous les modèles",
     header: {
       eyebrow: "Choix des modèles",
       title: "Choisissez un modèle pour votre prochain essai",
-      intro: "Partez des éléments dont vous disposez et du résultat recherché. Vérifiez les entrées acceptées, la durée, la résolution et l’audio, puis comparez les devis. Les modèles ci-dessous répondent à différents usages ; leur ordre ne classe ni leur qualité ni leur prix.",
+      intro: "Choisissez selon vos images de départ, le mouvement et le son recherchés.",
     },
-    footer: 'Happy Horse 1.1 et Seedance 2 Mini sont assez récents pour mériter des essais directs plutôt qu’un jugement fondé uniquement sur d’anciens classements.',
+    footer: "Essayez la même idée avec des modèles adaptés et comparez les résultats. Le nom du modèle ou un prix plus bas ne suffit pas à savoir quel plan vous préférerez.",
     models: {
-      'gemini-omni-flash': { family: 'Google Gemini', title: 'Gemini Omni Flash 1.1 pour une création multimodale rapide', body: 'Utilisez Gemini Omni Flash 1.1 pour les workflows texte, image, vidéo et références lorsque l’itération rapide, l’audio natif ou le multi-plan comptent.' },
+      "flux-3-max": {"family": "FLUX 3", "title": "FLUX 3 Max pour guider la scène avec des images clés", "body": "Partez d’un texte ou d’images, placez des images clés pour guider la progression, ou travaillez à partir d’un clip. Vérifiez le mode sélectionné et le devis avant de générer."},
+      "minimax-h3": {"family": "MiniMax H3", "title": "MiniMax H3 pour les références et l’audio natif", "body": "Apportez des images ou des vidéos de référence pour guider la scène. Comparez ses résolutions natives 768P, 2K et 4K ; une vidéo de référence peut modifier le prix."},
+      'kling-v4': { family: 'Kling', title: 'Kling 4.0 pour le découpage et les références visuelles', body: 'Préparez une scène de 3 à 30 secondes avec un prompt et une durée par plan, guidez-la par des images ou des sujets vidéo, ou éditez un clip existant. Sortie en 720p ou 1080p ; l’audio natif se dirige dans le prompt.' },
+      'gemini-omni-flash': { family: 'Google Gemini', title: 'Gemini Omni Flash 1.2 pour une création multimodale rapide', body: 'Utilisez Gemini Omni Flash 1.2 pour les workflows texte, image, vidéo et références lorsque l’itération rapide, l’audio natif ou le multi-plan comptent.' },
       'kling-3-turbo-pro': { family: 'Kling 3.0 Turbo', title: 'Kling 3.0 Turbo Pro pour une sortie 1080p détaillée', body: 'Choisissez Turbo Pro pour un mouvement 1080p soigné, les détails produit, le guidage par image et les séquences multi-plans.' },
       'kling-3-turbo-standard': { family: 'Kling 3.0 Turbo', title: 'Kling 3.0 Turbo Standard pour des brouillons 720p efficaces', body: 'Choisissez Turbo Standard pour itérer plus vite en 720p avec mouvement cohérent, guidage par image et essais multi-plans.' },
       'minimax-h3-max': { family: 'MiniMax H3', title: 'MiniMax H3 Max pour une finition visuelle premium', body: 'Choisissez H3 Max pour la finition visuelle, le respect du prompt, l’audio natif et une production texte ou image vers vidéo ciblée.' },
@@ -84,6 +86,7 @@ export const frPayAsYouGoContent = {
     },
   },
   meaning: {
+    compare: "Comparer en détail les crédits et l’abonnement",
     title: 'Comment fonctionne le paiement à l’usage',
     body: 'Le paiement à l’usage consiste à acheter des crédits lorsque vous en avez besoin plutôt qu’à payer un forfait récurrent. Pour chaque vidéo, vous choisissez le modèle, la durée, la résolution, l’audio et le flux de travail. Keyvo affiche le prix estimé avant de lancer la génération.',
     bullets: ['Pas d’engagement mensuel ni de dépenses inutilisées', 'Choisissez un modèle différent pour chaque projet', 'Utilisez vos crédits pour le texte vers vidéo, l’image vers vidéo et les flux vidéo'],
@@ -94,7 +97,7 @@ export const frPayAsYouGoContent = {
     cards: [
       { title: 'Testez avant de passer à l’échelle', body: 'Lancez de petits essais de prompts et d’images avant d’engager le budget d’une campagne ou d’une production.' },
       { title: 'Évitez les dépenses inutilisées', body: 'Si vous générez des vidéos uniquement pour des lancements, des expérimentations ou des clients, les crédits correspondent mieux à votre usage réel.' },
-      { title: 'Changez librement de modèle', body: 'Comparez LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling et Google Veo selon le workflow, la vitesse, le mouvement, l’audio, la durée et le devis exact.' },
+      { title: 'Changez librement de modèle', body: 'Comparez FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5, LTX 2.5, Wan 3 et Google Veo selon le workflow, la vitesse, le mouvement, l’audio, la durée et le devis exact.' },
     ],
   },
   audienceFit: {
@@ -120,21 +123,23 @@ export const frPayAsYouGoContent = {
     columns: ['Critère', 'Keyvo à l’usage', 'Abonnement classique'],
     rows: [
       { label: 'Maîtrise du budget', payg: 'Ajoutez des crédits lorsque vous avez besoin de vidéos et arrêtez à la fin du projet.', subscription: 'Payez un forfait récurrent, même les mois sans rendu.' },
-      { label: 'Choix du modèle', payg: 'Comparez LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo et d’autres moteurs selon le projet.', subscription: 'Souvent limité à un fournisseur, une famille de modèles ou un quota d’usage.' },
+      { label: 'Choix du modèle', payg: 'Comparez FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5, LTX 2.5, Wan 3, Google Veo et d’autres moteurs selon le projet.', subscription: 'Souvent limité à un fournisseur, une famille de modèles ou un quota d’usage.' },
       { label: 'Visibilité du prix', payg: 'Examinez le devis avant chaque génération.', subscription: 'Les crédits inclus peuvent masquer le coût réel des options premium.' },
       { label: 'Expérimentation', payg: 'Lancez de petits essais avant de déployer une campagne, un projet client ou une production.', subscription: 'Le choix du forfait intervient souvent avant de savoir quel modèle convient.' },
     ],
   },
   workflow: {
+    workspace: { capture: "milo-fr-gameshow", phoneHeight: 1278, alt: "Un plateau de jeu télé rétro dans l’atelier vidéo, une consigne de caméra saisie dans Milo Lite pour Wan 3 Prime et le devis sur Générer.", caption: "Un jeu télé de cinq secondes réalisé avec Wan 3 Prime. Dans cet atelier connecté, une consigne attend dans Milo Lite. Le prix sur Générer correspond à un nouvel essai avec les réglages affichés.", open: "Ouvrir cette scène dans l’atelier" },
+    assistance: {"milo": {"title": "Une idée, mais pas de prompt ? Voici Milo →", "body": "Décrivez ce que vous voulez avec vos mots. Milo aide à écrire un prompt adapté au modèle et aux références. Connectez-vous pour discuter ; Lite est sans frais d’assistance supplémentaires."}, "studio": {"title": "Un projet plus large ? Passez à Studio →", "body": "Discutez du brief, préparez les scènes et vérifiez chaque devis de génération. Standard et Max utilisent les mêmes crédits Milo dans Studio et les générateurs."}},
     header: {
       title: 'Comment fonctionne le paiement à l’usage',
-      intro: 'Le flux affiche le coût avant le lancement et renvoie les comparaisons détaillées vers la page des tarifs.',
+      intro: "Sur ce plateau de jeu télé, tout part d’un mouvement de caméra. Ouvrez la scène, travaillez la consigne avec Milo et vérifiez le devis avant de générer.",
     },
     items: [
-      { title: 'Choisissez un moteur vidéo', body: 'Sélectionnez le modèle adapté au projet sans rester limité à un seul catalogue par abonnement.', icon: 'engine' },
-      { title: 'Examinez le devis en direct', body: 'Consultez le prix, la durée, la résolution, l’audio et le flux de travail avant la génération.', icon: 'preview' },
-      { title: 'Lancez la génération', body: 'Lancez un flux texte vers vidéo, image vers vidéo ou vidéo après avoir vu le coût.', icon: 'video' },
-      { title: 'Payez uniquement les résultats', body: 'Les rendus terminés consomment des crédits, même si le résultat ne répond pas à votre intention créative. Les échecs techniques sans résultat ne sont pas facturés ou sont remboursés en crédits.', icon: 'refund' },
+      { title: "Choisissez le modèle", body: "Partez du plan à filmer et des références dont vous disposez.", icon: 'engine' },
+      { title: "Vérifiez les réglages", body: "Durée, résolution, audio. Le prix se met à jour sur le bouton Générer.", icon: 'preview' },
+      { title: "Lancez le rendu", body: "Validez quand le plan et son devis vous conviennent.", icon: 'video' },
+      { title: "Retrouvez votre vidéo", body: "Un rendu terminé consomme des crédits. Un échec technique sans résultat est recrédité ou reste sans frais.", icon: 'refund' },
     ],
   },
   mcpPlanning: {
@@ -178,6 +183,7 @@ export const frPayAsYouGoContent = {
     },
   },
   priceLookups: {
+    disclosure: "Consulter tous les tarifs par modèle",
     header: {
       eyebrow: 'Vérifications rapides des prix',
       title: 'Consultez les prix des modèles de vidéo IA populaires',
@@ -185,7 +191,11 @@ export const frPayAsYouGoContent = {
     },
     openRowLabel: 'Ouvrir la ligne tarifaire',
     items: {
-      'gemini-omni-flash': { query: 'prix de Gemini Omni Flash 1.1', title: 'Consulter le prix de Gemini Omni Flash 1.1', body: 'Consultez la route Google directe pour la vidéo multimodale rapide, l’audio natif et les workflows multi-plans.' },
+      "flux-3-max": {"query": "prix flux 3 max", "title": "Tarifs FLUX 3 Max", "body": "Comparez un court essai texte-vers-vidéo, puis vérifiez le devis pour vos images clés, références et réglages finaux."},
+      "minimax-h3": {"query": "prix minimax h3", "title": "Tarifs MiniMax H3", "body": "Cet exemple utilise une résolution native prise en charge. Comparez les modèles avec la même durée, la même résolution et les mêmes références."},
+      "seedance-2-5": {"query": "prix seedance 2.5", "title": "Tarifs Seedance 2.5", "body": "Vérifiez le prix de votre scène selon sa durée, sa résolution et ses références. Les générations Draft et finales ont des devis distincts."},
+      'kling-v4': { query: 'prix de Kling 4.0', title: 'Prix de Kling 4.0 selon le mode', body: 'Vérifiez le mode, la durée de sortie et la résolution. En génération par références et en édition, la durée des vidéos fournies influe aussi sur le devis ; comparez les mêmes entrées.' },
+      'gemini-omni-flash': { query: 'prix de Gemini Omni Flash 1.2', title: 'Consulter le prix de Gemini Omni Flash 1.2', body: 'Consultez la route Google directe pour la vidéo multimodale rapide, l’audio natif et les workflows multi-plans.' },
       'kling-3-turbo-pro': { query: 'prix de Kling 3 Turbo Pro', title: 'Consulter le prix de Kling 3.0 Turbo Pro', body: 'Consultez la route Turbo 1080p détaillée pour la génération par texte, image et multi-plans.' },
       'kling-3-turbo-standard': { query: 'prix de Kling 3 Turbo Standard', title: 'Consulter le prix de Kling 3.0 Turbo Standard', body: 'Consultez la route Turbo 720p efficace pour la génération par texte, image et multi-plans.' },
       'minimax-h3-max': { query: 'prix de MiniMax H3 Max', title: 'Consulter le prix de MiniMax H3 Max', body: 'Consultez la route H3 Max premium pour des sorties texte et image vers vidéo soignées.' },
@@ -214,9 +224,37 @@ export const frPayAsYouGoContent = {
     budgetTemplate: "Vous prévoyez trois essais ? Avec un devis inchangé de {unitPrice}, trois générations terminées consommeraient {totalPrice} de crédits média.",
     budgetContext: "LTX 2.5 Pro · 10s 720p · audio désactivé.",
     budgetCaveat: "C’est une illustration de budget, sans garantie que trois essais donnent le résultat souhaité. Les crédits média consommés sont distincts de la recharge minimale, à partir de 10 $. Des réglages ou tarifs différents nécessitent un nouveau devis.",
-    studioAssistance: "Vous utilisez Studio ? Sol consomme des crédits d’assistance inclus ou achetés. La génération média dispose de son propre devis. Tenez compte des deux dans votre budget.",
+    studioAssistance: "Vous utilisez Milo dans un générateur ou dans Studio ? Standard et Max partagent les crédits d’assistance inclus et achetés. La génération média dispose de son propre devis. Tenez compte des deux dans votre budget.",
     studioLinkLabel: "Ouvrir Studio",
+    creditNotes: {
+      "title": "Validité des crédits avant de recharger",
+      "items": [
+        {
+          "title": "Crédits média achetés",
+          "body": "Les crédits média achetés non utilisés restent dans votre portefeuille entre vos projets, sans abonnement obligatoire. Nos conditions actuelles ne précisent ni durée d’expiration ni délai d’inactivité pour ce solde. Contactez l’assistance avant l’achat si vous avez besoin de confirmer une durée de validité."
+        },
+        {
+          "title": "Crédits promotionnels, bonus et gratuits",
+          "body": "Ils n’ont pas de valeur monétaire et ne sont pas remboursables. Consultez les conditions de validité de l’offre ; si elles ne sont pas précisées, contactez l’assistance avant de leur appliquer les règles des crédits média ou de Studio."
+        },
+        {
+          "title": "Crédits d’assistance Milo",
+          "body": "Milo Standard et Max partagent 500 crédits d’assistance inclus par mois civil UTC. Les crédits inclus non utilisés ne sont pas reportés. Les packs Milo achetés se cumulent sans expiration ni recharge automatique. Chaque achat de pack est confirmé et financé depuis votre portefeuille Keyvo. La génération média a son propre devis distinct. Milo Lite n’entraîne pas de frais d’assistance supplémentaires, sous réserve des limites de requête et de la disponibilité du service."
+        }
+      ],
+      "links": {
+        "termsHref": "/fr/legal/terms#wallet-credits",
+        "terms": "Conditions du portefeuille",
+        "refunds": "Politique et demande de remboursement (anglais)",
+        "support": "Contacter l’assistance sur la validité des crédits",
+        "studio": "Assistance Studio"
+      }
+    },
     labels: {
+      "flux-3-max": "Courte scène FLUX 3 Max",
+      "minimax-h3": "Essai MiniMax H3 en résolution native",
+      "seedance-2-5": "Courte scène Seedance 2.5",
+      'kling-v4': 'Scène texte vers vidéo avec Kling 4.0',
       'gemini-omni-flash': 'Essai multimodal avec Gemini Omni Flash 1.1',
       'kling-3-turbo-pro': 'Essai 1080p avec Kling 3.0 Turbo Pro',
       'kling-3-turbo-standard': 'Brouillon avec Kling 3.0 Turbo Standard',
@@ -234,9 +272,10 @@ export const frPayAsYouGoContent = {
     },
   },
   refundPolicy: {
+    short: "Un rendu terminé consomme des crédits, même si vous souhaitez changer de direction créative. En cas d’échec technique, les crédits reviennent dans votre portefeuille.", disclosure: "Conditions de recrédit et de remboursement",
     header: {
       title: 'Que se passe-t-il si une génération échoue ?',
-      intro: "Chaque génération terminée consomme des crédits. Un résultat terminé qui ne répond pas à vos attentes créatives se distingue d’un échec technique. Les générations échouées sont automatiquement recréditées.",
+      intro: "Chaque génération terminée consomme des crédits. Un résultat terminé qui ne répond pas à vos attentes créatives se distingue d’un échec technique. Les générations échouées sont automatiquement recréditées. Un retour au portefeuille n’est pas un remboursement sur carte ou compte bancaire. Pour un remboursement du paiement ou d’un solde acheté non utilisé, demandez un examen selon la politique de remboursement. Chaque nouvel essai nécessite son propre devis actuel.",
     },
     bullets: [
       { icon: 'preview', body: 'Vous examinez le prix avant de lancer une génération.' },
@@ -251,14 +290,15 @@ export const frPayAsYouGoContent = {
       { question: 'Puis-je voir le prix d’une vidéo IA avant la génération ?', answer: 'Oui. L’application affiche un devis en temps réel selon le modèle, la durée, la résolution, l’audio et le flux de travail.' },
       { question: 'Quel modèle de vidéo IA devrais-je tester en premier ?', answer: "Partez de votre tâche : texte-vers-vidéo, image-vers-vidéo ou un mode compatible avec une vidéo source. Comparez les modèles adaptés à partir d’exemples et de réglages identiques, puis examinez le devis exact avant de générer." },
       { question: 'Que se passe-t-il si un rendu échoue ?', answer: "Chaque génération terminée consomme des crédits. Un résultat terminé qui ne répond pas à vos attentes créatives se distingue d’un échec technique. Les générations échouées sont automatiquement recréditées." },
-      { question: 'Est-ce la même chose que la page des tarifs ?', answer: 'Non. Cette page répond directement à l’intention de paiement à l’usage et sans abonnement. La page des tarifs conserve la matrice détaillée par modèle et scénario.' },
+      { question: 'Est-ce la même chose que la page des tarifs ?', answer: "Cette page vous aide à préparer un premier essai avec des crédits. La page des tarifs permet de comparer les prix selon le modèle et les réglages." },
     ],
   },
   showcase: {
     section: {
-      eyebrow: 'Rendus réels sans abonnement',
+      more: "Autres films et prompts",
+      eyebrow: "Salle de projection",
       title: "Vidéos d’exemple avec modèle et durée",
-      intro: "Des exemples publics avec leur modèle et leur durée. Ouvrez un exemple pour consulter les détails de génération disponibles, puis demandez un devis actuel avec vos propres réglages.",
+      intro: "Choisissez un film pour retrouver son prompt et ses réglages. Vous pourrez ensuite demander un devis pour votre propre scène.",
       preview: 'Aperçu',
       result: 'Voir le prompt et le résultat',
       cta: 'Testez votre prompt avec un devis en temps réel',
@@ -266,6 +306,17 @@ export const frPayAsYouGoContent = {
       engineImageAltSuffix: 'AI video model',
     },
     runtime: {
+      videoOverrides: {
+        'b645e55e-a837-4350-a27c-6198b4f8208a': { title: "Ne bougez plus", useCase: "Une photographe ajuste le portrait de son client en tenue de démineur." },
+        'job_external_fal_fa631c836a5a7905ab77206bc87be7f16721d99e': { title: "Nilo et le tambour d’orage", useCase: "Un apprenti lève son maillet face à un tambour qui commande l’orage." },
+        'job_external_fal_56ea1db8b2c3657977478a1d30c64272758d2b6c': { title: "La laverie de nuit", useCase: "Un pied bat la mesure entre deux rangées de machines." },
+        'job_ff94f180-0a2f-4f2b-acb2-bda8352fa9d9': { title: "Hard Bounce", useCase: "Une balle orange donne le tempo et relie les plans du clip." },
+        '4b53aad0-11a2-4215-a01a-f9b1913a794f': { title: "Le sac jaune", useCase: "Cinq secondes de publicité produit à partir d’une photo." },
+        'job_78cb3e71-cab5-48e2-9965-9f521ba51c0f': {
+          title: 'Une pilote sous les néons',
+          useCase: 'Une pilote, une moto, un tunnel néon. Découvrez le prompt de cette scène de dix secondes.',
+        },
+      },
       defaultEngineLabel: 'AI video model',
       defaultTitleEngineLabel: 'AI video',
       defaultTitleTemplate: 'Rendu d’exemple avec {engine}',
@@ -307,7 +358,7 @@ export const frPayAsYouGoContent = {
     webApplication: {
       description: 'Générateur de vidéos IA sans abonnement pour comparer plusieurs modèles avec un prix affiché à l’avance et un paiement à l’usage.',
       offer: 'Les crédits de départ sont disponibles sans abonnement récurrent.',
-      features: ['Générez des vidéos IA à partir de texte, d’images, d’audio ou de vidéo', 'Comparez LTX 2.5, Wan 3, Grok Imagine, FLUX.3, Seedance, Kling, Google Veo et d’autres modèles', 'Consultez le prix estimé avant la génération', 'Utilisez les crédits uniquement pour les rendus terminés'],
+      features: ['Générez des vidéos IA à partir de texte, d’images, d’audio ou de vidéo', 'Comparez FLUX 3 Max, MiniMax H3, Kling 4.0, Seedance 2.5, LTX 2.5, Wan 3, Google Veo et d’autres modèles', 'Consultez le prix estimé avant la génération', 'Utilisez les crédits uniquement pour les rendus terminés'],
     },
   },
 } satisfies PayAsYouGoContent;

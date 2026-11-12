@@ -15,7 +15,7 @@ export type EditorialStandardsCopy = {
     title: string;
     intro: string;
     reviewedLabel: string;
-    reviewedDate: '2026-07-12';
+    reviewedDate: '2026-10-19';
   };
   sections: Array<{
     id: EditorialStandardsSectionId;
@@ -39,14 +39,14 @@ const COPY: Record<AppLocale, EditorialStandardsCopy> = {
       intro:
         'These standards explain who is accountable for our content, how claims are sourced, and how material corrections or methodology changes are published.',
       reviewedLabel: 'Last reviewed',
-      reviewedDate: '2026-07-12',
+      reviewedDate: '2026-10-19',
     },
     sections: [
       {
         id: 'authorship',
         title: 'Authorship and accountability',
         body:
-          'Adrien Millot, Founder & Product Lead, is the primary author and editorial lead for Keyvo. If another contributor authors or materially reviews a page, that person will be identified on the page.',
+          'Keyvo is responsible for the guides and comparisons published under its name. Sources, methods, and material corrections are documented so readers can assess the claims.',
       },
       {
         id: 'sources',
@@ -98,14 +98,14 @@ const COPY: Record<AppLocale, EditorialStandardsCopy> = {
       intro:
         'Ces normes expliquent qui répond de nos contenus, comment les affirmations sont sourcées et comment les corrections importantes ou les changements de méthode sont publiés.',
       reviewedLabel: 'Dernière révision',
-      reviewedDate: '2026-07-12',
+      reviewedDate: '2026-10-19',
     },
     sections: [
       {
         id: 'authorship',
         title: 'Auteur et responsabilité',
         body:
-          'Adrien Millot, Founder & Product Lead, est l’auteur principal et le responsable éditorial de Keyvo. Si une autre personne écrit ou relit substantiellement une page, elle sera identifiée sur cette page.',
+          'Keyvo est responsable des guides et comparatifs publiés sous son nom. Les sources, les méthodes et les corrections importantes sont documentées pour permettre au lecteur d’évaluer les affirmations.',
       },
       {
         id: 'sources',
@@ -157,14 +157,14 @@ const COPY: Record<AppLocale, EditorialStandardsCopy> = {
       intro:
         'Estos estándares explican quién responde por nuestro contenido, cómo se sustentan las afirmaciones y cómo publicamos correcciones importantes o cambios de metodología.',
       reviewedLabel: 'Última revisión',
-      reviewedDate: '2026-07-12',
+      reviewedDate: '2026-10-19',
     },
     sections: [
       {
         id: 'authorship',
         title: 'Autoría y responsabilidad',
         body:
-          'Adrien Millot, Founder & Product Lead, es el autor principal y responsable editorial de Keyvo. Si otra persona escribe o revisa de manera sustancial una página, se la identificará en esa página.',
+          'Keyvo es responsable de las guías y comparativas publicadas bajo su nombre. Las fuentes, los métodos y las correcciones relevantes se documentan para que el lector pueda evaluar las afirmaciones.',
       },
       {
         id: 'sources',
@@ -214,13 +214,13 @@ const COPY: Record<AppLocale, EditorialStandardsCopy> = {
       title: '面向实用 AI 视频研究的编辑标准。',
       intro: '这些标准阐述了内容的责任人、各项主张的事实依据，以及重大勘误或评测方法论变更的发布流程。',
       reviewedLabel: '最近审核',
-      reviewedDate: '2026-07-12',
+      reviewedDate: '2026-10-19',
     },
     sections: [
       {
         id: 'authorship',
         title: '作者与责任归属',
-        body: 'Adrien Millot（创始人兼产品主管）是 Keyvo 的主要作者和编辑负责人。若有其他撰稿人编写或实质性审阅页面，其身份将在页面上明确标示。',
+        body: 'Keyvo 对以自身名义发布的指南与对比内容负责。我们会记录信息来源、方法以及重要勘误，方便读者自行评估相关结论。',
       },
       {
         id: 'sources',

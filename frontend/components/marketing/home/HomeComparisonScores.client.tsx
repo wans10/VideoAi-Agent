@@ -5,8 +5,12 @@ import Image from 'next/image';
 import type { HomeComparisonModel } from './home-comparison-types';
 import { PairedScores, type PairedMetric } from '@/components/marketing/PairedScores';
 
-/** The comparison pages and homepage share the same score scale and details. */
-export function HomeComparisonScores({ metrics, label, right, overallLabel, leftOverall }: { metrics: PairedMetric[]; label: string; right?: HomeComparisonModel; overallLabel?: string; leftOverall?: number | null }) {
+function validScore(value: number | null | undefined) {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0 && value <= 10 ? value : null;
+}
+
+/** Compact excerpt of the light comparison grid; values remain readable without motion. */
+export function HomeComparisonScores({ metrics, label, right, overallLabel, leftOverall, leftName = 'Kling 3 Pro', leftLogo = '/brand/partners/kling/kling-mark-light.png' }: { metrics: PairedMetric[]; label: string; right?: HomeComparisonModel; overallLabel?: string; leftOverall?: number | null; criterionLabel?: string; leftName?: string; leftLogo?: string }) {
   const root = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const node = root.current;
@@ -51,8 +55,8 @@ export function HomeComparisonScores({ metrics, label, right, overallLabel, left
   return <div ref={root} className="studio-score-sheet">
     <div className="studio-contenders">
       <div className="studio-contender">
-        <div className="studio-contender-name"><Image src="/brand/partners/kling/kling-mark-light.png" alt="" aria-hidden="true" width={36} height={36}/><strong><span className="score-left" aria-hidden>● </span>Kling 3 Pro</strong></div>
-        {overallLabel ? <div className="studio-contender-rating"><span>{overallLabel}</span><strong>{leftOverall?.toFixed(1) ?? '—'}<small>/10</small></strong></div> : null}
+        <div className="studio-contender-name"><Image src={leftLogo} alt="" aria-hidden="true" width={36} height={36}/><strong><span className="score-left" aria-hidden>● </span>{leftName}</strong></div>
+        {overallLabel ? <div className="studio-contender-rating"><span>{overallLabel}</span><strong>{validScore(leftOverall)?.toFixed(1) ?? '—'}<small>/10</small></strong></div> : null}
       </div>
       <div className="studio-contender studio-contender-selected">
         <div className="studio-contender-name"><Image src={right?.logo ?? '/brand/partners/bytedance/bytedance-mark-dark.svg'} alt="" aria-hidden="true" width={36} height={36}/><strong><span className="score-right" aria-hidden>◆ </span>{right?.name ?? 'Seedance 2.5'}</strong></div>

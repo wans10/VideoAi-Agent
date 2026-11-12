@@ -5,15 +5,22 @@ export function workspaceReferenceCopy(locale: string) {
   return locale === 'zh' ? {
     sending:'发送中…',calculating:'计算中…',priceUnavailable:'价格暂不可用',kinds:{image:'图片',video:'视频',audio:'音频'},
     start:'首帧',end:'尾帧',title:'参考素材',add:'添加参考素材',manage:'管理',close:'关闭',replace:'替换',remove:'移除',upload:'上传',library:'从素材库选择',required:'必填',unavailable:'此模型暂不支持',details:'格式与指南',options:'选项',placeholder:'描述您的创意…',
+    subjects:'Kling 主体（可选）',subjectsHint:'同一主体的多个视角，与上方参考素材配合使用。',
   } : locale === 'fr' ? {
+    subjects: 'Sujets Kling (optionnel)',
+    subjectsHint: 'Plusieurs vues d’un même sujet, en complément des références ci-dessus.',
     sending: 'Envoi…',
     calculating: 'Calcul…', priceUnavailable: 'Prix indisponible', kinds: { image: 'Images', video: 'Vidéos', audio: 'Audio' },
     start: 'Image de début', end: 'Image de fin', title: 'Références', add: 'Ajouter des références', manage: 'Gérer', close: 'Fermer', replace: 'Remplacer', remove: 'Retirer', upload: 'Importer', library: 'Choisir dans Médias', required: 'Requis', unavailable: 'Indisponible pour ce modèle', details: 'Formats et conseils', options: 'Options', placeholder: 'Décrivez votre création…',
   } : locale === 'es' ? {
+    subjects: 'Sujetos Kling (opcional)',
+    subjectsHint: 'Varias vistas de un mismo sujeto, además de las referencias anteriores.',
     sending: 'Enviando…',
     calculating: 'Calculando…', priceUnavailable: 'Precio no disponible', kinds: { image: 'Imágenes', video: 'Vídeos', audio: 'Audio' },
     start: 'Imagen inicial', end: 'Imagen final', title: 'Referencias', add: 'Añadir referencias', manage: 'Gestionar', close: 'Cerrar', replace: 'Reemplazar', remove: 'Quitar', upload: 'Subir', library: 'Elegir en Medios', required: 'Obligatorio', unavailable: 'No disponible para este modelo', details: 'Formatos y consejos', options: 'Opciones', placeholder: 'Describe tu creación…',
   } : {
+    subjects: 'Kling subjects (optional)',
+    subjectsHint: 'Multiple views of one subject, alongside the references above.',
     sending: 'Sending…',
     calculating: 'Calculating…', priceUnavailable: 'Price unavailable', kinds: { image: 'Images', video: 'Videos', audio: 'Audio' },
     start: 'Start frame', end: 'End frame', title: 'References', add: 'Add references', manage: 'Manage', close: 'Close', replace: 'Replace', remove: 'Remove', upload: 'Upload', library: 'Choose from Media', required: 'Required', unavailable: 'Unavailable for this model', details: 'Formats and guidance', options: 'Options', placeholder: 'Describe your creation…',

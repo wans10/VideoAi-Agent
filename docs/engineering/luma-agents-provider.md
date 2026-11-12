@@ -1,6 +1,6 @@
 # Luma Agents Provider
 
-Date: 2026-06-11
+Date: 2026-10-22
 Status: implemented behind feature flags
 
 ## Overview
@@ -23,8 +23,8 @@ Direct Luma routing is primary only when flags are enabled and the request shape
 Public launch separates fallback-safe generation from Luma-only source-video routes:
 
 - Ray 3.2 generation: `t2v` and `i2v`, 5s/10s, 540p/720p/1080p, loop where valid, public aspect ratios from the app controls, source images for direct image-to-video, and fal-compatible fallback where the fal schema accepts the request shape.
-- Ray 3.2 source-video Modify: `v2v`, one MP4/MOV/WebM source clip, 5s/10s output, 540p/720p/1080p, optional single guide frame or indexed keyframes, provider strength presets, and no audio generation. Guide frame and Modify keyframes are mutually exclusive.
-- Ray 3.2 Reframe: `reframe`, one source clip, target aspect ratio, 540p/720p/1080p where supported by the provider constraints, optional source-position controls, and no HDR/EXR.
+- Ray 3.2 source-video Modify: `v2v`, one owned MP4/MOV/WebM source clip up to 18s, including fractional phone recordings; no independent output-duration control, 540p/720p/1080p, optional single guide frame or indexed keyframes, provider strength presets, and no audio generation. Guide frame and Modify keyframes are mutually exclusive.
+- Ray 3.2 Reframe: `reframe`, one owned source clip up to 10s, explicit selected 5s/10s output duration, target aspect ratio, 540p/720p/1080p where supported by the provider constraints, optional source-position controls, and no HDR/EXR.
 - Uni-1 image: `t2i` and `i2i`, 2K output, supported aspect ratios for generation, source image plus references for edit, `auto`/`manga` style, PNG/JPEG, optional web search for generation.
 - Uni-1 Max image: same public controls as Uni-1, with the Max pricing and model route.
 
@@ -46,6 +46,12 @@ Advanced direct-only scope:
 Single-keyframe extend workflows remain unsupported in the current runtime, even when advanced direct-only routing is enabled.
 
 If a direct-only request cannot be accepted, fail/refund through the normal provider error path. Do not launch a second fal render.
+
+The 19 October 2026 correction makes disabled/admin-only/public-disabled direct
+Modify and Reframe routes return luma_agents_unavailable instead of fal_only.
+Model readiness excludes those modes, and both Web and trusted paid contexts
+reject them before payment. A prepared MCP quote is rechecked at confirmation.
+An unavailable mode is not a reason to enable a provider flag automatically.
 
 ## Environment
 
@@ -97,7 +103,6 @@ Allowed pre-acceptance fallback cases:
 - HTTP 429 rate limit or concurrent-job limit.
 - transient HTTP 5xx provider errors.
 - network failure or submit timeout.
-- invalid direct response with no accepted generation id.
 - a public request shape that is supported by fal but not by Luma direct.
 
 Never fallback automatically for:
@@ -107,9 +112,18 @@ Never fallback automatically for:
 - moderation or policy rejection;
 - invalid user request;
 - unsupported direct-only options;
+- a response classified as `invalid_response` without a verified generation id;
 - any failure after Luma returns an accepted generation id.
 
 Once Luma returns a generation id, polling stays on Luma. If the accepted job fails later, mark the job failed and refund according to normal job/payment rules. Do not launch a second fal render.
+
+An accepted video followed by a local snapshot, persistence or metric failure is
+not such a provider failure. Its submission owner uses the shared
+`direct-provider-acceptance.ts` boundary outside the pre-acceptance rejection
+catch. Independent identity writes and a durable read preserve terminal winners;
+failed diagnostic sanitization omits the snapshot without exposing raw media
+grants. Automatic polling still requires the ID in `app_jobs`; a deferred response
+alone does not establish durable recovery. See the [acceptance contract](fal-job-failures.md#direct-acknowledgements-and-fallback-outcome-projection-30-october-2026).
 
 ## Polling And Output Copy
 
@@ -142,7 +156,38 @@ Image:
 - Direct image outputs must be copied to MaxVideoAI storage before the common image persistence path runs.
 - If the copy still points to an expiring provider URL, the direct result is rejected instead of being persisted.
 
-## Rollout Checklist
+## Controlled Modify trial — 22 October 2026
+
+The [admin-only 5s trial runbook](../operations/2026-10-22-luma-modify-canary.md)
+supersedes the broad rollout checklist below for the current request. It keeps
+images/public/HDR disabled and does not apply any environment changes itself.
+The video flag gates all eligible direct Ray 3.2 modes for admins; MCP keeps
+public eligibility and is not the admin-canary surface.
+
+`lib/luma-source-video.ts` owns verified Modify source limits, its customer tariff quantity and the Reframe ceiling.
+Web preflight and execution consume server-owned source measurements. Canonical
+estimates and transactional repricing match resolved asset/role/slot facts.
+Modify rejects unknown/non-positive timing and sources over 18s, but accepts fractional sources.
+Its provider payload omits `video.duration`, independently of the customer tariff quantity.
+Reframe keeps its separate selected output-duration contract pending its own live qualification. Owned source URL matching
+never substitutes metadata from an origin URL. Optional guide images retain their
+existing reference behavior. The generated catalog and MCP details expose these
+mode-specific limits. Source timestamps are not proof of live provider acceptance.
+
+Direct cost estimates retain HDR/EXR flags at submission and read persisted
+advanced settings at completion. They remain estimates, not invoice reconciliation.
+Existing Modify 5s/10s reference amounts remain unchanged. This branch prepares
+new customer tariff classes `max(5, ceil(verified source seconds))`, up to 18,
+using the existing 5s commercial reference proportionally. This is a proposed
+retail reference extension, **not** an inferred Luma invoice rule. A stale duration
+preset cannot override the source-derived class. Active manual pricing must have
+reviewed cells for these new classes; missing cells fail closed. No tariff is
+activated by this code. Direct supplier costs outside published 5s/10s remain
+unknown; the observed 5.558s, 8.4s and 17.52s console charges do not establish an
+account-wide formula. Existing polling shares the enabled/video
+flags: drain or settle accepted jobs before disabling them during rollback.
+
+## General rollout checklist (separate from the current admin trial)
 
 1. Deploy with all Luma direct flags false. Confirm fal-only behavior for the three Luma engines.
 2. Set:

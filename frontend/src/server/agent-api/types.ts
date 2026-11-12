@@ -152,12 +152,14 @@ export type AgentModelDurationDetails = Readonly<{
 
 export type AgentModelReferenceFieldDetails = Readonly<{
   type: 'image' | 'video' | 'audio';
+  description?: string;
   roles: readonly CanonicalGenerationReferenceRole[];
   assetRequired: boolean;
   maxSizeMB?: number;
   acceptedMimeTypes?: readonly string[];
   acceptedFileExtensions?: readonly string[];
   imageAspectRatio?: Readonly<{ min: number; max: number }>;
+  minImageSidePx?: number;
   assetRequiredWhen?: Readonly<{
     setting: 'resolution';
     values: readonly string[];
@@ -180,6 +182,7 @@ export type AgentModelOutputCountDetails = Readonly<{
 
 export type AgentModelSettingDetails = Readonly<{
   key: string;
+  description?: string;
   type: 'boolean' | 'number' | 'text' | 'enum' | 'multi_prompt';
   required: boolean;
   values: readonly (string | number | boolean)[] | null;
@@ -198,7 +201,14 @@ export type AgentModelImageSizeConstraints = Readonly<{
 }>;
 
 export type AgentModelModeDetails = Readonly<{
+  sourceGeneration?: Readonly<{ required: true; requestField: 'sourceJobId'; outputField: 'sourceOutputId';
+    studioReferenceRole: 'source'; description: string; outputAssembly: 'unverified' }>;
+
+  operations?: readonly (AgentModelModeDetails & { operation: import('@/lib/video-operation').VideoOperation; label: string; promptRequired: boolean })[];
   mode: AgentGenerationMode;
+  editorialPreference?: import('@/lib/video-workflow-review').VideoWorkflowPreference;
+  notices?: readonly import('@/lib/video-workflow-capabilities').VideoWorkflowNotice[];
+  extensionOutput?: 'continuation'|'combined';
   durationPolicy: 'requested' | 'source_video' | 'source_audio' | 'source_generation';
   duration: AgentModelDurationDetails | null;
   resolutions: readonly string[];
@@ -209,6 +219,7 @@ export type AgentModelModeDetails = Readonly<{
   settings: readonly AgentModelSettingDetails[];
   imageSize?: AgentModelImageSizeConstraints;
   references: readonly AgentModelReferenceFieldDetails[];
+  subjects?: Readonly<{max:7;maxVideo:0|3;maxVoiced:0|3;voiceBinding:'unavailable';identity:'owned_reference_slots';imageViews:Readonly<{min:1;max:3}>}>;
   referenceRequirement?: Readonly<{
     min: number;
     alternatives: readonly Readonly<{

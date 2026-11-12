@@ -53,6 +53,7 @@ const PRICING_DISPLAY_MODEL_ORDER = [
   'wan-3',
   'wan-2-6',
   'grok-imagine-video-1-5',
+  'flux-3-max',
   'flux-3',
   'flux-3-draft',
   'minimax-h3',
@@ -83,7 +84,7 @@ const PRICING_FAMILY_VARIANT_ORDER: Readonly<Record<string, readonly string[]>> 
   ltx: ['ltx-2-5-pro', 'ltx-2-5-fast', 'ltx-2-3', 'ltx-2-3-fast'],
   wan: ['wan-3-prime', 'wan-3', 'wan-2-6'],
   grok: ['grok-imagine-video-1-5'],
-  flux: ['flux-3', 'flux-3-draft'],
+  flux: ['flux-3-max', 'flux-3', 'flux-3-draft'],
 };
 const PRICING_DISPLAY_MODEL_RANK = new Map<string, number>(
   PRICING_DISPLAY_MODEL_ORDER.map((slug, index) => [slug, index] as const)
@@ -190,7 +191,7 @@ export type VideoPricingHighlight = {
   label: string;
   value: string;
   href?: string;
-  featured?: { engineName: string; price: string };
+  featured?: { engineName: string; price: string; intent: string };
 };
 
 export type VideoPricingMatrixData = {
@@ -244,6 +245,7 @@ export type OtherSurfacePricingData = {
   imageRows: ImagePricingRow[];
   audioRows: AudioPricingRow[];
   toolRows: ToolPricingRow[];
+  recastExamples?: Array<{ outputSeconds: number; sourceSeconds: number; price720: string; price1080: string }>;
 };
 
 export type PricingHubData = {
@@ -283,24 +285,21 @@ export function isPricingDiscoveryEntry(entry: FalEngineEntry) {
   return entry.surfaces.pricing.includeInEstimator === true && isKeyvoVisibleFamily(entry.family);
 }
 
-function isPublicMarketingEntry(entry: FalEngineEntry) {
+// Keyvo keeps the image pricing rows of every visible model published on a public surface (for example the
+// direct Qwen Image models, which are not part of the video estimator); upstream now lists only estimator models.
+function isKeyvoPublicImagePricingEntry(entry: FalEngineEntry) {
+  if (isPricingDiscoveryEntry(entry)) return true;
   if (!isKeyvoVisibleFamily(entry.family)) return false;
   if (entry.availability !== 'available' && entry.availability !== 'limited') return false;
+  // Only the Keyvo-native direct Qwen Image models (outside the video estimator) keep this relaxation; every
+  // other model respects its own pricing publication even while its model page and App are open.
+  if (entry.engine.providerMeta?.provider !== 'alibaba_qwen_image') return false;
   const surfaces = entry.surfaces;
-  return Boolean(
-    surfaces.pricing.includeInEstimator ||
-      surfaces.modelPage.indexable ||
-      surfaces.compare.includeInHub ||
-      surfaces.app.enabled
-  );
+  return Boolean(surfaces.modelPage.indexable || surfaces.compare.includeInHub || surfaces.app.enabled);
 }
 
 function collectFields(engine: EngineCaps) {
   return [...(engine.inputSchema?.required ?? []), ...(engine.inputSchema?.optional ?? [])];
-}
-
-function findField(engine: EngineCaps, id: string) {
-  return collectFields(engine).find((field) => field.id === id);
 }
 
 function parseDurationValue(value: number | string | undefined) {
@@ -310,34 +309,40 @@ function parseDurationValue(value: number | string | undefined) {
   return match ? Number(match[1]) : null;
 }
 
-function collectDurationOptions(entry: FalEngineEntry) {
-  const durations = new Set<number>();
-  entry.modes.forEach((mode) => {
-    const duration = mode.ui.duration;
-    if (duration && 'options' in duration) {
-      duration.options.forEach((option) => {
-        const parsed = parseDurationValue(option);
-        if (parsed != null) durations.add(parsed);
-      });
-    }
-  });
-  const durationField = findField(entry.engine, 'duration');
-  durationField?.values?.forEach((value) => {
-    const parsed = parseDurationValue(value);
-    if (parsed != null) durations.add(parsed);
-  });
-  return [...durations].sort((a, b) => a - b);
+function selectedPricingMode(entry: FalEngineEntry, mode?: Mode) {
+  return mode ?? (entry.engine.modes.includes('t2v') ? 't2v' : entry.engine.modes[0]);
+}
+
+function collectDurationOptions(entry: FalEngineEntry, mode?: Mode): number[] | null {
+  const selected = selectedPricingMode(entry, mode);
+  const duration = entry.engine.modeCaps?.[selected]?.duration
+    ?? entry.modes.find((item) => item.mode === selected)?.ui.duration;
+  const field = collectFields(entry.engine).find(
+    (item) => item.id === 'duration' && (!item.modes?.length || item.modes.includes(selected))
+  );
+  const numeric = (values: Array<number | string>) => values.map(parseDurationValue)
+    .filter((value): value is number => value != null && value > 0);
+  const fieldOptions = field?.values ? numeric(field.values) : null;
+  const modeOptions = duration && 'options' in duration ? numeric(duration.options) : null;
+  // Mode and configured schema restrictions intersect; another mode cannot add a duration.
+  const options = modeOptions
+    ? modeOptions.filter((value) => !fieldOptions || fieldOptions.includes(value))
+    : fieldOptions;
+  return options
+    ? [...new Set(options)].filter((value) => value <= getEngineMaxDurationSec(entry)).sort((a, b) => a - b)
+    : null;
 }
 
 function getEngineMaxDurationSec(entry: FalEngineEntry) {
-  return entry.engine.pricingDetails?.maxDurationSec ?? entry.engine.maxDurationSec;
+  return Math.min(entry.engine.maxDurationSec, entry.engine.pricingDetails?.maxDurationSec ?? entry.engine.maxDurationSec);
 }
 
-function resolveDurationSupport(entry: FalEngineEntry, requestedDurationSec: number | null, locale: AppLocale) {
+function resolveDurationSupport(entry: FalEngineEntry, requestedDurationSec: number | null, locale: AppLocale, mode?: Mode) {
   const copy = getPricingHubCopy(locale);
   if (requestedDurationSec == null) return { supported: true, durationSec: null, note: null as string | null };
-  const options = collectDurationOptions(entry);
-  if (options.length) {
+  const options = collectDurationOptions(entry, mode);
+  if (options) {
+    if (!options.length) return { supported: false, durationSec: null, note: copy.quote.unsupported };
     if (options.includes(requestedDurationSec)) {
       return { supported: true, durationSec: requestedDurationSec, note: null as string | null };
     }
@@ -361,12 +366,12 @@ function resolveDurationSupport(entry: FalEngineEntry, requestedDurationSec: num
   return { supported: false, durationSec: maxDurationSec, note: copy.quote.maxDuration(maxDurationSec) };
 }
 
-function chooseFourKDuration(entry: FalEngineEntry) {
-  const options = collectDurationOptions(entry);
+function chooseFourKDuration(entry: FalEngineEntry, mode?: Mode) {
+  const options = collectDurationOptions(entry, mode);
   const preferred = [10, 8, 5];
-  const exactPreferred = preferred.find((duration) => options.includes(duration));
+  const exactPreferred = preferred.find((duration) => options?.includes(duration));
   if (exactPreferred != null) return exactPreferred;
-  if (options.length) {
+  if (options) {
     return options.find((duration) => duration >= 5) ?? options[0] ?? null;
   }
   const maxDurationSec = getEngineMaxDurationSec(entry);
@@ -376,12 +381,12 @@ function chooseFourKDuration(entry: FalEngineEntry) {
   return maxDurationSec > 0 ? maxDurationSec : null;
 }
 
-function chooseEntryDuration(entry: FalEngineEntry) {
-  const options = collectDurationOptions(entry);
+function chooseEntryDuration(entry: FalEngineEntry, mode?: Mode) {
+  const options = collectDurationOptions(entry, mode);
   const preferred = [10, 8, 5, 6, 12, 15, 4];
-  const exactPreferred = preferred.find((duration) => options.includes(duration));
+  const exactPreferred = preferred.find((duration) => options?.includes(duration));
   if (exactPreferred != null) return exactPreferred;
-  if (options.length) return options[0] ?? null;
+  if (options) return options[0] ?? null;
   const maxDurationSec = getEngineMaxDurationSec(entry);
   return maxDurationSec > 0 ? Math.min(maxDurationSec, 10) : null;
 }
@@ -468,8 +473,8 @@ function supportsAudioOff(engine: EngineCaps) {
 }
 
 function resolvePresetDuration(entry: FalEngineEntry, preset: VideoPriceScenario) {
-  if (preset.id === 'entry-route') return chooseEntryDuration(entry);
-  if (preset.id === '4k-route') return chooseFourKDuration(entry);
+  if (preset.id === 'entry-route') return chooseEntryDuration(entry, preset.mode);
+  if (preset.id === '4k-route') return chooseFourKDuration(entry, preset.mode);
   return preset.durationSec;
 }
 
@@ -483,7 +488,7 @@ export function getPresetQuote(entry: FalEngineEntry, preset: VideoPriceScenario
   const audioMode: AudioRateMode = preset.audio ? 'default' : supportsAudioOff(engine) ? 'audio_off' : 'default';
   const canExactAudio = preset.audio ? engine.audio : true;
   const requestedDurationSec = resolvePresetDuration(entry, preset);
-  const duration = resolveDurationSupport(entry, requestedDurationSec, locale);
+  const duration = resolveDurationSupport(entry, requestedDurationSec, locale, preset.mode);
   const exact = resolution.supported && duration.supported && canExactAudio && requestedDurationSec != null;
 
   const exactCents =
@@ -498,14 +503,17 @@ export function getPresetQuote(entry: FalEngineEntry, preset: VideoPriceScenario
         )
       : null;
   if (exact) {
+    const note = preset.id === 'entry-route'
+      ? `${formatCompactSeconds(locale, duration.durationSec!)} ${formatResolutionLabel(resolution.resolution)}${
+          !preset.audio && engine.audio && !supportsAudioOff(engine) ? ` · ${copy.quote.audioIncluded}` : ''}`
+      : preset.id === '4k-route'
+        ? copy.quote.fourKNote(duration.durationSec!)
+        : !preset.audio && engine.audio && !supportsAudioOff(engine) ? copy.quote.audioIncluded : undefined;
     if (exactCents == null || duration.durationSec == null) {
       return {
         status: 'live_quote',
         display: copy.liveQuote,
-        note:
-          preset.id === '4k-route' && duration.durationSec != null
-            ? copy.quote.fourKNote(duration.durationSec)
-            : undefined,
+        note,
         sortValue: Number.POSITIVE_INFINITY,
       };
     }
@@ -514,16 +522,7 @@ export function getPresetQuote(entry: FalEngineEntry, preset: VideoPriceScenario
       status: 'exact',
       amountCents: exactCents ?? undefined,
       display: formatPrice(locale, exactCents),
-      note:
-        preset.id === 'entry-route'
-          ? `${formatCompactSeconds(locale, duration.durationSec)} ${formatResolutionLabel(resolution.resolution)}${
-              !preset.audio && engine.audio && !supportsAudioOff(engine) ? ` · ${copy.quote.audioIncluded}` : ''
-            }`
-          : preset.id === '4k-route'
-          ? copy.quote.fourKNote(duration.durationSec)
-          : !preset.audio && engine.audio && !supportsAudioOff(engine)
-            ? copy.quote.audioIncluded
-            : undefined,
+      note,
       rateDisplay: formatRateDisplay(locale, rateCents),
       sortValue: exactCents ?? Number.POSITIVE_INFINITY,
     };
@@ -543,7 +542,9 @@ export function getPresetQuote(entry: FalEngineEntry, preset: VideoPriceScenario
 }
 
 export function getExactVideoPresetInput(entry: FalEngineEntry, preset: VideoPriceScenario, locale: AppLocale) {
-  if (getPresetQuote(entry, preset, locale).status !== 'exact') return null;
+  // Compatibility is independent of whether the legacy catalogue has a price.
+  const status = getPresetQuote(entry, preset, locale).status;
+  if (status !== 'exact' && status !== 'live_quote') return null;
   const resolution = preset.id === 'entry-route'
     ? chooseEntryResolution(entry.engine)
     : resolveResolutionSupport(entry.engine, preset.resolution, locale).resolution;
@@ -611,7 +612,7 @@ function buildVideoNotes(entry: FalEngineEntry, locale: AppLocale) {
 
 function formatDurationCap(entry: FalEngineEntry, locale: AppLocale) {
   const options = collectDurationOptions(entry);
-  const seconds = options.length ? Math.max(...options) : getEngineMaxDurationSec(entry);
+  const seconds = options?.length ? Math.max(...options) : getEngineMaxDurationSec(entry);
   return formatCompactSeconds(locale, seconds);
 }
 
@@ -799,7 +800,7 @@ export function buildVideoHighlights(rows: VideoPricingRow[], locale: AppLocale)
   return [
     {
       label: copy.video.highlights.bestDraft,
-      featured: bestDraft?.quote.display ? { engineName: bestDraft.row.engineName, price: bestDraft.quote.display } : undefined,
+      featured: bestDraft?.quote.display ? { engineName: bestDraft.row.engineName, price: bestDraft.quote.display, intent: copy.video.highlights.draftIntent } : undefined,
       value: bestDraft ? `${bestDraft.row.engineName} · ${bestDraft.quote.display}` : copy.liveQuote,
       href: bestDraft ? `#${bestDraft.row.anchorId}` : undefined,
     },
@@ -810,24 +811,24 @@ export function buildVideoHighlights(rows: VideoPricingRow[], locale: AppLocale)
     },
     {
       label: copy.video.highlights.cheapest10s,
-      featured: cheapest10s?.quote.display ? { engineName: cheapest10s.row.engineName, price: cheapest10s.quote.display } : undefined,
+      featured: cheapest10s?.quote.display ? { engineName: cheapest10s.row.engineName, price: cheapest10s.quote.display, intent: copy.video.highlights.detailIntent } : undefined,
       value: cheapest10s ? `${cheapest10s.row.engineName} · ${cheapest10s.quote.display}` : copy.liveQuote,
       href: cheapest10s ? `#${cheapest10s.row.anchorId}` : undefined,
     },
     {
       label: copy.video.highlights.cheapestAudio,
-      featured: cheapestAudio?.quote.display ? { engineName: cheapestAudio.row.engineName, price: cheapestAudio.quote.display } : undefined,
+      featured: cheapestAudio?.quote.display ? { engineName: cheapestAudio.row.engineName, price: cheapestAudio.quote.display, intent: copy.video.highlights.soundIntent } : undefined,
       value: cheapestAudio ? `${cheapestAudio.row.engineName} · ${cheapestAudio.quote.display}` : copy.liveQuote,
       href: cheapestAudio ? `#${cheapestAudio.row.anchorId}` : undefined,
     },
     {
       label: copy.video.highlights.cheapest4k,
-      value: cheapest4k ? `${cheapest4k.row.engineName} · ${cheapest4k.quote.display}` : copy.noExactRoute,
+      value: cheapest4k ? `${cheapest4k.row.engineName} · ${cheapest4k.quote.display} · ${cheapest4k.quote.note}` : copy.noExactRoute,
       href: cheapest4k ? `#${cheapest4k.row.anchorId}` : undefined,
     },
     {
       label: copy.video.highlights.dedicated4k,
-      value: dedicated4k ? `${dedicated4k.row.engineName} · ${dedicated4k.quote.display}` : copy.noExactRoute,
+      value: dedicated4k ? `${dedicated4k.row.engineName} · ${dedicated4k.quote.display} · ${dedicated4k.quote.note}` : copy.noExactRoute,
       href: dedicated4k ? `#${dedicated4k.row.anchorId}` : undefined,
     },
     {
@@ -1022,7 +1023,7 @@ export function getImagePricePresetInput(entry: FalEngineEntry, highQuality: boo
 
 function buildImagePricingRows(locale: AppLocale): ImagePricingRow[] {
   return listFalEngines()
-    .filter((entry) => supportsImageGeneration(entry) && isPublicMarketingEntry(entry))
+    .filter((entry) => supportsImageGeneration(entry) && isKeyvoPublicImagePricingEntry(entry))
     .map((entry): ImagePricingRow => {
       const engine = entry.engine;
       const resolutions = engine.resolutions.map(String);
@@ -1166,8 +1167,8 @@ function buildToolPricingRows(locale: AppLocale): ToolPricingRow[] {
       id: 'character-builder-draft',
       anchorId: 'character-builder-pricing',
       tool: copy.tools.characterBuilderDraft,
-      standardOutput: formatFixedPublicProduct(locale, 'character-draft', 8),
-      proOutput: `${fourKFormat?.label ?? '4K'}: ${formatFixedPublicProduct(locale, 'character-draft-4k', 24)}`,
+      standardOutput: copy.liveQuote,
+      proOutput: `${fourKFormat?.label ?? '4K'}: ${copy.liveQuote}`,
       bestUsedBefore: copy.tools.imageToVideoReferences,
       links: [
         { label: copy.links.tool, href: '/tools/character-builder' },
@@ -1178,8 +1179,8 @@ function buildToolPricingRows(locale: AppLocale): ToolPricingRow[] {
       id: 'character-builder-final',
       anchorId: 'character-builder-final-pricing',
       tool: copy.tools.characterBuilderFinal,
-      standardOutput: formatFixedPublicProduct(locale, 'character-final', 15),
-      proOutput: `${fourKFormat?.label ?? '4K'}: ${formatFixedPublicProduct(locale, 'character-final-4k', 30)}`,
+      standardOutput: copy.liveQuote,
+      proOutput: `${fourKFormat?.label ?? '4K'}: ${copy.liveQuote}`,
       bestUsedBefore: copy.tools.finalCharacterReferences,
       links: [
         { label: copy.links.tool, href: '/tools/character-builder' },

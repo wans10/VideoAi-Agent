@@ -68,7 +68,7 @@ test('Gemini Omni Flash 1.1 has localized model content with non-cannibalizing i
 
   for (const locale of LOCALES) {
     const { raw, data, prompting } = readModelContent(locale);
-    assert.equal(data.marketingName, 'Gemini Omni Flash 1.1');
+    assert.equal(data.marketingName, 'Gemini Omni Flash 1.2');
     assert.match(raw, /360p/);
     assert.match(raw, /1080p/i);
     assert.match(raw, /4K/i);
@@ -207,21 +207,29 @@ test('Gemini Omni Flash comparison pages keep scorecard-only overrides but are n
   assert.ok(englishComparison, 'missing EN Omni vs Veo override');
   assert.ok(frenchComparison, 'missing FR Omni vs Veo override');
   assert.ok(spanishComparison, 'missing ES Omni vs Veo override');
-  assert.equal(englishComparison.heroIntro, undefined);
-  assert.match(englishComparison.quickVerdict?.body ?? '', /conversational refine/i);
+  for (const comparison of [englishComparison, frenchComparison, spanishComparison]) {
+    assert.ok((comparison.heroIntro?.length ?? 0) >= 140, 'localized context should explain the exact Veo variant');
+    assert.match(comparison.heroIntro ?? '', /Omni Flash 1\.2/);
+    assert.match(comparison.heroIntro ?? '', /Veo 3\.1/);
+    assert.ok((comparison.decisionSummary?.length ?? 0) >= 120, 'the opening should retain a substantive decision');
+    assert.ok(comparison.decisionSummary!.length <= 240, 'the opening should remain concise');
+    assert.match(comparison.quickVerdict?.body ?? '', /\b10\b/);
+    assert.match(comparison.quickVerdict?.body ?? '', /\b3\b/);
+  }
+  assert.match(englishComparison.quickVerdict?.body ?? '', /source-video editing/i);
   assert.match(englishComparison.quickVerdict?.body ?? '', /Veo 3\.1/i);
 });
 
-test('Gemini Omni Flash limited preview is not labeled as pre-launch on compare pages', () => {
+test('Gemini Omni Flash GA release is not labeled as pre-launch on compare pages', () => {
   const entry = engineCatalog.find((candidate) => candidate.modelSlug === 'gemini-omni-flash');
   assert.ok(entry, 'Gemini Omni Flash catalog entry should exist');
-  assert.equal(entry.availability, 'limited');
+  assert.equal(entry.availability, 'available');
   assert.equal(isPrelaunchAvailability(entry), false);
 });
 
 test('Gemini Omni Flash keeps benchmark scores but is not promoted in navigation', () => {
-  const score = scoresFile.scores.find((entry) => entry.modelSlug === 'gemini-omni-flash');
-  assert.ok(score, 'Gemini Omni Flash should have a benchmark score row for compare scorecards');
+  const score = scoresFile.historicalScores.find((entry) => entry.modelSlug === 'gemini-omni-flash');
+  assert.ok(score, 'Gemini Omni Flash should preserve its historical 1.1 benchmark record');
   for (const field of SCORE_FIELDS) {
     assert.equal(typeof (score as Record<string, unknown>)[field], 'number', `gemini-omni-flash.${field} should be scored`);
   }
@@ -229,5 +237,5 @@ test('Gemini Omni Flash keeps benchmark scores but is not promoted in navigation
   assert.equal(score.pricing, 8.1);
 
   assert.ok(!MARKETING_NAV_COMPARE.some((item) => item.key === PRIMARY_COMPARE_SLUG));
-  assert.ok(MARKETING_MODEL_SLUGS.length <= 11);
+  assert.ok(MARKETING_MODEL_SLUGS.length <= 13);
 });

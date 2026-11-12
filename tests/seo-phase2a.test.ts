@@ -90,6 +90,7 @@ test('published P0 family defaults and identities resolve to their canonical SEO
     'ltx-2-5-fast': 'ltx',
     'ltx-2-5-pro': 'ltx',
     'grok-imagine-video-1-5': 'grok',
+    'flux-3-max': 'flux',
     'flux-3': 'flux',
     'flux-3-draft': 'flux',
   } as const;

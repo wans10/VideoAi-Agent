@@ -33,6 +33,7 @@ export const LOCALE_SITEMAP_PATHS: Record<AppLocale, string> = {
 export const LOCALES: AppLocale[] = publishedLocales;
 
 export const BASE_EXTRA_CANONICAL_PATHS: CanonicalPathEntry[] = [
+  { englishPath: '/tools/video-background-changer', locales: ['en'] },
   { englishPath: '/legal/cookies-list', locales: ['en', 'fr', 'es', 'zh'] },
   { englishPath: '/legal/mentions', locales: ['en', 'fr', 'es', 'zh'] },
   { englishPath: '/legal/subprocessors', locales: ['en', 'fr', 'es', 'zh'] },

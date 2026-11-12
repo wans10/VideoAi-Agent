@@ -1,9 +1,13 @@
+import { createUploadedMediaReadAccess } from '@/server/media-library/upload-read-access';
 import { NextRequest, NextResponse } from 'next/server';
+import { canonicalMediaAssetFields } from '@/lib/media-identity';
 import { getRouteAuthContext } from '@/lib/supabase-ssr';
 import { ensureReusableAsset } from '@/server/media-library';
+import { readVideoUploadMetadata } from '../_lib/video-upload-metadata';
 import {
   buildPublicStorageUrl,
   getStorageObjectMetadata,
+  getStorageObjectBuffer,
   isStorageKeyWithinUserPrefix,
   recordUserAsset,
 } from '@/server/storage';
@@ -14,6 +18,7 @@ import {
 } from '../_lib/video-upload-limits';
 
 export const runtime = 'nodejs';
+export const maxDuration = 60;
 
 type CompleteVideoUploadPayload = {
   key?: unknown;
@@ -78,24 +83,33 @@ export async function POST(req: NextRequest) {
   const url = buildPublicStorageUrl(key);
 
   try {
+    const bytes = await getStorageObjectBuffer(key);
+    if (bytes.length !== size) return NextResponse.json({ ok: false, error: 'SIZE_MISMATCH' }, { status: 400 });
+    const measured = await readVideoUploadMetadata(bytes, fileName, mime);
+    if (!measured) return NextResponse.json({ ok: false, error: 'METADATA_UNVERIFIED' }, { status: 422 });
     const assetId = await recordUserAsset({
       userId,
       url,
       mime,
-      width: null,
-      height: null,
+      width: measured.width,
+      height: measured.height,
       size,
       source: 'upload',
-      metadata: { originalName: fileName, kind: 'video', directUpload: true },
+      metadata: { originalName: fileName, kind: 'video', directUpload: true,
+        durationSec: measured.durationSec, mediaFacts: measured.mediaFacts },
     });
 
-    await ensureReusableAsset({
+    const canonicalAsset = await ensureReusableAsset({
       userId,
       url,
       kind: 'video',
       source: 'upload',
       mimeType: mime,
       sizeBytes: size,
+      width: measured.width,
+      height: measured.height,
+      durationSec: measured.durationSec,
+      metadata: { originalName: fileName, mediaFacts: measured.mediaFacts },
     }).catch((error) => {
       console.warn('[upload] failed to mirror direct video into media_assets', error);
     });
@@ -103,16 +117,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       ok: true,
       asset: {
+        ...await createUploadedMediaReadAccess(userId, { assetId: canonicalAsset?.publicId, legacyAssetId: assetId, url: url, kind: 'video' }),
         id: assetId,
+        legacyAssetId: assetId,
+        ...canonicalMediaAssetFields(canonicalAsset?.publicId, 'video'),
         url,
-        width: null,
-        height: null,
+        ...measured,
         size,
         mime,
         name: fileName,
         thumbUrl: null,
       },
-    });
+    }, { headers: { 'Cache-Control': 'private, no-store' } });
   } catch (error) {
     console.error('[upload] failed to record direct video asset', {
       key,

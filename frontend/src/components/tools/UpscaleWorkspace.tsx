@@ -143,6 +143,10 @@ export function UpscaleSession({ auth, initialKind }: { auth: ReturnType<typeof 
     resultPreviewUrl,
     sourcePreviewIsVideo,
     sourcePreviewUrl,
+    sourcePreviewError,
+    sourcePreviewPending,
+    onSourcePreviewError,
+    onSourcePreviewRetry,
     sourceSizeLabel,
     zoomCanvasHeight,
     zoomCanvasWidth,
@@ -175,29 +179,13 @@ export function UpscaleSession({ auth, initialKind }: { auth: ReturnType<typeof 
     source,
     user,
   });
-  const { handleUpload, selectLibraryAsset } = useUpscaleSourceMedia({
-    changeMediaType,
-    copy,
-    locale,
-    mediaType,
-    mediaUrl,
-    setError,
-    setLibraryModalOpen,
-    setMediaUrl,
-    setMessage,
-    setPreviewMode,
-    setResult,
-    setSource,
-    setUploading,
-    source,
-  });
   const {
+    cancelRecentSelection,
     handleRecentGroupAction,
     savingRecentGroupId,
     selectRecentUpscale,
   } = useUpscaleRecentActions({
     copy,
-    hasSourcePreview,
     locale,
     mediaType,
     setActiveRecentGroupId,
@@ -215,7 +203,26 @@ export function UpscaleSession({ auth, initialKind }: { auth: ReturnType<typeof 
     setUpscaleFactor,
   });
 
+  const { handleUpload, selectLibraryAsset } = useUpscaleSourceMedia({
+    changeMediaType,
+    onSourceChange: cancelRecentSelection,
+    copy,
+    locale,
+    mediaType,
+    mediaUrl,
+    setError,
+    setLibraryModalOpen,
+    setMediaUrl,
+    setMessage,
+    setPreviewMode,
+    setResult,
+    setSource,
+    setUploading,
+    source,
+  });
+
   function changeMediaType(next: UpscaleMediaType) {
+    cancelRecentSelection();
     setMediaType(next);
     const nextEngine = next === 'video' ? DEFAULT_UPSCALE_VIDEO_ENGINE_ID : DEFAULT_UPSCALE_IMAGE_ENGINE_ID;
     const resolved = listUpscaleToolEngines(next).find((entry) => entry.id === nextEngine) ?? listUpscaleToolEngines(next)[0];
@@ -236,6 +243,7 @@ export function UpscaleSession({ auth, initialKind }: { auth: ReturnType<typeof 
   function changeEngine(nextId: UpscaleToolEngineId) {
     const nextEngine = engines.find((entry) => entry.id === nextId);
     if (!nextEngine) return;
+    cancelRecentSelection();
     setEngineId(nextEngine.id);
     setMode(nextEngine.defaultMode);
     setUpscaleFactor(nextEngine.defaultUpscaleFactor);
@@ -244,6 +252,7 @@ export function UpscaleSession({ auth, initialKind }: { auth: ReturnType<typeof 
   }
 
   function changeMediaUrl(nextUrl: string) {
+    cancelRecentSelection();
     setMediaUrl(nextUrl);
     setSource(null);
     setResult(null);
@@ -252,6 +261,7 @@ export function UpscaleSession({ auth, initialKind }: { auth: ReturnType<typeof 
 
   async function handleRun() {
     if (!canRun || !engine || runningRef.current) return;
+    cancelRecentSelection();
     runningRef.current = true;
     setRunning(true);
     setError(null);
@@ -388,6 +398,7 @@ export function UpscaleSession({ auth, initialKind }: { auth: ReturnType<typeof 
                   comparePosition={comparePosition}
                   copy={copy}
                   hasResult={hasResult}
+                  hasSourcePreview={hasSourcePreview}
                   isPixelZoom={isPixelZoom}
                   mediaFitClass={mediaFitClass}
                   onCompareKeyDown={handleCompareKeyDown}
@@ -406,6 +417,10 @@ export function UpscaleSession({ auth, initialKind }: { auth: ReturnType<typeof 
                   resultPreviewUrl={resultPreviewUrl}
                   sourcePreviewIsVideo={sourcePreviewIsVideo}
                   sourcePreviewUrl={sourcePreviewUrl}
+                  sourcePreviewError={sourcePreviewError}
+                  sourcePreviewPending={sourcePreviewPending}
+                  onSourcePreviewError={onSourcePreviewError}
+                  onSourcePreviewRetry={onSourcePreviewRetry}
                   sourceSizeLabel={sourceSizeLabel}
                   zoomCanvasHeight={zoomCanvasHeight}
                   zoomCanvasWidth={zoomCanvasWidth}
@@ -423,6 +438,8 @@ export function UpscaleSession({ auth, initialKind }: { auth: ReturnType<typeof 
     >{!user ? <ToolAuthNotice locale={locale} path={`/app/tools/upscale?kind=${mediaType}`} /> : null}</ToolWorkbench>
     <ToolMediaHandoff userId={user?.id} destination="upscale" locale={locale} onSelect={selectLibraryAsset} disabled={running || uploading} />
     <UpscaleLibraryModal
+        userId={user?.id}
+        intent={`upscale:${engineId}:${mediaType}`}
         assets={visibleLibraryAssets}
         copy={copy}
         error={libraryError}

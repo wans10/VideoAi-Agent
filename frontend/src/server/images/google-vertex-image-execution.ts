@@ -1,3 +1,4 @@
+import { NANO21_ENGINE_ID, NANO21_MODEL_ID } from '@/lib/nano-banana-2-1';
 import { normalizeMediaUrl } from '@/lib/media';
 import type { BillingProductKey, JobSurface } from '@/types/billing';
 import type { EngineCaps, PricingSnapshot } from '@/types/engines';
@@ -8,7 +9,7 @@ import {
   isStorageConfigured,
   uploadImageToStorage,
 } from '@/server/storage';
-import { createImageThumbnailBatch } from '@/server/image-thumbnails';
+import { createImageThumbnailBatch, prepareImageRenditions } from '@/server/image-thumbnails';
 import { uploadGoogleVertexGcsObject } from '@/server/video-providers/google-vertex-gcs';
 import { GoogleVertexImageClient, isGoogleVertexImageConfigured } from './google-vertex-image-client';
 import { GoogleVertexImageError } from './google-vertex-image-error';
@@ -16,7 +17,9 @@ import { buildGoogleVertexImagePayload, type GoogleVertexReferenceImage } from '
 import {
   extractGoogleVertexImages,
   summarizeGoogleVertexImageResponse,
+  parseGoogleVertexImageUsage,
 } from './google-vertex-image-response';
+import { markImageProviderOutcomeAmbiguous } from './image-provider-failure-policy';
 import { persistCompletedImageGeneration } from './image-generation-completion';
 import { persistFailedImageGeneration } from './image-generation-failure';
 import type { PendingReceipt } from './image-generation-receipts';
@@ -50,7 +53,7 @@ async function signReferenceUrl(url: string): Promise<string> {
   }
 }
 
-async function fetchReferenceImage(url: string, client: GoogleVertexImageClient): Promise<GoogleVertexReferenceImage> {
+async function fetchReferenceImage(url: string, client: GoogleVertexImageClient, nano21 = false): Promise<GoogleVertexReferenceImage> {
   const signedUrl = await signReferenceUrl(url);
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), REFERENCE_FETCH_TIMEOUT_MS);
@@ -70,7 +73,15 @@ async function fetchReferenceImage(url: string, client: GoogleVertexImageClient)
       });
     }
     const mimeType = response.headers.get('content-type')?.split(';')[0]?.trim() || 'image/png';
+    if (nano21 && (data.length > 7_000_000 || !['image/png', 'image/jpeg', 'image/webp', 'image/heic', 'image/heif'].includes(mimeType))) {
+      throw new GoogleVertexImageError('Nano Banana 2.1 reference format or size is unsupported.', { code: 'NANO21_REFERENCE_INVALID', status: 400 });
+    }
     if (data.length <= MAX_INLINE_REFERENCE_BYTES) return { data: data.toString('base64'), mimeType };
+    if (process.env.NODE_ENV === 'development' && process.env.GOOGLE_VERTEX_IMAGE_INLINE_ONLY === '1') {
+      throw new GoogleVertexImageError('This local preview accepts reference images up to 7 MiB.', {
+        code: 'REFERENCE_TOO_LARGE', status: 400,
+      });
+    }
     const prefix = process.env.GOOGLE_VERTEX_INPUT_GCS_URI ?? process.env.GOOGLE_VERTEX_VEO_INPUT_GCS_URI;
     const fileUri = await uploadGoogleVertexGcsObject({
       prefix: prefix ?? '',
@@ -118,6 +129,7 @@ async function uploadInlineImages(params: {
         width: upload.width,
         height: upload.height,
         mimeType: upload.mime,
+        ...(typeof prepareImageRenditions === 'function' ? await prepareImageRenditions({ data: image.data, imageUrl: normalizeMediaUrl(upload.url) ?? upload.url, jobId: params.jobId, userId: params.userId, index }).catch(() => ({})) : {}),
       };
     })
   );
@@ -154,6 +166,9 @@ export async function executeGoogleVertexImageGeneration(params: {
   resolvedAspectRatio: string | null;
   resolution: string;
   thinkingLevel: string | null;
+  maxOutputTokens?: number;
+  systemInstruction?: string;
+  enableImageSearch?: boolean;
   userId: string;
   vendorAccountId: string | null;
   visibility: 'public' | 'private';
@@ -161,6 +176,7 @@ export async function executeGoogleVertexImageGeneration(params: {
   const modelId = params.engine.providerMeta?.modelSlug ?? params.engine.id;
   let providerJobId: string | null = null;
   let lastProviderResponse: unknown = null;
+  let receivedImage = false;
 
   try {
     assertGoogleVertexImageAvailable(params.engine);
@@ -168,16 +184,20 @@ export async function executeGoogleVertexImageGeneration(params: {
 
     const referenceImages =
       params.mode === 'i2i'
-        ? await Promise.all(params.combinedImageUrls.map((url) => fetchReferenceImage(url, client)))
+        ? await Promise.all(params.combinedImageUrls.map((url) => fetchReferenceImage(url, client, params.engine.id === NANO21_ENGINE_ID)))
         : [];
     const requestedImages = Math.max(1, Math.round(params.numImages));
     const inlineImages = [];
     for (let index = 0; index < requestedImages; index += 1) {
       const providerResponse = await client.generateContent(modelId, buildGoogleVertexImagePayload({
+        modelId,
         prompt: params.effectivePrompt,
+        maxOutputTokens: params.maxOutputTokens, systemInstruction: params.systemInstruction, enableImageSearch: params.enableImageSearch,
         referenceImages,
         aspectRatio: params.resolvedAspectRatio,
         imageSize: params.resolution,
+        // Preserve Nano2 thinking and the distinct three-level Nano21 contract.
+        thinkingLevel: modelId === NANO21_MODEL_ID || modelId === 'gemini-3.1-flash-image' ? params.thinkingLevel : null,
         enableWebSearch: params.enableWebSearch,
       }));
       lastProviderResponse = providerResponse;
@@ -193,7 +213,9 @@ export async function executeGoogleVertexImageGeneration(params: {
           }
         );
       }
-      inlineImages.push(...extractGoogleVertexImages(providerResponse));
+      const images = extractGoogleVertexImages(providerResponse);
+      receivedImage ||= images.length > 0;
+      inlineImages.push(...images);
     }
 
     if (!inlineImages.length) {
@@ -209,7 +231,7 @@ export async function executeGoogleVertexImageGeneration(params: {
       jobId: params.jobId,
       userId: params.userId,
     });
-    const thumbUrls = await createImageThumbnailBatch({
+    const thumbUrls = typeof prepareImageRenditions === 'function' ? storedImages.map(image => image.thumbUrl ?? null) : await createImageThumbnailBatch({
       jobId: params.jobId,
       userId: params.userId,
       imageUrls: storedImages.map((image) => image.url),
@@ -241,6 +263,7 @@ export async function executeGoogleVertexImageGeneration(params: {
       pricingSnapshotJson: params.pricingSnapshotJson,
       providerJobId,
       providerMode: GOOGLE_VERTEX_IMAGE_PROVIDER_MODE,
+      ...(modelId === NANO21_MODEL_ID ? { providerUsage: parseGoogleVertexImageUsage(lastProviderResponse) } : {}),
       quality: params.quality,
       resolvedAspectRatio: params.resolvedAspectRatio,
       resolution: params.resolution,
@@ -275,6 +298,26 @@ export async function executeGoogleVertexImageGeneration(params: {
       return params.onPreAcceptanceFailure();
     }
     console.error('[images] Google Vertex image generation failed', error);
+    if (params.engine.id === NANO21_ENGINE_ID && (receivedImage
+      || (error instanceof GoogleVertexImageError && error.submissionState === 'uncertain'))) {
+      if (error instanceof GoogleVertexImageError) providerJobId ??= error.responseId;
+      const message = 'The image request outcome is uncertain. Keep this job ID for support; do not resubmit.';
+      // This is the actual reserved direct-provider owner. Its caller's fallback
+      // catch does not surround this call, so persist here before returning ambiguity.
+      try {
+        await markImageProviderOutcomeAmbiguous(params.jobId, providerJobId ?? undefined, {
+          providerMode: GOOGLE_VERTEX_IMAGE_PROVIDER_MODE, userId: params.userId, message, strict: true,
+        });
+      } catch (persistenceError) {
+        // Never refund an uncertain submitted outcome because a status write failed.
+        // The original job/receipt remain the recovery identity, not a new POST.
+        console.warn('[images] unable to persist Vertex outcome evidence', { jobId: params.jobId, providerJobId }, persistenceError);
+      }
+      throw new ImageGenerationExecutionError(message, {
+        mode: params.mode, status: 503, code: 'provider_outcome_ambiguous',
+        extras: { jobId: params.jobId, providerJobId: providerJobId ?? undefined, paymentStatus: 'paid_wallet' },
+      });
+    }
     const { message, providerBody, providerStatus } = await persistFailedImageGeneration({
       characterReferenceCount: params.characterReferenceCount,
       enableWebSearch: params.enableWebSearch,
@@ -293,6 +336,7 @@ export async function executeGoogleVertexImageGeneration(params: {
       pricing: params.pricing,
       providerJobId,
       providerMode: GOOGLE_VERTEX_IMAGE_PROVIDER_MODE,
+      ...(modelId === NANO21_MODEL_ID ? { providerUsage: parseGoogleVertexImageUsage(lastProviderResponse) } : {}),
       quality: params.quality,
       referenceImageUrls: params.combinedImageUrls,
       refundDescription: params.refundDescription,

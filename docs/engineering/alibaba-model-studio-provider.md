@@ -26,17 +26,60 @@ Wan 2.5, Wan 2.6, and HappyHorse 1.0 are intentionally outside this direct route
 
 ### Wan 3 input parity
 
+Wan 3 and Prime require at least 240 pixels on each side of an input image,
+including first/last frames and optional references in Modify/Extend. The shared
+`WAN_3_INPUT_SCHEMA.constraints.minImageSidePx` drives upload and library checks;
+Web preflight and executable agent quotes validate owned original dimensions
+before funding. Missing trusted image metadata fails closed for these models;
+caller-supplied dimensions cannot qualify an original.
+Executable agent requests must import image URLs first so dimensions and file
+size can be verified before reservation. Non-executable budget estimates may
+still describe an unverified image. Upload and library rejections use the same
+localized cause, corrective action and no-debit message as Web preflight.
+Live MCP/Studio image-field discovery publishes `assetRequired: true` alongside
+`minImageSidePx: 240`, so clients import and measure references before quoting.
+Studio preparation and executable MCP quotes preserve this specific image
+rejection, including when a valid source video accompanies the image. Other
+source-access failures keep their existing neutral message.
+
+`frontend/lib/wan-image-failure-messages.ts` owns the precise resolution-rejection
+projection. Only validated integer measurements from the known diagnostic enter
+the public English message; provider URLs, JSON and credentials remain private.
+That canonical message survives job/refund persistence and is localized for Web
+history and Billing. Preflight confirms that no credits were charged for video
+generation; Studio assistance has separate accounting. A terminal failure
+uses persisted payment state: `refunded_wallet` confirms the amount returned,
+while a failed `paid_wallet` job says its wallet refund is not yet confirmed.
+This projection does not change refunds or rewrite historical generic messages.
+The Wan image validation/guidance and Alibaba poll tests cover these boundaries.
+
 Wan 3 Standard and Prime share the same authored capability schema. Reference mode accepts image, video, audio, one public HTTPS document URL, or one public HTTPS webpage URL. Document and webpage references are mutually exclusive and require prompt expansion. The direct adapter maps them to Alibaba `file` and `link` media; the Fal pre-acceptance fallback adds Fal's required `enable_thinking=true` internally, so that transport-specific switch is not exposed as a MaxVideoAI product control.
 
 Reference audio is limited to MP3 and WAV. Keep the authored field formats aligned with the direct adapter so M4A and other unsupported uploads fail with a clear format message before wallet reservation. The adapter retains a specific MP3/WAV message for requests that bypass that early check.
 
-The workspace prompt-expansion control maps to Alibaba `prompt_extend`. Fal's `enable_safety_checker` has no documented direct Alibaba equivalent and remains transport-specific rather than a public cross-provider option.
+The workspace prompt-expansion control maps to Alibaba `prompt_extend`. Wan 3 and Prime default this control to off in Modify (`v2v`) so editing uses the authored prompt without automatic rewriting. Explicit on/off choices remain authoritative; creation, reference generation and extension retain their existing on default. The direct adapter applies the same Modify default when a caller omits the control. Fal's `enable_safety_checker` has no documented direct Alibaba equivalent and remains transport-specific rather than a public cross-provider option.
 
 Alibaba's smart duration (`duration=-1`) is deliberately not exposed. MaxVideoAI quotes and reserves an exact customer amount before submission, while smart duration makes the billed output length unknown at quote time. Keep the explicit 2–30 second duration until a separately reviewed estimate-and-reconciliation billing contract exists.
+
+### Private Wan source delivery
+
+Wan 3 and Prime resolve owned image/video/audio inputs in the validated Alibaba payload through `media-access.ts` immediately before submission. This transport reuses `createOwnedMediaReadUrl` with the authenticated owner and a one-hour GET grant. It clones the payload, deduplicates reads, and leaves canonical library, reuse and fallback inputs intact. No object ACL, storage policy, pricing, duration or capability changes are involved. Public document/webpage references and HappyHorse transport remain unchanged.
+
+An ownership refusal or signing failure stops before any provider call or Fal fallback. Submission snapshots and polled Wan diagnostics remove temporary grants, including URLs embedded in error messages. Signed provider output URLs remain intact until the durable output copy. Wan `InvalidParameter` / `Failed to download` failures are reported as unreadable reference media, not as a completed render with an output-copy failure. The grant supports initial provider access; it is not a guarantee against an indefinitely queued provider task.
+
+Regression coverage lives in `wan-private-media-transport.test.ts`, the Alibaba submission/poll suites, and the shared owned-media, Fal and Luma private transport suites. A no-spend qualification may read an existing owned source through the transport grant and confirm anonymous 403; it must not submit a generation.
 
 ## Environment contract
 
 All routing switches are server-only. Never create `NEXT_PUBLIC_` aliases for them.
+
+The public Singapore base URL is `https://dashscope-intl.aliyuncs.com`, as listed in
+[Alibaba's regional endpoint documentation](https://www.alibabacloud.com/help/en/model-studio/singapore-regional-access-information).
+Workspace-specific hosts under `.ap-southeast-1.maas.aliyuncs.com` remain supported.
+Do not insert the region into the public DashScope hostname: the former
+`dashscope-intl.ap-southeast-1.aliyuncs.com` default did not resolve in the
+2026-11-04 Character Studio preview canary and prevented submission. Explicit
+environment overrides using that hostname must also be updated before redeployment.
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
@@ -69,6 +112,14 @@ Fallback is permitted only when all of these are true:
 - Alibaba has not returned a provider task ID.
 
 Once a provider task ID has been accepted, Alibaba remains authoritative. Never submit the same paid job to Fal after acceptance; polling must reconcile the accepted task instead.
+
+Local snapshot, persistence or metric errors after that acknowledgement do not
+turn it into a failed submission. The video owner uses the shared
+`direct-provider-acceptance.ts` boundary outside its rejection catch, with
+independent identity writes and a durable read preserving terminal winners. A
+failed diagnostic sanitizer omits the snapshot rather than saving raw grants.
+Polling requires the ID in `app_jobs`; an ID retained only in a response or attempt
+record is not an automatic recovery guarantee. See the [acceptance contract](fal-job-failures.md#direct-acknowledgements-and-fallback-outcome-projection-30-october-2026).
 
 ## Capacity, polling, and output ownership
 

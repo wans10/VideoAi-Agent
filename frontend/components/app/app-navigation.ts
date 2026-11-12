@@ -1,6 +1,7 @@
 import mcpPublication from '@/config/mcp-publication.json';
 import { KEYVO_FAL_FEATURES_HIDDEN, isKeyvoAudioVoiceOnly, isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
 import { FEATURES } from '@/content/feature-flags';
+import { getReleasedCreatorToolIds, type CreatorToolId } from '@/lib/toolbox/creator-availability';
 import type { AppGlyphName } from './AppGlyph';
 
 type NavItemDefinition = {
@@ -57,6 +58,13 @@ const TOOL_ITEMS: readonly AppNavItem[] = [
   { id: 'smooth-motion', label: 'Smooth Motion', href: '/app/tools/smooth-motion', glyph: 'video' },
 ];
 const VISIBLE_TOOL_ITEMS: readonly AppNavItem[] = TOOL_ITEMS.filter((item) => !isKeyvoToolDisabled(item.id));
+const CREATOR_TOOL_ITEMS: Record<CreatorToolId, AppNavItem> = {
+  subtitles: { id: 'subtitles', label: 'Subtitles', href: '/app/tools/subtitles', glyph: 'tools' },
+  'lip-sync': { id: 'lip-sync', label: 'Lip Sync', href: '/app/tools/lip-sync', glyph: 'video' },
+  'product-photo-editor': { id: 'product-photo-editor', label: 'Product Photo Editor', href: '/app/tools/product-photo-editor', glyph: 'image' },
+  'product-video-editor': { id: 'product-video-editor', label: 'Product Video Editor', href: '/app/tools/product-video-editor', glyph: 'video' },
+  'motion-transfer': { id: 'motion-transfer', label: 'Motion Transfer', href: '/app/tools/motion-transfer', glyph: 'video' },
+};
 export function canShowStudioNavigation(): boolean {
   return FEATURES.studio.maxVideoAiEditor;
 }
@@ -80,6 +88,7 @@ export function getAppMenuItems(
       ? PRIMARY_ITEMS.filter((item) => item.id === 'studio')
       : []),
     ...(toolsEnabled ? VISIBLE_TOOL_ITEMS : []),
+    ...(toolsEnabled ? getReleasedCreatorToolIds().map(id => CREATOR_TOOL_ITEMS[id]) : []),
     { id: 'jobs', label: 'Activity', href: '/jobs', glyph: 'prompt' },
     { id: 'billing', label: 'Billing', href: '/billing', glyph: 'wallet' },
     { id: 'settings', label: 'Settings', href: '/settings', glyph: 'settings' },
@@ -103,6 +112,8 @@ export function getAppNavigationSelection(
 }
 
 const LOCAL_LABELS: Record<string, [string, string, string]> = {
+  subtitles: ['Sous-titres', 'Subtítulos', '字幕'], 'lip-sync': ['Lip Sync', 'Lip Sync', '口型同步'],
+  'product-photo-editor': ['Photo produit', 'Foto de producto', '产品图编辑'], 'product-video-editor': ['Vidéo produit', 'Vídeo de producto', '产品视频编辑'], 'motion-transfer': ['Motion Transfer', 'Transferencia de movimiento', '动作迁移'],
   create: ['Créer', 'Crear', '创作'], media: ['Médias', 'Medios', '媒体库'], tools: ['Outils', 'Herramientas', '工具'], activity: ['Activité', 'Actividad', '生成历史'], account: ['Compte', 'Cuenta', '账户'],
   studio: ['Studio', 'Studio', '工作台'],
   video: ['Vidéo', 'Vídeo', '视频'], image: ['Image', 'Imagen', '图像'], audio: ['Audio', 'Audio', '音频'], library: ['Médias', 'Medios', '媒体库'], jobs: ['Activité', 'Actividad', '生成历史'], billing: ['Facturation', 'Facturación', '充值账单'], settings: ['Paramètres', 'Ajustes', '设置'], connections: ['Connexions', 'Conexiones', 'AI 助手连接'],

@@ -51,6 +51,7 @@ interface UseImageWorkspaceQueryHydrationParams {
   setMode: Dispatch<SetStateAction<ImageGenerationMode>>;
   setNumImages: Dispatch<SetStateAction<number>>;
   setOutputFormat: Dispatch<SetStateAction<string | null>>;
+  setOutputCompression?: Dispatch<SetStateAction<number | null>>;
   setPrompt: Dispatch<SetStateAction<string>>;
   setQuality: Dispatch<SetStateAction<string | null>>;
   setReferenceSlots: Dispatch<SetStateAction<Array<ReferenceSlotValue | null>>>;
@@ -61,6 +62,7 @@ interface UseImageWorkspaceQueryHydrationParams {
   setSelectedPreviewImageIndex: Dispatch<SetStateAction<number>>;
   setStatusMessage: Dispatch<SetStateAction<string | null>>;
   setThinkingLevel: Dispatch<SetStateAction<string | null>>;
+  setComplexity: Dispatch<SetStateAction<string | null>>;
   setWatermark: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -80,6 +82,7 @@ export function useImageWorkspaceQueryHydration({
   setMode,
   setNumImages,
   setOutputFormat,
+  setOutputCompression,
   setPrompt,
   setQuality,
   setReferenceSlots,
@@ -90,6 +93,7 @@ export function useImageWorkspaceQueryHydration({
   setSelectedPreviewImageIndex,
   setStatusMessage,
   setThinkingLevel,
+  setComplexity,
   setWatermark,
 }: UseImageWorkspaceQueryHydrationParams) {
   const hydratedJobRef = useRef<string | null>(null);
@@ -206,11 +210,13 @@ export function useImageWorkspaceQueryHydration({
       const seedRaw =
         typeof core.seed === 'number' && Number.isFinite(core.seed) ? Math.round(core.seed) : null;
       const outputFormatRaw = typeof core.outputFormat === 'string' ? core.outputFormat : null;
+      const outputCompressionRaw = (outputFormatRaw === 'jpeg' || outputFormatRaw === 'webp') && typeof core.outputCompression === 'number' && Number.isInteger(core.outputCompression) && core.outputCompression >= 0 && core.outputCompression <= 100 ? core.outputCompression : null;
       const qualityRaw = typeof core.quality === 'string' ? core.quality : null;
       const backgroundRaw = typeof core.background === 'string' ? core.background : null;
       const styleRaw = typeof core.style === 'string' ? core.style : null;
       const maskUrlRaw = typeof core.maskUrl === 'string' ? core.maskUrl : null;
       const enableWebSearchRaw = core.enableWebSearch === true;
+      const complexityRaw = typeof core.complexity === 'string' ? core.complexity : null;
       const thinkingLevelRaw = typeof core.thinkingLevel === 'string' ? core.thinkingLevel : null;
       const limitGenerationsRaw = core.limitGenerations === true;
       const watermarkRaw = core.watermark === true;
@@ -252,6 +258,7 @@ export function useImageWorkspaceQueryHydration({
         setOutputFormat(
           outputFormatRaw && outputFormats.includes(outputFormatRaw) ? outputFormatRaw : defaultOutputFormat
         );
+        setOutputCompression?.(getImageInputField(engineMatch.engineCaps, 'output_compression', resolvedMode) ? outputCompressionRaw : null);
         const qualityValues = getImageFieldValues(engineMatch.engineCaps, 'quality', resolvedMode);
         const defaultQuality =
           getImageFieldDefaultString(engineMatch.engineCaps, 'quality', resolvedMode) ?? qualityValues[0] ?? null;
@@ -280,6 +287,14 @@ export function useImageWorkspaceQueryHydration({
         setThinkingLevel(
           thinkingLevelRaw && thinkingLevels.includes(thinkingLevelRaw) ? thinkingLevelRaw : defaultThinkingLevel
         );
+        const complexities = getImageFieldValues(engineMatch.engineCaps, 'complexity', resolvedMode);
+        const defaultComplexity =
+          getImageFieldDefaultString(engineMatch.engineCaps, 'complexity', resolvedMode) ??
+          complexities[0] ??
+          null;
+        setComplexity(
+          complexityRaw && complexities.includes(complexityRaw) ? complexityRaw : defaultComplexity
+        );
         setLimitGenerations(
           getImageInputField(engineMatch.engineCaps, 'limit_generations', resolvedMode)
             ? limitGenerationsRaw
@@ -294,12 +309,14 @@ export function useImageWorkspaceQueryHydration({
         setAspectRatio(aspectRatioRaw);
         setSeed(seedRaw == null ? '' : String(seedRaw));
         setOutputFormat(outputFormatRaw);
+        setOutputCompression?.(outputCompressionRaw);
         setQuality(qualityRaw);
         setBackground(backgroundRaw);
         setStyle(styleRaw);
         setMaskUrl(maskUrlRaw ?? '');
         setEnableWebSearch(enableWebSearchRaw);
         setThinkingLevel(thinkingLevelRaw);
+        setComplexity(complexityRaw);
         setLimitGenerations(limitGenerationsRaw);
         setWatermark(watermarkRaw);
       }
@@ -348,6 +365,7 @@ export function useImageWorkspaceQueryHydration({
       setMode,
       setNumImages,
       setOutputFormat,
+      setOutputCompression,
       setPrompt,
       setQuality,
       setReferenceSlots,
@@ -357,6 +375,7 @@ export function useImageWorkspaceQueryHydration({
       setSelectedPreviewImageIndex,
       setStyle,
       setThinkingLevel,
+      setComplexity,
       setWatermark,
     ]
   );

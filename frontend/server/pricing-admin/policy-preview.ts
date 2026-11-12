@@ -1,12 +1,10 @@
-import type {
-  PricingPolicyDocument,
-  PricingPolicyRule,
-} from '@maxvideoai/pricing';
+import { isGptImage26EngineId } from '@/lib/image/gptImage26';
+import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
+import type { PricingPolicyDocument, PricingPolicyRule } from '@maxvideoai/pricing';
 
 import { listFalEngines } from '@/config/falEngines';
 import { getVersionedPricingPolicy } from '@/lib/pricing-policy-defaults';
 import type { PricingRule } from '@/lib/pricing-rule-store';
-
 import {
   compareCanonicalAdminScenarios,
   quoteCanonicalAdminScenarios,
@@ -25,6 +23,7 @@ import type {
   PricingPolicyServiceDependencies,
 } from './policy-contract';
 import { DEFAULT_POLICY_SERVICE_DEPENDENCIES } from './policy-dependencies';
+import { assertRecastPolicyRetained, compareInitialRecastScenarios, isRecastPolicySelector } from './recast-policy';
 import {
   asRecord,
   canonicalRule,
@@ -35,7 +34,6 @@ import {
   sortRules,
   validateOverrides,
 } from './policy-rules';
-
 async function loadDatabaseRules(
   dependencies: PricingPolicyServiceDependencies
 ): Promise<{
@@ -208,6 +206,7 @@ export function deriveRequestedPricingSurcharges(input: {
   currentRules: PricingPolicyRule[];
   proposedRules: PricingPolicyRule[];
 }): RequestedPricingSurcharge[] {
+  if (isRecastPolicySelector(input.selector)) return [];
   const scenarios = selectAffectedPricingScenarios(input.selector);
   if (!scenarios.length) return [];
   const changed = (field: 'surchargeAudioPercent' | 'surchargeUpscalePercent') =>
@@ -230,9 +229,8 @@ export function deriveRequestedPricingSurcharges(input: {
 
   const entries = listFalEngines();
   const supports = (engineId: string, kind: RequestedPricingSurcharge['kind']) => {
-    const entry = entries.find(
-      (candidate) => candidate.id === engineId || candidate.engine.id === engineId
-    );
+    if ((isKlingV4FalQueueEngineId(engineId) || isGptImage26EngineId(engineId))) return false; // Approved customer tariffs, no legacy percentage price.
+    const entry = entries.find((candidate) => candidate.id === engineId || candidate.engine.id === engineId);
     return kind === 'audio' ? entry?.engine.audio === true : entry?.engine.upscale4k === true;
   };
   const affectedEngineIds = [...new Set(scenarios.map((scenario) => scenario.engineId))].sort();
@@ -250,6 +248,7 @@ export async function previewPricingPolicyChange(
 ): Promise<PricingChangePreview> {
   const policy = getVersionedPricingPolicy();
   const context = await buildPreviewContext(proposal, dependencies, policy);
+  assertRecastPolicyRetained(context.currentRule, context.proposedRule);
   if (await dependencies.loadManualTariffsActive?.()) {
     const modelOrGlobal = (rule: PricingPolicyRule | null) => rule && (!rule.engineId || Boolean(listFalEngines().find(e => e.id === rule.engineId)));
     if (modelOrGlobal(context.currentRule) || modelOrGlobal(context.proposedRule)) throw new PricingAdminError('model_policy_retired',
@@ -308,7 +307,8 @@ export async function previewPricingPolicyChange(
     (outcome): outcome is AdminCanonicalScenarioQuote =>
       outcome.status === 'quoted'
   );
-  const rows = unsupportedScenarioIds.length
+  const rows = isRecastPolicySelector(selectorRule) && !context.currentRule
+    ? compareInitialRecastScenarios(currentOutcomes, proposedOutcomes) : unsupportedScenarioIds.length
     ? []
     : compareCanonicalAdminScenarios(comparableCurrent, comparableProposed);
   const previewFingerprint = buildPricingPreviewFingerprint({

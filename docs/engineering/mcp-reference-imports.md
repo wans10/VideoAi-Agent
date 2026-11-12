@@ -21,9 +21,11 @@ published at a public URL, and none of these paths depends on Computer Use.
 
 - `frontend/src/server/mcp/tools/import-reference-files.ts` owns the native host
   file parameter contract.
-- `frontend/src/server/agent-api/reference-file-download.ts` owns bounded HTTPS
-  retrieval, DNS resolution, address pinning, redirect revalidation, and SSRF
-  rejection.
+- `frontend/server/public-media-transport.ts` owns HTTPS connection validation,
+  DNS resolution, address pinning, redirect revalidation and SSRF rejection.
+  `frontend/src/server/agent-api/reference-file-download.ts` retains buffered
+  import MIME/byte policies and its existing public exports. Browser downloads
+  share the connection boundary, not the private-import MIME policy.
 - `frontend/src/server/agent-api/reference-file-import.ts` owns canonical private
   persistence and ordered partial-success results.
 - `frontend/src/server/mcp/reference-upload-app.ts` owns the portable in-chat
@@ -55,7 +57,8 @@ not filenames, object keys, user identifiers, or raw storage errors.
 ### Measured video geometry
 
 The shared `probeMediaBuffer` upload probe reads width and height from the first
-non-cover-art video stream. `store-media-upload.ts` carries these measured values
+non-cover-art video stream, applying its display-matrix rotation (or legacy rotate tag)
+to report the displayed orientation without changing source bytes. `store-media-upload.ts` carries these measured values
 to `user_assets`, canonical `media_assets`, the upload result, and `mediaFacts`.
 Audio and unverified geometry retain no dimensions. Never fill dimensions from
 the requested output aspect ratio, browser claims, or thumbnail size.

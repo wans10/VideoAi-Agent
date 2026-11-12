@@ -28,7 +28,6 @@ type UseImageWorkspaceDisplayStateArgs = {
 export function useImageWorkspaceDisplayState({
   error,
   historyEntries,
-  numImages,
   pendingGroups,
   pricingErrorMessage,
   pricingSnapshot,
@@ -78,7 +77,7 @@ export function useImageWorkspaceDisplayState({
 
   const estimatedCostAmount = pricingSnapshot
     ? pricingSnapshot.totalCents / 100
-    : (selectedEngine?.pricePerImage ?? 0) * numImages;
+    : null;
   const estimatedCostCurrency = pricingSnapshot?.currency ?? selectedEngine?.currency ?? 'USD';
   const composerError = error ?? pricingErrorMessage ?? null;
   const canUseWorkspace = Boolean(selectedEngine?.engineCaps);

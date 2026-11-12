@@ -3,11 +3,12 @@ import type { PayAsYouGoContent } from './types';
 export const zhPayAsYouGoContent = {
   metadata: {
     title: '按需付费 AI 视频生成器（生成前获知精准价格）',
-    description: '无需按月订阅，使用按需付费额度生成 AI 视频。生成前对比 LTX 2.5、Wan 3、Grok Imagine、FLUX.3、Seedance、Kling、Google Veo 等主流模型。',
+    description: '无需订阅即可制作 AI 视频。对比 FLUX 3 Max、MiniMax H3、Kling 4.0 和 Seedance 2.5，让 Milo 帮你写提示词，生成前就能看到价格。',
     imageAlt: 'Keyvo 生成前定价工作流。',
     keywords: ['按需付费 AI 视频生成器', '无需订阅的 AI 视频生成', '生成前 AI 视频定价', '对比 LTX 2.5 Wan 3 Grok Imagine FLUX 3', 'Grok Imagine Video 价格', 'FLUX 3 Video 价格'],
   },
   common: {
+    chapters: { label: '浏览本页', workspace: '工作区', films: '放映室', models: '模型', prices: '价格', questions: '常见问题' },
     aiVideoModelAlt: 'AI 视频模型',
     liveQuote: '实时报价',
     audioOff: '无音频',
@@ -17,12 +18,14 @@ export const zhPayAsYouGoContent = {
   hero: {
     eyebrow: 'AI 视频点数充值，无包月捆绑',
     title: '按需付费 AI 视频生成器',
-    intro: '使用按需付费点数从文本、图像、音频或视频生成 AI 视频。对比 LTX 2.5、Wan 3、Grok Imagine、FLUX.3、Seedance、Kling、Google Veo 等模型，生成前查看实时报价，仅对成功渲染扣除点数。',
+    intro: '从你的创意出发，选择模型，在制作视频前先看到价格。用按需付费点数对比 FLUX 3 Max、MiniMax H3、Kling 4.0、Seedance 2.5 等模型。需要帮忙写提示词？问问 Milo。',
     primaryCta: '获取视频报价',
     secondaryCta: '查看模型定价',
     trustItems: ['无需按月订阅', '起充金额仅需 ¥80', '生成前显示价格', '失败任务全额退款'],
+    film: { title: '加州的一次点击', watch: '观看短片', posterAlt: '一个巨大的像素光标伸向女子手中的粉色冰淇淋。' },
     quote: {
-      consoleLabel: 'Keyvo 报价控制台',
+      consoleLabel: '新片段的示例价格',
+      detailsLabel: '查看示例提示词与更多价格',
       title: '生成前获知精准价格',
       promptLabel: '提示词',
       prompt: '电影感产品展示，镜头平缓推进，棚拍柔和布光。',
@@ -34,42 +37,42 @@ export const zhPayAsYouGoContent = {
     },
   },
   naturalQuestions: {
+    settingsLabel: '时长与分辨率',
     header: {
       eyebrow: '快速解答',
-      title: '使用额度前的常见问答',
-      intro: '按需付费 AI 视频生成器让您仅在需要时充值点数，按项目挑选模型，在渲染前确认价格，并且仅在渲染成功后扣除额度。',
+      title: '花点数前的快速解答',
+      intro: '在示例报价中选择模型和片段时长，或展开下面的问题。',
     },
-    summaryLead: '在 Keyvo，您可以：',
-    summaryItems: [
-      '从文本、图像或视频直接生成 AI 视频。',
-      '对比当前的 LTX 2.5、Wan 3、Grok Imagine、FLUX.3 以及 Seedance、Kling 和 Google Veo。',
-      '在发起渲染前获知预估价格。',
-      '仅对成功完成的渲染消耗额度。',
-    ],
     items: [
-      { question: '在哪里可以免订阅测试各类 AI 视频模型？', answer: '使用 Keyvo，您可以通过按需付费额度直接测试和对比 LTX 2.5、Wan 3、Grok Imagine、FLUX.3、Seedance、Kling、Google Veo 等众多模型，无需购买包月计划。' },
+      { question: '在哪里可以免订阅测试各类 AI 视频模型？', answer: '使用 Keyvo，您可以通过按需付费点数对比 FLUX 3 Max、MiniMax H3、Kling 4.0、Seedance 2.5、LTX 2.5、Wan 3、Google Veo 等众多模型，无需购买包月计划。' },
       { question: '哪个 AI 视频平台在生成前展示价格？', answer: 'Keyvo 会在您发起渲染前，根据所选模型、时长、分辨率及音频设置，展示透明清晰的预估生成价格。' },
-      { question: '按需付费模式下应该先测试哪个模型？', answer: '根据您的工作流来选择：快速或生产级制作推荐 LTX 2.5，阿里最新方案推荐 Wan 3，提示词与多参考图工作流推荐 Grok Imagine，帧级精确控制推荐 FLUX.3。随后可在相同设置下与 Seedance、Kling 和 Google Veo 对比具体报价。' },
-      { question: '在哪里可以在一个界面对比当前主流 AI 视频模型系列？', answer: 'Keyvo 将 LTX 2.5、Wan 3、Grok Imagine、FLUX.3、Seedance、Kling、Google Veo 等引擎整合于统一工作区，助您在选择前直观对比工作流、限制与价格。' },
+      { question: '按需付费模式下应该先测试哪个模型？', answer: '先从您的任务出发：文生视频、图生视频，或受支持的视频输入工作流。结合示例并在相同设置下对比合适的模型，生成前再核对准确报价。' },
+      { question: '在哪里可以在一个界面对比当前主流 AI 视频模型系列？', answer: 'Keyvo 将 FLUX 3 Max、MiniMax H3、Kling 4.0、Seedance 2.5、LTX 2.5、Wan 3、Google Veo 等引擎整合于统一工作区，助您在选择前直观对比工作流、限制与价格。' },
       { question: '优质的按需付费 AI 视频生成器具备哪些特点？', answer: '优秀的按需付费方案允许您测试前沿模型、生成前查看价格、按项目自由切换引擎，且绝不对供应商失败的渲染收费。' },
     ],
   },
   modelTesting: {
+    contactIntro: '这些联系表展示了每部短片中的三个瞬间。打开模型，了解如何导演你自己的场景。',
+    intents: ['导演一段序列', '点亮夜景', '踩着节拍剪辑'],
+    disclosure: '浏览全部模型工作流',
     header: {
-      eyebrow: '模型推荐',
-      title: '按需付费 AI 视频推荐测试顺序',
-      intro: '按工作流挑选：先对比 LTX 2.5 Pro/Fast、Wan 3 Prime/标准版、Grok Imagine Video 1.5 及 FLUX.3 标准版/Draft，再与成熟的 Seedance、Kling 和 Google Veo 进行比对。',
+      eyebrow: '模型选择',
+      title: '为下一次测试选择模型',
+      intro: '围绕你的源素材、所需的动作和声音来选择。',
     },
-    footer: 'Happy Horse 1.1 与 Seedance 2 Mini 作为最新推出的模型，建议直接进行实测，而非仅参考过往的模型排行榜。',
+    footer: '用同一个创意尝试合适的模型并比较结果。仅凭模型名称或较低的价格，无法判断你更喜欢哪个镜头。',
     models: {
-      'gemini-omni-flash': { family: 'Google Gemini', title: 'Gemini Omni Flash 1.1 用于快速多模态创作', body: '在注重快速迭代、原生音频或多镜头导演指令时，使用 Gemini Omni Flash 1.1 进行文本、图像、视频及参考引导的生成。' },
+      'flux-3-max': { family: 'FLUX 3', title: 'FLUX 3 Max 用于关键帧引导的场景', body: '从文字或图片构建场景，用关键帧引导其推进，或基于已有片段创作。生成前请核对所选模式与报价。' },
+      'minimax-h3': { family: 'MiniMax H3', title: 'MiniMax H3 用于参考素材与原生音频', body: '带入图片或视频参考来引导场景。可对比其原生 768P、2K 和 4K 选项；参考视频可能改变价格。' },
+      'kling-v4': { family: 'Kling', title: 'Kling 4.0 用于分镜规划与视觉参考', body: '规划 3–30 秒的场景，为每个镜头设置提示词和时长，用图片或视频主体引导，或编辑已有片段。输出为 720p 或 1080p；原生音频通过提示词控制。' },
+      'gemini-omni-flash': { family: 'Google Gemini', title: 'Gemini Omni Flash 1.2 用于快速多模态创作', body: '在注重快速迭代、原生音频或多镜头导演指令时，使用 Gemini Omni Flash 1.2 进行文本、图像、视频及参考引导的生成。' },
       'kling-3-turbo-pro': { family: 'Kling 3.0 Turbo', title: 'Kling 3.0 Turbo Pro 用于细腻的 1080p 输出', body: '追求平滑自然的 1080p 动态、产品细节、图像引导及多镜头连贯序列时选择 Turbo Pro。' },
       'kling-3-turbo-standard': { family: 'Kling 3.0 Turbo', title: 'Kling 3.0 Turbo Standard 用于高效 720p 草稿', body: '需要更快速的 720p 迭代、连贯运动、图像引导及多镜头初测时选择 Turbo Standard。' },
       'minimax-h3-max': { family: 'MiniMax H3', title: 'MiniMax H3 Max 用于顶级视觉呈现', body: '在追求高品质视觉质感、提示词精确遵循、原生音频以及专注的文生/图生视频制作时选择 H3 Max。' },
-      'seedance-2-5': { family: 'Seedance 2.5', title: 'Seedance 2.5 用于长达 30 秒的电影级视频', body: '在电影感、图生视频、多参考引导、多镜头、商品展示及 UGC 工作流中首选 Seedance 2.5；若需 4K 交付可将 Seedance 2.0 列为备选。' },
-      'seedance-2-0': { family: 'Seedance 2', title: 'Seedance 2.0 用于 4K 级 Seedance 交付', body: '当最终 Seedance 输出必须达到 4K 分辨率，且用于较短的原生音频及参考工作流时，选择 Seedance 2.0。' },
+      'seedance-2-5': { family: 'Seedance 2.5', title: 'Seedance 2.5 用于长达 30 秒的电影级视频', body: '在电影感、图生视频、多参考引导、多镜头、商品展示及 UGC 工作流中可考虑 Seedance 2.5；若需 4K 交付，请将 Seedance 2.0 保留在候选名单中。' },
+      'seedance-2-0': { family: 'Seedance 2', title: 'Seedance 2.0 用于 4K 级 Seedance 交付', body: '当最终 Seedance 输出必须达到 4K 分辨率，且用于较短的原生音频及参考工作流时，将 Seedance 2.0 作为备选。' },
       'kling-3-pro': { family: 'Kling', title: 'Kling 作为可靠的运镜控制之选', body: '无需预先购买订阅，即可借助 Kling 获取稳定可靠的镜头运镜、产品镜头、特定元素及图像引导视频生成。' },
-      'veo-3-1': { family: 'Google Veo', title: 'Google Veo 作为电影级质感之选', body: '当提示词理解深度、电影级调色质感、音频选项或 Google 原生视频方案比草稿测试成本更重要时，选择 Veo。' },
+      'veo-3-1': { family: 'Google Veo', title: 'Google Veo 作为电影级质感之选', body: '当提示词理解深度、电影级调色质感、音频选项或 Google 原生视频方案比草稿测试成本更重要时，对比 Veo 各版本。' },
       'happy-horse-1-1': { family: 'Happy Horse 1.1', title: 'Happy Horse 1.1 用于别具一格的视觉输出', body: '想要将阿里系全新视频方案与 Seedance、Kling、Google Veo 和 LTX 进行横向对比时，尝试 Happy Horse 1.1。' },
       'seedance-2-0-mini': { family: 'Seedance 2 Mini', title: 'Seedance 2.0 Mini 用于轻量多模态测试', body: '在正式扩大提示词生成前，利用 Seedance 2 Mini 进行参考测试、快速验证以及兼顾预算的初步迭代。' },
       'ltx-2-5-pro': { family: 'LTX 2.5', title: 'LTX 2.5 Pro 用于生产导向型输出', body: '选择 Pro 作为 LTX 现阶段的高品质方案，支持文本、图像及源音频工作流，随后可与 Fast 方案对比具体报价。' },
@@ -84,6 +87,7 @@ export const zhPayAsYouGoContent = {
     },
   },
   meaning: {
+    compare: '详细对比预付点数与订阅',
     title: '什么是按需付费',
     body: '按需付费意味着您仅在需要生成视频时充值点数，无需承担月费账单。针对每条视频，您可以自由选择模型、时长、分辨率、音频及工作流程。Keyvo 会在您点击生成前完整展示预估费用。',
     bullets: ['无强制按月绑定，拒绝闲置浪费', '针对不同项目自由切换合适模型', '点数通用，支持文生视频、图生视频及多模态工作流'],
@@ -94,7 +98,7 @@ export const zhPayAsYouGoContent = {
     cards: [
       { title: '先测试，后规模化', body: '在为营销活动或制作流程投入大额预算前，先进行小额提示词和图像测试。' },
       { title: '避免闲置浪费', body: '如果您只在新品发布、实验探索或客户交付时生成视频，点数充值更能贴合真实使用周期。' },
-      { title: '自由切换模型', body: '在一个平台内根据工作流、速度、运镜、音频、时长与精确报价，自由对比 LTX 2.5、Wan 3、Grok Imagine、FLUX.3、Seedance、Kling 及 Google Veo。' },
+      { title: '自由切换模型', body: '在一个平台内根据工作流、速度、运镜、音频、时长与精确报价，自由对比 FLUX 3 Max、MiniMax H3、Kling 4.0、Seedance 2.5、LTX 2.5、Wan 3 及 Google Veo。' },
     ],
   },
   audienceFit: {
@@ -120,21 +124,26 @@ export const zhPayAsYouGoContent = {
     columns: ['决策维度', 'Keyvo 按需付费', '常见包月订阅'],
     rows: [
       { label: '预算掌控', payg: '仅在需要视频时充值，项目完成后随时停止。', subscription: '即使当月完全不生成视频，也需支付包月费用。' },
-      { label: '模型选择', payg: '每项任务均可自由对比选用 LTX 2.5、Wan 3、Grok Imagine、FLUX.3、Seedance、Kling、Google Veo 等。', subscription: '通常被锁定在单一厂商、单一模型系列或单一额度池中。' },
+      { label: '模型选择', payg: '每项任务均可自由对比选用 FLUX 3 Max、MiniMax H3、Kling 4.0、Seedance 2.5、LTX 2.5、Wan 3、Google Veo 等。', subscription: '通常被锁定在单一厂商、单一模型系列或单一额度池中。' },
       { label: '价格透明度', payg: '每次生成前均可清晰审核实时报价。', subscription: '打包套餐容易掩盖高端参数与长视频的实际真实成本。' },
       { label: '尝试探索', payg: '在扩大营销活动或工作流前，可以极低成本进行小规模尝试。', subscription: '在尚不清楚哪个模型真正契合需求前，就被迫做出订阅决策。' },
     ],
   },
   workflow: {
+    workspace: { capture: 'milo-en-gameshow', phoneHeight: 1278, alt: '视频工作区中的复古游戏节目场景：Milo Lite 为 Wan 3 Prime 起草了镜头指令，生成按钮上显示报价。', caption: '用 Wan 3 Prime 制作的五秒游戏节目。在这个已登录的工作区中，Milo Lite 已准备好一条镜头指令。生成按钮上的价格对应使用所示设置的新渲染。', open: '在工作区中打开这个场景' },
+    assistance: {
+      milo: { title: '有创意，却没有提示词？认识 Milo →', body: '用你自己的话描述想要的效果，Milo 会根据你选择的模型和参考素材帮你写提示词。登录后即可对话；Lite 不收取额外的辅助费用。' },
+      studio: { title: '更大的项目？从 Studio 开始 →', body: '聊聊创作需求、规划场景，并逐次查看每次生成的报价。Standard 和 Max 在 Studio 与各生成器中共用同一份 Milo 辅助额度。' },
+    },
     header: {
       title: '按需付费点数的运作流程',
-      intro: '整个工作流旨在让成本在启动前一目了然，并与定价详情页无缝衔接。',
+      intro: '游戏节目片场的一个摇臂镜头，始于一条镜头指令。打开这个场景，与 Milo 一起打磨提示词，并在生成前核对报价。',
     },
     items: [
-      { title: '挑选视频引擎', body: '根据创意需求挑选最匹配的模型，不受单一订阅目录的局限。', icon: 'engine' },
-      { title: '查看实时报价', body: '在生成前清晰掌握价格、时长、分辨率、音频及工作流程选项。', icon: 'preview' },
-      { title: '发起生成任务', body: '在完全确认成本后再启动文生视频、图生视频或视频修改流程。', icon: 'video' },
-      { title: '仅为成功付费', body: '仅成功完成的渲染才会扣除点数。供应商任务失败或未返回可用结果时自动退款。', icon: 'refund' },
+      { title: '选择模型', body: '从你脑海中的镜头和你能提供的参考素材出发。', icon: 'engine' },
+      { title: '检查设置', body: '设置时长、分辨率和音频，价格会在生成按钮上实时更新。', icon: 'preview' },
+      { title: '开始渲染', body: '当镜头和报价都合适时，再开始生成。', icon: 'video' },
+      { title: '查看结果', body: '完成的渲染会消耗点数。没有任何输出的技术故障会退还点数或不予扣费。', icon: 'refund' },
     ],
   },
   mcpPlanning: {
@@ -178,6 +187,7 @@ export const zhPayAsYouGoContent = {
     },
   },
   priceLookups: {
+    disclosure: '浏览全部模型价格',
     header: {
       eyebrow: '价格速查',
       title: '热门 AI 视频模型价格速查',
@@ -185,7 +195,11 @@ export const zhPayAsYouGoContent = {
     },
     openRowLabel: '查看价格明细',
     items: {
-      'gemini-omni-flash': { query: 'gemini omni flash 1.1 price', title: 'Gemini Omni Flash 1.1 价格速查', body: '查看 Google 直连通道下极速多模态视频、原生音频及多镜头工作流的价格。' },
+      'flux-3-max': { query: 'flux 3 max price', title: 'FLUX 3 Max 价格', body: '先对比一次简短的文生视频测试，再查看你的关键帧、参考素材和最终设置对应的报价。' },
+      'minimax-h3': { query: 'minimax h3 price', title: 'MiniMax H3 价格', body: '此示例使用受支持的原生分辨率。对比模型时，请保持时长、分辨率和参考输入一致。' },
+      'seedance-2-5': { query: 'seedance 2.5 price', title: 'Seedance 2.5 价格', body: '查看你的场景所需价格，包括时长、分辨率与参考素材。草稿与最终生成分别报价。' },
+      'kling-v4': { query: 'kling 4.0 price', title: 'Kling 4.0 按工作流定价', body: '请查看所选工作流、输出时长与分辨率。参考与编辑工作流中，提供的视频时长也会影响报价；请在相同输入下对比。' },
+      'gemini-omni-flash': { query: 'gemini omni flash 1.2 price', title: 'Gemini Omni Flash 1.2 价格速查', body: '查看 Google 直连通道下极速多模态视频、原生音频及多镜头工作流的价格。' },
       'kling-3-turbo-pro': { query: 'kling 3 turbo pro price', title: 'Kling 3.0 Turbo Pro 价格速查', body: '查看用于文本、图像及多镜头生成的细腻 1080p Turbo 方案价格。' },
       'kling-3-turbo-standard': { query: 'kling 3 turbo standard price', title: 'Kling 3.0 Turbo Standard 价格速查', body: '查看用于文本、图像及多镜头测试的高效 720p Turbo 方案价格。' },
       'minimax-h3-max': { query: 'minimax h3 max price', title: 'MiniMax H3 Max 价格速查', body: '查看用于精致文生与图生视频输出的旗舰级 H3 Max 方案价格。' },
@@ -214,9 +228,22 @@ export const zhPayAsYouGoContent = {
     budgetTemplate: '计划尝试三次？按不变的报价 {unitPrice} 计算，三次完成的生成将消耗 {totalPrice} 的媒体点数。',
     budgetContext: 'LTX 2.5 Pro · 10 秒 720p · 无音频。',
     budgetCaveat: '这只是预算示意，并不保证三次尝试就能得到理想结果。已消耗的媒体点数与最低充值金额无关。设置或价格变化后需要重新报价。',
-    studioAssistance: '使用 Studio？Sol 会使用赠送或已购买的助手点数。媒体生成另有独立报价，规划预算时请一并核对。',
+    studioAssistance: '在生成器或 Studio 中使用 Milo？Standard 和 Max 共用赠送与已购买的辅助额度。媒体生成另有独立报价，规划预算时请一并核对。',
     studioLinkLabel: '打开 Studio',
+    creditNotes: {
+      title: '充值前了解点数有效期',
+      items: [
+        { title: '已购买的媒体点数', body: '已购买但未使用的媒体点数会保留在你的钱包中，可跨项目使用，无需订阅。我们现行的条款没有为该余额规定有效期或闲置期限。如需确认有效期，请在购买前联系客服。' },
+        { title: '促销、赠送与免费点数', body: '这些点数没有现金价值，不可退款。请查看具体活动的有效条件；若未注明，请先咨询客服，不要默认适用媒体点数或 Studio 的规则。' },
+        { title: 'Milo 辅助额度', body: 'Milo Standard 和 Max 共用每个 UTC 自然月 500 点的赠送辅助额度，当月未用完的赠送额度不会结转。已购买的 Milo 额度包可累积，无有效期，也不会自动补充。每次购买额度包都会经你确认，并从你的 Keyvo 钱包扣款。媒体生成另有独立报价。Milo Lite 不收取额外的辅助费用，但受请求次数限制和服务可用性影响。' },
+      ],
+      links: { termsHref: '/legal/terms#wallet-credits', terms: '钱包条款', refunds: '退款政策与申请流程', support: '向客服咨询点数有效期', studio: 'Studio 辅助' },
+    },
     labels: {
+      'flux-3-max': 'FLUX 3 Max 短场景',
+      'minimax-h3': 'MiniMax H3 原生分辨率测试',
+      'seedance-2-5': 'Seedance 2.5 短场景',
+      'kling-v4': 'Kling 4.0 文生视频场景',
       'gemini-omni-flash': 'Gemini Omni Flash 1.1 多模态测试',
       'kling-3-turbo-pro': 'Kling 3.0 Turbo Pro 1080p 测试',
       'kling-3-turbo-standard': 'Kling 3.0 Turbo Standard 草稿',
@@ -234,14 +261,16 @@ export const zhPayAsYouGoContent = {
     },
   },
   refundPolicy: {
+    short: '完成的渲染会消耗点数，即使你想尝试另一个创作方向也是如此。技术故障会将点数退回你的钱包。',
+    disclosure: '点数退回与付款退款',
     header: {
       title: '如果生成失败会发生什么？',
-      intro: 'Keyvo 采用“成功渲染才计费”原则。仅成功交付的渲染才会扣除点数。供应商任务失败或未返回可用结果时，会自动退款或不予扣费。',
+      intro: '每次成功完成的生成都会消耗点数。结果不符合你的创作预期，与技术故障是两回事。生成失败时，点数会自动退回。钱包退回点数不等同于银行卡或银行退款。如需付款退款或退还未使用的已购余额，请依据退款政策申请审核。每次新的尝试都需要当前的最新报价。',
     },
     bullets: [
       { icon: 'preview', body: '在发起生成任务前，您可以完整确认最终价格。' },
-      { icon: 'credits', body: '仅对成功交付的渲染扣除点数额度。' },
-      { icon: 'refund', body: '若供应商发生故障或未返回可用成果，会自动退款或免除扣费。' },
+      { icon: 'credits', body: '仅对成功完成的渲染扣除点数额度。' },
+      { icon: 'refund', body: '因技术故障而生成失败的点数会自动退回您的余额。' },
     ],
   },
   faq: {
@@ -249,16 +278,17 @@ export const zhPayAsYouGoContent = {
     items: [
       { question: '生成 AI 视频必须按月订阅吗？', answer: '不需要。Keyvo 支持按需充值点数，您仅在需要制作视频时付费即可。' },
       { question: '我能在生成前看到 AI 视频的具体价格吗？', answer: '可以。应用会根据所选的模型、时长、分辨率、音频及工作流设置，在生成前展示实时报价。' },
-      { question: '我应该先尝试哪款 AI 视频模型？', answer: '建议根据工作流需求来匹配：LTX 2.5、Wan 3、Grok Imagine 和 FLUX.3 分别覆盖了不同的速度、参考素材、音频及首尾帧控制需求。在生成前，可将它们的实时报价与 Seedance、Kling 和 Google Veo 综合对比。' },
-      { question: '如果渲染失败了怎么办？', answer: '仅成功完成的渲染才会扣除点数。若因供应商原因导致生成失败或无法提供可用结果，系统会自动退款或不予扣除点数。' },
-      { question: '此页面与价格中心有什么区别？', answer: '不同。本页面直接解答关于按需付费与免订阅的模式与疑问，而价格中心则提供了跨模型、跨场景的完整费用对照矩阵。' },
+      { question: '我应该先尝试哪款 AI 视频模型？', answer: '先从您的任务出发：文生视频、图生视频，或受支持的视频输入工作流。结合示例并在相同设置下对比合适的模型，生成前再核对准确报价。' },
+      { question: '如果渲染失败了怎么办？', answer: '每次成功完成的生成都会消耗点数。结果不符合你的创作预期，与技术故障是两回事。生成失败时，点数会自动退回。' },
+      { question: '此页面与价格中心有什么区别？', answer: '本页面帮助你用点数规划第一条视频。如需按模型和设置对比详细价格，请打开价格页面。' },
     ],
   },
   showcase: {
     section: {
-      eyebrow: '真实按需生成案例',
-      title: '附带模型与价格信息的视频案例',
-      intro: '精选公开的 Keyvo 渲染作品，展示所用模型、时长以及记录的历史生成价格。',
+      more: '更多短片与提示词',
+      eyebrow: '放映室',
+      title: '附带模型与时长的示例视频',
+      intro: '打开一部短片，查看它的提示词与设置。然后为你自己的场景获取最新报价。',
       preview: '预览',
       result: '查看提示词与结果',
       cta: '输入您的提示词获取实时报价',
@@ -266,6 +296,14 @@ export const zhPayAsYouGoContent = {
       engineImageAltSuffix: 'AI 视频模型',
     },
     runtime: {
+      videoOverrides: {
+        'b645e55e-a837-4350-a27c-6198b4f8208a': { title: '一动不动', useCase: '摄影师为身穿拆弹服的客户拍摄一张肖像。' },
+        'job_external_fal_fa631c836a5a7905ab77206bc87be7f16721d99e': { title: '尼洛与雷鼓', useCase: '一名学徒举起鼓槌，敲向能掌控天气的鼓。' },
+        'job_external_fal_56ea1db8b2c3657977478a1d30c64272758d2b6c': { title: '自助洗衣店的深夜', useCase: '一只打着拍子的脚，在一排排洗衣机之间踩出节奏。' },
+        'job_ff94f180-0a2f-4f2b-acb2-bda8352fa9d9': { title: 'Hard Bounce', useCase: '一个橙色的球，把节拍从一个镜头带到下一个镜头。' },
+        '4b53aad0-11a2-4215-a01a-f9b1913a794f': { title: '黄色卷盖书桌', useCase: '由一张静态照片生成的五秒产品镜头。' },
+        'job_78cb3e71-cab5-48e2-9965-9f521ba51c0f': { title: '霓虹赛车手亮相', useCase: '一名车手，一辆摩托，一条霓虹隧道。探索这段 10 秒场景背后的提示词。' },
+      },
       defaultEngineLabel: 'AI 视频模型',
       defaultTitleEngineLabel: 'AI 视频',
       defaultTitleTemplate: '{engine} 示例渲染',
@@ -307,7 +345,7 @@ export const zhPayAsYouGoContent = {
     webApplication: {
       description: '按需付费 AI 视频生成器，支持在生成前对比多个 AI 视频模型的前期价格，无需订阅。',
       offer: '无需包月订阅，起充额度随用随充。',
-      features: ['从文本、图像、音频或视频生成 AI 视频', '对比 LTX 2.5、Wan 3、Grok Imagine、FLUX.3、Seedance、Kling、Google Veo 等模型', '生成前获知预估价格', '仅对成功完成的渲染消耗点数'],
+      features: ['从文本、图像、音频或视频生成 AI 视频', '对比 FLUX 3 Max、MiniMax H3、Kling 4.0、Seedance 2.5、LTX 2.5、Wan 3、Google Veo 等模型', '生成前获知预估价格', '仅对成功完成的渲染消耗点数'],
     },
   },
 } satisfies PayAsYouGoContent;

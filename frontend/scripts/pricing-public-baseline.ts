@@ -31,6 +31,57 @@ async function main(): Promise<void> {
       'utf8',
     ),
   ) as { rows: typeof rows };
+  const fluxMaxLaunch = JSON.parse(await readFile(
+    new URL('../../tests/fixtures/flux-3-max-public-pricing-launch-2026-10-20.json', import.meta.url), 'utf8',
+  )) as { rows: typeof rows };
+  const nano21Launch = JSON.parse(await readFile(
+    new URL('../../tests/fixtures/nano21-fixed-public-pricing-launch-2026-10-27.json', import.meta.url), 'utf8',
+  )) as { rows: typeof rows };
+  const novemberImageAdmission = JSON.parse(await readFile(
+    new URL('../../tests/fixtures/nov05-functional-image-public-projections-2026-11-06.json', import.meta.url), 'utf8',
+  )) as { rows: typeof rows };
+  if (!isDeepStrictEqual(novemberImageAdmission.rows, ['flare', 'sunburst'].map(variant => ({
+    id: `image-estimate:gpt-image-2-6-${variant}:default`, surface: 'image-estimate',
+    engineId: `gpt-image-2-6-${variant}`, status: 'unavailable',
+  })))) throw new Error('GPT Image 2.6 admission cannot introduce an offline fallback price.');
+  const novemberMarketing = JSON.parse(await readFile(
+    new URL('../../tests/fixtures/nov06-model-marketing-public-projections-2026-11-06.json', import.meta.url), 'utf8',
+  )) as { rows: typeof rows };
+  const novemberModelIds = ['gpt-image-2-6-flare', 'gpt-image-2-6-sunburst', 'kling-v4-flash'];
+  const novemberMarketingIds = [
+    ...novemberModelIds.flatMap(modelId => ['member', 'plus', 'pro'].map(tier => `estimator:${modelId}:${tier}:default`)),
+    ...novemberModelIds.map(modelId => `json-ld:${modelId}:offer`),
+    ...novemberModelIds.map(modelId => `model-page:${modelId}:default`),
+    ...novemberModelIds.slice(0, 2).flatMap(modelId => ['high', 'quantity-4', 'standard'].map(preset => `pricing-hub-image:${modelId}:${preset}`)),
+    ...['10s-1080p', '10s-1080p-audio', '10s-720p', '4k-route', '5s-720p', '8s-1080p', 'entry-route']
+      .map(preset => `pricing-hub-video:kling-v4-flash:${preset}`),
+  ];
+  if (!isDeepStrictEqual(novemberMarketing.rows, novemberMarketingIds.map(id => ({
+    id, surface: id.split(':')[0], engineId: id.split(':')[1], status: 'unavailable',
+  })))) throw new Error('November model discovery cannot introduce an offline fallback price.');
+  const klingPublicDiscovery = JSON.parse(await readFile(
+    new URL('../../tests/fixtures/kling-v4-public-discovery-projections-2026-10-27.json', import.meta.url), 'utf8',
+  )) as { rows: typeof rows };
+  // Public discovery adds no price or Product offer while the pricing gate is closed.
+  // Preserve the frozen baseline and reject any amount hidden in this additive matrix.
+  if (!isDeepStrictEqual(klingPublicDiscovery.rows, [
+    { id: 'json-ld:kling-v4:offer', surface: 'json-ld', engineId: 'kling-v4', status: 'unavailable' },
+    { id: 'model-page:kling-v4:default', surface: 'model-page', engineId: 'kling-v4', status: 'unavailable' },
+  ])) throw new Error('Invalid reviewed Kling4 public-discovery matrix.');
+  const klingPricingDiscovery = JSON.parse(await readFile(
+    new URL('../../tests/fixtures/kling-v4-pricing-discovery-projections-2026-10-29.json', import.meta.url), 'utf8',
+  )) as { rows: typeof rows };
+  // Publishing the pricing surface adds explicit unavailable offline rows.
+  // Current approved quotes remain database-owned, never copied into this audit.
+  const klingPricingIds = [
+    ...['member', 'plus', 'pro'].map((tier) => `estimator:kling-v4:${tier}:default`),
+    ...['10s-1080p', '10s-1080p-audio', '10s-720p', '4k-route', '5s-720p', '8s-1080p', 'entry-route']
+      .map((preset) => `pricing-hub-video:kling-v4:${preset}`),
+  ];
+  if (!isDeepStrictEqual(klingPricingDiscovery.rows, klingPricingIds.map((id) => ({
+    id, surface: id.startsWith('estimator:') ? 'estimator' : 'pricing-hub-video',
+    engineId: 'kling-v4', status: 'unavailable',
+  })))) throw new Error('Invalid reviewed Kling4 pricing-discovery matrix.');
   const audioChange = JSON.parse(await readFile(new URL('../../tests/fixtures/audio-pricing-change-2026-09-08.json', import.meta.url), 'utf8')) as { rows: Array<{ id: string; previousCents: number; totalCents: number }> };
   const audioChanges = new Map(audioChange.rows.map(row => [row.id, row]));
   if (audioChanges.size !== audioChange.rows.length || audioChanges.size !== 15) throw new Error('Invalid reviewed Audio pricing change matrix.');
@@ -69,6 +120,26 @@ async function main(): Promise<void> {
     row.previous.id !== row.current.id || !['minimax-h3', 'minimax-h3-max'].includes(row.current.engineId)
   )) throw new Error('Invalid reviewed H3 capability pricing matrix.');
   const appliedH3Changes = new Set<string>();
+  const characterTransition = JSON.parse(await readFile(new URL(
+    '../../tests/fixtures/character-studio-public-pricing-transition-2026-11-05.json', import.meta.url,
+  ), 'utf8')) as { rows: Array<{ previous: typeof rows[number]; current: typeof rows[number] }> };
+  const characterChanges = new Map(characterTransition.rows.map((row) => [row.previous.id, row]));
+  const characterIds = ['draft', 'final'].flatMap((stage) => ['standard', 'pro'].map(
+    (quality) => `pricing-hub-tool:character-builder-${stage}:${quality}`,
+  ));
+  if (characterChanges.size !== 4 || characterTransition.rows.length !== 4 || characterIds.some(id => !characterChanges.has(id))
+    || characterTransition.rows.some(({ previous, current }) => !isDeepStrictEqual(current, {
+      id: previous.id, surface: 'pricing-hub-tool', engineId: previous.engineId, status: 'unavailable',
+    }))) throw new Error('Invalid Character Studio static pricing transition.');
+  const appliedCharacterChanges = new Set<string>();
+  const omniChange = JSON.parse(await readFile(new URL('../../tests/fixtures/omni-1-2-public-pricing-change-2026-11-05.json', import.meta.url), 'utf8')) as {
+    rows: Array<{ previous: typeof rows[number]; current: typeof rows[number] }>;
+  };
+  const omniChanges = new Map(omniChange.rows.map(row => [row.previous.id, row]));
+  if (omniChanges.size !== 13 || omniChanges.size !== omniChange.rows.length || omniChange.rows.some(row =>
+    row.previous.id !== row.current.id || row.current.engineId !== 'gemini-omni-flash'
+  )) throw new Error('Invalid Omni 1.2 supplier-cost projection matrix.');
+  const appliedOmniChanges = new Set<string>();
   const byId = new Map(fixture.rows.map((row) => [row.id, row]));
   const expected = fixture.rows.map((row) => {
     const standardId = row.id.replace(/:(plus|pro):/u, ':member:');
@@ -116,14 +187,25 @@ async function main(): Promise<void> {
   }
   const keyvoQwenLaunch = JSON.parse(await readFile(new URL('../../tests/fixtures/keyvo-qwen-pricing-launch-2026-10-09.json', import.meta.url), 'utf8')) as { rows: typeof rows };
   const qwenIds = new Set(keyvoQwenLaunch.rows.map(row => row.id));
-  if (qwenIds.size !== 8 || keyvoQwenLaunch.rows.length !== 8 || keyvoQwenLaunch.rows.some(row =>
+  if (qwenIds.size !== 2 || keyvoQwenLaunch.rows.length !== 2 || keyvoQwenLaunch.rows.some(row =>
     !['qwen-image-3-0', 'qwen-image-3-0-pro'].includes(row.engineId) ||
-    !['image-estimate', 'pricing-hub-image'].includes(row.surface) || historicalIds.has(row.id) || launchIds.has(row.id))) {
+    row.surface !== 'image-estimate' || historicalIds.has(row.id) || launchIds.has(row.id))) {
     throw new Error('Invalid reviewed Keyvo Qwen pricing launch matrix.');
+  }
+  if (fluxMaxLaunch.rows.length !== 12 || new Set(fluxMaxLaunch.rows.map((row) => row.id)).size !== 12
+    || fluxMaxLaunch.rows.some((row) => row.engineId !== 'flux-3-max' || historicalIds.has(row.id) || launchIds.has(row.id))) {
+    throw new Error('Invalid reviewed FLUX.3 Max public pricing launch matrix.');
+  }
+  const priorLaunchIds = new Set([...historicalIds, ...launchIds, ...fluxMaxLaunch.rows.map(row => row.id)]);
+  if (nano21Launch.rows.length !== 9 || new Set(nano21Launch.rows.map(row => row.id)).size !== 9
+    || nano21Launch.rows.some(row => row.engineId !== 'nano-banana-2-1' || priorLaunchIds.has(row.id)
+      || (row.id.endsWith(':quantity-4') ? row.status !== 'unavailable'
+        : row.status !== 'exact' || row.customerTotalCents !== (row.id.endsWith(':high') ? 23 : 7)))) {
+    throw new Error('Invalid reviewed Nano21 fixed customer-price launch matrix.');
   }
   // Approved archive sunsets: remove purchasable surfaces and invalidate Product offers.
   // Keep the pre-archive fixtures intact as historical pricing evidence.
-  const expectedWithLaunch = [...expected, ...launchAdditions.rows, ...keyvoQwenLaunch.rows].map((row) => {
+  const expectedWithLaunch = [...expected, ...launchAdditions.rows, ...fluxMaxLaunch.rows, ...nano21Launch.rows, ...novemberImageAdmission.rows, ...novemberMarketing.rows, ...klingPublicDiscovery.rows, ...klingPricingDiscovery.rows, ...keyvoQwenLaunch.rows].map((row) => {
     const repair = customerOfferRepairs.get(row.id);
     if (!repair) return row;
     if (row.surface !== 'json-ld' || row.status !== 'exact' || row.customerTotalCents !== repair.previousCents) {
@@ -151,7 +233,23 @@ async function main(): Promise<void> {
       }
       return { ...row, customerTotalCents: 16, displayedAmount: '$0.16' };
     })
+    .map((row) => {
+      const change = characterChanges.get(row.id);
+      if (!change) return row;
+      if (!isDeepStrictEqual(row, change.previous)) throw new Error(`Character transition does not match historical evidence: ${row.id}`);
+      appliedCharacterChanges.add(row.id);
+      return change.current;
+    })
+    .map(row => {
+      const change = omniChanges.get(row.id);
+      if (!change) return row;
+      if (!isDeepStrictEqual(row, change.previous)) throw new Error(`Omni 1.2 change does not match historical evidence: ${row.id}`);
+      appliedOmniChanges.add(row.id);
+      return change.current;
+    })
     .sort((left, right) => left.id.localeCompare(right.id));
+  if (appliedOmniChanges.size !== omniChanges.size) throw new Error('Missing Omni 1.2 supplier-cost projection scenario.');
+  if (appliedCharacterChanges.size !== characterChanges.size) throw new Error('Missing Character Studio pricing transition scenario.');
   if (appliedH3Changes.size !== h3Changes.size) throw new Error('Missing H3 capability pricing scenario.');
   if (appliedCustomerOfferRepairs.size !== customerOfferRepairs.size) throw new Error('Missing Product customer-price repair scenario.');
   if (!isDeepStrictEqual(rows, expectedWithLaunch)) {

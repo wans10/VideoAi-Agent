@@ -3,6 +3,7 @@
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import clsx from 'clsx';
 import { Button } from '@/components/ui/Button';
+import { SettingsBooleanChoice } from './SettingsBooleanChoice';
 import type { Mode } from '@/types/engines';
 
 type SettingsEngineAdvancedLayout = 'compact' | 'panel';
@@ -155,40 +156,14 @@ export function SettingsSeedanceAdvancedControls({
         />
         <span className="text-[11px] text-text-muted">{locale === 'zh' ? '使用 -1 随机生成。' : 'Use -1 for random.'}</span>
       </label>
-      <label className={fieldClass}>
+      <div className={fieldClass}>
         <span className={labelClass}>{locale === 'zh' ? '固定镜头' : 'Camera fixed'}</span>
-        <div className="flex flex-wrap gap-2">
-          {[true, false].map((option) => (
-            <Button
-              key={option ? 'camera-on' : 'camera-off'}
-              type="button"
-              size="sm"
-              variant="outline"
-              onClick={() => onCameraFixedChange?.(option)}
-              className={clsx(toggleButtonClass, activeToggleClass(option === cameraFixed))}
-            >
-              {locale === 'zh' ? (option ? '开启' : '关闭') : (option ? 'On' : 'Off')}
-            </Button>
-          ))}
-        </div>
-      </label>
-      <label className={fieldClass}>
+        <SettingsBooleanChoice label={locale === 'zh' ? '固定镜头' : 'Camera fixed'} value={cameraFixed} onChange={onCameraFixedChange} onLabel={locale === 'zh' ? '开启' : 'On'} offLabel={locale === 'zh' ? '关闭' : 'Off'} />
+      </div>
+      <div className={fieldClass}>
         <span className={labelClass}>{locale === 'zh' ? '安全检查' : 'Safety checker'}</span>
-        <div className="flex flex-wrap gap-2">
-          {[true, false].map((option) => (
-            <Button
-              key={option ? 'safety-on' : 'safety-off'}
-              type="button"
-              size="sm"
-              variant="outline"
-              onClick={() => onSafetyCheckerChange?.(option)}
-              className={clsx(toggleButtonClass, activeToggleClass(option === safetyChecker))}
-            >
-              {locale === 'zh' ? (option ? '开启' : '关闭') : (option ? 'On' : 'Off')}
-            </Button>
-          ))}
-        </div>
-      </label>
+        <SettingsBooleanChoice label={locale === 'zh' ? '安全检查' : 'Safety checker'} value={safetyChecker} onChange={onSafetyCheckerChange} onLabel={locale === 'zh' ? '开启' : 'On'} offLabel={locale === 'zh' ? '关闭' : 'Off'} />
+      </div>
     </>
   );
 

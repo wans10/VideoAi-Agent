@@ -1,7 +1,16 @@
+import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
+import { isGptImage26EngineId, normalizeGptImage26Settings } from '@/lib/image/gptImage26';
+import { KLING_V4_PROMPT_MAX_CHARS } from '@/config/fal-engines/kling-v4';
+import { NANO21_ENGINE_ID, normalizeNano21Settings, assertNano21Scenario, assertNano21UnsupportedFields } from '@/lib/nano-banana-2-1';
+import { withoutRetiredOutputControls } from '@/lib/generation-output-policy';
+import { isH3SourceOperation } from '@/lib/h3-source-operations';
+import { klingOwnedElementsSchema, validateOwnedKlingElements } from '@/lib/kling-owned-elements';
+import { normalizeVideoOperation } from '@/lib/video-operation';
 import { createHash } from 'node:crypto';
 
 import type {
   CanonicalGenerationMode,
+  CanonicalGenerationSubject,
   CanonicalGenerationMultiPromptScene,
   CanonicalGenerationReference,
   CanonicalGenerationReferenceRole,
@@ -24,7 +33,8 @@ export const MAX_CANONICAL_PROMPT_CHARS = 12_000;
 export const MAX_CANONICAL_SETTING_COUNT = 64;
 export const MAX_CANONICAL_SETTING_STRING_CHARS = 4_096;
 export const MAX_CANONICAL_SETTINGS_JSON_BYTES = 16_384;
-export const MAX_CANONICAL_REFERENCES = 50;
+export {MAX_GENERATION_REFERENCES as MAX_CANONICAL_REFERENCES} from '@/lib/generation-reference-limits';
+import {MAX_GENERATION_REFERENCES as MAX_CANONICAL_REFERENCES} from '@/lib/generation-reference-limits';
 export const MAX_CANONICAL_REFERENCE_URL_CHARS = MAX_CONTROLLED_REFERENCE_URL_CHARS;
 
 const MAX_ENGINE_ID_CHARS = 128;
@@ -38,24 +48,31 @@ const ROLE_SET = new Set<CanonicalGenerationReferenceRole>([
   'source',
   'reference',
   'first_frame',
+  'middle_frame',
   'last_frame',
   'mask',
 ]);
 const ROLE_ORDER: Record<CanonicalGenerationReferenceRole, number> = {
   source: 0,
   first_frame: 1,
+  middle_frame: 1.5,
   last_frame: 2,
   reference: 3,
   mask: 4,
 };
 const TOP_LEVEL_FIELDS = new Set([
   'schemaVersion',
+  'operation',
+  'sourceJobId',
+  'sourceOutputId',
+  'elements',
   'surface',
   'engineId',
   'mode',
   'prompt',
   'settings',
   'references',
+  'subjects',
   'outputCount',
   'seedanceWorkflow',
 ]);
@@ -67,6 +84,15 @@ const SAFE_ID_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]*$/;
 const SAFE_SETTING_KEY_PATTERN = /^[A-Za-z][A-Za-z0-9._-]*$/;
 const UNSAFE_CONTROL_CHARACTER_PATTERN = /[\u0000-\u001f\u007f-\u009f]/u;
 const VIDEO_SETTING_KEYS = new Set([
+  'keepAudio',
+  'safetyTolerance',
+  'audioSetting',
+  'personGeneration',
+  'compressionQuality',
+  'promptAudioDirection',
+  'promptCameraDirection',
+  'promptEditInstruction',
+
   'outputFormat',
   'returnLastFrame',
   'watermark',
@@ -90,6 +116,9 @@ const VIDEO_SETTING_KEYS = new Set([
   'negativePrompt',
   'numFrames',
   'promptExpansionMode',
+  'enhanceRealism',
+  'middleFrameTime',
+  'referenceOrder',
   'resolution',
   'reframeGridPositionX',
   'reframeGridPositionY',
@@ -104,12 +133,21 @@ const VIDEO_SETTING_KEYS = new Set([
   'sourcePositionY',
   'startTimeSec',
   'extendPosition',
+  'extendDirection',
   'modifyStrength',
   'multiPrompt',
   'exrExport',
   'editDepthBlur',
   'editFace',
+  'editControlMode',
+  'editPoseMode',
+  'editDepthMode',
+  'editNormalsMode',
+  'editTrajectoryMode',
+  'editFaceMode',
   'editKeyframeIndexes',
+  'reasoningLevel',
+  'keyframeIndexes',
   'editNormalsAugmentation',
   'editPoseStrength',
   'editStrength',
@@ -122,11 +160,17 @@ const IMAGE_SETTING_KEYS = new Set([
   'imageHeight',
   'imageWidth',
   'outputFormat',
+  'outputCompression',
   'quality',
+  'complexity',
+  'background',
   'resolution',
   'seed',
   'style',
   'thinkingLevel',
+  'maxOutputTokens',
+  'systemInstruction',
+  'enableImageSearch',
   'watermark',
 ]);
 const SETTING_KEYS_BY_MODE: Record<CanonicalGenerationMode, ReadonlySet<string>> = {
@@ -264,7 +308,7 @@ function normalizeSettingKey(value: string, allowedKeys: ReadonlySet<string>): s
   return key;
 }
 
-function normalizeSettingValue(value: unknown, key: string): CanonicalGenerationSettingValue {
+function normalizeSettingValue(value: unknown, key: string, engineId: string): CanonicalGenerationSettingValue {
   if ((key === 'documentUrl' || key === 'webpageUrl') && value !== null) {
     try {
       return normalizeControlledHttpsReferenceUrl(value);
@@ -273,7 +317,8 @@ function normalizeSettingValue(value: unknown, key: string): CanonicalGeneration
     }
   }
   if (key === 'multiPrompt') {
-    assertDenseDataArray(value, 'settings.multiPrompt', 6);
+    const maxDuration = engineId === 'kling-v4' ? 30 : 15;
+    assertDenseDataArray(value, 'settings.multiPrompt', engineId === 'kling-v4' ? 30 : 6);
     if (value.length === 0) fail('settings.multiPrompt', 'multiPrompt must contain at least one scene.');
     return value.map((entry, index): CanonicalGenerationMultiPromptScene => {
       const field = `settings.multiPrompt[${index}]`;
@@ -281,8 +326,8 @@ function normalizeSettingValue(value: unknown, key: string): CanonicalGeneration
       assertExactFields(entry, new Set(['prompt', 'durationSec']), field);
       const prompt = normalizeText(entry.prompt, `${field}.prompt`, 512, false);
       const durationSec = entry.durationSec;
-      if (!Number.isSafeInteger(durationSec) || (durationSec as number) < 1 || (durationSec as number) > 15) {
-        fail(`${field}.durationSec`, 'multiPrompt durationSec must be an integer from 1 through 15.');
+      if (!Number.isSafeInteger(durationSec) || (durationSec as number) < 1 || (durationSec as number) > maxDuration) {
+        fail(`${field}.durationSec`, `multiPrompt durationSec must be an integer from 1 through ${maxDuration}.`);
       }
       return { prompt, durationSec: durationSec as number };
     });
@@ -322,7 +367,8 @@ export function stableJson(value: unknown): string {
 
 function normalizeSettings(
   value: unknown,
-  mode: CanonicalGenerationMode
+  mode: CanonicalGenerationMode,
+  engineId: string,
 ): Record<string, CanonicalGenerationSettingValue> {
   if (value === undefined) return {};
   assertPlainDataObject(value, 'settings');
@@ -338,16 +384,23 @@ function normalizeSettings(
     if (Object.hasOwn(settings, key)) {
       fail('settings', 'settings contains duplicate canonical keys.');
     }
-    settings[key] = normalizeSettingValue(value[rawKey], key);
+    settings[key] = normalizeSettingValue(value[rawKey], key, engineId);
+  }
+  if (engineId === 'kling-v4' && Array.isArray(settings.multiPrompt)) {
+    const total = settings.multiPrompt.reduce((sum, scene) => sum + scene.durationSec, 0);
+    if (!['t2v','i2v','ref2v'].includes(mode) || total < 3 || total > 30 || total !== settings.durationSec) {
+      fail('settings.multiPrompt', 'Kling V4 shot durations must total the requested 3–30 whole seconds in a generation mode.');
+    }
   }
 
   const ordered = Object.fromEntries(
     Object.entries(settings).sort(([left], [right]) => compareCodeUnits(left, right))
   ) as Record<string, CanonicalGenerationSettingValue>;
-  if (Buffer.byteLength(stableJson(ordered), 'utf8') > MAX_CANONICAL_SETTINGS_JSON_BYTES) {
+  const maxSettingsBytes = engineId === 'kling-v4' && Array.isArray(settings.multiPrompt) ? 65_536 : MAX_CANONICAL_SETTINGS_JSON_BYTES;
+  if (Buffer.byteLength(stableJson(ordered), 'utf8') > maxSettingsBytes) {
     fail('settings', 'settings exceeds the canonical size limit.');
   }
-  return ordered;
+  return withoutRetiredOutputControls(ordered);
 }
 
 function normalizeReferenceRole(value: unknown, index: number): CanonicalGenerationReferenceRole {
@@ -441,17 +494,34 @@ function compareReferences(left: CanonicalGenerationReference, right: CanonicalG
   return roleDifference || compareCodeUnits(referenceIdentity(left), referenceIdentity(right));
 }
 
+/** Canonical slot semantics, shared by ingress and presentation adapters. */
+export function orderedGenerationReferenceRole(
+  mode: CanonicalGenerationMode,
+  engineId: string,
+  explicitReferenceOrder = false,
+): CanonicalGenerationReference['role'] | null {
+  return (engineId === NANO21_ENGINE_ID || explicitReferenceOrder) && mode === 'i2i' ? 'reference' : mode === 'extend'
+    ? 'source'
+    : mode === 'r2v' || mode === 'v2v' || ((['flux-3-max','flux-3','flux-3-draft','kling-v4','kling-v4-flash','wan-3-prime'].includes(engineId) || explicitReferenceOrder) && mode === 'ref2v') || (engineId === 'luma-ray-3-2' && mode === 't2v')
+      ? 'reference'
+      : null;
+}
+
 function normalizeReferences(
   value: unknown,
   mode: CanonicalGenerationMode,
+  engineId: string,
+  explicitReferenceOrder = false,
 ): CanonicalGenerationReference[] {
   if (value === undefined) return [];
   assertDenseDataArray(value, 'references', MAX_CANONICAL_REFERENCES);
-  const orderedRole = mode === 'extend'
-    ? 'source'
-    : mode === 'r2v' || mode === 'v2v'
-      ? 'reference'
-      : null;
+  // Historical Wan ref2v quotes have no slots. Adding them on read changes the
+  // persisted request hash and prevents recovery of an already accepted job.
+  // New ordered callers author slots explicitly; retain both canonical shapes.
+  const legacyWanReferences = engineId === 'wan-3-prime' && mode === 'ref2v'
+    && !explicitReferenceOrder && !value.some(reference => reference !== null
+      && typeof reference === 'object' && Object.hasOwn(reference, 'slot'));
+  const orderedRole = legacyWanReferences ? null : orderedGenerationReferenceRole(mode,engineId,explicitReferenceOrder);
   let nextOrderedSlot = 0;
   const references = value.map((reference, index) => {
     const normalized = normalizeReference(reference, index, orderedRole);
@@ -482,6 +552,42 @@ function assertSurfaceMode(surface: CanonicalGenerationSurface, mode: CanonicalG
   }
 }
 
+function normalizeSubjects(value: unknown, engineId: string, mode: CanonicalGenerationMode,
+  references: CanonicalGenerationReference[]): CanonicalGenerationSubject[] | undefined {
+  if (value === undefined) return undefined;
+  if (!(engineId === 'kling-v4' && ['ref2v', 'v2v'].includes(mode)) && !(engineId === 'kling-v4-flash' && mode === 'ref2v')) fail('subjects', 'Subjects are unsupported for this model and mode.');
+  assertDenseDataArray(value, 'subjects', 7);
+  if (!value.length) fail('subjects', 'Provide at least one subject, or omit subjects.');
+  const usedSlots = new Set<number>();
+  const slot = (value: unknown): number => {
+    if (!Number.isSafeInteger(value) || (value as number) < 0) fail('subjects', 'Subject slots must be non-negative integers.');
+    const reference = references.find(reference => reference.role === 'reference' && reference.slot === value);
+    if (!reference || reference.kind !== 'asset') fail('subjects', 'Each subject slot must identify an existing owned asset reference.');
+    if (usedSlots.has(value as number)) fail('subjects', 'Each reference slot may belong to only one subject view.');
+    usedSlots.add(value as number);
+    return value as number;
+  };
+  let videos = 0;
+  return value.map((entry, index) => {
+    const field = `subjects[${index}]`;
+    assertPlainDataObject(entry, field);
+    // No voice ID is accepted until an owned, provider-scoped issuance registry exists.
+    if ('voiceId' in entry || 'voiceBinding' in entry) fail(field, 'Kling voices require verified owned fal issuance provenance; this binding is unavailable.');
+    if (entry.kind === 'image') {
+      assertExactFields(entry, new Set(['kind', 'frontalReferenceSlot', 'referenceSlots']), field);
+      assertDenseDataArray(entry.referenceSlots, `${field}.referenceSlots`, 3);
+      if (!entry.referenceSlots.length) fail(field, 'An image subject requires 1–3 additional views.');
+      return {kind: 'image', frontalReferenceSlot: slot(entry.frontalReferenceSlot), referenceSlots: entry.referenceSlots.map(slot)};
+    }
+    if (entry.kind === 'video') {
+      assertExactFields(entry, new Set(['kind', 'referenceSlot']), field);
+      if (mode !== 'ref2v' || ++videos > 3) fail(field, 'Only reference generation supports up to three video subjects.');
+      return {kind: 'video', referenceSlot: slot(entry.referenceSlot)};
+    }
+    return fail(field, 'Choose an image or video subject.');
+  });
+}
+
 function normalizeOutputCount(
   value: unknown,
   surface: CanonicalGenerationSurface,
@@ -500,6 +606,16 @@ function normalizeOutputCount(
 }
 
 export function normalizeGenerationRequest(input: unknown): CanonicalGenerationRequest {
+  return normalizeGenerationInput(input);
+}
+
+/** Comparison envelope only: retain reference order until a concrete model is selected.
+ * Each candidate must still pass strict normalizeGenerationRequest before pricing. */
+export function normalizeGenerationComparisonRequest(input: unknown): CanonicalGenerationRequest {
+  return normalizeGenerationInput(input,true);
+}
+
+function normalizeGenerationInput(input: unknown,comparison = false): CanonicalGenerationRequest {
   assertPlainDataObject(input, 'generation request');
   assertExactFields(input, TOP_LEVEL_FIELDS, 'generation request');
   if (input.schemaVersion !== undefined && input.schemaVersion !== 1) {
@@ -525,27 +641,73 @@ export function normalizeGenerationRequest(input: unknown): CanonicalGenerationR
   if (seedanceWorkflow && !['t2v', 'i2v', 'ref2v', 'v2v', 'extend'].includes(mode)) fail('seedanceWorkflow', 'Unsupported Draft mode.');
   assertSurfaceMode(surface, mode);
 
-  const settings = normalizeSettings(input.settings, mode);
-  const prompt = normalizeText(final && input.prompt === undefined ? '' : input.prompt, 'prompt', MAX_CANONICAL_PROMPT_CHARS, true);
-  if (!prompt && !final && !Array.isArray(settings.multiPrompt)) {
+  let operation;
+  try { operation = normalizeVideoOperation(normalizeEngineId(input.engineId), mode, input.operation); }
+  catch { fail('operation', 'Unsupported operation for this engine and mode.'); }
+  const sourceJobId = input.sourceJobId === undefined ? undefined : normalizeText(input.sourceJobId, 'sourceJobId', 255, false);
+  const sourceOutputId = input.sourceOutputId === undefined ? undefined : normalizeText(input.sourceOutputId, 'sourceOutputId', 255, false);
+  if ((sourceJobId || sourceOutputId) && (!((input.engineId === 'luma-ray-3-2' && mode === 'extend') || operation === 'flux-draft-enhance') || !sourceJobId || !SAFE_ID_PATTERN.test(sourceJobId))) fail('sourceJobId', 'Invalid source generation.');
+  const engineId = normalizeEngineId(input.engineId);
+  const settings = normalizeSettings(input.settings, mode, engineId);
+  const optionalPrompt = engineId === 'kling-v4-flash' && mode === 'i2v';
+  const noPrompt = operation === 'ltx23-reframe' || operation === 'flux-draft-enhance';
+  const prompt = normalizeText((final || noPrompt || optionalPrompt || isH3SourceOperation(operation)) && input.prompt === undefined ? '' : input.prompt, 'prompt', isKlingV4FalQueueEngineId(engineId) ? KLING_V4_PROMPT_MAX_CHARS : isGptImage26EngineId(engineId) ? 32000 : MAX_CANONICAL_PROMPT_CHARS, true);
+  if (engineId === 'kling-v4' && prompt && Array.isArray(settings.multiPrompt)) fail('prompt', 'Choose a prompt or shot plan, exclusively.');
+  if (!prompt && !optionalPrompt && !final && !noPrompt && !isH3SourceOperation(operation) && !Array.isArray(settings.multiPrompt)) {
     fail('prompt', 'prompt has an invalid length.');
   }
+  if ((operation === 'h3-relight' || noPrompt) && prompt) fail('prompt','This operation does not accept a prompt.');
+  if (operation === 'h3-recast' && prompt.length > 2000) fail('prompt','Recast supports at most 2000 characters.');
   if (seedanceWorkflow?.step === 'draft') {
     if (settings.resolution !== undefined && settings.resolution !== '480p') fail('resolution', 'Native Draft requires 480p.');
     settings.resolution = '480p';
     if (settings.audio === undefined) settings.audio = true;
   }
-  return {
+  const references = normalizeReferences(input.references, mode, engineId, comparison || (engineId === 'minimax-h3-max' && typeof (input.settings as Record<string, unknown> | undefined)?.referenceOrder === 'string'));
+  const subjects = normalizeSubjects(input.subjects, engineId, mode, references);
+  let elements;
+  try { elements = input.elements === undefined ? undefined : klingOwnedElementsSchema.parse(input.elements); }
+  catch { fail('elements', 'Invalid owned Kling Element composition.'); }
+  const result: CanonicalGenerationRequest = {
     schemaVersion: 1,
+    ...(subjects ? {subjects} : {}),
+    ...(sourceJobId ? { sourceJobId } : {}),
+    ...(sourceOutputId ? { sourceOutputId } : {}),
+    ...(elements ? {elements} : {}),
+    ...(operation ? { operation } : {}),
     ...(seedanceWorkflow ? { seedanceWorkflow } : {}),
     surface,
     engineId: normalizeEngineId(input.engineId),
     mode,
     prompt,
     settings,
-    references: normalizeReferences(input.references, mode),
+    references,
     outputCount: normalizeOutputCount(input.outputCount, surface),
   };
+  if (isGptImage26EngineId(result.engineId)) {
+    try {
+      const native = normalizeGptImage26Settings({ ...result.settings, numImages: result.outputCount,
+        ...(result.settings.resolution === 'custom' ? {customImageSize: {width: result.settings.imageWidth, height: result.settings.imageHeight}} : {}),
+      } as Parameters<typeof normalizeGptImage26Settings>[0]);
+      if (result.references.some(reference => reference.kind !== 'asset' || reference.role !== 'reference')
+        || result.references.length > 16 || (result.mode === 't2i' && result.references.length)
+        || (result.mode === 'i2i' && !result.references.length)) throw new Error('Owned edit references required.');
+      result.settings = { ...result.settings, resolution: native.resolution, quality: native.quality, complexity: native.complexity, background: native.background, outputFormat: native.outputFormat };
+    } catch { fail('settings', 'Unsupported GPT Image 2.6 raster scenario.'); }
+  }
+  if (result.engineId === NANO21_ENGINE_ID) {
+    try {
+      assertNano21UnsupportedFields(result.settings);
+      const native = normalizeNano21Settings(result.settings as Parameters<typeof normalizeNano21Settings>[0]);
+      assertNano21Scenario({ ...native, mode: result.mode, referenceImageCount: result.references.length, outputCount: result.outputCount, aspectRatio: String(result.settings.aspectRatio ?? '1:1') });
+      if (result.references.some(reference => reference.kind !== 'asset' || reference.role !== 'reference')) throw new Error('Owned ordered image references are required.');
+      result.settings = { ...result.settings, resolution: native.imageSize.toLowerCase(), thinkingLevel: native.thinkingLevel.toLowerCase(),
+        maxOutputTokens: native.maxOutputTokens, aspectRatio: result.settings.aspectRatio ?? '1:1',
+        enableWebSearch: native.enableWebSearch, enableImageSearch: native.enableImageSearch };
+    } catch { fail('settings', 'Unsupported Nano Banana 2.1 scenario.'); }
+  }
+  try { validateOwnedKlingElements(result); } catch { fail('elements', 'Invalid owned Kling Element composition.'); }
+  return result;
 }
 
 export function serializeCanonicalGenerationRequest(request: CanonicalGenerationRequest): string {

@@ -1,4 +1,5 @@
 import { getSeedanceFailureMessage } from './seedance-failure-messages';
+import { getWanImageFailureMessage } from './wan-image-failure-messages';
 
 type Locale = 'en' | 'fr' | 'es' | 'zh';
 const copy = {
@@ -8,11 +9,22 @@ const copy = {
     duration: 'A reference video exceeds the input limit of 15 seconds. Shorten or replace the reference video before trying again. Changing the output duration does not shorten the reference video.',
     combined: 'The combined duration of the reference videos exceeds the input limit of 15 seconds. Shorten or remove a reference video before trying again.',
     safety: 'This request was blocked by safety checks. Review the prompt and any reference images, video, or audio before trying again.',
+    googleSafety: 'Google blocked this request during safety checks. Review the prompt and reference media before trying again.',
     unverified: 'We could not verify the duration of a reference video. Upload it again before generating.',
     measured: 'Measured duration: {duration} seconds.',
     noCharge: 'No credits were charged.',
     connection: 'The connection to the model service was interrupted, so this render did not complete. Please try again later.',
     timeout: 'The connection to the model service timed out, so this render did not complete. Please try again later.',
+    referenceLink: 'This reference link cannot be used. Import the original file into Keyvo before preparing a new request.',
+    imageSmall: 'The reference image is too small. Use an image with each side at least 256 pixels before trying again.',
+    imageRatio: 'The reference image is too wide or too tall. Crop or pad it to a width/height ratio between 0.4 and 2.5 before trying again.',
+    modeUnavailable: 'This video editing mode is currently unavailable. Choose another model or contact support.',
+    start: 'Keyvo could not start this render. Choose another model or contact support with your request ID if the problem continues.',
+    generic: 'Keyvo could not complete this render. Contact support with your request ID if the problem continues.',
+    promptBlocked: 'The prompt was blocked by safety checks. Change the prompt before trying again.',
+    referenceBlocked: 'A reference image was blocked by safety checks. Replace the reference image before trying again.',
+    image: 'image',
+    images: 'images',
   },
   zh: {
     outputImage: '生成的图片被安全检查拦截。请修改提示词后重试。',
@@ -25,6 +37,17 @@ const copy = {
     noCharge: '未扣除积分。',
     connection: '与模型服务的连接中断，本次生成未能完成，请稍后重试。',
     timeout: '与模型服务的连接超时，本次生成未能完成，请稍后重试。',
+    googleSafety: 'Google 在安全检查中拒绝了此请求。请检查提示词和参考媒体后重试。',
+    referenceLink: '该参考链接无法使用。请先将原始文件导入 Keyvo，再准备新的请求。',
+    imageSmall: '参考图片尺寸过小。请使用每边至少 256 像素的图片后重试。',
+    imageRatio: '参考图片过宽或过高。请裁剪或添加边距，使宽高比介于 0.4 到 2.5 之间后重试。',
+    modeUnavailable: '该视频编辑模式当前不可用。请选择其他模型或联系客服。',
+    start: 'Keyvo 无法启动此次渲染。请选择其他模型；如问题持续，请联系客服并提供请求 ID。',
+    generic: 'Keyvo 无法完成此次渲染。如问题持续，请联系客服并提供请求 ID。',
+    promptBlocked: '提示词被安全检查拦截。请修改提示词后重试。',
+    referenceBlocked: '参考图片被安全检查拦截。请更换参考图片后重试。',
+    image: '张',
+    images: '张',
   },
   fr: {
     outputImage: 'Une image générée a été bloquée par les contrôles de sécurité. Modifiez le prompt avant de réessayer.',
@@ -32,11 +55,22 @@ const copy = {
     duration: 'Une vidéo de référence dépasse la limite d’entrée de 15 secondes. Raccourcissez ou remplacez cette vidéo avant de réessayer. Modifier la durée de sortie ne raccourcit pas la vidéo de référence.',
     combined: 'La durée cumulée des vidéos de référence dépasse la limite d’entrée de 15 secondes. Raccourcissez ou retirez une vidéo de référence avant de réessayer.',
     safety: 'Cette demande a été bloquée par les contrôles de sécurité. Vérifiez le prompt et les images, vidéos ou fichiers audio de référence avant de réessayer.',
+    googleSafety: 'Google a refusé cette demande lors de ses contrôles de modération. Vérifiez le prompt et les médias de référence avant de réessayer.',
     unverified: 'Nous n’avons pas pu vérifier la durée d’une vidéo de référence. Importez-la à nouveau avant de générer.',
     measured: 'Durée mesurée : {duration} secondes.',
     noCharge: 'Aucun crédit n’a été débité.',
     connection: 'La connexion au service du modèle a été interrompue, la génération n’a pas abouti. Réessayez plus tard.',
     timeout: 'La connexion au service du modèle a expiré, la génération n’a pas abouti. Réessayez plus tard.',
+    referenceLink: 'Ce lien de référence ne peut pas être utilisé. Importez le fichier original dans Keyvo avant de préparer une nouvelle demande.',
+    imageSmall: 'L’image de référence est trop petite. Utilisez une image dont chaque côté mesure au moins 256 pixels avant de réessayer.',
+    imageRatio: 'L’image de référence est trop large ou trop haute. Recadrez-la ou ajoutez des marges pour obtenir un rapport largeur/hauteur compris entre 0,4 et 2,5 avant de réessayer.',
+    modeUnavailable: 'Ce mode de modification vidéo est actuellement indisponible. Choisissez un autre modèle ou contactez le support.',
+    start: 'Keyvo n’a pas pu démarrer ce rendu. Choisissez un autre modèle ou contactez le support avec l’identifiant de la demande si le problème persiste.',
+    generic: 'Keyvo n’a pas pu terminer ce rendu. Contactez le support avec l’identifiant de la demande si le problème persiste.',
+    promptBlocked: 'Le prompt a été bloqué par les contrôles de sécurité. Modifiez le prompt avant de réessayer.',
+    referenceBlocked: 'Une image de référence a été bloquée par les contrôles de sécurité. Remplacez cette image avant de réessayer.',
+    image: 'image',
+    images: 'images',
   },
   es: {
     outputImage: 'Una imagen generada ha sido bloqueada por los controles de seguridad. Cambia el prompt antes de intentarlo de nuevo.',
@@ -44,11 +78,22 @@ const copy = {
     duration: 'Un vídeo de referencia supera el límite de entrada de 15 segundos. Recorta o sustituye ese vídeo antes de intentarlo de nuevo. Cambiar la duración de salida no acorta el vídeo de referencia.',
     combined: 'La duración total de los vídeos de referencia supera el límite de entrada de 15 segundos. Recorta o elimina un vídeo de referencia antes de intentarlo de nuevo.',
     safety: 'Esta solicitud ha sido bloqueada por los controles de seguridad. Revisa el prompt y las imágenes, los vídeos o el audio de referencia antes de intentarlo de nuevo.',
+    googleSafety: 'Google ha rechazado esta solicitud durante sus controles de moderación. Revisa el prompt y los medios de referencia antes de intentarlo de nuevo.',
     unverified: 'No hemos podido verificar la duración de un vídeo de referencia. Vuelve a subirlo antes de generar.',
     measured: 'Duración medida: {duration} segundos.',
     noCharge: 'No se han descontado créditos.',
     connection: 'Se interrumpió la conexión con el servicio del modelo, por lo que la generación no se completó. Vuelve a intentarlo más tarde.',
     timeout: 'La conexión con el servicio del modelo ha expirado, por lo que la generación no se completó. Vuelve a intentarlo más tarde.',
+    referenceLink: 'Este enlace de referencia no se puede utilizar. Importa el archivo original en Keyvo antes de preparar una nueva solicitud.',
+    imageSmall: 'La imagen de referencia es demasiado pequeña. Utiliza una imagen con al menos 256 píxeles por lado antes de intentarlo de nuevo.',
+    imageRatio: 'La imagen de referencia es demasiado ancha o alta. Recórtala o añade márgenes para obtener una relación de ancho/alto entre 0,4 y 2,5 antes de intentarlo de nuevo.',
+    modeUnavailable: 'Este modo de edición de vídeo no está disponible actualmente. Elige otro modelo o contacta con soporte.',
+    start: 'Keyvo no ha podido iniciar este renderizado. Elige otro modelo o contacta con soporte con el identificador de la solicitud si el problema persiste.',
+    generic: 'Keyvo no ha podido completar este renderizado. Contacta con soporte con el identificador de la solicitud si el problema persiste.',
+    promptBlocked: 'El prompt ha sido bloqueado por los controles de seguridad. Cambia el prompt antes de intentarlo de nuevo.',
+    referenceBlocked: 'Una imagen de referencia ha sido bloqueada por los controles de seguridad. Sustituye esa imagen antes de intentarlo de nuevo.',
+    image: 'imagen',
+    images: 'imágenes',
   },
 } satisfies Record<Locale, Record<string, string>>;
 
@@ -76,19 +121,24 @@ export function getGeneratedImageFailureMessage(message: string | null | undefin
 /** Project known refund reasons without changing any ledger fields or inventing a refund. */
 export function localizeGenerationRefundDescription(description: string | null, locale: string, failureCode?: string | null): string | null {
   if (!description) return description;
-  const match = description.match(/^Refund (.+?)(?: - (\d+)s)? - (.+)$/);
+  const match = description.match(/^Refund (.+?)(?: - (\d+)s| - (\d+) images?)? - (.+)$/);
   if (!match) return description;
   // Short Seedance reasons need the model context; exact output-image reasons must stay unprefixed.
-  const reason = getSeedanceFailureMessage({ failureCode, message: `${match[1]} ${match[3]}`, locale })
-    ?? getKnownGenerationFailureMessage({ failureCode, message: match[3], locale });
-  if (!reason) return description;
+  const reason = getSeedanceFailureMessage({ failureCode, message: `${match[1]} ${match[4]}`, locale })
+    ?? getKnownGenerationFailureMessage({ failureCode, message: match[4], locale })
+    ?? getGenerationFailureFallbackMessage(locale);
   const language = localeKey(locale);
+  const quantity = match[3] ? `${match[3]} ${copy[language][match[3] === '1' ? 'image' : 'images']}` : null;
   return language === 'en'
-    ? `Refund ${match[1]}${match[2] ? ` - ${match[2]}s` : ''} - ${reason}`
-    : `${copy[language].refund} ${match[1]}${match[2] ? ` · ${match[2]} s` : ''} — ${reason}`;
+    ? `Refund ${match[1]}${match[2] ? ` - ${match[2]}s` : quantity ? ` - ${quantity}` : ''} - ${reason}`
+    : `${copy[language].refund} ${match[1]}${match[2] ? ` · ${match[2]} s` : quantity ? ` · ${quantity}` : ''} — ${reason}`;
 }
 
-/** Return fixed public copy only. Never echo a provider body or interpolate its fields. */
+export function getGenerationFailureFallbackMessage(locale = 'en'): string {
+  return copy[localeKey(locale)].generic;
+}
+
+/** Return public templates only; known diagnostics may supply validated numeric measurements. */
 export function getKnownGenerationFailureMessage(params: {
   failureCode?: string | null;
   message?: string | null;
@@ -96,14 +146,37 @@ export function getKnownGenerationFailureMessage(params: {
 }): string | null {
   const seedance = getSeedanceFailureMessage(params);
   if (seedance) return seedance;
+  const wanImage = getWanImageFailureMessage(params.message, params.locale);
+  if (wanImage) return wanImage;
   const outputImage = getGeneratedImageFailureMessage(params.message, params.locale);
   if (outputImage) return outputImage;
   const text = copy[localeKey(params.locale)];
   const message = params.message?.trim() ?? '';
+  const contentChecker = /^(?:([a-z_]+(?:\.\d+)*):\s*)?The content could not be processed because it contained material flagged by a content checker\.$/i.exec(message);
+  if (contentChecker) {
+    if (contentChecker[1]?.toLowerCase() === 'prompt') return text.promptBlocked;
+    if (/^(?:image_url|image_urls|reference_image_urls)(?:\.\d+)?$/i.test(contentChecker[1] ?? '')) return text.referenceBlocked;
+    return text.safety;
+  }
+  if (/^Green net check rejected text \(input\)$/i.test(message)) return text.promptBlocked;
+  if (/^Green net check rejected image \(input\)$/i.test(message)) return text.referenceBlocked;
+  if (['reference_link_unsupported', 'IMAGE_HOST_NOT_ALLOWED'].includes(params.failureCode ?? '')
+    || /^This reference link cannot be used\./i.test(message)) return text.referenceLink;
+  if (params.failureCode === 'LUMA_MODE_UNAVAILABLE'
+    || /^This video editing mode is currently unavailable\./i.test(message)) return text.modeUnavailable;
+  if (/^Image dimensions are too small\. Minimum dimensions are 256x256 pixels\.$/i.test(message)
+    || /^The reference image is too small\./i.test(message)) return text.imageSmall;
+  if (/^The aspect ratio of the image should be between 0\.4 and 2\.5\.$/i.test(message)
+    || /^The reference image is too wide or too tall\./i.test(message)) return text.imageRatio;
+  if (/^(?:Seedream blocked the prompt during safety checks\.|Prompt was blocked by safety checks\.|The prompt was blocked by safety checks\.)/i.test(message)) return text.promptBlocked;
+  if (/^(?:Seedream blocked the reference image during safety checks\.|Reference image was blocked by safety checks\.|A reference image was blocked by safety checks\.)/i.test(message)) return text.referenceBlocked;
+  if (/^(?:MaxVideoAI|Keyvo) could not start this render\.|^Render could not start\./i.test(message)) return text.start;
+  if (/^(?:MaxVideoAI|Keyvo) could not complete this render\.|^Render could not be completed\./i.test(message)) return text.generic;
   // Known historical H3 input rejection; no conclusion about a stored clip's actual duration.
   if (/^Video duration exceeds the maximum allowed\. Maximum is 15(?:\.0+)? seconds\.$/i.test(message)) return text.duration;
   const transport = getTransportFailureMessage(message, params.locale);
   if (transport) return transport;
+  if (/^Google blocked this request during safety checks\./i.test(message)) return text.googleSafety;
   if (/responsible ai|sensitive words|content policy|policy violation|safety|moderation|prohibited|blocked/i.test(message)) return text.safety;
   return null;
 }
@@ -115,9 +188,14 @@ export function getMinimaxReferenceValidationMessage(params: {
   durationSec?: unknown;
   locale: string;
 }): string | null {
-  if (params.engineId !== 'minimax-h3' || params.field !== 'reference_video_urls') return null;
+  if (params.engineId !== 'minimax-h3') return null;
   const locale = localeKey(params.locale);
   const text = copy[locale];
+  if (['image_url', 'end_image_url', 'reference_image_urls'].includes(String(params.field))) {
+    if (params.error === 'MEDIA_DIMENSIONS_TOO_SMALL') return `${text.imageSmall} ${text.noCharge}`;
+    if (params.error === 'MEDIA_ASPECT_RATIO_UNSUPPORTED') return `${text.imageRatio} ${text.noCharge}`;
+  }
+  if (params.field !== 'reference_video_urls') return null;
   if (params.error === 'MEDIA_DURATION_UNVERIFIED') return `${text.unverified} ${text.noCharge}`;
   if (!['MEDIA_DURATION_UNSUPPORTED', 'MEDIA_COMBINED_DURATION_EXCEEDED'].includes(String(params.error))
     || typeof params.durationSec !== 'number' || !Number.isFinite(params.durationSec) || params.durationSec <= 15) return null;

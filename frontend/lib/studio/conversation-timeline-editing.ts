@@ -5,6 +5,7 @@ import {deleteWorkspaceTimelineItem, positionWorkspaceTimelineItem, resizeWorksp
 import {MIN_CLIP_DURATION_SEC, timelineFrameToSeconds, workspaceTimelineSourceTime} from '@/app/(core)/(workspace)/app/studio/_shared/_lib/timeline/timeline-frames';
 import {maxResizeDurationForTimelineItem} from '@/app/(core)/(workspace)/app/studio/_shared/_lib/timeline/timeline-trim';
 import {readMediaFacts} from '@/lib/media-identity';
+import {workspaceTimelineAudioMixSupport} from '@/app/(core)/(workspace)/app/studio/_shared/_lib/workspace-audio-provenance';
 
 const clipId = z.string().trim().min(1).max(200);
 const frame = z.number().int().min(0).max(5_184_000);
@@ -14,13 +15,15 @@ export const conversationTimelineEditSchema = z.discriminatedUnion('kind', [
   // Workspace audioMix stores percentages, shared by preview and render.
   z.object({kind: z.literal('gain'), clipId, volume: z.number().min(0).max(100)}).strict(),
   z.object({kind: z.literal('remove'), clipId}).strict(),
+  z.object({kind:z.literal('subtitles'),clipId,documentId:z.string().min(1).max(200).nullable(),revision:z.number().int().positive().optional()}).strict(),
 ]);
 export type ConversationTimelineEdit = z.infer<typeof conversationTimelineEditSchema>;
 export const conversationTimelineInsertFields={ref:toolAssetRefSchema,startFrame:frame,durationFrames:frame.positive(),sourceInFrame:frame.optional()};
+export const conversationTimelineAssemblyFields={...conversationTimelineInsertFields,startFrame:frame.nullable().optional(),durationFrames:frame.positive().nullable().optional()};
 export const conversationTimelineCommandSchema = z.object({
   projectId: z.string().trim().min(1).max(200), sequenceId: z.string().trim().min(1).max(200),
   expectedRevision: z.number().int().nonnegative(), idempotencyKey: z.string().min(1).max(128),
-  edit: z.union([conversationTimelineEditSchema,z.object({kind:z.literal('insert'),...conversationTimelineInsertFields}).strict(),z.object({kind:z.literal('assemble'),clips:z.array(z.object(conversationTimelineInsertFields).strict()).min(1).max(12)}).strict()]),
+  edit: z.union([conversationTimelineEditSchema,z.object({kind:z.literal('replace'),clipId,ref:toolAssetRefSchema,sourceInFrame:frame.optional()}).strict(),z.object({kind:z.literal('sequence-subtitles'),documentId:z.string().min(1).max(200).nullable(),revision:z.number().int().positive().optional()}).strict(),z.object({kind:z.literal('insert'),...conversationTimelineInsertFields}).strict(),z.object({kind:z.literal('assemble'),clips:z.array(z.object(conversationTimelineAssemblyFields).strict()).min(1).max(12)}).strict()]),
 }).strict();
 export type ConversationTimelineCommand = z.infer<typeof conversationTimelineCommandSchema>;
 export {workspaceTimelineSourceTime as conversationSourceTime};
@@ -57,10 +60,23 @@ export function applyConversationTimelineEdit(items: WorkspaceTimelineItem[], ra
       break;
     }
     case 'move': next = positionWorkspaceTimelineItem(items, item.id, timelineFrameToSeconds(edit.startFrame, fps)); break;
+    case 'subtitles':
+      if(edit.documentId&&!edit.revision)throw new Error('SUBTITLE_REVISION_INVALID');
+      next=items.map(candidate=>candidate.id===item.id?{...candidate,subtitle:edit.documentId?{documentId:edit.documentId,revision:edit.revision!}:undefined,subtitleDocument:undefined}:candidate);break;
     case 'remove': next = deleteWorkspaceTimelineItem(items, item.id, {ripple: true}); break;
-    case 'gain':
-      if (item.mediaKind !== 'audio' && item.hasEmbeddedAudio !== true) throw new Error('This clip has no audio to mix.');
-      next = items.map(candidate => candidate.id === item.id ? {...candidate, audioMix: {...candidate.audioMix, volume: edit.volume, muted: candidate.audioMix?.muted ?? false}} : candidate);
+    case 'gain': {
+      const support = workspaceTimelineAudioMixSupport(item);
+      if (!support.canAdjustVolume && !(edit.volume === 0 && support.canMute) && !(edit.volume === 100 && support.canRestoreOriginalVolume)) throw new Error('This clip has no audio to mix.');
+      const mixed = {...item, audioMix: {...item.audioMix, volume: edit.volume, muted: item.audioMix?.muted ?? false}};
+      if (item.mediaKind === 'video') {
+        // Preview and export must agree after editing a stale legacy cache.
+        mixed.audioProvenance = support.source;
+        if (support.source === 'embedded') mixed.hasEmbeddedAudio = true;
+        else delete mixed.hasEmbeddedAudio;
+      }
+      next = items.map(candidate => candidate.id === item.id ? mixed : candidate);
+      break;
+    }
   }
   if (timelineEditTouchesLockedTracks(items, next, lockedTracks)) throw new Error('Edit would change a locked timeline track.');
   return next;

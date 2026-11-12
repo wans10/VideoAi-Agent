@@ -1,5 +1,6 @@
 import { KEYVO_COMPARE_HIDDEN } from '@/config/keyvo-model-visibility';
 import type { AppLocale } from '@/i18n/locales';
+import { isPublishedComparisonSlug } from '@/lib/compare-hub/data';
 import { buildCompareHref, buildModelHref } from './examples-route-utils';
 
 type PaginationDictionary = {
@@ -194,19 +195,23 @@ export function buildExamplesNextStepLinks({
       ['ltx-2-3-fast-vs-ltx-2-3-pro', 'LTX 2.3 Fast vs Pro'],
     ],
     kling: [
+      ['kling-v4-vs-seedance-2-5', 'Kling 4.0 vs Seedance 2.5'],
+      ['kling-v4-vs-wan-3-prime', 'Kling 4.0 vs Wan 3 Prime'],
+      ['kling-3-pro-vs-kling-3-standard', 'Kling 3 Pro vs Standard'],
+      ['kling-o3-pro-vs-kling-v4', 'Kling 3.0 Omni Pro vs Kling 4.0'],
       ['kling-3-pro-vs-seedance-2-5', 'Kling 3 Pro vs Seedance 2.5'],
       ['kling-3-pro-vs-minimax-h3', 'Kling 3 Pro vs MiniMax H3'],
       ['kling-3-pro-vs-veo-3-1', 'Kling 3 Pro vs Veo 3.1'],
-      ['kling-3-pro-vs-kling-3-standard', 'Kling 3 Pro vs Standard'],
     ],
     seedance: [
+      ['kling-v4-vs-seedance-2-5', 'Kling 4.0 vs Seedance 2.5'],
       ['seedance-2-5-vs-minimax-h3', 'Seedance 2.5 vs MiniMax H3'],
       ['seedance-2-5-vs-kling-3-pro', 'Seedance 2.5 vs Kling 3 Pro'],
-      ['seedance-2-5-vs-veo-3-1', 'Seedance 2.5 vs Veo 3.1'],
       ['seedance-2-0-vs-seedance-2-0-fast', 'Seedance 2.0 vs Fast'],
+      ['seedance-2-5-vs-veo-3-1', 'Seedance 2.5 vs Veo 3.1'],
     ],
     veo: [
-      ['gemini-omni-flash-vs-veo-3-1', 'Gemini Omni Flash 1.1 vs Veo 3.1'],
+      ['gemini-omni-flash-vs-veo-3-1', 'Gemini Omni Flash 1.2 vs Veo 3.1'],
       ['veo-3-1-vs-seedance-2-5', 'Veo 3.1 vs Seedance 2.5'],
       ['veo-3-1-vs-minimax-h3', 'Veo 3.1 vs MiniMax H3'],
       ['veo-3-1-vs-veo-3-1-fast', 'Veo 3.1 vs Fast'],
@@ -218,6 +223,7 @@ export function buildExamplesNextStepLinks({
       ['minimax-hailuo-02-text-vs-veo-3-1-fast', 'Hailuo 02 vs Veo 3.1 Fast'],
     ],
     wan: [
+      ['kling-v4-vs-wan-3-prime', 'Kling 4.0 vs Wan 3 Prime'],
       ['wan-3-vs-wan-3-prime', 'Wan 3 vs Wan 3 Prime'],
       ['wan-3-prime-vs-seedance-2-5', 'Wan 3 Prime vs Seedance 2.5'],
       ['wan-3-vs-kling-3-pro', 'Wan 3 vs Kling 3 Pro'],
@@ -225,7 +231,10 @@ export function buildExamplesNextStepLinks({
   };
   const selected = comparisons[family];
   const links = selected
-    ? selected.map(([slug, label]) => comparisonLink(slug, label))
+    ? selected
+        .filter(([slug]) => isPublishedComparisonSlug(slug))
+        .slice(0, 4)
+        .map(([slug, label]) => comparisonLink(slug, label))
     : buildDefaultLinks();
   // Keyvo hides comparison pages, so their links must not be offered.
   const visibleLinks = KEYVO_COMPARE_HIDDEN ? links.filter((link) => !hiddenComparisonLinks.has(link)) : links;

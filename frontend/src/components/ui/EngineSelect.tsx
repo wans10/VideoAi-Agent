@@ -1,5 +1,7 @@
 'use client';
 import clsx from 'clsx';
+import dynamic from 'next/dynamic';
+import { traceModelPicker } from '@/lib/model-picker-diagnostics';
 import {
   useCallback,
   useEffect,
@@ -27,6 +29,7 @@ import { useEngineSelectDropdownState } from './engine-select/useEngineSelectDro
 import { useEngineSelectRegistry } from './engine-select/useEngineSelectRegistry';
 import type { EngineSelectProps } from './engine-select/engine-select-types';
 import { KEYVO_WORKSPACE_VARIANT_HIDDEN } from '@/config/keyvo-disabled-features';
+const EnginePickerDialog = dynamic(() => import('./engine-select/EnginePickerDialog.client').then(module => module.EnginePickerDialog), { ssr: false });
 export function EngineSelect({
   engines,
   engineId,
@@ -38,6 +41,7 @@ export function EngineSelect({
   modeLabelOverrides,
   disabledEngineReasons,
   engineScores,
+  engineScoreReviews,
   showModeSelect = true,
   modeLayout = 'inline',
   variant = 'card',
@@ -45,7 +49,7 @@ export function EngineSelect({
   controlPresentation = 'default',
   className,
   trigger,
-  selectedIds,
+  selectedIds, picker,
 }: EngineSelectProps) {
   const { t, locale } = useI18n();
   const copy = mergeEngineSelectCopy(t('workspace.generate.engineSelect', DEFAULT_ENGINE_SELECT_COPY) as Partial<EngineSelectCopy>);
@@ -109,7 +113,7 @@ export function EngineSelect({
     triggerRef,
   } = useEngineSelectDropdownState({
     onEngineChange,
-    open,
+    open: open && !picker,
     selectedEngineId: selectedEngine?.id,
     setOpen,
     visibleEngines,
@@ -140,11 +144,11 @@ export function EngineSelect({
       id={triggerId}
       ref={triggerRef}
       type="button"
-      onClick={toggleOpen}
+      onClick={() => { if (picker && !open) traceModelPicker('open'); toggleOpen(); }}
       onKeyDown={handleTriggerKeyDown}
       className={clsx(
         'flex min-w-0 flex-1 items-center justify-between rounded-input border border-border bg-surface text-left text-text-primary shadow-sm transition hover:border-border-hover hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-        controlPresentation === 'workspace' ? 'gap-2' : 'gap-4',
+        controlPresentation === 'workspace' ? 'gap-2' : 'gap-4', picker && '!border-[var(--app-accent)] !bg-[var(--app-accent-soft)] hover:shadow-md',
         isBarVariant
           ? controlPresentation === 'workspace'
             ? 'min-h-11 w-full px-2 py-1.5 text-[12px] sm:px-3 sm:text-[13px]'
@@ -153,6 +157,7 @@ export function EngineSelect({
       )}
       aria-haspopup="dialog"
       aria-expanded={open}
+      aria-label={picker ? `${locale.startsWith('fr') ? 'Changer de modèle' : locale.startsWith('es') ? 'Cambiar modelo' : 'Change model'} : ${selectedMeta?.marketingName ?? selectedEngine.label}` : undefined}
     >
       <div className={clsx('flex min-w-0 items-center', controlPresentation === 'workspace' ? 'gap-2' : 'gap-4')}>
         <EngineIcon engine={selectedEngine} size={isBarVariant ? 24 : 32} className="shrink-0" />
@@ -161,23 +166,24 @@ export function EngineSelect({
             {selectedMeta?.marketingName ?? (controlPresentation === 'workspace' ? selectedEngine.label : formatEngineShort(selectedEngine))}
           </p>
           <p className={clsx('text-text-muted', controlPresentation === 'workspace' ? 'break-words whitespace-normal leading-tight' : 'truncate', isBarVariant ? 'text-[10px]' : 'text-[11px]')}>
-            {selectedEngine.provider}
-            {selectedMeta?.versionLabel || selectedEngine.version ? ` - ${selectedMeta?.versionLabel ?? selectedEngine.version ?? ''}` : ''}
+            {picker ? (locale.startsWith('fr') ? 'Changer · comparer les prix' : locale.startsWith('es') ? 'Cambiar · comparar precios' : 'Change · compare prices') : selectedEngine.provider}
+            {!picker && (selectedMeta?.versionLabel || selectedEngine.version) ? ` - ${selectedMeta?.versionLabel ?? selectedEngine.version ?? ''}` : ''}
           </p>
         </div>
       </div>
       <svg
         aria-hidden="true"
         viewBox="0 0 20 20"
-        className={clsx('h-5 w-5 shrink-0 text-text-muted transition-transform', open && 'rotate-180')}
+        className={clsx('shrink-0 transition-transform', picker ? 'h-7 w-7 rounded-full bg-[var(--app-accent)] p-1 text-[var(--on-brand)]' : 'h-5 w-5 text-text-muted', open && 'rotate-180')}
         fill="none"
       >
-        <path d="m6 8 4 4 4-4" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
+        <path d={picker ? 'm5 7.5 5 5 5-5' : 'm6 8 4 4 4-4'} stroke="currentColor" strokeWidth={picker ? 2 : 1.6} strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </button>
   );
-  const variantControl = showVariantSelector && !(KEYVO_WORKSPACE_VARIANT_HIDDEN && controlPresentation === 'workspace') ? (
+  const variantControl = showVariantSelector && (!picker || trigger) && !(KEYVO_WORKSPACE_VARIANT_HIDDEN && controlPresentation === 'workspace') ? (
     <EngineVariantControl
+      inline={Boolean(trigger)} buttonClassName={trigger?.variantClassName}
       bar={isBarVariant}
       compact={isCompact}
       disabledEngineReasons={disabledEngineReasons}
@@ -189,7 +195,12 @@ export function EngineSelect({
       variants={variantEngines}
     />
   ) : null;
-  const dropdown = open && portalElement && position ? (
+  const dropdown = picker && (open || browseOpen) ? (
+    <EnginePickerDialog engines={engines} engineId={engineId} mode={mode} locale={locale} registryMeta={registryMeta}
+      context={picker} disabledEngineReasons={disabledEngineReasons} onSelect={onEngineChange}
+      onClose={() => { setOpen(false); setBrowseOpen(false); }} initialAll={browseOpen}
+      showLegacy={showLegacy} onToggleLegacy={hasLegacyEngines ? () => setShowLegacy(previous => !previous) : undefined} />
+  ) : !picker && open && portalElement && position ? (
             <EngineSelectDropdown
               activeOptionId={activeOptionId}
               contentRef={contentRef}
@@ -225,6 +236,8 @@ export function EngineSelect({
               selectedEngine={selectedEngine}
               selectedIds={selectedIds}
               engineScores={engineScores}
+              engineScoreReviews={engineScoreReviews}
+              locale={locale}
               showLegacy={showLegacy}
               triggerId={triggerId}
               visibleEngines={visibleEngines}
@@ -370,7 +383,7 @@ export function EngineSelect({
           </div>
         ) : null}
       </div>
-      {browseOpen && (
+      {browseOpen && !picker && (
         <BrowseEnginesModal
           engines={engines}
           selectedEngineId={selectedEngine.id}
@@ -393,6 +406,7 @@ export function EngineSelect({
   if (trigger) return <div ref={containerRef} className={className}>
     <button ref={triggerRef} id={triggerId} type="button" className={trigger.className} aria-label={trigger.label}
       aria-haspopup="dialog" aria-expanded={open} onClick={toggleOpen} onKeyDown={handleTriggerKeyDown}>{trigger.content}</button>
+    {variantControl}
     {dropdown}
     {browseOpen ? <BrowseEnginesModal engines={engines} selectedEngineId={selectedEngine.id} copy={copy}
       onClose={() => { setBrowseOpen(false); triggerRef.current?.focus(); }}

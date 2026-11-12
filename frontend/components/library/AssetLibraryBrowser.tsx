@@ -1,4 +1,13 @@
 'use client';
+import type { ImageDisplay } from '@/lib/image-display';
+import type { LibraryMediaReference, LibraryOrganizationState } from '@/lib/media-library-organization';
+import type { LibraryBrowseScope } from '@/lib/library-browse';
+import dynamic from 'next/dynamic';
+import { LibraryInlineVideo, LibraryInlineAudio } from './LibraryInlineMedia.client';
+
+import type { MediaFacts } from '@/lib/media-identity';
+import type { ToolAssetRef } from '@/lib/toolbox/contract';
+import type { MediaReadAccess } from '@/lib/media-read-access';
 
 import clsx from 'clsx';
 import { ReferenceLibraryPicker, type ReferencePickerSelection } from './ReferenceLibraryPicker.client';
@@ -11,6 +20,8 @@ import { LibraryImageThumbnail } from './LibraryImageThumbnail.client';
 import { mediaActionCopy, compactMediaSource } from './media-action-copy';
 import { Button, ButtonLink } from '@/components/ui/Button';
 
+const CompactLibraryBrowser = dynamic(() => import('./CompactLibraryBrowser.client').then(module => module.CompactLibraryBrowser));
+
 export type AssetLibrarySource =
   | 'all'
   | 'upload'
@@ -21,11 +32,19 @@ export type AssetLibrarySource =
   | 'angle'
   | 'upscale';
 
-export type AssetBrowserAsset = {
+export type AssetBrowserAsset = MediaReadAccess & {
+  libraryRef?: LibraryMediaReference;
+  sourceRevision?: string;
+  organization?: LibraryOrganizationState;
+  name?: string | null;
   id: string;
+  assetId?: string;
+  ref?: ToolAssetRef;
+  mediaFacts?: MediaFacts;
   url: string;
   thumbUrl?: string | null;
   previewUrl?: string | null;
+  imageDisplay?: ImageDisplay;
   playbackVideoUrl?: string | null;
   kind: 'image' | 'video' | 'audio';
   durationSec?: number | null;
@@ -48,11 +67,14 @@ export type AssetBrowserToolLink = {
 };
 
 export interface AssetLibraryBrowserProps {
+  /** Retire transient preview when a host keeps this picker mounted behind another surface. */
+  active?: boolean;
   selection?: ReferencePickerSelection;
   selectionGuidance?: string | null;
   locale?: string;
   renderContinuation?: (asset: AssetBrowserAsset) => ReactNode;
-  assetType: 'image' | 'video' | 'audio';
+  assetType: 'all' | 'image' | 'video' | 'audio';
+  management?: { userId: string; scope: LibraryBrowseScope; onScopeChange: (patch: Partial<LibraryBrowseScope>) => void; totalCount: number };
   layout?: 'modal' | 'page';
   title: string;
   hideTitle?: boolean;
@@ -103,7 +125,8 @@ function formatSize(bytes?: number | null) {
 }
 
 export function AssetLibraryBrowser(props: AssetLibraryBrowserProps) {
-  if (props.selection) return <ReferenceLibraryPicker key={`${props.selection.scope}:${props.source}:${props.assetType}`} {...props} selection={props.selection} />;
+  if (props.selection) return <ReferenceLibraryPicker key={props.selection.scope} {...props} selection={props.selection} />;
+  if (props.management) return <CompactLibraryBrowser key={props.management.userId} {...props} management={props.management} />;
   return <AssetLibraryCollection {...props} />;
 }
 
@@ -166,7 +189,7 @@ function AssetLibraryCollection({
     if (onSearchQueryChange || !normalizedQuery) return assets;
     return assets.filter((asset) => {
       const dimensions = asset.width && asset.height ? `${asset.width}x${asset.height}` : '';
-      const haystack = [asset.id, asset.url, asset.source, asset.mime, asset.createdAt, dimensions]
+      const haystack = [asset.name, asset.id, asset.url, asset.source, asset.mime, asset.createdAt, dimensions]
         .filter((value): value is string => typeof value === 'string' && value.length > 0)
         .join(' ')
         .toLowerCase();
@@ -387,32 +410,31 @@ function AssetLibraryCollection({
                         key={asset.id}
                         className="app-library-asset overflow-hidden rounded-card border border-border/70 bg-surface shadow-card transition hover:border-text-primary/60"
                         onMouseEnter={() => {
-                          if (!isPageLayout && asset.kind === 'video' && asset.previewUrl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) setActivePreviewId(asset.id);
+                          if (!isPageLayout && asset.kind === 'video' && (asset.previewAccessUrl || asset.previewUrl) && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) setActivePreviewId(asset.id);
                         }}
                         onMouseLeave={() => {
-                          if (!isPageLayout && asset.kind === 'video' && asset.previewUrl) setActivePreviewId((current) => (current === asset.id ? null : current));
+                          if (!isPageLayout && asset.kind === 'video' && (asset.previewAccessUrl || asset.previewUrl)) setActivePreviewId((current) => (current === asset.id ? null : current));
                         }}
                         onFocusCapture={() => {
-                          if (!isPageLayout && asset.kind === 'video' && asset.previewUrl && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) setActivePreviewId(asset.id);
+                          if (!isPageLayout && asset.kind === 'video' && (asset.previewAccessUrl || asset.previewUrl) && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) setActivePreviewId(asset.id);
                         }}
                         onBlurCapture={() => {
-                          if (!isPageLayout && asset.kind === 'video' && asset.previewUrl) setActivePreviewId((current) => (current === asset.id ? null : current));
+                          if (!isPageLayout && asset.kind === 'video' && (asset.previewAccessUrl || asset.previewUrl)) setActivePreviewId((current) => (current === asset.id ? null : current));
                         }}
                       >
                         <div className="relative bg-placeholder" style={{ aspectRatio: '16 / 9' }}>
                           {asset.kind === 'video' ? (
                             <>
                               {asset.thumbUrl ? (
-                                <LibraryImageThumbnail asset={{ ...asset, url: asset.thumbUrl }} className="absolute inset-0 h-full w-full object-cover" />
+                                <LibraryImageThumbnail asset={asset} posterOnly className="absolute inset-0 h-full w-full object-cover" />
                               ) : (
                                 <div className="flex h-full w-full items-center justify-center bg-surface-2 text-text-secondary">
                                   <Film className="h-8 w-8" aria-hidden />
                                 </div>
                               )}
-                              {asset.previewUrl && activePreviewId === asset.id ? (
-                                <video
-                                  src={activePreviewId === asset.id ? asset.previewUrl : undefined}
-                                  poster={asset.thumbUrl ?? undefined}
+                              {(asset.previewAccessUrl || asset.previewUrl) && activePreviewId === asset.id ? (
+                                <LibraryInlineVideo
+                                  asset={asset}
                                   muted
                                   loop
                                   playsInline
@@ -430,12 +452,12 @@ function AssetLibraryCollection({
                               <div className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-surface text-brand shadow-card">
                                 <AudioWaveform className="h-6 w-6" aria-hidden />
                               </div>
-                              {!isPageLayout ? <audio src={asset.url} controls preload="none" className="w-full max-w-[260px]" /> : null}
+                              {!isPageLayout ? <LibraryInlineAudio asset={asset} controls preload="none" className="w-full max-w-[260px]" /> : null}
                             </div>
                           ) : (
                             <LibraryImageThumbnail asset={asset} className="absolute inset-0 h-full w-full object-cover" />
                           )}
-                          {isPageLayout ? <button type="button" className="app-media-card-open absolute inset-0 z-10" onClick={() => setSelectedId(asset.id)} aria-label={actionCopy.title} title={actionCopy.title}>
+                          {isPageLayout ? <button type="button" className="app-media-card-open absolute inset-0 z-10" onClick={() => setSelectedId(asset.id)} aria-label={asset.name ?? actionCopy.title} title={asset.name ?? actionCopy.title}>
                             <span className="app-media-card-action-chip" aria-hidden><Ellipsis /></span>
                             <span className="sr-only">{actionCopy.actions}</span>
                           </button> : assetHref ? (
@@ -453,6 +475,7 @@ function AssetLibraryCollection({
                         </div>
                         <div className="flex flex-col gap-2 border-t border-border/70 bg-surface-glass-90 px-2 py-2 text-[10px] text-text-secondary md:px-3 md:text-[12px] lg:gap-2">
                           <div className="flex min-w-0 flex-col gap-0.5">
+                            {asset.name ? <span className="truncate text-text-primary" title={asset.name}>{asset.name}</span> : null}
                             <span className="truncate">{[dimensions, sizeLabel].filter(Boolean).join(' · ')}</span>
                             {renderAssetMeta ? renderAssetMeta(asset) : null}
                           </div>

@@ -16,30 +16,39 @@ import {createStudioConversationProject} from '../frontend/src/server/studio/con
 import {readStudioAssistanceStatus} from '../frontend/src/server/studio/assistance-ledger';
 import {studioAssistancePolicy} from '../frontend/src/server/studio/assistance-policy';
 import {runStudioTaskWorkerOnce} from '../frontend/src/server/studio/tasks/worker';
+import type {StudioResponseCreator} from '../frontend/src/server/studio/conversation-director';
 import type {ImageGenerationFactory} from '../frontend/src/server/studio/image-conversation-service';
 import {createStudioImageGenerationService} from '../frontend/src/server/studio/image-generation-service';
+import {ensureBillingReceiptsSchema} from '../frontend/src/lib/schema/billing-receipts-schema';
 
+const selectedImageRecordId=randomUUID();
 const selectedImage='ma_'+'e'.repeat(32),selectedImageUrl='https://cdn.maxvideoai.com/studio-local-fixture/selected.webp';
 
-test('task ceilings, explicit continuation and saved progress work on desktop/mobile without hidden dispatch',async()=>{
+test('Milo modes preserve model selection, credits, references and explicit consent on desktop and mobile',async()=>{
   const previous=process.env.DATABASE_URL;
   const runtime=await startStudioIntegrationRuntime({mcp:{studioMontageCreation:false},conversation:true,conversationTasks:true,initializeDatabase:async db=>{
-    await initializeStudioConnectedFixture(db);
-    for(const name of ['00_create_profiles.sql','01_legal_documents.sql','02_user_consents.sql','04_profiles_timestamps.sql','12_app_settings.sql','30_mcp_paid_generation.sql','39_mcp_quote_lifetime.sql','49_studio_generation_scope.sql','50_studio_image_conversation.sql','51_studio_image_model_usage.sql','52_studio_conversation_runs.sql','53_studio_media_generation_scope.sql','54_studio_assistance_ledger.sql','62_studio_assistance_resolutions.sql','63_studio_assistance_credits.sql','64_studio_media_analysis.sql','65_studio_task_budgets.sql','67_studio_luna_reasoning.sql'])await db.pool.query(await readFile('neon/migrations/'+name,'utf8'));
-    await db.pool.query('ALTER TABLE app_jobs ADD COLUMN status text');
-    await db.pool.query('CREATE TABLE app_receipts(id bigserial PRIMARY KEY,user_id text NOT NULL,type text NOT NULL,amount_cents integer NOT NULL,currency text,created_at timestamptz NOT NULL DEFAULT clock_timestamp())');
+    await initializeStudioConnectedFixture(db,{libraryPicker:true});
+    for(const name of ['00_create_profiles.sql','01_legal_documents.sql','02_user_consents.sql','04_profiles_timestamps.sql','12_app_settings.sql','30_mcp_paid_generation.sql','39_mcp_quote_lifetime.sql','49_studio_generation_scope.sql','50_studio_image_conversation.sql','51_studio_image_model_usage.sql','52_studio_conversation_runs.sql','53_studio_media_generation_scope.sql','54_studio_assistance_ledger.sql','62_studio_assistance_resolutions.sql','63_studio_assistance_credits.sql','64_studio_media_analysis.sql','65_studio_task_budgets.sql','67_studio_luna_reasoning.sql','86_milo_three_levels.sql','87_milo_runtime_bounds.sql','88_milo_task_profiles.sql','96_milo_lite_output_allowance.sql','94_studio_conversation_reply_envelope.sql'])await db.pool.query(await readFile('neon/migrations/'+name,'utf8'));
+    await db.pool.query('ALTER TABLE app_jobs ADD COLUMN status text, ADD COLUMN message text, ADD COLUMN settings_snapshot jsonb, ADD COLUMN payment_status text');
     await db.pool.query('ALTER TABLE media_assets ADD COLUMN width integer, ADD COLUMN height integer, ADD COLUMN size_bytes bigint');
-    await db.pool.query(`INSERT INTO media_assets(id,public_id,user_id,kind,url,mime_type,status,original_name,metadata) VALUES($1,$2,$3,'image',$4,'image/webp','ready','Selected product',$5::jsonb)`,[randomUUID(),selectedImage,STUDIO_FIXTURE_OWNERS[0],selectedImageUrl,JSON.stringify({mediaFacts:{source:'probe',width:1024,height:1024}})]);
+    await db.pool.query(`INSERT INTO media_assets(id,public_id,user_id,kind,url,mime_type,status,original_name,metadata) VALUES($1,$2,$3,'image',$4,'image/webp','ready','Selected product',$5::jsonb)`,[selectedImageRecordId,selectedImage,STUDIO_FIXTURE_OWNERS[0],selectedImageUrl,JSON.stringify({mediaFacts:{source:'probe',width:1024,height:1024}})]);
     await db.pool.query(`CREATE TABLE user_account_restrictions(user_id text PRIMARY KEY,reason text NOT NULL,message text,active boolean NOT NULL DEFAULT true,restricted_at timestamptz NOT NULL DEFAULT clock_timestamp())`);
   }});
   process.env.DATABASE_URL=runtime.database.databaseUrl;
   let browser:Awaited<ReturnType<typeof startStudioConnectedBrowserFixture>>|undefined;
   try{
+    await ensureBillingReceiptsSchema();
     await readStudioAssistanceStatus(STUDIO_FIXTURE_OWNERS[0],studioAssistancePolicy({STUDIO_ASSISTANCE_ENABLED:'true'}));
-    const project=await createStudioConversationProject({userId:STUDIO_FIXTURE_OWNERS[0]},{name:'Task allowance',idempotencyKey:randomUUID()},{featureEnabled:true});
+    const project=await createStudioConversationProject({userId:STUDIO_FIXTURE_OWNERS[0]},{name:'Product study',idempotencyKey:randomUUID()},{featureEnabled:true});
     const session=runtime.auth.createSession(STUDIO_FIXTURE_OWNERS[0],{clientId:'task-browser-fixture'});
     browser=await startStudioConnectedBrowserFixture({runtime,browserName:'chromium'});
     const owned=await browser.newContext(session,{viewport:{width:1440,height:900},locale:'en-US',reducedMotion:'reduce'}),page=owned.page;
+    const assistanceActions:string[]=[];page.on('request',request=>{if(request.url().endsWith('/api/studio/assistance')&&request.method()==='POST')assistanceActions.push(request.postDataJSON().action);});
+    // Keep the real endpoint and cover a selection slower than the UI matcher's default wait.
+    await page.route('**/api/studio/assistance',async route=>{
+      if(route.request().method()==='POST'&&route.request().postDataJSON().action==='select_luna')await new Promise(resolve=>setTimeout(resolve,6000));
+      await route.continue();
+    });
     await page.route('**/api/legal/reconsent',route=>route.fulfill({json:{ok:true,needsReconsent:false,documents:[]}}));
     await page.route('**/api/wallet',route=>route.fulfill({json:{balance:0,balanceCents:0,currency:'USD'}}));
     const conversationPath=`/app/studio/conversation/${project.projectId}`;
@@ -50,85 +59,161 @@ test('task ceilings, explicit continuation and saved progress work on desktop/mo
       assert.equal(prepared.status(),200,`Studio fixture preparation failed: ${path}: ${await prepared.text()}`);
       await prepared.dispose();
     }
+    const preparedReferences=await owned.context.request.post(runtime.browserOrigin+`/api/studio/projects/${project.projectId}/reference-previews`,{
+      data:{refs:[{type:'asset',assetId:selectedImage,kind:'image'}]},headers:{origin:runtime.browserOrigin},timeout:90_000,
+    });
+    assert.equal(preparedReferences.status(),200,'Owned reference previews must be ready before visual checks');
+    await preparedReferences.dispose();
+    const selectionProof=await owned.context.request.post(runtime.browserOrigin+'/api/media-library/selection/validate',{
+      data:{candidates:[{reference:{type:'asset',assetId:selectedImage,kind:'image'},originalUrl:selectedImageUrl}]},
+      headers:{origin:runtime.browserOrigin},timeout:90_000,
+    });
+    const preparedSelection=await selectionProof.json();
+    assert.equal(selectionProof.status(),200,JSON.stringify(preparedSelection));
+    assert.equal(preparedSelection.results[0].error,undefined,'The real owned selection is available before opening the picker');
+    assert.ok(preparedSelection.results[0].sourceRevision);
+    await selectionProof.dispose();
     const loaded=page.waitForResponse(response=>response.url().endsWith('/image-conversation')&&response.request().method()==='GET',{timeout:30_000});
     const assistanceLoaded=page.waitForResponse(response=>response.url().endsWith('/api/studio/assistance')&&response.request().method()==='GET',{timeout:30_000});
     const [,initial,assistance]=await Promise.all([
       page.goto(runtime.browserOrigin+conversationPath),loaded,assistanceLoaded,
     ]);
+    const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
+    const evidence=process.env.STUDIO_PROOF_DIRECTORY??'/tmp/studio-sol-review';await mkdir(evidence,{recursive:true});
     const initialBody=await initial.json();assert.equal(initial.status(),200,JSON.stringify(initialBody));assert.ok(initialBody.result.taskPolicyVersion);
     assert.equal(assistance.status(),200,JSON.stringify(await assistance.json()));
+    const cookieReject=page.getByRole('button',{name:siteDefaultLocale==='zh'?'全部拒绝':'Reject all',exact:true});
+    if(await cookieReject.isVisible())await cookieReject.click();
     await page.route(selectedImageUrl,route=>route.fulfill({contentType:'image/webp',path:'frontend/public/media/mcp/project-demo/watch-static.webp'}));
-    await page.route('**/api/media-library/assets?*',route=>route.fulfill({json:{ok:true,assets:[{assetId:selectedImage,kind:'image',name:'Selected product',url:selectedImageUrl}],nextCursor:null}}));
+    await page.route('**/api/media-library/assets?*',route=>route.fulfill({json:{ok:true,assets:[{id:selectedImageRecordId,assetId:selectedImage,ref:{type:'asset',assetId:selectedImage,kind:'image'},kind:'image',source:'upload',name:'Selected product',url:selectedImageUrl,thumbUrl:selectedImageUrl,mime:'image/webp',width:1024,height:1024}],hasMore:false,nextCursor:null}}));
     await page.getByRole('button',{name:copy('Open library'),exact:true}).click();
-    await page.getByRole('button',{name:`${copy('Choose')} Selected product`,exact:true}).click();
+    const referenceLibrary=page.getByRole('dialog',{name:copy('Keyvo library'),exact:true});
+    const selectedRow=referenceLibrary.getByRole('row',{name:'Selected product',exact:true});
+    await expect(selectedRow.getByRole('button',{name:`${copy('Preview')} Selected product`,exact:true})).toBeVisible();
+    const selectedReference=selectedRow.getByRole('checkbox');
+    await expect(selectedReference).toHaveCount(1);
+    await expect(selectedReference).toHaveAttribute('aria-label',`${copy('Select')} Selected product`);
+    await expect(selectedReference).toHaveAccessibleName(`${copy('Select')} Selected product Selected product`);
+    await expect(selectedReference).not.toBeChecked();
+    await selectedRow.locator('label.compact-media-check').click();
+    await expect(selectedReference).toBeChecked();
+    await expect(referenceLibrary).toBeVisible();
+    const selectionAccepted=page.waitForResponse(response=>response.url().endsWith('/api/media-library/selection/validate')&&response.request().method()==='POST');
     await page.getByRole('button',{name:copy('Add to conversation'),exact:true}).click();
-    const picker=page.getByRole('group',{name:copy('Work allowance')}),message=page.getByRole('textbox',{name:(siteDefaultLocale==='zh'?'向 Studio 发送消息':copy('Message Studio'))});
-    await expect(picker).toBeVisible();await expect(picker.getByRole('radio',{name:new RegExp(copy('Complex · Sol'))})).toBeEnabled();
-    await picker.getByRole('radio',{name:new RegExp(copy('Complex · Sol'))}).check();await message.fill('Help shape this film');
-    const send=page.getByRole('button',{name:'Send to Studio',exact:true});await expect(send).toBeDisabled();
-    await picker.getByRole('checkbox').check();await expect(send).toBeEnabled();
-    await picker.getByRole('radio',{name:new RegExp(copy('Quick'))}).check();
-    const posted=page.waitForResponse(response=>response.url().endsWith('/image-conversation')&&response.request().method()==='POST');
-    await send.click();const submitted=await posted;assert.deepEqual(submitted.request().postDataJSON().references,[selectedImage]);assert.equal(submitted.status(),200,JSON.stringify(await submitted.json()));
+    const acceptedSelection=await selectionAccepted;
+    const acceptedBody=await acceptedSelection.json();assert.equal(acceptedSelection.status(),200,JSON.stringify(acceptedBody));
+    assert.equal(acceptedBody.results[0].error,undefined);assert.ok(acceptedBody.results[0].sourceRevision);
+    assert.deepEqual(acceptedSelection.request().postDataJSON(),{candidates:[{reference:{type:'asset',assetId:selectedImage,kind:'image'},originalUrl:selectedImageUrl}]});
+    await page.reload({waitUntil:'domcontentloaded'});
     await expect(page.getByRole('button',{name:`${copy('Remove ')}Image 1`,exact:true})).toBeVisible();
-    const taskCard=page.getByRole('region',{name:copy('Studio task')});await expect(taskCard.getByText(copy('Waiting for Studio'))).toBeVisible();
+    const picker=page.getByRole('group',{name:copy('Work allowance')}),message=page.getByRole('textbox',{name:copy('Message Milo')});
+    const selector=page.getByRole('button',{name:copy('Milo settings and credits'),exact:true});
+    const modes=page.getByRole('group',{name:copy('Milo mode'),exact:true});
+    const lite=modes.getByRole('button',{name:copy('Lite'),exact:true}),standard=modes.getByRole('button',{name:copy('Standard'),exact:true}),max=modes.getByRole('button',{name:copy('Max'),exact:true});
+    const assistanceBody=await assistance.json();
+    assert.equal(assistanceBody.result.selectedModel,'gpt-6.1-sol');assert.equal(assistanceBody.result.credits.included.remaining,500);
+    await expect(max).toHaveAttribute('aria-pressed','true');await expect(picker).toHaveCount(0);
+    const inputBox=await message.boundingBox(),modeBox=await modes.boundingBox();
+    assert.ok(inputBox&&modeBox&&modeBox.y>=inputBox.y+inputBox.height,'Mode control follows the composer');
+    assert.deepEqual(assistanceActions,[],'Loading the control must not switch the default model');
+    assert.match(await page.title(),/Studio|Keyvo/);assert.equal(new URL(page.url()).pathname,conversationPath);
+    await expect(page.getByRole('img',{name:'Selected product',exact:true})).toBeVisible({timeout:30_000});
+    await page.screenshot({path:join(evidence,'sol-start-desktop.png')});
+    await page.screenshot({path:join(evidence,'studio-milo-preview.png'),clip:{x:86,y:68,width:1354,height:832}});
+    await page.getByRole('button',{name:siteDefaultLocale==='zh'?'打开 Keyvo 导航':'Open Keyvo menu',exact:true}).click();
+    await page.getByRole('button',{name:siteDefaultLocale==='zh'?'深色':'Dark',exact:true}).click();
+    await page.getByRole('dialog',{name:'Keyvo',exact:true}).getByRole('button',{name:siteDefaultLocale==='zh'?'关闭 ×':'Close ×',exact:true}).click();
+    await page.screenshot({path:join(evidence,'milo-dark-desktop.png')});
+    await page.getByRole('button',{name:siteDefaultLocale==='zh'?'打开 Keyvo 导航':'Open Keyvo menu',exact:true}).click();
+    await page.getByRole('button',{name:siteDefaultLocale==='zh'?'浅色':'Light',exact:true}).click();
+    await page.getByRole('dialog',{name:'Keyvo',exact:true}).getByRole('button',{name:siteDefaultLocale==='zh'?'关闭 ×':'Close ×',exact:true}).click();
+    await page.setViewportSize({width:390,height:844});
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),true);
+    await page.screenshot({path:join(evidence,'sol-start-mobile.png')});
+    await page.setViewportSize({width:1440,height:900});
+    await selector.click();
+    const modelChoices=page.getByRole('group',{name:copy('Assistant model')}).getByRole('button');
+    await expect(modelChoices).toHaveCount(3);await expect(picker).toHaveCount(0);
+    await expect(page.getByRole('radio')).toHaveCount(0);
+    await expect(page.getByLabel(copy('Monthly included Milo credits remaining'))).toHaveAttribute('value','500');
+    await modelChoices.filter({hasText:copy('Lite')}).click();
+    const lunaSelected=page.waitForResponse(response=>response.url().endsWith('/api/studio/assistance')&&response.request().method()==='POST'&&response.request().postDataJSON().action==='select_luna',{timeout:30_000});
+    await page.getByRole('button',{name:copy('Continue with Lite'),exact:true}).click();
+    const lunaSelection=await lunaSelected,lunaBody=await lunaSelection.json();assert.equal(lunaSelection.status(),200,JSON.stringify(lunaBody));assert.equal(lunaBody.result.selectedModel,'gpt-6-luna');
+    await expect(lite).toHaveAttribute('aria-pressed','true');
+    const topup=max;await expect(topup).toBeVisible();
+    await page.setViewportSize({width:390,height:844});await page.screenshot({path:join(evidence,'luna-mobile.png')});await page.setViewportSize({width:1440,height:900});
+    await topup.click();await expect(page.getByText(copy('Your Milo credits'),{exact:true})).toBeVisible();await expect(picker).toHaveCount(0);
+    assert.deepEqual(assistanceActions,['select_luna'],'Opening Max only shows its options and cannot buy a pack or switch models');
+    await page.getByRole('button',{name:copy('Close assistance'),exact:true}).click();await expect(topup).toBeFocused();
+    await topup.click();
+    const solSelected=page.waitForResponse(response=>response.url().endsWith('/api/studio/assistance')&&response.request().method()==='POST'&&response.request().postDataJSON().action==='select_sol',{timeout:30_000});
+    await page.getByRole('button',{name:copy('Continue with ')+'Max',exact:true}).click();
+    const solSelection=await solSelected,solBody=await solSelection.json();assert.equal(solSelection.status(),200,JSON.stringify(solBody));assert.equal(solBody.result.selectedModel,'gpt-6.1-sol');
+    await expect(max).toHaveAttribute('aria-pressed','true');await expect(max).toBeFocused();await expect(picker).toHaveCount(0);
+    await message.fill('Help shape this film');
+    const send=page.getByRole('button',{name:'Send to Milo',exact:true});await expect(send).toBeEnabled();
+    const posted=page.waitForResponse(response=>response.url().endsWith('/image-conversation')&&response.request().method()==='POST');
+    await send.click();const submitted=await posted;assert.equal(submitted.status(),200,JSON.stringify(await submitted.json()));
+    const sent=JSON.parse(submitted.request().postData()!);assert.equal(sent.taskBudget.profile,'standard');assert.equal(sent.taskBudget.maxCredits,250);
+    assert.deepEqual(sent.references,[selectedImage]);
+    await expect(page.getByRole('button',{name:`${copy('Remove ')}Image 1`,exact:true})).toBeVisible();
+
+    const taskCard=page.getByRole('region',{name:copy('Studio task')});await expect(taskCard.getByText(copy('Waiting for Milo'))).toBeVisible();
     assert.equal((await runtime.database.pool.query('SELECT count(*)::int n FROM studio_assistance_calls')).rows[0].n,0);
     const generationFactory=((actor,options)=>({resolveReferences:createStudioImageGenerationService(actor,options).resolveReferences,walletSummary:async()=>({balanceCents:0,currency:'USD'}),catalog:async()=>[],getQuote:async()=>null})) as ImageGenerationFactory;
-    let calls=0;
-    const worker={enabled:true,assistancePolicy:studioAssistancePolicy({STUDIO_ASSISTANCE_ENABLED:'true'}),serviceOptions:{generationFactory,countInputTokens:async()=>100,createActionResponse:async()=>{
-      calls++;return {id:'offline-'+calls,model:'gpt-6.1-sol',status:'completed' as const,service_tier:'default',usage:{input_tokens:100,input_tokens_details:{cached_tokens:0},output_tokens:50},output_text:'',output:[{type:'function_call' as const,name:'project_read',call_id:'read-'+calls,arguments:'{}'}]};
+    let calls=0,counts=0;
+    const worker={enabled:true,assistancePolicy:studioAssistancePolicy({STUDIO_ASSISTANCE_ENABLED:'true'}),serviceOptions:{generationFactory,countInputTokens:async()=>{
+      if(++counts===2)await runtime.database.pool.query('UPDATE studio_assistance_credit_lots SET consumed_credits=500 WHERE user_id=$1',[STUDIO_FIXTURE_OWNERS[0]]);
+      return 100;
+    },createActionResponse:async(params:Parameters<StudioResponseCreator>[0])=>{
+      calls++;assert.equal(params.model,'gpt-6.1-sol');return {id:'offline-'+calls,model:params.model!,status:'completed' as const,service_tier:'default',usage:{input_tokens:100,input_tokens_details:{cached_tokens:0},output_tokens:50},output_text:'',output:[{type:'function_call' as const,name:'project_read',call_id:'read-'+calls,arguments:'{}'}]};
     }}};
-    await runStudioTaskWorkerOnce(worker);assert.equal(calls,2,JSON.stringify((await runtime.database.pool.query('SELECT state,error,partial_reply FROM studio_tasks')).rows));
+    await runStudioTaskWorkerOnce(worker);assert.equal(calls,1,'A funding stop must not silently dispatch Lite');
     await expect(taskCard.getByText(copy('Request paused'))).toBeVisible({timeout:15_000});
+    await expect(taskCard.getByRole('button',{name:copy('Continue with Lite'),exact:true})).toBeVisible();
     await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),true);
-    const evidence=join(process.cwd(),'.superpowers/sdd/2026-10-06-studio-task-budgets/browser');await mkdir(evidence,{recursive:true});await page.screenshot({path:join(evidence,'task-mobile.png'),fullPage:true});
+    await page.screenshot({path:join(evidence,'task-mobile.png'),fullPage:true});
     const resumed=page.waitForResponse(response=>response.url().includes('/conversation-tasks/')&&response.request().method()==='POST');
-    await taskCard.getByRole('button',{name:copy('Continue · same ceiling')}).click();const approved=await resumed;assert.equal(approved.status(),200,JSON.stringify(await approved.json()));
-    assert.equal((await runtime.database.pool.query('SELECT count(*)::int n FROM studio_task_approvals')).rows[0].n,1);assert.equal(calls,2);
-    await page.reload();await expect(page.getByRole('region',{name:copy('Studio task')}).getByText(copy('Waiting for Studio'))).toBeVisible();assert.equal(calls,2);
-    await runStudioTaskWorkerOnce({...worker,serviceOptions:{...worker.serviceOptions,createActionResponse:async()=>{calls++;return {id:'finished',model:'gpt-6.1-sol',status:'completed' as const,service_tier:'default',usage:{input_tokens:100,input_tokens_details:{cached_tokens:0},output_tokens:50},output_text:JSON.stringify({reply:'The requested guidance is complete.'}),output:[]};}}});
-    await expect(page.getByText('The requested guidance is complete.')).toBeVisible({timeout:15_000});assert.equal(calls,3);
-    await page.reload();await expect(page.getByText('The requested guidance is complete.')).toBeVisible();assert.equal(calls,3);
-    assert.equal((await runtime.database.pool.query('SELECT count(*)::int n FROM studio_tasks')).rows[0].n,1);
-    await runtime.database.pool.query('UPDATE studio_assistance_credit_lots SET consumed_credits=380 WHERE user_id=$1',[STUDIO_FIXTURE_OWNERS[0]]);
-    await picker.getByRole('radio',{name:new RegExp(copy('Complex · Sol'))}).check();await picker.getByRole('checkbox').check();
+    await taskCard.getByRole('button',{name:copy('Continue with Lite'),exact:true}).click();const approved=await resumed;assert.equal(approved.status(),200,JSON.stringify(await approved.json()));
+    assert.equal(approved.request().postDataJSON().action,'continue_lite');
+    assert.equal((await runtime.database.pool.query('SELECT count(*)::int n FROM studio_task_approvals')).rows[0].n,1);assert.equal(calls,1);
+    await page.reload();await expect(page.getByRole('region',{name:copy('Studio task')}).getByText(copy('Waiting for Milo'))).toBeVisible();
+    const finish=(reply:string)=>({...worker,serviceOptions:{...worker.serviceOptions,countInputTokens:async()=>100,createActionResponse:async(params:Parameters<StudioResponseCreator>[0])=>{
+      calls++;assert.equal(params.model,'gpt-6-luna');assert.equal(params.reasoning?.effort,'high');return {id:'finished-'+calls,model:params.model!,status:'completed' as const,service_tier:'default',usage:{input_tokens:100,input_tokens_details:{cached_tokens:0},output_tokens:50},output_text:JSON.stringify({reply}),output:[]};
+    }}});
+    const prefix='Complete direction: ',longReply=prefix+'é'.repeat(50000-prefix.length);
+    const longParagraph=page.locator('p').filter({hasText:/^Complete direction: /});
+    await runStudioTaskWorkerOnce(finish(longReply));
+    await expect(longParagraph).toBeVisible({timeout:15_000});await expect.poll(async()=>await longParagraph.textContent()===longReply).toBe(true);assert.equal(calls,2);
+    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),true,'a complete long reply remains inside the mobile chat');
+    await page.reload();await expect(longParagraph).toBeVisible({timeout:30_000});await expect.poll(async()=>await longParagraph.textContent()===longReply).toBe(true);assert.equal(calls,2,'restoring a long Studio reply cannot repurchase it');
+    await page.setViewportSize({width:1440,height:900});await expect(lite).toHaveAttribute('aria-pressed','true');
     await message.fill('Continue with the approved vertical framing.');
-    const fallbackPosted=page.waitForResponse(response=>response.url().endsWith('/image-conversation')&&response.request().method()==='POST');
-    await send.click();const followup=await fallbackPosted;assert.equal(followup.status(),200);assert.deepEqual(followup.request().postDataJSON().references,[selectedImage],'A follow-up keeps the visible owned selection after sending and reloading');
-    await runStudioTaskWorkerOnce({...worker,serviceOptions:{...worker.serviceOptions,createActionResponse:async params=>{
-      calls++;assert.equal(params.model,'gpt-6-luna');assert.match(JSON.stringify(params.input),/approved vertical framing/);
-      return {id:'fallback-finished',model:params.model!,status:'completed' as const,service_tier:'default',usage:{input_tokens:100,input_tokens_details:{cached_tokens:0},output_tokens:50},output_text:JSON.stringify({reply:'Continued with the approved framing.'}),output:[]};
-    }}});
-    await expect(page.getByText('Continued with the approved framing.')).toBeVisible({timeout:15_000});
-    await expect(page.getByRole('region',{name:copy('Studio task')}).last().getByText(copy('Luna · Included assistance'))).toBeVisible();
-    await page.reload();await expect(page.getByText('Continued with the approved framing.')).toBeVisible();assert.equal(calls,4);
-    assert.equal((await runtime.database.pool.query('SELECT count(*)::int n FROM mcp_generation_quotes')).rows[0].n,0,'Assistance fallback cannot implicitly prepare or confirm generation');
-    await page.getByRole('button',{name:`${copy('Remove ')}Image 1`,exact:true}).click();
+    const followupPosted=page.waitForResponse(response=>response.url().endsWith('/image-conversation')&&response.request().method()==='POST');
+    await send.click();const followup=await followupPosted;assert.equal(followup.status(),200);assert.deepEqual(followup.request().postDataJSON().references,[selectedImage]);
+    await runStudioTaskWorkerOnce(finish('Continued with the approved framing.'));
+    await expect(page.getByText('Continued with the approved framing.')).toBeVisible({timeout:15_000});assert.equal(calls,3);
+    // A zero-credit paid level is selectable; its message requires an explicit free transition.
+    await standard.click();await page.getByRole('button',{name:copy('Continue with ')+'Standard',exact:true}).click();
+    await expect(standard).toHaveAttribute('aria-pressed','true');
+    await message.fill('Keep my final request editable.');await expect(send).toBeDisabled();
+    const free=page.getByRole('button',{name:copy('Send with Lite'),exact:true});await expect(free).toBeVisible();
+    await page.getByRole('button',{name:copy('Add credits'),exact:true}).click();await expect(page.getByRole('dialog').getByRole('group',{name:copy('Assistant model')})).toBeVisible();
+    await page.getByRole('button',{name:copy('Close assistance'),exact:true}).click();await expect(message).toHaveValue('Keep my final request editable.');
+    const freePosted=page.waitForResponse(response=>response.url().endsWith('/image-conversation')&&response.request().method()==='POST');
+    await free.click();const freeResult=await freePosted;assert.equal(freeResult.status(),200,JSON.stringify(await freeResult.json()));assert.equal(freeResult.request().postDataJSON().taskBudget.model,'gpt-6-luna');
+    await runStudioTaskWorkerOnce(finish('Your final request is preserved.'));await expect(page.getByText('Your final request is preserved.')).toBeVisible({timeout:15_000});assert.equal(calls,4);
+    assert.equal((await runtime.database.pool.query("SELECT count(*)::int n FROM app_receipts WHERE type='charge'")).rows[0].n,0);
+    assert.equal((await runtime.database.pool.query('SELECT count(*)::int n FROM mcp_generation_quotes')).rows[0].n,0);
+    await page.setViewportSize({width:390,height:844});
+    await page.getByRole('button',{name:copy('References · 1 attached'),exact:true}).click();await page.getByRole('button',{name:`${copy('Remove ')}Image 1`,exact:true}).click();await page.getByRole('button',{name:copy('Close references'),exact:true}).click();
     await page.reload();await expect(page.getByRole('button',{name:`${copy('Remove ')}Image 1`,exact:true})).toHaveCount(0);
-    await runtime.database.pool.query('UPDATE studio_assistance_credit_lots SET consumed_credits=500 WHERE user_id=$1',[STUDIO_FIXTURE_OWNERS[0]]);
-    await page.reload();await expect(picker).toBeVisible();
-    await picker.getByRole('radio',{name:new RegExp(copy('Complex · Sol'))}).check();await picker.getByRole('checkbox').check();
-    await message.fill('Continue when no Sol credits remain.');await expect(send).toBeEnabled();
-    const zeroPosted=page.waitForResponse(response=>response.url().endsWith('/image-conversation')&&response.request().method()==='POST');
-    await send.click();assert.equal((await zeroPosted).status(),200);
-    await runStudioTaskWorkerOnce({...worker,serviceOptions:{...worker.serviceOptions,createActionResponse:async params=>{
-      calls++;assert.equal(params.model,'gpt-6-luna');return {id:'zero-finished',model:params.model!,status:'completed' as const,service_tier:'default',usage:{input_tokens:100,input_tokens_details:{cached_tokens:0},output_tokens:50},output_text:JSON.stringify({reply:'Continued with zero Sol credits.'}),output:[]};
-    }}});
-    await expect(page.getByText('Continued with zero Sol credits.')).toBeVisible({timeout:15_000});assert.equal(calls,5);
-    await picker.getByRole('radio',{name:new RegExp(copy('Quick'))}).check();
-    await message.fill('HEY!');
-    const greetingPosted=page.waitForResponse(response=>response.url().endsWith('/image-conversation')&&response.request().method()==='POST');
-    await send.click();assert.equal((await greetingPosted).status(),200);
-    await runStudioTaskWorkerOnce({...worker,serviceOptions:{...worker.serviceOptions,
-      countInputTokens:async()=>{throw new Error('A greeting must not count provider input.');},
-      createActionResponse:async()=>{throw new Error('A greeting must not buy a model call.');}}});
-    await expect(page.getByText('Hey! What would you like to create today?')).toBeVisible({timeout:15_000});
-    const greetingTask=page.getByRole('region',{name:copy('Studio task')}).last();
-    await expect(greetingTask.getByText(copy('Request complete'))).toBeVisible();
-    assert.equal(calls,5);
-    const greetingUsage=(await runtime.database.pool.query('SELECT sum(consumed_credits)::int consumed,sum(reserved_credits)::int reserved FROM studio_assistance_credit_lots WHERE user_id=$1',[STUDIO_FIXTURE_OWNERS[0]])).rows[0];
-    assert.deepEqual(greetingUsage,{consumed:500,reserved:0});
-    await page.reload();await expect(page.getByText('Hey! What would you like to create today?')).toBeVisible();assert.equal(calls,5);
+    await message.fill('HEY!');const greetingPosted=page.waitForResponse(response=>response.url().endsWith('/image-conversation')&&response.request().method()==='POST');await send.click();assert.equal((await greetingPosted).status(),200);
+    await runStudioTaskWorkerOnce({...worker,serviceOptions:{...worker.serviceOptions,countInputTokens:async()=>{throw new Error('A greeting must not count provider input.');},createActionResponse:async()=>{throw new Error('A greeting must not buy a model call.');}}});
+    await expect(page.getByText(siteDefaultLocale==='zh'?'你好！今天想创作点什么？':'Hey! What would you like to create today?')).toBeVisible({timeout:45_000});assert.equal(calls,4);
+    assert.deepEqual(errors,[],'The Studio flow has no browser runtime errors');
+
   }catch(error){
     console.error(summarizeStudioReadinessFailure(runtime.readLogs(),8000));
     console.error(runtime.readLogs().slice(-8000));

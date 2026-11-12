@@ -215,7 +215,7 @@ test('wave 1 sitemap omits every comparison URL while Keyvo hides comparison pag
     const slug = englishPath.slice('/ai-video-engines/'.length);
     return englishPath.startsWith('/ai-video-engines/') && publishedSlugSet.has(slug);
   });
-  assert.equal(publishedSlugs.length, 312);
+  assert.equal(publishedSlugs.length, 316);
   // Keyvo hides comparison pages (404), so route discovery keeps every comparison URL out of the sitemap.
   assert.equal(comparisonEntries.length, 0, 'comparison pages must not be listed in the Keyvo sitemap');
   assert.equal(

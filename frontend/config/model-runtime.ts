@@ -1,7 +1,7 @@
 import runtimeDocument from './model-runtime.json' with { type: 'json' };
 import type { ModelPublicationSurfaces } from './model-publication';
 import type { ModelRegistryEntry } from './model-registry-validation';
-import { isKeyvoVisibleFamily } from './keyvo-model-visibility';
+import { isKeyvoModelVisibilityOff, isKeyvoVisibleFamily } from './keyvo-model-visibility';
 
 export type RuntimeModelEntry = Omit<ModelRegistryEntry, 'replacement'> & {
   successorSlug: string | null;
@@ -69,7 +69,7 @@ export function createRuntimeModelResolver(document: ModelRuntimeDocument) {
 // Only page-level surfaces are hidden here; app/pricing stay upstream so backend pricing and MCP are unaffected.
 // Generator scripts set KEYVO_MODEL_VISIBILITY=off so generated projections stay identical to upstream.
 function hideNonKeyvoModel(model: RuntimeModelEntry): RuntimeModelEntry {
-  if (process.env.KEYVO_MODEL_VISIBILITY === 'off' || isKeyvoVisibleFamily(model.family)) return model;
+  if (isKeyvoModelVisibilityOff() || isKeyvoVisibleFamily(model.family)) return model;
   const { publication } = model;
   return {
     ...model,

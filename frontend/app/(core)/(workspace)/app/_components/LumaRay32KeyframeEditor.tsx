@@ -8,9 +8,8 @@ import type {
   PointerEvent as ReactPointerEvent,
   SetStateAction,
 } from 'react';
-import { AssetDropzone } from '@/components/AssetDropzone';
 import type { AssetFieldConfig, AssetUploadMeta } from '@/components/Composer';
-import type { EngineCaps, EngineInputField, EngineModeUiCaps } from '@/types/engines';
+import type { EngineCaps, EngineInputField } from '@/types/engines';
 import {
   DEFAULT_VISIBLE_KEYFRAME_COUNT,
   findBestNewFrameIndex,
@@ -31,11 +30,10 @@ import { LumaRay32KeyframeTimeline } from './LumaRay32KeyframeTimeline';
 const PROVIDER_KEYFRAME_SLOT_LIMIT = 64;
 const COMPACT_TIMELINE_SLOT_WIDTH = 122;
 const MIN_TIMELINE_WIDTH = 680;
-const SLOT_INDEXES_FIELD_ID = 'edit_keyframe_slot_indexes';
 
 export type LumaRay32KeyframeEditorProps = {
+  referenceTarget?:{fieldId:string;slot:number;revision:number};
   engine: EngineCaps;
-  caps?: EngineModeUiCaps;
   form: FormState;
   setForm: Dispatch<SetStateAction<FormState | null>>;
   assetFields: AssetFieldConfig[];
@@ -45,6 +43,7 @@ export type LumaRay32KeyframeEditorProps = {
   onOpenLibrary: (field: EngineInputField, slotIndex: number) => void;
   onNotice: (message: string) => void;
   disabledReason?: string | null;
+  uiLocale?: string;
 };
 
 function getFieldEntry(assetFields: AssetFieldConfig[], fieldId: string): AssetFieldConfig | null {
@@ -52,8 +51,8 @@ function getFieldEntry(assetFields: AssetFieldConfig[], fieldId: string): AssetF
 }
 
 export function LumaRay32KeyframeEditor({
+  referenceTarget,
   engine,
-  caps,
   form,
   setForm,
   assetFields,
@@ -63,25 +62,33 @@ export function LumaRay32KeyframeEditor({
   onOpenLibrary,
   onNotice,
   disabledReason,
+  uiLocale = 'en',
 }: LumaRay32KeyframeEditorProps) {
+  const isFluxMax = engine.id.startsWith('flux-3');
+  const slotIndexesFieldId = isFluxMax ? 'keyframe_slot_indexes' : 'edit_keyframe_slot_indexes';
+  const indexesFieldId = isFluxMax ? 'keyframe_indexes' : 'edit_keyframe_indexes';
+  const imageFieldId = isFluxMax ? 'reference_image_urls' : 'edit_keyframe_urls';
+  const keyframesLabel = uiLocale === 'fr' ? 'Images clés' : uiLocale === 'es' ? 'Fotogramas clave' : 'Keyframes';
   const [selectedSlotIndex, setSelectedSlotIndex] = useState(0);
   const [draggingAssetSlot, setDraggingAssetSlot] = useState<number | null>(null);
   const timelineRef = useRef<HTMLDivElement | null>(null);
   const keyframeSlotRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const sourceVideoEntry = useMemo(() => getFieldEntry(assetFields, 'video_url'), [assetFields]);
   const guideFrameEntry = useMemo(() => getFieldEntry(assetFields, 'start_image_url'), [assetFields]);
-  const keyframeEntry = useMemo(() => getFieldEntry(assetFields, 'edit_keyframe_urls'), [assetFields]);
-  const durationSec = form.durationOption === '10s' || form.durationOption === 10 || form.durationSec === 10 ? 10 : 5;
-  const fps = Number.isFinite(form.fps) ? Math.max(1, Math.trunc(form.fps)) : 24;
-  const maxFrameIndex = Math.max(1, durationSec * fps - 1);
+  const keyframeEntry = useMemo(() => getFieldEntry(assetFields, imageFieldId), [assetFields, imageFieldId]);
+  const selectedSourceDuration = sourceVideoEntry
+    ? inputAssets[sourceVideoEntry.field.id]?.find(asset => asset?.kind === 'video' && asset.status === 'ready')?.durationSec
+    : undefined;
+  const sourceDuration = typeof selectedSourceDuration === 'number' && Number.isFinite(selectedSourceDuration)
+    && selectedSourceDuration > 0 && selectedSourceDuration <= 18 ? selectedSourceDuration : undefined;
+  const durationSec = isFluxMax ? Math.max(5, Math.min(20, Number(form.durationOption ?? form.durationSec) || 5))
+    : sourceDuration ?? (form.durationOption === '10s' || form.durationOption === 10 || form.durationSec === 10 ? 10 : 5);
+  const fps = isFluxMax ? 24 : Number.isFinite(form.fps) ? Math.max(1, Math.trunc(form.fps)) : 24;
+  const maxFrameIndex = Math.max(1, Math.floor(durationSec * fps) - (isFluxMax ? 0 : 1));
   const maxKeyframeSlots = Math.min(
-    PROVIDER_KEYFRAME_SLOT_LIMIT,
+    isFluxMax ? 10 : PROVIDER_KEYFRAME_SLOT_LIMIT,
     maxFrameIndex + 1,
     Math.max(1, keyframeEntry?.field.maxCount ?? PROVIDER_KEYFRAME_SLOT_LIMIT)
-  );
-  const sourceVideoAssets = useMemo(
-    () => (sourceVideoEntry ? inputAssets[sourceVideoEntry.field.id] ?? [] : []),
-    [inputAssets, sourceVideoEntry]
   );
   const guideFrameAssets = useMemo(
     () => (guideFrameEntry ? inputAssets[guideFrameEntry.field.id] ?? [] : []),
@@ -92,9 +99,8 @@ export function LumaRay32KeyframeEditor({
     [inputAssets, keyframeEntry]
   );
   const hasGuideFrame = guideFrameAssets.some(Boolean);
-  const hasKeyframes = keyframeAssets.some(Boolean);
   const rawSlotIndexes =
-    form.extraInputValues[SLOT_INDEXES_FIELD_ID] ?? form.extraInputValues.edit_keyframe_indexes;
+    form.extraInputValues[slotIndexesFieldId] ?? form.extraInputValues[indexesFieldId];
   const keyframeSlots = useMemo(
     () => parseKeyframeSlots(rawSlotIndexes, keyframeAssets, maxKeyframeSlots, maxFrameIndex),
     [keyframeAssets, maxFrameIndex, maxKeyframeSlots, rawSlotIndexes]
@@ -106,7 +112,6 @@ export function LumaRay32KeyframeEditor({
   const timelineWidth = timelineNeedsScroll
     ? Math.max(MIN_TIMELINE_WIDTH, keyframeSlots.length * COMPACT_TIMELINE_SLOT_WIDTH)
     : undefined;
-  const guideDisabledReason = hasKeyframes ? 'Remove keyframes to use a single guide frame.' : disabledReason;
   const keyframesTimelineDisabledReason = hasGuideFrame ? 'Remove the guide frame to use multiple keyframes.' : null;
   const keyframesUploadDisabledReason = keyframesTimelineDisabledReason ?? disabledReason;
 
@@ -127,17 +132,17 @@ export function LumaRay32KeyframeEditor({
       writeExtraValues((current) => {
         const next: Record<string, unknown> = {
           ...current,
-          [SLOT_INDEXES_FIELD_ID]: formatKeyframeSlots(normalizedSlots),
+          [slotIndexesFieldId]: formatKeyframeSlots(normalizedSlots),
         };
         if (payloadIndexes.length) {
-          next.edit_keyframe_indexes = formatIndexes(payloadIndexes);
+          next[indexesFieldId] = formatIndexes(payloadIndexes);
         } else {
-          delete next.edit_keyframe_indexes;
+          delete next[indexesFieldId];
         }
         return next;
       });
     },
-    [maxFrameIndex, maxKeyframeSlots, writeExtraValues]
+    [maxFrameIndex, maxKeyframeSlots, writeExtraValues, indexesFieldId, slotIndexesFieldId]
   );
 
   useEffect(() => {
@@ -145,19 +150,19 @@ export function LumaRay32KeyframeEditor({
     const payloadIndexes = getPayloadIndexes(keyframeSlots, keyframeAssets);
     const nextPayloadValue = payloadIndexes.length ? formatIndexes(payloadIndexes) : undefined;
     const nextSlotValue = formatKeyframeSlots(keyframeSlots);
-    const currentPayloadValue = form.extraInputValues.edit_keyframe_indexes;
-    const currentSlotValue = form.extraInputValues[SLOT_INDEXES_FIELD_ID];
+    const currentPayloadValue = form.extraInputValues[indexesFieldId];
+    const currentSlotValue = form.extraInputValues[slotIndexesFieldId];
     if (currentPayloadValue === nextPayloadValue && currentSlotValue === nextSlotValue) return;
     writeExtraValues((current) => {
-      const next: Record<string, unknown> = { ...current, [SLOT_INDEXES_FIELD_ID]: nextSlotValue };
+      const next: Record<string, unknown> = { ...current, [slotIndexesFieldId]: nextSlotValue };
       if (nextPayloadValue) {
-        next.edit_keyframe_indexes = nextPayloadValue;
+        next[indexesFieldId] = nextPayloadValue;
       } else {
-        delete next.edit_keyframe_indexes;
+        delete next[indexesFieldId];
       }
       return next;
     });
-  }, [form.extraInputValues, keyframeAssets, keyframeEntry, keyframeSlots, writeExtraValues]);
+  }, [form.extraInputValues, keyframeAssets, keyframeEntry, keyframeSlots, writeExtraValues, indexesFieldId, slotIndexesFieldId]);
 
   useEffect(() => {
     if (selectedSlotIndex < keyframeSlots.length) return;
@@ -349,21 +354,35 @@ export function LumaRay32KeyframeEditor({
     [keyframeEntry, keyframesUploadDisabledReason, onNotice, onOpenLibrary]
   );
 
-  if (!sourceVideoEntry || !keyframeEntry) return null;
+  const handledReferenceTarget=useRef<typeof referenceTarget>();
+  useEffect(()=>{
+    if(!referenceTarget||handledReferenceTarget.current===referenceTarget)return;
+    handledReferenceTarget.current=referenceTarget;
+    if(referenceTarget.fieldId!==imageFieldId||!keyframeAssets[referenceTarget.slot])return;
+    const index=keyframeSlots.findIndex(slot=>slot.assetSlot===referenceTarget.slot);
+    if(index<0)return;
+    // Presentation only: existing keyframe controls retain upload, removal and timing ownership.
+    setSelectedSlotIndex(index);
+    const control=keyframeSlotRefs.current[referenceTarget.slot];
+    control?.scrollIntoView({block:'center',inline:'nearest'});
+    control?.querySelector<HTMLButtonElement>('button')?.focus({preventScroll:true});
+  },[referenceTarget,imageFieldId,keyframeAssets,keyframeSlots]);
 
-  const sourceVideoField = sourceVideoEntry.field;
-  const guideFrameField = guideFrameEntry?.field ?? null;
+  if ((!isFluxMax && !sourceVideoEntry) || !keyframeEntry) return null;
+
   const filledKeyframeCount = keyframeSlots.filter((slot) => Boolean(keyframeAssets[slot.assetSlot])).length;
 
   return (
-    <section className="space-y-4 rounded-[24px] border border-border/60 bg-surface-2/70 p-4 dark:border-white/[0.08] dark:bg-white/[0.035]">
+    <section data-testid="video-keyframe-editor" data-engine-id={engine.id} className="space-y-4 rounded-[24px] border border-border/60 bg-surface-2/70 p-4 dark:border-white/[0.08] dark:bg-white/[0.035]">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-sm font-semibold text-text-primary">Ray 3.2 Modify</p>
-          <p className="text-xs text-text-muted">{durationSec}s @ {fps}fps</p>
+          <p className="text-sm font-semibold text-text-primary">{isFluxMax ? `${engine.label} · ${keyframesLabel}` : 'Ray 3.2 Modify'}</p>
+          <p className="text-xs text-text-muted">{isFluxMax ? `${durationSec}s @ ${fps}fps`
+            : sourceDuration != null ? `${uiLocale === 'fr' ? 'Vidéo source' : uiLocale === 'es' ? 'Vídeo original' : 'Source video'} · ${sourceDuration}s`
+            : uiLocale === 'fr' ? 'Importez une vidéo pour régler les images clés' : uiLocale === 'es' ? 'Importa un vídeo para ajustar los fotogramas clave' : 'Import a video to set keyframes'}</p>
         </div>
         <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-micro text-text-muted">
-          <span>{filledKeyframeCount}/{keyframeSlots.length} modified</span>
+          <span>{filledKeyframeCount}/{keyframeSlots.length} {isFluxMax ? keyframesLabel : 'modified'}</span>
           <span className="h-1 w-1 rounded-full bg-text-muted/45" />
           <span>{maxKeyframeSlots} max</span>
           <span className="h-1 w-1 rounded-full bg-text-muted/45" />
@@ -371,42 +390,9 @@ export function LumaRay32KeyframeEditor({
         </div>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-[minmax(0,1.2fr)_minmax(220px,0.8fr)]">
-        <AssetDropzone
-          engine={engine}
-          caps={caps}
-          field={sourceVideoField}
-          required={sourceVideoEntry.required}
-          role={sourceVideoEntry.role}
-          assets={sourceVideoAssets}
-          density="compact"
-          disabled={Boolean(disabledReason)}
-          disabledReason={disabledReason}
-          onSelect={onAssetAdd}
-          onRemove={onAssetRemove}
-          onError={onNotice}
-          onOpenLibrary={onOpenLibrary}
-        />
-        {guideFrameField ? (
-          <AssetDropzone
-            engine={engine}
-            caps={caps}
-            field={guideFrameField}
-            required={false}
-            role="frame"
-            assets={guideFrameAssets}
-            density="compact"
-            disabled={Boolean(guideDisabledReason)}
-            disabledReason={guideDisabledReason}
-            onSelect={onAssetAdd}
-            onRemove={onAssetRemove}
-            onError={onNotice}
-            onOpenLibrary={onOpenLibrary}
-          />
-        ) : null}
-      </div>
-
       <LumaRay32KeyframeTimeline
+        uiLocale={isFluxMax ? uiLocale : undefined}
+        title={isFluxMax ? keyframesLabel : undefined}
         canAddKeyframe={canAddKeyframe}
         canRemoveKeyframe={canRemoveKeyframe}
         filledKeyframeCount={filledKeyframeCount}
