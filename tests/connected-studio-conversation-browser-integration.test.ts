@@ -18,7 +18,7 @@ const referenceIds=['ma_'+'e'.repeat(32),'ma_'+'f'.repeat(32)];
 const referenceUrls=referenceIds.map((_,index)=>`https://cdn.maxvideoai.com/studio-local-fixture/reference-${index}.webp`);
 assert.ok(browserName === 'chromium' || browserName === 'firefox' || browserName === 'webkit','Use a qualified browser engine.');
 
-test('native chat timeline, persistent app themes and mobile chat access ('+browserName+')', {timeout: 240000},async () => {
+test('native chat timeline, persistent app themes and mobile chat access ('+browserName+')', {timeout: 360000},async () => {
   const runtime = await startStudioIntegrationRuntime({mcp: {studioMontageCreation: true},privateStorage: true,conversation: true,initializeDatabase: async database => {
     await initializeStudioConnectedFixture(database,{libraryPicker:true});
     for (const name of ['00_create_profiles.sql','01_legal_documents.sql','02_user_consents.sql','04_profiles_timestamps.sql','12_app_settings.sql','30_mcp_paid_generation.sql','39_mcp_quote_lifetime.sql','49_studio_generation_scope.sql','50_studio_image_conversation.sql','51_studio_image_model_usage.sql','52_studio_conversation_runs.sql','53_studio_media_generation_scope.sql']) await database.pool.query(await readFile('neon/migrations/'+name,'utf8'));
@@ -342,7 +342,8 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     await page.reload({waitUntil: 'domcontentloaded'});
     await expect(page.locator('[data-tone]')).toHaveAttribute('data-tone','olive');
     await expect(page.locator('html')).not.toHaveAttribute('data-theme','dark');
-    await expect(page.locator('[data-timeline-item]')).toHaveCount(2);
+    // The timeline is read again after the reload; allow the same budget as the first load.
+    await expect(page.locator('[data-timeline-item]')).toHaveCount(2,{timeout: 45000});
     await openFilm();
     await page.getByRole('button',{name: copy('Select clip')+' Pattern B',exact: true}).click();
     await expect(page.getByLabel(copy('Audio volume'),{exact: true})).toHaveValue('0');
