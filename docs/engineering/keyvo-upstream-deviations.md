@@ -130,36 +130,50 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
   (poster `/hero/showcase-wan-3-city-22s.webp`) instead of Wan 2.6; an unpublished engine's card is dropped, which
   left the zh homepage with three cards. Keep the Wan 3 card on upstream syncs.
 
-### Phone number + SMS code login (2026-11-13, off by default)
+### Phone number login: password sign-in, SMS code for registration and recovery (2026-11-13, off by default)
 
-- **Keyvo:** `/login` can offer mainland mobile sign-in/sign-up next to email/password: `+86` numbers only
-  (`^1[3-9]\d{9}$`), `supabase.auth.signInWithOtp({ phone, options: { shouldCreateUser: true } })` then
-  `verifyOtp({ phone, token, type: 'sms' })`, a 60 s resend cooldown kept in `sessionStorage`
-  (`keyvo-login-phone-otp`), five client-side code attempts, and the same `completeAuthenticatedRedirect`
-  (next target, onboarding flags, wallet refresh) as password login. The form requires the terms and age
-  checkboxes because a new number creates an account; consents go to `/api/legal/consents` only when the verified
-  user was created within the last 30 minutes. Upstream has no phone login (Google OAuth is its mainland-unreachable
-  alternative, hidden by `KEYVO_GOOGLE_LOGIN_HIDDEN`).
-- **Owners:** pure rules in `frontend/app/(core)/login/_lib/login-phone.ts`, the flow in `_hooks/useLoginPhoneAuth.ts`,
-  the form in `_components/LoginPhoneAuthPanel.tsx`; `LoginAuthSurface.tsx` and `useLoginPageController.ts` only gain
-  an optional `phoneAuth` prop and the hook call. Copy is `auth.phone.*` in all four message files (the shared
-  `AuthCopy` type and `tests/login-copy-localization.test.ts` need every locale).
+- **Keyvo:** with `NEXT_PUBLIC_PHONE_LOGIN_ENABLED` on, `/login` is phone-first. Returning users sign in with a
+  mainland mobile number (`^1[3-9]\d{9}$`, sent as E.164 `+86…`) and a password through
+  `supabase.auth.signInWithPassword({ phone, password })`; no SMS is sent. New numbers and forgotten passwords use an
+  SMS code: `supabase.auth.signInWithOtp({ phone, options: { shouldCreateUser: true } })` then
+  `verifyOtp({ phone, token, type: 'sms' })`, with a 60 s resend cooldown kept in `sessionStorage`
+  (`keyvo-login-phone-otp`) and five client-side code attempts. The SMS step requires the terms and age checkboxes,
+  because an unregistered number creates an account. Consents go to `/api/legal/consents` only when the verified
+  user was created within the last 30 minutes.
+- **Required password step (owner decision 2026-11-13):** every verified SMS code ends in a password step before the
+  page may leave: `supabase.auth.updateUser({ password })`, minimum 6 characters (the same rule and messages as email
+  sign-up), confirmation field, and a cancel button that signs the browser out. Sign-up analytics
+  (`sign_up_completed`, method `phone`) fire when this step completes, not when the code verifies.
+- **Redirect hold:** from the moment a code verifies until the password is saved, `useLoginPageController` ignores
+  every `completeAuthenticatedRedirect` call (`authRedirectHoldRef`), so the session probes and auth-state listener
+  cannot skip the step. The pending step is recorded in `sessionStorage` (`keyvo-login-phone-password-setup`, one hour)
+  and restored after a reload; an expired verification (`session_not_found` and similar) clears it and returns to
+  phone sign-in with a localized message.
+- **Errors:** wrong number or password share one neutral message (`auth.phone.feedback.passwordInvalid`) so a
+  registered number is not revealed. Weak, reused, throttled and unavailable password errors map to
+  `auth.phone.feedback.*`; provider wording is never shown.
+- **Owners:** pure rules in `frontend/app/(core)/login/_lib/login-phone.ts`, `_lib/login-phone-password.ts` (error
+  mapping, setup record) and `_lib/login-validation.ts` (`validatePasswordSetup`); the state machine in
+  `_hooks/useLoginPhoneAuth.ts`, with `_hooks/useLoginPhonePasswordSignIn.ts` (password sign-in) and
+  `_hooks/useLoginPhonePasswordSetup.ts` (password step); forms in `_components/LoginPhoneSignInForm.tsx`,
+  `LoginPhoneAuthPanel.tsx` (SMS step), `LoginPhonePasswordSetupForm.tsx` and `LoginPhoneNumberField.tsx`.
+  `LoginAuthSurface.tsx` renders the step and `useLoginPageController.ts` only gains the redirect hold.
+  Copy is `auth.phone.*` (including `passwordSignin`, `passwordSetup` and the `feedback.password*` keys) in all four
+  message files; `tests/login-copy-localization.test.ts` needs every locale.
 - **Flag:** `NEXT_PUBLIC_PHONE_LOGIN_ENABLED` (build time; Dockerfile ARG defaulting to `false`, GitHub variable in
   `docker-build-push.yml`, `docker-compose.1panel.yml` build arg, `.env.production.example`). Without it the page renders
   exactly the email/password form.
-- **Server side** (not part of the web image): `docs/deployment/phone-login-sms/` holds the GoTrue Send SMS hook
-  (`hook.js`, Alibaba Cloud SMS, Standard Webhooks signature, masked logs, in-memory per-phone/global limits), its
-  pinned `package.json`/lockfile, Dockerfile, compose snippet, GoTrue environment lines and an operator README.
-- **Tests:** `tests/login-phone-auth.test.ts` (validation, cooldown, error mapping, flag, DOM flow, phone-only
-  sign-up modes), `tests/phone-only-account-identity.test.ts` (null-email display, admin, MCP, settings) and
+- **Server side** (not part of the web image; **no GoTrue or OpenResty change for password login**): the GoTrue Send SMS
+  hook in `docs/deployment/phone-login-sms/` (`hook.js`, Alibaba Cloud SMS, Standard Webhooks signature, masked logs,
+  in-memory per-phone/global limits) and its operator README. `POST /auth/v1/token?grant_type=password` and
+  `PUT /auth/v1/user` must not be blocked at the gateway; email `/signup` and email `/otp` stay blocked there.
+- **Email accounts:** existing email users keep the email sign-in form behind
+  "已有邮箱账户？使用邮箱和密码登录" (`auth.phone.useEmailAccount`), with password reset. That form cannot create accounts.
+- **Tests:** `tests/login-phone-auth.test.ts` (flag, validation, cooldown, password sign-in and its errors, code
+  registration and recovery into the password step, redirect hold, reload and cancel, setup validation and errors,
+  email sign-in, copy), `tests/login-phone-password.test.ts` (pure error mapping, setup record, validation, module
+  boundaries), `tests/phone-only-account-identity.test.ts` (null-email display, admin, MCP, settings) and
   `tests/phone-login-sms-hook.test.ts` (hook behaviour with injected verifier/sender). Keep them on upstream syncs.
-- **Phone-only sign-up (owner decision 2026-11-13):** with the flag on, new users register only with phone + SMS
-  code; Keyvo no longer collects an email. The phone form is the default and the email/phone tabs and the
-  sign-in/create-account tabs are gone; `?mode=signup` lands on the phone form (the controller never enters email
-  `signup`, `signUpWithPassword` is inert). Existing email accounts keep an email **sign-in** form behind
-  "已有邮箱账户？使用邮箱和密码登录" (`auth.phone.useEmailAccount`), with password reset; a wrong password shows
-  `auth.phone.emailSigninFailed` instead of the "create an account with this email" suggestion. Flag off: unchanged.
-  GoTrue cannot disable email sign-up alone, so `/auth/v1/signup` with an email stays callable directly.
 - **Accounts without an email:** GoTrue returns `email: ""` and `phone: "86…"` for them. `frontend/lib/account-identity.ts`
   normalizes the email to null and masks the phone (`138****5678`). Header/marketing nav (whose signed-in state was
   `Boolean(email)`), `getMarketingAuthSnapshot`, settings (masked phone field), admin user list/detail (masked
@@ -167,6 +181,10 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
   treats a confirmed phone as a verified contact (`emailVerified` = email or phone confirmed). Admin impersonation
   needs an email magic link and stays disabled for phone-only accounts. `method: 'phone'` is an allowed analytics
   method. Audit: `tests/phone-only-account-identity.test.ts`; the full table is in the Keyvo package notes.
+- **Known gaps (owner decision needed):** GoTrue exposes no "has a password" flag to the browser, so the password step
+  is enforced in the UI and by the redirect hold only. A browser closed after the code but before the password is
+  saved keeps a password-less session, and that user reaches the app until the next SMS sign-in. Closing it needs a
+  server-side marker. Turning the flag off makes password-only phone accounts unable to sign in until it is on again.
 
 ## Checking for new deviations after an upstream sync
 

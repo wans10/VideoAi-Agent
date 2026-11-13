@@ -7081,8 +7081,33 @@
         "phoneDisabled": "Phone sign-in is not available yet. Please use email.",
         "signupDisabled": "New accounts cannot be created with a phone number right now. Please try again later.",
         "invalidPhone": "This number cannot receive codes. Check it and try again.",
-        "verifyUnavailable": "Verification is temporarily unavailable. Please try again."
-      }
+        "verifyUnavailable": "Verification is temporarily unavailable. Please try again.",
+        "passwordSigningIn": "Signing in…",
+        "passwordInvalid": "Incorrect phone number or password. New users register with an SMS code; if you forgot your password, choose \"Forgot password? Sign in with an SMS code\".",
+        "passwordRateLimited": "Too many sign-in attempts. Please try again later.",
+        "passwordUnavailable": "Sign-in is temporarily unavailable. Please try again.",
+        "passwordSetupSaving": "Saving password…",
+        "passwordSetupSaved": "Password saved, redirecting…",
+        "passwordWeak": "This password is too weak. Use at least 6 characters that are hard to guess.",
+        "passwordSame": "The new password must be different from your previous password.",
+        "passwordSessionExpired": "Your verification has expired. Request a new SMS code to set a password.",
+        "passwordSetupUnavailable": "The password could not be saved. Please try again.",
+        "passwordSetupRateLimited": "Too many attempts. Please try again later."
+      },
+      "passwordSignin": {
+        "submit": "Sign in",
+        "forgotPassword": "Forgot password? Sign in with an SMS code",
+        "newUser": "New here? Register with an SMS code"
+      },
+      "passwordSetup": {
+        "title": "Set a password",
+        "description": "Once set, you can sign in with your phone number and password without an SMS code each time.",
+        "hint": "At least 6 characters.",
+        "submit": "Save password and continue",
+        "cancel": "Cancel and return to sign-in",
+        "verified": "Verified. Set a password to finish signing in."
+      },
+      "backToPassword": "Back to password sign-in"
     }
   },
   "comparePage": {

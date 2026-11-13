@@ -74,6 +74,8 @@ export function useLoginPageController({
   const [formAttention, setFormAttention] = useState(false);
   const oauthCodeExchangeStartedRef = useRef(false);
   const authNavigationStartedRef = useRef(false);
+  // A verified SMS code owes a password before the page may leave (see useLoginPhoneAuth).
+  const authRedirectHoldRef = useRef(false);
   const googleOAuthStartedRef = useRef(false);
   const [isGoogleOAuthStarting, setIsGoogleOAuthStarting] = useState(false);
   const passwordResetPendingRef = useRef(false);
@@ -149,7 +151,7 @@ export function useLoginPageController({
 
   const completeAuthenticatedRedirect = useCallback(
     (target: string, authenticatedUserId?: string | null) => {
-      if (authNavigationStartedRef.current) return;
+      if (authRedirectHoldRef.current || authNavigationStartedRef.current) return;
       authNavigationStartedRef.current = true;
       const safeTarget = sanitizeNextPath(target);
       const userId = authenticatedUserId ?? null;
@@ -176,6 +178,7 @@ export function useLoginPageController({
     nextPathReady,
     blocked: passwordSubmission.busy || isConfirmationResending,
     completeAuthenticatedRedirect,
+    authRedirectHoldRef,
     setStatus,
     setStatusTone,
     setError,

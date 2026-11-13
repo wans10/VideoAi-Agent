@@ -7310,8 +7310,33 @@
         "phoneDisabled": "手机号登录暂未开放，请使用邮箱登录。",
         "signupDisabled": "暂时无法使用手机号创建新账户，请稍后重试。",
         "invalidPhone": "该手机号无法接收验证码，请检查后重试。",
-        "verifyUnavailable": "暂时无法完成验证，请稍后重试。"
-      }
+        "verifyUnavailable": "暂时无法完成验证，请稍后重试。",
+        "passwordSigningIn": "正在登录…",
+        "passwordInvalid": "手机号或密码不正确。新用户请用验证码注册；忘记密码请选择「忘记密码？用短信验证码登录」。",
+        "passwordRateLimited": "登录尝试过于频繁，请稍后再试。",
+        "passwordUnavailable": "暂时无法登录，请稍后重试。",
+        "passwordSetupSaving": "正在保存密码…",
+        "passwordSetupSaved": "密码已设置，正在跳转…",
+        "passwordWeak": "密码强度不足，请使用至少 6 个字符且不易猜测的密码。",
+        "passwordSame": "新密码不能与原密码相同。",
+        "passwordSessionExpired": "验证已失效，请重新获取验证码后设置密码。",
+        "passwordSetupUnavailable": "暂时无法保存密码，请稍后重试。",
+        "passwordSetupRateLimited": "操作过于频繁，请稍后再试。"
+      },
+      "passwordSignin": {
+        "submit": "登录",
+        "forgotPassword": "忘记密码？用短信验证码登录",
+        "newUser": "新用户？用验证码注册"
+      },
+      "passwordSetup": {
+        "title": "设置登录密码",
+        "description": "设置后，以后可直接用手机号和密码登录，无需每次获取验证码。",
+        "hint": "至少 6 个字符。",
+        "submit": "保存密码并继续",
+        "cancel": "取消并返回登录",
+        "verified": "验证成功，请设置登录密码后继续。"
+      },
+      "backToPassword": "返回密码登录"
     }
   },
   "comparePage": {

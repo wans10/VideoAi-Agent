@@ -18,6 +18,7 @@ import {
   toMainlandE164,
   writePhoneOtpState,
 } from '../frontend/app/(core)/login/_lib/login-phone';
+import { PHONE_PASSWORD_SETUP_STORAGE_KEY } from '../frontend/app/(core)/login/_lib/login-phone-password';
 import { bundleClientFlow, createClientFlowDom } from './helpers/client-flow-dom';
 import { deferred } from './helpers/auth-legal-client-fixture';
 
@@ -125,29 +126,33 @@ const boundaries = {
   '@/lib/last-known': 'export const writeLastKnownUserId=(id)=>{window.lastUser=id};',
   '@/lib/supabaseClientLoader': 'export const loadSupabaseClient=()=>window.loadClient();',
   './useLoginNextTarget': "export const useLoginNextTarget=()=>({authRedirectOrigin:'https://example.invalid',nextPath:'/app/image?draft=1',nextPathReady:true,persistNextTarget(t){window.redirectedTo=t},safeNextPath:'/app/image?draft=1'});",
-  './useLoginAuthenticatedRedirect': 'export const useLoginAuthenticatedRedirect=()=>({redirectFromExistingBrowserSession(){}});',
+  './useLoginAuthenticatedRedirect': 'export const useLoginAuthenticatedRedirect=({completeAuthenticatedRedirect})=>{window.completeRedirect=completeAuthenticatedRedirect;return {redirectFromExistingBrowserSession(){}};};',
   './useLoginAuthHashSession': 'export const useLoginAuthHashSession=()=>{};',
   './useLoginOAuthCodeExchange': 'export const useLoginOAuthCodeExchange=()=>{};',
 };
 
 const bundle = bundleClientFlow(`import React,{act}from'react';import{createRoot}from'react-dom/client';import{useLoginPageController}from'./app/(core)/login/_hooks/useLoginPageController';import{LoginAuthSurface}from'./app/(core)/login/_components/LoginAuthSurface';import{I18nProvider}from'@/lib/i18n/I18nProvider';window.IS_REACT_ACT_ENVIRONMENT=true;function Page(){const state=useLoginPageController({initialMode:window.mode,initialLocale:'zh',initialMcpConnection:false});window.controller=state;return <I18nProvider locale="zh" dictionary={{}} fallback={{}}><LoginAuthSurface {...state} isMcpStaging={false}/></I18nProvider>;}const root=createRoot(document.getElementById('root'));window.fx={act,render:()=>root.render(<Page/>),unmount:()=>root.unmount()};`, boundaries);
 
-async function mount({ enabled = true, mode = 'signin', stored }: { enabled?: boolean; mode?: string; stored?: object } = {}) {
+async function mount({ enabled = true, mode = 'signin', stored, setup }: { enabled?: boolean; mode?: string; stored?: object; setup?: object } = {}) {
   const dom = createClientFlowDom('/login');
   const w = dom.window as any;
   if (enabled) w.process.env.NEXT_PUBLIC_PHONE_LOGIN_ENABLED = 'true';
   if (stored) w.sessionStorage.setItem(PHONE_COOLDOWN_STORAGE_KEY, JSON.stringify(stored));
+  if (setup) w.sessionStorage.setItem(PHONE_PASSWORD_SETUP_STORAGE_KEY, JSON.stringify(setup));
   const sends: Array<{ input: any; reply: ReturnType<typeof deferred<any>> }> = [];
   const verifies: Array<{ input: any; reply: ReturnType<typeof deferred<any>> }> = [];
   const passwords: Array<{ input: any; reply: ReturnType<typeof deferred<any>> }> = [];
+  const updates: Array<{ input: any; reply: ReturnType<typeof deferred<any>> }> = [];
+  const signOuts: any[] = [];
   const signUps: any[] = [];
   const consents: any[] = [];
   const client = { auth: {
     signInWithOtp: (input: any) => { const reply = deferred<any>(); sends.push({ input, reply }); return reply.promise; },
     verifyOtp: (input: any) => { const reply = deferred<any>(); verifies.push({ input, reply }); return reply.promise; },
     signInWithPassword: (input: any) => { const reply = deferred<any>(); passwords.push({ input, reply }); return reply.promise; },
+    updateUser: (input: any) => { const reply = deferred<any>(); updates.push({ input, reply }); return reply.promise; },
     signUp: (input: any) => { signUps.push(input); return new Promise(() => {}); },
-    signOut: async () => ({ error: null }),
+    signOut: async (options: any) => { signOuts.push(options); return { error: null }; },
   } };
   w.mode = mode; w.loadClient = async () => client;
   w.fetch = async (url: string, init: any) => { consents.push({ url, body: JSON.parse(init.body) }); return { ok: true, json: async () => ({ ok: true }) }; };
@@ -157,66 +162,111 @@ async function mount({ enabled = true, mode = 'signin', stored }: { enabled?: bo
   const text = () => w.document.querySelector('.videoai-auth-card')!.textContent as string;
   const alerts = () => [...w.document.querySelectorAll('[role=alert]')].map((node: any) => node.textContent).join(' ');
   const act = (fn: () => unknown) => w.fx.act(async () => { await fn(); });
+  const flush = () => w.fx.act(async () => { await new Promise((resolve) => w.setTimeout(resolve, 0)); });
   const type = (selector: string, value: string) => act(() => {
     const input = $(selector)!;
     Object.getOwnPropertyDescriptor(w.HTMLInputElement.prototype, 'value')!.set!.call(input, value);
     input.dispatchEvent(new w.Event('input', { bubbles: true }));
   });
   const methodButton = (label: string) => [...w.document.querySelectorAll('[role=group] button')].find((b: any) => b.textContent === label) as any;
-  const submit = () => act(() => $('[data-testid=phone-auth-form]')!.dispatchEvent(new w.Event('submit', { bubbles: true, cancelable: true })));
+  const submit = (selector = '[data-testid=phone-auth-form]') => act(() => $(selector)!.dispatchEvent(new w.Event('submit', { bubbles: true, cancelable: true })));
   const consent = () => act(() => { const boxes = $('[data-testid=phone-auth-form]')!.querySelectorAll('input[type=checkbox]'); boxes[0].click(); boxes[1].click(); });
   const button = (label: string) => [...w.document.querySelectorAll('button')].find((b: any) => b.textContent === label) as any;
-  return { w, $, text, alerts, act, type, methodButton, button, submit, consent, sends, verifies, passwords, signUps, consents,
+  const setPassword = async (password: string, confirm: string) => {
+    await type('#auth-new-password', password);
+    await type('#auth-new-password-confirm', confirm);
+    await submit('[data-testid=phone-password-setup-form]');
+  };
+  return { w, $, text, alerts, act, flush, type, methodButton, button, submit, consent, setPassword, sends, verifies, passwords, updates, signOuts, signUps, consents,
     async dispose() { await w.fx.act(async () => w.fx.unmount()); w.close(); } };
 }
 
-test('without the flag the login page shows no phone option and keeps the email form', async () => {
-  const f = await mount({ enabled: false });
-  try {
-    assert.equal(f.w.controller.phoneAuth, null);
-    assert.equal(f.methodButton(phoneCopy.methodPhone), undefined);
-    assert.equal(f.$('#auth-phone'), null);
-    assert.ok(f.$('#auth-email'));
-    assert.ok(f.$('#auth-password'));
-    assert.equal(f.$('[data-testid=login-use-email-account]'), null);
-    assert.equal(f.$('[data-testid=login-use-phone]'), null);
-    // Today's page: the email sign-up tab still creates accounts with email + password.
-    const signupTab = f.button(zh.auth.tabs.signup);
-    assert.ok(signupTab, 'email sign-up tab is offered without the flag');
-    await f.act(() => signupTab.click());
-    assert.equal(f.w.controller.mode, 'signup');
-    assert.ok(f.$('#auth-confirm'), 'sign-up form asks for a password confirmation');
-  } finally { await f.dispose(); }
-});
+const PASSWORD_FORM = '[data-testid=phone-password-form]';
+const SETUP_FORM = '[data-testid=phone-password-setup-form]';
+const REDIRECT_TARGET = '/app/image?draft=1';
 
-test('phone sign-in validates the number and consent before any SMS is requested', async () => {
+test('phone sign-in is password first; the SMS code step still validates the number and consent before any SMS', async () => {
   const f = await mount();
   try {
-    // Phone-only sign-up: the phone form is the default, without an email/phone method switch.
+    // Returning users sign in with phone + password. The SMS code is a separate step.
     assert.equal(f.w.controller.phoneAuth.method, 'phone');
+    assert.equal(f.w.controller.phoneAuth.step, 'signin');
     assert.equal(f.methodButton(phoneCopy.methodPhone), undefined);
     assert.equal(f.$('#auth-email'), null, 'email form is replaced by the phone form');
+    assert.ok(f.$(PASSWORD_FORM));
     assert.equal(f.$('label[for=auth-phone]')!.textContent, phoneCopy.fields.phone);
     assert.match(f.text(), /\+86/);
     assert.equal(f.$('#auth-phone')!.getAttribute('autocomplete'), 'tel-national');
+    assert.equal(f.$('#auth-phone-password')!.getAttribute('autocomplete'), 'current-password');
 
-    await f.submit();
+    await f.submit(PASSWORD_FORM);
     assert.equal(f.$('#auth-phone-error')!.textContent, phoneCopy.validation.phoneRequired);
     await f.type('#auth-phone', '12812345678');
-    await f.submit();
+    await f.submit(PASSWORD_FORM);
     assert.equal(f.$('#auth-phone-error')!.textContent, phoneCopy.validation.phoneInvalid);
     assert.equal(f.$('#auth-phone')!.getAttribute('aria-invalid'), 'true');
     assert.match(f.$('#auth-phone')!.getAttribute('aria-describedby')!, /auth-phone-error/);
     await f.type('#auth-phone', '138 1234 5678');
+    await f.submit(PASSWORD_FORM);
+    assert.equal(f.$('#auth-phone-password-error')!.textContent, zh.auth.validation.passwordRequired);
+    assert.equal(f.passwords.length, 0, 'no password request without a password');
+
+    // The code step keeps its consent requirement: no SMS before terms and age are confirmed.
+    await f.act(() => f.$('[data-testid=phone-use-code]')!.click());
+    assert.equal(f.w.controller.phoneAuth.step, 'code');
+    assert.equal(f.$('#auth-phone')!.value, '138 1234 5678', 'the number carries over to the code step');
     await f.submit();
     assert.equal(f.$('#auth-phone-terms-error')!.textContent, zh.auth.validation.termsRequired);
     assert.equal(f.sends.length, 0, 'no SMS before validation and consent');
   } finally { await f.dispose(); }
 });
 
+test('phone + password sign-in calls signInWithPassword with E.164, sends no SMS and redirects as the phone method', async () => {
+  const f = await mount();
+  try {
+    await f.type('#auth-phone', '138 1234 5678');
+    await f.type('#auth-phone-password', 'secret-6');
+    await f.submit(PASSWORD_FORM);
+    assert.equal(f.passwords.length, 1);
+    assert.deepEqual(JSON.parse(JSON.stringify(f.passwords[0].input)), { phone: '+8613812345678', password: 'secret-6' });
+    assert.equal(f.sends.length, 0, 'password sign-in does not request an SMS');
+    const user = { id: 'phone-password-user', app_metadata: {} };
+    await f.act(() => f.passwords[0].reply.resolve({ data: { user, session: { access_token: 'synthetic', user } }, error: null }));
+    assert.equal(f.w.redirectedTo, REDIRECT_TARGET, 'same sanitized next target as the other login paths');
+    assert.equal(f.w.lastUser, 'phone-password-user');
+    assert.ok(f.w.events.includes('login_completed:phone'));
+    assert.equal(f.consents.length, 0, 'signing in records no sign-up consent');
+  } finally { await f.dispose(); }
+});
+
+test('password sign-in errors map to localized copy without provider details', async () => {
+  const f = await mount();
+  try {
+    await f.type('#auth-phone', '13812345678');
+    await f.type('#auth-phone-password', 'wrong-pass');
+    await f.submit(PASSWORD_FORM);
+    await f.act(() => f.passwords[0].reply.resolve({ data: { user: null, session: null }, error: { status: 400, code: 'invalid_credentials', message: 'Invalid login credentials' } }));
+    assert.ok(f.alerts().includes(phoneCopy.feedback.passwordInvalid), 'wrong number or password uses one neutral message');
+    assert.doesNotMatch(f.alerts(), /Invalid login credentials/);
+    assert.equal(f.w.redirectedTo, undefined);
+
+    await f.submit(PASSWORD_FORM);
+    await f.act(() => f.passwords[1].reply.resolve({ data: { user: null, session: null }, error: { status: 429, code: 'over_request_rate_limit', message: 'For security purposes, retry in 20 seconds' } }));
+    assert.ok(f.alerts().includes(phoneCopy.feedback.passwordRateLimited));
+    assert.doesNotMatch(f.alerts(), /retry in 20 seconds/);
+
+    await f.submit(PASSWORD_FORM);
+    await f.act(() => f.passwords[2].reply.resolve({ data: { user: null, session: null }, error: { status: 500, message: 'Database error querying schema' } }));
+    assert.ok(f.alerts().includes(phoneCopy.feedback.passwordUnavailable));
+    assert.doesNotMatch(f.alerts(), /Database error/);
+    assert.equal(f.w.redirectedTo, undefined);
+  } finally { await f.dispose(); }
+});
+
 test('sending a code starts a persisted 60 s cooldown and maps rate limits', async () => {
   const f = await mount();
   try {
+    await f.act(() => f.$('[data-testid=phone-use-code]')!.click());
     await f.type('#auth-phone', '13812345678');
     await f.consent();
     await f.submit();
@@ -238,6 +288,7 @@ test('sending a code starts a persisted 60 s cooldown and maps rate limits', asy
 
   const limited = await mount();
   try {
+    await limited.act(() => limited.$('[data-testid=phone-use-code]')!.click());
     await limited.type('#auth-phone', '13812345678');
     await limited.consent();
     await limited.submit();
@@ -254,6 +305,7 @@ test('a reload during the cooldown restores the number, code step and countdown'
   const now = Date.now();
   const f = await mount({ stored: { phone: '13912345678', sentAt: now - 20_000, cooldownUntil: now + 40_000 } });
   try {
+    assert.equal(f.w.controller.phoneAuth.step, 'code');
     assert.equal(f.w.controller.phoneAuth.method, 'phone');
     assert.equal(f.$('#auth-phone')!.value, '13912345678');
     assert.ok(f.$('#auth-otp'));
@@ -263,7 +315,7 @@ test('a reload during the cooldown restores the number, code step and countdown'
   } finally { await f.dispose(); }
 });
 
-test('wrong codes count down the attempts, then success follows the password-login redirect', async () => {
+test('wrong codes count down the attempts; a verified code opens the required password step before any redirect', async () => {
   const now = Date.now();
   const f = await mount({ stored: { phone: '13912345678', sentAt: now - 5_000, cooldownUntil: now + 55_000 } });
   try {
@@ -290,18 +342,31 @@ test('wrong codes count down the attempts, then success follows the password-log
     await f.submit();
     const user = { id: 'synthetic-phone-user', created_at: '2020-01-01T00:00:00Z', app_metadata: {} };
     await f.act(() => f.verifies[2].reply.resolve({ data: { session: { access_token: 'synthetic', user }, user }, error: null }));
-    assert.equal(f.w.redirectedTo, '/app/image?draft=1', 'same sanitized next target as password login');
-    assert.equal(f.w.lastUser, 'synthetic-phone-user');
+    // A verified code is not a finished sign-in: the password step comes first, and the page must not redirect.
+    assert.equal(f.w.controller.phoneAuth.step, 'setPassword');
+    assert.ok(f.$(SETUP_FORM));
+    assert.equal(f.w.redirectedTo, undefined);
     assert.equal(f.consents.length, 0, 'an existing account does not re-record sign-up consent');
-    assert.ok(f.w.events.includes('login_completed:phone'));
     assert.equal(f.w.sessionStorage.getItem(PHONE_COOLDOWN_STORAGE_KEY), null);
+    assert.ok(f.w.sessionStorage.getItem(PHONE_PASSWORD_SETUP_STORAGE_KEY), 'the password step survives a reload');
+    assert.equal(f.updates.length, 0);
+
+    // Code login is recovery: the password that was forgotten is replaced by the one set here.
+    await f.setPassword('new-secret', 'new-secret');
+    assert.deepEqual(JSON.parse(JSON.stringify(f.updates[0].input)), { password: 'new-secret' });
+    await f.act(() => f.updates[0].reply.resolve({ data: { user }, error: null }));
+    assert.equal(f.w.redirectedTo, REDIRECT_TARGET, 'same sanitized next target as password login');
+    assert.equal(f.w.lastUser, 'synthetic-phone-user');
+    assert.ok(f.w.events.includes('login_completed:phone'), 'an existing account is a login, not a sign-up');
+    assert.equal(f.w.sessionStorage.getItem(PHONE_PASSWORD_SETUP_STORAGE_KEY), null);
   } finally { await f.dispose(); }
 });
 
-test('a new phone account records sign-up consents before redirecting; exhausted attempts require a new code', async () => {
+test('a new phone account records sign-up consents, sets a password, and only then completes sign-up', async () => {
   const now = Date.now();
   const f = await mount({ mode: 'signup', stored: { phone: '13912345678', sentAt: now - 5_000, cooldownUntil: now + 55_000 } });
   try {
+    assert.equal(f.w.controller.phoneAuth.step, 'code', 'a pending code restores the code step, not password sign-in');
     await f.consent();
     await f.type('#auth-otp', '123456');
     await f.submit();
@@ -309,8 +374,16 @@ test('a new phone account records sign-up consents before redirecting; exhausted
     await f.act(() => f.verifies[0].reply.resolve({ data: { session: { access_token: 'synthetic', user }, user }, error: null }));
     assert.equal(f.consents.length, 1);
     assert.deepEqual(f.consents[0], { url: '/api/legal/consents', body: { userId: 'synthetic-new-user', ageConfirmed: true, locale: 'zh', source: 'signup' } });
-    assert.equal(f.w.redirectedTo, '/app/image?draft=1');
+    assert.equal(f.w.redirectedTo, undefined, 'sign-up is not complete until a password is set');
+    assert.equal(f.w.controller.phoneAuth.step, 'setPassword');
+    assert.ok(!(f.w.events ?? []).includes('sign_up_completed:phone'));
+
+    await f.setPassword('secret-6', 'secret-6');
+    assert.deepEqual(JSON.parse(JSON.stringify(f.updates[0].input)), { password: 'secret-6' });
+    await f.act(() => f.updates[0].reply.resolve({ data: { user }, error: null }));
+    assert.equal(f.w.redirectedTo, REDIRECT_TARGET);
     assert.ok(f.w.events.includes('sign_up_completed:phone'));
+    assert.ok(!f.w.events.includes('login_completed:phone'));
   } finally { await f.dispose(); }
 
   const g = await mount({ stored: { phone: '13912345678', sentAt: now - 5_000, cooldownUntil: now + 55_000 } });
@@ -326,6 +399,105 @@ test('a new phone account records sign-up consents before redirecting; exhausted
     assert.equal(g.$('[data-testid=phone-auth-form] button[type=submit]')!.disabled, true);
     assert.equal(g.verifies.length, 5);
   } finally { await g.dispose(); }
+});
+
+test('password setup enforces the shared length rule and maps update errors without provider details', async () => {
+  const now = Date.now();
+  const f = await mount({ setup: { phone: '13912345678', newAccount: false, verifiedAt: now } });
+  try {
+    assert.equal(f.w.controller.phoneAuth.step, 'setPassword');
+    assert.equal(f.$('.videoai-auth-card h1')!.textContent, phoneCopy.passwordSetup.title);
+    assert.ok(f.$('[data-testid=phone-password-setup-cancel]'), 'the setup step can be cancelled');
+
+    await f.setPassword('12345', '12345');
+    assert.equal(f.updates.length, 0, 'no update below the minimum length');
+    assert.equal(f.$('#auth-new-password-error')!.textContent, zh.auth.validation.passwordTooShort);
+    assert.equal(f.$('#auth-new-password')!.getAttribute('aria-invalid'), 'true');
+
+    await f.setPassword('123456', '123457');
+    assert.equal(f.updates.length, 0);
+    assert.equal(f.$('#auth-new-password-confirm-error')!.textContent, zh.auth.validation.passwordMismatch);
+
+    await f.setPassword('123456', '123456');
+    assert.equal(f.updates.length, 1);
+    await f.act(() => f.updates[0].reply.resolve({ data: { user: null }, error: { status: 422, code: 'weak_password', message: 'Password is known to be weak and easy to guess' } }));
+    assert.ok(f.alerts().includes(phoneCopy.feedback.passwordWeak));
+    assert.doesNotMatch(f.alerts(), /known to be weak/);
+
+    await f.submit(SETUP_FORM);
+    await f.act(() => f.updates[1].reply.resolve({ data: { user: null }, error: { status: 422, code: 'same_password', message: 'New password should be different from the old password.' } }));
+    assert.ok(f.alerts().includes(phoneCopy.feedback.passwordSame));
+    assert.doesNotMatch(f.alerts(), /different from the old password/);
+
+    await f.submit(SETUP_FORM);
+    await f.act(() => f.updates[2].reply.resolve({ data: { user: null }, error: { status: 500, message: 'upstream exploded' } }));
+    assert.ok(f.alerts().includes(phoneCopy.feedback.passwordSetupUnavailable));
+    assert.doesNotMatch(f.alerts(), /upstream exploded/);
+    assert.equal(f.w.controller.phoneAuth.step, 'setPassword', 'a retryable failure keeps the step');
+    assert.equal(f.w.redirectedTo, undefined);
+
+    await f.submit(SETUP_FORM);
+    await f.act(() => f.updates[3].reply.resolve({ data: { user: null }, error: { status: 403, code: 'session_not_found', message: 'Auth session missing' } }));
+    assert.equal(f.w.controller.phoneAuth.step, 'signin', 'an expired verification starts again from sign-in');
+    assert.ok(f.alerts().includes(phoneCopy.feedback.passwordSessionExpired));
+    assert.equal(f.w.sessionStorage.getItem(PHONE_PASSWORD_SETUP_STORAGE_KEY), null);
+    assert.deepEqual(JSON.parse(JSON.stringify(f.signOuts)), [{ scope: 'local' }]);
+    assert.equal(f.w.redirectedTo, undefined);
+  } finally { await f.dispose(); }
+});
+
+test('a reload after a verified code keeps the password step held; cancel signs out and returns to sign-in', async () => {
+  const now = Date.now();
+  const f = await mount({ setup: { phone: '13912345678', newAccount: true, verifiedAt: now } });
+  try {
+    assert.equal(f.w.controller.phoneAuth.step, 'setPassword');
+    // The page's own session probe (after a reload the session cookie exists) must not leave the page.
+    f.w.completeRedirect(REDIRECT_TARGET, 'synthetic-new-user');
+    assert.equal(f.w.redirectedTo, undefined);
+
+    await f.act(() => f.$('[data-testid=phone-password-setup-cancel]')!.click());
+    await f.flush();
+    assert.equal(f.w.controller.phoneAuth.step, 'signin');
+    assert.deepEqual(JSON.parse(JSON.stringify(f.signOuts)), [{ scope: 'local' }]);
+    assert.equal(f.w.sessionStorage.getItem(PHONE_PASSWORD_SETUP_STORAGE_KEY), null);
+    assert.ok(f.$(PASSWORD_FORM), 'back at phone + password sign-in');
+
+    f.w.completeRedirect(REDIRECT_TARGET, 'synthetic-new-user');
+    assert.equal(f.w.redirectedTo, REDIRECT_TARGET, 'the redirect is allowed again once the password step is gone');
+  } finally { await f.dispose(); }
+});
+
+test('a pending password step wins over a leftover code cooldown after a reload', async () => {
+  const now = Date.now();
+  const f = await mount({
+    setup: { phone: '13912345678', newAccount: true, verifiedAt: now },
+    stored: { phone: '13912345678', sentAt: now - 5_000, cooldownUntil: now + 55_000 },
+  });
+  try {
+    assert.equal(f.w.controller.phoneAuth.step, 'setPassword');
+    assert.ok(f.$(SETUP_FORM));
+  } finally { await f.dispose(); }
+});
+
+test('without the flag the login page shows no phone option and keeps the email form', async () => {
+  const f = await mount({ enabled: false });
+  try {
+    assert.equal(f.w.controller.phoneAuth, null);
+    assert.equal(f.methodButton(phoneCopy.methodPhone), undefined);
+    assert.equal(f.$('#auth-phone'), null);
+    assert.ok(f.$('#auth-email'));
+    assert.ok(f.$('#auth-password'));
+    assert.equal(f.$('[data-testid=login-use-email-account]'), null);
+    assert.equal(f.$('[data-testid=login-use-phone]'), null);
+    assert.equal(f.$('[data-testid=phone-password-form]'), null);
+    assert.equal(f.$('[data-testid=phone-password-setup-form]'), null);
+    // Today's page: the email sign-up tab still creates accounts with email + password.
+    const signupTab = f.button(zh.auth.tabs.signup);
+    assert.ok(signupTab, 'email sign-up tab is offered without the flag');
+    await f.act(() => signupTab.click());
+    assert.equal(f.w.controller.mode, 'signup');
+    assert.ok(f.$('#auth-confirm'), 'sign-up form asks for a password confirmation');
+  } finally { await f.dispose(); }
 });
 
 test('phone-only sign-up: no email sign-up anywhere, existing email accounts keep sign-in and password reset', async () => {
@@ -378,9 +550,18 @@ test('phone-only sign-up: no email sign-up anywhere, existing email accounts kee
 test('phone-only sign-up copy exists in every locale', () => {
   for (const locale of ['en', 'es', 'fr', 'zh']) {
     const messages = JSON.parse(readFileSync(`frontend/messages/${locale}.json`, 'utf8'));
-    for (const key of ['title', 'description', 'emailSigninTitle', 'emailSigninDescription', 'useEmailAccount', 'usePhone', 'emailSigninFailed']) {
+    for (const key of ['title', 'description', 'emailSigninTitle', 'emailSigninDescription', 'useEmailAccount', 'usePhone', 'emailSigninFailed', 'backToPassword']) {
       assert.equal(typeof messages.auth.phone[key], 'string', `${locale} auth.phone.${key}`);
       assert.ok(messages.auth.phone[key].length > 0);
+    }
+    for (const key of ['submit', 'forgotPassword', 'newUser']) {
+      assert.ok(messages.auth.phone.passwordSignin[key].length > 0, `${locale} passwordSignin.${key}`);
+    }
+    for (const key of ['title', 'description', 'hint', 'submit', 'cancel', 'verified']) {
+      assert.ok(messages.auth.phone.passwordSetup[key].length > 0, `${locale} passwordSetup.${key}`);
+    }
+    for (const key of ['passwordSigningIn', 'passwordInvalid', 'passwordRateLimited', 'passwordUnavailable', 'passwordSetupSaving', 'passwordSetupSaved', 'passwordWeak', 'passwordSame', 'passwordSessionExpired', 'passwordSetupUnavailable', 'passwordSetupRateLimited']) {
+      assert.ok(messages.auth.phone.feedback[key].length > 0, `${locale} feedback.${key}`);
     }
     assert.doesNotMatch(messages.auth.phone.feedback.signupDisabled, /email|邮箱|correo|e-mail/i, `${locale}: no email sign-up fallback`);
   }
