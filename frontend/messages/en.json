@@ -6979,6 +6979,8 @@
       "termsLabel": "Terms of Service",
       "infix": " and the ",
       "privacyLabel": "Privacy Policy",
+      "listSeparator": ", ",
+      "cookiesLabel": "Cookie Policy",
       "suffix": ".",
       "error": "You must accept the Terms of Service and Privacy Policy to continue.",
       "age": "I confirm I am at least {age} years old.",

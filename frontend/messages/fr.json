@@ -6989,6 +6989,8 @@
       "termsLabel": "les Conditions d’utilisation",
       "infix": " et la ",
       "privacyLabel": "Politique de confidentialité",
+      "listSeparator": ", ",
+      "cookiesLabel": "Politique relative aux cookies",
       "suffix": ".",
       "error": "Vous devez accepter les conditions et la politique de confidentialité pour continuer.",
       "age": "Je confirme avoir au moins {age} ans.",

@@ -185,6 +185,25 @@ export function LoginAuthSurface({
     </span>
   );
 
+  // Phone sign-up also records the Cookie Policy (Keyvo 2026-11-13), so the sentence names all three documents.
+  const renderPhoneTermsStatement = (highlight = Boolean(termsError)) => (
+    <span className={clsx(highlight && 'text-state-warning')}>
+      {authCopy.terms.prefix}
+      <a href="/legal/terms" target="_blank" rel="noopener noreferrer" className="text-brand underline">
+        {authCopy.terms.termsLabel}
+      </a>
+      {authCopy.terms.listSeparator}
+      <a href="/legal/privacy" target="_blank" rel="noopener noreferrer" className="text-brand underline">
+        {authCopy.terms.privacyLabel}
+      </a>
+      {authCopy.terms.infix}
+      <a href="/legal/cookies" target="_blank" rel="noopener noreferrer" className="text-brand underline">
+        {authCopy.terms.cookiesLabel}
+      </a>
+      {authCopy.terms.suffix}
+    </span>
+  );
+
   return (
     <main className="videoai-auth">
       <AuthBrandStory />
@@ -297,7 +316,7 @@ export function LoginAuthSurface({
                     phone={phoneAuth}
                     isAuthReady={isAuthReady && !isPasswordSubmitting && !isConfirmationResending}
                     legalMinAge={legalMinAge}
-                    termsStatement={renderTermsStatement(false)}
+                    termsStatement={renderPhoneTermsStatement(false)}
                   />
                 ) : (
                   <LoginPhoneSignInForm

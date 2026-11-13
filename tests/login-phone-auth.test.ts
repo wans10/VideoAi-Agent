@@ -373,7 +373,7 @@ test('a new phone account records sign-up consents, sets a password, and only th
     const user = { id: 'synthetic-new-user', created_at: new Date(now - 6_000).toISOString(), app_metadata: {} };
     await f.act(() => f.verifies[0].reply.resolve({ data: { session: { access_token: 'synthetic', user }, user }, error: null }));
     assert.equal(f.consents.length, 1);
-    assert.deepEqual(f.consents[0], { url: '/api/legal/consents', body: { userId: 'synthetic-new-user', ageConfirmed: true, locale: 'zh', source: 'signup' } });
+    assert.deepEqual(f.consents[0], { url: '/api/legal/consents', body: { userId: 'synthetic-new-user', ageConfirmed: true, cookiesAccepted: true, locale: 'zh', source: 'signup' } });
     assert.equal(f.w.redirectedTo, undefined, 'sign-up is not complete until a password is set');
     assert.equal(f.w.controller.phoneAuth.step, 'setPassword');
     assert.ok(!(f.w.events ?? []).includes('sign_up_completed:phone'));

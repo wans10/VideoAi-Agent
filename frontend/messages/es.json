@@ -6981,6 +6981,8 @@
       "termsLabel": "los Términos de servicio",
       "infix": " y la ",
       "privacyLabel": "Política de privacidad",
+      "listSeparator": ", ",
+      "cookiesLabel": "Política de cookies",
       "suffix": ".",
       "error": "Debes aceptar los términos y la política de privacidad para continuar.",
       "age": "Confirmo que tengo al menos {age} años.",

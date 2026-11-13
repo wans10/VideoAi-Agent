@@ -275,7 +275,7 @@ export function useLoginPhoneAuth({
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ userId, ageConfirmed: true, locale, source: 'signup' }),
+      body: JSON.stringify({ userId, ageConfirmed: true, cookiesAccepted: true, locale, source: 'signup' }),
     });
     const json = await res.json().catch(() => null);
     if (!res.ok || !json?.ok) throw new Error(authCopy.feedback.consentSaveError);

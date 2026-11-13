@@ -7203,6 +7203,8 @@
       "termsLabel": "服务条款",
       "infix": "与",
       "privacyLabel": "隐私政策",
+      "listSeparator": "、",
+      "cookiesLabel": "Cookie 政策",
       "suffix": "。",
       "error": "您必须同意服务条款和隐私政策才能继续。",
       "age": "我确认已年满 {age} 周岁。",
