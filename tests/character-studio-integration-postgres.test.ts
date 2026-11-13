@@ -73,8 +73,9 @@ test('Character Recast shares passages and ×2 pricing while preserving transpor
   for (const actor of actors) {
     const service = make(actor);
     const quote = await service.prepareRecast({ ...f.input, video: f.video, audio: f.audio });
-    assert.equal(quote.amountCents, 434);
-    assert.equal(quote.quote.price.amountCents, 434);
+    // Keyvo 2026-11-13: Wan 3 Prime 720p supplier facts are the Bailian list (11.25 cents/s): (8 + 7.5) s x 11.25 x 2 = 349 (was 434); Recast x2 unchanged.
+    assert.equal(quote.amountCents, 349);
+    assert.equal(quote.quote.price.amountCents, 349);
     assert.equal(quote.sourceSeconds, 7.5);
     assert.equal(quote.audioSeconds, 5.25);
     assert.equal(quote.passages.video?.startSec, f.video.range.startSec);

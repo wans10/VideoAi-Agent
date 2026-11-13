@@ -126,28 +126,30 @@ const HAPPY_HORSE_1_1_ENGINE: EngineCaps = {
       imageAspectRatioRange: '1:2.5 to 2.5:1',
     },
   },
+  // Bailian cn-beijing list: 0.45 / 0.9 / 1.2 CNY/s for t2v, i2v and r2v (reference video is not billed),
+  // https://docs.bailian.console.aliyun.com/zh/model-studio/happyhorse-1-1-t2v.md, checked 2026-11-13; 8 CNY/USD.
   pricingDetails: {
     currency: 'USD',
     perSecondCents: {
-      default: 14,
+      default: 11.25,
       byResolution: {
-        '480p': 7,
-        '720p': 14,
-        '1080p': 18,
+        '480p': 5.625,
+        '720p': 11.25,
+        '1080p': 15,
       },
     },
   },
   pricing: {
     unit: 'USD/s',
-    base: 0.14,
+    base: 0.1125,
     byResolution: {
-      '480p': 0.07,
-      '720p': 0.14,
-      '1080p': 0.18,
+      '480p': 0.05625,
+      '720p': 0.1125,
+      '1080p': 0.15,
     },
     currency: 'USD',
     notes:
-      'Provider cost: $0.14/s for 720p and $0.18/s for 1080p on Happy Horse 1.1 text, image, and reference-to-video runs. Keyvo display prices add platform margin before showing quotes.',
+      'Provider cost: Bailian list CNY 0.45/s (480p), 0.9/s (720p) and 1.2/s (1080p) on Happy Horse 1.1 text, image, and reference-to-video runs. Keyvo customer prices are 80% of the list price.',
   },
   updatedAt: '2026-06-22T00:00:00Z',
   ttlSec: 600,

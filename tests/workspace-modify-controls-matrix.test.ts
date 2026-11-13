@@ -114,7 +114,9 @@ for(const id of ['wan-3','wan-3-prime'])test(`${id}: a four-second source defaul
   assert.equal(facts.base.seconds,4);
   assert.equal(facts.meta.input_video_duration_sec,4);
   assert.equal(facts.meta.billable_duration_sec,8);
-  assert.equal(facts.facts.vendorSubtotalExactCents,id==='wan-3'?80:112);
+  // Keyvo 2026-11-13: supplier facts are the Bailian cn-beijing list (720p Wan 3 CNY 0.6/s = 7.5c, Prime CNY 0.9/s = 11.25c)
+  // over 4 input + 4 output seconds; formerly the Singapore list 10c / 14c per second.
+  assert.equal(facts.facts.vendorSubtotalExactCents,id==='wan-3'?60:90);
 });
 test('unknown/unsupported input timing does not invent an accepted model duration',()=>{
   const engine=getBaseEnginesByCategory('video').find(engine=>engine.id==='wan-3')!;

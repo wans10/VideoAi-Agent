@@ -1,4 +1,92 @@
 import type { MinimaxH3MaxMode, MinimaxH3MaxResolution } from '@/lib/minimax-h3-max';
+import { USD_TO_CNY_CUSTOMER_RATE } from './customer-currency';
+
+/**
+ * PROVISIONAL vendor cost of MiniMax-H3-Max on MiniMax's own V2 API (Keyvo's route), from the official CNY list price
+ * (https://platform.minimaxi.com/docs/pricing/overview.md, "MiniMax-H3-Max（扩展模型）", checked 2026-11-12):
+ * output 480P 0.33 / 768P 0.50 CNY per second; input (reference) video 480P 0.37 / 768P 0.97 CNY per second;
+ * two images free per task, then 0.50 CNY per image; audio input free. Every task type has the same price.
+ * Converted to the application's USD pricing facts at the accounting rate; the normal margin applies on top.
+ * Input-video seconds are rounded up to whole seconds (MiniMax's own rounding is not documented) so the provisional
+ * cost never falls below MiniMax's charge. The Fal reference-token functions below stay for the upstream catalogue.
+ */
+export const MINIMAX_H3_MAX_OFFICIAL_PRICING_SOURCE = 'minimax_official_cny_pricing_2026_11_12_provisional';
+export const MINIMAX_H3_MAX_OFFICIAL_CNY = {
+  outputPerSecond: { '480P': 0.33, '768P': 0.5 },
+  inputVideoPerSecond: { '480P': 0.37, '768P': 0.97 },
+  freeImages: 2,
+  perImage: 0.5,
+} as const;
+
+export type MinimaxH3MaxOfficialCost = {
+  mode: MinimaxH3MaxMode;
+  durationSec: number;
+  resolution: '480P' | '768P';
+  outputCny: number;
+  inputVideoSeconds: number;
+  inputVideoCny: number;
+  imageCount: number;
+  paidImageCount: number;
+  imageCny: number;
+  totalCny: number;
+  accountingCnyPerUsd: number;
+  /** USD cents, exact (not rounded). */
+  outputUsdCents: number;
+  inputVideoUsdCents: number;
+  imageUsdCents: number;
+  subtotalUsdCents: number;
+  ratePerSecondUsd: number;
+  source: string;
+};
+
+function preciseCny(value: number): number {
+  return Number(value.toFixed(6));
+}
+
+export function calculateMinimaxH3MaxOfficialCost(input: {
+  mode: string;
+  durationSec: number;
+  resolution: string | null | undefined;
+  /** Verified total seconds of reference videos (reference mode only). */
+  inputVideoDurationSec?: number;
+  /** Reference images (reference mode only; first/last frames never exceed the two free images). */
+  referenceImageCount?: number;
+}): MinimaxH3MaxOfficialCost {
+  const mode = input.mode as MinimaxH3MaxMode;
+  if (mode !== 't2v' && mode !== 'i2v' && mode !== 'ref2v') throw new Error(`Unsupported MiniMax H3 Max mode: ${String(input.mode)}`);
+  if (!Number.isInteger(input.durationSec) || input.durationSec < 5 || input.durationSec > 15) {
+    throw new Error('MiniMax H3 Max duration must be an integer from 5 through 15 seconds.');
+  }
+  const resolution = (input.resolution ?? '').toUpperCase();
+  if (resolution !== '480P' && resolution !== '768P') throw new Error('MiniMax H3 Max resolution must be 480P or 768P.');
+  const reference = mode === 'ref2v';
+  const rawVideoSeconds = reference ? input.inputVideoDurationSec ?? 0 : 0;
+  if (!Number.isFinite(rawVideoSeconds) || rawVideoSeconds < 0 || rawVideoSeconds > 15.05) {
+    throw new Error('MiniMax H3 Max reference videos must total at most 15 seconds.');
+  }
+  const imageCount = reference ? input.referenceImageCount ?? 0 : 0;
+  if (!Number.isInteger(imageCount) || imageCount < 0 || imageCount > 9) {
+    throw new Error('MiniMax H3 Max accepts at most 9 reference images.');
+  }
+  const inputVideoSeconds = rawVideoSeconds > 0 ? Math.min(15, Math.ceil(rawVideoSeconds - 1e-6)) : 0;
+  const paidImageCount = Math.max(0, imageCount - MINIMAX_H3_MAX_OFFICIAL_CNY.freeImages);
+  const outputCny = preciseCny(MINIMAX_H3_MAX_OFFICIAL_CNY.outputPerSecond[resolution] * input.durationSec);
+  const inputVideoCny = preciseCny(MINIMAX_H3_MAX_OFFICIAL_CNY.inputVideoPerSecond[resolution] * inputVideoSeconds);
+  const imageCny = preciseCny(MINIMAX_H3_MAX_OFFICIAL_CNY.perImage * paidImageCount);
+  const totalCny = preciseCny(outputCny + inputVideoCny + imageCny);
+  const cents = (cny: number) => Number((cny * 100 / USD_TO_CNY_CUSTOMER_RATE).toFixed(6));
+  return {
+    mode, durationSec: input.durationSec, resolution,
+    outputCny, inputVideoSeconds, inputVideoCny, imageCount, paidImageCount, imageCny, totalCny,
+    accountingCnyPerUsd: USD_TO_CNY_CUSTOMER_RATE,
+    outputUsdCents: cents(outputCny),
+    inputVideoUsdCents: cents(inputVideoCny),
+    imageUsdCents: cents(imageCny),
+    subtotalUsdCents: cents(totalCny),
+    ratePerSecondUsd: MINIMAX_H3_MAX_OFFICIAL_CNY.outputPerSecond[resolution] / USD_TO_CNY_CUSTOMER_RATE,
+    source: MINIMAX_H3_MAX_OFFICIAL_PRICING_SOURCE,
+  };
+}
 
 export type MinimaxH3MaxPricingInput = {
   mode: MinimaxH3MaxMode;

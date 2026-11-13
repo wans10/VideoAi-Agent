@@ -29,7 +29,8 @@ test('Recast price, measured passages, reservation and receipt agree across all 
           });
           assert.equal(estimate.status, 'exact');
           if (estimate.status !== 'exact') throw new Error('Missing current price');
-          const providerCentsPerSecond = { '480p': 6.8, '720p': 14, '1080p': 28 }[resolution]!;
+          // Keyvo 2026-11-13: Wan 3 Prime supplier facts are the Bailian list (CNY 0.45 / 0.9 / 1.8 per second).
+          const providerCentsPerSecond = { '480p': 5.625, '720p': 11.25, '1080p': 22.5 }[resolution]!;
           const providerCents = Math.round(providerCentsPerSecond * (seconds + (mode === 'v2v' ? 7.5 : 0)) * 1000) / 1000;
           // Standard policy preserves supplier cents, rounds margin upward, then total to nearest cent.
           assert.equal(quote.amountCents, Math.round(providerCents + Math.ceil(providerCents)));

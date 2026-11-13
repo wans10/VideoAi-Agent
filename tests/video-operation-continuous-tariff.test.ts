@@ -1,5 +1,6 @@
-// MiniMax-H3-Max Recast/Relight (6 of the 13 classes) is hidden on Keyvo; its upstream operation tariff contract runs on
-// the unfiltered catalog. This import must stay first.
+// MiniMax-H3-Max Recast/Relight (6 of the 13 classes) run only on Fal and are not sold on Keyvo
+// (KEYVO_UNSERVED_VIDEO_OPERATIONS); their upstream operation tariff contract runs on the unfiltered catalog.
+// This import must stay first.
 import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';

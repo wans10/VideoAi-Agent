@@ -27,7 +27,9 @@ test('MiniMax H3 Max keeps its documented runtime identity and capabilities sepa
   assert.equal(entry.marketingName, 'MiniMax H3 Max');
   assert.equal(entry.provider, 'MiniMax');
   assert.deepEqual(entry.engine.modes, ['t2v', 'i2v', 'ref2v', 'v2v']);
-  assert.deepEqual(entry.engine.resolutions, ['480P', '768P', '1080P']);
+  // Keyvo: MiniMax's own V2 API offers 480P/768P only (Fal's 1080P is gone).
+  assert.deepEqual(entry.engine.resolutions, ['480P', '768P']);
+  assert.equal(entry.engine.inputLimits?.promptMaxChars, 7000);
   assert.deepEqual(entry.engine.aspectRatios, ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16', 'auto']);
   assert.equal(entry.engine.maxDurationSec, 15);
   assert.equal(entry.engine.audio, true);
@@ -49,7 +51,7 @@ test('MiniMax H3 Max exposes exact defaults, text ratios, and reference bounds',
   ]);
   assert.equal(field('duration').min, 5);
   assert.equal(field('duration').max, 15);
-  assert.deepEqual(field('resolution').values, ['480P', '768P', '1080P']);
+  assert.deepEqual(field('resolution').values, ['480P', '768P']);
   assert.equal(field('resolution').default, '768P');
   assert.deepEqual(field('aspect_ratio').values, ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16']);
   assert.deepEqual(field('aspect_ratio').modes, ['t2v']);
@@ -60,6 +62,22 @@ test('MiniMax H3 Max exposes exact defaults, text ratios, and reference bounds',
   assert.equal(field('reference_audio_urls').maxCount, 3);
   assert.equal(entry?.engine.inputSchema?.referenceBudget?.maxTotal, 12);
   assert.equal(entry?.modes.every(({ ui }) => ui.audioToggle === false), true);
+});
+
+test('MiniMax H3 Max offers no Fal-only generation controls on Keyvo', () => {
+  assert.ok(entry);
+  const fields = [...(entry.engine.inputSchema?.required ?? []), ...(entry.engine.inputSchema?.optional ?? [])]
+    .filter((candidate) => candidate.modes?.some((mode) => mode !== 'v2v'));
+  for (const gone of ['middle_image_url', 'middle_frame_time', 'reference_order', 'target_audio_url', 'seed']) {
+    assert.equal(fields.some((candidate) => candidate.id === gone), false, gone);
+  }
+  // Frames and references cannot be combined on MiniMax's V2 API, so frames belong to image mode only.
+  assert.deepEqual(field('image_url').modes, ['i2v']);
+  assert.deepEqual(field('end_image_url').modes, ['i2v']);
+  assert.equal(entry.engine.inputSchema?.constraints?.maxImageSizeMB, 30);
+  assert.equal(entry.engine.inputSchema?.constraints?.maxVideoSizeMB, 50);
+  assert.equal(entry.engine.inputSchema?.constraints?.maxAudioSizeMB, 15);
+  for (const mode of ['t2v', 'i2v', 'ref2v'] as const) assert.deepEqual(entry.engine.modeCaps?.[mode]?.resolution, ['480P', '768P'], mode);
 });
 
 test('MiniMax H3 Max is public without adding excluded products', () => {

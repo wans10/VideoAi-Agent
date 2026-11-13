@@ -14,16 +14,21 @@ const cell = {
   id: 'continuous-wan', selector: { ...selector, inputVideoDurationSec: 'continuous' }, source: 'database' as const,
   version: 1, currency: 'USD', effectiveFrom: '2026-09-29T00:00:00.000Z',
   price: { kind: 'unit_components' as const, rounding: 'nearest' as const, components: [
-    { id: 'base', flatCents: 50, rounding: 'none' as const, precision: 3, terms: [
-      { unit: 'input_video_seconds', centsPerUnit: 10, quantityRounding: { scale: 10, precision: 3 } },
+    // Keyvo 2026-11-13: the Wan 3 720p supplier fact is the Bailian list (7.5 cents/s), so the authored cell mirrors it.
+    { id: 'base', flatCents: 37.5, rounding: 'none' as const, precision: 3, terms: [
+      { unit: 'input_video_seconds', centsPerUnit: 7.5, quantityRounding: { scale: 10, precision: 3 } },
     ] },
-    { id: 'adjustment', flatCents: 15, rounding: 'up' as const, terms: [
-      { unit: 'input_video_seconds', centsPerUnit: 3, quantityRounding: { scale: 10, precision: 3 } },
+    { id: 'adjustment', flatCents: 11.25, rounding: 'up' as const, terms: [
+      { unit: 'input_video_seconds', centsPerUnit: 2.25, quantityRounding: { scale: 10, precision: 3 } },
     ] },
   ] },
 };
+// Wan 3 sells at 80% of its list cost without an engine rule (below cost, which no tariff can hold); this fixture keeps the
+// margin-path current price with an explicit engine rule so the stored components can reproduce it.
+const marginRule = { id: 'margin-wan-3', engineId: 'wan-3', marginPercent: 0.3, marginFlatCents: 0, surchargeAudioPercent: 0.2,
+  surchargeUpscalePercent: 0.5, currency: 'USD' };
 const deps = {
-  pricingPolicy: { loadOverrides: async () => ({ status: 'loaded' as const, rules: [] }) },
+  pricingPolicy: { loadOverrides: async () => ({ status: 'loaded' as const, rules: [marginRule] }) },
   loadCustomerTariffState: async () => ({ status: 'loaded' as const, active: true, revision: 19, versionedCells: [], databaseCells: [cell] }),
 };
 

@@ -32,7 +32,8 @@ test('Recast admin preview, concurrent confirmation and rollback preserve scoped
     const preview = await previewPricingPolicyChange(proposal, dependencies);
     const sample = preview.rows.find(row => row.scenarioId === 'admin-recast:720p:5:3.25')!;
     assert.equal(sample.currentTotalCents, null);
-    assert.equal(sample.proposedTotalCents, 232);
+    // Keyvo 2026-11-13: Wan 3 Prime facts are the Bailian list (8.25 s x 11.25 cents = 92.8125) -> x2 -> 186.
+    assert.equal(sample.proposedTotalCents, 186);
     assert.equal((await db.pool.query('SELECT count(*) FROM app_pricing_rules')).rows[0].count, '1');
     assert.equal((await db.pool.query('SELECT count(*) FROM app_pricing_change_events')).rows[0].count, '0');
     const creation = await confirmPricingPolicyChange(proposal, preview.previewFingerprint, actor, dependencies);
@@ -41,7 +42,7 @@ test('Recast admin preview, concurrent confirmation and rollback preserve scoped
     assert.equal(publicQuote.amountCents, sample.proposedTotalCents);
     const adminRow = (await loadAdminProductPricing(5)).rows.find(row => row.id === sample.scenarioId)!;
     assert.equal(adminRow.totalCents, publicQuote.amountCents);
-    assert.equal(adminRow.supplierCents, 115.5);
+    assert.equal(adminRow.supplierCents, 92.813);
     assert.deepEqual(adminRow.policySelector, { engineId: 'character-recast', mode: 'recast', resolution: 'video' });
 
     const update: PricingPolicyChangeProposal = { operation: 'update', targetId: rule.id, rule: { ...rule, marginPercent: 1.5 } };
@@ -61,7 +62,7 @@ test('Recast admin preview, concurrent confirmation and rollback preserve scoped
     await confirmPricingPolicyChange(rollback, restore.previewFingerprint, actor, dependencies);
     const restored = await readRecastPublicPrice(input);
     assert.ok(restored.status === 'exact');
-    assert.equal(restored.amountCents, 232);
+    assert.equal(restored.amountCents, 186);
     for (const old of beforeRollback) assert.deepEqual((await db.pool.query('SELECT * FROM app_pricing_change_events WHERE id=$1', [old.id])).rows[0], old);
     await assert.rejects(previewPricingPolicyChange({ operation: 'rollback', targetId: rule.id, eventId: creation.event.id }, dependencies), /Recast/);
 

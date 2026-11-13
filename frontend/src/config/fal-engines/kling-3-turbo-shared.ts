@@ -22,9 +22,10 @@ export const KLING_3_TURBO_ENDPOINTS: Record<Kling3TurboEngineId, Record<Kling3T
 export const KLING_3_TURBO_DURATION_OPTIONS = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] as const;
 export const KLING_3_TURBO_TEXT_ASPECT_RATIOS = ['16:9', '9:16', '1:1'] as const satisfies readonly AspectRatio[];
 
+/** Bailian list (primary route; Kling's own list is equal): 0.8 / 1.0 CNY/s, audio always on; 8 CNY/USD (2026-11-13). */
 export const KLING_3_TURBO_PROVIDER_COST_CENTS_PER_SECOND: Record<Kling3TurboEngineId, number> = {
-  'kling-3-turbo-standard': 11.2,
-  'kling-3-turbo-pro': 14,
+  'kling-3-turbo-standard': 10,
+  'kling-3-turbo-pro': 12.5,
 };
 
 const KLING_3_TURBO_INPUT_SCHEMA: EngineInputSchema = {
@@ -146,7 +147,7 @@ export function createKling3TurboEngine(input: {
       unit: 'USD/s',
       base: perSecondCents / 100,
       currency: 'USD',
-      notes: `Provider-cost ceiling: $${(perSecondCents / 100).toFixed(3)}/s until direct Kling account pricing is proven lower.`,
+      notes: `Provider cost: Bailian / Kling list price, $${(perSecondCents / 100).toFixed(4)}/s at 8 CNY/USD. Keyvo customer prices are 80% of the list price.`,
     },
     updatedAt: '2026-09-03T00:00:00Z',
     ttlSec: 600,

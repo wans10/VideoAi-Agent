@@ -214,10 +214,10 @@ test('family priority reorders the displayed groups without changing the source 
   assert.deepEqual(groups.find((group) => group.id === 'hailuo')?.engines.map(({ id }) => id).slice(0, 3), [
     'minimax-h3',
     'minimax-hailuo-02-text',
-    // H3 Max is hidden on Keyvo (KEYVO_HIDDEN_MODEL_IDS); the official-only Hailuo 2.3 follows Hailuo 02.
-    'minimax-hailuo-2-3',
+    // H3 Max is served on Keyvo again (MiniMax's own API) and keeps its upstream place after Hailuo 02.
+    'minimax-h3-max',
   ]);
-  assert.equal(groups.some((group) => group.engines.some(({ id }) => id === 'minimax-h3-max')), false);
+  assert.ok(groups.find((group) => group.id === 'hailuo')?.engines.some(({ id }) => id === 'minimax-hailuo-2-3'));
   assert.deepEqual(groups.find((group) => group.id === 'seedance')?.engines.map(({ id }) => id).slice(0, 4), [
     'seedance-2-5',
     'seedance-2-0',

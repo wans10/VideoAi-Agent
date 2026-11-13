@@ -13,7 +13,7 @@
     "badge": "1080p · 5–10 s · Entrada de texto o imagen · Salida silenciosa",
     "ctaPrimary": {
       "label": "Generar con Kling 2.5 Turbo",
-      "href": "/app?engine=kling-2-5-turbo"
+      "href": "/es/modelos/kling-3-turbo-standard"
     },
     "secondaryLinks": [
       {
@@ -336,7 +336,7 @@
       "paragraph": "Usa Kling 2.5 Turbo cuando necesitas una ruta Kling anterior aún compatible para borradores cortos sin sonido, pruebas desde una imagen, look-dev de cámara y limpieza de prompt antes de pasar a Kling 3.",
       "primaryCta": {
         "label": "Crear borrador con Kling 2.5 Turbo",
-        "href": "/app?engine=kling-2-5-turbo"
+        "href": "/es/modelos/kling-3-turbo-standard"
       },
       "secondaryCta": {
         "label": "Ver ejemplos",

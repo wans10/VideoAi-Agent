@@ -53,13 +53,10 @@ import {
 } from '@/lib/seedance-2-pricing';
 import type { EnginePricingDetails } from '@/types/engines';
 import { isMinimaxH3EngineId } from '@/lib/minimax-h3';
-import { calculateMinimaxH3ProviderPrice } from '@/lib/minimax-h3-pricing';
+import { calculateMinimaxH3ProviderPrice, MINIMAX_H3_PRICING_SOURCE } from '@/lib/minimax-h3-pricing';
 import { calculateMinimaxHailuoCost, isMinimaxHailuoOfficialEngineId } from '@/lib/minimax-hailuo-pricing';
 import { isMinimaxH3MaxEngineId } from '@/lib/minimax-h3-max';
-import {
-  calculateMinimaxH3MaxProviderCost,
-  MINIMAX_H3_MAX_PRICING_SOURCE,
-} from '@/lib/minimax-h3-max-pricing';
+import { calculateMinimaxH3MaxOfficialCost } from '@/lib/minimax-h3-max-pricing';
 import {
   calculateGoogleOmniProviderCost,
   GOOGLE_OMNI_PRICING_SOURCE,
@@ -117,8 +114,8 @@ function buildBillingPricingFactsInternal(
     const usage = klingV4FlashPricingUsage(context);
     return resultFromFacts({ engineId: engine.id, currency, vendorSubtotalExactCents: usage.supplierExactCents,
       base: { seconds: usage.outputDurationSec, rate: usage.supplierExactCents / 100 / usage.outputDurationSec, unit: 'sec', amountCents: Math.ceil(usage.supplierExactCents) },
-      meta: { pricing_model: 'kling_v4_flash_fal_public_list', provider_cost_source: KLING_V4_FLASH_PRICING_SOURCE,
-        provider_cost_checked_at: '2026-11-05', effective_supplier_charge_verified: false,
+      meta: { pricing_model: 'kling_v4_flash_official_cn_list', provider_cost_source: KLING_V4_FLASH_PRICING_SOURCE,
+        provider_cost_checked_at: '2026-11-13', effective_supplier_charge_verified: false,
         input_video_duration_sec: usage.inputVideoDurationSec, output_duration_sec: usage.outputDurationSec,
         billable_seconds: usage.billableSeconds, has_video_input: usage.hasVideoInput } });
   }
@@ -132,8 +129,8 @@ function buildBillingPricingFactsInternal(
     const usage = klingV4PricingUsage(context);
     return resultFromFacts({engineId:engine.id,currency,vendorSubtotalExactCents:usage.supplierExactCents,
       base:{seconds:usage.outputDurationSec,rate:usage.supplierExactCents/100/usage.outputDurationSec,unit:'sec',amountCents:Math.ceil(usage.supplierExactCents)},
-      meta:{pricing_model:'kling_v4_fal_public_list',provider_cost_source:KLING_V4_PRICING_SOURCE,
-        provider_cost_checked_at:'2026-10-25',effective_supplier_charge_verified:false,
+      meta:{pricing_model:'kling_v4_official_cn_list',provider_cost_source:KLING_V4_PRICING_SOURCE,
+        provider_cost_checked_at:'2026-11-13',effective_supplier_charge_verified:false,
         input_video_duration_sec:usage.inputVideoDurationSec,output_duration_sec:usage.outputDurationSec,
         billable_seconds:usage.billableSeconds,has_video_input:usage.hasVideoInput}});
   }
@@ -251,68 +248,80 @@ function buildBillingPricingFactsInternal(
   }
 
   if (isMinimaxH3MaxEngineId(engine.id)) {
-    const reference = calculateMinimaxH3MaxProviderCost({
-      mode: mode as 't2v' | 'i2v' | 'ref2v',
-      durationSec,
-      resolution: resolution as '480P' | '768P' | '1080P',
-      referenceTokenBudget: context.referenceTokenBudget,
-      verifiedReferenceTokenCount: context.verifiedReferenceTokenCount,
+    // Keyvo runs H3-Max on MiniMax's own API: PROVISIONAL official CNY cost (output + reference-video seconds +
+    // images beyond two), replacing Fal's output + reference-token budget. See minimax-h3-max-pricing.ts.
+    const cost = calculateMinimaxH3MaxOfficialCost({
+      mode, durationSec, resolution,
+      inputVideoDurationSec: context.inputVideoDurationSec,
+      referenceImageCount: context.referenceImageCount,
     });
-    const referenceTokenCents = Math.round(reference.referenceTokenSubtotalUsd * 100);
+    const addons: PricingSnapshot['addons'] = [];
+    if (cost.inputVideoUsdCents > 0) addons.push({ type: 'reference_video_seconds', amountCents: Math.ceil(cost.inputVideoUsdCents - 1e-9) });
+    if (cost.imageUsdCents > 0) addons.push({ type: 'reference_images_above_two', amountCents: Math.ceil(cost.imageUsdCents - 1e-9) });
     return resultFromFacts({
       engineId: engine.id,
       currency,
-      vendorSubtotalExactCents: reference.providerCostExactCents,
+      vendorSubtotalExactCents: cost.subtotalUsdCents,
       base: {
         seconds: durationSec,
-        rate: reference.ratePerSecondUsd,
+        rate: cost.ratePerSecondUsd,
         unit: 'sec',
-        amountCents: Math.round(reference.outputSubtotalUsd * 100),
+        amountCents: Math.ceil(cost.outputUsdCents - 1e-9),
       },
-      addons: referenceTokenCents > 0
-        ? [{ type: 'reference_tokens_above_4096', amountCents: referenceTokenCents }]
-        : [],
+      addons,
       compatibilityProfileId: 'provider-reference-current',
       meta: {
-        pricing_model: 'minimax_h3_max_output_plus_reference_tokens',
-        provider_cost_source: MINIMAX_H3_MAX_PRICING_SOURCE,
+        pricing_model: 'minimax_h3_max_official_output_plus_inputs',
+        provider_cost_source: cost.source,
+        cost_breakdown_usd: cost,
+        provider_currency: 'CNY',
         public_provider: 'MiniMax',
         public_family: 'Hailuo',
         mode,
-        reference_pricing_basis: reference.referencePricingBasis,
-        provider_cost_is_estimate: context.referenceTokenBudget !== undefined,
-        cost_breakdown_usd: reference,
+        output_cny: cost.outputCny,
+        input_video_seconds: cost.inputVideoSeconds,
+        input_video_cny: cost.inputVideoCny,
+        reference_image_count: cost.imageCount,
+        paid_reference_image_count: cost.paidImageCount,
+        reference_image_cny: cost.imageCny,
+        accounting_cny_per_usd: cost.accountingCnyPerUsd,
+        effective_supplier_charge_verified: false,
       },
     });
   }
 
   if (isMinimaxH3EngineId(engine.id)) {
+    // Official list cost: output seconds, owned reference-video seconds (verified by preflight / MCP owned media)
+    // and images beyond five, all billed by Bailian / MiniMax (minimax-h3-pricing.ts).
     const reference = calculateMinimaxH3ProviderPrice({
       durationSec,
       resolution: resolution as '480P' | '768P' | '2K' | '4K',
       referenceImageCount: context.referenceImageCount,
-      // Customer prices stay unchanged: the PROVISIONAL official reference-video cost
-      // (calculateMinimaxH3ProviderPrice inputVideoDurationSec) awaits the owner's re-pricing decision.
+      ...(mode === 'ref2v' && typeof context.inputVideoDurationSec === 'number'
+        ? { inputVideoDurationSec: context.inputVideoDurationSec } : {}),
     });
-    const baseAmountCents = Math.round(reference.breakdown.baseSubtotalUsd * 100);
-    const surchargeCents = Math.round(reference.breakdown.referenceImageSurchargeUsd * 100);
+    const baseAmountCents = Math.round(reference.breakdown.baseSubtotalUsd * 100 * 1000) / 1000;
+    const surchargeCents = Math.round(reference.breakdown.referenceImageSurchargeUsd * 100 * 1000) / 1000;
+    const inputVideoCents = Math.round((reference.breakdown.inputVideoSurchargeUsd ?? 0) * 100 * 1000) / 1000;
     return resultFromFacts({
       engineId: engine.id,
       currency,
-      vendorSubtotalExactCents: Math.round(reference.subtotalUsd * 100),
+      vendorSubtotalExactCents: Math.round(reference.subtotalUsd * 100 * 1000) / 1000,
       base: {
         seconds: durationSec,
         rate: reference.breakdown.ratePerSecondUsd,
         unit: 'sec',
         amountCents: baseAmountCents,
       },
-      addons: surchargeCents > 0
-        ? [{ type: 'reference_images_above_five', amountCents: surchargeCents }]
-        : [],
+      addons: [
+        ...(surchargeCents > 0 ? [{ type: 'reference_images_above_five', amountCents: surchargeCents }] : []),
+        ...(inputVideoCents > 0 ? [{ type: 'reference_video_seconds', amountCents: inputVideoCents }] : []),
+      ],
       compatibilityProfileId: 'provider-reference-current',
       meta: {
-        pricing_model: 'fal_h3_resolution_plus_reference_images',
-        provider_cost_source: 'fal_minimax_h3_pricing',
+        pricing_model: 'minimax_h3_official_output_plus_inputs',
+        provider_cost_source: MINIMAX_H3_PRICING_SOURCE,
+        ...(reference.breakdown.inputVideoSeconds ? { input_video_seconds: reference.breakdown.inputVideoSeconds } : {}),
         cost_breakdown_usd: reference.breakdown,
         mode,
         reference_image_count: reference.breakdown.referenceImageCount,
@@ -553,6 +562,7 @@ function buildBillingPricingFactsInternal(
       resolution,
       aspectRatio: context.aspectRatio,
       billingInputType,
+      ...(typeof context.inputVideoDurationSec === 'number' ? { inputVideoDurationSec: context.inputVideoDurationSec } : {}),
     });
     return resultFromFacts({
       engineId: engine.id,
@@ -618,6 +628,14 @@ function buildBillingPricingFactsInternal(
   });
   if (isWan3EngineId(engine.id)) {
     definitionFacts = withWan3InputVideoPricing(definitionFacts, context);
+  }
+  // Seedream 5.0 Pro (Volcengine Ark list, 2026-11-13): the first input image is free, each further one CNY 0.02.
+  const seedreamPaidInputImages = engine.id === 'seedream-5-0-pro' && mode === 'i2i'
+    ? Math.max(0, Math.floor(context.inputImageCount ?? 0) - 1) : 0;
+  if (seedreamPaidInputImages > 0) {
+    const amountCents = Math.round(seedreamPaidInputImages * 0.02 * 100 / 8 * 1000) / 1000;
+    definitionFacts = { ...definitionFacts, addons: [...definitionFacts.addons, { type: 'input_images_after_first', amountCents }],
+      vendorSubtotalExactCents: Math.round((definitionFacts.vendorSubtotalExactCents + amountCents) * 1000) / 1000 };
   }
   return resultFromFacts({
     engineId: engine.id,

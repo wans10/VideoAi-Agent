@@ -1,5 +1,5 @@
-// MiniMax-H3-Max (Recast/Relight, 1080P) is hidden on Keyvo (KEYVO_HIDDEN_MODEL_IDS, no mainland route); its
-// upstream contracts still run on the unfiltered catalog. This import must stay first.
+// MiniMax-H3-Max runs on MiniMax's own API on Keyvo (480P/768P, no Fal-only Recast/Relight); these upstream
+// Recast/Relight contracts run on the unfiltered catalog. This import must stay first.
 import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -214,15 +214,23 @@ test('public example recreation carries measured resolution and explicit audio',
   assert.equal(form.audio, false);
 });
 
+// H3-Max (the former 1080P case) has no 1080P on MiniMax's own API (Keyvo); Hailuo 2.3 carries the uppercase 1080P token.
 test('derived public resolution maps to the engine token without dropping 1080p to 768P', () => {
-  const engine = getBaseEngines().find(candidate => candidate.id === 'minimax-h3-max');
+  const engine = getBaseEngines().find(candidate => candidate.id === 'minimax-hailuo-2-3');
   assert.ok(engine);
   const snapshot = buildVideoSettingsSnapshotFromSharedVideo({
-    id: 'example', engineId: engine.id, engineLabel: engine.label, durationSec: 15,
-    prompt: 'Example', aspectRatio: '16:9', createdAt: '', outputWidth: 1920, outputHeight: 1080, hasAudio: true,
+    id: 'example', engineId: engine.id, engineLabel: engine.label, durationSec: 6,
+    prompt: 'Example', aspectRatio: '16:9', createdAt: '', outputWidth: 1920, outputHeight: 1080, hasAudio: false,
   });
   const form = buildVideoSettingsFormState(resolveForEngine(snapshot, engine));
   assert.equal(form.resolution, '1080P');
+  const max = getBaseEngines().find(candidate => candidate.id === 'minimax-h3-max');
+  assert.ok(max);
+  const maxForm = buildVideoSettingsFormState(resolveForEngine(buildVideoSettingsSnapshotFromSharedVideo({
+    id: 'example', engineId: max.id, engineLabel: max.label, durationSec: 15,
+    prompt: 'Example', aspectRatio: '16:9', createdAt: '', outputWidth: 1920, outputHeight: 1080, hasAudio: true,
+  }), max));
+  assert.ok(['480P', '768P'].includes(String(maxForm.resolution)), 'H3 Max keeps an official tier');
 });
 
 test('complete public recreation restores typed reference fields without a private job hydration', () => {

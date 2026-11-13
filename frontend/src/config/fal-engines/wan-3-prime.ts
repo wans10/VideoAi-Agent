@@ -13,14 +13,16 @@ const engine = createWan3Engine({
   id: 'wan-3-prime',
   label: 'Wan 3 Prime',
   version: '3.0 Prime',
-  perSecondCents: { '480p': 6.8, '720p': 14, '1080p': 28 },
-  perSecondUsd: { '480p': 0.068, '720p': 0.14, '1080p': 0.28 },
+  // Bailian cn-beijing list: 0.45 / 0.9 / 1.8 CNY/s (https://docs.bailian.console.aliyun.com/zh/model-studio/wan3-0-video-prime.md,
+  // checked 2026-11-13), at 8 CNY/USD.
+  perSecondCents: { '480p': 5.625, '720p': 11.25, '1080p': 22.5 },
+  perSecondUsd: { '480p': 0.05625, '720p': 0.1125, '1080p': 0.225 },
 });
 
 export const WAN_3_PRIME_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [{
   id: 'wan-3-prime', marketingName: 'Wan 3 Prime', cardTitle: 'Wan 3 Prime', provider: 'Alibaba', brandId: 'wan',
   versionLabel: '3.0 Prime', availability: 'available', logoPolicy: 'textOnly',
-  billingNote: 'Provider cost uses input video plus generated output seconds at $0.068 (480p), $0.14 (720p), or $0.28 (1080p). Customer quotes include the configured margin and verified input-video duration.',
+  billingNote: 'Provider cost uses input video plus generated output seconds at the Bailian list price of CNY 0.45 (480p), 0.9 (720p) or 1.8 (1080p) per second. Keyvo customer quotes are 80% of that list price, including verified input-video duration.',
   engine,
   modes: [
     { mode: 't2v', falModelId: WAN_3_PRIME_ENDPOINTS.t2v, ui: WAN_3_MODE_CAPS.t2v! },

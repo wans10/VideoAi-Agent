@@ -13,7 +13,7 @@
     "badge": "1080p · 5–10秒 · 支持文本或图片输入 · 无声输出",
     "ctaPrimary": {
       "label": "使用 Kling 2.5 Turbo 开始生成",
-      "href": "/app?engine=kling-2-5-turbo"
+      "href": "/zh/models/kling-3-turbo-standard"
     },
     "secondaryLinks": [
       {
@@ -336,7 +336,7 @@
       "paragraph": "当您需要受支持的旧版 Kling 无声工作流，在升级至 Kling 3 Standard 或 Pro 之前快速测试运镜导向镜头、产品高光节拍或进行低成本视觉探索时，选用 Kling 2.5 Turbo 是理想之选。",
       "primaryCta": {
         "label": "使用 Kling 2.5 Turbo 创作草稿",
-        "href": "/app?engine=kling-2-5-turbo"
+        "href": "/zh/models/kling-3-turbo-standard"
       },
       "secondaryCta": {
         "label": "查看案例",

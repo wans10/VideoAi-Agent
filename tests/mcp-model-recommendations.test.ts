@@ -117,9 +117,8 @@ test('explicit Pika preference and exact ID remain eligible without default reco
 
 test('explicit preference never restores legacy or archived models to recommendations', async () => {
   const catalogDeps = realRegistryDeps();
-  const [legacy] = await listAgentModels({ id: 'wan-2-6' }, catalogDeps);
-  assert.equal(legacy.lifecycle, 'legacy');
-  assert.equal(legacy.generationEnabled, true);
+  // Keyvo 2026-11-13: Wan 2.6 is offline (no mainland route), so it is not even listed; recommendations still exclude it.
+  assert.deepEqual(await listAgentModels({ id: 'wan-2-6' }, catalogDeps), []);
 
   for (const id of ['wan-2-6', 'sora-2']) {
     const preferred = await recommendAgentModels({ preferredModelIds: [id] }, catalogDeps);
@@ -172,26 +171,30 @@ test('an overdue editorial review stops boosting a reference while on-request mo
   assert.ok(result.recommendations[1].tradeoffs.some(reason=>/does not boost/i.test(reason)));
 });
 
-// Keyvo hides MiniMax-H3-Max (KEYVO_HIDDEN_MODEL_IDS): MiniMax's official API offers no 1080P, middle frame or
-// Recast/Relight, so the upstream fal-backed H3 Max is not executable. MCP must neither describe nor recommend it,
-// while H3 keeps the reviewed creation and reference guidance.
-test('H3 Max is unavailable to MCP on Keyvo while H3 recommendations derive from the shared runtime', async () => {
+// Keyvo serves MiniMax-H3-Max through MiniMax's own API (2026-11-12): 480P/768P creation and reference modes with
+// prompt expansion. Recast/Relight exist only on Fal, which Keyvo does not configure, so MCP never advertises them.
+// H3 keeps the reviewed creation and reference guidance on the same MiniMax switch.
+test('H3 Max is available to MCP on Keyvo for creation and references only, while H3 recommendations derive from the shared runtime', async () => {
   const catalogDeps: AgentModelCatalogDeps = {
     ...realRegistryDeps(),
     isModeExecutable: (engine, mode) => resolveAgentGenerationModeExecutability(engine, mode, {
       bytePlusEnabled: false,
       bytePlusApiKey: '',
-      falApiKey: 'test-credential-no-network',
-      providerEnv: {},
+      falApiKey: '',
+      providerEnv: { MINIMAX_OFFICIAL_ENABLED: 'true', MINIMAX_API_KEY: 'test-credential-no-network' },
     }).executable,
   };
-  await assert.rejects(getAgentModelDetails('minimax-h3-max', catalogDeps), { code: 'ENGINE_UNAVAILABLE' });
-  assert.equal((await listAgentModels({}, catalogDeps)).some((model) => model.id === 'minimax-h3-max'), false);
-  for (const mode of [undefined, 'ref2v', 'v2v', 'extend', 'reframe'] as const) {
-    const result = await recommendAgentModels({ id: 'minimax-h3-max', ...(mode ? { mode } : {}) }, catalogDeps)
-      .catch((error: { code?: string }) => error);
-    if ('recommendations' in result) assert.deepEqual(result.recommendations, [], String(mode));
-    else assert.equal(result.code, 'ENGINE_UNAVAILABLE', String(mode));
+  const max = await getAgentModelDetails('minimax-h3-max', catalogDeps);
+  assert.deepEqual(max.modes.map((mode) => mode.mode), ['t2v', 'i2v', 'ref2v']);
+  assert.deepEqual(max.modes.flatMap((mode) => mode.operations?.map(({ operation }) => operation) ?? []), [],
+    'Fal-only Recast/Relight are not advertised');
+  assert.deepEqual(max.modes[0].resolutions, ['480P', '768P']);
+  assert.ok(max.modes[0].settings.some((setting) => setting.key === 'promptExpansionMode'));
+  assert.equal(max.guidance?.considerations.some((value) => /1080P|target_audio_url/.test(value)), false);
+  assert.ok((await listAgentModels({}, catalogDeps)).some((model) => model.id === 'minimax-h3-max'));
+  assert.equal((await recommendAgentModels({ id: 'minimax-h3-max', mode: 'ref2v' }, catalogDeps)).recommendations[0]?.model.id, 'minimax-h3-max');
+  for (const mode of ['v2v', 'extend', 'reframe'] as const) {
+    assert.deepEqual((await recommendAgentModels({ id: 'minimax-h3-max', mode }, catalogDeps)).recommendations, [], mode);
   }
 
   const details = await getAgentModelDetails('minimax-h3', catalogDeps);

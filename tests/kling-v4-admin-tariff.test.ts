@@ -19,7 +19,9 @@ test('hidden V4 admin inventory covers four routes and fractional video inputs w
  assert.deepEqual(choices.find(c=>c.key==='inputVideoDurationSec')?.range,{minInclusive:3,max:30});
  const detail=await continuousInputTariffDetail(scenario,state,policy);
  assert.equal(detail?.price,null);assert.equal(detail?.prepared,false);
- await assert.rejects(computeCanonicalBillingSnapshot(scenario.context,{pricingPolicy:{loadOverrides:async()=>policy},loadCustomerTariffState:async()=>state}));
+ // Keyvo (2026-11-13): with the tariff state inactive V4 quotes on the official-list rule path, 80% of Kling's list
+ // price: 15.2501 billable s x CNY 0.6 / 8 = 114.37575 cents -> 92 cents.
+ assert.equal((await computeCanonicalBillingSnapshot(scenario.context,{pricingPolicy:{loadOverrides:async()=>policy},loadCustomerTariffState:async()=>state})).totalCents,92);
  const prepared=await prepareContinuousInputTariffChange({scenario,state,policy,proposal:{operation:'create',scenarioId:scenario.id,scope:'continuous_input',price:{kind:'kling_v4_billable',customerCentsPerBillableSecond:20}}});
  assert.equal(prepared.proposedCents,306);assert.equal(prepared.previousCell,null);
  assert.equal(prepared.proposedCell?.selector.billingInputType,'video_input');assert.equal(prepared.proposedCell?.selector.inputVideoDurationSec,'continuous');

@@ -243,7 +243,7 @@ test('a noindex candidate with observed low demand gets an accurate rationale', 
   assert.deepEqual(english?.rationale, ['low_demand_outside_top_10']);
 });
 
-test('the generated inventory covers all 807 localized published comparison URLs', () => {
+test('the generated inventory covers all 633 localized published comparison URLs', () => {
   const artifacts = generateComparisonIndexationArtifacts() as {
     document: {
       summary: {
@@ -265,23 +265,25 @@ test('the generated inventory covers all 807 localized published comparison URLs
   };
 
   // Keyvo retired Seedance 1.5 Pro (26 comparison slugs x 3 locales) and took Wan 2.5 offline
-  // (21 slugs x 3 locales); their GSC rows are now legacy rows.
-  assert.equal(artifacts.document.summary.publishedSlugs, 269);
-  assert.equal(artifacts.document.summary.totalUrls, 807);
-  assert.equal(artifacts.document.summary.gscRowsOutsidePublishedSet, 125);
-  assert.equal(artifacts.document.summary.gscRowsOutsidePublishedSetWithClicks, 31);
-  assert.equal(artifacts.document.legacyGscRows.length, 125);
-  assert.equal(artifacts.document.rows.length, 807);
+  // (21 slugs x 3 locales); their GSC rows are now legacy rows. On 2026-11-13 Wan 2.6, Kling 2.5 Turbo and
+  // Kling 2.6 Pro (no mainland route) took 58 more slugs offline (21 + 20 + 20 minus 3 pairs among themselves):
+  // 269 -> 211 slugs, 807 -> 633 URLs, and 112 more GSC rows (22 with clicks) became legacy rows.
+  assert.equal(artifacts.document.summary.publishedSlugs, 211);
+  assert.equal(artifacts.document.summary.totalUrls, 633);
+  assert.equal(artifacts.document.summary.gscRowsOutsidePublishedSet, 237);
+  assert.equal(artifacts.document.summary.gscRowsOutsidePublishedSetWithClicks, 53);
+  assert.equal(artifacts.document.legacyGscRows.length, 237);
+  assert.equal(artifacts.document.rows.length, 633);
   assert.equal(
     new Set(artifacts.document.rows.map((row) => `${row.locale}:${row.slug}`)).size,
-    807,
+    633,
   );
   assert.equal(
     Object.values(artifacts.document.summary.byClassification).reduce(
       (sum, count) => sum + count,
       0,
     ),
-    807,
+    633,
   );
   assert.ok(
     artifacts.document.rows
@@ -317,5 +319,5 @@ test('the generator CLI writes the JSON and Markdown audit artifacts', () => {
   assert.equal(result.status, 0, result.stderr);
   assert.ok(existsSync('docs/seo/comparison-indexation-matrix-2026-07-08.json'));
   assert.ok(existsSync('docs/seo/comparison-indexation-matrix-2026-07-08.md'));
-  assert.match(result.stdout, /"totalUrls": 807/);
+  assert.match(result.stdout, /"totalUrls": 633/);
 });

@@ -6,7 +6,8 @@ import { buildPublicPricingFacts } from '../frontend/src/lib/pricing-public-fact
 import { projectPublicPricingSnapshot, quotePublicPricing } from '../frontend/src/lib/pricing-public-quote';
 import { getWan3InputVideoDurationSec, validateWan3PricingDuration } from '../frontend/src/lib/wan3-pricing';
 
-for (const [id, expectedCents] of [['wan-3', 150], ['wan-3-prime', 210]] as const) {
+// Keyvo 2026-11-13: Bailian list 720p CNY 0.6 (Wan 3) / 0.9 (Prime) per second = 7.5 / 11.25 cents, sold at 80%.
+for (const [id, expectedCents] of [['wan-3', 112.5], ['wan-3-prime', 168.75]] as const) {
   for (const mode of ['ref2v', 'v2v', 'extend'] as const) {
     test(`${id}/${mode} public and billing facts include a 10-second source plus 5-second output`, () => {
       const engine = getBaseEngines().find((entry) => entry.id === id)!;
@@ -20,15 +21,15 @@ for (const [id, expectedCents] of [['wan-3', 150], ['wan-3-prime', 210]] as cons
       assert.equal(publicFacts.addons[0]?.type, 'input_video_duration');
       assert.equal(publicFacts.meta.input_video_duration_sec, 10);
       assert.equal(publicFacts.meta.billable_duration_sec, 15);
-      assert.equal(publicFacts.base.amountCents, id === 'wan-3' ? 50 : 70);
+      assert.equal(publicFacts.base.amountCents, id === 'wan-3' ? 37.5 : 56.25);
       const quote = quotePublicPricing({
         facts: publicFacts.facts,
         scenario: { id: `${id}:${mode}`, engineId: id, mode, resolution: '720p' },
         compatibilityProfileId: publicFacts.compatibilityProfileId,
       });
       const snapshot = projectPublicPricingSnapshot({ quote, ...publicFacts });
-      assert.equal(snapshot.totalCents, id === 'wan-3' ? 195 : 273);
-      assert.equal(snapshot.vendorShareCents, expectedCents);
+      assert.equal(snapshot.totalCents, id === 'wan-3' ? 90 : 135);
+      assert.equal(snapshot.vendorShareCents, id === 'wan-3' ? 90 : 135);
     });
   }
 }
@@ -65,8 +66,8 @@ test('Wan pricing retains fractional source seconds, input/output itemization, a
   assert.equal(billing.meta.billable_duration_sec, 8.25);
 });
 
-test('Wan modes without input video retain their existing output-only rate', () => {
-  for (const [id, expectedCents] of [['wan-3', 50], ['wan-3-prime', 70]] as const) {
+test('Wan modes without input video retain the output-only rate', () => {
+  for (const [id, expectedCents] of [['wan-3', 37.5], ['wan-3-prime', 56.25]] as const) {
     const engine = getBaseEngines().find((entry) => entry.id === id)!;
     for (const mode of ['t2v', 'i2v', 'ref2v'] as const) {
       const context = { engine, mode, durationSec: 5, resolution: '720p', inputVideoDurationSec: 0 };

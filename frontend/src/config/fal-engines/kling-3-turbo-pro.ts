@@ -16,7 +16,7 @@ export const KLING_3_TURBO_PRO_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [{
   versionLabel: '3.0 Turbo Pro',
   availability: 'limited',
   logoPolicy: 'textOnly',
-  billingNote: 'Private fallback contract. Provider cost is capped at $0.140/s until direct Kling pricing is proven lower.',
+  billingNote: 'Provider cost: Bailian / Kling list CNY 1.0/s (1080p, audio on). Keyvo customer prices are 80% of the list price.',
   engine: KLING_3_TURBO_PRO_ENGINE,
   modes: [
     {

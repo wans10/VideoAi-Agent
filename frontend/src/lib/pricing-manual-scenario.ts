@@ -63,10 +63,8 @@ export function continuousInputTariffSelector(selector: ManualTariffSelector): M
     if (!Number.isSafeInteger(Number(selector.durationSec)) || Number(selector.durationSec) < 1) throw new Error('Invalid billed Luma duration.');
     return { ...selector, durationSec: 'continuous' };
   }
-  if (selector.engineId === 'minimax-h3-max' && selector.mode === 'ref2v') {
-    if (!Number.isSafeInteger(Number(selector.referenceTokenBudget)) || Number(selector.referenceTokenBudget) < 0) throw new Error('Invalid trusted reference token budget.');
-    return { ...selector, referenceTokenBudget: 'continuous' };
-  }
+  // MiniMax-H3-Max reference pricing is no longer an open reference-token class on Keyvo: MiniMax's own API bills
+  // whole reference-video seconds and images beyond two, which match exactly (pricing-manual-media.ts).
   if (selector.engineId === 'gemini-omni-flash' && ['v2v', 'retake', 'extend'].includes(selector.mode)) {
     const output = Number(selector.durationSec);
     const source = Number(selector.inputVideoDurationSec ?? 0);

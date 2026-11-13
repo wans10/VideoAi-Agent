@@ -446,8 +446,8 @@ test('published current discovery contains all seven P0 cards before legacy and 
   for (const slug of P0_IDS) assert.ok(slugs.includes(slug), slug);
   assert.ok(slugs.indexOf('ltx-2-5-pro') < slugs.indexOf('ltx-2-3-pro'));
   assert.ok(slugs.indexOf('ltx-2-5-fast') < slugs.indexOf('ltx-2-3-fast'));
-  assert.ok(slugs.indexOf('wan-3-prime') < slugs.indexOf('wan-2-6'));
-  assert.ok(slugs.indexOf('wan-3') < slugs.indexOf('wan-2-6'));
+  // Keyvo 2026-11-13: Wan 2.6 (the former legacy card) is offline, so no Wan legacy card follows the current ones.
+  assert.equal(slugs.includes('wan-2-6'), false);
   for (const deepLegacy of ['ltx-2', 'ltx-2-fast', 'wan-2-5']) {
     assert.equal(slugs.includes(deepLegacy), false, deepLegacy);
   }

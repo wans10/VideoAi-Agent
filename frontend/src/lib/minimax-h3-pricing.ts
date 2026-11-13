@@ -8,26 +8,33 @@ export type MinimaxH3PricingInput = {
   inputVideoDurationSec?: number;
 };
 
+/**
+ * Official mainland list (Bailian, the primary route, https://docs.bailian.console.aliyun.com/zh/model-studio/minimax-h3.md;
+ * MiniMax's own list https://platform.minimaxi.com/docs/pricing/overview.md is equal; checked 2026-11-13):
+ * output 768P CNY 0.50/s, 2K 0.80/s; input (reference) video billed per second at the output resolution's rate;
+ * images beyond 5 per task CNY 0.20 each; audio free. Recorded in USD at the fixed 8 CNY/USD rate. 480P/4K are no
+ * longer offered (Keyvo 2026-11-11) and keep their former fal rates for historical evidence only.
+ */
+export const MINIMAX_H3_OUTPUT_CNY_PER_SECOND: Readonly<Record<string, number>> = { '768P': 0.5, '2K': 0.8 };
 const RATE_PER_SECOND_USD: Record<MinimaxH3PricingInput['resolution'], number> = {
   '480P': 0.05,
-  '768P': 0.06,
-  '2K': 0.13,
+  '768P': MINIMAX_H3_OUTPUT_CNY_PER_SECOND['768P']! / USD_TO_CNY_CUSTOMER_RATE,
+  '2K': MINIMAX_H3_OUTPUT_CNY_PER_SECOND['2K']! / USD_TO_CNY_CUSTOMER_RATE,
   '4K': 0.16,
 };
 
 const INCLUDED_REFERENCE_IMAGES = 5;
-const REFERENCE_IMAGE_SURCHARGE_USD = 0.08;
+export const MINIMAX_H3_EXTRA_IMAGE_CNY = 0.2;
+const REFERENCE_IMAGE_SURCHARGE_USD = MINIMAX_H3_EXTRA_IMAGE_CNY / USD_TO_CNY_CUSTOMER_RATE;
 
-/**
- * PROVISIONAL (2026-11-11): MiniMax bills reference-video input per second at the output resolution's rate,
- * CNY 0.50 (768P) / 0.80 (2K), https://platform.minimaxi.com/docs/pricing/overview.md. Converted at the
- * accounting rate; the normal margin applies on top. Audio input is free.
- */
-export const MINIMAX_H3_INPUT_VIDEO_CNY_PER_SECOND: Readonly<Record<string, number>> = { '768P': 0.5, '2K': 0.8 };
-export const MINIMAX_H3_INPUT_VIDEO_PRICING_SOURCE = 'minimax_official_cny_pricing_2026_11_11_provisional';
+/** Reference-video seconds are billed at the output resolution's per-second list rate. */
+export const MINIMAX_H3_INPUT_VIDEO_CNY_PER_SECOND: Readonly<Record<string, number>> = MINIMAX_H3_OUTPUT_CNY_PER_SECOND;
+export const MINIMAX_H3_PRICING_SOURCE = 'bailian_cn_beijing_minimax_h3_list_2026_11_13';
+export const MINIMAX_H3_INPUT_VIDEO_PRICING_SOURCE = MINIMAX_H3_PRICING_SOURCE;
 
+/** Exact supplier amounts (no cent rounding): the canonical kernel owns customer rounding. */
 function roundUsd(value: number): number {
-  return Number(value.toFixed(2));
+  return Number(value.toFixed(6));
 }
 
 export function calculateMinimaxH3ProviderPrice(input: MinimaxH3PricingInput): {
@@ -66,8 +73,8 @@ export function calculateMinimaxH3ProviderPrice(input: MinimaxH3PricingInput): {
   if (inputVideoSeconds > 0) {
     const cnyPerSecond = MINIMAX_H3_INPUT_VIDEO_CNY_PER_SECOND[input.resolution];
     if (typeof cnyPerSecond !== 'number') throw new Error(`MiniMax H3 reference video is unavailable at ${input.resolution}.`);
-    // Round up so the provisional cost never falls below MiniMax's own charge.
-    inputVideoSurchargeUsd = Math.ceil(inputVideoSeconds * cnyPerSecond * 100 / USD_TO_CNY_CUSTOMER_RATE) / 100;
+    // Started seconds are billed (conservative: the docs bill by input-video duration without a rounding rule).
+    inputVideoSurchargeUsd = roundUsd(inputVideoSeconds * cnyPerSecond / USD_TO_CNY_CUSTOMER_RATE);
   }
   const subtotalUsd = roundUsd(baseSubtotalUsd + referenceImageSurchargeUsd + inputVideoSurchargeUsd);
 

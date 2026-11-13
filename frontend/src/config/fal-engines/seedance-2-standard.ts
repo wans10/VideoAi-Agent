@@ -4,8 +4,7 @@ import type { RawFalEngineEntry } from './types';
 import {
   SEEDANCE_2_ENDPOINTS,
   SEEDANCE_2_LAUNCH_CONFIG,
-  SEEDANCE_2_NORMALIZED_UNIT_PRICE_USD_PER_1K_TOKENS,
-  buildSeedance2PricingDetails,
+  buildSeedanceArkListPricingDetails,
 } from './launch-config';
 
 const SEEDANCE_2_0_ENGINE: EngineCaps = withSeedanceModelArkOptions({
@@ -157,16 +156,11 @@ const SEEDANCE_2_0_ENGINE: EngineCaps = withSeedanceModelArkOptions({
       maxAudioSizeMB: 15,
     },
   },
-  pricingDetails: buildSeedance2PricingDetails(SEEDANCE_2_NORMALIZED_UNIT_PRICE_USD_PER_1K_TOKENS.standard, {
-    unitPriceUsdPer1kTokensByResolution: {
-      '1080p': SEEDANCE_2_NORMALIZED_UNIT_PRICE_USD_PER_1K_TOKENS.standard1080p,
-      '4k': SEEDANCE_2_NORMALIZED_UNIT_PRICE_USD_PER_1K_TOKENS.standard4k,
-    },
-  }),
+  pricingDetails: buildSeedanceArkListPricingDetails('standard'),
   pricing: {
     unit: 'USD/s',
     currency: 'USD',
-    notes: 'Seedance 2 is billed from output tokens. Keyvo adds its margin and rounds up to the next cent before showing the live quote.',
+    notes: 'Seedance 2 is billed from tokens at the Volcengine Ark list price (input video seconds count when present). Keyvo customer prices are 80% of the list price.',
   },
   updatedAt: '2026-04-05T00:00:00Z',
   ttlSec: 600,

@@ -11,7 +11,13 @@ import {
 } from '@/server/video-providers/kling-direct/errors';
 import { resolveKlingDirectModelRoute } from '@/server/video-providers/kling-direct/model-map';
 import { buildKlingDirectV2Payload } from '@/server/video-providers/kling-direct/payload-v2';
-import { createProviderAttempt, markProviderAttemptFailed } from '@/server/video-providers/provider-attempts';
+import {
+  createProviderAttempt,
+  linkProviderFallbackAttempt,
+  markProviderAttemptFailed,
+} from '@/server/video-providers/provider-attempts';
+import { shouldFallbackFromKlingDirectToBailian } from '@/server/video-providers/alibaba-model-studio/bailian-routing';
+import { isKling3TurboOfficialPromptLimitMessage } from '@/lib/kling-3-turbo-official-limits';
 import { createFalMediaTransport } from '@/server/fal-provider-media-access';
 import { persistDirectProviderAcceptance } from './direct-provider-acceptance';
 import { rollbackPendingPayment } from './payment-rollback';
@@ -31,7 +37,10 @@ const STALLED_MESSAGE = 'Provider acceptance needs manual review.';
 const defaultSleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 /**
- * Kling 4.0 / 4.0 Flash official ("new design") submission. Never falls back to Fal.
+ * Kling 4.0 / 4.0 Flash / 3.0 Turbo official ("new design") submission. Never falls back to Fal.
+ * - Kling 3.0 Turbo is also hosted on Bailian (KLING_ROUTE_ORDER): as the second leg this call links its attempt
+ *   to Bailian's (`fallbackFromAttemptId`); as the first leg (`direct,bailian`) a definite pre-acceptance
+ *   rejection hands the reserved charge to the single Bailian submission instead of refunding.
  * - Definite rejections (local validation, documented 1xxx business codes) fail the job and refund.
  * - 1302/1303 (rate / parallel-task limit) are retried with backoff, then fail as "busy" with a refund.
  * - Ambiguous outcomes (transport, 5xxx) are resolved through `options.external_task_id` (the job id):
@@ -44,7 +53,7 @@ export async function submitKlingDirectV2GenerateTask(params: Params): Promise<K
   const rollbackPendingPaymentFn = deps.rollbackPendingPaymentFn ?? rollbackPendingPayment;
   const sleepFn = deps.sleepFn ?? defaultSleep;
   const route = resolveKlingDirectModelRoute(params.engineId);
-  const resolution = params.falPayload.resolution ?? (route.engineId === 'kling-v4-flash' ? '720p' : '1080p');
+  const resolution = route.resolution ?? params.falPayload.resolution ?? (route.engineId === 'kling-v4-flash' ? '720p' : '1080p');
   const estimate = estimateKlingDirectCost({
     engineId: params.engineId,
     mode: params.mode,
@@ -54,11 +63,14 @@ export async function submitKlingDirectV2GenerateTask(params: Params): Promise<K
   const elementCount = params.falPayload.elements?.length ?? 0;
   const attempt = await createProviderAttempt({
     publicJobId: params.jobId,
-    attemptIndex: 1,
+    attemptIndex: params.fallbackFromAttemptId ? 2 : 1,
     provider: 'kling_direct',
     providerModel: route.providerModel,
     status: 'submit_started',
     requestSnapshot: {
+      route: 'direct',
+      routeRole: params.fallbackFromAttemptId ? 'fallback' : 'primary',
+      bailianFallbackAvailable: Boolean(params.submitBailianFallback),
       engineId: params.engineId,
       mode: params.mode,
       providerModel: route.providerModel,
@@ -79,6 +91,10 @@ export async function submitKlingDirectV2GenerateTask(params: Params): Promise<K
     },
     queryFn,
   });
+  if (params.fallbackFromAttemptId) {
+    await linkProviderFallbackAttempt({ fromAttemptId: params.fallbackFromAttemptId, toAttemptId: attempt.id, queryFn })
+      .catch(() => undefined);
+  }
 
   const client = getKlingDirectClientFn();
   const createMediaTransport = deps.createMediaTransportFn ?? createFalMediaTransport;
@@ -168,6 +184,21 @@ export async function submitKlingDirectV2GenerateTask(params: Params): Promise<K
 
   const normalized = classifyKlingDirectError(failure ?? new KlingDirectError('Kling direct submission was not accepted.'));
   const busy = isKlingDirectBusyRejection(failure);
+  if (outcome === 'definite' && failure && isKlingDirectDefiniteRejection(failure) && params.submitBailianFallback
+    && shouldFallbackFromKlingDirectToBailian({ acceptedProviderJobId: null, error: failure })) {
+    // Kling certainly created no task; the reserved charge moves to the single Bailian submission.
+    await markProviderAttemptFailed({
+      attemptId: attempt.id,
+      errorCode: normalized.code,
+      errorClass: busy ? 'provider_busy' : normalized.errorClass,
+      fallbackEligible: true,
+      responseSnapshot: sanitize(normalized.raw),
+      queryFn,
+    });
+    params.logMetricFn('rejected', { jobId: params.jobId, errorCode: normalized.code ?? normalized.errorClass,
+      meta: { provider: 'kling_direct', errorClass: normalized.errorClass, fallbackTo: 'bailian' } });
+    return params.submitBailianFallback(attempt.id);
+  }
   await markProviderAttemptFailed({
     attemptId: attempt.id,
     errorCode: outcome === 'stalled' ? 'SUBMISSION_OUTCOME_UNKNOWN' : normalized.code,
@@ -194,7 +225,10 @@ export async function submitKlingDirectV2GenerateTask(params: Params): Promise<K
     return { ok: false, status: 503, body: { ok: false, error: 'PROVIDER_OUTCOME_UNKNOWN', jobId: params.jobId } };
   }
 
-  const message = busy ? KLING_DIRECT_BUSY_MESSAGE : userSafeKlingDirectMessage(normalized.errorClass);
+  // Our own Turbo prompt-limit rejection is specific and user-facing; other causes keep the generic copy.
+  const turboPromptLimit = normalized.code === 'KLING_V2_REQUEST_INVALID'
+    && isKling3TurboOfficialPromptLimitMessage(normalized.message) ? normalized.message : null;
+  const message = busy ? KLING_DIRECT_BUSY_MESSAGE : turboPromptLimit ?? userSafeKlingDirectMessage(normalized.errorClass);
   await markJobFailedBeforeFallback({
     jobId: params.jobId,
     engineLabel: params.engineLabel,

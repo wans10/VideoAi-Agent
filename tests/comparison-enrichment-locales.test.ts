@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { comparisonInvolvesHiddenModel } from './helpers/keyvo-hidden-comparisons.ts';
+import { comparisonInvolvesHiddenModel, KEYVO_OFFLINE_MODEL_SLUGS } from './helpers/keyvo-hidden-comparisons.ts';
 
 import engineCatalog from '../frontend/config/engine-catalog.json' with { type: 'json' };
 import { getComparePageOverride } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/[slug]/_lib/compare-page-overrides.ts';
@@ -181,7 +181,16 @@ test('every comparison enrichment link resolves to a public model or comparison 
           const modelSlug = link.href.slice('/models/'.length);
           const model = CATALOG_BY_SLUG.get(modelSlug);
           assert.ok(model, `missing model route ${link.href}`);
-          assert.equal(model.surfaces.modelPage.indexable, true, `model route should be public: ${link.href}`);
+          // Models Keyvo took offline (e.g. Wan 2.6 and Kling 2.6 Pro since 2026-11-13) are unpublished in the
+          // registry; the only overrides linking to them belong to comparisons that are themselves unpublished.
+          assert.equal(
+            model.surfaces.modelPage.indexable,
+            !KEYVO_OFFLINE_MODEL_SLUGS.has(modelSlug),
+            `model route publication follows the Keyvo offline policy: ${link.href}`,
+          );
+          if (KEYVO_OFFLINE_MODEL_SLUGS.has(modelSlug)) {
+            assert.equal(isPublishedComparisonSlug(slug), false, `${slug} links to offline ${link.href} and must be unpublished`);
+          }
         }
         if (link.href.startsWith('/ai-video-engines/')) {
           assert.equal(

@@ -1,3 +1,4 @@
+import { OFFICIAL_LIST_PRICED_ENGINE_IDS } from '../frontend/src/lib/official-list-pricing';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -35,6 +36,14 @@ test('atomic local cutover rejects stale certificates, preserves staged evidence
       currency TEXT, compatibility_profile TEXT, vendor_account_id TEXT, effective_from TIMESTAMPTZ, updated_at TIMESTAMPTZ, updated_by UUID);
       INSERT INTO app_pricing_rules (id, margin_percent, margin_flat_cents, surcharge_audio_percent, surcharge_upscale_percent, currency)
       VALUES ('default', .3, 0, .2, .5, 'USD');`);
+    // Keyvo 2026-11-13: official-list engines sell at 80% of their list cost, which a manual tariff cannot represent
+    // (below cost). This cutover fixture keeps them on the margin path with explicit engine rules (an admin decision; 150%
+    // so the Ark-list basis stays above every BytePlus supplier reference the Seedance input tariff guard compares),
+    // so the activation machinery stays exercised; Keyvo's own prices are never cut over.
+    for (const engineId of OFFICIAL_LIST_PRICED_ENGINE_IDS) {
+      await db.pool.query(`INSERT INTO app_pricing_rules (id, engine_id, margin_percent, margin_flat_cents, surcharge_audio_percent,
+        surcharge_upscale_percent, currency) VALUES ($1, $2, 1.5, 0, .2, .5, 'USD')`, [`keyvo-margin-${engineId}`, engineId]);
+    }
     for (const migration of ['27_pricing_admin_cockpit.sql', '54_customer_tariff_cells.sql', '55_customer_tariff_versions.sql', '57_customer_tariff_local_activation_events.sql', '58_customer_tariff_bulk_interval_lock.sql']) {
       await db.pool.query(readFileSync(`neon/migrations/${migration}`, 'utf8'));
     }
@@ -70,12 +79,15 @@ test('atomic local cutover rejects stale certificates, preserves staged evidence
       approvedSeedanceLasPolicy: 'reviewed_2_5x_las_list',
       policy, sourceTariffRevision: 0, sourceTariffStateHash, codeRevision: 'test-code', factualEnvironmentHash: 'test-env', approvedGptImage25ReferenceFloor });
     assert.equal(release.report.remainingCoverageGaps.length, 0);
-    // 89 upstream new-offer scenarios minus the 6 hidden H3 Max Recast/Relight cells.
+    // 89 upstream new-offer scenarios minus the 6 H3 Max Recast/Relight cells (Fal-only, KEYVO_UNSERVED_VIDEO_OPERATIONS).
     assert.equal(release.report.newOfferScenarios, 83);
     assert.equal(baseline.rows.filter(row => row.initialization?.kind === 'new_offer').length, 83);
     assert.ok(baseline.rows.filter(row => row.initialization).every(row => row.initialization!.beforeCents === null));
-    // Upstream's 26982 plus Keyvo's Alibaba Qwen Image models (8 cells), less 555 for the provider-completeness sync (offline models, hidden H3 Max, H3 without 480P/4K, plus the new Hailuo 2.3 / Fast and Seedream Flash cells).
-    assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length, 26982 + 8 - 555);
+    // Upstream's 26982 plus Keyvo's Alibaba Qwen Image models (8 cells), less 555 for the provider-completeness sync (offline models, hidden H3 Max, H3 without 480P/4K, plus the new Hailuo 2.3 / Fast and Seedream Flash cells),
+    // plus H3-Max's 3564 exact cells on MiniMax's own API (2026-11-12).
+    // -84 (2026-11-13): Wan 2.6 / Kling 2.5 Turbo / Kling 2.6 Pro offline, Kling 3 voice-control variants merged, Hailuo 02
+    // 512P text-to-video unsold (customer-tariff-cutover-evidence.test.ts).
+    assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length, 26982 + 8 - 555 + 3564 - 84);
     const run = (candidate = release, fingerprint = release.report.fingerprint, bindings = release.report.bindings) => withDbTransaction(e =>
       activateLocalCustomerTariffs(e, { release: candidate, fingerprint, currentBindings: bindings, actorId: actor }));
     await assert.rejects(run(release, 'old-browser'), /stale/i);

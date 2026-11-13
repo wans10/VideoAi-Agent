@@ -1,6 +1,7 @@
 /**
  * MiniMax official video APIs at https://api.minimax.cn.
- * - V2 (`/v2/video_generation`) serves MiniMax-H3: text, first/last frame, and multimodal references.
+ * - V2 (`/v2/video_generation`) serves MiniMax-H3 and MiniMax-H3-Max: text, first/last frame, and multimodal
+ *   references. H3-Max takes 5-15 s at 480P/768P and `extra.prompt_expansion_mode`.
  * - Legacy V1 (`/v1/video_generation`) serves the Hailuo models: text, first frame, first + last frame.
  * The class mirrors LlmhubVideoClient's create/status/content shapes so submission and polling need no changes.
  * Docs (checked 2026-11-11): platform.minimaxi.com/docs/api-reference/video-generation-v2-create.md,
@@ -9,20 +10,20 @@
 import {
   isMinimaxLegacyVideoCombination,
   isMinimaxLegacyVideoModel,
-  MINIMAX_H3_OFFICIAL_DURATIONS,
+  MINIMAX_H3_MAX_PROMPT_EXPANSION_MODES,
   MINIMAX_H3_OFFICIAL_RATIOS,
-  MINIMAX_H3_OFFICIAL_RESOLUTIONS,
   MINIMAX_H3_PROMPT_MAX_CHARS,
   MINIMAX_H3_REFERENCE_LIMITS,
   MINIMAX_LEGACY_PROMPT_MAX_CHARS,
+  MINIMAX_V2_MODEL_LIMITS,
   minimaxLegacyTask,
 } from '@/lib/minimax-video-limits';
 import { acquireMinimaxSlot } from '@/server/minimax-rate-limit';
 
 const DEFAULT_BASE_URL = 'https://api.minimax.cn';
 
-/** Models served by the V2 API. */
-export const MINIMAX_OFFICIAL_MODELS = new Set(['MiniMax-H3']);
+/** Models served by the V2 API. They share its 300 RPM bucket and 30 in-flight tasks. */
+export const MINIMAX_OFFICIAL_MODELS = new Set(['MiniMax-H3', 'MiniMax-H3-Max']);
 /** Models served by the legacy V1 API. */
 export const MINIMAX_LEGACY_MODELS = new Set(['MiniMax-Hailuo-2.3', 'MiniMax-Hailuo-2.3-Fast', 'MiniMax-Hailuo-02']);
 
@@ -143,6 +144,8 @@ export type MinimaxOfficialCreateInput = {
   referenceAudioUrls?: readonly string[];
   /** Legacy API only; MiniMax defaults it to true. */
   promptOptimizer?: boolean | null;
+  /** MiniMax-H3-Max only (`extra.prompt_expansion_mode`); MiniMax defaults it to `balanced`. */
+  promptExpansionMode?: string | null;
 };
 
 export class MinimaxOfficialVideoClient {
@@ -170,15 +173,23 @@ export class MinimaxOfficialVideoClient {
   }
 
   private async createV2(input: MinimaxOfficialCreateInput): Promise<{ id: string; raw: unknown }> {
+    const model = input.model as keyof typeof MINIMAX_V2_MODEL_LIMITS;
+    const limits = MINIMAX_V2_MODEL_LIMITS[model];
     const prompt = input.prompt?.trim() ?? '';
-    if (!prompt) throw invalid('MiniMax-H3 needs a prompt.');
-    if ([...prompt].length > MINIMAX_H3_PROMPT_MAX_CHARS) throw invalid(`MiniMax-H3 prompts are limited to ${MINIMAX_H3_PROMPT_MAX_CHARS} characters.`);
-    if (!(MINIMAX_H3_OFFICIAL_DURATIONS as readonly number[]).includes(input.seconds)) {
-      throw invalid('MiniMax-H3 duration must be an integer from 4 through 15 seconds.');
+    if (!prompt) throw invalid(`${model} needs a prompt.`);
+    if ([...prompt].length > MINIMAX_H3_PROMPT_MAX_CHARS) throw invalid(`${model} prompts are limited to ${MINIMAX_H3_PROMPT_MAX_CHARS} characters.`);
+    if (!limits.durations.includes(input.seconds)) {
+      throw invalid(`${model} duration must be an integer from ${limits.durations[0]} through 15 seconds.`);
     }
     const resolution = (input.resolution ?? '768P').toUpperCase();
-    if (!(MINIMAX_H3_OFFICIAL_RESOLUTIONS as readonly string[]).includes(resolution)) {
-      throw invalid('MiniMax-H3 accepts only 768P and 2K.');
+    if (!limits.resolutions.includes(resolution)) {
+      throw invalid(`${model} accepts only ${limits.resolutions.join(' and ')}.`);
+    }
+    const promptExpansionMode = input.promptExpansionMode?.trim() || null;
+    if (promptExpansionMode && (model !== 'MiniMax-H3-Max'
+      || !(MINIMAX_H3_MAX_PROMPT_EXPANSION_MODES as readonly string[]).includes(promptExpansionMode))) {
+      // The schema refuses undeclared `extra` fields and values (additionalProperties: false).
+      throw invalid(`${model} does not accept prompt expansion mode ${promptExpansionMode}.`);
     }
     const images = input.referenceImageUrls ?? [];
     const videos = input.referenceVideoUrls ?? [];
@@ -218,6 +229,7 @@ export class MinimaxOfficialVideoClient {
       resolution,
       duration: input.seconds,
       ...(ratio ? { ratio } : {}),
+      ...(promptExpansionMode ? { extra: { prompt_expansion_mode: promptExpansionMode } } : {}),
     };
     localRateLimit('video_v2');
     const response = await this.fetchFn(`${this.baseUrl}/v2/video_generation`, {

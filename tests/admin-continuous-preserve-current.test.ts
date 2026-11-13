@@ -18,7 +18,15 @@ test('preserve current copies live rounding while inactive, and the current auth
     scenarioId: scenario.id, price: { kind: 'preserve_current' as const } },
     policy: { status: 'loaded' as const, rules: [{ id: 'default', marginPercent: 0.3, marginFlatCents: 0,
       surchargeAudioPercent: 0.2, surchargeUpscalePercent: 0.5, currency: 'USD' }] } };
-  assert.equal((await prepareContinuousWanTariffChange(input)).proposedCents, 108, 'a prepared draft is not the live price');
+  // Keyvo 2026-11-13: the live Wan 3 price is the official-list-80 rule (80% of the Bailian list), which is below cost, so
+  // the continuous compiler refuses to copy it into a tariff (documented refusal; the tariff state is never activated).
+  // A DATABASE-wide rule cannot override that profile.
+  await assert.rejects(prepareContinuousWanTariffChange(input), /Unsupported Wan continuous tariff profile; explicit review is required/);
+  // An engine-specific DATABASE rule (explicit admin decision) keeps the margin path on the official cost, and preserve
+  // current still copies that live rounding into the draft rather than the authored cell.
+  const engineRule = { ...input, policy: { ...input.policy, rules: [{ ...input.policy.rules[0], id: 'wan-3-rule', engineId: 'wan-3' }] } };
+  assert.equal((await prepareContinuousWanTariffChange(engineRule)).proposedCents, 81,
+    'a prepared draft is not the live price'); // 30% margin on the Bailian list: 8.25 s x 7.5c = 61.875c -> 81 (was 108 on the Singapore list)
   assert.equal((await prepareContinuousWanTariffChange({ ...input, state: { ...state, active: true } })).proposedCents, 129,
     'after activation do not resurrect the retired percentage rule');
 });

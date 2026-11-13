@@ -11,7 +11,7 @@ import { LumaAgentsError } from '../frontend/src/server/video-providers/luma-age
 import { GoogleVertexVeoError } from '../frontend/src/server/video-providers/google-vertex-veo/errors';
 
 const providers = [
-  { name: 'Kling', engine: 'kling-3-turbo-standard', submit: submitKlingDirectGenerateTask,
+  { name: 'Kling', engine: 'kling-3-standard', submit: submitKlingDirectGenerateTask, // legacy V3 + Fal fallback
     client: 'getKlingDirectClientFn', method: 'createTask', failure: new KlingDirectError('Account balance not enough', { status: 429, code: '1102' }) },
   { name: 'Alibaba', engine: 'wan-3', submit: submitAlibabaModelStudioGenerateTask,
     client: 'getAlibabaModelStudioClientFn', method: 'createVideo', failure: new AlibabaModelStudioError('Rate limited', { status: 429 }) },

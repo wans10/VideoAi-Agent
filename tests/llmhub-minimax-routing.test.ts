@@ -193,7 +193,62 @@ test('Hailuo engines follow the documented legacy matrix on the official route',
     attachments: [{ kind: 'image', slotId: 'image_url', url: 'https://a/1.png' }, { kind: 'image', slotId: 'end_image_url', url: 'https://a/2.png' }],
   }, officialOnly).kind, 'fal_only');
   assert.equal(plan('minimax-hailuo-2-3', 't2v', { durationSec: 6, resolution: '768P', extraInputValues: { prompt_optimizer: 'off' } }, officialOnly).kind, 'llmhub_primary');
-  assert.equal(plan('minimax-h3-max', 't2v', { durationSec: 6, resolution: '768P' }, official).kind, 'fal_only');
+});
+
+test('MiniMax-H3-Max runs on the official V2 API only, with its own limits; Recast/Relight stay on Fal', () => {
+  assert.equal(resolveLlmhubVideoModel('minimax-h3-max', 't2v'), null);
+  for (const mode of ['t2v', 'i2v', 'ref2v']) assert.equal(resolveLlmhubVideoModel('minimax-h3-max', mode, officialOnly), 'MiniMax-H3-Max', mode);
+  assert.equal(resolveLlmhubVideoModel('minimax-h3-max', 'v2v', officialOnly), null);
+  // LLM Hub alone (no MiniMax switch) never serves H3-Max.
+  assert.equal(plan('minimax-h3-max', 't2v', { durationSec: 6, resolution: '768P' }).kind, 'fal_only');
+  for (const env of [officialOnly, official]) {
+    assert.deepEqual(plan('minimax-h3-max', 't2v', { durationSec: 6, resolution: '768P', extraInputValues: { prompt_expansion_mode: 'quality' } }, env),
+      { kind: 'llmhub_primary', primaryProvider: 'llmhub', modelId: 'MiniMax-H3-Max' });
+  }
+  assert.equal(plan('minimax-h3-max', 't2v', { durationSec: 5, resolution: '480P' }, officialOnly).kind, 'llmhub_primary');
+  assert.equal(plan('minimax-h3-max', 'i2v', { durationSec: 15, resolution: '768P',
+    attachments: [{ kind: 'image', slotId: 'end_image_url', url: 'https://a/2.png' }] }, officialOnly).kind, 'llmhub_primary');
+  assert.equal(plan('minimax-h3-max', 'ref2v', { durationSec: 10, resolution: '768P', attachments: [
+    { kind: 'image', slotId: 'reference_image_urls', url: 'https://a/1.png' },
+    { kind: 'video', slotId: 'reference_video_urls', url: 'https://a/1.mp4' },
+    { kind: 'audio', slotId: 'reference_audio_urls', url: 'https://a/1.mp3' },
+  ] }, officialOnly).kind, 'llmhub_primary');
+  for (const request of [{ durationSec: 4, resolution: '768P' }, { durationSec: 5, resolution: '1080P' }, { durationSec: 5, resolution: '2K' },
+    { durationSec: 5, resolution: '768P', seed: 1 }, { durationSec: 5, resolution: '768P', extraInputValues: { prompt_expansion_mode: 'fast' } },
+    { durationSec: 5, resolution: '768P', extraInputValues: { middle_frame_time: 2 } }]) {
+    assert.equal(plan('minimax-h3-max', 't2v', request, officialOnly).kind, 'fal_only', JSON.stringify(request));
+  }
+  // Frames and references cannot be combined on the V2 API.
+  assert.equal(plan('minimax-h3-max', 'ref2v', { durationSec: 5, resolution: '768P', attachments: [
+    { kind: 'image', slotId: 'image_url', url: 'https://a/1.png' }, { kind: 'audio', slotId: 'reference_audio_urls', url: 'https://a/1.mp3' },
+  ] }, officialOnly).kind, 'fal_only');
+  // Recast/Relight are Fal endpoints: without Fal they have no route on Keyvo.
+  for (const operation of ['h3-recast', 'h3-relight']) {
+    assert.equal(resolveVideoProviderRoutingPlan({ engineId: 'minimax-h3-max', mode: 'v2v', operation, isAdmin: false,
+      env: officialOnly } as Parameters<typeof resolveVideoProviderRoutingPlan>[0]).kind, 'fal_only', operation);
+  }
+  // Not hosted on Bailian: the Bailian route order never applies.
+  assert.equal(plan('minimax-h3-max', 't2v', { durationSec: 6, resolution: '768P' }, { ...officialOnly,
+    ALIBABA_MODEL_STUDIO_ENABLED: 'true', ALIBABA_MODEL_STUDIO_API_KEY: 'a', ALIBABA_MODEL_STUDIO_ADMIN_ONLY: 'false',
+    ALIBABA_MODEL_STUDIO_PUBLIC_ROUTING_ENABLED: 'true', MINIMAX_H3_ROUTE_ORDER: 'bailian,direct' }).kind, 'llmhub_primary');
+});
+
+test('the workspace sees H3-Max as the official API accepts it: no 1080P, Fal-only controls or Recast/Relight', () => {
+  const max = narrowToLlmhubMinimax(getFalEngineById('minimax-h3-max')!.engine, officialOnly);
+  assert.deepEqual(max.modes, ['t2v', 'i2v', 'ref2v']);
+  assert.deepEqual(max.resolutions, ['480P', '768P']);
+  assert.equal(max.operationCaps, undefined);
+  assert.deepEqual(Object.keys(max.modeCaps ?? {}).sort(), ['i2v', 'ref2v', 't2v']);
+  const ids = [...(max.inputSchema?.optional ?? []), ...(max.inputSchema?.required ?? [])].map((field) => field.id);
+  assert.ok(ids.includes('prompt_expansion_mode'));
+  for (const kept of ['image_url', 'end_image_url', 'reference_image_urls', 'reference_video_urls', 'reference_audio_urls']) assert.ok(ids.includes(kept), kept);
+  for (const gone of ['target_audio_url', 'seed', 'middle_image_url', 'middle_frame_time', 'reference_order', 'video_url',
+    'reference_image_url', 'enhance_realism', 'enable_safety_checker']) assert.equal(ids.includes(gone), false, gone);
+  const duration = (max.inputSchema?.optional ?? []).find((field) => field.id === 'duration');
+  assert.deepEqual([duration?.values?.[0], duration?.values?.at(-1)], ['5', '15']);
+  // Without the MiniMax switch nothing serves H3-Max, so the catalogue entry is returned unchanged.
+  const raw = getFalEngineById('minimax-h3-max')!.engine;
+  assert.equal(narrowToLlmhubMinimax(raw, on), raw);
 });
 
 test('the workspace sees what the official API accepts when the switch is on', () => {

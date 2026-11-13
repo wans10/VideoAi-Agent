@@ -1,4 +1,6 @@
-import type { EngineAvailability, EnginePricingDetails } from '../../../types/engines';
+import type { AspectRatio, EngineAvailability, EnginePricingDetails, Resolution, TokenVideoPricingDimensions } from '../../../types/engines';
+
+type TokenVideoPricingDimensionsByResolution = Partial<Record<Resolution, Partial<Record<AspectRatio, TokenVideoPricingDimensions>>>>;
 
 // single confirmation pass when Fal publishes the final stable IDs.
 export const SEEDANCE_2_ENDPOINTS = {
@@ -178,41 +180,85 @@ export function buildSeedance2PricingDetails(
   };
 }
 
-export function buildSeedance2MiniPricingDetails(): EnginePricingDetails {
+/**
+ * Volcengine Ark cn-beijing list prices in CNY per million tokens, "输入不含视频" / "输入包含视频"
+ * (https://ark.volcengine.com/region:cn-beijing/docs/model-pricing.md, checked 2026-11-13). These are the true
+ * supplier facts of Keyvo's Seedance engines; Keyvo sells at 80% of them (official-list-pricing.ts). The minimum-token
+ * rule for requests with video input is published only as an external table and is NOT modelled.
+ */
+export const SEEDANCE_ARK_LIST_CNY_PER_MILLION_TOKENS = {
+  standard: {
+    '480p': { no_video_input: 46, video_input: 28 },
+    '720p': { no_video_input: 46, video_input: 28 },
+    '1080p': { no_video_input: 51, video_input: 31 },
+    '4k': { no_video_input: 26, video_input: 16 },
+  },
+  fast: {
+    '480p': { no_video_input: 37, video_input: 22 },
+    '720p': { no_video_input: 37, video_input: 22 },
+  },
+  mini: {
+    '480p': { no_video_input: 23, video_input: 14 },
+    '720p': { no_video_input: 23, video_input: 14 },
+  },
+  seedance25: {
+    '480p': { no_video_input: 70, video_input: 42 },
+    '720p': { no_video_input: 70, video_input: 42 },
+    '1080p': { no_video_input: 77, video_input: 46 },
+  },
+} as const;
+export const SEEDANCE_ARK_LIST_PRICING_SOURCE = 'volcengine_ark_cn_beijing_list_2026_11_13';
+const ARK_CNY_PER_USD = 8;
+
+type SeedanceArkListTier = keyof typeof SEEDANCE_ARK_LIST_CNY_PER_MILLION_TOKENS;
+
+/** CNY per million tokens -> USD per 1,000 tokens at the fixed 8 CNY/USD accounting rate. */
+function arkCnyPerMillionToUsdPer1k(cny: number): number {
+  return cny / ARK_CNY_PER_USD / 1000;
+}
+
+export function buildSeedanceArkListPricingDetails(
+  tier: SeedanceArkListTier,
+  dimensions: TokenVideoPricingDimensionsByResolution = SEEDANCE_2_TOKEN_DIMENSIONS,
+): EnginePricingDetails {
+  const table = SEEDANCE_ARK_LIST_CNY_PER_MILLION_TOKENS[tier] as Readonly<Record<string, { no_video_input: number; video_input: number }>>;
+  const byResolution: Partial<Record<Resolution, number>> = {};
+  const byResolutionAndInputType: Partial<Record<Resolution, Partial<Record<'no_video_input' | 'video_input', number>>>> = {};
+  for (const [resolution, rates] of Object.entries(table)) {
+    byResolution[resolution as Resolution] = arkCnyPerMillionToUsdPer1k(rates.no_video_input);
+    byResolutionAndInputType[resolution as Resolution] = {
+      no_video_input: arkCnyPerMillionToUsdPer1k(rates.no_video_input),
+      video_input: arkCnyPerMillionToUsdPer1k(rates.video_input),
+    };
+  }
+  const reference = table['720p']!;
   return {
     currency: 'USD',
     tokenPricing: {
       model: 'byteplus_tokens',
-      unitPriceUsdPer1kTokens: SEEDANCE_2_NORMALIZED_UNIT_PRICE_USD_PER_1K_TOKENS.mini,
-      pricingSource: 'byteplus_seedance_2_0_mini_flat_markup',
+      unitPriceUsdPer1kTokens: arkCnyPerMillionToUsdPer1k(reference.no_video_input),
+      unitPriceUsdPer1kTokensByInputType: {
+        no_video_input: arkCnyPerMillionToUsdPer1k(reference.no_video_input),
+        video_input: arkCnyPerMillionToUsdPer1k(reference.video_input),
+      },
+      unitPriceUsdPer1kTokensByResolution: byResolution,
+      unitPriceUsdPer1kTokensByResolutionAndInputType: byResolutionAndInputType,
+      pricingSource: SEEDANCE_ARK_LIST_PRICING_SOURCE,
+      inputVideoTokenBasis: 'input_plus_output',
       framesPerSecond: 24,
       defaultAspectRatio: '16:9',
-      dimensions: SEEDANCE_2_MINI_TOKEN_DIMENSIONS,
+      dimensions,
       rounding: 'ceil_cent',
     },
   };
 }
 
+export function buildSeedance2MiniPricingDetails(): EnginePricingDetails {
+  return buildSeedanceArkListPricingDetails('mini', SEEDANCE_2_MINI_TOKEN_DIMENSIONS);
+}
+
 export function buildSeedance25PricingDetails(): EnginePricingDetails {
-  return {
-    currency: 'USD',
-    tokenPricing: {
-      model: 'byteplus_tokens',
-      unitPriceUsdPer1kTokens:
-        SEEDANCE_2_NORMALIZED_UNIT_PRICE_USD_PER_1K_TOKENS.seedance25NoVideo,
-      unitPriceUsdPer1kTokensByInputType: {
-        no_video_input:
-          SEEDANCE_2_NORMALIZED_UNIT_PRICE_USD_PER_1K_TOKENS.seedance25NoVideo,
-        video_input:
-          SEEDANCE_2_NORMALIZED_UNIT_PRICE_USD_PER_1K_TOKENS.seedance25Video,
-      },
-      pricingSource: 'byteplus_seedance_2_5_260628_approved_2_5x',
-      framesPerSecond: 24,
-      defaultAspectRatio: '16:9',
-      dimensions: SEEDANCE_2_5_TOKEN_DIMENSIONS,
-      rounding: 'ceil_cent',
-    },
-  };
+  return buildSeedanceArkListPricingDetails('seedance25', SEEDANCE_2_5_TOKEN_DIMENSIONS);
 }
 
 export const SEEDANCE_2_LAUNCH_CONFIG = {

@@ -526,8 +526,9 @@ test('enum-backed T2V audio controls use only schema-proven boolean strings', ()
 test('the named public pricing scenarios stay locked to current canonical totals', () => {
   assert.equal(quoteScenario('ltx-2-3-fast', 6, '1080p'), 32);
   assert.equal(quoteScenario('wan-2-6', 5, '720p'), 65);
-  assert.equal(quoteScenario('wan-3', 5, '720p'), 65);
-  assert.notEqual(quoteScenario('wan-3', 5, '720p'), 50, 'MCP displays the customer quote, not the provider cost');
+  // Keyvo 2026-11-13: Wan 3 sells at 80% of the Bailian list (5 s 720p = 37.5 cents of cost -> 30 cents).
+  assert.equal(quoteScenario('wan-3', 5, '720p'), 30);
+  assert.notEqual(quoteScenario('wan-3', 5, '720p'), 37.5, 'MCP displays the customer quote, not the provider cost');
 });
 
 test('selected routes are current, public, enabled, non-legacy, and text-to-video compatible', () => {

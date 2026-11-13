@@ -151,8 +151,10 @@ test('Wan 3 and Prime preserve the complete provider schema and reference contra
     assert.equal(entry(id).engine.extend, true);
   }
 
-  assert.deepEqual(entry('wan-3').engine.pricingDetails?.perSecondCents?.byResolution, { '480p': 5, '720p': 10, '1080p': 20 });
-  assert.deepEqual(entry('wan-3-prime').engine.pricingDetails?.perSecondCents?.byResolution, { '480p': 6.8, '720p': 14, '1080p': 28 });
+  // Keyvo 2026-11-13: provider cost is the Bailian cn-beijing list (Wan 3 CNY 0.3/0.6/1.2 per second, Prime 0.45/0.9/1.8)
+  // at 8 CNY/USD, replacing the fal USD rates (5/10/20 and 6.8/14/28 cents); see wan-3.ts and wan-3-prime.ts.
+  assert.deepEqual(entry('wan-3').engine.pricingDetails?.perSecondCents?.byResolution, { '480p': 3.75, '720p': 7.5, '1080p': 15 });
+  assert.deepEqual(entry('wan-3-prime').engine.pricingDetails?.perSecondCents?.byResolution, { '480p': 5.625, '720p': 11.25, '1080p': 22.5 });
 });
 
 test('HappyHorse 1.1 keeps its three modes and exposes all official direct resolutions', () => {
@@ -162,8 +164,9 @@ test('HappyHorse 1.1 keeps its three modes and exposes all official direct resol
   assert.deepEqual(item.engine.resolutions, ['720p', '1080p', '480p']);
   assert.deepEqual(item.engine.inputSchema?.optional.find((field) => field.id === 'resolution')?.values, ['480p', '720p', '1080p']);
   assert.deepEqual(item.engine.fps, [24]);
+  // Keyvo 2026-11-13: Bailian cn-beijing list CNY 0.45/0.9/1.2 per second at 8 CNY/USD (was fal 7/14/18 cents).
   assert.deepEqual(item.engine.pricingDetails?.perSecondCents?.byResolution, {
-    '480p': 7, '720p': 14, '1080p': 18,
+    '480p': 5.625, '720p': 11.25, '1080p': 15,
   });
 });
 

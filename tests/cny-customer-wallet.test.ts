@@ -88,8 +88,9 @@ test('the Chinese pricing page highlights display renminbi quotes', () => {
     id: '5s-480p', label: '5s 480p', subLabel: 'Draft', resolution: '480p', durationSec: 5, audio: false,
   }, 'zh');
   const image = getImagePresetQuote(gptImage, { id: 'product-still', resolution: '1024x768', quality: 'medium' }, 'zh');
-  assert.equal(video.amountCents, 680);
-  assert.equal(video.display, '¥6.80');
+  // Keyvo 2026-11-13: 80% of the Ark list (5 s 480p Seedance 2.0 = 27.6 cents -> 22 cents = CNY 1.76).
+  assert.equal(video.amountCents, 176);
+  assert.equal(video.display, '¥1.76');
   assert.equal(image.amountCents, 48);
   assert.equal(image.display, '¥0.48');
 });

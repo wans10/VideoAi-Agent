@@ -38,8 +38,10 @@ const unavailableOther = {
 // (1 input; MiniMax's own API accepts 768P/2K only) and Seedream 5.0 Flash was added (1 input). Two of the removed
 // inputs had no public tariff scenario (five did), so transactions drop by 5 - 1 = 4. The unfiltered catalog keeps
 // MiniMax-H3-Max; MiniMax-H3's 768P entry input still has no public scenario, exactly as before.
-const MODEL_QUOTES = 153 - 4 - 2 - 1 + 1;
-const TRANSACTIONS = 143 - 5 + 1;
+// 2026-11-12: MiniMax-H3-Max runs on MiniMax's own API (480P/768P), so its two distinct 1080P preset inputs (8 s and
+// 10 s, both with public tariff scenarios) leave the hub; its native entry-route input remains: -2 attempts, -2 transactions.
+const MODEL_QUOTES = 153 - 4 - 2 - 1 + 1 - 2 - 9;
+const TRANSACTIONS = 143 - 5 + 1 - 2 - 7;
 const pikaInput = { modelId: 'pika-text-to-video', mode: 't2v', durationSec: 5, resolution: '720p' };
 const flux3MaxInputs: PublicModelQuoteInput[] = [
   { modelId: 'flux-3-max', mode: 't2v', durationSec: 10, resolution: '720p', audio: false },
@@ -143,8 +145,10 @@ test('default Pricing shares one successful policy read while preserving every i
       // Five Max inputs add five independent transactions, even when audio shares a tariff selector.
       // The two Nano21 reads and six launch reads keep independent transactions.
       // Eight unsupported hub inputs (four upstream, four Qwen) still perform no policy or tariff I/O: 147 attempts, 139 transactions.
-      assert.equal(MODEL_QUOTES, 147);
-      assert.equal(TRANSACTIONS, 139);
+      // 145 / 137 since H3-Max lost its two 1080P preset inputs (2026-11-12, see MODEL_QUOTES); 136 / 130 since Wan 2.6,
+      // Kling 2.5 Turbo and Kling 2.6 Pro went offline and Kling 4.0 quotes on the official-list rule (2026-11-13).
+      assert.equal(MODEL_QUOTES, 136);
+      assert.equal(TRANSACTIONS, 130);
       assert.equal(attempts, MODEL_QUOTES);
       assert.deepEqual(observe.counts, { policy: TRANSACTIONS, begin: TRANSACTIONS, state: TRANSACTIONS, selected: TRANSACTIONS,
         commit: TRANSACTIONS, rollback: 0, other: 0 });

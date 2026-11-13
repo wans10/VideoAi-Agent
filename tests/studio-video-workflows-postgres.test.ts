@@ -1,5 +1,6 @@
-// MiniMax-H3-Max Recast/Relight (6 of the 89 reviewed operation cells) is hidden on Keyvo (KEYVO_HIDDEN_MODEL_IDS); the
-// reviewed upstream operation-tariff initialization runs on the unfiltered catalog. This import must stay first.
+// MiniMax-H3-Max Recast/Relight (6 of the 89 reviewed operation cells) run only on Fal and are not sold on Keyvo
+// (KEYVO_UNSERVED_VIDEO_OPERATIONS); the reviewed upstream operation-tariff initialization runs on the unfiltered
+// catalog, which keeps them. This import must stay first.
 import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -167,7 +168,17 @@ test('all certified video tuples share MCP exact price, owned payload and one-at
   for(const id of studioUncertified){const candidate=catalog.find(c=>c.engine.id===id);assert.ok(candidate,id);
     await assert.rejects(studioMediaRequest(workflowActor,workflowAction(candidate,candidate.publicModes[0]),workflowInput,factories,true),{code:'ENGINE_UNAVAILABLE'},id);}
   for(const candidate of certifiedCatalog)for(const mode of candidate.publicModes)await t.test(candidate.engine.id+' '+mode,async()=>{
-    const action=workflowAction(candidate,mode);const request=await studioMediaRequest(workflowActor,action,workflowInput,factories,true) as CanonicalGenerationRequest;
+    const action=workflowAction(candidate,mode);
+    // Keyvo 2026-11-13: Hailuo 02 runs only on MiniMax's own API, which has no 512P text-to-video (512P is image-to-video
+    // only). Production executability refuses that tuple before pricing (stubbed as executable here), and the official
+    // list now has no price for it either, so the 768P text start is the certified tuple; the 512P refusal is asserted.
+    if(candidate.engine.id==='minimax-hailuo-02-text'&&mode==='t2v'){
+      assert.equal(action.settings.find(s=>s.name==='resolution')?.value,'512P');
+      const refused=await studioMediaRequest(workflowActor,action,workflowInput,factories,true) as CanonicalGenerationRequest;
+      await assert.rejects(service.prepare(refused),{code:'PARAMETER_INVALID'});
+      action.settings=action.settings.map(s=>s.name==='resolution'?{...s,value:'768P'}:s);
+    }
+    const request=await studioMediaRequest(workflowActor,action,workflowInput,factories,true) as CanonicalGenerationRequest;
     const before=provider.captures.length;const quote=await service.prepare(request);const oauthQuote=await mcp.prepareGeneration!(request,principal(workflowActor.userId));
     assert.deepEqual(quote.summary,oauthQuote.summary,'Same canonical request');assert.equal(quote.requestHash,oauthQuote.requestHash);assert.deepEqual(quote.price,oauthQuote.price,'Same real persisted tariff and owned facts');
     assert.ok(Number.isSafeInteger(quote.price.amountCents)&&quote.price.amountCents>0);assert.equal(provider.captures.length,before,'Preparation never dispatches');

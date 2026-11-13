@@ -1,5 +1,5 @@
-// H3 Recast/Relight are MiniMax-H3-Max operations. Keyvo hides H3-Max from every surface (KEYVO_HIDDEN_MODEL_IDS,
-// no mainland route); these upstream recall contracts still run on the unfiltered catalog.
+// H3 Recast/Relight are MiniMax-H3-Max operations. Keyvo serves H3-Max on MiniMax's own API without these Fal-only
+// operations; these upstream recall contracts still run on the unfiltered catalog.
 import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';

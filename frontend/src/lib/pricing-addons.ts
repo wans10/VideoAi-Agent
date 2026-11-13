@@ -6,44 +6,45 @@ const KLING_O3_V2V_PRICING: Record<
   string,
   { pricingDetails: EngineCaps['pricingDetails']; pricing: EngineCaps['pricing'] }
 > = {
+  // Bailian list "有参考视频" rates (kling-v3-omni-video-generation.md, checked 2026-11-13): 0.9 / 1.2 CNY/s.
   'kling-o3-standard': {
     pricingDetails: {
       currency: 'USD',
       perSecondCents: {
-        default: 12.6,
+        default: 11.25,
         byResolution: {
-          '1080p': 12.6,
+          '1080p': 11.25,
         },
       },
     },
     pricing: {
       unit: 'USD/s',
-      base: 0.126,
+      base: 0.1125,
       byResolution: {
-        '1080p': 0.126,
+        '1080p': 0.1125,
       },
       currency: 'USD',
-      notes: 'Fal video-input rate: $0.126/s for Kling 3.0 Omni Standard V2V.',
+      notes: 'Bailian list reference-video rate: CNY 0.9/s for Kling 3.0 Omni Standard V2V.',
     },
   },
   'kling-o3-pro': {
     pricingDetails: {
       currency: 'USD',
       perSecondCents: {
-        default: 16.8,
+        default: 15,
         byResolution: {
-          '1080p': 16.8,
+          '1080p': 15,
         },
       },
     },
     pricing: {
       unit: 'USD/s',
-      base: 0.168,
+      base: 0.15,
       byResolution: {
-        '1080p': 0.168,
+        '1080p': 0.15,
       },
       currency: 'USD',
-      notes: 'Fal video-input rate: $0.168/s for Kling 3.0 Omni Pro V2V.',
+      notes: 'Bailian list reference-video rate: CNY 1.2/s for Kling 3.0 Omni Pro V2V.',
     },
   },
 };

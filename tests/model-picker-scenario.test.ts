@@ -1,5 +1,5 @@
-// The picker contracts below cover the upstream catalog, including MiniMax-H3-Max that Keyvo hides at runtime
-// (tests/minimax-keyvo-visibility.test.ts owns the Keyvo hiding). Must load before the engine modules.
+// The picker contracts below cover the unfiltered upstream catalog, including MiniMax-H3-Max's Fal-only Recast/Relight
+// that Keyvo does not offer (tests/minimax-keyvo-visibility.test.ts owns Keyvo visibility). Must load before the engine modules.
 import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';

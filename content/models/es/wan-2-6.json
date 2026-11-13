@@ -13,7 +13,7 @@
     "badge": "720p/1080p · Texto/Imagen 5–15 s · Referencia 5–10 s · Audio opcional (T2V/I2V)",
     "ctaPrimary": {
       "label": "Generar con Wan 2.6",
-      "href": "/app?engine=wan-2-6"
+      "href": "/es/modelos/wan-3"
     },
     "secondaryLinks": [
       {
@@ -318,7 +318,7 @@
       "paragraph": "Wan 2.6 sigue ejecutable para clips 720p o 1080p de generación anterior, ejemplos existentes y briefs con video de referencia. Mantenlo para un trabajo de legado reproducible o elige Wan 3 como sucesor estándar actual.",
       "primaryCta": {
         "label": "Generar con Wan 2.6",
-        "href": "/app?engine=wan-2-6"
+        "href": "/es/modelos/wan-3"
       },
       "secondaryCta": {
         "label": "Ver ejemplos",

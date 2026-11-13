@@ -45,6 +45,17 @@ type PublicProjectionFixture = {
   }>;
 };
 
+// Later transitions (Keyvo official list prices, 2026-11-13) supersede rows an earlier transition introduced.
+const officialListTransition = JSON.parse(readFileSync('tests/fixtures/keyvo-official-list-public-pricing-2026-11-13.json', 'utf8')) as {
+  retiredEngineIds: string[]; retiredRowIds: string[];
+  changes: Array<{ previous: Record<string, unknown> & { id: string; engineId: string }; current: Record<string, unknown> & { id: string; engineId: string } }>;
+  rows: unknown[];
+};
+const officialListCurrent = new Map(officialListTransition.changes.map((change) => [change.current.id, change.current]));
+function latestPublicRow<T extends { id: string }>(row: T): T {
+  return (officialListCurrent.get(row.id) as T | undefined) ?? row;
+}
+
 test('public pricing baseline exhaustively covers eligible catalog and public surfaces', () => {
   const fixture = JSON.parse(
     readFileSync('tests/fixtures/pricing-public-projections.v1.json', 'utf8')
@@ -199,12 +210,72 @@ test('Keyvo provider transition retires four models, keeps H3 per-second rates a
   }
   assert.deepEqual(transition.changes.find(row => row.previous.id === 'pricing-hub-video:minimax-h3:4k-route')?.current,
     { id: 'pricing-hub-video:minimax-h3:4k-route', surface: 'pricing-hub-video', engineId: 'minimax-h3', status: 'unavailable' });
-  for (const change of transition.changes) assert.deepEqual(current.find(row => row.id === change.current.id), change.current);
+  for (const change of transition.changes) assert.deepEqual(current.find(row => row.id === change.current.id), latestPublicRow(change.current));
   assert.equal(transition.rows.length, 7);
   for (const row of transition.rows) {
     assert.equal(row.engineId, 'seedream-5-0-flash');
-    assert.deepEqual(current.find(candidate => candidate.id === row.id), row);
+    assert.deepEqual(current.find(candidate => candidate.id === row.id), latestPublicRow(row));
   }
+});
+
+test('Keyvo MiniMax-H3-Max transition reprices only H3-Max at the official CNY cost and drops its 1080P presets', async () => {
+  const transition = JSON.parse(readFileSync('tests/fixtures/keyvo-h3-max-official-public-pricing-2026-11-12.json', 'utf8')) as {
+    changes: Array<{ previous: PublicProjectionFixture['rows'][number] & { vendorSubtotalCents?: number };
+      current: PublicProjectionFixture['rows'][number] & { vendorSubtotalCents?: number } }>;
+  };
+  const { collectPublicPricingProjectionRows } = await import('../frontend/scripts/pricing-public-baseline-collector');
+  const current = await collectPublicPricingProjectionRows();
+  assert.equal(transition.changes.length, 9);
+  // A later reviewed transition (the 2026-11-13 official-list rule) may re-price these rows; it must then start from
+  // exactly this transition's result.
+  const laterPath = 'tests/fixtures/keyvo-official-list-public-pricing-2026-11-13.json';
+  const later = existsSync(laterPath) ? (JSON.parse(readFileSync(laterPath, 'utf8')) as {
+    changes: Array<{ previous: PublicProjectionFixture['rows'][number]; current: PublicProjectionFixture['rows'][number] }> }).changes : [];
+  for (const change of transition.changes) {
+    assert.equal(change.previous.engineId, 'minimax-h3-max');
+    const next = later.find(row => row.previous.id === change.current.id);
+    if (next) assert.deepEqual(next.previous, change.current, change.current.id);
+    assert.deepEqual(current.find(row => row.id === change.current.id), next?.current ?? change.current);
+  }
+  const byId = new Map(transition.changes.map(change => [change.current.id, change.current]));
+  // 5 s at 480P: CNY 1.65 = USD 0.20625 (vendor 21 cents) plus the 30% margin.
+  for (const tier of ['member', 'plus', 'pro']) {
+    assert.deepEqual([byId.get(`estimator:minimax-h3-max:${tier}:default`)?.vendorSubtotalCents,
+      byId.get(`estimator:minimax-h3-max:${tier}:default`)?.customerTotalCents], [21, 28]);
+  }
+  // 5 s at 768P: CNY 2.50 = USD 0.3125; 10 s at 768P (entry route): CNY 5.00.
+  assert.equal(byId.get('model-page:minimax-h3-max:default')?.customerTotalCents, 41);
+  assert.equal(byId.get('json-ld:minimax-h3-max:offer')?.structuredDataAmount, '0.41');
+  assert.equal(byId.get('pricing-hub-video:minimax-h3-max:entry-route')?.customerTotalCents, 82);
+  for (const preset of ['8s-1080p', '10s-1080p', '10s-1080p-audio']) {
+    assert.deepEqual(byId.get(`pricing-hub-video:minimax-h3-max:${preset}`), {
+      id: `pricing-hub-video:minimax-h3-max:${preset}`, surface: 'pricing-hub-video', engineId: 'minimax-h3-max', status: 'unavailable' });
+  }
+});
+
+test('Keyvo official list transition sells every Keyvo model at 80% of its list price and retires models without a mainland route', async () => {
+  const { collectPublicPricingProjectionRows } = await import('../frontend/scripts/pricing-public-baseline-collector');
+  const current = await collectPublicPricingProjectionRows();
+  assert.deepEqual(officialListTransition.retiredEngineIds, ['kling-2-5-turbo', 'kling-2-6-pro', 'wan-2-6']);
+  for (const engineId of officialListTransition.retiredEngineIds) assert.equal(current.some(row => row.engineId === engineId), false, engineId);
+  assert.equal(officialListTransition.retiredRowIds.length, 37);
+  assert.deepEqual(officialListTransition.rows, []);
+  assert.equal(officialListTransition.changes.length, 201);
+  for (const change of officialListTransition.changes) {
+    assert.equal(change.previous.engineId, change.current.engineId);
+    assert.deepEqual(current.find(row => row.id === change.current.id), change.current, change.current.id);
+    // Supplier-cost rows carry no margin component any more; customer totals never rise (Kling 4 rows open instead).
+    if (change.current.status === 'exact' && typeof change.current.marginCents === 'number') assert.equal(change.current.marginCents, 0, change.current.id);
+    if (change.previous.status === 'exact' && change.current.status === 'exact') {
+      assert.ok((change.current.customerTotalCents as number) <= (change.previous.customerTotalCents as number), change.current.id);
+    }
+  }
+  const byId = new Map(current.map(row => [row.id, row]));
+  // Wan 3 720P 10 s: CNY 6.00 list -> USD 0.75 -> 60 cents (CNY 4.80). Kling 4.0 720P 5 s: CNY 5.00 -> 50 cents.
+  assert.equal(byId.get('model-page:wan-3:default')?.customerTotalCents, 60);
+  assert.equal(byId.get('pricing-hub-video:kling-v4:5s-720p')?.customerTotalCents, 50);
+  // Voice over, 60 s at the Seed Audio list CNY 1.00/min -> 12.5 cents -> 10 cents (CNY 0.80).
+  assert.equal(byId.get('pricing-hub-audio:audio-voice-only:60')?.customerTotalCents, 10);
 });
 
 test('Character Studio static rows retire only four fixed prices and require a current native quote', async () => {

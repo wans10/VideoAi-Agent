@@ -3,32 +3,34 @@ import test from 'node:test';
 
 import { calculateKling3TurboProviderCost } from '../frontend/src/lib/kling-3-turbo';
 
-test('Kling 3 Turbo uses the approved Standard provider-cost ceiling at every supported duration', () => {
+// Keyvo 2026-11-13: the supplier cost is the Bailian / Kling list price (CNY 0.8 / 1.0 per second at 8 CNY/USD),
+// replacing the former fal-derived ceiling (11.2 / 14 cents).
+test('Kling 3 Turbo uses the official Standard list cost at every supported duration', () => {
   assert.deepEqual(
     [3, 5, 10, 15].map((durationSec) => calculateKling3TurboProviderCost({
       engineId: 'kling-3-turbo-standard',
       durationSec,
     })),
     [
-      { rateCentsPerSecond: 11.2, providerCostExactCents: 33.6 },
-      { rateCentsPerSecond: 11.2, providerCostExactCents: 56 },
-      { rateCentsPerSecond: 11.2, providerCostExactCents: 112 },
-      { rateCentsPerSecond: 11.2, providerCostExactCents: 168 },
+      { rateCentsPerSecond: 10, providerCostExactCents: 30 },
+      { rateCentsPerSecond: 10, providerCostExactCents: 50 },
+      { rateCentsPerSecond: 10, providerCostExactCents: 100 },
+      { rateCentsPerSecond: 10, providerCostExactCents: 150 },
     ],
   );
 });
 
-test('Kling 3 Turbo uses the approved Pro provider-cost ceiling at every supported duration', () => {
+test('Kling 3 Turbo uses the official Pro list cost at every supported duration', () => {
   assert.deepEqual(
     [3, 5, 10, 15].map((durationSec) => calculateKling3TurboProviderCost({
       engineId: 'kling-3-turbo-pro',
       durationSec,
     })),
     [
-      { rateCentsPerSecond: 14, providerCostExactCents: 42 },
-      { rateCentsPerSecond: 14, providerCostExactCents: 70 },
-      { rateCentsPerSecond: 14, providerCostExactCents: 140 },
-      { rateCentsPerSecond: 14, providerCostExactCents: 210 },
+      { rateCentsPerSecond: 12.5, providerCostExactCents: 37.5 },
+      { rateCentsPerSecond: 12.5, providerCostExactCents: 62.5 },
+      { rateCentsPerSecond: 12.5, providerCostExactCents: 125 },
+      { rateCentsPerSecond: 12.5, providerCostExactCents: 187.5 },
     ],
   );
 });

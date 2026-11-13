@@ -1,3 +1,4 @@
+import { resolveOfficialListCompatibilityProfile } from '@/lib/official-list-pricing';
 import { createHash } from 'node:crypto';
 import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
@@ -71,8 +72,10 @@ export async function quoteByteDanceBaselineRows(
     const billing = buildBillingPricingFacts(context, entry.engine.pricingDetails, 'USD');
     const { policy, vendorAccountId } = await resolveServerBillingPolicy({ engineId: row.engineId,
       mode: row.mode, resolution: row.resolution }, entry.engine.vendorAccountId, { loadOverrides: async () => overrides });
-    const compatibilityProfile = getVersionedPricingPolicy().compatibilityProfiles.find(profile =>
-      profile.id === (policy.rule.compatibilityProfile ?? billing.compatibilityProfileId));
+    // Same profile as live billing, including Keyvo's official-list rule (official-list-pricing.ts).
+    const profileId = resolveOfficialListCompatibilityProfile(row.engineId,
+      policy.rule.compatibilityProfile ?? billing.compatibilityProfileId, policy);
+    const compatibilityProfile = getVersionedPricingPolicy().compatibilityProfiles.find(profile => profile.id === profileId);
     if (!compatibilityProfile) throw new Error('Historical ByteDance rounding profile is unavailable.');
     const quote = quoteCanonicalPricing({ facts: billing.facts, policy, compatibilityProfile,
       scenario: { id: `historical:${row.scenarioId}`, engineId: row.engineId, mode: row.mode,

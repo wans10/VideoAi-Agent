@@ -2,6 +2,8 @@ import { CNY_BUILD } from './helpers/customer-currency-expectations';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
+import { h3MaxCustomerCents } from './helpers/minimax-h3-max-customer-price';
+import { KEYVO_OFFICIAL_LIST_RETIRED_ENGINE_IDS, officialListOfferCents } from './helpers/keyvo-official-list-offer';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { listFalEngines } from '../frontend/src/config/falEngines';
@@ -16,16 +18,21 @@ test('visible offer and Product consume the same price and selected scenario for
   for (const row of matrix.rows) {
     const engine = engines.find((entry) => entry.id === row.engineId)!;
     // The frozen repair matrix predates these retirements; archived models cannot sell an offer. Keyvo also
-    // took Happy Horse 1.0 and Seedream 5.0 Lite offline and hides MiniMax-H3-Max (no mainland route).
-    if (['sora-2', 'sora-2-pro', 'seedance-1-5-pro', 'happy-horse-1-0', 'seedream', 'minimax-h3-max'].includes(engine.id)) {
+    // took Happy Horse 1.0 and Seedream 5.0 Lite offline.
+    // Keyvo retired Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro on 2026-11-13 (no mainland route).
+    if (['sora-2', 'sora-2-pro', 'seedance-1-5-pro', 'happy-horse-1-0', 'seedream', ...KEYVO_OFFICIAL_LIST_RETIRED_ENGINE_IDS].includes(engine.id)) {
       assert.equal(engine.surfaces.app.enabled, false);
       assert.equal(buildProductSchema({ engine, pricingEngine: engine.engine,
         canonical: `https://maxvideoai.com/models/${engine.modelSlug}`,
         description: 'Archived model', heroTitle: engine.marketingName, heroPosterAbsolute: null }), null);
       continue;
     }
-    // The September repair fixture remains immutable; 1.2 updates only the inactive-policy projection.
-    const currentTotalCents = row.engineId === 'gemini-omni-flash' ? 91 : row.totalCents;
+    // The September repair fixture remains immutable; 1.2 updates only the inactive-policy projection. Keyvo prices
+    // MiniMax-H3-Max at MiniMax's official PROVISIONAL cost (41 cents instead of Fal's 52).
+    // Keyvo official list price rule (2026-11-13): re-priced engines sell their offer at 80% of the list price, as
+    // recorded in tests/fixtures/keyvo-official-list-public-pricing-2026-11-13.json.
+    const currentTotalCents = officialListOfferCents(row.engineId)
+      ?? (row.engineId === 'gemini-omni-flash' ? 91 : row.engineId === 'minimax-h3-max' ? h3MaxCustomerCents(31.25) : row.totalCents);
     const offer = resolveModelPublicOffer(engine, engine.engine)!;
     assert.ok(offer, row.id);
     assert.equal(offer.currency, CNY_BUILD ? 'CNY' : 'USD');
@@ -55,9 +62,12 @@ test('visible offer and Product consume the same price and selected scenario for
 });
 
 test('examples name their real options without pretending to be the lowest price', () => {
-  // H3 Max (the former example) is hidden on Keyvo and sells no offer; H3 names its own featured options.
-  const hidden = engines.find((entry) => entry.id === 'minimax-h3-max')!;
-  assert.equal(resolveModelPublicOffer(hidden, hidden.engine), null);
+  // H3 Max is served on Keyvo again and names its own featured options (5 s, 768P, the official tier).
+  const max = engines.find((entry) => entry.id === 'minimax-h3-max')!;
+  const maxOffer = resolveModelPublicOffer(max, max.engine)!;
+  assert.deepEqual(maxOffer.scenario, { mode: 't2v', resolution: '768P', durationSeconds: 5, audio: true, quantity: 1, referenceImageCount: 0 });
+  assert.equal(maxOffer.amountCents, h3MaxCustomerCents(31.25) * (CNY_BUILD ? 8 : 1));
+  assert.equal(formatModelPublicOffer(maxOffer, 'en').name, 'Generation example: 5 s · 768P · Text to video · Audio included');
   const engine = engines.find((entry) => entry.id === 'minimax-h3')!;
   const offer = resolveModelPublicOffer(engine, engine.engine)!;
   assert.deepEqual(offer.scenario, { mode: 't2v', resolution: '2K', durationSeconds: 10, audio: true, quantity: 1, referenceImageCount: 0 });
@@ -74,7 +84,8 @@ test('examples name their real options without pretending to be the lowest price
   assert.match(formatModelPublicOffer(lumaOffer, 'en').name, /Silent/);
   const seed = engines.find((entry) => entry.id === 'seedance-2-5')!;
   const seedOffer = resolveModelPublicOffer(seed, seed.engine)!;
-  assert.equal(seedOffer.amountCents, CNY_BUILD ? 824 : 103);
+  // Keyvo 2026-11-13: 80% of the Ark list (4 s 480p Seedance 2.5 = 33.626 cents -> 27).
+  assert.equal(seedOffer.amountCents, CNY_BUILD ? 216 : 27);
   assert.match(formatModelPublicOffer(seedOffer, 'en').name, /16:9/);
 });
 

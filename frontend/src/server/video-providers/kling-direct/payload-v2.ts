@@ -3,8 +3,17 @@ import { buildKlingV4FalRequest } from '@/lib/kling-v4';
 import { buildKlingV4FlashFalRequest } from '@/lib/kling-v4-flash';
 import type { MaxVideoProviderElement } from '@/lib/video-provider-elements';
 import { getKlingV4OfficialLimitViolation } from '@/lib/kling-v4-official-limits';
+import { isKling3TurboEngineId, normalizeKling3TurboRequest } from '@/lib/kling-3-turbo';
+import {
+  buildKling3TurboOfficialPrompt,
+  getKling3TurboOfficialPromptViolation,
+  KLING_3_TURBO_OFFICIAL_LIMITS,
+  KLING_3_TURBO_OFFICIAL_RESOLUTION,
+} from '@/lib/kling-3-turbo-official-limits';
 import { KlingDirectError } from './errors';
 import {
+  type KlingDirectModelRoute,
+  type KlingDirectSubmitMode,
   isKlingDirectV2Route,
   resolveKlingDirectCreatePath,
   resolveKlingDirectModelRoute,
@@ -59,6 +68,71 @@ export function foldKlingV2ShotPlan(shots: Array<{ prompt: string; duration: num
   return shots.map((shot, index) => `镜头${index + 1}:${shot.duration}s。${shot.prompt.trim()}`).join('\n');
 }
 
+/**
+ * Kling 3.0 Turbo (real Turbo model, not kling-v3): t2v and first-frame i2v only, fixed tier resolution, 3-15 s,
+ * no negative prompt / sound / cfg fields (audio is always rendered). Docs and limits: kling-3-turbo-official-limits.ts.
+ */
+function buildKling3TurboDirectPayload(params: {
+  engineId: string;
+  jobId: string;
+  falPayload: GeneratePayload;
+  route: KlingDirectModelRoute;
+  submitMode: KlingDirectSubmitMode;
+  createPath: string;
+  pollPathPrefix: string;
+}): KlingDirectV2Payload {
+  const { route, submitMode } = params;
+  if (!isKling3TurboEngineId(params.engineId) || (submitMode !== 't2v' && submitMode !== 'i2v')) {
+    throw invalid('Kling 3.0 Turbo supports text-to-video and first-frame image-to-video only.');
+  }
+  if (params.falPayload.endImageUrl) throw invalid('Kling 3.0 Turbo takes a first frame only (no last frame).');
+  if ((params.falPayload.elements?.length ?? 0) > 0) throw invalid('Kling 3.0 Turbo does not take subjects.');
+  // Reuse the reviewed Turbo input contract (durations 3-15, ratios, exclusive prompt / shot plan sums).
+  let request: ReturnType<typeof normalizeKling3TurboRequest>;
+  try {
+    request = normalizeKling3TurboRequest({
+      engineId: params.engineId,
+      mode: submitMode,
+      durationSec: params.falPayload.durationSec ?? 5,
+      prompt: params.falPayload.prompt,
+      multiPrompt: params.falPayload.multiPrompt?.map(({ prompt, duration }) => ({ prompt, durationSec: duration })),
+      aspectRatio: params.falPayload.aspectRatio,
+      imageUrl: params.falPayload.imageUrl,
+    });
+  } catch (error) {
+    throw invalid(error instanceof Error ? error.message : 'Kling 3.0 Turbo request is invalid.');
+  }
+  if (request.multiPrompt?.some((shot) => Array.from(shot.prompt).length > KLING_3_TURBO_OFFICIAL_LIMITS.shotPromptMaxChars)) {
+    throw invalid('Each Kling 3.0 Turbo shot prompt is limited to 512 characters.');
+  }
+  const prompt = buildKling3TurboOfficialPrompt({ prompt: request.prompt, shots: request.multiPrompt });
+  const promptViolation = getKling3TurboOfficialPromptViolation(submitMode, prompt);
+  // The message is user-facing: the submission stores it as the job failure (localized in kling-failure-messages.ts).
+  if (promptViolation) throw invalid(promptViolation.message);
+  const resolution = route.resolution ?? KLING_3_TURBO_OFFICIAL_RESOLUTION[params.engineId];
+  const options = { external_task_id: params.jobId, watermark_info: { enabled: false as const } };
+  const base = {
+    providerModel: route.providerModel,
+    createPath: params.createPath,
+    pollPathPrefix: params.pollPathPrefix,
+    apiDesign: 'v2' as const,
+    resolution,
+  };
+  if (submitMode === 't2v') {
+    return { ...base, body: {
+      prompt,
+      settings: { resolution, aspect_ratio: request.aspectRatio ?? '16:9', duration: request.durationSec },
+      options,
+    } };
+  }
+  if (!request.imageUrl) throw invalid('Kling 3.0 Turbo image-to-video requires an opening image.');
+  const contents: KlingDirectV2Content[] = [];
+  if (prompt) contents.push({ type: 'prompt', text: prompt });
+  contents.push({ type: 'first_frame', url: request.imageUrl });
+  // The image-to-video endpoint has no aspect_ratio field; the frame decides.
+  return { ...base, body: { contents, settings: { resolution, duration: request.durationSec }, options } };
+}
+
 function asStringArray(value: unknown): string[] {
   return Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === 'string' && entry.trim().length > 0) : [];
 }
@@ -76,6 +150,9 @@ export function buildKlingDirectV2Payload(params: {
   const submitMode = resolveKlingDirectSubmitMode(params.mode);
   const createPath = resolveKlingDirectCreatePath(route, submitMode);
   const pollPathPrefix = resolveKlingDirectPollPathPrefix(route, submitMode);
+  if (route.providerModel === 'kling-3.0-turbo') {
+    return buildKling3TurboDirectPayload({ ...params, route, submitMode, createPath, pollPathPrefix });
+  }
 
   // Reuse the reviewed V4 / Flash input contract (field set, durations, ratios, shot plan sums).
   let normalized: Record<string, unknown>;

@@ -6,9 +6,11 @@ import { getLumaRay2EditRateUsd } from '@/lib/luma-ray2-pricing-config';
 import { buildBillingPricingFacts } from '@/lib/pricing-billing-facts';
 
 type Normalization = NonNullable<ManualTariffComponent['terms'][number]['quantityNormalization']>;
+// Keyvo: MiniMax-H3-Max reference generation runs on MiniMax's own API, which bills whole reference-video seconds and
+// images beyond two (exact cells), not Fal's open reference-token budget. Its token branches below are kept for
+// upstream syncs and are unreachable while this guard excludes it.
 export function isOpenQuantityTariff(engineId: string, mode: string) {
-  return (['lumaRay2', 'lumaRay2_flash'].includes(engineId) && mode === 'v2v')
-    || (engineId === 'minimax-h3-max' && mode === 'ref2v');
+  return ['lumaRay2', 'lumaRay2_flash'].includes(engineId) && mode === 'v2v';
 }
 function normalization(context: PricingContext): { unit: string; rule: Normalization; centsPerUnit: number } {
   if (!isOpenQuantityTariff(context.engine.id, context.mode ?? '')) throw new Error('Unsupported open quantity tariff.');

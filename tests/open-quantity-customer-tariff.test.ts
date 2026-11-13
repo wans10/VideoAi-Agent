@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { h3MaxCustomerCents } from './helpers/minimax-h3-max-customer-price';
 import { getFalEngineById } from '../frontend/src/config/falEngines';
 import { buildManualTariffCoverageScenario } from '../frontend/lib/pricing-audit/manual-tariff-coverage';
 import { compileCurrentContinuousTariffPrice, validateCurrentContinuousTariffDomain } from '../frontend/server/pricing/compile-current-continuous-tariff';
@@ -17,20 +18,17 @@ import { resolvePublicModelScenario } from '../frontend/server/pricing/quote-pub
 const policy = { status: 'loaded' as const, rules: [{ id: 'default', currency: 'USD', marginPercent: .3,
   marginFlatCents: 0, surchargeAudioPercent: .2, surchargeUpscalePercent: .5 }] };
 
+// Keyvo (2026-11-12): MiniMax-H3-Max runs on MiniMax's own API, which bills whole reference-video seconds and images
+// beyond two. Its reference tariff is therefore no longer Fal's open reference-token class (isOpenQuantityTariff); the
+// open-quantity contracts below keep running for Luma Modify, and the last test pins the new exact H3-Max identity.
 test('admin and public current quotes accept unseen supported output seconds and reference budgets', () => {
   const scenarios = collectSellableManualTariffCoverage().scenarios;
-  for (const modelId of ['lumaRay2', 'minimax-h3-max']) {
-    const tokens = modelId === 'minimax-h3-max';
+  for (const modelId of ['lumaRay2']) {
+    const tokens = false;
     const mode = tokens ? 'ref2v' : 'v2v';
     const requested = { mode, resolution: tokens ? '768P' : '720p', ...(tokens ? { referenceTokenBudget: '9096' } : { durationSec: '131' }) };
     const hidden = isKeyvoHiddenModel(modelId);
-    // Keyvo hides MiniMax-H3-Max: it has no sellable coverage, so the upstream open-budget contract is checked on the
-    // engine's own sampled 4096/4097 reference-token cells.
-    if (hidden) assert.equal(scenarios.some(row => row.modelId === modelId), false);
-    const candidates = hidden
-      ? [4096, 4097].map(referenceTokenBudget => buildManualTariffCoverageScenario({ engine: getFalEngineById(modelId)!.engine,
-        mode: 'ref2v', durationSec: 5, resolution: '768P', referenceTokenBudget }, 'keyvo-hidden'))
-      : scenarios.filter(row => row.modelId === modelId);
+    const candidates = scenarios.filter(row => row.modelId === modelId);
     const selected = chooseCustomerTariffScenario(candidates, requested);
     assert.equal(selected.scenario.selector[tokens ? 'referenceTokenBudget' : 'durationSec'], tokens ? '9096' : '131');
     const publicScenario = resolvePublicModelScenario({ modelId, mode, resolution: requested.resolution,
@@ -71,7 +69,8 @@ test('open Luma modify seconds resolve the same literal retail curve at unseen d
 
 test('admin edits literal output and excess-token rates and rejects below-cost curves across the open domain', async () => {
   const state = { status: 'loaded' as const, active: false, revision: 0, versionedCells: [], databaseCells: [] };
-  for (const modelId of ['lumaRay2', 'minimax-h3-max']) {
+  // H3-Max has no open token tariff on Keyvo (see the last test); Luma keeps the open output-second contract.
+  for (const modelId of ['lumaRay2']) {
     const tokens = modelId === 'minimax-h3-max';
     const context = { engine: getFalEngineById(modelId)!.engine, mode: tokens ? 'ref2v' as const : 'v2v' as const,
       durationSec: 5, resolution: tokens ? '768P' : '720p', ...(tokens ? { referenceTokenBudget: 9096 } : {}) };
@@ -95,29 +94,30 @@ test('admin edits literal output and excess-token rates and rejects below-cost c
   }
 });
 
-test('MiniMax includes 4096 tokens and preserves native rounding beyond sampled token budgets', async () => {
-  const context = { engine: getFalEngineById('minimax-h3-max')!.engine, mode: 'ref2v' as const,
-    durationSec: 5, resolution: '768P', referenceTokenBudget: 4096 };
-  const scenario = buildManualTariffCoverageScenario(context, 'open');
-  const price = await compileCurrentContinuousTariffPrice(scenario, policy);
-  const selector = continuousInputTariffSelector(scenario.selector)!;
-  assert.equal(selector.referenceTokenBudget, 'continuous');
-  const values = [[0,52], [4096,52], [4097,53], [9096,65], [2251799813685250,5854679515623]];
-  for (const [tokens, cents] of values) {
-    const evaluated = evaluateManualTariffPrice(price, { reference_tokens: tokens });
-    assert.equal(evaluated.customerTotalCents, cents);
-    assert.equal(evaluated.units[0].billedQuantity, Math.max(0, tokens - 4096));
-    const selected = { ...context, referenceTokenBudget: tokens };
-    const facts = buildBillingPricingFacts(selected, context.engine.pricingDetails, 'USD').facts;
-    assert.equal(buildManualTariffScenario(selected, facts).quantities.reference_tokens, tokens);
-    const manual = resolveCustomerTariffQuote({ context: selected, facts, at: '2026-10-01T00:00:00Z', state: {
-      status: 'loaded', active: true, revision: 4, versionedCells: [], databaseCells: [{ id: 'tokens', selector,
-        currency: 'USD', source: 'database', version: 1, effectiveFrom: '2026-09-30T00:00:00Z', price }],
-    } });
-    assert.equal(manual!.quote.customerTotalCents, cents);
-  }
-  assert.ok(validateCurrentContinuousTariffDomain({ context, price }).minimumGrossCents >= 0);
-  for (const tokens of [-1, .5, Infinity, Number.MAX_SAFE_INTEGER + 1]) {
-    assert.throws(() => continuousInputTariffSelector({ ...scenario.selector, referenceTokenBudget: String(tokens) }));
-  }
+test('Keyvo MiniMax-H3-Max reference cells match exact official quantities instead of an open token budget', async () => {
+  const state = { status: 'loaded' as const, active: false, revision: 0, versionedCells: [], databaseCells: [] };
+  const engine = getFalEngineById('minimax-h3-max')!.engine;
+  const context = { engine, mode: 'ref2v' as const, durationSec: 5, resolution: '768P',
+    referenceTokenBudget: 9096, referenceImageCount: 4, inputVideoDurationSec: 2.4 };
+  const scenario = buildManualTariffCoverageScenario(context, 'official');
+  assert.equal(scenario.selector.referenceTokenBudget, undefined, 'the Fal token budget is not a price identity');
+  assert.equal(scenario.selector.referenceImageCount, '4');
+  assert.equal(scenario.selector.inputVideoDurationSec, '3', 'whole billed reference-video seconds');
+  assert.deepEqual([scenario.quantities.reference_images, scenario.quantities.input_video_seconds], [4, 3]);
+  assert.equal(continuousInputTariffSelector(scenario.selector), null);
+  await assert.rejects(continuousInputTariffDetail(scenario, state, policy).then((detail) => {
+    if (!detail) throw new Error('no continuous detail');
+    return detail;
+  }));
+  const facts = buildBillingPricingFacts(context, engine.pricingDetails, 'USD').facts;
+  assert.deepEqual(buildManualTariffScenario(context, facts).selector, scenario.selector);
+  // An authored exact cell (at or above the official cost) for this identity is quoted as authored.
+  const current = await computeCanonicalBillingSnapshot(context, { pricingPolicy: { loadOverrides: async () => policy } });
+  assert.equal(current.totalCents, h3MaxCustomerCents(80.125));
+  const manual = resolveCustomerTariffQuote({ context, facts, at: '2026-10-01T00:00:00Z', state: {
+    status: 'loaded', active: true, revision: 4, versionedCells: [], databaseCells: [{ id: 'h3-max-official', selector: scenario.selector,
+      currency: 'USD', source: 'database', version: 1, effectiveFrom: '2026-09-30T00:00:00Z',
+      price: { kind: 'fixed', customerCents: 105 } }],
+  } });
+  assert.equal(manual!.quote.customerTotalCents, 105);
 });

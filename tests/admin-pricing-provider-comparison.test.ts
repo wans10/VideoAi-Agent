@@ -1,4 +1,4 @@
-// Supplier comparisons are checked on the upstream catalog, including MiniMax-H3-Max that Keyvo hides at runtime.
+// Supplier comparisons are checked on the unfiltered upstream catalog (KEYVO_MODEL_VISIBILITY=off).
 import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -12,7 +12,7 @@ import {
 import { quoteCanonicalAdminScenarios } from '../frontend/server/pricing-admin/canonical-scenarios';
 import { getFalEngineById } from '../frontend/src/config/falEngines';
 import { buildPricingAuditScenarios } from '../frontend/src/lib/pricing-audit/scenarios';
-import { collectSellableManualTariffCoverage } from '../frontend/lib/pricing-audit/manual-tariff-coverage';
+import { buildManualTariffCoverageScenario, collectSellableManualTariffCoverage } from '../frontend/lib/pricing-audit/manual-tariff-coverage';
 import { catalogSupplierReference } from '../frontend/server/pricing-admin/catalog-supplier-reference';
 import { providerComparisonForTariffScenario } from '../frontend/server/pricing-admin/tariff-provider-comparison';
 import { ENV } from '../frontend/src/lib/env';
@@ -49,10 +49,24 @@ function exactInput(modelId: string, selector: Record<string, string>, execution
   });
 }
 
+// Keyvo 2026-11-13: Kling 2.6 Pro is offline (not sellable), so its fal catalogue reference is built from an explicit
+// context instead of the sellable coverage; the reference function itself is unchanged.
+function retiredFalInput(modelId: string, context: Record<string, unknown>) {
+  const entry = getFalEngineById(modelId);
+  assert.ok(entry);
+  const scenario = buildManualTariffCoverageScenario({ engine: entry.engine, membershipTier: 'member', ...context } as never, 'retired');
+  return providerComparisonInputFromScenario({
+    scenario: { id: scenario.id, engineId: modelId, mode: scenario.context.mode, resolution: scenario.context.resolution,
+      durationSec: scenario.context.durationSec, surface: 'billing', membershipTier: 'member', input: { ...scenario.selector } },
+    context: scenario.context, quote: null, engine: entry.engine, brandId: entry.brandId,
+    familyId: entry.family, executionProvider: 'fal', mediaType: 'video',
+  });
+}
+
 test('Fal catalog supplier reference includes duration and audio without claiming a fresh published list', () => {
   const [silent, audio] = buildProviderCostComparisonRows([
-    exactInput('kling-2-6-pro', { mode: 'i2v', durationSec: '5', audio: 'false' }, 'fal'),
-    exactInput('kling-2-6-pro', { mode: 'i2v', durationSec: '10', audio: 'true' }, 'fal'),
+    retiredFalInput('kling-2-6-pro', { mode: 'i2v', durationSec: 5, resolution: '1080p', addons: { audio: false, audio_off: true } }),
+    retiredFalInput('kling-2-6-pro', { mode: 'i2v', durationSec: 10, resolution: '1080p', addons: { audio: true } }),
   ], '2026-09-30T12:00:00Z');
   assert.equal(silent.supplierList.amountUsd, 0.35);
   assert.equal(audio.supplierList.amountUsd, 1.4);
@@ -185,15 +199,17 @@ test('direct Luma execution never relabels a Fal pricing reference as its accoun
   assert.equal(row.supplierEffective.amountUsd, null);
 });
 
-test('H3 Max documented Fal costs match its execution route without claiming a verified account price', () => {
+// Keyvo runs H3-Max on MiniMax's own API (job provider llmhub): its reference is the PROVISIONAL official CNY list price
+// (768P CNY 0.50/s x 5 s = CNY 2.50 = USD 0.3125 at the accounting rate), never a verified account price.
+test('H3 Max official MiniMax costs match its execution route without claiming a verified account price', () => {
   const [row] = buildProviderCostComparisonRows([
-    exactInput('minimax-h3-max', { mode: 't2v', resolution: '768P', durationSec: '5' }, 'fal'),
+    exactInput('minimax-h3-max', { mode: 't2v', resolution: '768P', durationSec: '5' }, 'llmhub'),
   ], '2026-10-01T00:00:00Z');
-  assert.equal(row.supplierList.amountUsd, 0.4);
-  assert.equal(row.supplierList.referenceProvider, 'fal');
+  assert.equal(row.supplierList.amountUsd, 0.3125);
+  assert.equal(row.supplierList.referenceProvider, 'llmhub');
   assert.equal(row.supplierList.routeMatches, true);
   assert.equal(row.supplierList.status, 'catalog_reference_estimate');
-  assert.equal(row.supplierList.sourceUrl, 'https://fal.ai/models/minimax/h3-max/text-to-video');
+  assert.equal(row.supplierList.sourceUrl, 'https://platform.minimaxi.com/docs/pricing/overview.md');
   assert.equal(row.supplierEffective.amountUsd, null);
 });
 
@@ -220,6 +236,10 @@ test('sandbox comparison uses Alibaba for Wan and Fal for MiniMax while generati
       if (modelId === 'minimax-h3') {
         // The repository reference is Fal's documented H3 rate; it is never relabelled as a Bailian price.
         assert.equal(row.supplierList.referenceProvider, 'fal');
+        assert.equal(row.supplierList.routeMatches, false);
+      } else if (modelId === 'minimax-h3-max') {
+        // Without the MiniMax switch the sandbox has no H3-Max route (Fal); the reference is MiniMax's official price.
+        assert.equal(row.supplierList.referenceProvider, 'llmhub');
         assert.equal(row.supplierList.routeMatches, false);
       } else {
         assert.equal(row.supplierList.referenceProvider, provider);

@@ -1,8 +1,8 @@
 import { buildManualTariffCoverageScenario, type ManualTariffCoverageScenario } from './manual-tariff-coverage';
 
+// Keyvo: MiniMax-H3-Max reference pricing is no longer an open token quantity (see open-quantity-tariff.ts).
 export function openTariffQuantityKey(modelId: string, mode: string): 'durationSec' | 'referenceTokenBudget' | null {
-  return ['lumaRay2', 'lumaRay2_flash'].includes(modelId) && mode === 'v2v' ? 'durationSec'
-    : modelId === 'minimax-h3-max' && mode === 'ref2v' ? 'referenceTokenBudget' : null;
+  return ['lumaRay2', 'lumaRay2_flash'].includes(modelId) && mode === 'v2v' ? 'durationSec' : null;
 }
 export function withOpenTariffQuantity(scenario: ManualTariffCoverageScenario, quantity: number) {
   const key = openTariffQuantityKey(scenario.modelId, scenario.selector.mode);

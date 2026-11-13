@@ -37,6 +37,10 @@ import { isAlibabaDirectEngine } from '@/server/video-providers/alibaba-model-st
 import { isBailianHostedEngine } from '@/server/video-providers/alibaba-model-studio/bailian-models';
 import { isGoogleVertexVeoEngine } from '@/server/video-providers/google-vertex-veo/model-map';
 import { isKlingDirectEngine } from '@/server/video-providers/kling-direct/model-map';
+import {
+  kling3TurboOfficialPromptLimitMessage,
+  kling3TurboOfficialPromptMaxChars,
+} from '@/lib/kling-3-turbo-official-limits';
 import { isLumaAgentsVideoEngine } from '@/server/video-providers/luma-agents/model-map';
 import { isMinimaxH3MaxEngineId, isMinimaxH3MaxRuntimeModeAvailable } from '@/lib/minimax-h3-max';
 import type { EngineCaps, Mode } from '@/types/engines';
@@ -86,6 +90,16 @@ const defaultGenerateRouteContextBoundaries: GenerateRouteContextBoundaries = {
   requireAdmin,
   resolveLaunchCanaryRequestContext,
 };
+
+/** Refused before any charge: neither Bailian nor the official Turbo route can take this request. */
+function kling3TurboOfficialLimitResponse(mode: string): Record<string, unknown> {
+  return {
+    ok: false,
+    error: 'ENGINE_CONSTRAINT',
+    field: 'prompt',
+    message: kling3TurboOfficialPromptLimitMessage(kling3TurboOfficialPromptMaxChars(mode)),
+  };
+}
 
 function shouldUseLlmhubBeforeBytePlus(
   engineId: string,
@@ -182,6 +196,9 @@ export function resolveTrustedPaidGenerateRouteContext(params: {
     || providerRoutingPlan.kind === 'alibaba_model_studio_unavailable'
     || providerRoutingPlan.kind === 'kling_direct_unavailable'
   ) {
+    if (providerRoutingPlan.kind === 'kling_direct_unavailable' && providerRoutingPlan.reason === 'unsupported_request') {
+      return { ok: false, status: 400, body: kling3TurboOfficialLimitResponse(mode) };
+    }
     return { ok: false, status: 503, body: { ok: false,
       error: providerRoutingPlan.kind === 'luma_agents_unavailable' ? 'LUMA_MODE_UNAVAILABLE' : 'Engine unavailable',
       ...(providerRoutingPlan.kind === 'luma_agents_unavailable'
@@ -457,6 +474,9 @@ export async function resolveGenerateRouteContext(params: {
     || providerRoutingPlan.kind === 'alibaba_model_studio_unavailable'
     || providerRoutingPlan.kind === 'kling_direct_unavailable'
   ) {
+    if (providerRoutingPlan.kind === 'kling_direct_unavailable' && providerRoutingPlan.reason === 'unsupported_request') {
+      return { ok: false, status: 400, body: kling3TurboOfficialLimitResponse(mode) };
+    }
     return { ok: false, status: 503, body: { ok: false,
       error: providerRoutingPlan.kind === 'luma_agents_unavailable' ? 'LUMA_MODE_UNAVAILABLE' : 'Engine unavailable',
       ...(providerRoutingPlan.kind === 'luma_agents_unavailable'

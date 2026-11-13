@@ -104,10 +104,14 @@ test('legacy Luma loop selectors are covered without inventing loop for edit mod
   }
 });
 
-test('coverage follows all 56 app-published models in 16 families, including the November launch, Keyvo qwen and pricing-hidden legacy variants', () => {
+test('coverage follows all 54 app-published models in 16 families, including the November launch, Keyvo qwen and pricing-hidden legacy variants', () => {
   const coverage = collectSellableManualTariffCoverage();
   const published = listRuntimeModels().filter((model) => model.publication.app.published);
-  assert.equal(published.length, 56);
+  // 56 before 2026-11-12, plus MiniMax-H3-Max on MiniMax's own API, minus Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro
+  // (offline on Keyvo 2026-11-13, no mainland route).
+  assert.equal(published.length, 54);
+  for (const id of ['wan-2-6', 'kling-2-5-turbo', 'kling-2-6-pro']) assert.ok(!published.some(model => model.id === id), id);
+  assert.ok(published.some(model => model.id === 'minimax-h3-max'));
   for (const id of ['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst'])
     assert.ok(published.some(model => model.id === id));
   assert.ok(published.some(model => model.id === 'kling-v4'));
@@ -148,9 +152,15 @@ test('finite price-changing duration, resolution and audio boundaries are distin
   assert.ok(omni.some((row) => row.selector.inputVideoDurationSec === '3' && row.selector.inheritedDurationSec === '3'));
   assert.ok(coverage.scenarios.filter((row) => row.modelId === 'gemini-omni-flash' && row.selector.mode === 'fl2v')
     .every((row) => row.context.inputImageCount === 2 && row.selector.inputImageCount === '2'));
-  // Keyvo hides MiniMax-H3-Max (no mainland route), so neither its reference-token cells nor its gap are sellable here;
-  // tests/open-quantity-customer-tariff.test.ts keeps the upstream H3-Max reference-budget contract on the upstream catalog.
-  assert.ok(!coverage.scenarios.some((row) => row.modelId === 'minimax-h3-max'));
+  // MiniMax-H3-Max on MiniMax's own API prices reference images (0-9, two free) and whole reference-video seconds (0-15),
+  // not Fal's open token budget: a complete finite exact domain without a gap.
+  const h3Max = coverage.scenarios.filter((row) => row.modelId === 'minimax-h3-max' && row.selector.mode === 'ref2v');
+  assert.equal(h3Max.some((row) => row.selector.referenceTokenBudget !== undefined), false);
+  assert.deepEqual(new Set(h3Max.map((row) => row.selector.inputVideoDurationSec)),
+    new Set([undefined, ...Array.from({ length: 15 }, (_, i) => String(i + 1))]));
+  assert.deepEqual(new Set(h3Max.map((row) => row.selector.referenceImageCount)), new Set(Array.from({ length: 10 }, (_, i) => String(i))));
+  assert.ok(h3Max.some((row) => row.selector.inputVideoDurationSec === '1' && row.quantities.input_video_seconds === 1));
+  assert.equal(h3Max.length, 11 * 2 * 10 * 16);
   assert.ok(!coverage.gaps.some((gap) => gap.modelId === 'minimax-h3-max'));
   // Hailuo 2.3 sells only MiniMax's listed pairs: 768P for 6 or 10 s, 1080P for 6 s.
   for (const modelId of ['minimax-hailuo-2-3', 'minimax-hailuo-2-3-fast']) {

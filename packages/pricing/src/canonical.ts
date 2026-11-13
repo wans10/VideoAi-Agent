@@ -118,7 +118,7 @@ export function quoteCanonicalPricing(input: {
 
   const commercialAdjustment = scenario.commercialAdjustment;
   const pricingBasisExactCents = commercialAdjustment?.pricingBasisExactCents ?? facts.vendorSubtotalExactCents;
-  const minimumCustomerTotalCents = commercialAdjustment?.minimumCustomerTotalCents ?? 0;
+  const minimumCustomerTotalCents = commercialAdjustment?.minimumCustomerTotalCents ?? compatibilityProfile.minimumSubtotalCents ?? 0;
   const fixedCustomerCents = commercialAdjustment?.fixedCustomerCents ?? 0;
   assertFiniteNonNegative(pricingBasisExactCents, 'invalid_scenario', 'pricingBasisExactCents');
   assertFiniteNonNegative(minimumCustomerTotalCents, 'invalid_scenario', 'minimumCustomerTotalCents');

@@ -93,9 +93,10 @@ test('hosted engines map to Bailian models without becoming first-party Alibaba 
 });
 
 test('default order: Bailian primary with the vendor route attached as pre-acceptance fallback', () => {
+  // Turbo's vendor leg is the real Kling 3.0 Turbo model on the new-design API (kling-3-turbo-direct-contract.test.ts).
   assert.deepEqual(plan('kling-3-turbo-standard', 't2v'), {
     kind: 'alibaba_model_studio_primary', primaryProvider: 'alibaba_model_studio', fallbackProvider: 'fal',
-    fallbackEnabled: false, bailianHosted: true, directFallback: klingDirect,
+    fallbackEnabled: false, bailianHosted: true, directFallback: { ...klingDirect, apiDesign: 'v2' },
   });
   const h3 = plan('minimax-h3', 'i2v');
   assert.equal(h3.kind, 'alibaba_model_studio_primary');

@@ -55,8 +55,9 @@ test('Wan 3 factual cost includes input and output video duration', () => {
     resolution: '720p',
   }), {
     providerCostUnits: 15,
-    providerCostUsd: 1.5,
-    source: 'alibaba_singapore_2026-09-12',
+    // Keyvo 2026-11-13: Bailian cn-beijing list (CNY 0.6/s at 720p = USD 0.075/s) over 15 billable seconds.
+    providerCostUsd: 1.125,
+    source: 'bailian_cn_beijing_list_2026-11-13',
   });
 
   assert.equal(estimateAlibabaProviderCost({
@@ -65,7 +66,7 @@ test('Wan 3 factual cost includes input and output video duration', () => {
     durationSec: 10,
     inputVideoDurationSec: 0,
     resolution: '1080p',
-  }).providerCostUsd, 2.8);
+  }).providerCostUsd, 2.25); // Bailian list CNY 1.8/s at 1080p (Keyvo 2026-11-13)
 });
 
 test('Wan Modify preserves the prompt by default and honors explicit rewriting choices', () => {
@@ -91,8 +92,9 @@ test('HappyHorse 1.1 factual cost bills output duration only', () => {
     resolution: '1080p',
   }), {
     providerCostUnits: 5,
-    providerCostUsd: 0.9,
-    source: 'alibaba_singapore_2026-09-12',
+    // Keyvo 2026-11-13: Bailian cn-beijing list (CNY 1.2/s at 1080p = USD 0.15/s) over 5 s.
+    providerCostUsd: 0.75,
+    source: 'bailian_cn_beijing_list_2026-11-13',
   });
 });
 

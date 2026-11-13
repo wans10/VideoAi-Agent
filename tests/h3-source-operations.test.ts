@@ -174,17 +174,24 @@ test('reference keyframes and complete cross-modality order reach the exact mutu
 
 import { validateCanonicalGenerationCapabilities } from '../frontend/src/server/agent-api/generation-capability-validation';
 import { buildPaidVideoRequestBody } from '../frontend/src/server/agent-api/paid-video-request-body';
-test('canonical references survive capability validation and paid-body materialization with middle-frame controls',()=>{
+// Keyvo runs H3-Max on MiniMax's own V2 API, which has no middle frame or reference order (Fal-only controls). The engine
+// no longer declares them, so canonical MCP requests that use them are refused before pricing; the Fal request builder
+// above keeps its upstream contract. Ordinary references still reach the paid body as separate lists.
+test('canonical H3-Max middle-frame controls are refused on Keyvo while ordinary references reach the paid body',()=>{
  const roles=['first_frame','middle_frame','last_frame','reference'] as const;
  const refs=roles.map((role,index)=>({kind:'asset' as const,assetId:`ma_${String(index+1).padStart(32,'0')}`,role}));
  const request=normalizeGenerationRequest({surface:'video',engineId:'minimax-h3-max',mode:'ref2v',prompt:'Animate the subject',settings:{durationSec:5,resolution:'768P',aspectRatio:'auto',middleFrameTime:2.5,referenceOrder:'image1'},references:refs});
  const resolved=refs.map((ref,index)=>({assetId:ref.assetId,role:ref.role,slot:request.references.find(r=>r.kind==='asset'&&r.assetId===ref.assetId)?.slot,mediaKind:'image' as const,storageUrl:`https://media.maxvideoai.com/${index}.png`,width:512,height:512,durationSec:null,mimeType:'image/png',sizeBytes:1000}));
  const engine=MINIMAX_H3_MAX_ENGINE;
- validateCanonicalGenerationCapabilities(request,{engine,surface:'video',publicModes:['ref2v'],modeCaps:engine.modeCaps!},{resolvedReferences:resolved});
- const body=buildPaidVideoRequestBody({quoteId:'quote',request,engine,resolvedReferences:resolved,canonicalPricing:{membershipTier:'member'}});
+ const candidate={engine,surface:'video' as const,publicModes:['ref2v' as const],modeCaps:engine.modeCaps!};
+ assert.throws(()=>validateCanonicalGenerationCapabilities(request,candidate,{resolvedReferences:resolved}));
+ const plain=normalizeGenerationRequest({surface:'video',engineId:'minimax-h3-max',mode:'ref2v',prompt:'Animate the subject',settings:{durationSec:5,resolution:'768P',aspectRatio:'auto'},references:[refs[3]!]});
+ const plainResolved=[{...resolved[3]!,slot:plain.references[0]?.kind==='asset'?plain.references[0].slot:undefined}];
+ validateCanonicalGenerationCapabilities(plain,candidate,{resolvedReferences:plainResolved});
+ const body=buildPaidVideoRequestBody({quoteId:'quote',request:plain,engine,resolvedReferences:plainResolved,canonicalPricing:{membershipTier:'member'}});
  const provider=buildMinimaxH3MaxFalRequestFromPayload(body as never);
- assert.equal(provider.requestBody.middle_image_url,resolved[1]!.storageUrl);
- assert.deepEqual(provider.requestBody.reference_conditions,[{type:'image',url:resolved[3]!.storageUrl}]);
+ assert.equal(provider.requestBody.middle_image_url,undefined);
+ assert.deepEqual(provider.requestBody.reference_image_urls,[resolved[3]!.storageUrl]);
 });
 test('canonical Relight source and lighting sphere reach paid adapter without a prompt',()=>{
  const refs=[{kind:'asset' as const,assetId:'ma_00000000000000000000000000000001',role:'source' as const},{kind:'asset' as const,assetId:'ma_00000000000000000000000000000002',role:'reference' as const}];
@@ -198,27 +205,15 @@ test('canonical Relight source and lighting sphere reach paid adapter without a 
  assert.equal(provider.requestBody.prompt,undefined);
 });
 
-test('explicit H3 order survives canonical ingress and validates modalities only after ownership resolution',async()=>{
+// Keyvo: MiniMax's own V2 API takes references as separate content items and has no explicit cross-modality order
+// (a Fal-only control), so an explicit H3-Max order is refused; the omitted order still normalizes stably.
+test('explicit H3-Max order is refused on Keyvo while the omitted order normalizes independently of input order',async()=>{
  const refs=[2,1,3,4].map(n=>({kind:'asset' as const,assetId:`ma_${String(n).padStart(32,'0')}`,role:'reference' as const}));
  const input={surface:'video',engineId:'minimax-h3-max',mode:'ref2v',prompt:'Follow these references',settings:{durationSec:5,resolution:'768P',aspectRatio:'auto',referenceOrder:'video1,image1,audio1,image2'},references:refs};
  const request=normalizeGenerationRequest(input);
- assert.deepEqual(request.references.map(r=>r.kind==='asset'?r.assetId:''),refs.map(r=>r.assetId));
- assert.deepEqual(normalizeGenerationRequest({...input,references:refs.map((r,slot)=>({...r,slot}))}),request);
  const candidate={engine:MINIMAX_H3_MAX_ENGINE,surface:'video' as const,publicModes:['ref2v' as const],modeCaps:MINIMAX_H3_MAX_ENGINE.modeCaps!};
- validateCanonicalGenerationCapabilities(request,candidate);
- const resolved=refs.map((ref,index)=>({...ref,slot:index,mediaKind: index<2?'image' as const:index===2?'video' as const:'audio' as const,storageUrl:`https://media.maxvideoai.com/${index}`,width:512,height:512,durationSec:index<2?null:5,mimeType:index<2?'image/png':index===2?'video/mp4':'audio/mpeg',originalName:index<2?'image.png':index===2?'video.mp4':'sound.mp3',sizeBytes:1000}));
- validateCanonicalGenerationCapabilities(request,candidate,{resolvedReferences:resolved});
- const body=buildPaidVideoRequestBody({quoteId:'q',request,engine:candidate.engine,resolvedReferences:resolved,canonicalPricing:{membershipTier:'member'}});
- assert.deepEqual(buildMinimaxH3MaxFalRequestFromPayload(body as never).requestBody.reference_conditions,[2,0,3,1].map(i=>({type:resolved[i].mediaKind,url:resolved[i].storageUrl})));
- assert.throws(()=>validateCanonicalGenerationCapabilities({...request,settings:{...request.settings,referenceOrder:'image1,image2,image3,image4'}},candidate,{resolvedReferences:resolved}));
- const {readGenerationPricing}=await import('../frontend/src/server/agent-api/generation-pricing-read');
- const {resolveGenerationReferencesForActor}=await import('../frontend/src/server/agent-api/resolve-generation-references');
- const result=await readGenerationPricing(request,{authMethod:'oauth',userId:'owner',clientId:'client',emailVerified:true},{
-  listPublicEngines:async()=>[candidate],resolveGenerationReferences:(current,actor)=>resolveGenerationReferencesForActor(current,actor,{resolveOwnedReferenceAsset:async(_actor,id)=>resolved.find(ref=>ref.assetId===id)!}),
-  resolveMembershipPricing:async()=>({tier:'member',source:'app_receipts_rolling_30d',spent30Cents:0,thresholdCents:0,discountPercent:0}),
-  priceGeneration:async()=>({priceCents:48,currency:'USD',membershipTier:'member',pricingSnapshot:{totalCents:48,currency:'USD',membershipTier:'member'}}),
- });
- assert.equal(result.pricing.priceCents,48);
+ assert.throws(()=>validateCanonicalGenerationCapabilities(request,candidate));
+ validateCanonicalGenerationCapabilities(normalizeGenerationRequest({...input,settings:{durationSec:5,resolution:'768P',aspectRatio:'auto'}}),candidate);
  const omitted={...input,settings:{durationSec:5,resolution:'768P'}};
  assert.deepEqual(normalizeGenerationRequest(omitted),normalizeGenerationRequest({...omitted,references:[...refs].reverse()}));
 });

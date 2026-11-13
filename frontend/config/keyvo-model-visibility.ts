@@ -21,9 +21,9 @@ export function isKeyvoVisibleFamily(family: string | null | undefined): boolean
 
 /**
  * Models of a visible family that Keyvo cannot serve (no mainland route). They stay in the upstream registry and
- * are projected as unpublished on every surface, including the app. MiniMax-H3-Max: MiniMax's own API offers
- * 480P/768P only with its own input pricing, and none of fal's controls (1080P, middle frame, Recast/Relight);
- * see docs/engineering/minimax-official-provider.md.
+ * are projected as unpublished on every surface, including the app. The list is empty since 2026-11-12, when
+ * MiniMax-H3-Max moved to MiniMax's own API (docs/engineering/minimax-official-provider.md); keep the mechanism for
+ * future models without a mainland route.
  */
 // The id list lives in JSON so plain-Node scripts (IndexNow) read the same source.
 const KEYVO_HIDDEN_MODEL_IDS: ReadonlySet<string> = new Set<string>(hiddenModelIds);

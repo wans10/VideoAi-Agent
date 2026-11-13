@@ -109,20 +109,25 @@ for (const id of ['wan-3', 'wan-3-prime', 'minimax-h3', 'minimax-h3-max']) {
       } else {
         await act(async () => dom.window.document.querySelector<HTMLButtonElement>('[data-reference-command="collections"]')!.click());
         const soundtrack = dom.window.document.querySelector<HTMLButtonElement>('[data-reference-role="target_audio_url"]');
-        assert.ok(soundtrack, 'generic-role soundtrack must be visible in the actual reference popup');
-        await act(async () => soundtrack.click());
-        const upload = dom.window.document.querySelector<HTMLButtonElement>('[data-reference-field="target_audio_url"] .app-reference-add-target');
-        const input = dom.window.document.querySelector<HTMLInputElement>('[data-reference-field="target_audio_url"] input[type="file"]');
-        assert.ok(upload);
-        assert.ok(input);
-        assert.equal(upload.disabled, false);
-        assert.equal(input.disabled, false);
-        assert.match(input.accept, /audio\/|\.mp3|\.wav/);
-        let filePickerOpened = false;
-        input.click = () => { filePickerOpened = true; };
-        await act(async () => upload.click());
-        assert.equal(filePickerOpened, true);
-        await act(async () => upload.dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true })));
+        if (id === 'minimax-h3-max') {
+          // Keyvo runs H3-Max on MiniMax's own V2 API, which has no soundtrack input, so no soundtrack role is offered.
+          assert.equal(soundtrack, null, 'H3 Max offers no soundtrack role on Keyvo');
+        } else {
+          assert.ok(soundtrack, 'generic-role soundtrack must be visible in the actual reference popup');
+          await act(async () => soundtrack.click());
+          const upload = dom.window.document.querySelector<HTMLButtonElement>('[data-reference-field="target_audio_url"] .app-reference-add-target');
+          const input = dom.window.document.querySelector<HTMLInputElement>('[data-reference-field="target_audio_url"] input[type="file"]');
+          assert.ok(upload);
+          assert.ok(input);
+          assert.equal(upload.disabled, false);
+          assert.equal(input.disabled, false);
+          assert.match(input.accept, /audio\/|\.mp3|\.wav/);
+          let filePickerOpened = false;
+          input.click = () => { filePickerOpened = true; };
+          await act(async () => upload.click());
+          assert.equal(filePickerOpened, true);
+          await act(async () => upload.dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true })));
+        }
         await act(async () => current.mode.handleModeChange('ref2v'));
       }
       assert.equal(current!.mode.submissionMode, id.startsWith('wan-') ? 't2v' : 'ref2v');

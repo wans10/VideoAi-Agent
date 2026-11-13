@@ -150,6 +150,11 @@ export interface TokenVideoPricing {
     Record<Resolution, Partial<Record<TokenVideoPricingInputType, number>>>
   >;
   pricingSource?: string;
+  /**
+   * Volcengine Ark counts input-video seconds in the token usage of a request with video input
+   * ((input + output seconds) x output width x height x fps / 1024). Absent means output seconds only.
+   */
+  inputVideoTokenBasis?: 'input_plus_output';
   framesPerSecond: number;
   defaultAspectRatio?: AspectRatio;
   dimensions: Partial<Record<Resolution, Partial<Record<AspectRatio, TokenVideoPricingDimensions>>>>;

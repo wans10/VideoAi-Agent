@@ -23,6 +23,7 @@ import { getLumaRay2DurationInfo, isLumaRay2EngineId } from '@/lib/luma-ray2';
 import { isLumaAgentsImageEngineId } from '@/lib/luma-agents';
 import { isSeedreamEngineId } from '@/lib/image/seedream';
 import { isMinimaxH3MaxEngineId } from '@/lib/minimax-h3-max';
+import { isMinimaxH3EngineId } from '@/lib/minimax-h3';
 import { calculateMinimaxH3MaxReferenceTokenBudget } from '@/lib/minimax-h3-max-pricing';
 import { getWan3InputVideoDurationSec, isWan3EngineId } from '@/lib/wan3-pricing';
 import {
@@ -212,7 +213,11 @@ function canonicalInputVideoDurationSec(
 ): number | undefined {
   if (context.seedanceFinalFacts) return context.seedanceFinalFacts.inputVideoDurationSec;
   const bytePlus = isBytePlusInputVideoPricingModel(request.engineId);
-  if (!isWan3EngineId(request.engineId) && !bytePlus) return undefined;
+  // H3-Max on MiniMax's own API bills reference-video seconds in reference mode only; MiniMax-H3 too (Bailian and
+  // MiniMax list the same input-video rate).
+  const h3Max = isMinimaxH3MaxEngineId(request.engineId) || isMinimaxH3EngineId(request.engineId);
+  if (!isWan3EngineId(request.engineId) && !bytePlus && !h3Max) return undefined;
+  if (h3Max && request.mode !== 'ref2v') return undefined;
   if (request.mode !== 'ref2v' && request.mode !== 'v2v' && request.mode !== 'extend') return bytePlus ? undefined : 0;
   // Unresolved media cannot establish supplier usage. Active proportional
   // tariffs require trusted source duration; caller declarations cannot supply it.

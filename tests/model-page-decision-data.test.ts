@@ -663,9 +663,12 @@ test('Kling 2.x legacy templates stay distinct from current Kling 3 routes', () 
     'text or image starts',
     'negative prompt control',
   ]);
-  assert.equal(en25.hero.primaryCta.href, '/app?engine=kling-2-5-turbo');
-  assert.equal(en25.hero.quickLinks[2]?.href, '#prompting');
-  assert.equal(en25.decisionCards[2]?.cta.href, '/models/kling-v4');
+  // Keyvo 2026-11-13: Kling 2.5 Turbo / 2.6 Pro are offline (no mainland route); the CTA points at the successor and
+  // the page offers no workspace or pricing link.
+  assert.equal(en25.hero.primaryCta.href, '/models/kling-3-turbo-standard');
+  assert.ok(!en25.hero.quickLinks.some((link) => link.href.startsWith('/app')));
+  // Unpublished comparison cards drop out for the offline models, so locate the Kling 4.0 card by its link.
+  assert.ok(en25.decisionCards.some((card) => card.cta.href === '/models/kling-v4'));
   assert.match(fr25.hero.subtitle, /Drafts muets 1080p/);
   assert.match(es25.hero.subtitle, /Borradores silenciosos 1080p/);
 
@@ -679,9 +682,9 @@ test('Kling 2.x legacy templates stay distinct from current Kling 3 routes', () 
     '1080p short clips',
     'text-to-video or image-to-video',
   ]);
-  assert.equal(en26.hero.primaryCta.href, '/app?engine=kling-2-6-pro');
-  assert.equal(en26.hero.quickLinks[2]?.href, '#prompting');
-  assert.equal(en26.decisionCards[1]?.cta.href, '/models/kling-v4');
+  assert.equal(en26.hero.primaryCta.href, '/models/kling-3-pro');
+  assert.ok(!en26.hero.quickLinks.some((link) => link.href.startsWith('/app')));
+  assert.ok(en26.decisionCards.some((card) => card.cta.href === '/models/kling-v4'));
   assert.match(fr26.hero.subtitle, /Audio natif/);
   assert.match(es26.hero.subtitle, /Audio nativo/);
 });
@@ -730,7 +733,8 @@ test('Wan templates separate 2.6 reference-video workflow from 2.5 audio checks'
     '5s/10s reference-video consistency',
     'optional audio for text or image starts',
   ]);
-  assert.equal(en26.hero.primaryCta.href, '/app?engine=wan-2-6');
+  // Keyvo 2026-11-13: Wan 2.6 is offline (no mainland route); the CTA points at Wan 3.
+  assert.equal(en26.hero.primaryCta.href, '/models/wan-3');
   assert.ok(en26.hero.quickLinks.some(({ href }) => href === '#prompting'));
   assert.equal(en26.decisionCards[1]?.cta.href, '#prompting');
   assert.match(fr26.hero.subtitle, /Clips multi-plans jusqu’à 15 s/);
@@ -807,7 +811,8 @@ test('Seedance 2.0 decision pricing scenarios reuse pricing page quotes', () => 
   assert.deepEqual(
     scenarios.map((scenario) => scenario.value),
     [
-      ...['$0.85', '$3.03', '$9.36', '$9.73'].map(expectedCustomerPrice),
+      // Keyvo 2026-11-13: 80% of the Volcengine Ark list price.
+      ...['$0.22', '$0.79', '$2.48', '$2.53'].map(expectedCustomerPrice),
       CNY_BUILD ? '¥0 extra' : '$0 extra',
       '15s',
     ]
@@ -831,7 +836,8 @@ test('migrated model pricing scenarios return configured IDs and helper values',
     [
       'kling-3-pro',
       ['5s-1080p-audio', '10s-1080p-audio', '15s-1080p-audio', 'max-duration'],
-      ['$1.10', '$2.19', '$3.28', '15s'],
+      // Keyvo 2026-11-13: 80% of the Bailian list (CNY 1.2/s at 1080p with audio).
+      ['$0.60', '$1.20', '$1.80', '15s'],
     ],
     ['seedream', ['2k-image', '4k-image', 'reference-images'], ['$0.06', '$0.06', '$0.24']],
   ] as const;

@@ -220,8 +220,8 @@ test('a globally listed resolution unsupported by the saved mode uses a valid cu
   const result = await quoteCurrentExamplePrice(video({ engineId: 'kling-2-5-turbo', hasAudio: false,
     settingsSnapshot: { inputMode: 't2v', core: { durationSec: 5, resolution: '720p', aspectRatio: '16:9' }, refs: {} },
   }), { quote: currentQuote(calls) });
-  assert.equal(result.kind, 'reference');
-  assert.equal(calls.length, 1);
-  assert.equal(calls[0].resolution, '1080p', 'Kling 2.5 text-to-video requires 1080p');
-  if (result.kind === 'reference') assert.match(result.scenarioLabel, /1080p/);
+  // Keyvo 2026-11-13: Kling 2.5 Turbo (the model with this mode-specific resolution) is offline (no mainland route), so
+  // its historical example has no current price and no quote is attempted.
+  assert.equal(result.kind, 'unavailable');
+  assert.equal(calls.length, 0);
 });

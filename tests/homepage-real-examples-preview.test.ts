@@ -62,7 +62,8 @@ test('homepage real examples preview uses compact decision-oriented copy and CTA
       ['Veo 3.1', 'Premium realism', 'Image-to-video', '6s', 'Live price'],
       ['Happy Horse 1.1', 'Audio-native workflows', 'Text/image/reference-to-video', '10s', 'Live price'],
       ['LTX 2.3 Fast', 'Fast drafts', 'Text-to-video', '10s', 'Live price'],
-      ['Wan 2.6', 'Structured video workflows', 'Text/image-to-video', '5s', 'Live price'],
+      // Keyvo 2026-11-13: Wan 2.6 is retired (unpublished); the Wan card now presents the current Wan 3.
+      ['Wan 3', 'Structured video workflows', 'Text/image-to-video', '5s', 'Live price'],
     ]
   );
 
@@ -88,7 +89,7 @@ test('homepage examples preview pins accurate recent 16:9 media for Wan, Veo, an
   assert.match(homeRouteDataSource, /1212fdd0-0299-4e07-8546-c8fc0925432d\.webp/);
   assert.doesNotMatch(homeRouteDataSource, /8a1ff925-a483-4dfd-8c29-8ba2e003b86d-job_2c795d5a/);
 
-  const wan = cards.find((card) => card.engineId === 'wan-2-6');
+  const wan = cards.find((card) => card.engineId === 'wan-3');
   const happyHorse = cards.find((card) => card.engineId === 'happy-horse-1-1');
 
   assert.equal(wan?.mode, 'Text/image-to-video');
@@ -101,7 +102,7 @@ test('homepage examples preview keeps only real crawlable example routes', () =>
     ['Seedance 2.0', 'seedance'],
     ['Kling 3 Pro', 'kling'],
     ['Happy Horse 1.1', 'happy-horse'],
-    ['Wan 2.6', 'wan'],
+    ['Wan 3', 'wan'],
   ]);
   // Keyvo unpublishes non-Chinese-vendor families, so their examples routes are not indexed.
   for (const hidden of ['veo', 'ltx']) assert.equal(isIndexedExampleFamilyId(hidden), false, `/examples/${hidden} must be hidden`);

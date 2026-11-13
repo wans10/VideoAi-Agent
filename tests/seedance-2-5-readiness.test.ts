@@ -214,13 +214,15 @@ test('Seedance 2.5 owns a dedicated fail-closed ModelArk profile', () => {
   }
 });
 
-test('Seedance 2.5 pricing uses its factual ModelArk rates and approved 2.5x policy', () => {
+test('Seedance 2.5 pricing uses its factual ModelArk rates and the Volcengine Ark list (Keyvo 2026-11-13)', () => {
   assert.equal(getBytePlusUnitPriceUsdPer1kTokens(slug, 'no_video_input'), 0.0107);
   assert.equal(getBytePlusUnitPriceUsdPer1kTokens(slug, 'video_input'), 0.0064);
 
   const tokenPricing = buildSeedance25PricingDetails().tokenPricing;
   assert.ok(tokenPricing);
-  assert.equal(tokenPricing.pricingSource, 'byteplus_seedance_2_5_260628_approved_2_5x');
+  // Keyvo prices Seedance 2.5 from the Ark cn-beijing list (CNY 70 / 42 per M tokens, 1080p 77 / 46), not 2.5x BytePlus.
+  assert.equal(tokenPricing.pricingSource, 'volcengine_ark_cn_beijing_list_2026_11_13');
+  assert.equal(tokenPricing.unitPriceUsdPer1kTokensByResolutionAndInputType?.['1080p']?.no_video_input, 77 / 8 / 1000);
   assert.equal(tokenPricing.defaultAspectRatio, '16:9');
   assert.equal(tokenPricing.framesPerSecond, 24);
 

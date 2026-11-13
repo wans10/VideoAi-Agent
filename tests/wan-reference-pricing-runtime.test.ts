@@ -24,7 +24,8 @@ for (const id of ['wan-3', 'wan-3-prime']) {
       };
       const quote = await resolveMediaAwarePreflight({ request, userId: 'owner' }, dependencies);
       assert.equal(quote.ok, true, JSON.stringify(quote.error));
-      assert.equal(quote.total, id === 'wan-3' ? 195 : 273);
+      // Keyvo 2026-11-13: (10 s source + 5 s output) x Bailian 720p list (7.5 / 11.25 cents) x 0.8.
+      assert.equal(quote.total, id === 'wan-3' ? 90 : 135);
       assert.equal(quote.pricing?.meta?.input_video_duration_sec, 10);
       const missing = await resolveMediaAwarePreflight({ request, userId: 'owner' }, {
         ...dependencies, mediaConstraintDeps: { queryFn: async () => [] },

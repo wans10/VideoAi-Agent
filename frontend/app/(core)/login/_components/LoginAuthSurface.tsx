@@ -12,6 +12,7 @@ import type { AuthFieldErrors, AuthFieldName } from '../_lib/login-validation';
 import { LoginPasswordField } from './LoginPasswordField';
 import { AuthBrandStory } from '@/components/brand/AuthBrandStory';
 import { IcpFiling } from '@/components/marketing/IcpFiling';
+import { KEYVO_GOOGLE_LOGIN_HIDDEN } from '@/config/keyvo-disabled-features';
 
 type SignupSuggestion = { email: string; password: string };
 
@@ -242,6 +243,8 @@ export function LoginAuthSurface({
 
         {mode !== 'reset' ? (
           <>
+            {KEYVO_GOOGLE_LOGIN_HIDDEN ? null : (
+              <>
             <Button
               type="button"
               onClick={onGoogleSignIn}
@@ -260,6 +263,8 @@ export function LoginAuthSurface({
               <span>{authCopy.divider}</span>
               <span className="h-px flex-1 bg-border" aria-hidden />
             </div>
+              </>
+            )}
             <form
               method="post"
               noValidate

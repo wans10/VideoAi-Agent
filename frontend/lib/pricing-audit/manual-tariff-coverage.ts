@@ -78,8 +78,10 @@ function mediaDimensions(modelId: string, mode: string, durationSec: number): Pr
     }));
   }
   if (modelId === 'minimax-h3-max' && mode === 'ref2v') {
-    return [4096, 4097].map((referenceTokenBudget) => ({
-      context: { referenceTokenBudget },
+    // MiniMax's own API (Keyvo) bills reference video by whole seconds (rounded up, at most 15 combined), so the 16
+    // billed-second classes are a complete finite domain: no continuous class or gap is needed.
+    return Array.from({ length: 16 }, (_, inputVideoDurationSec) => ({
+      context: { inputVideoDurationSec, hasVideoInput: inputVideoDurationSec > 0 },
     }));
   }
   if ((modelId === 'ltx-2-5-fast' || modelId === 'ltx-2-5-pro') && mode === 'a2v') {
@@ -160,9 +162,6 @@ export function collectSellableManualTariffCoverage(scope: { modelId?: string; m
       }
       if (model.id === 'gemini-omni-flash' && ['v2v', 'extend', 'retake'].includes(mode)) {
         gaps.push({ modelId: model.id, reason: `${mode}: open input video duration needs a continuous unit tariff` });
-      }
-      if (model.id === 'minimax-h3-max' && mode === 'ref2v') {
-        gaps.push({ modelId: model.id, reason: `${mode}: unbounded reference token budget needs a continuous unit tariff` });
       }
       if ((model.id === 'ltx-2-5-fast' || model.id === 'ltx-2-5-pro') && mode === 'a2v') {
         gaps.push({ modelId: model.id, reason: `${mode}: open input audio duration needs a continuous unit tariff` });

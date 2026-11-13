@@ -23,7 +23,7 @@ export type ApprovedGptImage25ReferenceFloor = {
 
 export function reviewedCustomerTariffCoverageGap(modelId: string, mode: string): string | null {
   if (['lumaRay2', 'lumaRay2_flash'].includes(modelId) && mode === 'v2v') return `${mode}: nonnumeric auto or open duration requires a reviewed mapping`;
-  if (modelId === 'minimax-h3-max' && mode === 'ref2v') return `${mode}: unbounded reference token budget needs a continuous unit tariff`;
+  // MiniMax-H3-Max reference pricing (Keyvo, MiniMax's own API) is a finite exact domain: no reviewed gap.
   if (['wan-3', 'wan-3-prime'].includes(modelId) && ['ref2v', 'v2v', 'extend'].includes(mode)) {
     return `${mode}: fractional input video duration needs a continuous unit tariff`;
   }

@@ -6,7 +6,8 @@ export const kling26ProTemplateConfig: ModelPageTemplateConfig = {
   hero: {
     eyebrow: 'SUPPORTED KLING AUDIO PRO ROUTE',
     subtitleHighlightTerms: ['native audio', '1080p short clips', 'text-to-video and image-to-video'],
-    primaryCtaHref: '/app?engine=kling-2-6-pro',
+    // Keyvo 2026-11-13: offline (no mainland route); the CTA points at its successor.
+    primaryCtaHref: '/models/kling-3-pro',
     secondaryCtaHref: '/examples/kling',
     quickLinks: [
       {

@@ -71,7 +71,8 @@ test('catalogue summary derives visible, legacy, hidden, paused, and family cove
   const byId = new Map(videoEngines.map((engine) => [engine.id, engine]));
   const currentSeedance = byId.get('seedance-2-5')!;
   const currentKling = byId.get('kling-3-pro')!;
-  const legacyKling = byId.get('kling-2-5-turbo')!;
+  // Keyvo 2026-11-13: Kling 2.5 Turbo is offline; Luma Ray 2 Flash is the visible legacy fixture.
+  const legacyKling = byId.get('lumaRay2_flash')!;
   const legacyLuma = byId.get('lumaRay2')!;
   const pausedLuma = { ...byId.get('luma-ray-3-2')!, availability: 'paused' as const };
 

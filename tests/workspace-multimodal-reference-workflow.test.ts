@@ -50,7 +50,8 @@ for (const id of ids) {
     assert.deepEqual(reconcileReferenceAssets(inputAssets, result.summary.assetFields.map(({ field }) => field), null), inputAssets);
     const frames = result.fields.filter(({ field }) => ['image_url', 'start_image_url', 'end_image_url'].includes(field.id));
     assert.ok(frames.length >= 2);
-    assert.ok(frames.every((entry) => entry.disabled === (id !== 'minimax-h3-max')), 'H3 Max native reference conditioning also accepts start/end frames');
+    // Keyvo runs H3-Max on MiniMax's own V2 API, where frames and references are mutually exclusive (like H3).
+    assert.ok(frames.every((entry) => entry.disabled), 'start/end frames are blocked while references are attached');
     assert.ok(result.fields.filter(({ field }) => ['reference_image_urls', 'reference_audio_urls'].includes(field.id)).every((entry) => !entry.disabled));
   });
 
@@ -60,7 +61,7 @@ for (const id of ids) {
     const result = project(id, inputAssets);
     assert.equal(result.workflow.submissionMode, 'i2v');
     for (const fieldId of ['reference_image_urls', 'reference_video_urls', 'reference_audio_urls']) {
-      assert.equal(result.fields.find(({ field }) => field.id === fieldId)?.disabled, id !== 'minimax-h3-max', fieldId);
+      assert.equal(result.fields.find(({ field }) => field.id === fieldId)?.disabled, true, fieldId);
     }
     assert.deepEqual(reconcileReferenceAssets(inputAssets, result.summary.assetFields.map(({ field }) => field), null), inputAssets);
     assert.equal(result.fields.find(({ field }) => field.id === 'end_image_url')?.disabled, false);
@@ -91,14 +92,17 @@ for (const id of ['wan-3', 'wan-3-prime']) {
   }
 }
 
-test('H3 Max: a target soundtrack stays in text/image mode, independent of audio references', () => {
+// Keyvo's H3-Max (MiniMax's own V2 API) has no soundtrack input; MiniMax-H3's catalogue keeps the soundtrack field and
+// carries this contract.
+test('H3: a target soundtrack stays in text/image mode, independent of audio references', () => {
+  assert.equal(project('minimax-h3-max').engine.inputSchema?.optional?.some(({ id }) => id === 'target_audio_url'), false);
   const inputAssets = { target_audio_url: [asset('target_audio_url', 'audio')] };
-  const text = project('minimax-h3-max', inputAssets);
+  const text = project('minimax-h3', inputAssets);
   assert.equal(text.workflow.submissionMode, 't2v');
   assert.equal(text.workflow.audioWorkflowUnsupported, false);
   assert.equal(text.fields.find(({ field }) => field.id === 'target_audio_url')?.disabled, false);
   assert.deepEqual(reconcileReferenceAssets(inputAssets, text.summary.assetFields.map(({ field }) => field), null), inputAssets);
-  const image = project('minimax-h3-max', { ...inputAssets, end_image_url: [asset('end_image_url', 'image')] });
+  const image = project('minimax-h3', { ...inputAssets, end_image_url: [asset('end_image_url', 'image')] });
   assert.equal(image.workflow.submissionMode, 'i2v');
   assert.equal(image.workflow.audioWorkflowUnsupported, false);
   assert.equal(image.fields.find(({ field }) => field.id === 'image_url')?.required, false);
@@ -137,8 +141,8 @@ for (const id of ids) {
   test(`${id}: restored frames plus references follow the native mixed-conditioning capability`, () => {
     const fieldId = id.startsWith('wan-') ? 'start_image_url' : 'image_url';
     const guarded = generationGuard(id, { [fieldId]: [asset(fieldId, 'image')], reference_image_urls: [asset('reference_image_urls', 'image')] });
-    if (id === 'minimax-h3-max') assert.equal(guarded, null);
-    else assert.match(guarded ?? '', /incompatible/i);
+    // Keyvo's H3-Max follows MiniMax's own API: frames and references cannot be combined.
+    assert.match(guarded ?? '', /incompatible/i);
   });
 }
 
@@ -193,29 +197,25 @@ test('H3 Max duplicate portrait/reference slot keeps creation counts and explici
 });
 
 
-test('H3 Max Create retains native frames plus ordered multimodal references through the provider builder', () => {
+// Keyvo runs H3-Max on MiniMax's own V2 API: no middle frame or reference order, and frames cannot be combined with
+// references. The Fal builder keeps its upstream contract (tests/h3-source-operations.test.ts).
+test('H3 Max Create keeps frames and references separate and offers no middle frame or reference order', () => {
   const inputAssets = Object.fromEntries([
-    ['image_url','image'],['middle_image_url','image'],['end_image_url','image'],
-    ['reference_image_urls','image'],['reference_video_urls','video'],['reference_audio_urls','audio'],
+    ['image_url','image'],['end_image_url','image'],['reference_image_urls','image'],['reference_audio_urls','audio'],
   ].map(([id,kind]) => [id,[asset(id,kind as ReferenceAsset['kind'])]]));
-  const extras = {middle_frame_time:2.5,reference_order:'video1,image1,audio1'};
-  const result = project('minimax-h3-max', inputAssets, 't2v', extras);
-  assert.equal(result.workflow.submissionMode, 'ref2v');
-  assert.equal(generationGuard('minimax-h3-max',inputAssets,'t2v',extras),null);
-  const payload = {engineId:'minimax-h3-max',mode:result.workflow.submissionMode,prompt:'Animate the scene',
-    durationSec:5,resolution:'768P',extraInputValues:extras,
-    inputs:Object.entries(inputAssets).map(([slotId,[item]])=>({slotId,kind:item.kind,url:item.url}))};
-  const built = buildMinimaxH3MaxFalRequestFromPayload(payload);
-  assert.equal(built.model,'minimax/h3-max/reference-to-video');
-  assert.equal(built.requestBody.image_url,'https://example.com/image_url');
-  assert.equal(built.requestBody.end_image_url,'https://example.com/end_image_url');
-  assert.equal(built.requestBody.middle_image_url,'https://example.com/middle_image_url');
-  assert.equal(built.requestBody.middle_frame_time,2.5);
-  assert.deepEqual(built.requestBody.reference_conditions,[
-    {type:'video',url:'https://example.com/reference_video_urls'},
-    {type:'image',url:'https://example.com/reference_image_urls'},
-    {type:'audio',url:'https://example.com/reference_audio_urls'},
-  ]);
-  assert.throws(()=>buildMinimaxH3MaxFalRequestFromPayload({...payload,resolution:'1080P'}),/Middle frame/);
-  assert.throws(()=>buildMinimaxH3MaxFalRequestFromPayload({...payload,extraInputValues:{...extras,reference_order:'image1,image1,audio1'}}),/exactly once/);
+  const result = project('minimax-h3-max', inputAssets, 't2v');
+  // Frames win the creation mode (image-to-video) and the attached references are reported as incompatible.
+  assert.equal(result.workflow.submissionMode, 'i2v');
+  assert.match(generationGuard('minimax-h3-max',inputAssets,'t2v') ?? '', /incompatible/i);
+  assert.equal(result.summary.assetFields.some(({ field }) => field.id === 'middle_image_url'), false);
+  assert.equal(result.summary.secondaryFields.some(({ field }) => ['middle_frame_time','reference_order','seed'].includes(field.id)), false);
+  const references = { ...Object.fromEntries(Object.entries(inputAssets).filter(([id]) => id.startsWith('reference_'))),
+    reference_video_urls: [asset('reference_video_urls','video')] };
+  assert.equal(generationGuard('minimax-h3-max',references,'ref2v'),null);
+  const payload = {engineId:'minimax-h3-max',mode:'ref2v' as const,prompt:'Animate the scene',durationSec:5,resolution:'768P',
+    inputs:Object.entries(references).map(([slotId,[item]])=>({slotId,kind:item!.kind,url:item!.url}))};
+  const built = buildMinimaxH3MaxFalRequestFromPayload(payload as never);
+  assert.deepEqual([built.requestBody.reference_image_urls,built.requestBody.reference_video_urls,built.requestBody.reference_audio_urls],
+    [['https://example.com/reference_image_urls'],['https://example.com/reference_video_urls'],['https://example.com/reference_audio_urls']]);
+  assert.throws(()=>buildMinimaxH3MaxFalRequestFromPayload({...payload,resolution:'1080P'} as never),/480P or 768P/);
 });

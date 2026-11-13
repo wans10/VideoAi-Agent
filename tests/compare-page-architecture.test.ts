@@ -133,9 +133,10 @@ test('comparison routing accepts public P1 engines while preserving unresolved-p
 
   // Keyvo hides non-Chinese-vendor models, so a pair that includes one no longer resolves.
   assert.equal(resolveEngines('gemini-omni-flash-vs-veo-3-1'), null);
-  // H3 Max has no mainland route and is hidden on Keyvo; Wan 2.5 is offline.
-  assert.equal(resolveEngines('kling-3-turbo-pro-vs-minimax-h3-max'), null);
-  assert.equal(resolveEngines('minimax-h3-vs-minimax-h3-max'), null);
+  // H3 Max is served on Keyvo again (MiniMax's own API), so its pairs resolve like H3's; the comparison pages themselves
+  // stay off (KEYVO_COMPARE_HIDDEN). Wan 2.5 is offline.
+  assert.equal(resolveEngines('kling-3-turbo-pro-vs-minimax-h3-max')?.right.modelSlug, 'minimax-h3-max');
+  assert.equal(resolveEngines('minimax-h3-vs-minimax-h3-max')?.right.modelSlug, 'minimax-h3-max');
   assert.equal(resolveEngines('seedance-2-0-vs-wan-2-5'), null);
   const publishedPair = resolveEngines('minimax-h3-vs-seedance-2-5');
   assert.equal(publishedPair?.left.modelSlug, 'minimax-h3');

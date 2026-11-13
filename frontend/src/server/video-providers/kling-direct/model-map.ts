@@ -15,7 +15,7 @@ export type KlingDirectEngineId =
   | 'kling-v4-flash';
 /** `per_request`: the new-design API takes the resolution from `settings.resolution`, not a tier. */
 export type KlingDirectMode = 'std' | 'pro' | '4k' | 'per_request';
-export type KlingDirectEndpointFamily = 'video-v3' | 'video-o3-omni' | 'video-v4' | 'video-v4-flash';
+export type KlingDirectEndpointFamily = 'video-v3' | 'video-v3-turbo' | 'video-o3-omni' | 'video-v4' | 'video-v4-flash';
 export type KlingDirectSubmitMode = 't2v' | 'i2v' | 'ref2v' | 'v2v';
 export type KlingDirectEndpointPath =
   | '/v1/videos/text2video'
@@ -30,6 +30,8 @@ export type KlingDirectV2EndpointPath =
   | '/text-to-video/kling-4.0-flash'
   | '/image-to-video/kling-4.0-flash'
   | '/omni-video/kling-4.0-flash'
+  | '/text-to-video/kling-3.0-turbo'
+  | '/image-to-video/kling-3.0-turbo'
   | typeof KLING_DIRECT_V2_TASKS_PATH;
 /** Unified new-design task query: `GET /tasks?task_ids=` or `?external_task_ids=`. */
 export const KLING_DIRECT_V2_TASKS_PATH = '/tasks' as const;
@@ -39,8 +41,10 @@ export type KlingDirectModelRoute = {
   endpointFamily: KlingDirectEndpointFamily;
   createPaths: Partial<Record<KlingDirectSubmitMode, KlingDirectEndpointPath>>;
   pollPathPrefixes: Partial<Record<KlingDirectSubmitMode, KlingDirectEndpointPath>>;
-  providerModel: 'kling-v3' | 'kling-v3-omni' | 'kling-4.0' | 'kling-4.0-flash';
+  providerModel: 'kling-v3' | 'kling-v3-omni' | 'kling-4.0' | 'kling-4.0-flash' | 'kling-3.0-turbo';
   mode: KlingDirectMode;
+  /** Fixed output resolution for engines whose tier is the resolution (Kling 3.0 Turbo std 720p / pro 1080p). */
+  resolution?: '720p' | '1080p';
   /** Absent for the legacy `/v1/videos/*` + `model_name` design. */
   apiDesign?: 'v2';
 };
@@ -78,6 +82,18 @@ const KLING_V4_FLASH_ENDPOINTS: Partial<Record<KlingDirectSubmitMode, KlingDirec
   ref2v: '/omni-video/kling-4.0-flash',
 };
 
+// Kling 3.0 Turbo official docs (klingai.com/document-api/api/video/3-0-turbo/*), fetched 2026-11-12:
+// text-to-video and first-frame image-to-video only; the tier is `settings.resolution`.
+const KLING_V3_TURBO_ENDPOINTS: Partial<Record<KlingDirectSubmitMode, KlingDirectEndpointPath>> = {
+  t2v: '/text-to-video/kling-3.0-turbo',
+  i2v: '/image-to-video/kling-3.0-turbo',
+};
+
+const KLING_V2_GENERATION_POLL_PATHS: Partial<Record<KlingDirectSubmitMode, KlingDirectEndpointPath>> = {
+  t2v: KLING_DIRECT_V2_TASKS_PATH,
+  i2v: KLING_DIRECT_V2_TASKS_PATH,
+};
+
 const KLING_V4_POLL_PATHS: Partial<Record<KlingDirectSubmitMode, KlingDirectEndpointPath>> = {
   t2v: KLING_DIRECT_V2_TASKS_PATH,
   i2v: KLING_DIRECT_V2_TASKS_PATH,
@@ -110,21 +126,26 @@ const KLING_DIRECT_MODEL_ROUTES: Record<KlingDirectEngineId, KlingDirectModelRou
     providerModel: 'kling-v3',
     mode: '4k',
   },
+  // Real Turbo model on the new-design API (not plain kling-v3): std = 720p, pro = 1080p.
   'kling-3-turbo-standard': {
     engineId: 'kling-3-turbo-standard',
-    endpointFamily: 'video-v3',
-    createPaths: KLING_V3_ENDPOINTS,
-    pollPathPrefixes: KLING_V3_ENDPOINTS,
-    providerModel: 'kling-v3',
-    mode: 'std',
+    endpointFamily: 'video-v3-turbo',
+    createPaths: KLING_V3_TURBO_ENDPOINTS,
+    pollPathPrefixes: KLING_V2_GENERATION_POLL_PATHS,
+    providerModel: 'kling-3.0-turbo',
+    mode: 'per_request',
+    resolution: '720p',
+    apiDesign: 'v2',
   },
   'kling-3-turbo-pro': {
     engineId: 'kling-3-turbo-pro',
-    endpointFamily: 'video-v3',
-    createPaths: KLING_V3_ENDPOINTS,
-    pollPathPrefixes: KLING_V3_ENDPOINTS,
-    providerModel: 'kling-v3',
-    mode: 'pro',
+    endpointFamily: 'video-v3-turbo',
+    createPaths: KLING_V3_TURBO_ENDPOINTS,
+    pollPathPrefixes: KLING_V2_GENERATION_POLL_PATHS,
+    providerModel: 'kling-3.0-turbo',
+    mode: 'per_request',
+    resolution: '1080p',
+    apiDesign: 'v2',
   },
   'kling-o3-standard': {
     engineId: 'kling-o3-standard',
@@ -163,7 +184,7 @@ const KLING_DIRECT_MODEL_ROUTES: Record<KlingDirectEngineId, KlingDirectModelRou
     engineId: 'kling-v4-flash',
     endpointFamily: 'video-v4-flash',
     createPaths: KLING_V4_FLASH_ENDPOINTS,
-    pollPathPrefixes: { t2v: KLING_DIRECT_V2_TASKS_PATH, i2v: KLING_DIRECT_V2_TASKS_PATH, ref2v: KLING_DIRECT_V2_TASKS_PATH },
+    pollPathPrefixes: { ...KLING_V2_GENERATION_POLL_PATHS, ref2v: KLING_DIRECT_V2_TASKS_PATH },
     providerModel: 'kling-4.0-flash',
     mode: 'per_request',
     apiDesign: 'v2',

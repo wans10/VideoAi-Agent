@@ -1,7 +1,7 @@
-# MiniMax official API (MiniMax-H3 and Hailuo)
+# MiniMax official API (MiniMax-H3, MiniMax-H3-Max and Hailuo)
 
-MiniMax's own video APIs at `https://api.minimax.cn` serve MiniMax-H3 (V2 API) and the Hailuo models (legacy V1
-API). They are a switchable route, not a new provider: jobs keep `provider = 'llmhub'`, so polling, refunds and
+MiniMax's own video APIs at `https://api.minimax.cn` serve MiniMax-H3 and MiniMax-H3-Max (V2 API) and the Hailuo
+models (legacy V1 API). They are a switchable route, not a new provider: jobs keep `provider = 'llmhub'`, so polling, refunds and
 geometry checks are shared with LLM Hub.
 
 **Bailian route (2026-11-11).** MiniMax-H3 is also hosted on Alibaba Bailian (`MiniMax/MiniMax-H3`). With the
@@ -14,7 +14,7 @@ speech stay on MiniMax. See [the Bailian section](alibaba-model-studio-provider.
 
 | Variable | Meaning |
 | --- | --- |
-| `MINIMAX_OFFICIAL_ENABLED` | `true` sends new MiniMax-H3, Hailuo 02, Hailuo 2.3 and Hailuo 2.3 Fast submissions to MiniMax. Off by default. |
+| `MINIMAX_OFFICIAL_ENABLED` | `true` sends new MiniMax-H3, MiniMax-H3-Max, Hailuo 02, Hailuo 2.3 and Hailuo 2.3 Fast submissions to MiniMax. Off by default; without it H3-Max has no route on Keyvo. |
 | `MINIMAX_API_KEY` | Official API key. Both variables are required. |
 | `MINIMAX_API_BASE` | Optional, default `https://api.minimax.cn` (the docs' server; the docs host platform.minimaxi.com redirects to platform.minimax.cn). |
 
@@ -26,8 +26,8 @@ and `LLMHUB_API_KEY` are set) and the Hailuo 2.3 engines have no route.
 
 - `frontend/src/server/video-providers/minimax-official/client.ts` owns both wire formats, the documented limits
   checks, error mapping and the local rate-limit guard.
-- `frontend/src/lib/minimax-video-limits.ts` holds the documented limits (H3 durations/resolutions/reference counts,
-  the Hailuo model × task × resolution × duration matrix). The routing narrowing, the client and pricing share it.
+- `frontend/src/lib/minimax-video-limits.ts` holds the documented limits (H3 / H3-Max durations, resolutions and
+  reference counts in `MINIMAX_V2_MODEL_LIMITS`, the Hailuo model × task × resolution × duration matrix). The routing narrowing, the client and pricing share it.
 - `frontend/src/server/llmhub-minimax-capabilities.ts` decides what the workspace sees and what routing accepts:
   `OFFICIAL_NARROWINGS` with the switch on, the LLM Hub narrowing otherwise.
 - `LlmhubVideoClient` delegates `create` when `shouldUseMinimaxOfficial(model)`, and `status` / `content` by task ID:
@@ -75,7 +75,9 @@ leaves the outcome unknown and the job stalls for manual review.
 
 ## Rate limits (guides/rate-limits.md)
 
-- V2 (H3): 300 RPM and 30 tasks in flight; legacy Hailuo: 20 RPM; T2A speech: 20 RPM (paid account).
+- V2 (H3): 300 RPM and 30 tasks in flight; legacy Hailuo: 20 RPM; T2A speech: 20 RPM (paid account). The page lists
+  "MiniMax-H3" only; H3-Max uses the same V2 interface, so it shares the `video_v2` bucket and the in-flight count
+  (`MINIMAX_OFFICIAL_MODELS`). Whether MiniMax counts the two models separately is not documented (unverified).
 - `frontend/src/server/minimax-rate-limit.ts` keeps a per-process sliding window per bucket; the submission also
   counts running V2 tasks in `app_jobs` and refuses the 31st before calling MiniMax. Both refusals refund and show
   "MiniMax 当前请求过多…请约一分钟后重试". Several instances can still exceed the account limit together, so
@@ -83,15 +85,49 @@ leaves the outcome unknown and the job stalls for manual review.
 
 ## Pricing
 
-- H3 keeps its existing per-second price; 4 s uses the same rate. Reference-video seconds are added PROVISIONALLY at
-  MiniMax's CNY rate (768P 0.50, 2K 0.80 per second, rounded up to whole seconds) converted at
-  `USD_TO_CNY_CUSTOMER_RATE`, before margin (`src/lib/minimax-h3-pricing.ts`).
-- Hailuo 2.3 / 2.3 Fast are PROVISIONAL per-video CNY list prices (`src/lib/minimax-hailuo-pricing.ts`).
-- Hailuo 02 keeps its existing price.
+Since 2026-11-13 every price below is sold at 80% of the list price (`pricing-engine.md` "Keyvo official list price
+rule"); the supplier facts keep the full list price.
 
-## MiniMax-H3-Max
+- H3 uses the Bailian / MiniMax list price: output 768P CNY 0.50/s, 2K 0.80/s (4 s uses the same rate); reference-video
+  seconds at the same rate (rounded up to whole seconds) and reference images beyond five at CNY 0.20 each
+  (`src/lib/minimax-h3-pricing.ts`).
+- Hailuo 2.3 / 2.3 Fast / 02 use MiniMax's per-video CNY list prices (`src/lib/minimax-hailuo-pricing.ts`; Hailuo 02
+  512P is image-to-video only).
 
-Not served on Keyvo: MiniMax's H3-Max has 480P/768P only, its own input pricing (video CNY 0.37/0.97 per second,
-images 0.50 beyond two) and none of the fal-only controls (1080P, middle frame, Recast/Relight). The registry keeps
-upstream's publication; Keyvo hides it on every surface, including the app and pricing, through
-`KEYVO_HIDDEN_MODEL_IDS` in `frontend/config/keyvo-model-visibility.ts` until a dedicated route and price exist.
+## MiniMax-H3-Max (V2, model `MiniMax-H3-Max`, 2026-11-12)
+
+Bailian does not host it, so the official API is its only Keyvo route (`MINIMAX_OFFICIAL_ONLY_MODELS` in
+`llmhub/model-map.ts`); without the switch it has no route and the workspace and MCP do not offer it.
+
+- Modes as documented for Max (video-generation-v2-create.md, checked 2026-11-12): text (fixed ratio, never adaptive),
+  image with first frame, last frame or both, multimodal reference (9 images, 3 videos, 3 audio clips, same media limits
+  as H3; fixed ratio or adaptive, the adaptive restriction is documented for Lite only). Frames and references cannot be
+  combined, so the engine's start/end frames belong to image mode only.
+- 5-15 s (no 4 s), 480P or 768P (no 2K; Fal's 1080P refinement does not exist here). Prompt up to 7000 characters.
+- `extra.prompt_expansion_mode` (`disabled`, `balanced` default, `quality`) is Max-only and is sent only when chosen;
+  the schema refuses undeclared `extra` fields, so the client refuses it for MiniMax-H3 and any other value.
+- Not available on this route and removed from the engine: soundtrack (`target_audio_url`), seed, middle frame,
+  reference order. Fal's Recast/Relight (`minimax/h3-max/recast|relight`) have no MiniMax equivalent (the V2
+  "regeneration" task only upscales MiniMax-H3 768P output to 2K): they stay defined for upstream, route to Fal only,
+  are not executable without Fal, are dropped from the workspace narrowing and are not sold
+  (`KEYVO_UNSERVED_VIDEO_OPERATIONS`).
+- Submission, polling (numeric V2 task IDs on the llmhub job provider), refunds on definite rejections (4xx, 529,
+  local validation, local rate limit) and the error mapping are shared with H3.
+
+### H3-Max pricing (PROVISIONAL)
+
+`src/lib/minimax-h3-max-pricing.ts` (`calculateMinimaxH3MaxOfficialCost`) uses MiniMax's CNY list price
+(pricing/overview.md, "MiniMax-H3-Max（扩展模型）", checked 2026-11-12) at the accounting rate of CNY 8 per USD, then the
+official-list rule (80% of the list price, since 2026-11-13):
+
+| Resolution | Output CNY/s | Reference video CNY/s | Images |
+| --- | --- | --- | --- |
+| 480P | 0.33 | 0.37 | 2 free per task, then 0.50 each |
+| 768P | 0.50 | 0.97 | 2 free per task, then 0.50 each |
+
+Audio input is free. Reference-video seconds come from owned media and are rounded up to whole seconds (MiniMax's
+rounding is not documented); frames never exceed the two free images. Examples (customer, CNY build): 5 s 480P
+CNY 1.36, 5 s 768P CNY 2.00, 10 s 768P CNY 4.00, 15 s 768P CNY 6.00; 5 s 768P with 3 billed reference-video seconds and
+4 images CNY 5.12. The manual tariff identity is exact (`referenceImageCount` 0-9 × `inputVideoDurationSec` 0-15 billed
+seconds), replacing Fal's open reference-token class. The Fal reference-token budget is still computed by the shared
+preflight but no longer priced.

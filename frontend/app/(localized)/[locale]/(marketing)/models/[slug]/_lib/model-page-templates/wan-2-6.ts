@@ -6,7 +6,8 @@ export const wan26TemplateConfig: ModelPageTemplateConfig = {
   hero: {
     eyebrow: 'PREVIOUS-GENERATION WAN LEGACY ROUTE',
     subtitleHighlightTerms: ['15s multi-shot clips', 'reference-to-video consistency', 'optional audio for text or image starts'],
-    primaryCtaHref: '/app?engine=wan-2-6',
+    // Keyvo 2026-11-13: Wan 2.6 is offline (no mainland route); the CTA points at its successor.
+    primaryCtaHref: '/models/wan-3',
     secondaryCtaHref: '/examples/wan',
     quickLinks: [
       {

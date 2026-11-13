@@ -1,4 +1,6 @@
 import { calculateQwenImageCost, isQwenImageEngineId } from '@/lib/image/qwen-image';
+import { klingV4PricingUsage, KLING_V4_PRICING_SOURCE } from '@/lib/kling-v4-pricing';
+import { klingV4FlashPricingUsage, KLING_V4_FLASH_PRICING_SOURCE } from '@/lib/kling-v4-flash-pricing';
 import { calculateMinimaxHailuoCost, isMinimaxHailuoOfficialEngineId } from '@/lib/minimax-hailuo-pricing';
 import { isGptImage26EngineId } from '@/lib/image/gptImage26';
 import { calculateGptImage26ListOutputComponents } from '@/lib/image/gptImage26Pricing';
@@ -29,12 +31,9 @@ import {
 } from '@/lib/image/gptImage2';
 import type { EngineCaps, Mode } from '@/types/engines';
 import { isMinimaxH3EngineId } from '@/lib/minimax-h3';
-import { calculateMinimaxH3ProviderPrice } from '@/lib/minimax-h3-pricing';
+import { calculateMinimaxH3ProviderPrice, MINIMAX_H3_PRICING_SOURCE } from '@/lib/minimax-h3-pricing';
 import { isMinimaxH3MaxEngineId } from '@/lib/minimax-h3-max';
-import {
-  calculateMinimaxH3MaxProviderCost,
-  MINIMAX_H3_MAX_PRICING_SOURCE,
-} from '@/lib/minimax-h3-max-pricing';
+import { calculateMinimaxH3MaxOfficialCost } from '@/lib/minimax-h3-max-pricing';
 import {
   calculateGoogleOmniProviderCost,
   GOOGLE_OMNI_PRICING_SOURCE,
@@ -180,6 +179,23 @@ export function buildPublicPricingFacts(context: PublicPricingFactsContext): Pub
     return buildStandardDefinitionFacts(context, currency);
   }
 
+  if (engine.id === 'kling-v4' || engine.id === 'kling-v4-flash') {
+    // Same Kling official list facts as billing (pricing-billing-facts.ts). Public presets without media are
+    // priced as requests without input video.
+    const flash = engine.id === 'kling-v4-flash';
+    const usageContext = { mode, resolution, durationSec,
+      hasVideoInput: context.hasVideoInput ?? (mode === 'ref2v' ? false : undefined),
+      inputVideoDurationSec: context.inputVideoDurationSec, inheritedDurationSec: context.inheritedDurationSec };
+    const usage = flash ? klingV4FlashPricingUsage(usageContext) : klingV4PricingUsage(usageContext);
+    return resultFromExactFacts({
+      engineId: engine.id, currency: 'USD', exactCents: usage.supplierExactCents,
+      quantity: usage.outputDurationSec, unit: 'sec', rate: usage.supplierExactCents / 100 / usage.outputDurationSec,
+      meta: { pricing_model: flash ? 'kling_v4_flash_official_cn_list' : 'kling_v4_official_cn_list',
+        provider_cost_source: flash ? KLING_V4_FLASH_PRICING_SOURCE : KLING_V4_PRICING_SOURCE,
+        billable_seconds: usage.billableSeconds, has_video_input: usage.hasVideoInput },
+    });
+  }
+
   if (isQwenImageEngineId(engine.id)) {
     const cost = calculateQwenImageCost({ engineId: engine.id, resolution,
       aspectRatio: context.aspectRatio, mode, referenceImageCount: context.referenceImageCount,
@@ -240,63 +256,71 @@ export function buildPublicPricingFacts(context: PublicPricingFactsContext): Pub
   }
 
   if (isMinimaxH3MaxEngineId(engine.id)) {
-    const reference = calculateMinimaxH3MaxProviderCost({
-      mode: mode as 't2v' | 'i2v' | 'ref2v',
-      durationSec,
-      resolution: resolution as '480P' | '768P' | '1080P',
-      referenceTokenBudget: context.referenceTokenBudget,
-      verifiedReferenceTokenCount: context.verifiedReferenceTokenCount,
+    // Same PROVISIONAL official CNY cost as billing (pricing-billing-facts.ts); public presets carry no media.
+    const cost = calculateMinimaxH3MaxOfficialCost({
+      mode, durationSec, resolution,
+      inputVideoDurationSec: context.inputVideoDurationSec,
+      referenceImageCount: context.referenceImageCount,
     });
-    const referenceTokenCents = Math.round(reference.referenceTokenSubtotalUsd * 100);
+    const addons: PricingSnapshot['addons'] = [];
+    if (cost.inputVideoUsdCents > 0) addons.push({ type: 'reference_video_seconds', amountCents: Math.ceil(cost.inputVideoUsdCents - 1e-9) });
+    if (cost.imageUsdCents > 0) addons.push({ type: 'reference_images_above_two', amountCents: Math.ceil(cost.imageUsdCents - 1e-9) });
     return resultFromExactFacts({
       engineId: engine.id,
       currency,
-      exactCents: reference.providerCostExactCents,
-      presentedBaseCents: Math.round(reference.outputSubtotalUsd * 100),
+      exactCents: cost.subtotalUsdCents,
+      presentedBaseCents: Math.ceil(cost.outputUsdCents - 1e-9),
       quantity: durationSec,
       unit: 'sec',
-      rate: reference.ratePerSecondUsd,
-      addons: referenceTokenCents > 0
-        ? [{ type: 'reference_tokens_above_4096', amountCents: referenceTokenCents }]
-        : [],
+      rate: cost.ratePerSecondUsd,
+      addons,
       compatibilityProfileId: 'provider-reference-current',
       meta: {
-        pricing_model: 'minimax_h3_max_output_plus_reference_tokens',
-        provider_cost_source: MINIMAX_H3_MAX_PRICING_SOURCE,
+        pricing_model: 'minimax_h3_max_official_output_plus_inputs',
+        provider_cost_source: cost.source,
+        cost_breakdown_usd: cost,
+        provider_currency: 'CNY',
         public_provider: 'MiniMax',
         public_family: 'Hailuo',
         mode,
-        reference_pricing_basis: reference.referencePricingBasis,
-        provider_cost_is_estimate: context.referenceTokenBudget !== undefined,
-        cost_breakdown_usd: reference,
+        output_cny: cost.outputCny,
+        input_video_seconds: cost.inputVideoSeconds,
+        input_video_cny: cost.inputVideoCny,
+        reference_image_count: cost.imageCount,
+        paid_reference_image_count: cost.paidImageCount,
+        reference_image_cny: cost.imageCny,
+        accounting_cny_per_usd: cost.accountingCnyPerUsd,
       },
     });
   }
 
   if (isMinimaxH3EngineId(engine.id)) {
+    // Same official list cost as billing (pricing-billing-facts.ts); public presets usually carry no media.
     const reference = calculateMinimaxH3ProviderPrice({
       durationSec,
       resolution: resolution as '480P' | '768P' | '2K' | '4K',
       referenceImageCount: context.referenceImageCount,
-      // Customer prices stay unchanged: the PROVISIONAL official reference-video cost
-      // (calculateMinimaxH3ProviderPrice inputVideoDurationSec) awaits the owner's re-pricing decision.
+      ...(mode === 'ref2v' && typeof context.inputVideoDurationSec === 'number'
+        ? { inputVideoDurationSec: context.inputVideoDurationSec } : {}),
     });
-    const surchargeCents = Math.round(reference.breakdown.referenceImageSurchargeUsd * 100);
+    const surchargeCents = Math.round(reference.breakdown.referenceImageSurchargeUsd * 100 * 1000) / 1000;
+    const inputVideoCents = Math.round((reference.breakdown.inputVideoSurchargeUsd ?? 0) * 100 * 1000) / 1000;
     return resultFromExactFacts({
       engineId: engine.id,
       currency,
-      exactCents: Math.round(reference.subtotalUsd * 100),
-      presentedBaseCents: Math.round(reference.breakdown.baseSubtotalUsd * 100),
+      exactCents: Math.round(reference.subtotalUsd * 100 * 1000) / 1000,
+      presentedBaseCents: Math.round(reference.breakdown.baseSubtotalUsd * 100 * 1000) / 1000,
       quantity: durationSec,
       unit: 'sec',
       rate: reference.breakdown.ratePerSecondUsd,
-      addons: surchargeCents > 0
-        ? [{ type: 'reference_images_above_five', amountCents: surchargeCents }]
-        : [],
+      addons: [
+        ...(surchargeCents > 0 ? [{ type: 'reference_images_above_five', amountCents: surchargeCents }] : []),
+        ...(inputVideoCents > 0 ? [{ type: 'reference_video_seconds', amountCents: inputVideoCents }] : []),
+      ],
       compatibilityProfileId: 'provider-reference-current',
       meta: {
-        pricing_model: 'fal_h3_resolution_plus_reference_images',
-        provider_cost_source: 'fal_minimax_h3_pricing',
+        pricing_model: 'minimax_h3_official_output_plus_inputs',
+        provider_cost_source: MINIMAX_H3_PRICING_SOURCE,
         cost_breakdown_usd: reference.breakdown,
         mode,
         reference_image_count: reference.breakdown.referenceImageCount,
@@ -448,6 +472,7 @@ export function buildPublicPricingFacts(context: PublicPricingFactsContext): Pub
           : context.hasVideoInput === false
             ? 'no_video_input'
             : undefined,
+      ...(typeof context.inputVideoDurationSec === 'number' ? { inputVideoDurationSec: context.inputVideoDurationSec } : {}),
     });
     return resultFromExactFacts({
       engineId: engine.id,

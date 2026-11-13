@@ -63,10 +63,11 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
 
 - `frontend/src/lib/env.ts` still reads the older `SEEDANCE_2_5_V2V_TRANSPORT` as a fallback for `SEEDANCE_2_5_EDIT_TRANSPORT`, and `tests/seedance-2-5-edit-transport-fallback.test.ts` pins it. It predates upstream's own ModelArk Edit transport and is a candidate for removal; it does not change behaviour when only the canonical variable is set.
 
-### MiniMax official API (H3, Hailuo, H3 Max hidden)
+### MiniMax official API (H3, Hailuo, H3 Max)
 
 - **Keyvo:** MiniMax-H3 and the Hailuo models run on MiniMax's own mainland API behind `MINIMAX_OFFICIAL_ENABLED` (see `docs/engineering/minimax-official-provider.md`). The shared H3 catalogue (`frontend/src/config/fal-engines/minimax-h3.ts`, `execution-constraints.ts`) offers 4-15 s at 768P/2K only, because 480P and 4K are not MiniMax-H3 tiers; `minimax-hailuo-2-3` and `minimax-hailuo-2-3-fast` exist only for this route.
-- **H3 Max:** `KEYVO_HIDDEN_MODEL_IDS` in `frontend/config/keyvo-model-visibility.ts` hides `minimax-h3-max` on every surface while the registry keeps upstream's publication, because Keyvo has no route for it. MCP model guidance (`src/server/agent-api/model-guidance.ts`) withholds its reviewed entry for the same reason.
+- **H3 Max (2026-11-12):** `minimax-h3-max` runs on MiniMax's own V2 API (`MiniMax-H3-Max`) behind the same switch, with upstream's registry publication (the hidden-id list `frontend/config/keyvo-hidden-model-ids.json` is now empty; the mechanism stays for future models). The shared engine (`frontend/src/config/fal-engines/minimax-h3-max.ts`) offers 480P/768P only, a 7,000-character prompt, frames in image mode only, and no soundtrack, seed, middle frame or reference order (Fal-only controls); its pricing is MiniMax's PROVISIONAL CNY list price (`src/lib/minimax-h3-max-pricing.ts`), so the reference-token open tariff no longer applies to it (`server/pricing/open-quantity-tariff.ts`). Fal's Recast/Relight stay defined for upstream but are not executable, offered or sold (`KEYVO_UNSERVED_VIDEO_OPERATIONS` in `lib/pricing-audit/video-operation-tariff-inventory.ts`). Upstream tests of those Fal-only controls were adapted to assert their absence; the Fal request builder keeps its upstream contract.
+- The EN/FR/ES model content and `data/benchmarks` still describe Fal's 1080P tier (Keyvo renders zh only); `content/models/zh/minimax-h3-max.json` and the MCP guidance entry name 480P/768P.
 
 ### Wan 2.5 and Happy Horse 1.0 offline (2026-11-11)
 
@@ -81,6 +82,49 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
 - **Code defaults are mainland (customization 6):** `BYTEPLUS_ARK_BASE_URL` defaults to `https://ark.cn-beijing.volces.com/api/v3`, `BYTEPLUS_ARK_REGION` to `cn-beijing`, and the Seedance/Seedream model ids to the `doubao-*` names (`src/lib/env.ts`, `byteplus-modelark-constants.ts`, `byteplus-seedream-constants.ts`, `launch-config.ts`). BytePlus international (`dreamina-*`, `dola-*`, `ap-southeast-1`) stays available through the same env variables. Production already set the mainland values, so behaviour there is unchanged. The BytePlus signed account contract (`server/byteplus-account-contract.ts`) only applies when the region is `ap-southeast-1`; tests that exercise it pin that region explicitly. The LAS host stays BytePlus-only (no mainland LAS).
 - **Seedance 1.5 Pro and Seedream 5.0 Lite are retired** in the registry (`lifecycle: retired`, replacements `seedance-2-0-mini` and `seedream-5-0-pro`), following the provider shutdowns (mainland 1.5 on 2026-09-21, Seedream 5.0 Lite on 2026-11-24). Upstream keeps 1.5 as a published archive page. Engine definitions and provider mappings stay for historical jobs and polling. The comparison-indexation tests filter the approved 2026-09-04 noindex lists for retired models instead of re-curating them.
 - **Seedance 2.0 4K guard:** `src/server/video-providers/byteplus-modelark-capacity.ts` refuses a new 4K Seedance 2.0 submission (HTTP 429, refunded) while the account already has one in flight, the documented Ark limit (RPM 15, concurrency 1). `SEEDANCE_2_4K_MAX_CONCURRENCY` raises it if Volcengine grants more.
+
+### Kling 3.0 Turbo on Kling's official Turbo API (2026-11-12)
+
+- **Keyvo:** `kling-3-turbo-standard` / `-pro` direct leg is the real `kling-3.0-turbo` model on the new-design API (`/text-to-video|/image-to-video/kling-3.0-turbo`, `/tasks` polling, API Key only, never Fal), see `docs/engineering/kling-official-provider.md`. Upstream sends Turbo to the legacy `/v1/videos/*` route as `kling-v3` with a Fal fallback.
+- Upstream tests that used Turbo as the representative legacy Kling engine (`fal-fallback-attempt-recovery`, `direct-ack-persistence-postgres`, `fal-provider-fallback-enqueue-postgres`, the Fal case in `kling-3-turbo-fallback`) use `kling-3-standard` instead; `kling-3-turbo-direct-contract.test.ts` holds the Keyvo Turbo contract. Re-check these after every sync.
+
+### Official mainland list prices × 0.8 (2026-11-13)
+
+- **Keyvo:** every Keyvo-visible model is priced at 80% of its supplier's official mainland CNY list price
+  (`docs/engineering/pricing-engine.md` "Keyvo official list price rule"). Supplier facts in the shared engine files
+  (`wan-3*.ts`, `happy-horse-1-1.ts`, `kling-3-*.ts`, `kling-o3.ts`, `kling-3-turbo-shared.ts`, `pricing-addons.ts`,
+  `seedream*.ts`, `launch-config.ts` Seedance builders, `kling-v4*-pricing.ts`, `minimax-h3-pricing.ts`,
+  `minimax-hailuo-pricing.ts`, `audio-generation.ts`) carry the official CNY list price instead of upstream's
+  fal/BytePlus-international USD prices, and `official-list-pricing.ts` with the `official-list-80` profile sets the
+  customer price. Upstream keeps its margin rule. Expect conflicts in these files on every sync: keep Keyvo's numbers.
+- **Kling 4.0 / Flash** quote on the rule path in Keyvo (upstream requires a reviewed customer tariff).
+- **MiniMax-H3** bills reference-video seconds and images beyond five; Seedance counts input-video seconds in its
+  tokens at Volcengine's "含视频" rate.
+- Upstream tests that pin fal-era prices or the 30% margin for these engines were updated to the official-list numbers;
+  tariff cutover/seed rehearsals (`customer-tariff-*`, `local-customer-tariff-activation-postgres`,
+  `current-price-consumer-parity-postgres`) add explicit engine margin rules in their disposable databases because
+  below-cost prices cannot become tariff cells. Tests that used Wan 2.6 / Kling 2.5 Turbo / Kling 2.6 Pro as live
+  fixtures now use published models or assert their absence.
+- **Keyvo cannot run the customer-tariff initial cutover with the official-list-80 engines (below cost by design);
+  never activate `app_customer_tariff_state.active` in production.** With only the database-wide rule the reviewed
+  seed refuses them: Seedance with "A positive reviewed variant margin is required.", Wan 3 / 3 Prime with
+  "Unsupported Wan continuous tariff profile", and every other official-list point price is a below-cost manual cell
+  (settlement guard) that no reviewed exception can approve; the cutover itself requires complete inventory coverage,
+  so those engines cannot be left out either. `customer-tariff-initial-cutover-postgres.test.ts` asserts these
+  refusals and runs the upstream atomicity / rollback / reader rehearsal only on the engines that are not
+  official-list priced (unpublished in-process, no price or rule changes).
+
+### Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro offline (2026-11-13)
+
+- They have no mainland route (not in the Alibaba, LLM Hub or Kling direct maps), so they are unpublished on every
+  registry surface like Wan 2.5, keep their `legacy` lifecycle, gain successors (`wan-3` already, `kling-3-turbo-standard`,
+  `kling-3-pro`) and left the compare lists of the models that listed them (19 models), which took the comparison
+  inventory from 269 to 211 slugs (633 localized URLs; `docs/seo/comparison-indexation-matrix-2026-07-08.*`
+  regenerated). Upstream still publishes them. Their frozen
+  audit rows stay reproducible (`FROZEN_LEGACY_AUDIT_ENGINE_IDS`).
+- The homepage `fallback-wan` example card (`home.redesign.examples.fallbackCards` in every locale) presents Wan 3
+  (poster `/hero/showcase-wan-3-city-22s.webp`) instead of Wan 2.6; an unpublished engine's card is dropped, which
+  left the zh homepage with three cards. Keep the Wan 3 card on upstream syncs.
 
 ## Checking for new deviations after an upstream sync
 

@@ -81,21 +81,24 @@ const HAILUO_ENGINE: EngineCaps = {
       supportedFormats: ['jpg', 'jpeg', 'png', 'webp', 'gif', 'avif'],
     },
   },
+  // Billing and public quotes use MiniMax's per-video list (minimax-hailuo-pricing.ts): 512P (image-to-video only) CNY
+  // 0.60 / 1.00 and 768P 2.00 / 4.00 for 6 / 10 s. These per-second values (the 6 s list price / 6 at 8 CNY/USD) only
+  // serve the per-second estimator.
   pricingDetails: {
     currency: 'USD',
     perSecondCents: {
-      default: 4.5,
+      default: 25 / 6,
       byResolution: {
-        '512P': 4,
-        '768P': 4.5,
+        '512P': 1.25,
+        '768P': 25 / 6,
       },
     },
   },
   pricing: {
     unit: 'USD/s',
-    base: 0.045,
+    base: 0.25 / 6,
     currency: 'USD',
-    notes: '$0.045/s standard tier',
+    notes: 'MiniMax list: CNY 2.00 per 6 s 768P video. Keyvo customer prices are 80% of the list price.',
   },
   updatedAt: '2025-02-14T00:00:00Z',
   ttlSec: 600,

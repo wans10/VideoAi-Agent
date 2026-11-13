@@ -32,8 +32,9 @@ for (const modelId of ['wan-3', 'wan-3-prime']) for (const mode of ['v2v', 'exte
     const billing = await computeCanonicalBillingSnapshot(publicScenario.context, dependencies);
     const publicQuote = await computeCanonicalPublicSnapshot(publicScenario.context, dependencies);
     assert.equal(billing.totalCents, publicQuote.totalCents);
-    assert.equal(billing.totalCents, modelId === 'wan-3' ? 108 : 151, 'preserve the existing two-stage rounding');
-    assert.equal(facts.facts.vendorSubtotalExactCents, modelId === 'wan-3' ? 82.5 : 115.5);
+    // Keyvo 2026-11-13: 8.25 billable s at the Bailian 720p list (7.5 / 11.25 cents) sold at 80%.
+    assert.equal(billing.totalCents, modelId === 'wan-3' ? 50 : 74, 'one nearest rounding of 80% of the list cost');
+    assert.equal(facts.facts.vendorSubtotalExactCents, modelId === 'wan-3' ? 61.875 : 92.813);
     const neighboring = resolvePublicModelScenario({ ...input, inputVideoDurationSec: 3.2501 });
     assert.ok(neighboring);
     assert.notEqual(neighboring.id, publicScenario.id, 'a fixed exact price cannot silently cover another source duration');

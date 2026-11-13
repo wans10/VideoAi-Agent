@@ -34,7 +34,9 @@ test('central admin and public rows read changed product/audio prices without an
     invalidateBillingProductsCache();
     const before = await loadAdminProductPricing(10);
     assert.equal(before.rows.find((row) => row.id === 'character-draft')?.totalCents, 8);
-    assert.equal(before.rows.find((row) => row.id === 'audio:voice_only:0')?.totalCents, 5);
+    // Keyvo 2026-11-13: voice over sells at 80% of the Seed Audio list (10 s = 2.08 cents -> 2); the precise database
+    // rule below is an explicit admin decision and returns it to the audio margin path.
+    assert.equal(before.rows.find((row) => row.id === 'audio:voice_only:0')?.totalCents, 2);
     // Catalogue costs are independent of fixed retail prices, including multi-angle provider calls.
     for (const [id, supplierCents, totalCents] of [
       ['character-draft', 8, 8], ['character-final', 15, 15],

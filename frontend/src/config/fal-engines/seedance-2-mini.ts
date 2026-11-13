@@ -163,7 +163,7 @@ const SEEDANCE_2_0_MINI_ENGINE: EngineCaps = withSeedanceModelArkOptions({
   pricing: {
     unit: 'USD/s',
     currency: 'USD',
-    notes: 'Seedance 2 Mini is billed from output tokens with one flat public Keyvo rate across text, image, reference, source-video, and extend workflows.',
+    notes: 'Seedance 2 Mini is billed from tokens at the Volcengine Ark list price (a lower rate when the input contains video, whose seconds also count). Keyvo customer prices are 80% of the list price.',
   },
   updatedAt: '2026-06-15T00:00:00Z',
   ttlSec: 600,

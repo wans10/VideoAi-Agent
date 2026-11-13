@@ -65,6 +65,20 @@
       "discountRounding": "nearest",
       "totalRounding": "nearest",
       "subtotalRounding": "up"
+    },
+    {
+      "id": "official-list-80",
+      "vendorSubtotalRounding": "preserve",
+      "marginRounding": "nearest",
+      "surchargeRounding": "nearest",
+      "discountRounding": "nearest",
+      "totalRounding": "nearest",
+      "subtotalRounding": "nearest",
+      "marginPercentOverride": -0.2,
+      "marginFlatCentsOverride": 0,
+      "surchargeAudioPercentOverride": 0,
+      "surchargeUpscalePercentOverride": 0,
+      "minimumSubtotalCents": 1
     }
   ],
   "rules": [

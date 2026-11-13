@@ -6,7 +6,8 @@ export const kling25TurboTemplateConfig: ModelPageTemplateConfig = {
   hero: {
     eyebrow: 'SUPPORTED KLING SILENT DRAFT ROUTE',
     subtitleHighlightTerms: ['silent 1080p drafts', 'text or image starts', 'negative prompt control'],
-    primaryCtaHref: '/app?engine=kling-2-5-turbo',
+    // Keyvo 2026-11-13: offline (no mainland route); the CTA points at its successor.
+    primaryCtaHref: '/models/kling-3-turbo-standard',
     secondaryCtaHref: '/examples/kling',
     quickLinks: [
       {

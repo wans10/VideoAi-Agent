@@ -67,7 +67,7 @@ function countLocaleComparisons<T>(run: () => T): { result: T; calls: number } {
 
 // Keyvo hides non-Chinese-vendor families, so pairs involving them leave the published graph and the menu.
 // Keyvo shows a comparison only when both models are visible: a mainland-vendor family and not a model
-// without a mainland route (KEYVO_HIDDEN_MODEL_IDS, e.g. MiniMax-H3-Max).
+// without a mainland route (KEYVO_HIDDEN_MODEL_IDS; empty since MiniMax-H3-Max moved to MiniMax's own API).
 const isKeyvoVisibleComparison = (slug: string) => slug.split('-vs-').every((id) =>
   isKeyvoVisibleFamily(listRuntimeModels().find((entry) => entry.id === id)?.family) && !isKeyvoHiddenModel(id));
 const KEYVO_EDITORIAL_COMPARISONS = EDITORIAL_COMPARISONS.filter(({ slug }) => isKeyvoVisibleComparison(slug));
@@ -206,7 +206,9 @@ test('live runtime comparison menu retains every link, label, brand and badge fr
   for (const slug of published) assert.equal(isPublished(slug), true, slug);
   assert.deepEqual(EDITORIAL_COMPARISONS.filter(({ slug }) => published.has(slug)), KEYVO_EDITORIAL_COMPARISONS);
   assert.deepEqual(buildMarketingCompareMenu(models), KEYVO_CURRENT_EDITORIAL_COMPARISONS);
-  assert.equal(buildMarketingCompareMenu(models).some(({ slug }) => slug.split('-vs-').includes('minimax-h3-max')), false);
+  // MiniMax-H3-Max is visible again, so its editorial pair follows the upstream menu.
+  assert.equal(buildMarketingCompareMenu(models).some(({ slug }) => slug === 'minimax-h3-vs-minimax-h3-max'),
+    CURRENT_EDITORIAL_COMPARISONS.some(({ slug }) => slug === 'minimax-h3-vs-minimax-h3-max'));
 
   const brandsBySlug: Record<string, string> = {
     'minimax-h3': 'minimax', 'minimax-h3-max': 'minimax', 'seedance-2-5': 'bytedance',

@@ -4,7 +4,7 @@ import type { ProviderCostEstimate, ProviderCostInput } from '../types';
 const KLING_UNIT_PRICE_USD = 0.14;
 
 /**
- * PROVISIONAL Kling 4.0 / 4.0 Flash vendor cost (not a customer price).
+ * PROVISIONAL Kling 4.0 / 4.0 Flash / 3.0 Turbo vendor cost (not a customer price).
  * Source: https://klingai.com/document-api/pricing/base/video.md (fetched 2026-11-11), which lists
  * "1.0积分（¥1.0）/秒" etc., i.e. 1 credit = CNY 1 at list price. The account's actual pack/contract price
  * may be lower; `billing[].amount` in the task response is preferred when present.
@@ -15,10 +15,24 @@ export const KLING_V2_PROVISIONAL_CNY_PER_CREDIT = 1;
 export const KLING_V2_PROVISIONAL_CNY_PER_USD = 8;
 export const KLING_V2_COST_SOURCE = 'kling_cn_list_price_2026_11_11_provisional';
 
-/** Credits per second, keyed by input class then resolution (official CNY list). */
-const KLING_V2_CREDITS_PER_SECOND: Record<'kling-v4' | 'kling-v4-flash', Record<'none' | 'video', Record<string, number>>> = {
+type KlingV2CostEngineId = 'kling-v4' | 'kling-v4-flash' | 'kling-3-turbo-standard' | 'kling-3-turbo-pro';
+
+/**
+ * Credits per second, keyed by input class then resolution (official CNY list). Kling 3.0 Turbo lists only
+ * "有声" (audio always on, no video input): 0.8 (720P) / 1.0 (1080P); each Turbo tier has one resolution.
+ */
+const KLING_V2_CREDITS_PER_SECOND: Record<KlingV2CostEngineId, Partial<Record<'none' | 'video', Record<string, number>>>> = {
   'kling-v4': { none: { '720p': 1.0, '1080p': 1.5 }, video: { '720p': 0.6, '1080p': 0.9 } },
   'kling-v4-flash': { none: { '720p': 0.6 }, video: { '720p': 0.4 } },
+  'kling-3-turbo-standard': { none: { '720p': 0.8 } },
+  'kling-3-turbo-pro': { none: { '1080p': 1.0 } },
+};
+
+const KLING_V2_DEFAULT_RESOLUTION: Record<KlingV2CostEngineId, string> = {
+  'kling-v4': '1080p',
+  'kling-v4-flash': '720p',
+  'kling-3-turbo-standard': '720p',
+  'kling-3-turbo-pro': '1080p',
 };
 
 export function computeKlingDirectProviderCostUsd(units: number | null | undefined): number | null {
@@ -41,12 +55,13 @@ export function computeKlingDirectV2Credits(params: {
   outputDurationSec: number;
   inputVideoDurationSec?: number | null;
 }): number | null {
-  const rates = KLING_V2_CREDITS_PER_SECOND[params.engineId as 'kling-v4' | 'kling-v4-flash'];
+  const engineId = params.engineId as KlingV2CostEngineId;
+  const rates = Object.hasOwn(KLING_V2_CREDITS_PER_SECOND, engineId) ? KLING_V2_CREDITS_PER_SECOND[engineId] : null;
   if (!rates || !Number.isFinite(params.outputDurationSec) || params.outputDurationSec <= 0) return null;
   const input = Math.max(0, Number(params.inputVideoDurationSec ?? 0) || 0);
   const hasVideoInput = input > 0;
-  const resolution = (params.resolution ?? (params.engineId === 'kling-v4-flash' ? '720p' : '1080p')).toLowerCase();
-  const rate = rates[hasVideoInput ? 'video' : 'none'][resolution];
+  const resolution = (params.resolution ?? KLING_V2_DEFAULT_RESOLUTION[engineId]).toLowerCase();
+  const rate = rates[hasVideoInput ? 'video' : 'none']?.[resolution];
   if (rate === undefined) return null;
   const output = params.outputDurationSec;
   const billableSeconds = !hasVideoInput ? output : input > output ? input + output : output * 2;
@@ -56,7 +71,8 @@ export function computeKlingDirectV2Credits(params: {
 function estimateKlingDirectV2Cost(route: KlingDirectModelRoute, input: ProviderCostInput): ProviderCostEstimate {
   const credits = computeKlingDirectV2Credits({
     engineId: route.engineId,
-    resolution: input.resolution,
+    // A fixed-tier route (Turbo) ignores the requested resolution.
+    resolution: route.resolution ?? input.resolution,
     outputDurationSec: Math.max(0, input.durationSec),
     inputVideoDurationSec: input.inputVideoDurationSec ?? null,
   });

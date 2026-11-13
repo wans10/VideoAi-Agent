@@ -41,14 +41,22 @@ const APPROVED_SUCCESSORS = {
   'wan-2-5': 'wan-3',
   // Keyvo took Happy Horse 1.0 offline (owner decision 2026-11-11); its lineage points at 1.1.
   'happy-horse-1-0': 'happy-horse-1-1',
+  // Keyvo took Kling 2.5 Turbo and 2.6 Pro offline (no mainland route, 2026-11-13).
+  'kling-2-5-turbo': 'kling-3-turbo-standard',
+  'kling-2-6-pro': 'kling-3-pro',
 } as const;
 // Keyvo owner decision 2026-11-11: these keep their lifecycle and successor but are unpublished on
 // every surface (model, examples, compare, app, pricing, sitemap) and leave every comparison list.
 const KEYVO_OFFLINE_LIFECYCLE: Record<string, string> = {
   'happy-horse-1-0': 'legacy',
   'wan-2-5': 'deep_legacy',
+  // 2026-11-13: no mainland route.
+  'wan-2-6': 'legacy',
+  'kling-2-5-turbo': 'legacy',
+  'kling-2-6-pro': 'legacy',
 };
-const KEYVO_OFFLINE_COMPARE_SLUGS = new Set(['seedance-1-5-pro', 'wan-2-5', 'happy-horse-1-0']);
+const KEYVO_OFFLINE_COMPARE_SLUGS = new Set(['seedance-1-5-pro', 'wan-2-5', 'happy-horse-1-0', 'wan-2-6', 'kling-2-5-turbo',
+  'kling-2-6-pro']);
 
 test('runtime model projection matches every baseline identity and surface', () => {
   const runtimeById = new Map(listRuntimeModels().map((model) => [model.id, model]));
@@ -255,7 +263,8 @@ test('generated catalog and rosters project registry lifecycle and successor ide
   );
   // Happy Horse 1.0 is offline on Keyvo, so it has no published model page and no roster row.
   assert.doesNotMatch(docsRosterCsv, /^happy-horse-1-0,/m);
-  assert.match(docsRosterCsv, /^wan-2-6,[^\n]*,wan,legacy,wan-3,wan-3,/m);
+  // Wan 2.6 is offline on Keyvo too (2026-11-13).
+  assert.doesNotMatch(docsRosterCsv, /^wan-2-6,/m);
   assert.match(
     docsRosterCsv,
     /^ltx-2,LTX Video 2\.0 Pro,lightricks,ltx-2,ltx,deep_legacy,ltx-2-5-pro,ltx-2-5-pro,/m,
@@ -413,17 +422,19 @@ test('family membership and current variants preserve baseline with explicit lif
       // Seedance 1.5 Pro is retired on Keyvo and leaves the family examples.
       ? ['seedance-2-5', ...(expected.examplesPage?.publishedModelSlugs ?? [])].filter((slug) => slug !== 'seedance-1-5-pro')
       : expected.id === 'kling'
+        // Kling 2.5 Turbo / 2.6 Pro are offline on Keyvo (2026-11-13).
         ? ['kling-v4', 'kling-v4-flash', 'kling-3-turbo-pro', 'kling-3-turbo-standard', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
+          .filter((slug) => slug !== 'kling-2-5-turbo' && slug !== 'kling-2-6-pro')
       : expected.id === 'hailuo'
-        // H3 Max has no mainland route and is hidden on Keyvo (KEYVO_HIDDEN_MODEL_IDS).
-        ? ['minimax-h3', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
+        // H3 Max is served on Keyvo again (MiniMax's own API) and keeps its upstream examples membership.
+        ? ['minimax-h3', 'minimax-h3-max', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
         : expected.id === 'veo'
           ? [...(expected.examplesPage?.publishedModelSlugs ?? []), 'gemini-omni-flash']
         : expected.id === 'ltx'
           ? ['ltx-2-5-pro', 'ltx-2-5-fast', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
         : expected.id === 'wan'
-            // Wan 2.5 is offline on Keyvo; its route alias stays for legacy URLs only.
-            ? ['wan-3-prime', 'wan-3', 'wan-2-6']
+            // Wan 2.5 and 2.6 are offline on Keyvo; their route aliases stay for legacy URLs only.
+            ? ['wan-3-prime', 'wan-3']
         : expected.id === 'happy-horse'
             ? ['happy-horse-1-1']
         : expected.examplesPage?.publishedModelSlugs ?? [];
@@ -435,7 +446,7 @@ test('family membership and current variants preserve baseline with explicit lif
       : expected.id === 'kling'
         ? ['kling-v4', 'kling-v4-flash', 'kling-3-turbo-pro', 'kling-3-turbo-standard', ...baselineCurrentModelSlugs]
       : expected.id === 'hailuo'
-        ? ['minimax-h3']
+        ? ['minimax-h3', 'minimax-h3-max']
         : expected.id === 'veo'
           ? [...baselineCurrentModelSlugs, 'gemini-omni-flash']
         : expected.id === 'ltx'

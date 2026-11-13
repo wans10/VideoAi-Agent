@@ -170,18 +170,21 @@ test('effective preview and atomic save', async t => {
     });
     await t.test('family historical aliases survive candidate windows and a real hybrid-to-manual save', async () => {
       const candidates=await import('../frontend/server/playlists/curation-candidates-page');
-      const id=ids.get('family-wan')!;
-      await db.pool.query("INSERT INTO app_jobs(job_id,engine_id) VALUES ('legacy-wan','wan26')");
+      // Keyvo 2026-11-13: Wan 2.6 (internal aliases wan-26/wan26) is retired and its examples are unpublished, so the Wan
+      // family no longer has a historical input alias. Kling 3 Pro's internal alias kling-v3-pro is the published equivalent.
+      const id=(await db.pool.query("INSERT INTO playlists(slug) VALUES ('family-kling') RETURNING id")).rows[0].id as string;
+      await db.pool.query("INSERT INTO app_jobs(job_id,engine_id) VALUES ('legacy-kling','kling-v3-pro'),('current-kling','kling-3-pro')");
       await db.pool.query("INSERT INTO playlist_curations(playlist_id,mode,ordered_ids,excluded_ids) VALUES ($1,'hybrid','{}','{}')",[id]);
       try {
-        const before=await listCatalogPage({familyId:'wan',sort:'playlist',limit:24,offset:0});
-        assert.equal(before.total,221);
-        assert.equal((await candidates.searchCurationCandidatesPage({slug:'family-wan',exactId:'legacy-wan'})).total,1);
-        assert.equal((await candidates.searchCurationCandidatesPage({slug:'family-wan',modelSlug:'wan-2-6',exactId:'legacy-wan'})).total,1);
-        assert.equal((await candidates.searchCurationCandidatesPage({slug:'examples',familyId:'wan',modelSlug:'wan-2-6',exactId:'legacy-wan'})).total,1);
-        assert.equal((await candidates.searchCurationCandidatesPage({slug:'examples-wan-2-6',exactId:'legacy-wan'})).total,0,'direct model eligibility stays unchanged');
-        assert.deepEqual(await candidates.filterEligibleCurationIds('family-wan',['legacy-wan']),['legacy-wan']);
-        assert.deepEqual((await candidates.loadSelectedCurationItems('family-wan',['legacy-wan'])).map(item=>item.id),['legacy-wan']);
+        const before=await listCatalogPage({familyId:'kling',sort:'playlist',limit:24,offset:0});
+        assert.equal(before.total,2);
+        assert.deepEqual(before.items.map(item=>item.id).sort(),['current-kling','legacy-kling']);
+        assert.equal((await candidates.searchCurationCandidatesPage({slug:'family-kling',exactId:'legacy-kling'})).total,1);
+        assert.equal((await candidates.searchCurationCandidatesPage({slug:'family-kling',modelSlug:'kling-3-pro',exactId:'legacy-kling'})).total,1);
+        assert.equal((await candidates.searchCurationCandidatesPage({slug:'examples',familyId:'kling',modelSlug:'kling-3-pro',exactId:'legacy-kling'})).total,1);
+        assert.equal((await candidates.searchCurationCandidatesPage({slug:'examples-kling-3-pro',exactId:'legacy-kling'})).total,0,'direct model eligibility stays unchanged');
+        assert.deepEqual(await candidates.filterEligibleCurationIds('family-kling',['legacy-kling']),['legacy-kling']);
+        assert.deepEqual((await candidates.loadSelectedCurationItems('family-kling',['legacy-kling'])).map(item=>item.id),['legacy-kling']);
         const dom=new JSDOM('<div id="root"></div>',{url:'http://localhost/admin/playlists'});
         const previous=new Map<string,PropertyDescriptor|undefined>();
         for(const [key,value] of Object.entries({window:dom.window,document:dom.window.document,navigator:dom.window.navigator,React,IS_REACT_ACT_ENVIRONMENT:true,
@@ -190,13 +193,13 @@ test('effective preview and atomic save', async t => {
             if(init?.method==='POST') { const body=JSON.parse(String(init.body));return Response.json({ok:true,preview:await service.previewCuration(id,body.draft,body.revision)}); }
             if(init?.method==='PUT') { const body=JSON.parse(String(init.body));return Response.json({ok:true,snapshot:await service.saveCuration(id,body.draft,body.revision,body.token,null)}); }
             if(url.includes('/candidates')) {
-              if(params.get('idsOnly')) return Response.json({ok:true,...await candidates.listCurationCandidateIdsPage('family-wan',{offset:Number(params.get('offset')),limit:500})});
+              if(params.get('idsOnly')) return Response.json({ok:true,...await candidates.listCurationCandidateIdsPage('family-kling',{offset:Number(params.get('offset')),limit:500})});
               const selected=params.getAll('ids');
-              return Response.json({ok:true,...(selected.length?{items:await candidates.loadSelectedCurationItems('family-wan',selected)}:await candidates.searchCurationCandidatesPage({slug:'family-wan',limit:48}))});
+              return Response.json({ok:true,...(selected.length?{items:await candidates.loadSelectedCurationItems('family-kling',selected)}:await candidates.searchCurationCandidatesPage({slug:'family-kling',limit:48}))});
             }
             const snapshot=await service.getCurationSnapshot(id);
-            const initialIds=await candidates.filterEligibleCurationIds('family-wan',snapshot.config?.orderedIds ?? []);
-            return Response.json({ok:true,snapshot,initialIds,selectedItems:await candidates.loadSelectedCurationItems('family-wan',initialIds.slice(0,48)),selectedTotal:initialIds.length,removedCount:0});
+            const initialIds=await candidates.filterEligibleCurationIds('family-kling',snapshot.config?.orderedIds ?? []);
+            return Response.json({ok:true,snapshot,initialIds,selectedItems:await candidates.loadSelectedCurationItems('family-kling',initialIds.slice(0,48)),selectedTotal:initialIds.length,removedCount:0});
           }})) {previous.set(key,Object.getOwnPropertyDescriptor(globalThis,key));Object.defineProperty(globalThis,key,{configurable:true,writable:true,value});}
         const root=createRoot(dom.window.document.getElementById('root')!);
         try {
@@ -208,17 +211,17 @@ test('effective preview and atomic save', async t => {
           for(let attempt=0;attempt<100&&!state!.loaded;attempt++) await act(async()=>{await new Promise(resolve=>setTimeout(resolve,5));});
           assert.ok(state!.loaded);
           await act(async()=>{await state!.changeMode('manual');});
-          assert.ok(state!.draft.orderedIds.includes('legacy-wan'));
+          assert.ok(state!.draft.orderedIds.includes('legacy-kling'));
           await act(async()=>{await state!.makePreview();});
           assert.ok(state!.preview,state!.error ?? 'preview available');
           await act(async()=>{await state!.save();});
           assert.equal(state!.error,null);
-          assert.ok((await service.getCurationSnapshot(id)).config?.orderedIds.includes('legacy-wan'));
-          const after=await listCatalogPage({familyId:'wan',sort:'playlist',limit:24,offset:0});
+          assert.ok((await service.getCurationSnapshot(id)).config?.orderedIds.includes('legacy-kling'));
+          const after=await listCatalogPage({familyId:'kling',sort:'playlist',limit:24,offset:0});
           assert.equal(after.total,before.total);
           assert.deepEqual(after.items.map(item=>item.id),before.items.map(item=>item.id));
         } finally {await act(async()=>root.unmount());dom.window.close();for(const[key,value]of previous){if(value)Object.defineProperty(globalThis,key,value);else Reflect.deleteProperty(globalThis,key);}}
-      } finally {await db.pool.query('DELETE FROM playlist_curations WHERE playlist_id=$1',[id]);await db.pool.query("DELETE FROM app_jobs WHERE job_id='legacy-wan'");}
+      } finally {await db.pool.query('DELETE FROM playlist_curations WHERE playlist_id=$1',[id]);await db.pool.query("DELETE FROM app_jobs WHERE job_id IN ('legacy-kling','current-kling')");await db.pool.query('DELETE FROM playlists WHERE id=$1',[id]);}
     });
     await t.test('effective projection and save traverse more than 2000 IDs', async () => {
       await db.pool.query("INSERT INTO app_jobs(job_id) SELECT 'v'||n FROM generate_series(221,2201) n");
@@ -293,17 +296,19 @@ test('effective preview and atomic save', async t => {
       } finally { await writer.query('ROLLBACK'); writer.release(); }
     });
     await t.test('historical catalog aliases also bind media changes into the token', async () => {
-      const id=ids.get('family-wan')!;
-      await db.pool.query("INSERT INTO app_jobs(job_id,engine_id) VALUES ('historical','wan26')");
+      // Keyvo 2026-11-13: see the family historical alias subtest; Kling 3 Pro's kling-v3-pro replaces the retired wan26.
+      const id=(await db.pool.query("INSERT INTO playlists(slug) VALUES ('family-kling') RETURNING id")).rows[0].id as string;
+      await db.pool.query("INSERT INTO app_jobs(job_id,engine_id) VALUES ('historical','kling-v3-pro'),('current-kling','kling-3-pro')");
       await db.pool.query("INSERT INTO playlist_curations(playlist_id,mode,ordered_ids,excluded_ids) VALUES ($1,'hybrid','{}','{}')",[id]);
       const snapshot=await service.getCurationSnapshot(id);
       const draft={mode:'hybrid',orderedIds:[],excludedIds:[]};
       const preview=await service.previewCuration(id,draft,snapshot.revision);
-      assert.equal(preview.effective.total,221);
+      assert.equal(preview.effective.total,2);
       await db.pool.query("UPDATE app_jobs SET video_url='/changed.mp4' WHERE job_id='historical'");
       await assert.rejects(service.saveCuration(id,draft,snapshot.revision,preview.token,null), (error:unknown)=>(error as {status:number}).status===409);
       await db.pool.query('DELETE FROM playlist_curations');
-      await db.pool.query("DELETE FROM app_jobs WHERE job_id='historical'");
+      await db.pool.query("DELETE FROM app_jobs WHERE job_id IN ('historical','current-kling')");
+      await db.pool.query('DELETE FROM playlists WHERE id=$1',[id]);
     });
     await t.test('stale_media_rejects_save',async()=>{
       const id=ids.get('examples')!;

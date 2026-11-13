@@ -3,6 +3,16 @@
  * The server stores the English canonical text (frontend/app/api/generate/_lib/kling-direct-submission-shared.ts);
  * readers localize it here. Keyvo publishes zh; en stays the canonical stored form.
  */
+import { KLING_3_TURBO_OFFICIAL_PROMPT_LIMIT_PATTERN } from '@/lib/kling-3-turbo-official-limits';
+
+/** Kling 3.0 Turbo on the official route: prompt (incl. folded shot plan) over the documented limit. */
+const turboPromptLimitCopy: Record<'en' | 'zh' | 'fr' | 'es', (maxChars: string) => string> = {
+  en: (n) => `Kling 3.0 Turbo prompts on the official Kling route are limited to ${n} characters, including the multi-shot layout. Shorten the prompt or shot descriptions and try again.`,
+  zh: (n) => `Kling 3.0 Turbo 在可灵官方通道的提示词上限为 ${n} 个字符（含多镜头分镜格式）。请缩短提示词或分镜描述后重试。`,
+  fr: (n) => `Sur la route officielle Kling, les prompts Kling 3.0 Turbo sont limités à ${n} caractères, mise en forme multi-plans comprise. Raccourcissez le prompt ou les descriptions de plans puis réessayez.`,
+  es: (n) => `En la ruta oficial de Kling, los prompts de Kling 3.0 Turbo están limitados a ${n} caracteres, incluido el formato multiplano. Acorta el prompt o las descripciones de los planos e inténtalo de nuevo.`,
+};
+
 const PATTERNS = {
   busy: /^This Kling model is busy right now\b/i,
   unsupportedInputs: /^This request is not supported with the selected inputs\./i,
@@ -44,6 +54,10 @@ const copy: Record<'en' | 'zh' | 'fr' | 'es', Record<Key, string>> = {
   },
 };
 
+function localeKey(locale = 'en'): 'en' | 'zh' | 'fr' | 'es' {
+  return locale.startsWith('zh') ? 'zh' : locale.startsWith('fr') ? 'fr' : locale.startsWith('es') ? 'es' : 'en';
+}
+
 function language(locale = 'en') {
   return locale.startsWith('zh') ? copy.zh : locale.startsWith('fr') ? copy.fr : locale.startsWith('es') ? copy.es : copy.en;
 }
@@ -51,6 +65,8 @@ function language(locale = 'en') {
 export function getKlingFailureMessage(message: string | null | undefined, locale = 'en'): string | null {
   const normalized = message?.trim() ?? '';
   if (!normalized) return null;
+  const turboLimit = KLING_3_TURBO_OFFICIAL_PROMPT_LIMIT_PATTERN.exec(normalized);
+  if (turboLimit) return turboPromptLimitCopy[localeKey(locale)](turboLimit[1]);
   for (const key of Object.keys(PATTERNS) as Key[]) {
     if (PATTERNS[key].test(normalized)) return language(locale)[key];
   }

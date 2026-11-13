@@ -1,5 +1,6 @@
 import { getFalEngineById } from '@/config/falEngines';
 import { getRuntimeModelById } from '@/config/model-runtime';
+import { isKeyvoModelVisibilityOff } from '@/config/keyvo-model-visibility';
 import type { PricingContext } from '@/lib/pricing-context';
 import { resolveVideoOperationEngine } from '@/lib/video-operation';
 import type { VideoOperation } from '@/lib/video-operation';
@@ -29,13 +30,27 @@ export function hasOperationTariffInventory(engineId: string, mode: string): boo
     || (engineId === 'ltx-2-3' && mode === 'reframe');
 }
 
+/**
+ * Operations Keyvo deliberately does not sell although their model is app-published: their only execution route is
+ * Fal, which Keyvo does not configure, and the vendor's own API has no equivalent (checked 2026-11-12 against
+ * https://platform.minimaxi.com/docs/api-reference/video-generation-v2-create.md; the V2 "regeneration" task only
+ * upscales MiniMax-H3 768P output to 2K). Remove an entry only together with a mainland execution route.
+ * Like the hidden-model list, this applies only while the Keyvo visibility policy is on: the unfiltered upstream
+ * catalogue (KEYVO_MODEL_VISIBILITY=off, used by the pricing audit generators) keeps the upstream operation inventory.
+ */
+export const KEYVO_UNSERVED_VIDEO_OPERATIONS: Readonly<Partial<Record<VideoOperation, string>>> = {
+  'h3-recast': 'MiniMax-H3-Max Recast runs only on Fal (minimax/h3-max/recast); MiniMax\'s own API has no character-replacement task.',
+  'h3-relight': 'MiniMax-H3-Max Relight runs only on Fal (minimax/h3-max/relight); MiniMax\'s own API has no relighting task.',
+};
+
 export function videoOperationTariffContexts(scope: { modelId?: string; mode?: string } = {}): PricingContext[] {
   const result: PricingContext[] = [];
   const add = (id: string, mode: 'v2v' | 'extend' | 'ref2v' | 'reframe', operation: VideoOperation,
     resolutions: readonly string[], durations: readonly number[]) => {
     if ((scope.modelId !== undefined && scope.modelId !== id) || (scope.mode !== undefined && scope.mode !== mode)) return;
-    // Operations are sold only while their model is app-published (Keyvo hides MiniMax-H3-Max, for example).
-    if (!getRuntimeModelById(id)?.publication.app.published) return;
+    // Operations are sold only while their model is app-published, and never when Keyvo cannot execute them.
+    if (!getRuntimeModelById(id)?.publication.app.published
+      || (KEYVO_UNSERVED_VIDEO_OPERATIONS[operation] && !isKeyvoModelVisibilityOff())) return;
     const engine = resolveVideoOperationEngine(getFalEngineById(id)!.engine, mode, operation);
     for (const resolution of resolutions) for (const durationSec of durations) result.push({ engine, mode, operation,
       resolution, durationSec, hasVideoInput: mode !== 'ref2v',

@@ -14,7 +14,7 @@ import { waitForPostgresBlock } from './helpers/postgres-row-lock';
 
 type QueryFn = <T = unknown>(sql: string, values?: unknown[]) => Promise<T[]>;
 const owners = [
-  { key: 'kling', engineId: 'kling-3-turbo-standard', provider: 'kling_direct' },
+  { key: 'kling', engineId: 'kling-3-standard', provider: 'kling_direct' }, // legacy V3 + Fal fallback (Turbo moved to the new design)
   { key: 'veo', engineId: 'veo-3-1', provider: 'google_vertex_veo_direct' },
   { key: 'luma', engineId: 'luma-ray-3-2', provider: 'luma_agents_direct' },
   { key: 'alibaba', engineId: 'wan-3', provider: 'alibaba_model_studio' },

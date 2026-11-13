@@ -83,7 +83,9 @@ test('Kling direct balance fallback stays opt-in and never covers unsafe failure
   }
 });
 
-test('Kling 3 Turbo records one rejected direct attempt then one accepted Fal attempt', async () => {
+// Kling 3.0 Turbo now runs on the official new-design API and never falls back to Fal
+// (kling-3-turbo-direct-contract.test.ts); the legacy V3 route keeps this billing contract.
+test('legacy Kling 3 direct records one rejected direct attempt then one accepted Fal attempt', async () => {
   const { queries, queryFn } = createQueryRecorder();
   let directCalls = 0;
   let falCalls = 0;
@@ -98,8 +100,8 @@ test('Kling 3 Turbo records one rejected direct attempt then one accepted Fal at
   const result = await submitKlingDirectGenerateTask({
     jobId: 'job_turbo_fallback',
     userId: 'user_staging',
-    engineId: 'kling-3-turbo-standard',
-    engineLabel: 'Kling 3.0 Turbo Standard',
+    engineId: 'kling-3-standard',
+    engineLabel: 'Kling 3.0 Standard',
     mode: 't2v',
     prompt: 'A cyclist crosses a sunlit plaza.',
     negativePrompt: null,
@@ -118,7 +120,7 @@ test('Kling 3 Turbo records one rejected direct attempt then one accepted Fal at
     fallbackOnCreditsDepletedEnabled: true,
     elementRegistrationEnabled: false,
     falPayload: {
-      engineId: 'kling-3-turbo-standard',
+      engineId: 'kling-3-standard',
       prompt: 'A cyclist crosses a sunlit plaza.',
       mode: 't2v',
       durationSec: 3,

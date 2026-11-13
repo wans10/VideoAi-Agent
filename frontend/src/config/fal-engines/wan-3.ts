@@ -13,8 +13,10 @@ const engine = createWan3Engine({
   id: 'wan-3',
   label: 'Wan 3',
   version: '3.0',
-  perSecondCents: { '480p': 5, '720p': 10, '1080p': 20 },
-  perSecondUsd: { '480p': 0.05, '720p': 0.1, '1080p': 0.2 },
+  // Bailian cn-beijing list: 0.3 / 0.6 / 1.2 CNY/s (https://docs.bailian.console.aliyun.com/zh/model-studio/wan3-0-video.md,
+  // checked 2026-11-13; the limited-time discount and free quota are not applied), at 8 CNY/USD.
+  perSecondCents: { '480p': 3.75, '720p': 7.5, '1080p': 15 },
+  perSecondUsd: { '480p': 0.0375, '720p': 0.075, '1080p': 0.15 },
 });
 // Production continuity review (21 October): extension returns the new footage only.
 engine.modeCaps={...WAN_3_MODE_CAPS,extend:{...WAN_3_MODE_CAPS.extend!,extensionOutput:'continuation'}};
@@ -22,7 +24,7 @@ engine.modeCaps={...WAN_3_MODE_CAPS,extend:{...WAN_3_MODE_CAPS.extend!,extension
 export const WAN_3_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [{
   id: 'wan-3', marketingName: 'Wan 3', cardTitle: 'Wan 3', provider: 'Alibaba', brandId: 'wan',
   versionLabel: '3.0', availability: 'available', logoPolicy: 'textOnly',
-  billingNote: 'Provider cost uses input video plus generated output seconds at $0.05 (480p), $0.10 (720p), or $0.20 (1080p). Customer quotes include the configured margin and verified input-video duration.',
+  billingNote: 'Provider cost uses input video plus generated output seconds at the Bailian list price of CNY 0.3 (480p), 0.6 (720p) or 1.2 (1080p) per second. Keyvo customer quotes are 80% of that list price, including verified input-video duration.',
   engine,
   modes: [
     { mode: 't2v', falModelId: WAN_3_ENDPOINTS.t2v, ui: WAN_3_MODE_CAPS.t2v! },

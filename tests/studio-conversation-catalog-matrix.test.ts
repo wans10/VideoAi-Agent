@@ -32,15 +32,16 @@ const currentCertified=[
   'nano-banana-2','nano-banana-2-1','nano-banana-lite','nano-banana-pro','pika-text-to-video',
   'seedance-2-0','seedance-2-0-fast','seedance-2-0-mini','seedance-2-5','seedream-5-0-flash','seedream-5-0-pro',
   'veo-3-1','veo-3-1-fast','veo-3-1-lite','wan-3','wan-3-prime',
-  'kling-3-turbo-pro','kling-3-turbo-standard','ltx-2-5-fast','ltx-2-5-pro','grok-imagine-video-1-5','flux-3','flux-3-draft','flux-3-max',
+  'kling-3-turbo-pro','kling-3-turbo-standard','minimax-h3-max','ltx-2-5-fast','ltx-2-5-pro','grok-imagine-video-1-5','flux-3','flux-3-draft','flux-3-max',
 ];
 const uncertified=[
   'gpt-image-2-5-sunburst',
 ];
-// Keyvo hides these on every surface including the app (KEYVO_HIDDEN_MODEL_IDS: no mainland route).
 // HappyHorse 1.0 was taken offline on every surface (owner decision 2026-11-11; legacy, app unpublished).
-const keyvoHidden=['minimax-h3-max','happy-horse-1-0'];
-const executableLegacy=['gpt-image-2','kling-2-5-turbo','kling-2-6-pro','ltx-2-3','ltx-2-3-fast','lumaRay2','lumaRay2_flash','nano-banana','wan-2-6'];
+// MiniMax-H3-Max left this list on 2026-11-12 (served on MiniMax's own API).
+// Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro were taken offline on 2026-11-13 (no mainland route; legacy, app unpublished).
+const keyvoHidden=['happy-horse-1-0','wan-2-6','kling-2-5-turbo','kling-2-6-pro'];
+const executableLegacy=['gpt-image-2','ltx-2-3','ltx-2-3-fast','lumaRay2','lumaRay2_flash','nano-banana'];
 const archive=['sora-2','sora-2-pro','ltx-2','ltx-2-fast','wan-2-5'];
 const offlineArchive=['wan-2-5'];
 // Keyvo retired these on every surface (owner decision 2026-11-11); they redirect to a replacement.

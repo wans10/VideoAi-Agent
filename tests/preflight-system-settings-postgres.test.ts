@@ -27,10 +27,11 @@ test('read-only preflight matches generation seed prices and capabilities while 
   process.env.DATABASE_URL = postgres.databaseUrl;
   await ensureBillingSchema();
   const stalePricing = { currency: 'USD', perSecondCents: { default: 1 } };
+  // Keyvo 2026-11-13: Wan 2.6 is retired (unpublished, no configured engine); the admin-edited row uses the published Wan 3.
   for (const [id, options, updatedBy] of [
     ['pika-text-to-video', {}, null],
     ['minimax-h3', { maxDurationSec: 1, resolutions: ['768P'] }, null],
-    ['wan-2-6', { maxDurationSec: 4, resolutions: ['720p'] }, '00000000-0000-4000-8000-000000000001'],
+    ['wan-3', { maxDurationSec: 4, resolutions: ['720p'] }, '00000000-0000-4000-8000-000000000001'],
   ] as const) {
     await postgres.pool.query(
       `INSERT INTO engine_settings (engine_id, options, pricing, updated_by)
@@ -48,7 +49,7 @@ test('read-only preflight matches generation seed prices and capabilities while 
   const requests: PreflightRequest[] = [
     { engine: 'pika-text-to-video', mode: 't2v', durationSec: 5, resolution: '720p', fps: 24 },
     { engine: 'minimax-h3', mode: 't2v', durationSec: 5, resolution: '2K', fps: 24 },
-    { engine: 'wan-2-6', mode: 't2v', durationSec: 4, resolution: '720p', fps: 24 },
+    { engine: 'wan-3', mode: 't2v', durationSec: 4, resolution: '720p', fps: 24 },
   ];
   const readOnlyEngines = new Map<string, EngineCaps>();
   for (const base of getBaseEngines()) {
@@ -88,6 +89,6 @@ test('read-only preflight matches generation seed prices and capabilities while 
   const h3 = getBaseEngines().find((engine) => engine.id === 'minimax-h3')!;
   assert.equal(readOnlyEngines.get(h3.id)?.maxDurationSec, h3.maxDurationSec);
   assert.deepEqual(readOnlyEngines.get(h3.id)?.resolutions, h3.resolutions);
-  const adminAfter = (await postgres.pool.query("SELECT * FROM engine_settings WHERE engine_id = 'wan-2-6'")).rows[0];
-  assert.deepEqual(adminAfter, beforeRows.find((row) => row.engine_id === 'wan-2-6'));
+  const adminAfter = (await postgres.pool.query("SELECT * FROM engine_settings WHERE engine_id = 'wan-3'")).rows[0];
+  assert.deepEqual(adminAfter, beforeRows.find((row) => row.engine_id === 'wan-3'));
 });

@@ -1,14 +1,18 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { h3MaxCustomerCents } from './helpers/minimax-h3-max-customer-price';
 import { MINIMAX_H3_MAX_ENGINE } from '../frontend/src/config/fal-engines/minimax-h3-max';
+import { MINIMAX_H3_ENGINE } from '../frontend/src/config/fal-engines/minimax-h3';
 import { buildMinimaxH3MaxFalRequest, buildMinimaxH3MaxFalRequestFromPayload } from '../frontend/src/lib/minimax-h3-max';
 import { validateRequest } from '../frontend/app/api/generate/_lib/validate';
 import { WAN_3_INPUT_SCHEMA } from '../frontend/src/config/fal-engines/wan-3-shared';
 
 const audio='https://media.maxvideoai.com/voice.wav';
 const end='https://media.maxvideoai.com/end.png';
+// The Fal payload adapter keeps its upstream soundtrack/seed contract; Keyvo's engine no longer offers these Fal-only
+// controls and runs H3-Max on MiniMax's own API (480P/768P), so the adapter is exercised at 768P.
 test('H3 Max preserves an imposed soundtrack and end-only frame through the production payload adapter',()=>{
- const result=buildMinimaxH3MaxFalRequestFromPayload({engineId:'minimax-h3-max',mode:'i2v',prompt:'Finish on this frame',durationSec:5,resolution:'1080P',seed:123,inputs:[
+ const result=buildMinimaxH3MaxFalRequestFromPayload({engineId:'minimax-h3-max',mode:'i2v',prompt:'Finish on this frame',durationSec:5,resolution:'768P',seed:123,inputs:[
   {slotId:'end_image_url',kind:'image',url:end,name:'end.png',type:'image/png',size:10},
   {slotId:'target_audio_url',kind:'audio',url:audio,name:'voice.wav',type:'audio/wav',size:10},
  ],extraInputValues:{prompt_expansion_mode:'disabled'}});
@@ -37,8 +41,11 @@ test('Wan editing and extension expose optional visual and audio references with
 
 import { validateGenerationMediaConstraints } from '../frontend/app/api/generate/_lib/generation-media-constraints';
 import { calculateMinimaxH3MaxProviderCost } from '../frontend/src/lib/minimax-h3-max-pricing';
-test('H3 Max checks owned soundtrack metadata without applying reference-only fifteen second cap',async()=>{
- const params={engineId:'minimax-h3-max',mode:'t2v' as const,userId:'owner',inputSchema:MINIMAX_H3_MAX_ENGINE.inputSchema,
+// H3-Max has no soundtrack on MiniMax's own API (Keyvo); MiniMax-H3's catalogue keeps the same soundtrack field and
+// carries this owned-metadata contract.
+test('H3 checks owned soundtrack metadata without applying reference-only fifteen second cap',async()=>{
+ assert.equal(MINIMAX_H3_MAX_ENGINE.inputSchema?.optional?.some(field=>field.id==='target_audio_url'),false);
+ const params={engineId:'minimax-h3',mode:'t2v' as const,userId:'owner',inputSchema:MINIMAX_H3_ENGINE.inputSchema,
  attachments:[{name:'voice.wav',type:'audio/wav',size:1,kind:'audio' as const,url:audio,assetId:'a',slotId:'target_audio_url'}],
  referenceMediaItems:[{kind:'audio' as const,url:audio,fieldId:'target_audio_url'}],
  deps:{queryFn:async <T>()=>[{asset_id:'a',url:audio,origin_url:null,original_name:'voice.wav',mime_type:'audio/wav',size_bytes:1000,duration_sec:30}] as T[]}};
@@ -46,6 +53,8 @@ test('H3 Max checks owned soundtrack metadata without applying reference-only fi
  const missing=await validateGenerationMediaConstraints({...params,deps:{queryFn:async()=>[]}});
  assert.equal(missing.ok,false);
 });
+// Upstream Fal reference function (kept for the catalogue and its reference budget); Keyvo bills H3-Max with
+// calculateMinimaxH3MaxOfficialCost (tests/minimax-h3-max-pricing.test.ts).
 test('H3 Max prices 1080P and resolution-specific reference output before token charges',()=>{
  assert.equal(calculateMinimaxH3MaxProviderCost({mode:'i2v',durationSec:5,resolution:'1080P'}).providerCostUsd,.8);
  assert.equal(calculateMinimaxH3MaxProviderCost({mode:'ref2v',durationSec:5,resolution:'480P',verifiedReferenceTokenCount:0}).providerCostUsd,.25);
@@ -53,20 +62,20 @@ test('H3 Max prices 1080P and resolution-specific reference output before token 
 
 import { resolveMediaAwarePreflight } from '../frontend/app/api/preflight/_lib/media-aware-preflight';
 import { computeCanonicalBillingSnapshot } from '../frontend/server/pricing/quote-billing';
-test('H3 Max website quote and charge use the same budget derived from owned dimensions and duration',async()=>{
+// Keyvo prices H3-Max reference generation at MiniMax's official PROVISIONAL cost: whole owned reference-video seconds
+// at the output resolution's input rate plus images beyond two, measured from owned media (never client claims).
+test('H3 Max website quote and charge use the same official cost derived from owned reference duration',async()=>{
  const url='https://cdn.maxvideoai.com/private/reference.mp4';
  const request={engine:'minimax-h3-max',mode:'ref2v' as const,durationSec:5,resolution:'768P' as const,aspectRatio:'16:9' as const,fps:24,inputs:[{assetId:'owned-video',slotId:'reference_video_urls',kind:'video' as const,url}]};
  const dependencies={getConfiguredEngineFn:async()=>MINIMAX_H3_MAX_ENGINE,mediaConstraintDeps:{queryFn:async<T>()=>[{asset_id:'owned-video',url,origin_url:null,original_name:'reference.mp4',mime_type:'video/mp4',size_bytes:1048576,duration_sec:10,width:1920,height:1080}] as T[]}};
  const quote=await resolveMediaAwarePreflight({request,userId:'owner'},dependencies);
  assert.equal(quote.ok,true,JSON.stringify(quote.error));
- assert.equal(quote.pricing?.meta?.provider_cost_is_estimate,true);
- const cost=quote.pricing?.meta?.cost_breakdown_usd as {referenceTokenBudget:number;providerCostUsd:number;verifiedReferenceTokenCount?:number};
- assert.equal(cost.referenceTokenBudget,41280);
- assert.equal(cost.providerCostUsd,1.14368);
- assert.equal(cost.verifiedReferenceTokenCount,undefined);
- const billing=await computeCanonicalBillingSnapshot({engine:MINIMAX_H3_MAX_ENGINE,mode:'ref2v',durationSec:5,resolution:'768P',aspectRatio:'16:9',referenceTokenBudget:41280,membershipTier:'member'}, {pricingPolicy:{loadOverrides:async()=>({status:'loaded',rules:[],routingRules:[]}),warn:()=>{}},membershipDiscounts:{member:0,plus:.05,pro:.1}});
+ const cost=quote.pricing?.meta?.cost_breakdown_usd as {inputVideoSeconds:number;totalCny:number;subtotalUsdCents:number};
+ // CNY: 5 s x 0.50 output + 10 s x 0.97 reference video = 12.20 = USD 1.525 at the accounting rate.
+ assert.deepEqual([cost.inputVideoSeconds,cost.totalCny,cost.subtotalUsdCents],[10,12.2,152.5]);
+ const billing=await computeCanonicalBillingSnapshot({engine:MINIMAX_H3_MAX_ENGINE,mode:'ref2v',durationSec:5,resolution:'768P',aspectRatio:'16:9',inputVideoDurationSec:10,referenceImageCount:0,membershipTier:'member'}, {pricingPolicy:{loadOverrides:async()=>({status:'loaded',rules:[],routingRules:[]}),warn:()=>{}},membershipDiscounts:{member:0,plus:.05,pro:.1}});
  assert.equal(quote.total,billing.totalCents);
- assert.ok(billing.totalCents>115,'customer quote retains the configured margin');
+ assert.equal(billing.totalCents,h3MaxCustomerCents(152.5),'customer quote follows the configured customer-price rule');
  const forged=await resolveMediaAwarePreflight({request:{...request,extraInputValues:{referenceTokenBudget:0}},userId:'owner'},dependencies);
  assert.equal(forged.error?.code,'PRICING_MEDIA_FACTS_UNTRUSTED');
  const missing=await resolveMediaAwarePreflight({request,userId:'owner'},{...dependencies,mediaConstraintDeps:{queryFn:async()=>[]}});

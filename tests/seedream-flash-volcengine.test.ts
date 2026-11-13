@@ -65,7 +65,8 @@ test('Seedream 5.0 Flash engine routes directly to Volcengine Ark as a single-im
   assert.equal(BYTEPLUS_SEEDREAM_FLASH_DEFAULT_MODEL_ID, 'doubao-seedream-5-0-flash-260915');
   assert.deepEqual(entry.engine.resolutions, ['2K']);
   assert.equal(entry.engine.inputSchema?.optional?.find((field) => field.id === 'num_images')?.max, 1);
-  assert.equal(entry.engine.pricingDetails?.flatCents?.default, 2);
+  // CNY 0.12 per image = 1.5 US cents at 8 CNY/USD, kept exact (Keyvo 2026-11-13; formerly rounded up to 2 cents).
+  assert.equal(entry.engine.pricingDetails?.flatCents?.default, 1.5);
   assert.ok(isBytePlusSeedreamEngine(entry.engine));
   assert.ok(isSeedreamEngineId(FLASH));
   // Mainland defaults; production overrides through BYTEPLUS_ARK_* env values.

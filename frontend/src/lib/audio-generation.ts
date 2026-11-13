@@ -108,7 +108,14 @@ const AUDIO_PRICE_LYRIA3_PRO_CENTS_PER_AUDIO = 8;
 const AUDIO_PRICE_MIRELO_SFX_CENTS_PER_SECOND = 1;
 // https://fal.ai/models/fal-ai/mmaudio-v2/text-to-audio — $0.001/second, verified 2026-09-08.
 const AUDIO_PRICE_MMAUDIO_TEXT_CENTS_PER_SECOND = 0.1;
+/** Historical fal estimate, kept only for the frozen pre-2026-09-08 whole-cent audit reproduction. */
 const AUDIO_PRICE_SEED_AUDIO_CENTS_PER_MINUTE = 18.75;
+/**
+ * Seed Audio 1.0 on Volcengine: CNY 1.00 per output minute (owner-supplied list price 2026-11-13; the Ark pricing
+ * page does not list it), recorded in USD at 8 CNY/USD.
+ */
+const SEED_AUDIO_LIST_CNY_PER_MINUTE = 1;
+const SEED_AUDIO_LIST_CENTS_PER_MINUTE = SEED_AUDIO_LIST_CNY_PER_MINUTE * 100 / 8;
 
 export const AUDIO_PACK_VALUES = ['music_only', 'voice_only', 'sfx_only', 'song', 'ambience_only', 'cinematic', 'cinematic_voice'] as const;
 export type AudioPackId = (typeof AUDIO_PACK_VALUES)[number];
@@ -506,10 +513,18 @@ function buildVoiceVendorCostComponent(durationSec: number, script?: string | nu
       model: minimaxSpeechModel, unit: 'character', units: cost.billingCharacters, amountCents: cost.usdCents,
       providerCurrency: 'CNY', providerCostCny: cost.cny, pricingSource: MINIMAX_SPEECH_PRICING_SOURCE };
   }
-  if (voiceModel === 'minimax') {
+  if (voiceModel === 'minimax' && wholeCentEstimate) {
     const characters = Array.from(script?.trim() ?? '').length;
     return { type: 'voice_minimax_speech_02_hd', label: 'MiniMax Speech-02 HD', model: AUDIO_MINIMAX_SPEECH_MODEL_ID,
       unit: 'character', units: characters, amountCents: characters * 0.01 };
+  }
+  if (voiceModel === 'minimax') {
+    // speech-02-hd (MCP, agents, Studio and requests without a model) runs on MiniMax's mainland API too: official
+    // CNY 3.50 per 10,000 billing characters (CJK counts twice), like the workspace models above.
+    const cost = minimaxSpeechVendorCostUsdCents('speech-02-hd', script);
+    return { type: 'voice_minimax_speech_02_hd', label: 'MiniMax Speech-02 HD', model: AUDIO_MINIMAX_SPEECH_MODEL_ID,
+      unit: 'character', units: cost.billingCharacters, amountCents: cost.usdCents,
+      providerCurrency: 'CNY', providerCostCny: cost.cny, pricingSource: MINIMAX_SPEECH_PRICING_SOURCE };
   }
   const exactMinutes = normalizeAudioDuration(durationSec) / 60;
   const billedMinutes = Number(exactMinutes.toFixed(2));
@@ -519,7 +534,7 @@ function buildVoiceVendorCostComponent(durationSec: number, script?: string | nu
     model: AUDIO_SEED_AUDIO_MODEL_ID,
     unit: 'minute',
     units: wholeCentEstimate ? billedMinutes : exactMinutes,
-    amountCents: wholeCentEstimate ? Math.max(1, Math.ceil(exactMinutes * AUDIO_PRICE_SEED_AUDIO_CENTS_PER_MINUTE - 1e-9)) : exactMinutes * AUDIO_PRICE_SEED_AUDIO_CENTS_PER_MINUTE,
+    amountCents: wholeCentEstimate ? Math.max(1, Math.ceil(exactMinutes * AUDIO_PRICE_SEED_AUDIO_CENTS_PER_MINUTE - 1e-9)) : exactMinutes * SEED_AUDIO_LIST_CENTS_PER_MINUTE,
   };
 }
 

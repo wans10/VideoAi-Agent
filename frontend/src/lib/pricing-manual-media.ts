@@ -32,7 +32,10 @@ export function projectManualTariffMedia(context: PricingContext, details: Engin
   }
   if (meta.durationBasis === 'input_audio') media.inputAudioDurationSec = Number(meta.inputAudioDurationSec);
   if (isMinimaxH3MaxEngineId(id) && context.mode === 'ref2v') {
-    media.referenceTokenBudget = context.referenceTokenBudget ?? context.verifiedReferenceTokenCount;
+    // MiniMax's own API (Keyvo): billed whole reference-video seconds and reference images, not Fal's token budget.
+    const seconds = Number(meta.input_video_seconds);
+    if (seconds > 0) media.inputVideoDurationSec = seconds;
+    media.referenceImageCount = Number(meta.reference_image_count);
   }
   if (isMinimaxH3EngineId(id)) media.referenceImageCount = Number(meta.reference_image_count);
   else if ((isGptImage25EngineId(id) || isGptImage26EngineId(id)) && context.mode === 'i2i') media.referenceImageCount = Number(meta.provider_reference_image_count ?? meta.reference_image_count);

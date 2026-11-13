@@ -342,44 +342,6 @@
     }
   },
   {
-    "engineId": "kling-2-5-turbo",
-    "marketingName": "Kling 2.5 Turbo",
-    "brandId": "kling",
-    "modelSlug": "kling-2-5-turbo",
-    "family": "kling",
-    "lifecycle": "legacy",
-    "successorId": null,
-    "successorSlug": null,
-    "versionLabel": "2.5 Turbo",
-    "availability": "available",
-    "logoPolicy": "logoAllowed",
-    "surfaces": {
-      "modelPage": {
-        "indexable": true,
-        "includeInSitemap": true
-      }
-    }
-  },
-  {
-    "engineId": "kling-2-6-pro",
-    "marketingName": "Kling 2.6 Pro",
-    "brandId": "kling",
-    "modelSlug": "kling-2-6-pro",
-    "family": "kling",
-    "lifecycle": "legacy",
-    "successorId": null,
-    "successorSlug": null,
-    "versionLabel": "v2.6 Pro",
-    "availability": "available",
-    "logoPolicy": "logoAllowed",
-    "surfaces": {
-      "modelPage": {
-        "indexable": true,
-        "includeInSitemap": true
-      }
-    }
-  },
-  {
     "engineId": "kling-3-4k",
     "marketingName": "Kling 3 4K",
     "brandId": "kling",
@@ -978,25 +940,6 @@
     "successorId": null,
     "successorSlug": null,
     "versionLabel": "2.2",
-    "availability": "available",
-    "logoPolicy": "logoAllowed",
-    "surfaces": {
-      "modelPage": {
-        "indexable": true,
-        "includeInSitemap": true
-      }
-    }
-  },
-  {
-    "engineId": "wan-2-6",
-    "marketingName": "Wan 2.6 Text & Image to Video",
-    "brandId": "wan",
-    "modelSlug": "wan-2-6",
-    "family": "wan",
-    "lifecycle": "legacy",
-    "successorId": "wan-3",
-    "successorSlug": "wan-3",
-    "versionLabel": "2.6",
     "availability": "available",
     "logoPolicy": "logoAllowed",
     "surfaces": {

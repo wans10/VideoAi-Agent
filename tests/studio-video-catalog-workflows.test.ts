@@ -33,7 +33,8 @@ function dependencies(events:string[]=[],durationSec=12) {return {resolveMedia:a
 const fixtures=[
   {engineId:'wan-3',mode:'extend',kind:'video',settings:{durationSec:5,resolution:'720p',aspectRatio:'16:9'}},
   {engineId:'wan-3',mode:'v2v',kind:'video',settings:{durationSec:5,resolution:'720p',aspectRatio:'16:9'}},
-  {engineId:'wan-2-6',mode:'r2v',kind:'video',role:'reference',settings:{durationSec:5,resolution:'1080p',aspectRatio:'16:9'}},
+  // Keyvo 2026-11-13: Wan 2.6 is offline; Kling 4.0 reference mode carries the same ordered owned reference videos.
+  {engineId:'kling-v4',mode:'ref2v',kind:'video',role:'reference',settings:{durationSec:5,resolution:'720p',aspectRatio:'16:9'}},
   {engineId:'ltx-2-3',mode:'a2v',kind:'audio',settings:{durationSec:12,resolution:'1080p'}},
   {engineId:'ltx-2-3',mode:'retake',kind:'video',settings:{durationSec:5,resolution:'1080p',startTimeSec:3,retakeMode:'replace_audio_and_video'}},
   {engineId:'luma-ray-3-2',mode:'reframe',kind:'video',settings:{durationSec:10,resolution:'720p',aspectRatio:'9:16',sourcePositionX:0.1,sourcePositionY:-0.2,sourcePositionWidth:0.8,sourcePositionHeight:1}},
@@ -46,9 +47,13 @@ test('Studio video discovery retains every executable public transport-neutral t
   const studioUncertified=['minimax-hailuo-2-3','minimax-hailuo-2-3-fast'];
   for(const id of studioUncertified){assert.ok(canonical.some(e=>e.engine.id===id),id);assert.equal(studio.some(e=>e.engine.id===id),false,id);}
   assert.deepEqual(studio.map(e=>[e.engine.id,e.publicModes]),canonical.filter(e=>!studioUncertified.includes(e.engine.id)).map(e=>[e.engine.id,e.publicModes]));
-  assert.equal(studio.reduce((count,entry)=>count+entry.publicModes.length,0),138+6+4+3-4-4,'Conversation qualification preserves every proven public tuple.');
-  // -4 -4: Keyvo hides MiniMax-H3-Max (t2v/i2v/ref2v/v2v) and retired HappyHorse 1.0 (t2v/i2v/ref2v/v2v) from the app.
-  for(const id of ['minimax-h3-max','happy-horse-1-0'])assert.equal(studio.some(e=>e.engine.id===id),false,id);
+  // -8: Keyvo took Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro offline (no mainland route, 2026-11-13).
+  assert.equal(studio.reduce((count,entry)=>count+entry.publicModes.length,0),138+6+4+3-4-8,'Conversation qualification preserves every proven public tuple.');
+  for(const id of ['wan-2-6','kling-2-5-turbo','kling-2-6-pro'])assert.equal(studio.some(e=>e.engine.id===id),false,id);
+  // -4: Keyvo retired HappyHorse 1.0 (t2v/i2v/ref2v/v2v) from the app. MiniMax-H3-Max is published again (MiniMax's own
+  // API); this catalogue treats every mode as executable, while Keyvo's runtime executes its v2v Recast/Relight only on Fal.
+  assert.equal(studio.some(e=>e.engine.id==='happy-horse-1-0'),false);
+  assert.deepEqual(studio.find(e=>e.engine.id==='minimax-h3-max')?.publicModes,['t2v','i2v','ref2v','v2v']);
   assert.deepEqual(studio.find(e=>e.engine.id==='kling-v4-flash')!.publicModes,['t2v','i2v','ref2v']);
   assert.deepEqual(studio.find(e=>e.engine.id==='kling-v4')!.publicModes,['t2v','i2v','ref2v','v2v']);
   assert.equal(isWorkspaceModelCertifiedForBlock({modelId:'kling-v4',presetId:'generate-video',workflowType:'text_to_video'}),false,
@@ -65,7 +70,8 @@ for(const fixture of fixtures)test(`${fixture.engineId} ${fixture.mode} uses own
   const candidate=catalog.find(c=>c.engine.id===fixture.engineId)!;const refs=[resolved(fixture.kind,'role' in fixture?fixture.role:'source',request.references[0].slot,fixture.engineId==='luma-ray-3-2'?8:12)];
   validateCanonicalGenerationCapabilities(request,candidate,{resolvedReferences:refs});
   const body=buildPaidVideoRequestBody({quoteId:input.requestId,request,engine:candidate.engine,resolvedReferences:refs,canonicalPricing:{membershipTier:'member'}});
-  assert.equal(body[fixture.kind==='audio'?'audioUrl':fixture.mode==='r2v'?'referenceVideos':'videoUrl'] instanceof Array?(body.referenceVideos as string[])[0]:body[fixture.kind==='audio'?'audioUrl':'videoUrl'],refs[0].storageUrl);
+  // Reference-mode tuples (Wan 2.6 r2v formerly, Kling 4.0 ref2v since Keyvo 2026-11-13) project into referenceVideos.
+  assert.equal(body[fixture.kind==='audio'?'audioUrl':(fixture.mode as string)==='r2v'||(fixture.mode as string)==='ref2v'?'referenceVideos':'videoUrl'] instanceof Array?(body.referenceVideos as string[])[0]:body[fixture.kind==='audio'?'audioUrl':'videoUrl'],refs[0].storageUrl);
 });
 test('Luma Reframe keeps selected or default output timing independent of its owned source',async()=>{
   const catalog=await videoCatalog();const factories={video:()=>({catalog:async()=>catalog})} as unknown as StudioMediaFactories;
@@ -121,10 +127,10 @@ test('every certified video tuple preserves its authored request and provider me
 for(const output of [false,true])test(`ordered repeated ${output?'job output':'asset'} references preserve each canonical slot`,async()=>{
   const catalog=await videoCatalog();const factories={video:()=>({catalog:async()=>catalog})} as unknown as StudioMediaFactories;
   const source=output?{type:'job-output' as const,kind:'video' as const,jobId:'ready-job',outputId:'ready-output'}:ref('video');
-  const action={action:'video.prepare' as const,reply:'Review.',prompt:'Repeat this motion reference twice.',aspectRatio:'16:9' as const,source:null,modelId:'wan-2-6',mode:'r2v' as const,outputCount:1 as const,settings:[{name:'durationSec',value:5},{name:'resolution',value:'1080p'}],references:[{ref:source,role:'reference' as const,slot:null},{ref:source,role:'reference' as const,slot:null}]};
+  const action={action:'video.prepare' as const,reply:'Review.',prompt:'Repeat this motion reference twice.',aspectRatio:'16:9' as const,source:null,modelId:'kling-v4',mode:'ref2v' as const,outputCount:1 as const,settings:[{name:'durationSec',value:5},{name:'resolution',value:'720p'}],references:[{ref:source,role:'reference' as const,slot:null},{ref:source,role:'reference' as const,slot:null}]};
   const request=await studioMediaRequest(actor,action,input,factories,true,{...dependencies(),readProjectMedia:async()=>[{ref:source,name:'Ready video',durationSec:12}]}) as CanonicalGenerationRequest;
   assert.deepEqual(request.references.map(reference=>reference.slot),[0,1]);assert.ok(request.references.every(reference=>reference.kind==='asset'&&reference.assetId===ids.video));
-  const body=buildPaidVideoRequestBody({quoteId:input.requestId,request,engine:catalog.find(c=>c.engine.id==='wan-2-6')!.engine,resolvedReferences:request.references.map(reference=>resolved('video',reference.role,reference.slot)),canonicalPricing:{membershipTier:'member'}});
+  const body=buildPaidVideoRequestBody({quoteId:input.requestId,request,engine:catalog.find(c=>c.engine.id==='kling-v4')!.engine,resolvedReferences:request.references.map(reference=>resolved('video',reference.role,reference.slot)),canonicalPricing:{membershipTier:'member'}});
   assert.deepEqual(body.referenceVideos,[resolved('video').storageUrl,resolved('video').storageUrl]);
 });
 test('attached source drift after model review is terminal before draft or library mutation',async()=>{
@@ -140,7 +146,7 @@ test('attached source drift after model review is terminal before draft or libra
 test('all video reference fact completions share one bounded preflight signal',async()=>{
   const catalog=await videoCatalog();const factories={video:()=>({catalog:async()=>catalog})} as unknown as StudioMediaFactories;
   const source=ref('video');const signals:AbortSignal[]=[];
-  const action={action:'video.prepare' as const,reply:'Review.',prompt:'Use two references.',aspectRatio:'16:9' as const,source:null,modelId:'wan-2-6',mode:'r2v' as const,outputCount:1 as const,settings:[{name:'durationSec',value:5},{name:'resolution',value:'1080p'}],references:[{ref:source,role:'reference' as const,slot:0},{ref:source,role:'reference' as const,slot:1}]};
+  const action={action:'video.prepare' as const,reply:'Review.',prompt:'Use two references.',aspectRatio:'16:9' as const,source:null,modelId:'kling-v4',mode:'ref2v' as const,outputCount:1 as const,settings:[{name:'durationSec',value:5},{name:'resolution',value:'720p'}],references:[{ref:source,role:'reference' as const,slot:0},{ref:source,role:'reference' as const,slot:1}]};
   const deps=dependencies();
   await validateStudioMediaRequest(actor,action,input,factories,true,{...deps,resolveMedia:async(user,raw,exec,options)=>{assert.equal(options?.completeReferenceFacts,true);assert.ok(options?.referenceFactsSignal instanceof AbortSignal,'Each completion is bounded');signals.push(options.referenceFactsSignal);return deps.resolveMedia(user,raw);}});
   assert.equal(signals.length,2);assert.equal(signals[0],signals[1],'Eight seconds applies to the whole selection, not once per reference');
@@ -148,7 +154,7 @@ test('all video reference fact completions share one bounded preflight signal',a
 for(const output of [false,true])test(`explicit ordered repeated ${output?'job output':'asset'} slots preserve canonical order and reject reversed slots before mutation`,async()=>{
   const catalog=await videoCatalog();const factories={video:()=>({catalog:async()=>catalog})} as unknown as StudioMediaFactories;
   const source=output?{type:'job-output' as const,kind:'video' as const,jobId:'ready-job',outputId:'ready-output'}:ref('video');
-  const action={action:'video.prepare' as const,reply:'Review.',prompt:'Repeat the reference.',aspectRatio:'16:9' as const,source:null,modelId:'wan-2-6',mode:'r2v' as const,outputCount:1 as const,settings:[{name:'durationSec',value:5},{name:'resolution',value:'1080p'}],references:[{ref:source,role:'reference' as const,slot:0},{ref:source,role:'reference' as const,slot:1}]};
+  const action={action:'video.prepare' as const,reply:'Review.',prompt:'Repeat the reference.',aspectRatio:'16:9' as const,source:null,modelId:'kling-v4',mode:'ref2v' as const,outputCount:1 as const,settings:[{name:'durationSec',value:5},{name:'resolution',value:'720p'}],references:[{ref:source,role:'reference' as const,slot:0},{ref:source,role:'reference' as const,slot:1}]};
   const events:string[]=[];const deps={...dependencies(events),readProjectMedia:async()=>[{ref:source,name:'Ready clip',durationSec:12}]};
   const request=await studioMediaRequest(actor,action,input,factories,true,deps) as CanonicalGenerationRequest;
   assert.deepEqual(request.references.map(reference=>reference.slot),[0,1]);

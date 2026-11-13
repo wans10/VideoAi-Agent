@@ -27,13 +27,14 @@ test('Seedance 2.0 comparison pricing exposes exact quotes without an arbitrary 
     (engine) => computeMarketingPricePoints(engine, { durationSec: 5, memberTier: 'member' }),
   );
 
-  assert.equal(standardPricing.headline, '720p: $0.378/s');
-  assert.deepEqual(standardPricing.secondaryLines, ['1080p: $0.936/s', '4K: $1.944/s']);
-  assert.deepEqual(standardPricing.prices.map(value => Number(value.toFixed(3))), [0.378, 0.936, 1.944]);
+  // Keyvo 2026-11-13: 80% of the Volcengine Ark list (5 s, 16:9): 720p 50, 1080p 124, 4K 253 cents; Fast 18 / 40.
+  assert.equal(standardPricing.headline, '720p: $0.10/s');
+  assert.deepEqual(standardPricing.secondaryLines, ['1080p: $0.248/s', '4K: $0.506/s']);
+  assert.deepEqual(standardPricing.prices.map(value => Number(value.toFixed(3))), [0.1, 0.248, 0.506]);
 
-  assert.equal(fastPricing.headline, '480p: $0.136/s');
-  assert.deepEqual(fastPricing.secondaryLines, ['720p: $0.304/s']);
-  assert.deepEqual(fastPricing.prices.map(value => Number(value.toFixed(3))), [0.136, 0.304]);
+  assert.equal(fastPricing.headline, '480p: $0.036/s');
+  assert.deepEqual(fastPricing.secondaryLines, ['720p: $0.08/s']);
+  assert.deepEqual(fastPricing.prices.map(value => Number(value.toFixed(3))), [0.036, 0.08]);
 });
 
 test('a failed current comparison quote never falls back to catalogue amounts', async () => {

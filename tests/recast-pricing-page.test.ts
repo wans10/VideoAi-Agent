@@ -6,7 +6,8 @@ import { readRecastPublicPrice } from '../frontend/server/character-studio/recas
 import type { PublicModelQuoteInput } from '../frontend/lib/pricing-public-model-contract';
 
 test('pricing page examples use the same current scoped Recast quote for each duration and resolution', async () => {
-  for (const [multiplier, expected] of [[2, ['$1.68', '$3.36', '$8.40', '$16.80']], [2.5, ['$2.10', '$4.20', '$10.50', '$21.00']]] as const) {
+  // Keyvo 2026-11-13: Wan 3 Prime supplier facts are the Bailian list (CNY 0.45/0.9/1.8 per second).
+  for (const [multiplier, expected] of [[2, ['$1.36', '$2.70', '$6.76', '$13.50']], [2.5, ['$1.70', '$3.38', '$8.45', '$16.88']]] as const) {
     const calls: PublicModelQuoteInput[] = [];
     const data = await buildCurrentOtherPricing({ imageRows: [], audioRows: [], toolRows: [] }, 'en', {
       audio: async () => { throw new Error('not used'); }, product: async () => { throw new Error('not used'); },

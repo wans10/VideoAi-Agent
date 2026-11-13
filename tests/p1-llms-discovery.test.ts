@@ -99,24 +99,22 @@ test('P1 LLM discovery exposes current names, canonical URLs, families, and scor
 
 test('published P1 identities remain present in default LLM discovery', () => {
   const projection = buildLlmsModelDiscoveryProjection();
-  for (const id of ['kling-3-turbo-standard', 'kling-3-turbo-pro']) {
+  // MiniMax-H3-Max is served on Keyvo again (MiniMax's own API), so LLM discovery lists it as upstream does.
+  for (const id of ['kling-3-turbo-standard', 'kling-3-turbo-pro', 'minimax-h3-max']) {
     assert.equal(projection.currentModels.some((model) => model.id === id), true, id);
   }
-  // MiniMax-H3-Max has no mainland route and is hidden on Keyvo, so LLM discovery omits it.
-  assert.equal(projection.currentModels.some((model) => model.id === 'minimax-h3-max'), false);
 });
 
 test('default llms output includes priority models once and drops the stale Sora selection', () => {
   const text = buildLlmsText(mcpPublication);
   const projection = buildLlmsModelDiscoveryProjection();
-  // H3 Max (a priority model upstream) is hidden on Keyvo; the next current model follows the two priorities.
+  // H3 Max is a priority model upstream and is served on Keyvo again.
   assert.deepEqual(projection.currentModels.slice(0, 3).map(({ id }) => id), [
-    'minimax-h3', 'seedance-2-5', 'kling-3-pro',
+    'minimax-h3', 'minimax-h3-max', 'seedance-2-5',
   ]);
-  for (const id of ['minimax-h3', 'seedance-2-5']) {
+  for (const id of ['minimax-h3', 'minimax-h3-max', 'seedance-2-5']) {
     assert.equal(text.split(`](${SITE_ORIGIN}/models/${id})`).length - 1, 1, id);
   }
-  assert.equal(text.includes(`${SITE_ORIGIN}/models/minimax-h3-max)`), false);
   assert.doesNotMatch(text, /sora-2|Sora 2|## Engines \(key pages\)|## Current launch models/);
   assert.match(text, /available through its web application/);
   assert.doesNotMatch(text, /remote MCP integration|Public n8n template|\/integrations\/|\/docs\/mcp/);

@@ -69,6 +69,30 @@ test('all three P1 engines are in the public application registry', () => {
   for (const id of P1_IDS) assert.equal(publicIds.has(id), true, id);
 });
 
+// Keyvo 2026-11-12 (notes_turbo): Kling 3.0 Turbo no longer falls back to Fal when Fal is not configured. Without a
+// Bailian or official Kling route it is refused before any charge (`kling_direct_unavailable`, 503). These boundary
+// tests therefore configure the official Turbo route explicitly (test-only placeholder values, no real credential).
+const TURBO_ROUTE_ENV_KEYS = ['KLING_DIRECT_ENABLED', 'KLING_API_KEY', 'KLING_ACCESS_KEY', 'KLING_SECRET_KEY',
+  'KLING_DIRECT_ADMIN_ONLY', 'KLING_DIRECT_PUBLIC_ROUTING_ENABLED', 'FAL_API_KEY', 'FAL_KEY',
+  'ALIBABA_MODEL_STUDIO_ENABLED', 'ALIBABA_MODEL_STUDIO_API_KEY', 'KLING_ROUTE_ORDER'] as const;
+async function withTurboRouteEnv<T>(values: Partial<Record<(typeof TURBO_ROUTE_ENV_KEYS)[number], string>>, run: () => Promise<T>): Promise<T> {
+  const saved = new Map(TURBO_ROUTE_ENV_KEYS.map((key) => [key, process.env[key]] as const));
+  for (const key of TURBO_ROUTE_ENV_KEYS) {
+    if (values[key] === undefined) delete process.env[key];
+    else process.env[key] = values[key];
+  }
+  try {
+    return await run();
+  } finally {
+    for (const [key, value] of saved) {
+      if (value === undefined) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+}
+const OFFICIAL_TURBO_ROUTE_ENV = { KLING_DIRECT_ENABLED: 'true', KLING_API_KEY: 'test-only-kling-key',
+  KLING_DIRECT_ADMIN_ONLY: 'false', KLING_DIRECT_PUBLIC_ROUTING_ENABLED: 'true', KLING_ROUTE_ORDER: 'direct' };
+
 test('generate route context resolves P1 through the public engine boundary', async () => {
   let hiddenLookups = 0;
   const boundaryBase = {
@@ -85,7 +109,7 @@ test('generate route context resolves P1 through the public engine boundary', as
     method: 'POST',
   });
 
-  const resolved = await resolveGenerateRouteContext({
+  const resolve = () => resolveGenerateRouteContext({
     body: { engineId: 'kling-3-turbo-standard', mode: 't2v' },
     req: request,
     boundaryOverrides: {
@@ -93,6 +117,11 @@ test('generate route context resolves P1 through the public engine boundary', as
       resolveLaunchCanaryRequestContext: async () => null,
     },
   });
+  // Keyvo: no Bailian, official Kling or Fal route -> refused before charging (no silent Fal fallback).
+  const unrouted = await withTurboRouteEnv({}, resolve);
+  assert.equal(unrouted.ok, false);
+  if (!unrouted.ok) assert.equal(unrouted.status, 503);
+  const resolved = await withTurboRouteEnv(OFFICIAL_TURBO_ROUTE_ENV, resolve);
   assert.equal(resolved.ok, true);
   if (resolved.ok) assert.equal(resolved.context.engine.id, 'kling-3-turbo-standard');
   assert.equal(hiddenLookups, 0);

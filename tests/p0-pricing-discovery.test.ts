@@ -32,9 +32,9 @@ const isVisibleP0 = (id: string) => isKeyvoVisibleFamily(listFalEngines().find((
 const P0_IDS: string[] = ALL_P0_IDS.filter(isVisibleP0);
 const DEEP_LEGACY_IDS = ['ltx-2', 'ltx-2-fast', 'wan-2-5'] as const;
 const P0_REPRESENTATIVE_IDS = (['ltx-2-5-pro', 'wan-3-prime', 'grok-imagine-video-1-5'] as const).filter(isVisibleP0);
-// The PAYG example strip keeps the first six visible preferred examples. Keyvo hides MiniMax-H3-Max (no mainland route),
-// so Wan 3 Prime, the next preferred example, now fills the sixth slot.
-const P0_VISIBLE_EXAMPLE_IDS = (['ltx-2-5-pro', 'wan-3-prime'] as const).filter(isVisibleP0);
+// The PAYG example strip keeps the first six visible preferred examples. MiniMax-H3-Max is served on Keyvo again
+// (MiniMax's own API) and holds its upstream slot, so Wan 3 Prime is no longer among them (as upstream).
+const P0_VISIBLE_EXAMPLE_IDS = (['ltx-2-5-pro'] as const).filter(isVisibleP0);
 const P0_PAYG_PRESETS = {
   'ltx-2-5-pro': '10s-720p',
   'ltx-2-5-fast': '10s-720p',
@@ -123,13 +123,12 @@ test('visible pricing fixtures keep current family variants before legacy histor
   );
 
   assert.deepEqual(idsByFamily('ltx'), []);
-  assert.deepEqual(idsByFamily('wan'), ['wan-3-prime', 'wan-3', 'wan-2-6']);
+  // Keyvo 2026-11-13: Wan 2.6 (the last Keyvo-visible legacy video row) is offline, so no legacy history row remains.
+  assert.deepEqual(idsByFamily('wan'), ['wan-3-prime', 'wan-3']);
   assert.deepEqual(idsByFamily('grok'), []);
   assert.deepEqual(idsByFamily('flux'), []);
 
-  for (const id of ['wan-2-6']) {
-    assert.equal(rows.find((row) => row.id === id)?.pricingGroup, 'legacy');
-  }
+  assert.equal(rows.some((row) => row.id === 'wan-2-6'), false);
   for (const id of P0_IDS) {
     assert.equal(rows.find((row) => row.id === id)?.pricingGroup, 'recommended');
   }
@@ -268,8 +267,9 @@ test('editorial fallbacks cannot revive a model absent from the enabled pricing 
   assert.deepEqual(data.modelTesting.items, []);
 });
 
+// Keyvo 2026-11-13: Wan 2.6 is offline; the same guard is exercised on the Wan 3 row.
 test('unpublished comparison suggestions cannot leak an unknown opponent', () => {
-  const entriesWithHiddenSuggestion = entries.map((entry) => entry.id === 'wan-2-6' ? {
+  const entriesWithHiddenSuggestion = entries.map((entry) => entry.id === 'wan-3' ? {
     ...structuredClone(entry),
     surfaces: {
       ...structuredClone(entry.surfaces),
@@ -282,23 +282,23 @@ test('unpublished comparison suggestions cannot leak an unknown opponent', () =>
     },
   } : entry);
   const legacyRow = buildVideoPricingRowsFromEntries(entriesWithHiddenSuggestion, 'en')
-    .find((row) => row.id === 'wan-2-6');
+    .find((row) => row.id === 'wan-3');
   assert.ok(legacyRow);
   assert.doesNotMatch(JSON.stringify(legacyRow.links), /future-video-model/);
 
   const pricingHub = structuredClone(buildPricingHubData('en'));
-  const paygRow = pricingHub.video.rows.find((row) => row.id === 'wan-2-6');
+  const paygRow = pricingHub.video.rows.find((row) => row.id === 'wan-3');
   assert.ok(paygRow);
   paygRow.links.push({
     label: 'Compare',
-    href: '/ai-video-engines/wan-2-6-vs-wan-3-prime',
+    href: '/ai-video-engines/wan-3-vs-future-video-model',
   });
   const data = buildPayAsYouGoPageData({
     locale: 'en',
     content: getPayAsYouGoContent('en'),
     pricingHub,
   });
-  assert.equal(data.pricing.rows.find((row) => row.id === 'wan-2-6')?.compareHref, undefined);
+  assert.equal(data.pricing.rows.find((row) => row.id === 'wan-3')?.compareHref, undefined);
 });
 
 test('published fixtures expose all P0 model cards and one current row per family', () => {
@@ -372,9 +372,10 @@ test('PAYG copies a P0 canonical quote instead of an authored amount', () => {
     data.priceLookups.items.find((item) => item.id === 'wan-3-prime')?.price,
     '$432.10',
   );
-  // On Keyvo Wan 3 Prime is a visible example (H3-Max is hidden), so its example cost copies the same canonical quote.
+  // Upstream no longer lists Wan 3 Prime among the example costs (P0_VISIBLE_EXAMPLE_IDS); H3-Max holds that slot on
+  // Keyvo again, and the LTX row is hidden in Keyvo, so there is no example-cost projection of the quote to compare.
   assert.deepEqual(p0IdsIn(data.exampleCosts.items), P0_VISIBLE_EXAMPLE_IDS);
-  assert.equal(data.exampleCosts.items.find((item) => item.id === 'wan-3-prime')?.price, '$432.10');
+  assert.ok(data.exampleCosts.items.some((item) => item.id === 'minimax-h3-max'));
   assert.equal(
     data.hero.quote.previewRows.find((row) => row.id === 'wan-3-prime')?.quoteLabel,
     '$432.10',
