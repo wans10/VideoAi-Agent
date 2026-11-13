@@ -56,7 +56,7 @@ export function useLoginPageController({
   const router = useRouter();
   const [locale] = useState<Locale>(initialLocale);
   const { authRedirectOrigin, nextPath, nextPathReady, persistNextTarget, safeNextPath } = useLoginNextTarget();
-  const [mode, setMode] = useState<AuthMode>(!EMAIL_SIGNUP_ENABLED && initialMode === 'signup' ? 'signin' : initialMode);
+  const [mode, setMode] = useState<AuthMode>(initialMode);
   const passwordSubmission = usePasswordAuthSubmission(mode);
   const invalidatePasswordSubmission = passwordSubmission.invalidate;
   const passwordSubmissionPending = passwordSubmission.pending;
@@ -116,18 +116,6 @@ export function useLoginPageController({
     setFormAttention(false);
   }, []);
 
-  const handleModeChange = useCallback((nextMode: AuthMode) => {
-    if (passwordSubmissionPending.current || confirmationResendPendingRef.current || nextMode === mode) return;
-    if (!EMAIL_SIGNUP_ENABLED && nextMode === 'signup') return;
-    invalidatePasswordSubmission();
-    setStatus(null);
-    setMode(nextMode);
-    setFieldErrors({});
-    setFormAttention(false);
-    setError(null);
-    setUnconfirmedEmail(null);
-  }, [invalidatePasswordSubmission, mode, passwordSubmissionPending]);
-
   const validateCurrentForm = useCallback(
     (targetMode: AuthMode) => {
       const result = validateAuthForm({
@@ -170,6 +158,7 @@ export function useLoginPageController({
     [persistNextTarget, router]
   );
 
+  const returnPhoneToSignInTab = useCallback(() => setMode('signin'), []);
   const phoneAuth = useLoginPhoneAuth({
     enabled: PHONE_LOGIN_ENABLED,
     authCopy,
@@ -179,10 +168,24 @@ export function useLoginPageController({
     blocked: passwordSubmission.busy || isConfirmationResending,
     completeAuthenticatedRedirect,
     authRedirectHoldRef,
+    onReturnToSignIn: returnPhoneToSignInTab,
     setStatus,
     setStatusTone,
     setError,
   });
+
+  // With phone login on, 登录 and 注册 are the phone tabs; email sign-up never renders (see LoginAuthSurface).
+  const handleModeChange = useCallback((nextMode: AuthMode) => {
+    if (passwordSubmissionPending.current || confirmationResendPendingRef.current || nextMode === mode) return;
+    invalidatePasswordSubmission();
+    setStatus(null);
+    setMode(nextMode);
+    setFieldErrors({});
+    setFormAttention(false);
+    setError(null);
+    setUnconfirmedEmail(null);
+    if (nextMode === 'signin' || nextMode === 'signup') phoneAuth?.onTabChange(nextMode);
+  }, [invalidatePasswordSubmission, mode, passwordSubmissionPending, phoneAuth]);
 
   const { redirectFromExistingBrowserSession } = useLoginAuthenticatedRedirect({
     completeAuthenticatedRedirect,

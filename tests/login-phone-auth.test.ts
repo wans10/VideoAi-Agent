@@ -500,28 +500,80 @@ test('without the flag the login page shows no phone option and keeps the email 
   } finally { await f.dispose(); }
 });
 
+const phoneTab = (f: any, label: string) =>
+  [...f.w.document.querySelectorAll('[data-testid=phone-mode-tabs] button')].find((b: any) => b.textContent === label) as any;
+
+test('phone tabs: ?mode decides the tab, and switching keeps the number', async () => {
+  const up = await mount({ mode: 'signup' });
+  try {
+    assert.equal(up.w.controller.mode, 'signup');
+    assert.equal(up.$('.videoai-auth-card h1')!.textContent, phoneCopy.signup.title);
+    assert.equal(phoneTab(up, phoneCopy.tabs.signup).getAttribute('aria-pressed'), 'true');
+    assert.equal(phoneTab(up, phoneCopy.tabs.signin).getAttribute('aria-pressed'), 'false');
+    assert.ok(up.$('#auth-phone'));
+    assert.equal(up.$('#auth-phone-password'), null, 'the 注册 tab has no password field');
+    assert.equal(up.$('#auth-phone-hint')!.textContent, phoneCopy.hint);
+    assert.equal(up.$('[data-testid=phone-switch-to-signin]')!.textContent, phoneCopy.signup.haveAccount);
+    assert.equal(up.button(zh.auth.tabs.signup), undefined, 'no email create-account tab');
+    await up.type('#auth-phone', '13812345678');
+
+    await up.act(() => phoneTab(up, phoneCopy.tabs.signin).click());
+    assert.equal(up.w.controller.mode, 'signin');
+    assert.equal(up.w.controller.phoneAuth.step, 'signin');
+    assert.ok(up.$(PASSWORD_FORM));
+    assert.equal(up.$('#auth-phone')!.value, '13812345678', 'the number survives the tab switch');
+    assert.equal(up.$('#auth-phone-hint'), null, 'the 登录 tab shows no registration hint');
+    assert.equal(up.$('.videoai-auth-card h1')!.textContent, phoneCopy.signin.title);
+
+    await up.act(() => phoneTab(up, phoneCopy.tabs.signup).click());
+    assert.equal(up.w.controller.mode, 'signup');
+    assert.equal(up.$('#auth-phone')!.value, '13812345678');
+    assert.equal(up.$('.videoai-auth-card h1')!.textContent, phoneCopy.signup.title);
+
+    // The link in the 注册 footer goes back to the 登录 tab.
+    await up.act(() => up.$('[data-testid=phone-switch-to-signin]')!.click());
+    assert.equal(up.w.controller.mode, 'signin');
+    assert.ok(up.$(PASSWORD_FORM));
+  } finally { await up.dispose(); }
+});
+
+test('登录 tab shows only password sign-in and its two links, with no stale registration copy', async () => {
+  const f = await mount();
+  try {
+    assert.equal(f.$('.videoai-auth-card h1')!.textContent, phoneCopy.signin.title);
+    assert.equal(f.$('.videoai-auth-card header p')!.textContent, phoneCopy.signin.description);
+    const text = f.text();
+    for (const stale of ['自动创建', '新手机号验证后', '您的生成设置已保存', '在此继续', '新用户？用验证码注册']) {
+      assert.ok(!text.includes(stale), `no stale copy: ${stale}`);
+    }
+    assert.equal(f.$('[data-testid=phone-use-code]')!.textContent, phoneCopy.passwordSignin.forgotPassword);
+    assert.equal(f.$('[data-testid=login-use-email-account]')!.textContent, phoneCopy.useEmailAccount);
+    assert.equal(f.$('#auth-phone-hint'), null);
+    assert.equal(f.$('[data-testid=phone-switch-to-signin]'), null);
+  } finally { await f.dispose(); }
+});
+
 test('phone-only sign-up: no email sign-up anywhere, existing email accounts keep sign-in and password reset', async () => {
-  // A sign-up link (?mode=signup) lands on the phone form, not an email registration form.
+  // ?mode=signup lands on the 注册 tab (phone + SMS), never on an email registration form.
   const f = await mount({ mode: 'signup' });
   try {
-    assert.equal(f.w.controller.mode, 'signin', 'email sign-up mode is not reachable');
+    assert.equal(f.w.controller.mode, 'signup');
     assert.ok(f.$('#auth-phone'));
     assert.equal(f.$('#auth-email'), null);
     assert.equal(f.button(zh.auth.tabs.signup), undefined, 'no create-account tab');
-    assert.equal(f.$('.videoai-auth-card h1')!.textContent, phoneCopy.title);
-    await f.act(() => f.w.controller.onModeChange('signup'));
-    assert.equal(f.w.controller.mode, 'signin');
-
+    // Email sign-in is reached from the 登录 tab only.
+    assert.equal(f.$('[data-testid=login-use-email-account]'), null);
+    await f.act(() => phoneTab(f, phoneCopy.tabs.signin).click());
     await f.act(() => f.$('[data-testid=login-use-email-account]')!.click());
     assert.equal(f.w.controller.phoneAuth.method, 'email');
     assert.equal(f.$('#auth-phone'), null);
     assert.ok(f.$('#auth-email'));
     assert.ok(f.$('#auth-password'));
     assert.equal(f.$('#auth-confirm'), null, 'email form is sign-in only');
+    assert.equal(f.$('[data-testid=phone-mode-tabs]'), null, 'the email view has no phone tabs');
     assert.equal(f.$('.videoai-auth-card h1')!.textContent, phoneCopy.emailSigninTitle);
     assert.equal(f.$('form button[type=submit]')!.textContent, zh.auth.actions.signin);
     assert.ok(f.button(zh.auth.forgotPassword), 'password reset stays for email accounts');
-
     await f.type('#auth-email', 'existing@example.invalid');
     await f.type('#auth-password', 'not-the-password');
     await f.act(() => f.$('form')!.dispatchEvent(new f.w.Event('submit', { bubbles: true, cancelable: true })));
@@ -532,37 +584,94 @@ test('phone-only sign-up: no email sign-up anywhere, existing email accounts kee
     assert.equal(f.w.controller.signupSuggestion, null, 'no email sign-up suggestion');
     assert.doesNotMatch(f.text(), new RegExp(zh.auth.signupSuggestion.title));
     assert.equal(f.signUps.length, 0);
-
     await f.act(() => f.button(zh.auth.forgotPassword).click());
     assert.equal(f.w.controller.mode, 'reset');
     assert.ok(f.$('#reset-email'));
     await f.act(() => f.button(zh.auth.links.backToSignIn).click());
     assert.equal(f.w.controller.mode, 'signin');
     assert.ok(f.$('#auth-email'), 'back to the email sign-in form');
-
     await f.act(() => f.$('[data-testid=login-use-phone]')!.click());
     assert.equal(f.w.controller.phoneAuth.method, 'phone');
     assert.ok(f.$('#auth-phone'));
-    assert.equal(f.$('.videoai-auth-card h1')!.textContent, phoneCopy.title);
+    assert.equal(f.$('.videoai-auth-card h1')!.textContent, phoneCopy.signin.title);
+  } finally { await f.dispose(); }
+});
+
+test('forgot-password code view has no tabs and returns to password sign-in', async () => {
+  const f = await mount();
+  try {
+    await f.act(() => f.$('[data-testid=phone-use-code]')!.click());
+    assert.equal(f.w.controller.phoneAuth.step, 'code');
+    assert.equal(f.w.controller.mode, 'signin');
+    assert.equal(f.$('[data-testid=phone-mode-tabs]'), null);
+    assert.equal(f.$('.videoai-auth-card h1')!.textContent, phoneCopy.codeSignin.title);
+    assert.equal(f.$('.videoai-auth-card header p')!.textContent, phoneCopy.codeSignin.description);
+    assert.ok(f.$('[data-testid=phone-auth-form]'));
+    await f.act(() => f.$('[data-testid=phone-back-to-password]')!.click());
+    assert.equal(f.w.controller.phoneAuth.step, 'signin');
+    assert.ok(f.$(PASSWORD_FORM));
+  } finally { await f.dispose(); }
+});
+
+test('注册 tab: the terms and age checkboxes gate the SMS, and the verified code opens the password step', async () => {
+  const f = await mount({ mode: 'signup' });
+  try {
+    await f.type('#auth-phone', '13812345678');
+    await f.submit();
+    assert.equal(f.$('#auth-phone-terms-error')!.textContent, zh.auth.validation.termsRequired);
+    assert.equal(f.sends.length, 0, 'no SMS before terms and age are confirmed');
+    await f.consent();
+    await f.submit();
+    assert.equal(f.sends.length, 1);
+    assert.deepEqual(JSON.parse(JSON.stringify(f.sends[0].input)), { phone: '+8613812345678', options: { shouldCreateUser: true, data: { locale: 'zh' } } });
+    await f.act(() => f.sends[0].reply.resolve({ data: {}, error: null }));
+    assert.ok(f.$('#auth-otp'), 'code step is shown on the 注册 tab');
+    assert.equal(phoneTab(f, phoneCopy.tabs.signup).getAttribute('aria-pressed'), 'true');
+    await f.type('#auth-otp', '123456');
+    await f.submit();
+    const user = { id: 'synthetic-tab-user', created_at: new Date().toISOString(), app_metadata: {} };
+    await f.act(() => f.verifies[0].reply.resolve({ data: { session: { access_token: 'synthetic', user }, user }, error: null }));
+    assert.equal(f.consents.length, 1, 'sign-up consents are recorded for the new account');
+    assert.equal(f.w.controller.phoneAuth.step, 'setPassword');
+    assert.equal(f.$('.videoai-auth-card h1')!.textContent, phoneCopy.passwordSetup.title);
+    assert.equal(f.$('[data-testid=phone-mode-tabs]'), null, 'the password step has no tabs');
+    assert.equal(f.w.redirectedTo, undefined, 'sign-up is not complete before a password is set');
+    await f.setPassword('secret-6', 'secret-6');
+    await f.act(() => f.updates[0].reply.resolve({ data: { user }, error: null }));
+    assert.equal(f.w.redirectedTo, REDIRECT_TARGET);
+    assert.ok(f.w.events.includes('sign_up_completed:phone'));
   } finally { await f.dispose(); }
 });
 
 test('phone-only sign-up copy exists in every locale', () => {
   for (const locale of ['en', 'es', 'fr', 'zh']) {
     const messages = JSON.parse(readFileSync(`frontend/messages/${locale}.json`, 'utf8'));
-    for (const key of ['title', 'description', 'emailSigninTitle', 'emailSigninDescription', 'useEmailAccount', 'usePhone', 'emailSigninFailed', 'backToPassword']) {
-      assert.equal(typeof messages.auth.phone[key], 'string', `${locale} auth.phone.${key}`);
-      assert.ok(messages.auth.phone[key].length > 0);
+    const phone = messages.auth.phone;
+    for (const key of ['emailSigninTitle', 'emailSigninDescription', 'useEmailAccount', 'emailSigninFailed', 'backToPassword', 'backToPhone', 'hint']) {
+      assert.equal(typeof phone[key], 'string', `${locale} auth.phone.${key}`);
+      assert.ok(phone[key].length > 0);
     }
-    for (const key of ['submit', 'forgotPassword', 'newUser']) {
-      assert.ok(messages.auth.phone.passwordSignin[key].length > 0, `${locale} passwordSignin.${key}`);
+    for (const view of ['signin', 'signup', 'codeSignin']) {
+      assert.ok(phone[view].title.length > 0, `${locale} auth.phone.${view}.title`);
+      assert.ok(phone[view].description.length > 0, `${locale} auth.phone.${view}.description`);
     }
+    assert.ok(phone.signup.haveAccount.length > 0, `${locale} auth.phone.signup.haveAccount`);
+    assert.ok(phone.tabs.signin.length > 0 && phone.tabs.signup.length > 0, `${locale} auth.phone.tabs`);
+    for (const key of ['submit', 'forgotPassword']) {
+      assert.ok(phone.passwordSignin[key].length > 0, `${locale} passwordSignin.${key}`);
+    }
+    // The 登录 tab no longer offers a registration link, and the signed-out hint no longer promises auto-creation.
+    assert.equal(phone.passwordSignin.newUser, undefined, `${locale} passwordSignin.newUser is retired`);
+    assert.equal(phone.title, undefined, `${locale} auth.phone.title is retired`);
+    assert.equal(phone.description, undefined, `${locale} auth.phone.description is retired`);
+    assert.equal(phone.usePhone, undefined, `${locale} auth.phone.usePhone is retired`);
+    assert.doesNotMatch(phone.hint, /自动创建|automatically|créer un compte|crear una cuenta|create an account/i, `${locale} hint`);
     for (const key of ['title', 'description', 'hint', 'submit', 'cancel', 'verified']) {
-      assert.ok(messages.auth.phone.passwordSetup[key].length > 0, `${locale} passwordSetup.${key}`);
+      assert.ok(phone.passwordSetup[key].length > 0, `${locale} passwordSetup.${key}`);
     }
-    for (const key of ['passwordSigningIn', 'passwordInvalid', 'passwordRateLimited', 'passwordUnavailable', 'passwordSetupSaving', 'passwordSetupSaved', 'passwordWeak', 'passwordSame', 'passwordSessionExpired', 'passwordSetupUnavailable', 'passwordSetupRateLimited']) {
-      assert.ok(messages.auth.phone.feedback[key].length > 0, `${locale} feedback.${key}`);
+    for (const key of ['passwordSigningIn', 'passwordInvalid', 'passwordRateLimited', 'passwordUnavailable', 'passwordSetupSaving', 'passwordSetupSaved', 'passwordWeak', 'passwordSame', 'passwordSessionExpired', 'passwordSetupUnavailable', 'passwordSetupRateLimited'] as const) {
+      assert.ok(phone.feedback[key].length > 0, `${locale} feedback.${key}`);
     }
-    assert.doesNotMatch(messages.auth.phone.feedback.signupDisabled, /email|邮箱|correo|e-mail/i, `${locale}: no email sign-up fallback`);
+    assert.doesNotMatch(phone.feedback.signupDisabled, /email|邮箱|correo|e-mail/i, `${locale}: no email sign-up fallback`);
   }
 });

@@ -4,11 +4,16 @@ import { defaultExperienceLocale, resolveSiteLocale } from '@/i18n/locales';
 
 export type LoginQueryValue = string | string[] | undefined;
 
-export function resolveInitialAuthMode(value: LoginQueryValue, next: LoginQueryValue = undefined): AuthMode {
+/** `fallback` is the tab used when neither `mode` nor an MCP consent target picks one (phone login: 登录). */
+export function resolveInitialAuthMode(
+  value: LoginQueryValue,
+  next: LoginQueryValue = undefined,
+  fallback: AuthMode = 'signup'
+): AuthMode {
   const candidate = Array.isArray(value) ? value[0] : value;
   return candidate === 'signin' || candidate === 'reset' || candidate === 'signup'
     ? candidate
-    : isMcpConsentTarget(Array.isArray(next) ? next[0] : next) ? 'signin' : 'signup';
+    : isMcpConsentTarget(Array.isArray(next) ? next[0] : next) ? 'signin' : fallback;
 }
 
 export function resolveInitialAuthLocale(

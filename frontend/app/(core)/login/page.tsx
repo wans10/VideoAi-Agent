@@ -3,6 +3,7 @@ import { LOCALE_COOKIE } from '@/lib/i18n/constants';
 import { isMcpConsentTarget } from '@/lib/mcp-oauth-continuation';
 import { getMcpRequestHost, isMcpApiHost } from '@/lib/mcp-host-routing';
 import { LoginPageClient } from './_components/LoginPageClient';
+import { isPhoneLoginEnabled } from './_lib/login-phone';
 import {
   resolveInitialAuthLocale,
   resolveInitialAuthMode,
@@ -20,7 +21,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
 
   return (
     <LoginPageClient
-      initialMode={resolveInitialAuthMode(params.mode, params.next)}
+      initialMode={resolveInitialAuthMode(params.mode, params.next, isPhoneLoginEnabled() ? 'signin' : 'signup')}
       initialMcpConnection={isMcpConsentTarget(Array.isArray(params.next) ? params.next[0] : params.next)}
       isMcpStaging={Boolean(requestHost && isMcpApiHost(requestHost, 'maxvideoai-mcp-staging.vercel.app'))}
       initialLocale={resolveInitialAuthLocale(

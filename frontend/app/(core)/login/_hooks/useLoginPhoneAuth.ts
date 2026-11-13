@@ -46,6 +46,8 @@ type UseLoginPhoneAuthOptions = {
   completeAuthenticatedRedirect: (target: string, userId?: string | null) => void;
   /** While set, the login page must not redirect: a verified code still owes a password. */
   authRedirectHoldRef: MutableRefObject<boolean>;
+  /** Leaving the password step (cancel, expired verification) lands on the 登录 tab. */
+  onReturnToSignIn: () => void;
   setStatus: (value: string | null) => void;
   setStatusTone: (value: 'info' | 'success') => void;
   setError: (value: string | null) => void;
@@ -72,6 +74,7 @@ export function useLoginPhoneAuth({
   blocked,
   completeAuthenticatedRedirect,
   authRedirectHoldRef,
+  onReturnToSignIn,
   setStatus,
   setStatusTone,
   setError,
@@ -186,7 +189,19 @@ export function useLoginPhoneAuth({
     setCode('');
     setCooldownUntil(null);
     clearPhoneOtpState(browserSessionStorage());
-  }, []);
+    onReturnToSignIn();
+  }, [onReturnToSignIn]);
+
+  /**
+   * Login / sign-up tabs. 登录 shows the password form; 注册 shows the SMS registration step. The
+   * page's mode decides which tab is drawn; this only moves the step so the forgot-password view
+   * (step 'code' under 登录) is never reached from a tab.
+   */
+  const selectTab = useCallback((tab: 'signin' | 'signup') => {
+    if (pendingRef.current || blocked) return;
+    setStep(tab === 'signin' ? 'signin' : 'code');
+    setFieldError(null);
+  }, [blocked]);
 
   const isNewAccount = useCallback(() => setupRef.current?.newAccount ?? false, []);
 
@@ -440,6 +455,7 @@ export function useLoginPhoneAuth({
     onChangePhone: changePhone,
     onStartCodeLogin: startCodeLogin,
     onBackToPasswordSignIn: backToPasswordSignIn,
+    onTabChange: selectTab,
   };
 }
 

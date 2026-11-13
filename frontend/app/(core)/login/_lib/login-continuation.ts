@@ -3,7 +3,8 @@ import type { AuthCopy, Locale } from './login-copy';
 import { TOPUP_TIERS } from '@/config/topupTiers';
 import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 
-export type LoginContinuationKind = 'billing' | 'video' | 'image' | 'audio' | 'library' | 'tool' | 'studio' | 'mcp';
+/** Only continuations that carry real information: a preserved top-up amount or an MCP connection. */
+export type LoginContinuationKind = 'billing' | 'mcp';
 
 export type LoginContinuation = {
   kind: LoginContinuationKind;
@@ -56,12 +57,7 @@ export function buildLoginContinuation({ copy, locale, nextPath }: LoginContinua
     return { kind: 'billing', ...copy.billingGeneric };
   }
 
-  if (isRoute(pathname, '/app/studio')) return { kind: 'studio', ...copy.studio };
-  if (isRoute(pathname, '/app/image')) return { kind: 'image', ...copy.image };
-  if (isRoute(pathname, '/app/audio')) return { kind: 'audio', ...copy.audio };
-  if (isRoute(pathname, '/app/library')) return { kind: 'library', ...copy.library };
-  if (isRoute(pathname, '/app/tools')) return { kind: 'tool', ...copy.tool };
-  if (pathname === '/app') return { kind: 'video', ...copy.video };
-
+  // Generic workspace routes (/app, /app/image, /app/audio, /app/library, /app/tools, /app/studio) get no
+  // banner: the login URL alone does not prove that any generation setting was saved.
   return null;
 }

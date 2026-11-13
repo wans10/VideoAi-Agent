@@ -30,20 +30,35 @@ test('billing continuation confirms the preserved top-up amount', () => {
   );
 });
 
-test('workspace continuation distinguishes video, image, audio, library, and tools', () => {
-  const cases = [
-    ['/app?engine=seedance-2-0', 'video'],
-    ['/app/image?engine=gemini-2-5-flash-image', 'image'],
-    ['/app/audio', 'audio'],
-    ['/app/library', 'library'],
-    ['/app/tools/storyboard', 'tool'],
-  ] as const;
+test('a billing target without a valid amount keeps the generic billing banner', () => {
+  assert.equal(
+    buildLoginContinuation({ copy: AUTH_COPY.zh.continuation, locale: 'zh', nextPath: '/billing' })?.kind,
+    'billing'
+  );
+});
 
-  for (const [nextPath, kind] of cases) {
-    assert.equal(
-      buildLoginContinuation({ copy: AUTH_COPY.en.continuation, locale: 'en', nextPath })?.kind,
-      kind
-    );
+test('generic workspace routes show no saved-settings banner in any locale', () => {
+  // The login URL alone does not prove that a model, image or library setting was saved, so the
+  // banner stays off for these routes (Keyvo decision, 2026-11-13).
+  const paths = [
+    '/app',
+    '/app?engine=seedance-2-0',
+    '/app/image?engine=gemini-2-5-flash-image',
+    '/app/audio',
+    '/app/library',
+    '/app/tools/storyboard',
+    '/app/studio',
+    '/app/studio?starter=product-ad',
+    '/app/studio/conversation/project-1',
+  ];
+  for (const locale of ['en', 'fr', 'es', 'zh'] as const) {
+    for (const nextPath of paths) {
+      assert.equal(
+        buildLoginContinuation({ copy: AUTH_COPY[locale].continuation, locale, nextPath }),
+        null,
+        `${locale} ${nextPath}`
+      );
+    }
   }
 });
 
@@ -56,18 +71,10 @@ test('direct login and unsafe targets do not invent continuation claims', () => 
     buildLoginContinuation({ copy: AUTH_COPY.en.continuation, locale: 'en', nextPath: 'https://example.com' }),
     null
   );
-});
-
-test('Studio login keeps the destination visible without claiming a completed generation', () => {
-  for (const locale of ['en', 'fr', 'es'] as const) {
-    for (const nextPath of ['/app/studio', '/app/studio?starter=product-ad', '/app/studio/conversation/project-1']) {
-      const result = buildLoginContinuation({ copy: AUTH_COPY[locale].continuation, locale, nextPath });
-      assert.equal(result?.kind, 'studio');
-      assert.ok(result?.title.includes('Studio'));
-      assert.doesNotMatch(result?.body ?? '', /free|gratuit|gratis|completed|terminé|terminado/i);
-    }
-    assert.equal(buildLoginContinuation({ copy: AUTH_COPY[locale].continuation, locale, nextPath: '/app/studiobook' }), null);
-  }
+  assert.equal(
+    buildLoginContinuation({ copy: AUTH_COPY.en.continuation, locale: 'en', nextPath: '/app/studiobook' }),
+    null
+  );
 });
 
 test('MCP consent explains account connection in every locale without claiming installation or payment', () => {
@@ -85,12 +92,15 @@ test('MCP consent explains account connection in every locale without claiming i
   assert.equal(buildLoginContinuation({ copy: AUTH_COPY.en.continuation, locale: 'en', nextPath: '/oauth/consent' }), null);
 });
 
-test('all supported auth locales expose continuation copy', () => {
-  for (const locale of ['en', 'fr', 'es'] as const) {
+test('all supported auth locales expose the continuation copy that is still rendered', () => {
+  for (const locale of ['en', 'fr', 'es', 'zh'] as const) {
     const copy = AUTH_COPY[locale].continuation;
-    for (const key of ['billing', 'billingGeneric', 'video', 'image', 'audio', 'library', 'tool'] as const) {
+    for (const key of ['billing', 'billingGeneric', 'mcp'] as const) {
       assert.ok(copy[key].title.length > 0, `${locale}.${key}.title`);
       assert.ok(copy[key].body.length > 0, `${locale}.${key}.body`);
+    }
+    for (const key of ['video', 'image', 'audio', 'library', 'tool', 'studio'] as const) {
+      assert.equal((copy as Record<string, unknown>)[key], undefined, `${locale}.${key} is no longer shown`);
     }
   }
 });
