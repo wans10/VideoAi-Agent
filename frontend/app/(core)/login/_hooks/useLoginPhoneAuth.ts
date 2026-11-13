@@ -30,6 +30,7 @@ import {
 } from '../_lib/login-phone-password';
 import { useLoginPhonePasswordSignIn } from './useLoginPhonePasswordSignIn';
 import { useLoginPhonePasswordSetup } from './useLoginPhonePasswordSetup';
+import { useLoginPhoneContactEmail } from './useLoginPhoneContactEmail';
 
 export type LoginMethod = 'email' | 'phone';
 /** signin: phone + password (default). code: SMS code (new account or forgot password). setPassword: required after a verified code. */
@@ -43,6 +44,8 @@ type UseLoginPhoneAuthOptions = {
   nextPath: string;
   nextPathReady: boolean;
   blocked: boolean;
+  /** The 注册 tab (mode signup): it asks for the contact email and the marketing choice. */
+  signupTab: boolean;
   completeAuthenticatedRedirect: (target: string, userId?: string | null) => void;
   /** While set, the login page must not redirect: a verified code still owes a password. */
   authRedirectHoldRef: MutableRefObject<boolean>;
@@ -72,6 +75,7 @@ export function useLoginPhoneAuth({
   nextPath,
   nextPathReady,
   blocked,
+  signupTab,
   completeAuthenticatedRedirect,
   authRedirectHoldRef,
   onReturnToSignIn,
@@ -103,6 +107,8 @@ export function useLoginPhoneAuth({
   const signInPasswordRef = useRef<HTMLInputElement>(null);
   const setupPasswordRef = useRef<HTMLInputElement>(null);
   const setupConfirmRef = useRef<HTMLInputElement>(null);
+  const contact = useLoginPhoneContactEmail();
+  const { setEmail: setContactEmail, restorePending: restoreContactPending } = contact;
 
   // Restore after a reload in read-only effects (the first render must match the server markup).
   // A verified code that still owes a password wins over a code that is merely cooling down.
@@ -114,6 +120,7 @@ export function useLoginPhoneAuth({
       setupRef.current = pendingSetup;
       authRedirectHoldRef.current = true;
       setPhone(pendingSetup.phone);
+      restoreContactPending({ pending: pendingSetup.contactEmailPending === true, draft: pendingSetup.contactEmailDraft ?? '' });
       setStep('setPassword');
       return;
     }
@@ -122,10 +129,11 @@ export function useLoginPhoneAuth({
     setMethodState('phone');
     setStep('code');
     setPhone(restored.phone);
+    setContactEmail(restored.contactEmail ?? '');
     setCodeSentTo(restored.phone);
     setNow(Date.now());
     setCooldownUntil(restored.cooldownUntil);
-  }, [enabled, authRedirectHoldRef]);
+  }, [enabled, authRedirectHoldRef, restoreContactPending, setContactEmail]);
 
   const cooldownSeconds = remainingCooldownSeconds(cooldownUntil, now);
   useEffect(() => {
@@ -170,6 +178,7 @@ export function useLoginPhoneAuth({
 
   const validatePhoneAndConsent = () => {
     if (!validatePhone()) return false;
+    if (signupTab && !contact.validate()) return false;
     if (!acceptTerms) return fail('termsRequired');
     if (!ageConfirmed) return fail('ageRequired');
     setFieldError(null);
@@ -232,6 +241,7 @@ export function useLoginPhoneAuth({
     completeAuthenticatedRedirect,
     passwordRef: setupPasswordRef,
     confirmRef: setupConfirmRef,
+    contact,
     setStatus,
     setStatusTone,
     setError,
@@ -267,7 +277,8 @@ export function useLoginPhoneAuth({
         return;
       }
       const until = startedAt + PHONE_RESEND_COOLDOWN_SECONDS * 1000;
-      writePhoneOtpState(browserSessionStorage(), { phone: normalized, sentAt: startedAt, cooldownUntil: until });
+      const typedEmail = signupTab ? contact.email.trim() : '';
+      writePhoneOtpState(browserSessionStorage(), { phone: normalized, sentAt: startedAt, cooldownUntil: until, ...(typedEmail ? { contactEmail: typedEmail } : {}) });
       setPhone(normalized);
       setCodeSentTo(normalized);
       setNow(startedAt);
@@ -290,7 +301,8 @@ export function useLoginPhoneAuth({
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ userId, ageConfirmed: true, cookiesAccepted: true, locale, source: 'signup' }),
+      // Unchecked is recorded too (accepted: false). Only the 注册 tab offers the choice.
+      body: JSON.stringify({ userId, ageConfirmed: true, cookiesAccepted: true, marketingOptIn: signupTab && contact.marketingOptIn, locale, source: 'signup' }),
     });
     const json = await res.json().catch(() => null);
     if (!res.ok || !json?.ok) throw new Error(authCopy.feedback.consentSaveError);
@@ -351,7 +363,8 @@ export function useLoginPhoneAuth({
           return;
         }
       }
-      const pending: PhonePasswordSetupState = { phone: codeSentTo, newAccount, verifiedAt: Date.now() };
+      const pendingEmail = await contact.settleAfterVerify({ signupTab, newAccount, accessToken: data.session.access_token });
+      const pending: PhonePasswordSetupState = { phone: codeSentTo, newAccount, verifiedAt: Date.now(), ...(pendingEmail ? { contactEmailPending: true, contactEmailDraft: contact.email.trim() } : {}) };
       setupRef.current = pending;
       writePhonePasswordSetupState(browserSessionStorage(), pending);
       clearPhoneOtpState(browserSessionStorage());
@@ -363,6 +376,7 @@ export function useLoginPhoneAuth({
       setStep('setPassword');
       setStatusTone('success');
       setStatus(copy.passwordSetup.verified);
+      if (pendingEmail && contact.email.trim()) setError(copy.feedback.contactEmailSaveFailed);
     } catch {
       // Keep the hold only when a verified session is pending its password step.
       if (!setupRef.current) authRedirectHoldRef.current = false;
@@ -445,6 +459,7 @@ export function useLoginPhoneAuth({
     ageRef,
     signIn: passwordSignIn,
     setup: passwordSetup,
+    contact,
     onMethodChange: setMethod,
     onPhoneChange,
     onCodeChange,

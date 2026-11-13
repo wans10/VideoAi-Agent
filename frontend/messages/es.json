@@ -4490,6 +4490,10 @@
               "dark": "Oscuro",
               "system": "Sistema"
             }
+          },
+          "contactEmail": {
+            "label": "Correo de contacto",
+            "readOnly": "Solo para avisos del producto. No es tu correo de inicio de sesión."
           }
         },
         "actions": {
@@ -7025,11 +7029,13 @@
       "emailSigninFailed": "Correo o contraseña incorrectos. Los nuevos usuarios se registran con un número de teléfono.",
       "fields": {
         "phone": "Número de móvil",
-        "code": "Código SMS"
+        "code": "Código SMS",
+        "contactEmail": "Correo electrónico"
       },
       "placeholders": {
         "phone": "Número de 11 dígitos",
-        "code": "Código de 6 dígitos"
+        "code": "Código de 6 dígitos",
+        "contactEmail": "nombre@ejemplo.com"
       },
       "hint": "Solo números móviles de China continental.",
       "actions": {
@@ -7043,7 +7049,9 @@
       "validation": {
         "phoneRequired": "Introduce tu número de móvil.",
         "phoneInvalid": "Introduce un número válido de China continental (11 dígitos que empiezan por 1).",
-        "codeRequired": "Introduce el código SMS de 6 dígitos."
+        "codeRequired": "Introduce el código SMS de 6 dígitos.",
+        "contactEmailRequired": "Introduce tu correo electrónico.",
+        "contactEmailInvalid": "Introduce un correo electrónico válido."
       },
       "feedback": {
         "sending": "Enviando código…",
@@ -7069,7 +7077,8 @@
         "passwordSame": "La nueva contraseña debe ser distinta de la anterior.",
         "passwordSessionExpired": "La verificación ha caducado. Solicita un código SMS nuevo para crear una contraseña.",
         "passwordSetupUnavailable": "No se pudo guardar la contraseña. Inténtalo de nuevo.",
-        "passwordSetupRateLimited": "Demasiados intentos. Inténtalo más tarde."
+        "passwordSetupRateLimited": "Demasiados intentos. Inténtalo más tarde.",
+        "contactEmailSaveFailed": "No pudimos guardar tu correo electrónico. Revísalo e inténtalo de nuevo."
       },
       "passwordSignin": {
         "submit": "Iniciar sesión",

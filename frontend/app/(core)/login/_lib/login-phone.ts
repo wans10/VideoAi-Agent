@@ -6,6 +6,7 @@
  * flow lives in ../_hooks/useLoginPhoneAuth.ts and the form in
  * ../_components/LoginPhoneAuthPanel.tsx.
  */
+import { normalizeContactEmail } from '@/lib/contact-email';
 
 export const PHONE_COUNTRY_CODE = '+86';
 export const PHONE_OTP_LENGTH = 6;
@@ -57,7 +58,13 @@ export function isCompleteOtp(input: string): boolean {
   return new RegExp(`^\\d{${PHONE_OTP_LENGTH}}$`).test(input);
 }
 
-export type PhoneOtpPersistedState = { phone: string; sentAt: number; cooldownUntil: number };
+export type PhoneOtpPersistedState = {
+  phone: string;
+  sentAt: number;
+  cooldownUntil: number;
+  /** 注册 tab contact email typed before the code was sent (kept across a reload; never a login identity). */
+  contactEmail?: string;
+};
 
 type StorageLike = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
 
@@ -84,7 +91,13 @@ export function readPhoneOtpState(storage: StorageLike | null | undefined, now: 
       storage.removeItem(PHONE_COOLDOWN_STORAGE_KEY);
       return null;
     }
-    return { phone: normalizeMainlandMobile(parsed.phone), sentAt: parsed.sentAt, cooldownUntil: parsed.cooldownUntil };
+    const contactEmail = normalizeContactEmail(parsed.contactEmail);
+    return {
+      phone: normalizeMainlandMobile(parsed.phone),
+      sentAt: parsed.sentAt,
+      cooldownUntil: parsed.cooldownUntil,
+      ...(contactEmail ? { contactEmail } : {}),
+    };
   } catch {
     return null;
   }

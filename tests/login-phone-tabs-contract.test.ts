@@ -45,6 +45,7 @@ test('flag off: the page keeps the email tab bar and the email forms, with no ph
     assert.match(signup, /id="auth-confirm"/, `${locale} email sign-up keeps its confirm field`);
     assert.match(signup, /type="checkbox"/);
     assert.doesNotMatch(signup, /phone-mode-tabs|auth-phone/);
+    assert.doesNotMatch(signup, /auth-contact-email/, `${locale} flag-off sign-up has no contact email field`);
   }
 });
 

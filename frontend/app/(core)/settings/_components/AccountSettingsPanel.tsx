@@ -11,6 +11,7 @@ import { buildLoginHref } from '@/lib/auth-entry-href';
 import { maskAccountPhone, normalizeAccountEmail } from '@/lib/account-identity';
 import { useThemePreference, type ThemePreference } from '@/hooks/useThemePreference';
 import { useAccountNameForm } from '../_hooks/useAccountNameForm';
+import { useAccountContactEmail } from '../_hooks/useAccountContactEmail';
 
 export type AccountSettingsCopy = {
   title: string;
@@ -19,6 +20,7 @@ export type AccountSettingsCopy = {
     name: { label: string; placeholder: string; help: string };
     email: { label: string; placeholder: string; readOnly: string };
     phone: { label: string; readOnly: string };
+    contactEmail: { label: string; readOnly: string };
     locale: { label: string; description: string };
     theme: { label: string; description: string; options: Record<ThemePreference, string> };
   };
@@ -37,6 +39,8 @@ export function AccountSettingsPanel({ user, copy }: { user: User | null; copy: 
   // Phone sign-up accounts have no email: show their masked number instead of an empty email field.
   const accountEmail = normalizeAccountEmail(user?.email);
   const maskedPhone = accountEmail ? null : maskAccountPhone(user?.phone);
+  // Phone-only accounts may also have given a contact email for product notices (read-only here).
+  const contactEmail = useAccountContactEmail(Boolean(maskedPhone), user?.id);
 
   const messages = { required: copy.validation.required, tooLong: copy.validation.tooLong, generic: copy.status.genericError, success: copy.status.success };
 
@@ -68,6 +72,13 @@ export function AccountSettingsPanel({ user, copy }: { user: User | null; copy: 
             <span className="mt-1.5 block text-xs text-text-muted">{copy.fields.email.readOnly}</span>
           </label>
           )}
+          {maskedPhone && contactEmail ? (
+          <label className="text-sm" htmlFor="settings-account-contact-email">
+            <span className="mb-1.5 block font-medium text-text-primary">{copy.fields.contactEmail.label}</span>
+            <input id="settings-account-contact-email" type="email" className="!min-h-11 w-full rounded-input border border-border bg-surface-2 px-3 py-2 text-text-secondary" value={contactEmail} readOnly />
+            <span className="mt-1.5 block text-xs text-text-muted">{copy.fields.contactEmail.readOnly}</span>
+          </label>
+          ) : null}
         </div> : (
           <div className="rounded-input border border-border bg-bg p-4">
             <p className="text-sm text-text-secondary">{copy.guest.description}</p>

@@ -37,6 +37,7 @@ export function LoginPhoneAuthPanel({ authCopy, mode, phone, isAuthReady, legalM
   };
   const phoneError = message('phoneRequired') ?? message('phoneInvalid');
   const codeError = message('codeRequired');
+  const contactEmailError = phone.contact.error ? copy.validation[phone.contact.error] : undefined;
   const termsError = message('termsRequired');
   const ageError = message('ageRequired');
   const codeSent = Boolean(phone.codeSentTo);
@@ -59,6 +60,35 @@ export function LoginPhoneAuthPanel({ authCopy, mode, phone, isAuthReady, legalM
         disabled={phone.isBusy}
         onChange={phone.onPhoneChange}
       />
+
+      {isSignup ? (
+        <div className="block text-sm">
+          <label htmlFor="auth-contact-email" className="mb-1 block text-text-secondary">
+            {copy.fields.contactEmail}
+          </label>
+          <Input
+            id="auth-contact-email"
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            name="contactEmail"
+            maxLength={254}
+            required
+            ref={phone.contact.emailRef}
+            value={phone.contact.email}
+            disabled={phone.isBusy}
+            onChange={(event) => phone.contact.onEmailChange(event.target.value)}
+            placeholder={copy.placeholders.contactEmail}
+            aria-invalid={Boolean(contactEmailError)}
+            aria-describedby={contactEmailError ? 'auth-contact-email-error' : undefined}
+          />
+          {contactEmailError ? (
+            <p id="auth-contact-email-error" className="mt-1 text-xs text-state-warning">
+              {contactEmailError}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
 
       {codeSent ? (
         <div className="block text-sm">
@@ -149,6 +179,17 @@ export function LoginPhoneAuthPanel({ authCopy, mode, phone, isAuthReady, legalM
           <p id="auth-phone-age-error" className="pl-6 text-xs text-state-warning">
             {ageError}
           </p>
+        ) : null}
+        {isSignup ? (
+          <label className="flex items-start gap-2">
+            <input
+              type="checkbox"
+              checked={phone.contact.marketingOptIn}
+              onChange={(event) => phone.contact.setMarketingOptIn(event.target.checked)}
+              className="mt-0.5 h-4 min-h-0 w-4 rounded border-border text-brand focus:ring-ring"
+            />
+            <span>{authCopy.terms.marketing}</span>
+          </label>
         ) : null}
       </div>
 

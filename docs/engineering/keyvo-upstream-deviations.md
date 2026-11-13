@@ -211,3 +211,36 @@ Run `node scripts/report-upstream-deviations.mjs` after merging a new upstream s
 ## Phone sign-up records the Cookie Policy (2026-11-13)
 
 Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorded by the cookie banner, so a new account saw the re-consent prompt immediately. Keyvo's phone sign-up sentence now names all three documents and sends `cookiesAccepted: true` to `/api/legal/consents`, which then also records the `cookies` document at its current version. The email sign-up request is unchanged. Guard: `tests/phone-signup-cookie-consent.test.ts`.
+
+## Phone sign-up contact email, not verified (2026-11-13, behind the phone flag)
+
+Phone sign-up asks for an email address for later product and marketing mail. It is **not verified** (no confirmation
+mail, no verification step) and it is **not the login email**: the phone stays the only sign-in identifier.
+
+- **Stored only in our database:** `profiles.contact_email` and `profiles.contact_email_at`, added by
+  `neon/migrations/98_profile_contact_email.sql` (nullable, `add column if not exists`, length check 3–254, re-runnable).
+  Apply it before the website that writes the column is deployed.
+- **Never sent to GoTrue:** `updateUser({ email })` is not called, and no `email` is passed to `signInWithOtp` or
+  `verifyOtp`. The GoTrue email path is blocked for sign-up at the gateway and an auth email change would trigger
+  confirmation mail. Guard: `tests/contact-email-surfaces.test.ts`, `tests/login-phone-auth.test.ts`.
+- **Write path:** `POST /api/account/contact-email` (`frontend/app/api/account/contact-email/route.ts`, owner from
+  `getRouteAuthContext`, never from the body, idempotent upsert via `frontend/server/contact-email.ts`). `GET` returns the
+  caller's own value for settings. Validation is shared in `frontend/lib/contact-email.ts`.
+- **Failure policy:** the save runs right after the SMS code verifies. If it fails (or no address was given), the account
+  is not blocked: the password step shows the field again, prefilled, and saves the address before `updateUser({ password })`.
+  The retry is unbounded and the password is never set while the address is owed; a persistent route outage therefore
+  keeps the user on that step until it succeeds.
+- **Marketing choice:** the unchecked "product update mail" box is recorded through `/api/legal/consents` as
+  `marketingOptIn` (true or false). Only the 注册 tab offers it. An existing account reached through the 注册 tab keeps
+  its address but its marketing choice is not recorded (consents are only written for new accounts, as before); change it in
+  settings.
+- **Reads:** DSAR export (`user.contactEmail`), admin user detail (read-only "Contact email (not verified)"), admin marketing
+  opt-in export (falls back to `contact_email` for phone-only opted-in users), settings (read-only row for phone-only
+  accounts, labelled as not the sign-in email). `getProfileSnapshot` deliberately does not read the column, so the
+  opt-in readers keep working if the migration is late.
+- **Open items (owner):** privacy policy must name the collection, purpose, storage and withdrawal (legal copy, not code).
+  Account erasure has no job that clears `contact_email` yet; the request route only marks the profile. The contact email
+  is kept with the profile until erasure exists.
+- **Paths:** `frontend/lib/contact-email.ts`, `frontend/server/contact-email.ts`,
+  `frontend/app/api/account/contact-email/route.ts`, `frontend/app/(core)/login/_hooks/useLoginPhoneContactEmail.ts`,
+  `frontend/app/(core)/settings/_hooks/useAccountContactEmail.ts`, `neon/migrations/98_profile_contact_email.sql`.

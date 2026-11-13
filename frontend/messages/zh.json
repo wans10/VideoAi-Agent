@@ -4529,6 +4529,10 @@
               "dark": "深色",
               "system": "跟随系统"
             }
+          },
+          "contactEmail": {
+            "label": "联系邮箱",
+            "readOnly": "仅用于产品通知，不是登录邮箱。"
           }
         },
         "actions": {
@@ -7252,11 +7256,13 @@
       "emailSigninFailed": "邮箱或密码不正确。新用户请返回使用手机号注册。",
       "fields": {
         "phone": "手机号",
-        "code": "短信验证码"
+        "code": "短信验证码",
+        "contactEmail": "电子邮箱"
       },
       "placeholders": {
         "phone": "11 位手机号",
-        "code": "6 位数字验证码"
+        "code": "6 位数字验证码",
+        "contactEmail": "name@example.com"
       },
       "hint": "仅支持中国大陆手机号。",
       "actions": {
@@ -7270,7 +7276,9 @@
       "validation": {
         "phoneRequired": "请输入手机号。",
         "phoneInvalid": "请输入有效的中国大陆手机号（11 位，以 1 开头）。",
-        "codeRequired": "请输入 6 位数字短信验证码。"
+        "codeRequired": "请输入 6 位数字短信验证码。",
+        "contactEmailRequired": "请输入电子邮箱。",
+        "contactEmailInvalid": "请输入有效的电子邮箱地址。"
       },
       "feedback": {
         "sending": "正在发送验证码…",
@@ -7296,7 +7304,8 @@
         "passwordSame": "新密码不能与原密码相同。",
         "passwordSessionExpired": "验证已失效，请重新获取验证码后设置密码。",
         "passwordSetupUnavailable": "暂时无法保存密码，请稍后重试。",
-        "passwordSetupRateLimited": "操作过于频繁，请稍后再试。"
+        "passwordSetupRateLimited": "操作过于频繁，请稍后再试。",
+        "contactEmailSaveFailed": "电子邮箱暂未保存，请检查后重试。"
       },
       "passwordSignin": {
         "submit": "登录",

@@ -4488,6 +4488,10 @@
               "dark": "Dark",
               "system": "System"
             }
+          },
+          "contactEmail": {
+            "label": "Contact email",
+            "readOnly": "For product notices only. It is not your sign-in email."
           }
         },
         "actions": {
@@ -7023,11 +7027,13 @@
       "emailSigninFailed": "Incorrect email or password. New users sign up with a phone number.",
       "fields": {
         "phone": "Mobile number",
-        "code": "SMS code"
+        "code": "SMS code",
+        "contactEmail": "Email address"
       },
       "placeholders": {
         "phone": "11-digit mobile number",
-        "code": "6-digit code"
+        "code": "6-digit code",
+        "contactEmail": "name@example.com"
       },
       "hint": "Mainland China mobile numbers only.",
       "actions": {
@@ -7041,7 +7047,9 @@
       "validation": {
         "phoneRequired": "Enter your mobile number.",
         "phoneInvalid": "Enter a valid mainland China mobile number (11 digits starting with 1).",
-        "codeRequired": "Enter the 6-digit SMS code."
+        "codeRequired": "Enter the 6-digit SMS code.",
+        "contactEmailRequired": "Enter your email address.",
+        "contactEmailInvalid": "Enter a valid email address."
       },
       "feedback": {
         "sending": "Sending code…",
@@ -7067,7 +7075,8 @@
         "passwordSame": "The new password must be different from your previous password.",
         "passwordSessionExpired": "Your verification has expired. Request a new SMS code to set a password.",
         "passwordSetupUnavailable": "The password could not be saved. Please try again.",
-        "passwordSetupRateLimited": "Too many attempts. Please try again later."
+        "passwordSetupRateLimited": "Too many attempts. Please try again later.",
+        "contactEmailSaveFailed": "We could not save your email address. Check it and try again."
       },
       "passwordSignin": {
         "submit": "Sign in",

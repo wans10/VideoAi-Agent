@@ -4498,6 +4498,10 @@
               "dark": "Sombre",
               "system": "Système"
             }
+          },
+          "contactEmail": {
+            "label": "E-mail de contact",
+            "readOnly": "Utilisé uniquement pour les notifications produit. Ce n’est pas votre e-mail de connexion."
           }
         },
         "actions": {
@@ -7033,11 +7037,13 @@
       "emailSigninFailed": "E-mail ou mot de passe incorrect. Les nouveaux utilisateurs s’inscrivent avec un numéro de téléphone.",
       "fields": {
         "phone": "Numéro de mobile",
-        "code": "Code SMS"
+        "code": "Code SMS",
+        "contactEmail": "Adresse e-mail"
       },
       "placeholders": {
         "phone": "Numéro à 11 chiffres",
-        "code": "Code à 6 chiffres"
+        "code": "Code à 6 chiffres",
+        "contactEmail": "nom@exemple.com"
       },
       "hint": "Numéros mobiles de Chine continentale uniquement.",
       "actions": {
@@ -7051,7 +7057,9 @@
       "validation": {
         "phoneRequired": "Saisissez votre numéro de mobile.",
         "phoneInvalid": "Saisissez un numéro de Chine continentale valide (11 chiffres commençant par 1).",
-        "codeRequired": "Saisissez le code SMS à 6 chiffres."
+        "codeRequired": "Saisissez le code SMS à 6 chiffres.",
+        "contactEmailRequired": "Saisissez votre adresse e-mail.",
+        "contactEmailInvalid": "Saisissez une adresse e-mail valide."
       },
       "feedback": {
         "sending": "Envoi du code…",
@@ -7077,7 +7085,8 @@
         "passwordSame": "Le nouveau mot de passe doit être différent de l’ancien.",
         "passwordSessionExpired": "La vérification a expiré. Demandez un nouveau code SMS pour définir un mot de passe.",
         "passwordSetupUnavailable": "Le mot de passe n’a pas pu être enregistré. Réessayez.",
-        "passwordSetupRateLimited": "Trop de tentatives. Réessayez plus tard."
+        "passwordSetupRateLimited": "Trop de tentatives. Réessayez plus tard.",
+        "contactEmailSaveFailed": "Nous n’avons pas pu enregistrer votre adresse e-mail. Vérifiez-la puis réessayez."
       },
       "passwordSignin": {
         "submit": "Se connecter",

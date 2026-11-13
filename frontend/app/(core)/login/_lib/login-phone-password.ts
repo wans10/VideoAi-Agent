@@ -6,13 +6,22 @@
  * ../_hooks/useLoginPhonePasswordSignIn.ts, ../_hooks/useLoginPhonePasswordSetup.ts and
  * ../_hooks/useLoginPhoneAuth.ts; the forms are in ../_components/LoginPhone*.tsx.
  */
+import { CONTACT_EMAIL_MAX_LENGTH } from '@/lib/contact-email';
 import { describeAuthError, isValidMainlandMobile } from './login-phone';
 
 export const PHONE_PASSWORD_SETUP_STORAGE_KEY = 'keyvo-login-phone-password-setup';
 /** A verified session that never finished setting a password is dropped after this long. */
 export const PHONE_PASSWORD_SETUP_MAX_AGE_MS = 60 * 60 * 1000;
 
-export type PhonePasswordSetupState = { phone: string; newAccount: boolean; verifiedAt: number };
+export type PhonePasswordSetupState = {
+  phone: string;
+  newAccount: boolean;
+  verifiedAt: number;
+  /** The contact email still has to be saved on this step (the save failed, or none was given). */
+  contactEmailPending?: boolean;
+  /** The typed contact email to prefill on the password step. */
+  contactEmailDraft?: string;
+};
 
 export type PhoneSignInErrorKind = 'invalidCredentials' | 'rateLimited' | 'unavailable';
 export type PhoneSetPasswordErrorKind = 'weak' | 'same' | 'sessionExpired' | 'rateLimited' | 'unavailable';
@@ -62,7 +71,13 @@ export function readPhonePasswordSetupState(storage: StorageLike | null | undefi
       storage.removeItem(PHONE_PASSWORD_SETUP_STORAGE_KEY);
       return null;
     }
-    return { phone: parsed.phone, newAccount: parsed.newAccount, verifiedAt: parsed.verifiedAt };
+    return {
+      phone: parsed.phone,
+      newAccount: parsed.newAccount,
+      verifiedAt: parsed.verifiedAt,
+      ...(parsed.contactEmailPending === true ? { contactEmailPending: true } : {}),
+      ...(typeof parsed.contactEmailDraft === 'string' ? { contactEmailDraft: parsed.contactEmailDraft.slice(0, CONTACT_EMAIL_MAX_LENGTH) } : {}),
+    };
   } catch {
     try {
       storage.removeItem(PHONE_PASSWORD_SETUP_STORAGE_KEY);

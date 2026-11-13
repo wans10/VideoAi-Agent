@@ -1,4 +1,5 @@
 import { query } from '@/lib/db';
+import { readProfileContactEmail } from '@/server/contact-email';
 import { getProfileSnapshot, type ProfileSnapshot } from '@/server/profile';
 import { getUserIdentity } from '@/server/supabase-admin';
 
@@ -44,6 +45,8 @@ export type DsraExportPayload = {
     email: string | null;
     /** The account's own phone number (phone sign-up); exported unmasked to its owner. */
     phone: string | null;
+    /** Phone sign-up contact email (not verified, not the login email); null when never given. */
+    contactEmail: string | null;
     fullName: string | null;
     profile: ReturnType<typeof mapProfile> | null;
     preferences: PreferenceRow | null;
@@ -84,7 +87,7 @@ function mapProfile(profile: ProfileSnapshot | null): {
 }
 
 export async function buildDsarPayload(userId: string): Promise<DsraExportPayload> {
-  const [profile, preferencesRows, receipts, consents, identity] = await Promise.all([
+  const [profile, preferencesRows, receipts, consents, identity, contactEmail] = await Promise.all([
     getProfileSnapshot(userId),
     query<PreferenceRow>(
       `SELECT default_share_public, default_allow_index, onboarding_done, updated_at
@@ -110,6 +113,7 @@ export async function buildDsarPayload(userId: string): Promise<DsraExportPayloa
       [userId]
     ),
     getUserIdentity(userId),
+    readProfileContactEmail(userId),
   ]);
 
   return {
@@ -118,6 +122,7 @@ export async function buildDsarPayload(userId: string): Promise<DsraExportPayloa
       id: userId,
       email: identity?.email ?? null,
       phone: identity?.phone ?? null,
+      contactEmail,
       fullName: identity?.fullName ?? null,
       profile: mapProfile(profile),
       preferences: preferencesRows[0] ?? null,

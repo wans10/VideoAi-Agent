@@ -133,7 +133,7 @@ const boundaries = {
 
 const bundle = bundleClientFlow(`import React,{act}from'react';import{createRoot}from'react-dom/client';import{useLoginPageController}from'./app/(core)/login/_hooks/useLoginPageController';import{LoginAuthSurface}from'./app/(core)/login/_components/LoginAuthSurface';import{I18nProvider}from'@/lib/i18n/I18nProvider';window.IS_REACT_ACT_ENVIRONMENT=true;function Page(){const state=useLoginPageController({initialMode:window.mode,initialLocale:'zh',initialMcpConnection:false});window.controller=state;return <I18nProvider locale="zh" dictionary={{}} fallback={{}}><LoginAuthSurface {...state} isMcpStaging={false}/></I18nProvider>;}const root=createRoot(document.getElementById('root'));window.fx={act,render:()=>root.render(<Page/>),unmount:()=>root.unmount()};`, boundaries);
 
-async function mount({ enabled = true, mode = 'signin', stored, setup }: { enabled?: boolean; mode?: string; stored?: object; setup?: object } = {}) {
+async function mount({ enabled = true, mode = 'signin', stored, setup, contactEmailFails = false }: { enabled?: boolean; mode?: string; stored?: object; setup?: object; contactEmailFails?: boolean } = {}) {
   const dom = createClientFlowDom('/login');
   const w = dom.window as any;
   if (enabled) w.process.env.NEXT_PUBLIC_PHONE_LOGIN_ENABLED = 'true';
@@ -153,9 +153,16 @@ async function mount({ enabled = true, mode = 'signin', stored, setup }: { enabl
     updateUser: (input: any) => { const reply = deferred<any>(); updates.push({ input, reply }); return reply.promise; },
     signUp: (input: any) => { signUps.push(input); return new Promise(() => {}); },
     signOut: async (options: any) => { signOuts.push(options); return { error: null }; },
+    getSession: async () => ({ data: { session: { access_token: 'synthetic-session' } }, error: null }),
   } };
+  // consents: every POST the flow makes (legal consents first, then the contact email).
+  const contactFlags = { fail: contactEmailFails };
   w.mode = mode; w.loadClient = async () => client;
-  w.fetch = async (url: string, init: any) => { consents.push({ url, body: JSON.parse(init.body) }); return { ok: true, json: async () => ({ ok: true }) }; };
+  w.fetch = async (url: string, init: any) => {
+    consents.push({ url, body: JSON.parse(init.body) });
+    if (url === '/api/account/contact-email' && contactFlags.fail) return { ok: false, status: 500, json: async () => ({ ok: false, error: 'save_failed' }) };
+    return { ok: true, json: async () => ({ ok: true }) };
+  };
   w.eval(await bundle);
   await w.fx.act(async () => w.fx.render());
   const $ = (selector: string) => w.document.querySelector(selector);
@@ -177,7 +184,8 @@ async function mount({ enabled = true, mode = 'signin', stored, setup }: { enabl
     await type('#auth-new-password-confirm', confirm);
     await submit('[data-testid=phone-password-setup-form]');
   };
-  return { w, $, text, alerts, act, flush, type, methodButton, button, submit, consent, setPassword, sends, verifies, passwords, updates, signOuts, signUps, consents,
+  const posts = (url: string) => consents.filter((post) => post.url === url);
+  return { w, $, text, alerts, act, flush, type, methodButton, button, submit, consent, setPassword, sends, verifies, passwords, updates, signOuts, signUps, consents, posts, contactFlags,
     async dispose() { await w.fx.act(async () => w.fx.unmount()); w.close(); } };
 }
 
@@ -362,9 +370,9 @@ test('wrong codes count down the attempts; a verified code opens the required pa
   } finally { await f.dispose(); }
 });
 
-test('a new phone account records sign-up consents, sets a password, and only then completes sign-up', async () => {
+test('a new phone account records sign-up consents, saves the contact email, sets a password, and only then completes sign-up', async () => {
   const now = Date.now();
-  const f = await mount({ mode: 'signup', stored: { phone: '13912345678', sentAt: now - 5_000, cooldownUntil: now + 55_000 } });
+  const f = await mount({ mode: 'signup', stored: { phone: '13912345678', sentAt: now - 5_000, cooldownUntil: now + 55_000, contactEmail: 'Member.One@Example.com' } });
   try {
     assert.equal(f.w.controller.phoneAuth.step, 'code', 'a pending code restores the code step, not password sign-in');
     await f.consent();
@@ -372,8 +380,10 @@ test('a new phone account records sign-up consents, sets a password, and only th
     await f.submit();
     const user = { id: 'synthetic-new-user', created_at: new Date(now - 6_000).toISOString(), app_metadata: {} };
     await f.act(() => f.verifies[0].reply.resolve({ data: { session: { access_token: 'synthetic', user }, user }, error: null }));
-    assert.equal(f.consents.length, 1);
-    assert.deepEqual(f.consents[0], { url: '/api/legal/consents', body: { userId: 'synthetic-new-user', ageConfirmed: true, cookiesAccepted: true, locale: 'zh', source: 'signup' } });
+    await f.flush();
+    assert.equal(f.consents.length, 2, 'sign-up consents, then the contact email');
+    assert.deepEqual(f.consents[0], { url: '/api/legal/consents', body: { userId: 'synthetic-new-user', ageConfirmed: true, cookiesAccepted: true, marketingOptIn: false, locale: 'zh', source: 'signup' } });
+    assert.deepEqual(f.consents[1], { url: '/api/account/contact-email', body: { email: 'member.one@example.com' } });
     assert.equal(f.w.redirectedTo, undefined, 'sign-up is not complete until a password is set');
     assert.equal(f.w.controller.phoneAuth.step, 'setPassword');
     assert.ok(!(f.w.events ?? []).includes('sign_up_completed:phone'));
@@ -617,6 +627,7 @@ test('注册 tab: the terms and age checkboxes gate the SMS, and the verified co
   const f = await mount({ mode: 'signup' });
   try {
     await f.type('#auth-phone', '13812345678');
+    await f.type('#auth-contact-email', 'new.user@example.com');
     await f.submit();
     assert.equal(f.$('#auth-phone-terms-error')!.textContent, zh.auth.validation.termsRequired);
     assert.equal(f.sends.length, 0, 'no SMS before terms and age are confirmed');
@@ -631,7 +642,9 @@ test('注册 tab: the terms and age checkboxes gate the SMS, and the verified co
     await f.submit();
     const user = { id: 'synthetic-tab-user', created_at: new Date().toISOString(), app_metadata: {} };
     await f.act(() => f.verifies[0].reply.resolve({ data: { session: { access_token: 'synthetic', user }, user }, error: null }));
-    assert.equal(f.consents.length, 1, 'sign-up consents are recorded for the new account');
+    await f.flush();
+    assert.equal(f.posts('/api/legal/consents').length, 1, 'sign-up consents are recorded for the new account');
+    assert.deepEqual(f.posts('/api/account/contact-email'), [{ url: '/api/account/contact-email', body: { email: 'new.user@example.com' } }]);
     assert.equal(f.w.controller.phoneAuth.step, 'setPassword');
     assert.equal(f.$('.videoai-auth-card h1')!.textContent, phoneCopy.passwordSetup.title);
     assert.equal(f.$('[data-testid=phone-mode-tabs]'), null, 'the password step has no tabs');
@@ -641,6 +654,100 @@ test('注册 tab: the terms and age checkboxes gate the SMS, and the verified co
     assert.equal(f.w.redirectedTo, REDIRECT_TARGET);
     assert.ok(f.w.events.includes('sign_up_completed:phone'));
   } finally { await f.dispose(); }
+});
+
+test('注册 tab: the contact email is required and validated before the SMS, never reaches GoTrue, and marketing starts unchecked', async () => {
+  const f = await mount({ mode: 'signup' });
+  try {
+    await f.type('#auth-phone', '13812345678');
+    await f.consent();
+    await f.submit();
+    assert.equal(f.$('#auth-contact-email-error')!.textContent, phoneCopy.validation.contactEmailRequired);
+    assert.equal(f.sends.length, 0, 'no SMS without a contact email');
+    await f.type('#auth-contact-email', 'not-an-email');
+    await f.submit();
+    assert.equal(f.$('#auth-contact-email-error')!.textContent, phoneCopy.validation.contactEmailInvalid);
+    assert.equal(f.sends.length, 0, 'no SMS for an invalid contact email');
+    await f.type('#auth-contact-email', 'Member.One@Example.com ');
+    assert.equal(f.$('#auth-contact-email-error'), null, 'typing clears the error');
+    assert.equal(f.$('#auth-contact-email')!.getAttribute('type'), 'email');
+    const emailBlock = f.$('#auth-contact-email')!.parentElement!;
+    assert.equal(emailBlock.querySelectorAll('p').length, 0, 'the email field carries no helper text');
+    const boxes = f.$('[data-testid=phone-auth-form]')!.querySelectorAll('input[type=checkbox]');
+    assert.equal(boxes.length, 3, 'terms, age and the optional marketing box');
+    assert.equal((boxes[2] as HTMLInputElement).checked, false, 'marketing is unchecked by default');
+    assert.equal(boxes[2].closest('label')!.textContent, zh.auth.terms.marketing);
+    await f.submit();
+    assert.equal(f.sends.length, 1);
+    assert.deepEqual(JSON.parse(JSON.stringify(f.sends[0].input)), { phone: '+8613812345678', options: { shouldCreateUser: true, data: { locale: 'zh' } } }, 'the contact email is not passed to GoTrue');
+  } finally { await f.dispose(); }
+});
+
+test('注册 tab: the marketing choice is recorded as given, and the email still goes to our own profile only', async () => {
+  const f = await mount({ mode: 'signup' });
+  try {
+    await f.type('#auth-phone', '13812345678');
+    await f.type('#auth-contact-email', 'new.user@example.com');
+    await f.consent();
+    const boxes = f.$('[data-testid=phone-auth-form]')!.querySelectorAll('input[type=checkbox]');
+    await f.act(() => { (boxes[2] as HTMLInputElement).click(); });
+    await f.submit();
+    await f.act(() => f.sends[0].reply.resolve({ data: {}, error: null }));
+    await f.type('#auth-otp', '123456');
+    await f.submit();
+    const user = { id: 'synthetic-marketing-user', created_at: new Date().toISOString(), app_metadata: {} };
+    await f.act(() => f.verifies[0].reply.resolve({ data: { session: { access_token: 'synthetic', user }, user }, error: null }));
+    await f.flush();
+    assert.equal(f.posts('/api/legal/consents')[0].body.marketingOptIn, true);
+    assert.deepEqual(JSON.parse(JSON.stringify(f.verifies[0].input)), { phone: '+8613812345678', token: '123456', type: 'sms' }, 'verifyOtp carries no email');
+  } finally { await f.dispose(); }
+});
+
+test('a contact email that fails to save is owed on the password step, is kept, and is saved before the password', async () => {
+  const now = Date.now();
+  const f = await mount({ mode: 'signup', contactEmailFails: true, stored: { phone: '13912345678', sentAt: now - 5_000, cooldownUntil: now + 55_000, contactEmail: 'member.one@example.com' } });
+  try {
+    await f.consent();
+    await f.type('#auth-otp', '123456');
+    await f.submit();
+    const user = { id: 'synthetic-pending-user', created_at: new Date(now - 6_000).toISOString(), app_metadata: {} };
+    await f.act(() => f.verifies[0].reply.resolve({ data: { session: { access_token: 'synthetic', user }, user }, error: null }));
+    await f.flush();
+    assert.equal(f.posts('/api/account/contact-email').length, 1, 'the save is attempted right after the verified code');
+    assert.equal(f.w.controller.phoneAuth.step, 'setPassword', 'a failed save does not block the sign-up');
+    assert.match(f.alerts(), new RegExp(phoneCopy.feedback.contactEmailSaveFailed), 'the failure is shown on the password step at once');
+    assert.equal((f.$('#auth-contact-email') as HTMLInputElement).value, 'member.one@example.com', 'the typed address is kept');
+
+    await f.setPassword('secret-6', 'secret-6');
+    await f.flush();
+    assert.equal(f.updates.length, 0, 'the password is not saved while the address is owed');
+    assert.match(f.alerts(), new RegExp(phoneCopy.feedback.contactEmailSaveFailed));
+
+    f.contactFlags.fail = false;
+    await f.setPassword('secret-6', 'secret-6');
+    await f.flush();
+    assert.equal(f.posts('/api/account/contact-email').length, 3, 'the failed attempt on the password step was retried once more');
+    assert.equal(f.updates.length, 1, 'the password is saved after the address');
+    assert.deepEqual(JSON.parse(JSON.stringify(f.updates[0].input)), { password: 'secret-6' }, 'updateUser carries no email');
+    assert.deepEqual(JSON.parse(JSON.stringify(f.verifies[0].input)), { phone: '+8613912345678', token: '123456', type: 'sms' }, 'verifyOtp carries no email');
+    await f.act(() => f.updates[0].reply.resolve({ data: { user }, error: null }));
+    assert.equal(f.w.redirectedTo, REDIRECT_TARGET);
+  } finally { await f.dispose(); }
+});
+
+test('a reload on the password step restores an owed contact email, and a settled one is not asked again', async () => {
+  const now = Date.now();
+  const owed = await mount({ setup: { phone: '13912345678', newAccount: true, verifiedAt: now, contactEmailPending: true, contactEmailDraft: 'member.one@example.com' } });
+  try {
+    assert.equal(owed.w.controller.phoneAuth.step, 'setPassword');
+    assert.equal((owed.$('#auth-contact-email') as HTMLInputElement).value, 'member.one@example.com');
+  } finally { await owed.dispose(); }
+
+  const settled = await mount({ setup: { phone: '13912345678', newAccount: true, verifiedAt: now } });
+  try {
+    assert.equal(settled.w.controller.phoneAuth.step, 'setPassword');
+    assert.equal(settled.$('#auth-contact-email'), null, 'no email field once the address is settled');
+  } finally { await settled.dispose(); }
 });
 
 test('phone-only sign-up copy exists in every locale', () => {

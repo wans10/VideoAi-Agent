@@ -6,6 +6,7 @@ import { getWalletSummary } from '@/server/wallet-summary';
 import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import { getSupabaseAdmin } from '@/server/supabase-admin';
 import { isUserAdmin } from '@/server/admin';
+import { readProfileContactEmail } from '@/server/contact-email';
 
 type WalletAggregateRow = {
   type: string;
@@ -59,6 +60,8 @@ export type AdminUserProfile = {
   email: string | null;
   /** Masked phone for phone sign-up accounts (they have no email). */
   phone: string | null;
+  /** Phone sign-up contact email from profiles (not verified, not the login email). Read-only. */
+  contactEmail: string | null;
   createdAt: string | null;
   lastSignInAt: string | null;
   appMetadata: Record<string, unknown> | null;
@@ -130,10 +133,17 @@ async function fetchProfile(userId: string): Promise<AdminUserProfile | null> {
     }
     const user = data.user;
     const isAdminUser = await isUserAdmin(user.id);
+    const contactEmail = hasDatabase
+      ? await readProfileContactEmail(user.id).catch((error: unknown) => {
+          console.warn('[admin-users] failed to read contact email', error);
+          return null;
+        })
+      : null;
     return {
       id: user.id,
       email: normalizeAccountEmail(user.email),
       phone: maskAccountPhone(user.phone),
+      contactEmail,
       createdAt: user.created_at ?? null,
       lastSignInAt: user.last_sign_in_at ?? null,
       appMetadata: user.app_metadata,

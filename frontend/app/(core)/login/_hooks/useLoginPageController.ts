@@ -166,6 +166,7 @@ export function useLoginPageController({
     nextPath,
     nextPathReady,
     blocked: passwordSubmission.busy || isConfirmationResending,
+    signupTab: mode === 'signup',
     completeAuthenticatedRedirect,
     authRedirectHoldRef,
     onReturnToSignIn: returnPhoneToSignInTab,

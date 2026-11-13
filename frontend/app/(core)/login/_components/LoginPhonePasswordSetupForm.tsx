@@ -2,6 +2,7 @@
 
 import { LoaderCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
 import type { AuthCopy } from '../_lib/login-copy';
 import type { LoginPhoneAuthState } from '../_hooks/useLoginPhoneAuth';
 import { LoginPasswordField } from './LoginPasswordField';
@@ -16,6 +17,8 @@ type LoginPhonePasswordSetupFormProps = {
 export function LoginPhonePasswordSetupForm({ authCopy, phone, isAuthReady }: LoginPhonePasswordSetupFormProps) {
   const copy = authCopy.phone.passwordSetup;
   const setup = phone.setup;
+  const contact = phone.contact;
+  const contactError = contact.error ? authCopy.phone.validation[contact.error] : undefined;
   const passwordError = setup.errors.password ? authCopy.validation[setup.errors.password] : undefined;
   const confirmError = setup.errors.confirm ? authCopy.validation[setup.errors.confirm] : undefined;
   const disabled = !isAuthReady || setup.isSaving;
@@ -23,6 +26,34 @@ export function LoginPhonePasswordSetupForm({ authCopy, phone, isAuthReady }: Lo
   return (
     <form method="post" noValidate onSubmit={setup.onSetupSubmit} className="stack-gap-sm" data-testid="phone-password-setup-form">
       <p className="text-xs text-text-muted">{copy.hint}</p>
+      {contact.pending ? (
+        <div className="block text-sm">
+          <label htmlFor="auth-contact-email" className="mb-1 block text-text-secondary">
+            {authCopy.phone.fields.contactEmail}
+          </label>
+          <Input
+            id="auth-contact-email"
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            name="contactEmail"
+            maxLength={254}
+            required
+            ref={contact.emailRef}
+            value={contact.email}
+            disabled={setup.isSaving}
+            onChange={(event) => contact.onEmailChange(event.target.value)}
+            placeholder={authCopy.phone.placeholders.contactEmail}
+            aria-invalid={Boolean(contactError)}
+            aria-describedby={contactError ? 'auth-contact-email-error' : undefined}
+          />
+          {contactError ? (
+            <p id="auth-contact-email-error" className="mt-1 text-xs text-state-warning">
+              {contactError}
+            </p>
+          ) : null}
+        </div>
+      ) : null}
       <LoginPasswordField
         authCopy={authCopy}
         inputId="auth-new-password"

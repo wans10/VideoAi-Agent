@@ -36,6 +36,7 @@ const DEFAULT_SETTINGS_COPY = {
       name: { label: 'Name', placeholder: 'Your name', help: '1–80 characters.' },
       email: { label: 'Email', placeholder: 'you@domain.com', readOnly: 'Email changes are managed separately.' },
       phone: { label: 'Phone number', readOnly: 'The mobile number you sign in with.' },
+      contactEmail: { label: 'Contact email', readOnly: 'For product notices only. It is not your sign-in email.' },
       locale: { label: 'Language', description: 'Interface language:' },
       theme: {
         label: 'Appearance',

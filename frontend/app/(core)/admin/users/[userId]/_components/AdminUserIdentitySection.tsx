@@ -24,6 +24,7 @@ export function AdminUserIdentitySection({ profile }: { profile: AdminUserProfil
           <dl className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
             <ProfileField label="Email">{profile.email ?? '—'}</ProfileField>
             {profile.phone ? <ProfileField label="Phone">{profile.phone}</ProfileField> : null}
+            {profile.contactEmail ? <ProfileField label="Contact email (not verified)">{profile.contactEmail}</ProfileField> : null}
             <ProfileField label="User ID">
               <span className="font-mono text-xs">{profile.id}</span>
             </ProfileField>

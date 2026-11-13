@@ -7,6 +7,7 @@ import type { AuthCopy } from '../_lib/login-copy';
 import { sanitizeNextPath } from '../_lib/login-helpers';
 import { validatePasswordSetup, type AuthFieldErrors } from '../_lib/login-validation';
 import { classifyPhoneSetPasswordError } from '../_lib/login-phone-password';
+import type { LoginPhoneContactEmailState } from './useLoginPhoneContactEmail';
 
 type UseLoginPhonePasswordSetupOptions = {
   enabled: boolean;
@@ -23,6 +24,8 @@ type UseLoginPhonePasswordSetupOptions = {
   completeAuthenticatedRedirect: (target: string, userId?: string | null) => void;
   passwordRef: RefObject<HTMLInputElement>;
   confirmRef: RefObject<HTMLInputElement>;
+  /** Contact email still owed by this step is collected and saved before the password is set. */
+  contact: LoginPhoneContactEmailState;
   setStatus: (value: string | null) => void;
   setStatusTone: (value: 'info' | 'success') => void;
   setError: (value: string | null) => void;
@@ -44,6 +47,7 @@ export function useLoginPhonePasswordSetup({
   completeAuthenticatedRedirect,
   passwordRef,
   confirmRef,
+  contact,
   setStatus,
   setStatusTone,
   setError,
@@ -78,6 +82,7 @@ export function useLoginPhonePasswordSetup({
       confirmRef.current?.focus();
       return;
     }
+    if (contact.pending && !contact.validate()) return;
     pendingRef.current = true;
     setIsSaving(true);
     setError(null);
@@ -85,6 +90,16 @@ export function useLoginPhonePasswordSetup({
     setStatus(copy.feedback.passwordSetupSaving);
     try {
       const supabase = await loadSupabaseClient();
+      if (contact.pending) {
+        // Saved before the password so a failed save keeps the step (and the typed address) for a retry.
+        const { data: sessionData } = await supabase.auth.getSession();
+        const saved = await contact.save(contact.email, sessionData.session?.access_token ?? null);
+        if (!saved) {
+          setStatus(null);
+          setError(copy.feedback.contactEmailSaveFailed);
+          return;
+        }
+      }
       const { data, error } = await supabase.auth.updateUser({ password });
       if (error) {
         const kind = classifyPhoneSetPasswordError(error);
