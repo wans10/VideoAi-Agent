@@ -97,6 +97,10 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
   `minimax-hailuo-pricing.ts`, `audio-generation.ts`) carry the official CNY list price instead of upstream's
   fal/BytePlus-international USD prices, and `official-list-pricing.ts` with the `official-list-80` profile sets the
   customer price. Upstream keeps its margin rule. Expect conflicts in these files on every sync: keep Keyvo's numbers.
+- **Character Recast** costs exactly 2 × the ordinary Wan 3 Prime customer price (owner, 2026-11-13): Recast quotes
+  use the Keyvo-only `recast-even-cents` profile (supplier cost × coefficient rounded once to even cents) and the
+  scoped database coefficient is ×1.6 (set in the admin Recast editor; the new-rule draft defaults to ×1.6). Upstream
+  uses `standard` rounding with its own coefficient; keep Keyvo's profile, draft default and tests on sync.
 - **Kling 4.0 / Flash** quote on the rule path in Keyvo (upstream requires a reviewed customer tariff).
 - **MiniMax-H3** bills reference-video seconds and images beyond five; Seedance counts input-video seconds in its
   tokens at Volcengine's "含视频" rate.

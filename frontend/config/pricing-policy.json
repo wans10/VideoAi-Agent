@@ -79,6 +79,16 @@
       "surchargeAudioPercentOverride": 0,
       "surchargeUpscalePercentOverride": 0,
       "minimumSubtotalCents": 1
+    },
+    {
+      "id": "recast-even-cents",
+      "vendorSubtotalRounding": "preserve",
+      "marginRounding": "nearest",
+      "surchargeRounding": "nearest",
+      "discountRounding": "nearest",
+      "totalRounding": "nearest",
+      "subtotalRounding": "nearest",
+      "subtotalRoundingIncrementCents": 2
     }
   ],
   "rules": [

@@ -23,7 +23,8 @@ test('Recast admin preview, concurrent confirmation and rollback preserve scoped
     process.env.DATABASE_URL = db.databaseUrl;
     invalidatePricingRulesCache();
     const dependencies = { ...DEFAULT_POLICY_SERVICE_DEPENDENCIES, loadManualTariffsActive: async () => false, revalidate: () => {} };
-    const rule = { id: 'recast-only', engineId: 'character-recast', mode: 'recast', resolution: 'video', marginPercent: 1,
+    // Keyvo 2026-11-13 owner decision: coefficient x1.6 (2 x the ordinary Wan 3 Prime price; was x2).
+    const rule = { id: 'recast-only', engineId: 'character-recast', mode: 'recast', resolution: 'video', marginPercent: 0.6,
       marginFlatCents: 0, surchargeAudioPercent: 0, surchargeUpscalePercent: 0, currency: 'USD', compatibilityProfile: 'standard' };
     const input = { modelId: 'wan-3-prime', mode: 'ref2v', resolution: '720p', durationSec: 5,
       aspectRatio: '16:9', hasVideoInput: true, inputVideoDurationSec: 3.25 };
@@ -32,8 +33,9 @@ test('Recast admin preview, concurrent confirmation and rollback preserve scoped
     const preview = await previewPricingPolicyChange(proposal, dependencies);
     const sample = preview.rows.find(row => row.scenarioId === 'admin-recast:720p:5:3.25')!;
     assert.equal(sample.currentTotalCents, null);
-    // Keyvo 2026-11-13: Wan 3 Prime facts are the Bailian list (8.25 s x 11.25 cents = 92.8125) -> x2 -> 186.
-    assert.equal(sample.proposedTotalCents, 186);
+    // Keyvo 2026-11-13: Wan 3 Prime facts are the Bailian list (8.25 s x 11.25 cents = 92.8125) -> x1.6 = 148.5 -> even
+    // cents 148 (= 2 x the ordinary 74-cent video price; was x2 -> 186).
+    assert.equal(sample.proposedTotalCents, 148);
     assert.equal((await db.pool.query('SELECT count(*) FROM app_pricing_rules')).rows[0].count, '1');
     assert.equal((await db.pool.query('SELECT count(*) FROM app_pricing_change_events')).rows[0].count, '0');
     const creation = await confirmPricingPolicyChange(proposal, preview.previewFingerprint, actor, dependencies);
@@ -62,14 +64,14 @@ test('Recast admin preview, concurrent confirmation and rollback preserve scoped
     await confirmPricingPolicyChange(rollback, restore.previewFingerprint, actor, dependencies);
     const restored = await readRecastPublicPrice(input);
     assert.ok(restored.status === 'exact');
-    assert.equal(restored.amountCents, 186);
+    assert.equal(restored.amountCents, 148);
     for (const old of beforeRollback) assert.deepEqual((await db.pool.query('SELECT * FROM app_pricing_change_events WHERE id=$1', [old.id])).rows[0], old);
     await assert.rejects(previewPricingPolicyChange({ operation: 'rollback', targetId: rule.id, eventId: creation.event.id }, dependencies), /Recast/);
 
     const failurePreview = await previewPricingPolicyChange(update, dependencies);
     await assert.rejects(confirmPricingPolicyChange(update, failurePreview.previewFingerprint, actor, { ...dependencies,
       insertEvent: async () => { throw new Error('injected audit failure'); } }));
-    assert.equal((await db.pool.query("SELECT margin_percent FROM app_pricing_rules WHERE id='recast-only'")).rows[0].margin_percent, '1');
+    assert.equal((await db.pool.query("SELECT margin_percent FROM app_pricing_rules WHERE id='recast-only'")).rows[0].margin_percent, '0.6');
     assert.equal((await db.pool.query('SELECT count(*) FROM app_pricing_change_events')).rows[0].count, '3');
     assert.equal((await db.pool.query("SELECT margin_percent FROM app_pricing_rules WHERE id='default'")).rows[0].margin_percent, '0.3');
   } finally {

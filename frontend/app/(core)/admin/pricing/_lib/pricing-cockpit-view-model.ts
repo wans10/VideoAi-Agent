@@ -321,7 +321,8 @@ export function createPricingPolicyDraft(row: PricingPolicyInventoryRow, scopeTo
   const recast = row.selector.engineId === RECAST_PRICING_SELECTOR.engineId;
   const base = recast ? (row.databaseOverride && selectorsMatch(row.databaseOverride, RECAST_PRICING_SELECTOR)
     ? row.databaseOverride : { ...RECAST_PRICING_SELECTOR, id: makeGeneratedRuleId(RECAST_PRICING_SELECTOR),
-      marginPercent: 1, marginFlatCents: 0, surchargeAudioPercent: 0, surchargeUpscalePercent: 0,
+      // Keyvo 2026-11-13 owner decision: x1.6 = exactly 2 x the ordinary Wan 3 Prime price (80% of the official list).
+      marginPercent: 0.6, marginFlatCents: 0, surchargeAudioPercent: 0, surchargeUpscalePercent: 0,
       currency: 'USD', compatibilityProfile: 'standard' }) : row.databaseOverride ?? row.versionedRule;
   if (!base) {
     throw new Error('Pricing inventory row has no policy rule');

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { recastHarness } from './helpers/character-recast-harness';
+import { recastHarness, RECAST_TEST_MARGIN_PERCENT } from './helpers/character-recast-harness';
 import { MCP_QUOTE_LIFETIME_SECONDS } from '../frontend/src/server/agent-api/quote-repository';
 import { confirmRecast } from '../frontend/server/character-studio/recast';
 import { runAlibabaModelStudioPoll } from '../frontend/server/alibaba-model-studio-poll';
@@ -35,21 +35,22 @@ test('Recast payment rejects invalid approvals and recovers accepted work withou
     await assert.rejects(f.confirm(expired), { code: 'QUOTE_EXPIRED' });
     await empty(expired.quoteId);
     const stale = await f.prepare();
-    await f.setRecastMargin(1.5);
+    await f.setRecastMargin(1);
     await assert.rejects(f.confirm(stale), { code: 'QUOTE_EXPIRED' });
     await empty(stale.quoteId);
     const refreshed = await f.prepare();
     // Keyvo 2026-11-13: Wan 3 Prime 720p supplier facts are the Bailian list (CNY 0.9/s = 11.25 cents/s), so the
-    // 8 s Recast is 90 supplier cents x 2 (was 112 x 2 = 224); the product multiplier logic is unchanged.
-    assert.equal(stale.amountCents, 180);
-    assert.equal(refreshed.amountCents, 225);
-    await f.setRecastMargin(1);
+    // 8 s Recast is 90 supplier cents x 1.6 = 144 = 2 x the ordinary 72-cent video price (owner decision; was
+    // 112 x 2 = 224); changing the coefficient to x2 requotes 180.
+    assert.equal(stale.amountCents, 144);
+    assert.equal(refreshed.amountCents, 180);
+    await f.setRecastMargin(RECAST_TEST_MARGIN_PERCENT);
   });
   await t.test('a model tariff revision cannot alter the independent Recast reservation', async () => {
     const q = await f.prepare();
     await f.pg.pool.query('UPDATE app_customer_tariff_state SET revision=revision+1');
     await f.confirm(q);
-    assert.equal((await f.receipts(q.quoteId))[0].amount_cents, 180);
+    assert.equal((await f.receipts(q.quoteId))[0].amount_cents, 144);
   });
   await t.test('missing scoped rule and database policy failure never fall back to model retail', async () => {
     const estimateInput = { modelId: 'wan-3-prime', mode: 'i2v' as const,
@@ -67,7 +68,7 @@ test('Recast payment rejects invalid approvals and recovers accepted work withou
         assert.equal((await f.pg.pool.query('SELECT count(*)::int AS n FROM mcp_generation_quotes')).rows[0].n, quoteCount);
       } finally {
         if (failure === 'unavailable') await f.pg.pool.query('ALTER TABLE temporarily_unavailable_pricing_rules RENAME TO app_pricing_rules');
-        await f.setRecastMargin(1);
+        await f.setRecastMargin(RECAST_TEST_MARGIN_PERCENT);
       }
     }
   });
@@ -84,7 +85,7 @@ test('Recast payment rejects invalid approvals and recovers accepted work withou
     }
     assert.equal((await f.pg.pool.query('SELECT count(*)::int AS n FROM mcp_generation_quotes')).rows[0].n, before);
     const ordinary = await service.prepare(request);
-    assert.notEqual(ordinary.price.amountCents, 180);
+    assert.notEqual(ordinary.price.amountCents, 144);
     const stored = (await f.pg.pool.query('SELECT pricing_snapshot FROM mcp_generation_quotes WHERE quote_id=$1', [ordinary.quoteId])).rows[0].pricing_snapshot;
     assert.equal(stored.canonicalPricing.meta.customerProduct, undefined);
   });
@@ -97,7 +98,7 @@ test('Recast payment rejects invalid approvals and recovers accepted work withou
     await assert.rejects(f.confirm(legacy), { code: 'QUOTE_EXPIRED' });
     await empty(legacy.quoteId);
     const refreshed = await f.prepare({ video: f.video, audio: f.audio });
-    assert.equal(refreshed.amountCents, 349);
+    assert.equal(refreshed.amountCents, 280);
     const after = (await f.pg.pool.query('SELECT request_hash, request_json, pricing_snapshot FROM mcp_generation_quotes WHERE quote_id=$1', [legacy.quoteId])).rows[0];
     assert.deepEqual(after, original, 'Requoting must not rewrite the historical request hash, references or price');
   });
@@ -131,7 +132,7 @@ test('Recast payment rejects invalid approvals and recovers accepted work withou
       assert.deepEqual(after, original);
       assert.equal((await f.confirm(legacy)).jobId, legacy.quoteId);
       assert.equal(f.provider.calls(legacy.quoteId), 1);
-    } finally { await f.setRecastMargin(1); }
+    } finally { await f.setRecastMargin(RECAST_TEST_MARGIN_PERCENT); }
   });
   await t.test(
     'funds disappearing after review roll back the job and receipt; topup allows the same quote',
@@ -171,10 +172,11 @@ test('Recast payment rejects invalid approvals and recovers accepted work withou
         assert.equal(recovered.jobId, q.quoteId);
         assert.equal(f.provider.calls(q.quoteId), 1);
         assert.deepEqual(await f.receipts(q.quoteId), [originalCharge]);
-        // Keyvo 2026-11-13: (8 + 7.5) s x 11.25 cents = 174.375 supplier cents x 2 (was 217 x 2 = 434).
-        assert.equal(originalCharge.amount_cents, 349);
-        assert.equal(originalCharge.pricing_snapshot.meta.providerCostMultiplier, 2);
-      } finally { await f.setRecastMargin(1); }
+        // Keyvo 2026-11-13: (8 + 7.5) s x 11.25 cents = 174.375 supplier cents x 1.6 = 279, rounded to even cents
+        // 280 = 2 x the ordinary 140-cent video price (owner decision; was x2 -> 349, before that 434).
+        assert.equal(originalCharge.amount_cents, 280);
+        assert.equal(originalCharge.pricing_snapshot.meta.providerCostMultiplier, 1.6);
+      } finally { await f.setRecastMargin(RECAST_TEST_MARGIN_PERCENT); }
     },
   );
   await t.test('terminal provider rejection refunds exactly once', async () => {

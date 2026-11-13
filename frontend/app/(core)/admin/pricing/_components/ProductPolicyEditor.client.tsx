@@ -38,13 +38,13 @@ export function ProductPolicyEditor({ row, draft, locked, busy, onChange, onPrev
       </AdminActionButton>
     </div>
     <p className="text-xs text-text-secondary">{recast
-      ? 'Customer price uses provider cost × coefficient, with canonical cent rounding. ×2 corresponds to 100% markup and approximately 50% gross margin. Source and output seconds both contribute when a source video is used. This policy applies only to Recast.'
+      ? 'Customer price uses provider cost × coefficient, rounded once to an even number of cents. ×1.6 is exactly twice the ordinary Wan 3 Prime price (80% of the official list); ×2 corresponds to 100% markup and approximately 50% gross margin. Source and output seconds both contribute when a source video is used. This policy applies only to Recast.'
       : 'Markup applies to the supplier cost; gross margin is the share of the customer price. Rounding and minimums remain in the billing calculation. Preview all affected variants before confirming.'}</p>
     <details className="rounded-md border border-border bg-surface p-2 text-xs">
       <summary className="cursor-pointer font-semibold">Scope, extras and current source</summary>
       <p className="my-2 break-all font-mono">{draft.id} · {draft.mode || 'all modes'} · {draft.resolution || 'all tiers'} · {draft.compatibilityProfile}</p>
       <p className="mb-2 text-text-secondary">Current source: {row.effectiveProvenance?.sourceRuleId ?? (recast ? 'Unavailable — configure a scoped rule' : 'versioned policy')}. This editor preserves the selected scope.</p>
-      {recast ? <p>USD · standard billing · no flat fee or audio/upscale surcharge.</p>
+      {recast ? <p>USD · even-cent Recast rounding · no flat fee or audio/upscale surcharge.</p>
         : <div className="flex flex-wrap gap-3">{field('surchargeAudioPercent', 'Audio surcharge (%)')}{field('surchargeUpscalePercent', 'Upscale surcharge (%)')}</div>}
     </details>
   </div>;

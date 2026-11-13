@@ -6,8 +6,9 @@ import { readRecastPublicPrice } from '../frontend/server/character-studio/recas
 import type { PublicModelQuoteInput } from '../frontend/lib/pricing-public-model-contract';
 
 test('pricing page examples use the same current scoped Recast quote for each duration and resolution', async () => {
-  // Keyvo 2026-11-13: Wan 3 Prime supplier facts are the Bailian list (CNY 0.45/0.9/1.8 per second).
-  for (const [multiplier, expected] of [[2, ['$1.36', '$2.70', '$6.76', '$13.50']], [2.5, ['$1.70', '$3.38', '$8.45', '$16.88']]] as const) {
+  // Keyvo 2026-11-13: Wan 3 Prime supplier facts are the Bailian list (CNY 0.45/0.9/1.8 per second). The owner's
+  // coefficient x1.6 is exactly 2 x the ordinary video price (80% of list); Recast rounds once to even cents.
+  for (const [multiplier, expected] of [[1.6, ['$1.08', '$2.16', '$5.40', '$10.80']], [2, ['$1.36', '$2.70', '$6.76', '$13.50']]] as const) {
     const calls: PublicModelQuoteInput[] = [];
     const data = await buildCurrentOtherPricing({ imageRows: [], audioRows: [], toolRows: [] }, 'en', {
       audio: async () => { throw new Error('not used'); }, product: async () => { throw new Error('not used'); },
@@ -15,7 +16,7 @@ test('pricing page examples use the same current scoped Recast quote for each du
         calls.push(input);
         return readRecastPublicPrice(input, { pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [{
           id: 'recast-only', engineId: 'character-recast', mode: 'recast', resolution: 'video', currency: 'USD',
-          marginPercent: multiplier - 1, marginFlatCents: 0, surchargeAudioPercent: 0, surchargeUpscalePercent: 0, compatibilityProfile: 'standard',
+          marginPercent: Number((multiplier - 1).toFixed(8)), marginFlatCents: 0, surchargeAudioPercent: 0, surchargeUpscalePercent: 0, compatibilityProfile: 'standard',
         }] }) } });
       },
     });

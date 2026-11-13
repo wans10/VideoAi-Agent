@@ -1,5 +1,5 @@
 import { projectCanonicalQuoteToSnapshot, quoteCanonicalPricing, type PricingSnapshot } from '@maxvideoai/pricing';
-import { RECAST_PRICING_SELECTOR, RECAST_PRODUCT_ID, isValidRecastPricingRule } from '@/lib/character-recast-pricing';
+import { RECAST_COMPATIBILITY_PROFILE_ID, RECAST_PRICING_SELECTOR, RECAST_PRODUCT_ID, isValidRecastPricingRule } from '@/lib/character-recast-pricing';
 import { buildBillingPricingFacts } from '@/lib/pricing-billing-facts';
 import type { PricingContext } from '@/lib/pricing-context';
 import { getVersionedPricingPolicy } from '@/lib/pricing-policy-defaults';
@@ -32,7 +32,8 @@ export async function computeCanonicalRecastBillingSnapshot(
   // Supplier routing still belongs to the underlying model, independently of product markup.
   const { vendorAccountId } = await resolveServerBillingPolicy({ engineId: context.engine.id,
     mode: context.mode, resolution: context.resolution }, context.engine.vendorAccountId, policyDependencies);
-  const compatibilityProfile = getVersionedPricingPolicy().compatibilityProfiles.find(profile => profile.id === 'standard');
+  const compatibilityProfile = getVersionedPricingPolicy().compatibilityProfiles
+    .find(profile => profile.id === RECAST_COMPATIBILITY_PROFILE_ID);
   if (!compatibilityProfile) throw new Error('RECAST_PRICING_UNAVAILABLE');
   const quote = quoteCanonicalPricing({ facts: facts.facts, policy, compatibilityProfile,
     scenario: { id: `billing:${RECAST_PRODUCT_ID}:${context.engine.id}`, engineId: context.engine.id,

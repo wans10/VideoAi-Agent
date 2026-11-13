@@ -8,7 +8,8 @@ import { buildLiveProductPolicyFacts } from '../frontend/server/pricing-admin/pr
 import { buildRecastPublicPricingFacts } from '../frontend/server/character-studio/recast-public-price';
 
 const selector = { engineId: 'character-recast', mode: 'recast', resolution: 'video' };
-const rule = { id: 'recast-only', ...selector, marginPercent: 1, marginFlatCents: 0,
+// Keyvo 2026-11-13 owner decision: coefficient x1.6 = exactly 2 x the ordinary Wan 3 Prime price (was x2).
+const rule = { id: 'recast-only', ...selector, marginPercent: 0.6, marginFlatCents: 0,
   surchargeAudioPercent: 0, surchargeUpscalePercent: 0, currency: 'USD', compatibilityProfile: 'standard' };
 
 test('Recast scenarios cover bounded output and fractional source facts without changing Wan selectors', () => {
@@ -32,9 +33,11 @@ test('Recast admin quotes reject global fallback and apply the multiplier only t
   const sample = quoted.find(s => s.scenarioId === 'admin-recast:720p:5:3.25');
   assert.ok(sample && sample.status === 'quoted');
   // Prime 720p: (5 output + 3.25 source) × 11.25 cents (Bailian list CNY 0.9/s, Keyvo 2026-11-13) = 92.8125 exact
-  // supplier cents; the Recast rule adds 100% (rounded up) -> 185.8125 -> 186.
+  // supplier cents; x1.6 = 148.5, rounded once to even cents -> 148 = 2 x the ordinary video price round(74.25) = 74
+  // (was x2 with standard rounding -> 186).
   assert.equal(sample.vendorSubtotalCents, 93);
-  assert.equal(sample.customerTotalCents, 186);
+  assert.equal(sample.customerTotalCents, 148);
+  assert.equal(sample.policyProvenance.compatibilityProfile, 'recast-even-cents');
   assert.equal(sample.policyProvenance.sourceRuleId, 'recast-only');
 });
 
@@ -57,7 +60,7 @@ test('every authored Recast admin scenario preserves the public resolver supplie
 
 test('Recast rules require the exact scope, standard USD cost multiplier, and no extras', () => {
   const policy = getVersionedPricingPolicy();
-  assert.equal(validateOverrides([rule], policy)[0].marginPercent, 1);
+  assert.equal(validateOverrides([rule], policy)[0].marginPercent, 0.6);
   for (const invalid of [
     { mode: undefined }, { resolution: undefined }, { mode: 'ref2v' }, { resolution: '720p' },
     { marginPercent: 9.01 }, { marginPercent: -0.1 }, { marginFlatCents: 1 },
@@ -66,11 +69,11 @@ test('Recast rules require the exact scope, standard USD cost multiplier, and no
   ]) assert.throws(() => validateOverrides([{ ...rule, ...invalid }], policy));
 });
 
-test('an unavailable Recast product opens a scoped ×2 draft without inheriting the global rule', () => {
+test('an unavailable Recast product opens a scoped ×1.6 draft without inheriting the global rule', () => {
   const row: PricingPolicyInventoryRow = { selector, versionedRule: null, databaseOverride: null,
     effectiveProvenance: null, representativeQuotes: [], routingContext: null, lastEvent: null };
   const draft = createPricingPolicyDraft(row, true);
-  assert.equal(draft.marginPercent, '100');
+  assert.equal(draft.marginPercent, '60');
   assert.equal(draft.surchargeAudioPercent, '0');
   assert.equal(draft.surchargeUpscalePercent, '0');
   const proposal = buildPricingPolicyProposal(row, draft);

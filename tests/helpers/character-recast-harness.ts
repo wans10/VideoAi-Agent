@@ -14,7 +14,9 @@ import { prepareRecast, confirmRecast } from '../../frontend/server/character-st
 import { createCreatorGenerationService } from '../../frontend/src/server/tools/creator-generation-service';
 import { reservePaidGenerationInitialJob } from '../../frontend/src/server/agent-api/paid-generation-execution';
 
-export async function seedRecastPricingPolicy(pool: Pool, marginPercent = 1) {
+// Keyvo 2026-11-13 owner decision: Recast coefficient x1.6 = exactly 2 x the ordinary Wan 3 Prime price (was x2).
+export const RECAST_TEST_MARGIN_PERCENT = 0.6;
+export async function seedRecastPricingPolicy(pool: Pool, marginPercent = RECAST_TEST_MARGIN_PERCENT) {
   await pool.query(`INSERT INTO app_pricing_rules
     (id, engine_id, mode, resolution, margin_percent, margin_flat_cents,
       surcharge_audio_percent, surcharge_upscale_percent, currency, compatibility_profile, effective_from)

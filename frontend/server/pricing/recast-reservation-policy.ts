@@ -2,7 +2,7 @@ import type { PricingSnapshot } from '@maxvideoai/pricing';
 import type { TransactionQueryExecutor } from '@/lib/db';
 import { isTransactionQueryExecutor } from '@/lib/db';
 import { loadPricingPolicyOverridesWithExecutor } from '@/lib/pricing-rule-store';
-import { isValidRecastPricingRule, RECAST_PRICING_SELECTOR, RECAST_PRODUCT_ID } from '@/lib/character-recast-pricing';
+import { isValidRecastPricingRule, RECAST_COMPATIBILITY_PROFILE_ID, RECAST_PRICING_SELECTOR, RECAST_PRODUCT_ID } from '@/lib/character-recast-pricing';
 import { resolveServerBillingPolicy } from './resolve-pricing-policy';
 import { CustomerTariffRevisionError } from './customer-tariff-revision';
 
@@ -20,7 +20,7 @@ export async function lockQuotedRecastPolicy(executor: TransactionQueryExecutor,
     || snapshot.meta.providerCostMultiplier !== 1 + policy.rule.marginPercent
     || snapshot.margin?.percentApplied !== policy.rule.marginPercent || snapshot.margin.flatCents !== 0
     || provenance?.source !== 'database' || provenance.matchedBy !== 'precise'
-    || provenance.sourceRuleId !== policy.sourceRuleId || provenance.compatibilityProfile !== 'standard') {
+    || provenance.sourceRuleId !== policy.sourceRuleId || provenance.compatibilityProfile !== RECAST_COMPATIBILITY_PROFILE_ID) {
     throw new CustomerTariffRevisionError();
   }
 }
