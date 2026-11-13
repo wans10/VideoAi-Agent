@@ -113,6 +113,7 @@ jobs:
             NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ vars.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '' }}
             NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=${{ vars.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || '' }}
             NEXT_PUBLIC_CUSTOMER_CURRENCY=CNY
+            NEXT_PUBLIC_PHONE_LOGIN_ENABLED=${{ vars.NEXT_PUBLIC_PHONE_LOGIN_ENABLED || 'false' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

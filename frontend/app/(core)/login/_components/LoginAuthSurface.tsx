@@ -10,6 +10,8 @@ import type { LoginContinuation } from '../_lib/login-continuation';
 import { formatTemplate } from '../_lib/login-helpers';
 import type { AuthFieldErrors, AuthFieldName } from '../_lib/login-validation';
 import { LoginPasswordField } from './LoginPasswordField';
+import { LoginPhoneAuthPanel } from './LoginPhoneAuthPanel';
+import type { LoginPhoneAuthState } from '../_hooks/useLoginPhoneAuth';
 import { AuthBrandStory } from '@/components/brand/AuthBrandStory';
 import { IcpFiling } from '@/components/marketing/IcpFiling';
 import { KEYVO_GOOGLE_LOGIN_HIDDEN } from '@/config/keyvo-disabled-features';
@@ -37,6 +39,8 @@ type LoginAuthSurfaceProps = {
   isResetSending: boolean;
   isAuthReady?: boolean;
   isPasswordSubmitting?: boolean;
+  /** Present only when NEXT_PUBLIC_PHONE_LOGIN_ENABLED is on. */
+  phoneAuth?: LoginPhoneAuthState | null;
   acceptTerms: boolean;
   ageConfirmed: boolean;
   marketingOptIn: boolean;
@@ -102,6 +106,7 @@ export function LoginAuthSurface({
   isResetSending,
   isAuthReady = true,
   isPasswordSubmitting = false,
+  phoneAuth = null,
   acceptTerms,
   ageConfirmed,
   marketingOptIn,
@@ -137,9 +142,30 @@ export function LoginAuthSurface({
   const confirmError = fieldError('confirm');
   const termsError = fieldError('acceptTerms');
   const ageError = fieldError('ageConfirmed');
+  const phoneMethod = phoneAuth?.method === 'phone';
+  const phoneBusy = Boolean(phoneAuth?.isBusy);
+  // NEXT_PUBLIC_PHONE_LOGIN_ENABLED: phone + SMS code is the only way to create an account. The
+  // email form stays as sign-in (plus password reset) for accounts registered with an email.
+  const phoneOnlySignup = Boolean(phoneAuth);
+  const formMode: Exclude<AuthMode, 'reset'> = phoneOnlySignup ? 'signin' : effectiveMode;
+  const mcpSigninHeader = mode === 'signin' && continuation?.kind === 'mcp';
+  const headerTitle = mcpSigninHeader && continuation
+    ? continuation.title
+    : mode === 'reset'
+      ? authCopy.modes.reset.title
+      : phoneAuth
+        ? (phoneMethod ? authCopy.phone.title : authCopy.phone.emailSigninTitle)
+        : mode === 'signup' ? authCopy.modes.signup.title : authCopy.modes.signin.title;
+  const headerDescription = mcpSigninHeader && continuation
+    ? continuation.body
+    : mode === 'reset'
+      ? authCopy.modes.reset.description
+      : phoneAuth
+        ? (phoneMethod ? authCopy.phone.description : authCopy.phone.emailSigninDescription)
+        : mode === 'signup' ? authCopy.modes.signup.description : authCopy.modes.signin.description;
 
-  const renderTermsStatement = () => (
-    <span className={clsx(Boolean(termsError) && 'text-state-warning')}>
+  const renderTermsStatement = (highlight = Boolean(termsError)) => (
+    <span className={clsx(highlight && 'text-state-warning')}>
       {authCopy.terms.prefix}
       <a href="/legal/terms" target="_blank" rel="noopener noreferrer" className="text-brand underline">
         {authCopy.terms.termsLabel}
@@ -165,24 +191,8 @@ export function LoginAuthSurface({
       <div className="videoai-auth-card w-full max-w-md space-y-4 sm:space-y-6">
         <header className="space-y-3">
           <div>
-            <h1 className="text-lg font-semibold text-text-primary">
-              {mode === 'signin' && continuation?.kind === 'mcp'
-                ? continuation.title
-                : mode === 'signup'
-                ? authCopy.modes.signup.title
-                : mode === 'reset'
-                  ? authCopy.modes.reset.title
-                  : authCopy.modes.signin.title}
-            </h1>
-            <p className="text-sm text-text-secondary">
-              {mode === 'signin' && continuation?.kind === 'mcp'
-                ? continuation.body
-                : mode === 'signup'
-                ? authCopy.modes.signup.description
-                : mode === 'reset'
-                  ? authCopy.modes.reset.description
-                  : authCopy.modes.signin.description}
-            </p>
+            <h1 className="text-lg font-semibold text-text-primary">{headerTitle}</h1>
+            <p className="text-sm text-text-secondary">{headerDescription}</p>
           </div>
 
           {isMcpStaging && continuation?.kind === 'mcp' ? (
@@ -203,7 +213,7 @@ export function LoginAuthSurface({
             </div>
           ) : null}
 
-          {mode !== 'reset' && (
+          {mode !== 'reset' && !phoneOnlySignup && (
             <div
               role="group"
               aria-label={authCopy.modeGroup}
@@ -214,7 +224,7 @@ export function LoginAuthSurface({
                 variant={effectiveMode === 'signin' ? 'primary' : 'ghost'}
                 size="sm"
                 aria-pressed={effectiveMode === 'signin'}
-                disabled={isPasswordSubmitting || isConfirmationResending}
+                disabled={isPasswordSubmitting || isConfirmationResending || phoneBusy}
                 onClick={() => onModeChange('signin')}
                 className={clsx(
                   'min-h-11 flex-1 rounded-pill px-3 py-2',
@@ -228,7 +238,7 @@ export function LoginAuthSurface({
                 variant={effectiveMode === 'signup' ? 'primary' : 'ghost'}
                 size="sm"
                 aria-pressed={effectiveMode === 'signup'}
-                disabled={isPasswordSubmitting || isConfirmationResending}
+                disabled={isPasswordSubmitting || isConfirmationResending || phoneBusy}
                 onClick={() => onModeChange('signup')}
                 className={clsx(
                   'min-h-11 flex-1 rounded-pill px-3 py-2',
@@ -265,10 +275,33 @@ export function LoginAuthSurface({
             </div>
               </>
             )}
+            {phoneAuth && phoneMethod ? (
+              <>
+                <LoginPhoneAuthPanel
+                  authCopy={authCopy}
+                  mode={effectiveMode}
+                  phone={phoneAuth}
+                  isAuthReady={isAuthReady && !isPasswordSubmitting && !isConfirmationResending}
+                  legalMinAge={legalMinAge}
+                  termsStatement={renderTermsStatement(false)}
+                />
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  data-testid="login-use-email-account"
+                  disabled={isPasswordSubmitting || isConfirmationResending || phoneBusy}
+                  onClick={() => phoneAuth.onMethodChange('email')}
+                  className="self-start text-xs text-text-secondary hover:text-text-primary"
+                >
+                  {authCopy.phone.useEmailAccount}
+                </Button>
+              </>
+            ) : (
             <form
               method="post"
               noValidate
-              onSubmit={mode === 'signin' ? onSignInSubmit : onSignUpSubmit}
+              onSubmit={formMode === 'signin' ? onSignInSubmit : onSignUpSubmit}
               className="stack-gap-sm"
             >
               <div className="block text-sm">
@@ -311,13 +344,13 @@ export function LoginAuthSurface({
                 onChange={(event) => onPasswordChange(event.target.value)}
                 onFocus={onSyncInputState}
                 placeholder={
-                  mode === 'signup'
+                  formMode === 'signup'
                     ? authCopy.placeholders.passwordNew
                     : authCopy.placeholders.password
                 }
-                autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
+                autoComplete={formMode === 'signup' ? 'new-password' : 'current-password'}
               />
-              {mode === 'signup' && (
+              {formMode === 'signup' && (
                 <LoginPasswordField
                   authCopy={authCopy}
                   inputId="auth-confirm"
@@ -334,7 +367,7 @@ export function LoginAuthSurface({
                   autoComplete="new-password"
                 />
               )}
-              {mode === 'signup' && (
+              {formMode === 'signup' && (
                 <div className="stack-gap-sm rounded-card bg-bg p-3 text-sm text-text-secondary">
                   <label className="flex items-start gap-2">
                     <input
@@ -396,14 +429,15 @@ export function LoginAuthSurface({
                 type="submit"
                 disabled={!isAuthReady || isPasswordSubmitting || isConfirmationResending}
                 aria-busy={isPasswordSubmitting}
-                variant={mode === 'signup' ? 'primary' : 'outline'}
+                variant={formMode === 'signup' ? 'primary' : 'outline'}
                 className="w-full"
               >
-                {mode === 'signin' ? authCopy.actions.signin : authCopy.actions.signup}
+                {formMode === 'signin' ? authCopy.actions.signin : authCopy.actions.signup}
               </Button>
             </form>
+            )}
 
-            {mode === 'signin' ? (
+            {formMode === 'signin' && !phoneMethod ? (
               <div className="flex flex-col gap-2 text-xs">
                 <Button
                   type="button"
@@ -415,6 +449,19 @@ export function LoginAuthSurface({
                 >
                   {authCopy.forgotPassword}
                 </Button>
+                {phoneAuth ? (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    data-testid="login-use-phone"
+                    disabled={isPasswordSubmitting || isConfirmationResending}
+                    onClick={() => phoneAuth.onMethodChange('phone')}
+                    className="self-start text-text-secondary hover:text-text-primary"
+                  >
+                    {authCopy.phone.usePhone}
+                  </Button>
+                ) : null}
               </div>
             ) : null}
           </>
@@ -473,7 +520,7 @@ export function LoginAuthSurface({
             {status}
           </div>
         )}
-        {mode === 'signin' && signupSuggestion && (
+        {mode === 'signin' && signupSuggestion && !phoneOnlySignup && (
           <div className="rounded-card border border-dashed border-border bg-surface-glass-75 px-3 py-3 text-xs text-text-secondary">
             <p className="text-sm font-semibold text-text-primary">
               {authCopy.signupSuggestion.title}

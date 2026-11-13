@@ -1,6 +1,8 @@
 export type AdminUser = {
   id: string;
   email: string | null;
+  /** Masked phone for phone sign-up accounts (no email). */
+  phone?: string | null;
   createdAt: string | null;
   lastSignInAt: string | null;
   appMetadata: Record<string, unknown> | null;

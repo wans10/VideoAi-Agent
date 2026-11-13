@@ -178,7 +178,7 @@ function UsersTable({ rows }: { rows: AdminUser[] }) {
             <tr key={user.id} data-user-id={user.id} className="border-t border-hairline transition hover:bg-bg">
               <td className="px-4 py-3">
                 <div className="min-w-0">
-                  <Link href={`/admin/users/${user.id}`} className="font-medium text-text-primary hover:text-brand">{user.email ?? 'No email attached'}</Link>
+                  <Link href={`/admin/users/${user.id}`} className="font-medium text-text-primary hover:text-brand">{user.email ?? user.phone ?? 'No email attached'}</Link>
                   <p className="mt-1 max-w-[260px] truncate font-mono text-xs text-text-muted" title={user.id}>{user.id}</p>
                   <p className="mt-1 text-xs text-text-secondary">
                     {provider ? `Provider: ${provider}` : 'Provider unavailable'}

@@ -1,0 +1,42 @@
+# Keyvo phone login: docker compose snippet (NOT applied yet).
+#
+# 1) Add the `sms-hook` service below to the SAME compose file that runs Supabase Auth (GoTrue).
+#    In the official self-hosted Supabase compose the GoTrue service is called `auth`
+#    (container `supabase-auth`); if yours has another name, replace `auth` in `network_mode`.
+# 2) Add the GoTrue lines from gotrue-env.example to the `environment:` of that `auth` service.
+#
+# Why `network_mode: "service:auth"`: GoTrue only accepts an http:// hook address on localhost, so the
+# hook shares GoTrue's network namespace and GoTrue calls it at http://localhost:8787/send-sms.
+# HOST=127.0.0.1 keeps the hook invisible to every other container and to the internet.
+# Note: if the `auth` container is re-created, restart `sms-hook` too (`docker compose up -d sms-hook`).
+
+services:
+  sms-hook:
+    build: ./sms-hook            # folder that contains hook.js, package.json, package-lock.json, Dockerfile
+    image: keyvo-sms-hook:1.0.0
+    container_name: keyvo-sms-hook
+    restart: unless-stopped
+    network_mode: "service:auth"
+    depends_on:
+      - auth
+    environment:
+      HOST: 127.0.0.1
+      PORT: "8787"
+      # Alibaba Cloud SMS (RAM user with only AliyunDysmsFullAccess / SendSms permission).
+      ALI_AK: ${ALI_AK:?set ALI_AK in .env}
+      ALI_SK: ${ALI_SK:?set ALI_SK in .env}
+      ALI_SIGN: ${ALI_SIGN:?set ALI_SIGN in .env}
+      ALI_TPL: ${ALI_TPL:?set ALI_TPL in .env}
+      # Must be the exact same value as GOTRUE_HOOK_SEND_SMS_SECRETS.
+      HOOK_SECRET: ${SMS_HOOK_SECRET:?set SMS_HOOK_SECRET in .env}
+      # Optional limits (defaults shown).
+      LIMIT_PHONE_COOLDOWN_SECONDS: "60"
+      LIMIT_PHONE_PER_HOUR: "5"
+      LIMIT_PHONE_PER_DAY: "10"
+      LIMIT_IP_PER_HOUR: "20"
+      LIMIT_GLOBAL_PER_HOUR: "300"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

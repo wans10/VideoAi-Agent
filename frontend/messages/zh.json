@@ -4513,6 +4513,10 @@
             "placeholder": "you@domain.com",
             "readOnly": "邮箱变更需单独处理。"
           },
+          "phone": {
+            "label": "手机号",
+            "readOnly": "用于登录 Keyvo 的手机号。"
+          },
           "locale": {
             "label": "语言",
             "description": "界面语言："
@@ -7259,6 +7263,55 @@
       "title": "Keyvo Staging — 测试环境",
       "body": "网站账户和余额与此测试环境相互独立。若要使用现有 Keyvo 账户，请在助手中添加生产环境连接。",
       "action": "配置 Keyvo 生产连接"
+    },
+    "phone": {
+      "methodGroup": "选择登录方式",
+      "methodEmail": "邮箱密码",
+      "methodPhone": "手机验证码",
+      "title": "手机号登录 / 注册",
+      "description": "使用中国大陆手机号和短信验证码登录，新手机号验证后自动创建 Keyvo 账户。",
+      "emailSigninTitle": "邮箱账户登录",
+      "emailSigninDescription": "适用于此前使用邮箱注册的账户。新用户请使用手机号注册。",
+      "useEmailAccount": "已有邮箱账户？使用邮箱和密码登录",
+      "usePhone": "使用手机号登录或注册",
+      "emailSigninFailed": "邮箱或密码不正确。新用户请返回使用手机号注册。",
+      "fields": {
+        "phone": "手机号",
+        "code": "短信验证码"
+      },
+      "placeholders": {
+        "phone": "11 位手机号",
+        "code": "6 位数字验证码"
+      },
+      "hint": "仅支持中国大陆手机号。未注册的手机号验证后将自动创建账户。",
+      "actions": {
+        "send": "获取验证码",
+        "resend": "重新获取",
+        "resendIn": "{seconds} 秒后重新获取",
+        "verifySignin": "验证并登录",
+        "verifySignup": "验证并创建账户",
+        "changePhone": "更换手机号"
+      },
+      "validation": {
+        "phoneRequired": "请输入手机号。",
+        "phoneInvalid": "请输入有效的中国大陆手机号（11 位，以 1 开头）。",
+        "codeRequired": "请输入 6 位数字短信验证码。"
+      },
+      "feedback": {
+        "sending": "正在发送验证码…",
+        "sent": "验证码已发送至 {phone}，5 分钟内有效。",
+        "verifying": "正在验证…",
+        "redirecting": "验证成功，正在跳转…",
+        "codeInvalid": "验证码错误或已过期，还可尝试 {count} 次。",
+        "attemptsExhausted": "验证码错误次数过多，请重新获取验证码。",
+        "rateLimited": "获取验证码过于频繁，请稍后再试。",
+        "verifyRateLimited": "验证尝试过于频繁，请稍后再试。",
+        "providerUnavailable": "短信服务暂时不可用，请稍后重试。",
+        "phoneDisabled": "手机号登录暂未开放，请使用邮箱登录。",
+        "signupDisabled": "暂时无法使用手机号创建新账户，请稍后重试。",
+        "invalidPhone": "该手机号无法接收验证码，请检查后重试。",
+        "verifyUnavailable": "暂时无法完成验证，请稍后重试。"
+      }
     }
   },
   "comparePage": {

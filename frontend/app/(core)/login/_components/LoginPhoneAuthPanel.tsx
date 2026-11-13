@@ -1,0 +1,186 @@
+'use client';
+
+import type { ReactNode } from 'react';
+import clsx from 'clsx';
+import { LoaderCircle } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import type { AuthCopy, AuthMode } from '../_lib/login-copy';
+import { formatTemplate } from '../_lib/login-helpers';
+import { PHONE_COUNTRY_CODE, PHONE_OTP_LENGTH } from '../_lib/login-phone';
+import type { LoginPhoneAuthState, PhoneFieldError } from '../_hooks/useLoginPhoneAuth';
+
+type LoginPhoneAuthPanelProps = {
+  authCopy: AuthCopy;
+  mode: Exclude<AuthMode, 'reset'>;
+  phone: LoginPhoneAuthState;
+  isAuthReady: boolean;
+  legalMinAge: number;
+  termsStatement: ReactNode;
+};
+
+/** Mainland mobile number + 6-digit SMS code form (sign-in and sign-up share one OTP flow). */
+export function LoginPhoneAuthPanel({ authCopy, mode, phone, isAuthReady, legalMinAge, termsStatement }: LoginPhoneAuthPanelProps) {
+  const copy = authCopy.phone;
+  const message = (field: PhoneFieldError) => {
+    if (phone.fieldError !== field) return undefined;
+    if (field === 'termsRequired' || field === 'ageRequired') return authCopy.validation[field];
+    return copy.validation[field];
+  };
+  const phoneError = message('phoneRequired') ?? message('phoneInvalid');
+  const codeError = message('codeRequired');
+  const termsError = message('termsRequired');
+  const ageError = message('ageRequired');
+  const codeSent = Boolean(phone.codeSentTo);
+  const coolingDown = phone.cooldownSeconds > 0;
+  const resendLabel = coolingDown
+    ? formatTemplate(copy.actions.resendIn, { seconds: String(phone.cooldownSeconds) })
+    : codeSent ? copy.actions.resend : copy.actions.send;
+  const disabled = !isAuthReady || phone.isBusy;
+
+  return (
+    <form method="post" noValidate onSubmit={phone.onVerifySubmit} className="stack-gap-sm" data-testid="phone-auth-form">
+      <div className="block text-sm">
+        <label htmlFor="auth-phone" className="mb-1 block text-text-secondary">
+          {copy.fields.phone}
+        </label>
+        <div className="flex items-stretch gap-2">
+          <span
+            aria-hidden="true"
+            className="inline-flex min-h-11 items-center rounded-input border border-hairline bg-bg px-3 text-sm text-text-secondary"
+          >
+            {PHONE_COUNTRY_CODE}
+          </span>
+          <Input
+            id="auth-phone"
+            type="tel"
+            inputMode="numeric"
+            autoComplete="tel-national"
+            name="phone"
+            required
+            ref={phone.phoneRef}
+            value={phone.phone}
+            readOnly={codeSent}
+            disabled={phone.isBusy}
+            onChange={(event) => phone.onPhoneChange(event.target.value)}
+            className="min-h-11"
+            placeholder={copy.placeholders.phone}
+            aria-invalid={Boolean(phoneError)}
+            aria-describedby={clsx('auth-phone-hint', phoneError && 'auth-phone-error')}
+          />
+        </div>
+        <p id="auth-phone-hint" className="mt-1 text-xs text-text-muted">
+          {copy.hint}
+        </p>
+        {phoneError ? (
+          <p id="auth-phone-error" className="mt-1 text-xs text-state-warning">
+            {phoneError}
+          </p>
+        ) : null}
+      </div>
+
+      {codeSent ? (
+        <div className="block text-sm">
+          <label htmlFor="auth-otp" className="mb-1 block text-text-secondary">
+            {copy.fields.code}
+          </label>
+          <Input
+            id="auth-otp"
+            type="text"
+            inputMode="numeric"
+            autoComplete="one-time-code"
+            name="otp"
+            pattern={`\\d{${PHONE_OTP_LENGTH}}`}
+            maxLength={PHONE_OTP_LENGTH}
+            required
+            ref={phone.codeRef}
+            value={phone.code}
+            disabled={phone.isBusy || phone.attemptsLeft <= 0}
+            onChange={(event) => phone.onCodeChange(event.target.value)}
+            className="min-h-11 tracking-[0.3em]"
+            placeholder={copy.placeholders.code}
+            aria-invalid={Boolean(codeError)}
+            aria-describedby={codeError ? 'auth-otp-error' : undefined}
+          />
+          {codeError ? (
+            <p id="auth-otp-error" className="mt-1 text-xs text-state-warning">
+              {codeError}
+            </p>
+          ) : null}
+          <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs">
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              data-testid="phone-resend"
+              disabled={disabled || coolingDown}
+              onClick={() => void phone.onSendCode()}
+              className="text-brand hover:text-brandHover"
+            >
+              {resendLabel}
+            </Button>
+            <Button type="button" variant="ghost" size="sm" disabled={phone.isBusy} onClick={phone.onChangePhone}>
+              {copy.actions.changePhone}
+            </Button>
+          </div>
+        </div>
+      ) : null}
+
+      <div className="stack-gap-sm rounded-card bg-bg p-3 text-sm text-text-secondary">
+        <label className="flex items-start gap-2">
+          <input
+            type="checkbox"
+            ref={phone.termsRef}
+            checked={phone.acceptTerms}
+            onChange={(event) => phone.onAcceptTermsChange(event.target.checked)}
+            className={clsx(
+              'mt-0.5 h-4 min-h-0 w-4 rounded border-border text-brand focus:ring-ring',
+              termsError && 'border-state-warning text-state-warning focus:ring-state-warning'
+            )}
+            aria-invalid={Boolean(termsError)}
+            aria-describedby={termsError ? 'auth-phone-terms-error' : undefined}
+            required
+          />
+          <span className={clsx(termsError && 'text-state-warning')}>{termsStatement}</span>
+        </label>
+        {termsError ? (
+          <p id="auth-phone-terms-error" className="pl-6 text-xs text-state-warning">
+            {termsError}
+          </p>
+        ) : null}
+        <label className="flex items-start gap-2">
+          <input
+            type="checkbox"
+            ref={phone.ageRef}
+            checked={phone.ageConfirmed}
+            onChange={(event) => phone.onAgeConfirmedChange(event.target.checked)}
+            className={clsx(
+              'mt-0.5 h-4 min-h-0 w-4 rounded border-border text-brand focus:ring-ring',
+              ageError && 'border-state-warning text-state-warning focus:ring-state-warning'
+            )}
+            aria-invalid={Boolean(ageError)}
+            aria-describedby={ageError ? 'auth-phone-age-error' : undefined}
+            required
+          />
+          <span>{formatTemplate(authCopy.terms.age, { age: String(legalMinAge) })}</span>
+        </label>
+        {ageError ? (
+          <p id="auth-phone-age-error" className="pl-6 text-xs text-state-warning">
+            {ageError}
+          </p>
+        ) : null}
+      </div>
+
+      <Button
+        type="submit"
+        disabled={disabled || (!codeSent && coolingDown) || (codeSent && phone.attemptsLeft <= 0)}
+        aria-busy={phone.isBusy}
+        variant={mode === 'signup' ? 'primary' : 'outline'}
+        className="w-full gap-2"
+      >
+        {phone.isBusy ? <LoaderCircle aria-hidden="true" className="h-4 w-4 animate-spin motion-reduce:animate-none" /> : null}
+        {codeSent ? (mode === 'signup' ? copy.actions.verifySignup : copy.actions.verifySignin) : resendLabel}
+      </Button>
+    </form>
+  );
+}

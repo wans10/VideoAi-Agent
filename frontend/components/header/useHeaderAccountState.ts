@@ -9,6 +9,7 @@ import {
   writeLastKnownWallet,
 } from '@/lib/last-known';
 import { hasSupabaseAuthCookie } from '@/lib/supabase-session-hint';
+import { resolveAccountDisplayLabel } from '@/lib/account-identity';
 
 type HeaderWalletState = { balance: number; currency?: string } | null;
 
@@ -135,7 +136,7 @@ export function useHeaderAccountState() {
         if (userId) {
           writeLastKnownUserId(userId);
         }
-        setEmail(session?.user?.email ?? null);
+        setEmail(resolveAccountDisplayLabel(session?.user));
         if (!userId) {
           accountRequestIdRef.current += 1;
           setWallet(null);
@@ -187,7 +188,7 @@ export function useHeaderAccountState() {
             setWalletLoading(false);
             setIsAdmin(false);
           }
-          setEmail(session?.user?.email ?? null);
+          setEmail(resolveAccountDisplayLabel(session?.user));
           setAuthResolved(true);
           if (userId && !pendingInitialReplay) {
             void fetchAccountState(session?.access_token, userId);

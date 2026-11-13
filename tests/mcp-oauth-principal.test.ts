@@ -258,3 +258,30 @@ test('OAuth principal does not trust claims or user metadata for email verificat
 
   assert.equal(principal.emailVerified, false);
 });
+
+test('OAuth principal treats a confirmed phone-only account (no email) as a verified contact', async () => {
+  const principal = await resolveAgentPrincipal(
+    requestWithToken(),
+    createDeps({
+      user: {
+        id: 'user-1',
+        email_confirmed_at: null,
+        phone_confirmed_at: '2026-11-13T10:00:00.000Z',
+        identities: [{ provider: 'phone' }],
+      },
+    })
+  );
+
+  assert.equal(principal.emailVerified, true);
+  assert.equal(principal.userId, 'user-1');
+});
+
+test('OAuth principal keeps an unconfirmed phone and blank timestamps unverified', async () => {
+  for (const user of [
+    { id: 'user-1', email_confirmed_at: null, phone_confirmed_at: null, identities: [{ provider: 'phone' }] },
+    { id: 'user-1', email_confirmed_at: '  ', phone_confirmed_at: '', identities: [{ provider: 'phone' }] },
+  ]) {
+    const principal = await resolveAgentPrincipal(requestWithToken(), createDeps({ user }));
+    assert.equal(principal.emailVerified, false);
+  }
+});

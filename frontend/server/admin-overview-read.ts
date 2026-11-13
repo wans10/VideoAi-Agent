@@ -1,5 +1,7 @@
-export type OverviewUser = { id: string; email: string | null; createdAt: string };
-type AuthUser = { id: string; email?: string | null; created_at: string };
+import { maskAccountPhone, normalizeAccountEmail } from '@/lib/account-identity';
+/** `phone` is masked; phone sign-up accounts have no email. */
+export type OverviewUser = { id: string; email: string | null; phone?: string | null; createdAt: string };
+type AuthUser = { id: string; email?: string | null; phone?: string | null; created_at: string };
 
 // Each source has its own deadline; one unavailable source never erases the other.
 async function boundedRead<T>(read: (signal: AbortSignal) => Promise<T>, timeoutMs: number): Promise<T | null> {
@@ -54,7 +56,7 @@ export async function scanRegistrations(
       const createdAt = new Date(user.created_at).toISOString();
       if (createdAt < from || createdAt >= to) continue;
       count++;
-      recent.push({ id: user.id, email: user.email ?? null, createdAt });
+      recent.push({ id: user.id, email: normalizeAccountEmail(user.email), phone: maskAccountPhone(user.phone), createdAt });
     }
     recent = recent.sort((a, b) => b.createdAt.localeCompare(a.createdAt) || a.id.localeCompare(b.id)).slice(0, 12);
     if (users.length < 1000) return { count, recent };

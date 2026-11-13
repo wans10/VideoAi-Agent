@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isUserAdmin, requireAdmin } from '@/server/admin';
 import { getSupabaseAdmin } from '@/server/supabase-admin';
+import { maskAccountPhone, normalizeAccountEmail } from '@/lib/account-identity';
 
 export const runtime = 'nodejs';
 
 type AuthUserRow = {
   id: string;
   email?: string | null;
+  phone?: string | null;
   created_at?: string | null;
   last_sign_in_at?: string | null;
   app_metadata?: Record<string, unknown> | null;
@@ -18,7 +20,9 @@ async function mapUsers(users: AuthUserRow[]) {
   const adminFlags = await Promise.all(users.map((user) => isUserAdmin(user.id)));
   return users.map((user, index) => ({
     id: user.id,
-    email: user.email ?? null,
+    email: normalizeAccountEmail(user.email),
+    // Phone sign-up accounts have no email; admins see the masked number.
+    phone: maskAccountPhone(user.phone),
     createdAt: user.created_at ?? null,
     lastSignInAt: user.last_sign_in_at ?? null,
     appMetadata: user.app_metadata ?? null,
@@ -32,7 +36,9 @@ function matchesSearch(user: AuthUserRow, search: string) {
   if (!search) return true;
   const email = (user.email ?? '').toLowerCase();
   const id = (user.id ?? '').toLowerCase();
-  return email.includes(search) || id.includes(search);
+  const phoneDigits = (user.phone ?? '').replace(/\D/g, '');
+  const searchDigits = search.replace(/\D/g, '');
+  return email.includes(search) || id.includes(search) || (searchDigits.length >= 4 && phoneDigits.includes(searchDigits));
 }
 
 export async function GET(req: NextRequest) {

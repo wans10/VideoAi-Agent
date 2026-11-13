@@ -1,4 +1,5 @@
 import { applicationJobSql } from '@/server/app-job-origin';
+import { maskAccountPhone, normalizeAccountEmail } from '@/lib/account-identity';
 import { CREDIT_REVERSAL_SQL } from '@/server/wallet-receipt-classification';
 import { query } from '@/lib/db';
 import { getWalletSummary } from '@/server/wallet-summary';
@@ -56,6 +57,8 @@ const hasServiceRole = Boolean((process.env.SUPABASE_SERVICE_ROLE_KEY ?? '').tri
 export type AdminUserProfile = {
   id: string;
   email: string | null;
+  /** Masked phone for phone sign-up accounts (they have no email). */
+  phone: string | null;
   createdAt: string | null;
   lastSignInAt: string | null;
   appMetadata: Record<string, unknown> | null;
@@ -129,7 +132,8 @@ async function fetchProfile(userId: string): Promise<AdminUserProfile | null> {
     const isAdminUser = await isUserAdmin(user.id);
     return {
       id: user.id,
-      email: user.email ?? null,
+      email: normalizeAccountEmail(user.email),
+      phone: maskAccountPhone(user.phone),
       createdAt: user.created_at ?? null,
       lastSignInAt: user.last_sign_in_at ?? null,
       appMetadata: user.app_metadata,

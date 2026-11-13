@@ -16,6 +16,7 @@ import { clearLastKnownAccount, readLastKnownUserId, writeLastKnownUserId } from
 import { hasSupabaseAuthCookie, installSupabaseAuthClientGate } from '@/lib/supabase-session-hint';
 import type { MarketingHeaderNavigation } from '@/config/public-marketing-navigation';
 import { buildLoginHref } from '@/lib/auth-entry-href';
+import { resolveAccountDisplayLabel } from '@/lib/account-identity';
 
 type MarketingNavProps = {
   navigation: MarketingHeaderNavigation;
@@ -91,7 +92,7 @@ export function MarketingNav({ navigation: { links, dropdowns }, initialEmail = 
       if (userId) {
         writeLastKnownUserId(userId);
       }
-      setEmail(session?.user?.email ?? null);
+      setEmail(resolveAccountDisplayLabel(session?.user));
       return userId;
     };
 

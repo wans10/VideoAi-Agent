@@ -16,6 +16,8 @@ export type OAuthClaims = {
 export type OAuthUser = {
   id: string;
   email_confirmed_at?: string | null;
+  /** Phone sign-up accounts have no email; a confirmed phone is their verified contact. */
+  phone_confirmed_at?: string | null;
   identities?: Array<{ provider?: string | null }> | null;
   user_metadata?: Record<string, unknown> | null;
 };
@@ -103,6 +105,7 @@ const defaultOAuthAdapterDeps: OAuthAdapterDeps = {
               ? {
                   id: user.id,
                   email_confirmed_at: user.email_confirmed_at,
+                  phone_confirmed_at: user.phone_confirmed_at,
                   identities: user.identities?.map((identity) => ({ provider: identity.provider })) ?? null,
                 }
               : null,
@@ -116,6 +119,10 @@ const defaultOAuthAdapterDeps: OAuthAdapterDeps = {
     return hasActiveOAuthGrant(accessToken, clientId);
   },
 };
+
+function isConfirmedAt(value: string | null | undefined): boolean {
+  return typeof value === 'string' && value.trim().length > 0;
+}
 
 function authenticationRequired(): AgentApiError {
   return new AgentApiError('AUTH_REQUIRED', 'Authentication required.');
@@ -168,8 +175,9 @@ async function resolveOAuthPrincipal(
   return {
     userId: subject,
     clientId,
-    emailVerified:
-      typeof user.email_confirmed_at === 'string' && user.email_confirmed_at.trim().length > 0,
+    // `emailVerified` means "verified contact": a confirmed email, or a confirmed phone for
+    // Keyvo phone-only accounts (they have no email to verify).
+    emailVerified: isConfirmedAt(user.email_confirmed_at) || isConfirmedAt(user.phone_confirmed_at),
     authMethod: 'oauth',
   };
 }

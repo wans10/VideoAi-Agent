@@ -130,6 +130,44 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
   (poster `/hero/showcase-wan-3-city-22s.webp`) instead of Wan 2.6; an unpublished engine's card is dropped, which
   left the zh homepage with three cards. Keep the Wan 3 card on upstream syncs.
 
+### Phone number + SMS code login (2026-11-13, off by default)
+
+- **Keyvo:** `/login` can offer mainland mobile sign-in/sign-up next to email/password: `+86` numbers only
+  (`^1[3-9]\d{9}$`), `supabase.auth.signInWithOtp({ phone, options: { shouldCreateUser: true } })` then
+  `verifyOtp({ phone, token, type: 'sms' })`, a 60 s resend cooldown kept in `sessionStorage`
+  (`keyvo-login-phone-otp`), five client-side code attempts, and the same `completeAuthenticatedRedirect`
+  (next target, onboarding flags, wallet refresh) as password login. The form requires the terms and age
+  checkboxes because a new number creates an account; consents go to `/api/legal/consents` only when the verified
+  user was created within the last 30 minutes. Upstream has no phone login (Google OAuth is its mainland-unreachable
+  alternative, hidden by `KEYVO_GOOGLE_LOGIN_HIDDEN`).
+- **Owners:** pure rules in `frontend/app/(core)/login/_lib/login-phone.ts`, the flow in `_hooks/useLoginPhoneAuth.ts`,
+  the form in `_components/LoginPhoneAuthPanel.tsx`; `LoginAuthSurface.tsx` and `useLoginPageController.ts` only gain
+  an optional `phoneAuth` prop and the hook call. Copy is `auth.phone.*` in all four message files (the shared
+  `AuthCopy` type and `tests/login-copy-localization.test.ts` need every locale).
+- **Flag:** `NEXT_PUBLIC_PHONE_LOGIN_ENABLED` (build time; Dockerfile ARG defaulting to `false`, GitHub variable in
+  `docker-build-push.yml`, `docker-compose.1panel.yml` build arg, `.env.production.example`). Without it the page renders
+  exactly the email/password form.
+- **Server side** (not part of the web image): `docs/deployment/phone-login-sms/` holds the GoTrue Send SMS hook
+  (`hook.js`, Alibaba Cloud SMS, Standard Webhooks signature, masked logs, in-memory per-phone/global limits), its
+  pinned `package.json`/lockfile, Dockerfile, compose snippet, GoTrue environment lines and an operator README.
+- **Tests:** `tests/login-phone-auth.test.ts` (validation, cooldown, error mapping, flag, DOM flow, phone-only
+  sign-up modes), `tests/phone-only-account-identity.test.ts` (null-email display, admin, MCP, settings) and
+  `tests/phone-login-sms-hook.test.ts` (hook behaviour with injected verifier/sender). Keep them on upstream syncs.
+- **Phone-only sign-up (owner decision 2026-11-13):** with the flag on, new users register only with phone + SMS
+  code; Keyvo no longer collects an email. The phone form is the default and the email/phone tabs and the
+  sign-in/create-account tabs are gone; `?mode=signup` lands on the phone form (the controller never enters email
+  `signup`, `signUpWithPassword` is inert). Existing email accounts keep an email **sign-in** form behind
+  "已有邮箱账户？使用邮箱和密码登录" (`auth.phone.useEmailAccount`), with password reset; a wrong password shows
+  `auth.phone.emailSigninFailed` instead of the "create an account with this email" suggestion. Flag off: unchanged.
+  GoTrue cannot disable email sign-up alone, so `/auth/v1/signup` with an email stays callable directly.
+- **Accounts without an email:** GoTrue returns `email: ""` and `phone: "86…"` for them. `frontend/lib/account-identity.ts`
+  normalizes the email to null and masks the phone (`138****5678`). Header/marketing nav (whose signed-in state was
+  `Boolean(email)`), `getMarketingAuthSnapshot`, settings (masked phone field), admin user list/detail (masked
+  phone, phone search), `getUserIdentity` (`phone` added), DSAR export (`user.phone`) use it. The MCP/agent principal
+  treats a confirmed phone as a verified contact (`emailVerified` = email or phone confirmed). Admin impersonation
+  needs an email magic link and stays disabled for phone-only accounts. `method: 'phone'` is an allowed analytics
+  method. Audit: `tests/phone-only-account-identity.test.ts`; the full table is in the Keyvo package notes.
+
 ## Checking for new deviations after an upstream sync
 
 Run `node scripts/report-upstream-deviations.mjs` after merging a new upstream snapshot. It classifies every file that differs from `origin/MaxVideoAI` by customization (1 zh, 2 LLM Hub Pay, 3 CNY, 4 UI redesign, 5 LLM Hub API, 6 domestic providers, 7 white-label), deploy infrastructure, or documented kept deviation, and lists the paths that are new since `docs/engineering/keyvo-deviation-baseline.tsv`. A new path in `Z no signal` has no sign of belonging to a customization: document it here or restore the upstream file. The classification is heuristic and informational; `--strict` exits non-zero when such paths exist. After reviewing, refresh the baseline with `--write-baseline`.

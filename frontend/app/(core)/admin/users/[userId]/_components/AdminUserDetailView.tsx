@@ -40,7 +40,7 @@ export function AdminUserDetailView({ userId, overview }: AdminUserDetailViewPro
     <div className="flex flex-col gap-5">
       <AdminPageHeader
         eyebrow="Operations"
-        title={profile?.email ?? 'User detail'}
+        title={profile?.email ?? profile?.phone ?? 'User detail'}
         description="Account activity, wallet history and support actions."
         actions={
           <>

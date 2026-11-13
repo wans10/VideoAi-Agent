@@ -1,0 +1,27 @@
+# Keyvo phone login: lines to add to the `environment:` of the Supabase Auth (GoTrue) service.
+# Placeholders only. ${SMS_HOOK_SECRET} is read from the same .env file as the sms-hook service.
+
+# Turn on phone sign-in / sign-up.
+GOTRUE_EXTERNAL_PHONE_ENABLED: "true"
+# Users must type the SMS code; never auto-confirm phone numbers.
+GOTRUE_SMS_AUTOCONFIRM: "false"
+GOTRUE_SMS_OTP_LENGTH: "6"
+# Code lifetime in seconds (5 minutes; the website says "5 分钟内有效").
+GOTRUE_SMS_OTP_EXP: "300"
+# Minimum time between two codes for the same user.
+GOTRUE_SMS_MAX_FREQUENCY: "60s"
+
+# Send SMS hook -> keyvo-sms-hook (same network namespace, see docker-compose.sms-hook.yml).
+GOTRUE_HOOK_SEND_SMS_ENABLED: "true"
+GOTRUE_HOOK_SEND_SMS_URI: "http://localhost:8787/send-sms"
+GOTRUE_HOOK_SEND_SMS_SECRETS: ${SMS_HOOK_SECRET}
+
+# Upper bound of SMS sent by the whole project per hour (protects the SMS bill). Raise it when traffic grows.
+GOTRUE_RATE_LIMIT_SMS_SENT: "100"
+
+# Only if GoTrue answers "Unsupported phone provider" after the restart (older GoTrue versions still
+# require a provider even when the hook is on; the hook replaces it and these values are never used):
+# GOTRUE_SMS_PROVIDER: "twilio"
+# GOTRUE_SMS_TWILIO_ACCOUNT_SID: "unused"
+# GOTRUE_SMS_TWILIO_AUTH_TOKEN: "unused"
+# GOTRUE_SMS_TWILIO_MESSAGE_SERVICE_SID: "unused"

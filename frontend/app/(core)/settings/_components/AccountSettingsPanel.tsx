@@ -8,6 +8,7 @@ import { Button, ButtonLink } from '@/components/ui/Button';
 import { localeLabels } from '@/i18n/locales';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import { buildLoginHref } from '@/lib/auth-entry-href';
+import { maskAccountPhone, normalizeAccountEmail } from '@/lib/account-identity';
 import { useThemePreference, type ThemePreference } from '@/hooks/useThemePreference';
 import { useAccountNameForm } from '../_hooks/useAccountNameForm';
 
@@ -17,6 +18,7 @@ export type AccountSettingsCopy = {
   fields: {
     name: { label: string; placeholder: string; help: string };
     email: { label: string; placeholder: string; readOnly: string };
+    phone: { label: string; readOnly: string };
     locale: { label: string; description: string };
     theme: { label: string; description: string; options: Record<ThemePreference, string> };
   };
@@ -32,6 +34,9 @@ export function AccountSettingsPanel({ user, copy }: { user: User | null; copy: 
   const form = useAccountNameForm(user);
   const theme = useThemePreference();
   const loginHref = buildLoginHref({ mode: 'signin', nextPath: '/settings' });
+  // Phone sign-up accounts have no email: show their masked number instead of an empty email field.
+  const accountEmail = normalizeAccountEmail(user?.email);
+  const maskedPhone = accountEmail ? null : maskAccountPhone(user?.phone);
 
   const messages = { required: copy.validation.required, tooLong: copy.validation.tooLong, generic: copy.status.genericError, success: copy.status.success };
 
@@ -50,11 +55,19 @@ export function AccountSettingsPanel({ user, copy }: { user: User | null; copy: 
             <span id="settings-account-name-help" className="mt-1.5 block text-xs text-text-muted">{copy.fields.name.help}</span>
             {form.dirty && form.validation.error ? <span role="alert" className="mt-1 block text-xs text-state-warning">{copy.validation[form.validation.error]}</span> : null}
           </label>
+          {maskedPhone ? (
+          <label className="text-sm" htmlFor="settings-account-phone">
+            <span className="mb-1.5 block font-medium text-text-primary">{copy.fields.phone.label}</span>
+            <input id="settings-account-phone" type="text" className="!min-h-11 w-full rounded-input border border-border bg-surface-2 px-3 py-2 text-text-secondary" value={maskedPhone} readOnly />
+            <span className="mt-1.5 block text-xs text-text-muted">{copy.fields.phone.readOnly}</span>
+          </label>
+          ) : (
           <label className="text-sm" htmlFor="settings-account-email">
             <span className="mb-1.5 block font-medium text-text-primary">{copy.fields.email.label}</span>
-            <input id="settings-account-email" type="email" className="!min-h-11 w-full rounded-input border border-border bg-surface-2 px-3 py-2 text-text-secondary" placeholder={copy.fields.email.placeholder} value={user.email ?? ''} readOnly />
+            <input id="settings-account-email" type="email" className="!min-h-11 w-full rounded-input border border-border bg-surface-2 px-3 py-2 text-text-secondary" placeholder={copy.fields.email.placeholder} value={accountEmail ?? ''} readOnly />
             <span className="mt-1.5 block text-xs text-text-muted">{copy.fields.email.readOnly}</span>
           </label>
+          )}
         </div> : (
           <div className="rounded-input border border-border bg-bg p-4">
             <p className="text-sm text-text-secondary">{copy.guest.description}</p>

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { maskAccountPhone, normalizeAccountEmail } from '@/lib/account-identity';
 import { requireAdmin, isUserAdmin } from '@/server/admin';
 import { getSupabaseAdmin } from '@/server/supabase-admin';
 
@@ -41,7 +42,8 @@ export async function GET(req: NextRequest, props: { params: Promise<{ userId: s
     ok: true,
     user: {
       id: user.id,
-      email: user.email,
+      email: normalizeAccountEmail(user.email),
+      phone: maskAccountPhone(user.phone),
       createdAt: user.created_at,
       lastSignInAt: user.last_sign_in_at,
       appMetadata: user.app_metadata,
