@@ -157,7 +157,7 @@ export function EngineSelect({
       )}
       aria-haspopup="dialog"
       aria-expanded={open}
-      aria-label={picker ? `${locale.startsWith('fr') ? 'Changer de modèle' : locale.startsWith('es') ? 'Cambiar modelo' : 'Change model'} : ${selectedMeta?.marketingName ?? selectedEngine.label}` : undefined}
+      aria-label={picker ? `${locale.startsWith('zh') ? '更换模型' : locale.startsWith('fr') ? 'Changer de modèle' : locale.startsWith('es') ? 'Cambiar modelo' : 'Change model'}${locale.startsWith('zh') ? '：' : ' : '}${selectedMeta?.marketingName ?? selectedEngine.label}` : undefined}
     >
       <div className={clsx('flex min-w-0 items-center', controlPresentation === 'workspace' ? 'gap-2' : 'gap-4')}>
         <EngineIcon engine={selectedEngine} size={isBarVariant ? 24 : 32} className="shrink-0" />
@@ -166,7 +166,7 @@ export function EngineSelect({
             {selectedMeta?.marketingName ?? (controlPresentation === 'workspace' ? selectedEngine.label : formatEngineShort(selectedEngine))}
           </p>
           <p className={clsx('text-text-muted', controlPresentation === 'workspace' ? 'break-words whitespace-normal leading-tight' : 'truncate', isBarVariant ? 'text-[10px]' : 'text-[11px]')}>
-            {picker ? (locale.startsWith('fr') ? 'Changer · comparer les prix' : locale.startsWith('es') ? 'Cambiar · comparar precios' : 'Change · compare prices') : selectedEngine.provider}
+            {picker ? (locale.startsWith('zh') ? '更换 · 比较价格' : locale.startsWith('fr') ? 'Changer · comparer les prix' : locale.startsWith('es') ? 'Cambiar · comparar precios' : 'Change · compare prices') : selectedEngine.provider}
             {!picker && (selectedMeta?.versionLabel || selectedEngine.version) ? ` - ${selectedMeta?.versionLabel ?? selectedEngine.version ?? ''}` : ''}
           </p>
         </div>

@@ -85,7 +85,7 @@ function FooterContent({ navigation }: { navigation: MarketingFooterNavigation }
       label: labelFor('footer.sections.product.items.characterBuilder', 'Character Studio'),
       href: { pathname: '/tools/character-builder' },
     },
-    { key: 'milo', label: locale === 'fr' ? 'Milo · Assistant de prompts IA' : locale === 'es' ? 'Milo · Asistente de prompts IA' : 'Milo · AI prompt assistant', href: '/ai-video-prompt-generator' },
+    { key: 'milo', label: locale.startsWith('zh') ? 'Milo · AI 提示词助手' : locale === 'fr' ? 'Milo · Assistant de prompts IA' : locale === 'es' ? 'Milo · Asistente de prompts IA' : 'Milo · AI prompt assistant', href: '/ai-video-prompt-generator' },
     { key: 'pricing', label: labelFor('footer.sections.product.items.pricing', 'Pricing'), href: { pathname: '/pricing' } },
     {
       key: 'paygVideo',

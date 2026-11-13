@@ -9,11 +9,11 @@ import styles from './tools-catalogue.module.css';
 export default function CreatorCatalogueSection({ locale, filter, onSelect }: {
   locale: string; filter: ToolMediaKind | 'all'; onSelect?: (id: string, kind?: ToolMediaKind) => void;
 }) {
-  const language = locale.startsWith('fr') ? 'fr' : locale.startsWith('es') ? 'es' : 'en';
+  const language = locale.startsWith('zh') ? 'zh' : locale.startsWith('fr') ? 'fr' : locale.startsWith('es') ? 'es' : 'en';
   const tools = CREATOR_TOOLBOX.filter(tool => isCreatorToolPublic(tool.id) && (filter === 'all' || tool.inputKinds.includes(filter)));
   if (!tools.length) return null;
   return <section className={styles.workshopSection}>
-    <div className={styles.sectionBar}><h2>{language === 'fr' ? 'Créer et retoucher' : language === 'es' ? 'Crear y editar' : 'Create and edit'}</h2></div>
+    <div className={styles.sectionBar}><h2>{language === 'zh' ? '创作与编辑' : language === 'fr' ? 'Créer et retoucher' : language === 'es' ? 'Crear y editar' : 'Create and edit'}</h2></div>
     <ul className={styles.workshopGrid}>{tools.map(tool => {
       const copy = getCreatorMarketingCopy(language, tool.id);
       const content = <><div className={styles.workshopArt}><CreatorToolMark id={tool.id} /></div>

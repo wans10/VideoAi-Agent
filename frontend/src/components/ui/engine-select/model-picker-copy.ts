@@ -25,5 +25,14 @@ const es: typeof en = {
   model: 'modelo', models: 'modelos', family: 'familia', families: 'familias', empty: 'Ningún modelo coincide', loading: 'Preparando opciones…', unavailable: 'No disponible para esta operación',
   preserved: 'Pulsa un modelo para usarlo.', changes: 'Los ajustes se aplican con el modelo elegido.', legacy: 'Modelos anteriores', adjusted: 'Con', supported: 'Operaciones disponibles', resolutions: 'Resoluciones',
 };
-export function modelPickerCopy(locale: string) { return locale.startsWith('fr') ? fr : locale.startsWith('es') ? es : en; }
+const zh: typeof en = {
+  priceBasis: '价格基于', effectiveSettings: '各模型卡片上显示其生效设置。', priceContextNote: '预估价格以人民币（CNY）显示。各模型的生效设置见其卡片。',
+  title: '选择模型', selected: '精选推荐', all: '全部模型', search: '搜索模型', clear: '清除搜索', close: '关闭模型选择',
+  quality: '质量优先', balanced: '均衡之选', budget: '经济之选', current: '当前', use: '使用', choose: '选择', info: '关于',
+  back: '返回模型列表', confirm: '确认设置', before: '应用前', settings: '请检查将要应用的设置。你的提示词和参考素材会保留。',
+  estimate: '按这些设置预估', priceNote: '预估价格以人民币（CNY）计。生成前会再次核对最终价格。', pending: '预估中…', error: '价格暂不可用', retry: '重试价格',
+  model: '个模型', models: '个模型', family: '系列', families: '个系列', empty: '没有匹配的模型', loading: '正在准备选项…', unavailable: '此操作不可用',
+  preserved: '点击模型即可使用。', changes: '设置将随所选模型一同应用。', legacy: '旧版模型', adjusted: '使用', supported: '支持的操作', resolutions: '分辨率',
+};
+export function modelPickerCopy(locale: string) { return locale.startsWith('zh') ? zh : locale.startsWith('fr') ? fr : locale.startsWith('es') ? es : en; }
 export type ModelPickerCopy = typeof en;

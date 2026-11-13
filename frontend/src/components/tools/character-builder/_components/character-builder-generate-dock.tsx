@@ -15,7 +15,7 @@ import {
   findChoiceSwatch,
 } from '../_lib/character-builder-summary-helpers';
 import {
-  formatUsd,
+  formatEstimatedPrice,
   hasCustomHairSettings,
 } from '../_lib/character-builder-helpers';
 import type { CharacterCopy } from '../_lib/character-builder-copy';
@@ -167,7 +167,7 @@ export function CharacterBuilderStickyDock({
               {copy.generatePanel.pricePerImage.replace('{price}', '').trim()}
             </p>
             <p className={clsx('font-semibold text-text-primary', compact ? 'text-lg' : 'mt-1 text-xl')}>
-              {formatUsd(estimatedImageCostUsd)}
+              {formatEstimatedPrice(estimatedImageCostUsd)}
             </p>
           </div>
           <div className={clsx('flex items-center gap-2', compact ? 'justify-stretch' : '')}>

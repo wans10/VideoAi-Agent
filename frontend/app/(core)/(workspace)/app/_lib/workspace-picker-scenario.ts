@@ -46,9 +46,10 @@ export function preparePickerScenario({ current, engine, currentEngine, locale, 
 }
 
 export function pickerScenarioControls(current: WorkspaceModelSetup, engine: EngineCaps, overrides: PickerScenario, locale: string): PickerControl[] {
-  const fr = locale.startsWith('fr'), es = locale.startsWith('es');
+  const fr = locale.startsWith('fr'), es = locale.startsWith('es'), zh = locale.startsWith('zh');
   const copy = fr ? { duration: 'Durée', resolution: 'Résolution', aspect: 'Format', audio: 'Son', on: 'Avec audio', off: 'Sans audio', outputs: 'Vidéos', scenes: 'Durée des scènes', sourceAudio: 'Durée de l’audio' }
     : es ? { duration: 'Duración', resolution: 'Resolución', aspect: 'Formato', audio: 'Audio', on: 'Con audio', off: 'Sin audio', outputs: 'Vídeos', scenes: 'Duración de escenas', sourceAudio: 'Duración del audio' }
+    : zh ? { duration: '时长', resolution: '分辨率', aspect: '画幅', audio: '音频', on: '开启音频', off: '关闭音频', outputs: '视频', scenes: '场景时长', sourceAudio: '源音频时长' }
     : { duration: 'Duration', resolution: 'Resolution', aspect: 'Format', audio: 'Audio', on: 'Audio on', off: 'Audio off', outputs: 'Videos', scenes: 'Scene timing', sourceAudio: 'Source audio duration' };
   const activeEngine = projected(engine, current);
   const mode = resolveWorkspaceWorkflow({ engine: activeEngine, ...current }).submissionMode, caps = getModeCaps(activeEngine, mode);
@@ -82,18 +83,18 @@ export function updatePickerScenario(current: WorkspaceModelSetup, engine: Engin
 
 /** Source-audio retention and generated audio are different provider inputs. */
 export function pickerAudioControl(current: WorkspaceModelSetup, engine: EngineCaps, locale: string, overrides: PickerScenario = {}): PickerControl {
-  const fr = locale.startsWith('fr'), es = locale.startsWith('es');
+  const fr = locale.startsWith('fr'), es = locale.startsWith('es'), zh = locale.startsWith('zh');
   const workflow = resolveWorkspaceWorkflow({ engine, ...current });
   const keepAudio = findInputFieldById(engine, workflow.submissionMode, 'keep_audio');
   if (keepAudio?.type === 'boolean') {
     const value = overrides.keepAudio ?? current.form.extraInputValues.keep_audio ?? keepAudio.default ?? true;
-    return { id: 'keepAudio', label: fr ? 'Audio source' : es ? 'Audio original' : 'Source audio', value: String(value), options: [
-      { value: 'true', label: fr ? 'Audio source conservé' : es ? 'Conservar audio original' : 'Keep source audio' },
-      { value: 'false', label: fr ? 'Sans audio source' : es ? 'Sin audio original' : 'Mute source audio' },
+    return { id: 'keepAudio', label: fr ? 'Audio source' : es ? 'Audio original' : zh ? '原始音频' : 'Source audio', value: String(value), options: [
+      { value: 'true', label: fr ? 'Audio source conservé' : es ? 'Conservar audio original' : zh ? '保留原始音频' : 'Keep source audio' },
+      { value: 'false', label: fr ? 'Sans audio source' : es ? 'Sin audio original' : zh ? '静音原始音频' : 'Mute source audio' },
     ] };
   }
-  const on = fr ? 'Avec audio' : es ? 'Con audio' : 'Audio on';
-  const off = fr ? 'Sans audio' : es ? 'Sin audio' : 'Audio off';
-  return { id: 'audio', label: fr ? 'Son' : 'Audio', value: workflow.supportsAudioToggle ? String(overrides.audio ?? current.form.audio) : engine.audio ? on : off,
+  const on = fr ? 'Avec audio' : es ? 'Con audio' : zh ? '开启音频' : 'Audio on';
+  const off = fr ? 'Sans audio' : es ? 'Sin audio' : zh ? '关闭音频' : 'Audio off';
+  return { id: 'audio', label: fr ? 'Son' : zh ? '音频' : 'Audio', value: workflow.supportsAudioToggle ? String(overrides.audio ?? current.form.audio) : engine.audio ? on : off,
     options: workflow.supportsAudioToggle ? [{ value: 'true', label: on }, { value: 'false', label: off }] : undefined };
 }
