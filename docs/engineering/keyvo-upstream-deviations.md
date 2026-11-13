@@ -186,6 +186,24 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
   saved keeps a password-less session, and that user reaches the app until the next SMS sign-in. Closing it needs a
   server-side marker. Turning the flag off makes password-only phone accounts unable to sign in until it is on again.
 
+## Login tabs and generic continuation banner removed (2026-11-13)
+
+- **Generic banner removed (regardless of the phone flag):** `buildLoginContinuation` in `frontend/app/(core)/login/_lib/login-continuation.ts`
+  returns `null` for `/app`, `/app/image`, `/app/audio`, `/app/library`, `/app/tools` and `/app/studio`. The banner
+  ("您的生成设置已保存") was derived from the `next=` path alone, so it claimed a saved setting even when nothing was
+  saved. Only the billing amount confirmation (`billing`, `billingGeneric`) and the MCP connection (`mcp`) banners remain.
+  The retired `auth.continuation.{video,image,audio,library,tool,studio}` copy is removed from all four message files.
+  Guards: `tests/login-continuation-confidence.test.ts`.
+- **Phone tabs (flag on):** `登录` shows phone + password (hint and sign-up link removed), `注册` shows the number,
+  the terms/age checkboxes and the SMS step, then the required password step (no tabs). The forgot-password code view
+  and the email view have no tabs and a back link. `?mode=signup` opens 注册, `?mode=signin` and bare `/login` open 登录
+  (`resolveInitialAuthMode(..., fallback)` in `_lib/login-route-state.ts`). Cancelling the password step returns to 登录.
+  The tab bar is `_components/LoginPhoneModeTabs.tsx`; the SMS panel takes `mode` `signup` (registration) or `signin`
+  (recovery, which keeps the consent checkboxes because an unknown number creates an account).
+  Copy: `auth.phone.{tabs,signin,signup,codeSignin,backToPhone}`; `title`, `description`, `usePhone` and
+  `passwordSignin.newUser` are retired. Guards: `tests/login-phone-auth.test.ts`, `tests/login-phone-tabs-contract.test.ts`.
+  The email-era tab bar (flag off) is unchanged.
+
 ## Checking for new deviations after an upstream sync
 
 Run `node scripts/report-upstream-deviations.mjs` after merging a new upstream snapshot. It classifies every file that differs from `origin/MaxVideoAI` by customization (1 zh, 2 LLM Hub Pay, 3 CNY, 4 UI redesign, 5 LLM Hub API, 6 domestic providers, 7 white-label), deploy infrastructure, or documented kept deviation, and lists the paths that are new since `docs/engineering/keyvo-deviation-baseline.tsv`. A new path in `Z no signal` has no sign of belonging to a customization: document it here or restore the upstream file. The classification is heuristic and informational; `--strict` exits non-zero when such paths exist. After reviewing, refresh the baseline with `--write-baseline`.

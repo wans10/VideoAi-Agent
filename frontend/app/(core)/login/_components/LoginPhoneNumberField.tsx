@@ -7,7 +7,8 @@ import { PHONE_COUNTRY_CODE } from '../_lib/login-phone';
 
 type LoginPhoneNumberFieldProps = {
   label: string;
-  hint: string;
+  /** Shown under the field on the registration and recovery steps; sign-in omits it. */
+  hint?: string;
   placeholder: string;
   inputRef: Ref<HTMLInputElement>;
   value: string;
@@ -56,12 +57,14 @@ export function LoginPhoneNumberField({
           className="min-h-11"
           placeholder={placeholder}
           aria-invalid={Boolean(error)}
-          aria-describedby={clsx('auth-phone-hint', error && 'auth-phone-error')}
+          aria-describedby={clsx(hint && 'auth-phone-hint', error && 'auth-phone-error') || undefined}
         />
       </div>
-      <p id="auth-phone-hint" className="mt-1 text-xs text-text-muted">
-        {hint}
-      </p>
+      {hint ? (
+        <p id="auth-phone-hint" className="mt-1 text-xs text-text-muted">
+          {hint}
+        </p>
+      ) : null}
       {error ? (
         <p id="auth-phone-error" className="mt-1 text-xs text-state-warning">
           {error}

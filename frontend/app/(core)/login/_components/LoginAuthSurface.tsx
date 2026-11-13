@@ -13,6 +13,7 @@ import { LoginPasswordField } from './LoginPasswordField';
 import { LoginPhoneAuthPanel } from './LoginPhoneAuthPanel';
 import { LoginPhoneSignInForm } from './LoginPhoneSignInForm';
 import { LoginPhonePasswordSetupForm } from './LoginPhonePasswordSetupForm';
+import { LoginPhoneModeTabs } from './LoginPhoneModeTabs';
 import type { LoginPhoneAuthState } from '../_hooks/useLoginPhoneAuth';
 import { AuthBrandStory } from '@/components/brand/AuthBrandStory';
 import { IcpFiling } from '@/components/marketing/IcpFiling';
@@ -152,23 +153,31 @@ export function LoginAuthSurface({
   const formMode: Exclude<AuthMode, 'reset'> = phoneOnlySignup ? 'signin' : effectiveMode;
   const mcpSigninHeader = mode === 'signin' && continuation?.kind === 'mcp';
   const phoneSetupStep = phoneMethod && phoneAuth?.step === 'setPassword';
+  // Phone views: 注册 tab (mode signup), 登录 tab (mode signin, password form), and the forgot-password
+  // code view (mode signin, code step) which has no tabs. The step of a 注册 tab is 'code' or 'signin'.
+  const phoneSignupTab = phoneMethod && !phoneSetupStep && mode === 'signup';
+  const phoneSigninTab = phoneMethod && !phoneSetupStep && mode === 'signin' && phoneAuth?.step === 'signin';
+  const phoneCodeRecovery = phoneMethod && !phoneSetupStep && mode === 'signin' && phoneAuth?.step === 'code';
+  const phoneTabs = phoneSignupTab || phoneSigninTab;
+  const phoneHeading = !phoneMethod
+    ? { title: authCopy.phone.emailSigninTitle, description: authCopy.phone.emailSigninDescription }
+    : phoneSetupStep ? authCopy.phone.passwordSetup
+    : phoneSignupTab ? authCopy.phone.signup
+    : phoneCodeRecovery ? authCopy.phone.codeSignin
+    : authCopy.phone.signin;
   const headerTitle = mcpSigninHeader && continuation
     ? continuation.title
     : mode === 'reset'
       ? authCopy.modes.reset.title
       : phoneAuth
-        ? (phoneMethod
-          ? (phoneSetupStep ? authCopy.phone.passwordSetup.title : authCopy.phone.title)
-          : authCopy.phone.emailSigninTitle)
+        ? phoneHeading.title
         : mode === 'signup' ? authCopy.modes.signup.title : authCopy.modes.signin.title;
   const headerDescription = mcpSigninHeader && continuation
     ? continuation.body
     : mode === 'reset'
       ? authCopy.modes.reset.description
       : phoneAuth
-        ? (phoneMethod
-          ? (phoneSetupStep ? authCopy.phone.passwordSetup.description : authCopy.phone.description)
-          : authCopy.phone.emailSigninDescription)
+        ? phoneHeading.description
         : mode === 'signup' ? authCopy.modes.signup.description : authCopy.modes.signin.description;
 
   const renderTermsStatement = (highlight = Boolean(termsError)) => (
@@ -216,6 +225,14 @@ export function LoginAuthSurface({
       </div>
       <div className="videoai-auth-card w-full max-w-md space-y-4 sm:space-y-6">
         <header className="space-y-3">
+          {phoneTabs ? (
+            <LoginPhoneModeTabs
+              authCopy={authCopy}
+              tab={phoneSignupTab ? 'signup' : 'signin'}
+              disabled={phoneBusy || isPasswordSubmitting || isConfirmationResending}
+              onChange={onModeChange}
+            />
+          ) : null}
           <div>
             <h1 className="text-lg font-semibold text-text-primary">{headerTitle}</h1>
             <p className="text-sm text-text-secondary">{headerDescription}</p>
@@ -303,20 +320,21 @@ export function LoginAuthSurface({
             )}
             {phoneAuth && phoneMethod ? (
               <>
-                {phoneAuth.step === 'setPassword' ? (
+                {phoneSetupStep ? (
                   <LoginPhonePasswordSetupForm
                     authCopy={authCopy}
                     phone={phoneAuth}
                     isAuthReady={isAuthReady && !isPasswordSubmitting && !isConfirmationResending}
                   />
-                ) : phoneAuth.step === 'code' ? (
+                ) : phoneSignupTab || phoneCodeRecovery ? (
                   <LoginPhoneAuthPanel
                     authCopy={authCopy}
-                    mode={effectiveMode}
+                    mode={phoneSignupTab ? 'signup' : 'signin'}
                     phone={phoneAuth}
                     isAuthReady={isAuthReady && !isPasswordSubmitting && !isConfirmationResending}
                     legalMinAge={legalMinAge}
                     termsStatement={renderPhoneTermsStatement(false)}
+                    onSwitchToSignIn={() => onModeChange('signin')}
                   />
                 ) : (
                   <LoginPhoneSignInForm
@@ -325,7 +343,7 @@ export function LoginAuthSurface({
                     isAuthReady={isAuthReady && !isPasswordSubmitting && !isConfirmationResending}
                   />
                 )}
-                {phoneAuth.step === 'setPassword' ? null : (
+                {phoneSigninTab ? (
                   <Button
                     type="button"
                     variant="ghost"
@@ -337,7 +355,7 @@ export function LoginAuthSurface({
                   >
                     {authCopy.phone.useEmailAccount}
                   </Button>
-                )}
+                ) : null}
               </>
             ) : (
             <form
@@ -501,7 +519,8 @@ export function LoginAuthSurface({
                     onClick={() => phoneAuth.onMethodChange('phone')}
                     className="self-start text-text-secondary hover:text-text-primary"
                   >
-                    {authCopy.phone.usePhone}
+                    <span aria-hidden>←</span>
+                    <span>{authCopy.phone.backToPhone}</span>
                   </Button>
                 ) : null}
               </div>

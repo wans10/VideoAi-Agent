@@ -14,6 +14,16 @@ test('login mode accepts only the supported scalar query values', () => {
   assert.equal(resolveInitialAuthMode(['signin', 'signup']), 'signin');
 });
 
+test('phone login opens on the 登录 tab by default; explicit modes and MCP targets still win', () => {
+  // page.tsx passes 'signin' as the fallback when NEXT_PUBLIC_PHONE_LOGIN_ENABLED is on.
+  assert.equal(resolveInitialAuthMode(undefined, undefined, 'signin'), 'signin');
+  assert.equal(resolveInitialAuthMode('other', undefined, 'signin'), 'signin');
+  assert.equal(resolveInitialAuthMode('signup', undefined, 'signin'), 'signup');
+  assert.equal(resolveInitialAuthMode('signin', undefined, 'signup'), 'signin');
+  assert.equal(resolveInitialAuthMode(undefined, '/oauth/consent?authorization_id=authz_1234567890', 'signin'), 'signin');
+  assert.equal(resolveInitialAuthMode(undefined, '/app', 'signin'), 'signin');
+});
+
 test('login locale ignores disabled languages stored in old cookies', () => {
   assert.equal(resolveInitialAuthLocale('fr', 'en'), 'zh');
   assert.equal(resolveInitialAuthLocale('de', 'es'), 'zh');

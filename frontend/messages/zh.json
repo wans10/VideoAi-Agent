@@ -7146,30 +7146,6 @@
         "title": "您的充值选择已保存",
         "body": "创建账户或登录后，您将返回充值页面以安全继续。"
       },
-      "video": {
-        "title": "您的生成设置已保存",
-        "body": "在此继续，您将返回相同的视频模型与配置参数。"
-      },
-      "image": {
-        "title": "您的图像设置已保存",
-        "body": "在此继续，您将返回相同的图像模型与配置参数。"
-      },
-      "audio": {
-        "title": "您的音频工作区已就绪",
-        "body": "在此继续，您将返回生成音频界面。"
-      },
-      "library": {
-        "title": "您将返回媒体库",
-        "body": "在此继续，您将返回保存的媒体与最近渲染结果。"
-      },
-      "tool": {
-        "title": "您的工具设置已保存",
-        "body": "在此继续，您将返回相同的创作工具。"
-      },
-      "studio": {
-        "title": "继续进入 Studio",
-        "body": "创建账户或登录以返回 Studio，完善图片或视频创意。打开工作区不会开始付费生成。"
-      },
       "mcp": {
         "title": "连接您的 Keyvo 账户",
         "body": "请使用网站上的同一 Keyvo 账户登录。您将审核所请求的权限，然后返回助手。"
@@ -7270,12 +7246,9 @@
       "methodGroup": "选择登录方式",
       "methodEmail": "邮箱密码",
       "methodPhone": "手机验证码",
-      "title": "手机号登录 / 注册",
-      "description": "使用中国大陆手机号和短信验证码登录，新手机号验证后自动创建 Keyvo 账户。",
-      "emailSigninTitle": "邮箱账户登录",
-      "emailSigninDescription": "适用于此前使用邮箱注册的账户。新用户请使用手机号注册。",
+      "emailSigninTitle": "邮箱登录",
+      "emailSigninDescription": "已有邮箱账户的用户，可继续使用邮箱和密码登录。",
       "useEmailAccount": "已有邮箱账户？使用邮箱和密码登录",
-      "usePhone": "使用手机号登录或注册",
       "emailSigninFailed": "邮箱或密码不正确。新用户请返回使用手机号注册。",
       "fields": {
         "phone": "手机号",
@@ -7285,7 +7258,7 @@
         "phone": "11 位手机号",
         "code": "6 位数字验证码"
       },
-      "hint": "仅支持中国大陆手机号。未注册的手机号验证后将自动创建账户。",
+      "hint": "仅支持中国大陆手机号。",
       "actions": {
         "send": "获取验证码",
         "resend": "重新获取",
@@ -7327,8 +7300,7 @@
       },
       "passwordSignin": {
         "submit": "登录",
-        "forgotPassword": "忘记密码？用短信验证码登录",
-        "newUser": "新用户？用验证码注册"
+        "forgotPassword": "忘记密码？用短信验证码登录"
       },
       "passwordSetup": {
         "title": "设置登录密码",
@@ -7338,7 +7310,25 @@
         "cancel": "取消并返回登录",
         "verified": "验证成功，请设置登录密码后继续。"
       },
-      "backToPassword": "返回密码登录"
+      "backToPassword": "返回密码登录",
+      "backToPhone": "返回手机号登录",
+      "tabs": {
+        "signin": "登录",
+        "signup": "注册"
+      },
+      "signin": {
+        "title": "欢迎回来",
+        "description": "使用手机号和密码登录 Keyvo。"
+      },
+      "signup": {
+        "title": "创建 Keyvo 账户",
+        "description": "使用中国大陆手机号接收验证码，验证后设置登录密码。",
+        "haveAccount": "已有账户？去登录"
+      },
+      "codeSignin": {
+        "title": "验证码登录",
+        "description": "用短信验证码登录，登录后可重新设置密码。"
+      }
     }
   },
   "comparePage": {

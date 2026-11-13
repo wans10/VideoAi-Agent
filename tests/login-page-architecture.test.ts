@@ -52,7 +52,8 @@ test('login page delegates localized copy and browser helpers to route-local mod
   assert.doesNotMatch(pageSource, /'use client'/);
   assert.match(pageSource, /from 'next\/headers'/);
   assert.match(pageSource, /<LoginPageClient/);
-  assert.match(pageSource, /resolveInitialAuthMode\(params\.mode, params\.next\)/);
+  // The third argument is the phone-login default (登录 when NEXT_PUBLIC_PHONE_LOGIN_ENABLED is on).
+  assert.match(pageSource, /resolveInitialAuthMode\(params\.mode, params\.next, isPhoneLoginEnabled\(\) \? 'signin' : 'signup'\)/);
   assert.match(pageSource, /resolveInitialAuthLocale\(/);
   assert.match(pageClientSource, /'use client'/);
   assert.match(pageClientSource, /from '\.\.\/_hooks\/useLoginPageController'/);

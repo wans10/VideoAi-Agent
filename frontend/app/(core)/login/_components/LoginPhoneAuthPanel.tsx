@@ -18,10 +18,17 @@ type LoginPhoneAuthPanelProps = {
   isAuthReady: boolean;
   legalMinAge: number;
   termsStatement: ReactNode;
+  /** 注册 tab footer: switches to the 登录 tab. */
+  onSwitchToSignIn: () => void;
 };
 
-/** SMS code step: mainland mobile number + 6-digit code. New accounts and forgot-password recovery both use it. */
-export function LoginPhoneAuthPanel({ authCopy, mode, phone, isAuthReady, legalMinAge, termsStatement }: LoginPhoneAuthPanelProps) {
+/**
+ * SMS code step. mode 'signup' is the 注册 tab (registration, footer link to 登录); mode 'signin' is the
+ * forgot-password recovery view (back link to password sign-in). Both keep the terms and age checkboxes:
+ * a number that has no account yet creates one.
+ */
+export function LoginPhoneAuthPanel({ authCopy, mode, phone, isAuthReady, legalMinAge, termsStatement, onSwitchToSignIn }: LoginPhoneAuthPanelProps) {
+  const isSignup = mode === 'signup';
   const copy = authCopy.phone;
   const message = (field: PhoneFieldError) => {
     if (phone.fieldError !== field) return undefined;
@@ -145,28 +152,45 @@ export function LoginPhoneAuthPanel({ authCopy, mode, phone, isAuthReady, legalM
         ) : null}
       </div>
 
-      <Button
-        type="button"
-        variant="ghost"
-        size="sm"
-        data-testid="phone-back-to-password"
-        disabled={phone.isBusy}
-        onClick={phone.onBackToPasswordSignIn}
-        className="self-start text-xs text-text-secondary hover:text-text-primary"
-      >
-        {copy.backToPassword}
-      </Button>
+      {isSignup ? null : (
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          data-testid="phone-back-to-password"
+          disabled={phone.isBusy}
+          onClick={phone.onBackToPasswordSignIn}
+          className="self-start text-xs text-text-secondary hover:text-text-primary"
+        >
+          <span aria-hidden>←</span>
+          <span>{copy.backToPassword}</span>
+        </Button>
+      )}
 
       <Button
         type="submit"
         disabled={disabled || (!codeSent && coolingDown) || (codeSent && phone.attemptsLeft <= 0)}
         aria-busy={phone.isBusy}
-        variant={mode === 'signup' ? 'primary' : 'outline'}
+        variant={isSignup ? 'primary' : 'outline'}
         className="w-full gap-2"
       >
         {phone.isBusy ? <LoaderCircle aria-hidden="true" className="h-4 w-4 animate-spin motion-reduce:animate-none" /> : null}
-        {codeSent ? (mode === 'signup' ? copy.actions.verifySignup : copy.actions.verifySignin) : resendLabel}
+        {codeSent ? (isSignup ? copy.actions.verifySignup : copy.actions.verifySignin) : resendLabel}
       </Button>
+
+      {isSignup ? (
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          data-testid="phone-switch-to-signin"
+          disabled={phone.isBusy}
+          onClick={onSwitchToSignIn}
+          className="self-center text-xs text-text-secondary hover:text-text-primary"
+        >
+          {copy.signup.haveAccount}
+        </Button>
+      ) : null}
     </form>
   );
 }

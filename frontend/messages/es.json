@@ -6916,10 +6916,6 @@
       }
     },
     "continuation": {
-      "studio": {
-        "title": "Continuar a Studio",
-        "body": "Crea una cuenta o inicia sesión para volver a Studio y preparar tu imagen o clip. Abrir el espacio no inicia una generación de pago."
-      },
       "mcp": {
         "title": "Conecta tu cuenta Keyvo",
         "body": "Inicia sesión con la misma cuenta Keyvo que usas en la web. Podrás revisar los permisos solicitados y volver a tu asistente."
@@ -6931,26 +6927,6 @@
       "billingGeneric": {
         "title": "Tu selección de recarga está guardada",
         "body": "Crea una cuenta o inicia sesión y volverás a Facturación para continuar de forma segura."
-      },
-      "video": {
-        "title": "Tu configuración de video está guardada",
-        "body": "Continúa aquí y volverás al mismo motor de video y a los mismos ajustes."
-      },
-      "image": {
-        "title": "Tu configuración de imagen está guardada",
-        "body": "Continúa aquí y volverás al mismo motor de imagen y a los mismos ajustes."
-      },
-      "audio": {
-        "title": "Tu espacio de audio te espera",
-        "body": "Continúa aquí y volverás a Generar audio."
-      },
-      "library": {
-        "title": "Volverás a Medios",
-        "body": "Continúa aquí y volverás a tus medios guardados y renders recientes."
-      },
-      "tool": {
-        "title": "La configuración de la herramienta está guardada",
-        "body": "Continúa aquí y volverás a la misma herramienta."
       }
     },
     "google": "Continuar con Google",
@@ -7043,12 +7019,9 @@
       "methodGroup": "Elige un método de acceso",
       "methodEmail": "Correo y contraseña",
       "methodPhone": "Código SMS",
-      "title": "Inicia sesión o regístrate con tu teléfono",
-      "description": "Usa un número móvil de China continental y un código SMS. Un número nuevo crea una cuenta de Keyvo tras la verificación.",
-      "emailSigninTitle": "Inicia sesión con correo electrónico",
-      "emailSigninDescription": "Para cuentas creadas con un correo electrónico. Los nuevos usuarios se registran con un número de teléfono.",
+      "emailSigninTitle": "Inicio de sesión con correo",
+      "emailSigninDescription": "Las cuentas existentes inician sesión con su correo y contraseña.",
       "useEmailAccount": "¿Tienes una cuenta con correo? Inicia sesión con correo y contraseña",
-      "usePhone": "Inicia sesión o regístrate con un número de teléfono",
       "emailSigninFailed": "Correo o contraseña incorrectos. Los nuevos usuarios se registran con un número de teléfono.",
       "fields": {
         "phone": "Número de móvil",
@@ -7058,7 +7031,7 @@
         "phone": "Número de 11 dígitos",
         "code": "Código de 6 dígitos"
       },
-      "hint": "Solo números de China continental. Un número nuevo crea una cuenta tras la verificación.",
+      "hint": "Solo números móviles de China continental.",
       "actions": {
         "send": "Enviar código",
         "resend": "Reenviar código",
@@ -7100,8 +7073,7 @@
       },
       "passwordSignin": {
         "submit": "Iniciar sesión",
-        "forgotPassword": "¿Olvidaste la contraseña? Inicia sesión con un código SMS",
-        "newUser": "¿Nuevo aquí? Regístrate con un código SMS"
+        "forgotPassword": "¿Olvidaste la contraseña? Inicia sesión con un código SMS"
       },
       "passwordSetup": {
         "title": "Crea una contraseña",
@@ -7111,7 +7083,25 @@
         "cancel": "Cancelar y volver al inicio de sesión",
         "verified": "Verificado. Crea una contraseña para terminar de iniciar sesión."
       },
-      "backToPassword": "Volver al inicio de sesión con contraseña"
+      "backToPassword": "Volver al inicio de sesión con contraseña",
+      "backToPhone": "Volver al inicio de sesión con teléfono",
+      "tabs": {
+        "signin": "Iniciar sesión",
+        "signup": "Registrarse"
+      },
+      "signin": {
+        "title": "Bienvenido de nuevo",
+        "description": "Inicia sesión en Keyvo con tu número de teléfono y contraseña."
+      },
+      "signup": {
+        "title": "Crea tu cuenta de Keyvo",
+        "description": "Recibe un código de verificación en un número móvil de China continental y luego define una contraseña.",
+        "haveAccount": "¿Ya tienes una cuenta? Inicia sesión"
+      },
+      "codeSignin": {
+        "title": "Inicio de sesión con código SMS",
+        "description": "Inicia sesión con un código de verificación y después define una contraseña nueva."
+      }
     }
   },
   "comparePage": {

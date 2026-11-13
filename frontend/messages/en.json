@@ -6914,10 +6914,6 @@
       }
     },
     "continuation": {
-      "studio": {
-        "title": "Continue to Studio",
-        "body": "Create an account or sign in to return to Studio and develop your image or clip. Opening the workspace does not start a paid generation."
-      },
       "mcp": {
         "title": "Connect your Keyvo account",
         "body": "Sign in with the same Keyvo account you use on the website. You will review the requested access, then return to your assistant."
@@ -6929,26 +6925,6 @@
       "billingGeneric": {
         "title": "Your top-up selection is saved",
         "body": "Create an account or sign in, then you’ll return to Billing to continue securely."
-      },
-      "video": {
-        "title": "Your generation setup is saved",
-        "body": "Continue here, then you’ll return to the same video engine and settings."
-      },
-      "image": {
-        "title": "Your image setup is saved",
-        "body": "Continue here, then you’ll return to the same image engine and settings."
-      },
-      "audio": {
-        "title": "Your audio workspace is waiting",
-        "body": "Continue here, then you’ll return to Generate Audio."
-      },
-      "library": {
-        "title": "You’ll return to Media",
-        "body": "Continue here, then you’ll go back to your saved media and recent renders."
-      },
-      "tool": {
-        "title": "Your tool setup is saved",
-        "body": "Continue here, then you’ll return to the same tool."
       }
     },
     "google": "Continue with Google",
@@ -7041,12 +7017,9 @@
       "methodGroup": "Choose a sign-in method",
       "methodEmail": "Email & password",
       "methodPhone": "Phone code",
-      "title": "Sign in or sign up with your phone",
-      "description": "Use a mainland China mobile number and SMS code. A new number creates a Keyvo account after verification.",
-      "emailSigninTitle": "Sign in with email",
-      "emailSigninDescription": "For accounts created with an email address. New users sign up with a phone number.",
+      "emailSigninTitle": "Email sign-in",
+      "emailSigninDescription": "Existing email accounts sign in with their email and password.",
       "useEmailAccount": "Have an email account? Sign in with email and password",
-      "usePhone": "Sign in or sign up with a phone number",
       "emailSigninFailed": "Incorrect email or password. New users sign up with a phone number.",
       "fields": {
         "phone": "Mobile number",
@@ -7056,7 +7029,7 @@
         "phone": "11-digit mobile number",
         "code": "6-digit code"
       },
-      "hint": "Mainland China mobile numbers only. A new number creates an account after verification.",
+      "hint": "Mainland China mobile numbers only.",
       "actions": {
         "send": "Send code",
         "resend": "Resend code",
@@ -7098,8 +7071,7 @@
       },
       "passwordSignin": {
         "submit": "Sign in",
-        "forgotPassword": "Forgot password? Sign in with an SMS code",
-        "newUser": "New here? Register with an SMS code"
+        "forgotPassword": "Forgot password? Sign in with an SMS code"
       },
       "passwordSetup": {
         "title": "Set a password",
@@ -7109,7 +7081,25 @@
         "cancel": "Cancel and return to sign-in",
         "verified": "Verified. Set a password to finish signing in."
       },
-      "backToPassword": "Back to password sign-in"
+      "backToPassword": "Back to password sign-in",
+      "backToPhone": "Back to phone sign-in",
+      "tabs": {
+        "signin": "Sign in",
+        "signup": "Sign up"
+      },
+      "signin": {
+        "title": "Welcome back",
+        "description": "Sign in to Keyvo with your phone number and password."
+      },
+      "signup": {
+        "title": "Create your Keyvo account",
+        "description": "Receive a verification code on a mainland China mobile number, then set a sign-in password.",
+        "haveAccount": "Already have an account? Sign in"
+      },
+      "codeSignin": {
+        "title": "Sign in with an SMS code",
+        "description": "Sign in with a verification code, then set a new password."
+      }
     }
   },
   "comparePage": {
