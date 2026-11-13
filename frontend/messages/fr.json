@@ -7040,7 +7040,49 @@
       "completeSignInError": "Impossible de finaliser la connexion.",
       "consentSaveError": "Impossible d’enregistrer vos choix de consentement. Réessayez."
     },
-    "oauthCallbackError": "La connexion Google n’a pas pu aboutir. Veuillez réessayer."
+    "oauthCallbackError": "La connexion Google n’a pas pu aboutir. Veuillez réessayer.",
+    "phone": {
+      "methodGroup": "Choisir un mode de connexion",
+      "methodEmail": "E-mail et mot de passe",
+      "methodPhone": "Code SMS",
+      "fields": {
+        "phone": "Numéro de mobile",
+        "code": "Code SMS"
+      },
+      "placeholders": {
+        "phone": "Numéro à 11 chiffres",
+        "code": "Code à 6 chiffres"
+      },
+      "hint": "Numéros de Chine continentale uniquement. Un nouveau numéro crée un compte après vérification.",
+      "actions": {
+        "send": "Recevoir le code",
+        "resend": "Renvoyer le code",
+        "resendIn": "Renvoyer dans {seconds} s",
+        "verifySignin": "Vérifier et se connecter",
+        "verifySignup": "Vérifier et créer le compte",
+        "changePhone": "Changer de numéro"
+      },
+      "validation": {
+        "phoneRequired": "Saisissez votre numéro de mobile.",
+        "phoneInvalid": "Saisissez un numéro de Chine continentale valide (11 chiffres commençant par 1).",
+        "codeRequired": "Saisissez le code SMS à 6 chiffres."
+      },
+      "feedback": {
+        "sending": "Envoi du code…",
+        "sent": "Code envoyé au {phone}. Il est valable 5 minutes.",
+        "verifying": "Vérification…",
+        "redirecting": "Vérifié, redirection…",
+        "codeInvalid": "Code incorrect ou expiré. Encore {count} essais.",
+        "attemptsExhausted": "Trop de codes incorrects. Demandez un nouveau code.",
+        "rateLimited": "Trop de demandes de code. Réessayez plus tard.",
+        "verifyRateLimited": "Trop de tentatives. Réessayez plus tard.",
+        "providerUnavailable": "Le service SMS est momentanément indisponible. Réessayez plus tard ou utilisez l’e-mail.",
+        "phoneDisabled": "La connexion par téléphone n’est pas encore disponible. Utilisez l’e-mail.",
+        "signupDisabled": "Impossible de créer un compte avec un numéro de téléphone. Inscrivez-vous par e-mail.",
+        "invalidPhone": "Ce numéro ne peut pas recevoir de code. Vérifiez-le et réessayez.",
+        "verifyUnavailable": "Vérification momentanément indisponible. Réessayez."
+      }
+    }
   },
   "comparePage": {
     "meta": {

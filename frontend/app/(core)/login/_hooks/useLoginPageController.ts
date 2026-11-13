@@ -31,9 +31,13 @@ import { useLoginAuthenticatedRedirect } from './useLoginAuthenticatedRedirect';
 import { useLoginAuthHashSession } from './useLoginAuthHashSession';
 import { useLoginNextTarget } from './useLoginNextTarget';
 import { useLoginOAuthCodeExchange } from './useLoginOAuthCodeExchange';
+import { useLoginPhoneAuth } from './useLoginPhoneAuth';
+import { isPhoneLoginEnabled } from '../_lib/login-phone';
 
 const MIN_AGE_ENV = Number.parseInt(process.env.NEXT_PUBLIC_LEGAL_MIN_AGE ?? '15', 10);
 const LEGAL_MIN_AGE = Number.isNaN(MIN_AGE_ENV) ? 15 : MIN_AGE_ENV;
+// Build-time flag (NEXT_PUBLIC_PHONE_LOGIN_ENABLED); off until the GoTrue SMS hook is live.
+const PHONE_LOGIN_ENABLED = isPhoneLoginEnabled();
 
 type UseLoginPageControllerOptions = {
   initialMode: AuthMode;
@@ -159,6 +163,19 @@ export function useLoginPageController({
     },
     [persistNextTarget, router]
   );
+
+  const phoneAuth = useLoginPhoneAuth({
+    enabled: PHONE_LOGIN_ENABLED,
+    authCopy,
+    locale,
+    nextPath,
+    nextPathReady,
+    blocked: passwordSubmission.busy || isConfirmationResending,
+    completeAuthenticatedRedirect,
+    setStatus,
+    setStatusTone,
+    setError,
+  });
 
   const { redirectFromExistingBrowserSession } = useLoginAuthenticatedRedirect({
     completeAuthenticatedRedirect,
@@ -566,6 +583,7 @@ export function useLoginPageController({
     isResetSending,
     isAuthReady: nextPathReady,
     isPasswordSubmitting: passwordSubmission.busy,
+    phoneAuth,
     acceptTerms,
     ageConfirmed,
     marketingOptIn,

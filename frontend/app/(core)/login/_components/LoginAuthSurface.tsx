@@ -10,6 +10,8 @@ import type { LoginContinuation } from '../_lib/login-continuation';
 import { formatTemplate } from '../_lib/login-helpers';
 import type { AuthFieldErrors, AuthFieldName } from '../_lib/login-validation';
 import { LoginPasswordField } from './LoginPasswordField';
+import { LoginPhoneAuthPanel } from './LoginPhoneAuthPanel';
+import type { LoginPhoneAuthState } from '../_hooks/useLoginPhoneAuth';
 import { AuthBrandStory } from '@/components/brand/AuthBrandStory';
 import { IcpFiling } from '@/components/marketing/IcpFiling';
 import { KEYVO_GOOGLE_LOGIN_HIDDEN } from '@/config/keyvo-disabled-features';
@@ -37,6 +39,8 @@ type LoginAuthSurfaceProps = {
   isResetSending: boolean;
   isAuthReady?: boolean;
   isPasswordSubmitting?: boolean;
+  /** Present only when NEXT_PUBLIC_PHONE_LOGIN_ENABLED is on. */
+  phoneAuth?: LoginPhoneAuthState | null;
   acceptTerms: boolean;
   ageConfirmed: boolean;
   marketingOptIn: boolean;
@@ -102,6 +106,7 @@ export function LoginAuthSurface({
   isResetSending,
   isAuthReady = true,
   isPasswordSubmitting = false,
+  phoneAuth = null,
   acceptTerms,
   ageConfirmed,
   marketingOptIn,
@@ -137,9 +142,11 @@ export function LoginAuthSurface({
   const confirmError = fieldError('confirm');
   const termsError = fieldError('acceptTerms');
   const ageError = fieldError('ageConfirmed');
+  const phoneMethod = phoneAuth?.method === 'phone';
+  const phoneBusy = Boolean(phoneAuth?.isBusy);
 
-  const renderTermsStatement = () => (
-    <span className={clsx(Boolean(termsError) && 'text-state-warning')}>
+  const renderTermsStatement = (highlight = Boolean(termsError)) => (
+    <span className={clsx(highlight && 'text-state-warning')}>
       {authCopy.terms.prefix}
       <a href="/legal/terms" target="_blank" rel="noopener noreferrer" className="text-brand underline">
         {authCopy.terms.termsLabel}
@@ -214,7 +221,7 @@ export function LoginAuthSurface({
                 variant={effectiveMode === 'signin' ? 'primary' : 'ghost'}
                 size="sm"
                 aria-pressed={effectiveMode === 'signin'}
-                disabled={isPasswordSubmitting || isConfirmationResending}
+                disabled={isPasswordSubmitting || isConfirmationResending || phoneBusy}
                 onClick={() => onModeChange('signin')}
                 className={clsx(
                   'min-h-11 flex-1 rounded-pill px-3 py-2',
@@ -228,7 +235,7 @@ export function LoginAuthSurface({
                 variant={effectiveMode === 'signup' ? 'primary' : 'ghost'}
                 size="sm"
                 aria-pressed={effectiveMode === 'signup'}
-                disabled={isPasswordSubmitting || isConfirmationResending}
+                disabled={isPasswordSubmitting || isConfirmationResending || phoneBusy}
                 onClick={() => onModeChange('signup')}
                 className={clsx(
                   'min-h-11 flex-1 rounded-pill px-3 py-2',
@@ -265,6 +272,41 @@ export function LoginAuthSurface({
             </div>
               </>
             )}
+            {phoneAuth ? (
+              <div
+                role="group"
+                aria-label={authCopy.phone.methodGroup}
+                className="flex items-center gap-2 border-b border-border text-sm font-medium"
+              >
+                {(['email', 'phone'] as const).map((method) => (
+                  <button
+                    key={method}
+                    type="button"
+                    aria-pressed={phoneAuth?.method === method}
+                    disabled={isPasswordSubmitting || isConfirmationResending || phoneBusy}
+                    onClick={() => phoneAuth?.onMethodChange(method)}
+                    className={clsx(
+                      '-mb-px min-h-11 flex-1 border-b-2 px-3 py-2 transition disabled:cursor-not-allowed disabled:opacity-60',
+                      phoneAuth?.method === method
+                        ? 'border-brand text-text-primary'
+                        : 'border-transparent text-text-secondary hover:text-text-primary'
+                    )}
+                  >
+                    {method === 'email' ? authCopy.phone.methodEmail : authCopy.phone.methodPhone}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+            {phoneAuth && phoneMethod ? (
+              <LoginPhoneAuthPanel
+                authCopy={authCopy}
+                mode={effectiveMode}
+                phone={phoneAuth}
+                isAuthReady={isAuthReady && !isPasswordSubmitting && !isConfirmationResending}
+                legalMinAge={legalMinAge}
+                termsStatement={renderTermsStatement(false)}
+              />
+            ) : (
             <form
               method="post"
               noValidate
@@ -402,8 +444,9 @@ export function LoginAuthSurface({
                 {mode === 'signin' ? authCopy.actions.signin : authCopy.actions.signup}
               </Button>
             </form>
+            )}
 
-            {mode === 'signin' ? (
+            {mode === 'signin' && !phoneMethod ? (
               <div className="flex flex-col gap-2 text-xs">
                 <Button
                   type="button"

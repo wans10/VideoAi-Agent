@@ -7032,7 +7032,49 @@
       "completeSignInError": "No se pudo completar el inicio de sesión.",
       "consentSaveError": "No pudimos guardar tus opciones de consentimiento. Inténtalo de nuevo."
     },
-    "oauthCallbackError": "No se pudo completar el inicio de sesión con Google. Inténtalo de nuevo."
+    "oauthCallbackError": "No se pudo completar el inicio de sesión con Google. Inténtalo de nuevo.",
+    "phone": {
+      "methodGroup": "Elige un método de acceso",
+      "methodEmail": "Correo y contraseña",
+      "methodPhone": "Código SMS",
+      "fields": {
+        "phone": "Número de móvil",
+        "code": "Código SMS"
+      },
+      "placeholders": {
+        "phone": "Número de 11 dígitos",
+        "code": "Código de 6 dígitos"
+      },
+      "hint": "Solo números de China continental. Un número nuevo crea una cuenta tras la verificación.",
+      "actions": {
+        "send": "Enviar código",
+        "resend": "Reenviar código",
+        "resendIn": "Reenviar en {seconds} s",
+        "verifySignin": "Verificar e iniciar sesión",
+        "verifySignup": "Verificar y crear cuenta",
+        "changePhone": "Cambiar número"
+      },
+      "validation": {
+        "phoneRequired": "Introduce tu número de móvil.",
+        "phoneInvalid": "Introduce un número válido de China continental (11 dígitos que empiezan por 1).",
+        "codeRequired": "Introduce el código SMS de 6 dígitos."
+      },
+      "feedback": {
+        "sending": "Enviando código…",
+        "sent": "Código enviado a {phone}. Es válido durante 5 minutos.",
+        "verifying": "Verificando…",
+        "redirecting": "Verificado, redirigiendo…",
+        "codeInvalid": "El código es incorrecto o ha caducado. Quedan {count} intentos.",
+        "attemptsExhausted": "Demasiados códigos incorrectos. Solicita un código nuevo.",
+        "rateLimited": "Demasiadas solicitudes de código. Inténtalo más tarde.",
+        "verifyRateLimited": "Demasiados intentos. Inténtalo más tarde.",
+        "providerUnavailable": "El servicio SMS no está disponible temporalmente. Inténtalo más tarde o usa el correo.",
+        "phoneDisabled": "El acceso por teléfono aún no está disponible. Usa el correo.",
+        "signupDisabled": "No se pueden crear cuentas con un número de teléfono. Regístrate con correo.",
+        "invalidPhone": "Este número no puede recibir códigos. Revísalo e inténtalo de nuevo.",
+        "verifyUnavailable": "La verificación no está disponible temporalmente. Inténtalo de nuevo."
+      }
+    }
   },
   "comparePage": {
     "meta": {

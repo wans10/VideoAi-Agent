@@ -126,6 +126,31 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
   (poster `/hero/showcase-wan-3-city-22s.webp`) instead of Wan 2.6; an unpublished engine's card is dropped, which
   left the zh homepage with three cards. Keep the Wan 3 card on upstream syncs.
 
+### Phone number + SMS code login (2026-11-13, off by default)
+
+- **Keyvo:** `/login` can offer mainland mobile sign-in/sign-up next to email/password: `+86` numbers only
+  (`^1[3-9]\d{9}$`), `supabase.auth.signInWithOtp({ phone, options: { shouldCreateUser: true } })` then
+  `verifyOtp({ phone, token, type: 'sms' })`, a 60 s resend cooldown kept in `sessionStorage`
+  (`keyvo-login-phone-otp`), five client-side code attempts, and the same `completeAuthenticatedRedirect`
+  (next target, onboarding flags, wallet refresh) as password login. The form requires the terms and age
+  checkboxes because a new number creates an account; consents go to `/api/legal/consents` only when the verified
+  user was created within the last 30 minutes. Upstream has no phone login (Google OAuth is its mainland-unreachable
+  alternative, hidden by `KEYVO_GOOGLE_LOGIN_HIDDEN`).
+- **Owners:** pure rules in `frontend/app/(core)/login/_lib/login-phone.ts`, the flow in `_hooks/useLoginPhoneAuth.ts`,
+  the form in `_components/LoginPhoneAuthPanel.tsx`; `LoginAuthSurface.tsx` and `useLoginPageController.ts` only gain
+  an optional `phoneAuth` prop and the hook call. Copy is `auth.phone.*` in all four message files (the shared
+  `AuthCopy` type and `tests/login-copy-localization.test.ts` need every locale).
+- **Flag:** `NEXT_PUBLIC_PHONE_LOGIN_ENABLED` (build time; Dockerfile ARG defaulting to `false`, GitHub variable in
+  `docker-build-push.yml`, `docker-compose.1panel.yml` build arg, `.env.production.example`). Without it the page renders
+  exactly the email/password form.
+- **Server side** (not part of the web image): `docs/deployment/phone-login-sms/` holds the GoTrue Send SMS hook
+  (`hook.js`, Alibaba Cloud SMS, Standard Webhooks signature, masked logs, in-memory per-phone/global limits), its
+  pinned `package.json`/lockfile, Dockerfile, compose snippet, GoTrue environment lines and an operator README.
+- **Tests:** `tests/login-phone-auth.test.ts` (validation, cooldown, error mapping, flag, DOM flow) and
+  `tests/phone-login-sms-hook.test.ts` (hook behaviour with injected verifier/sender). Keep them on upstream syncs.
+- The analytics journey sanitizer (`frontend/lib/analytics/journey.ts`) only knows `password` and `google` methods,
+  so `method: 'phone'` is not reported until it is added there.
+
 ## Checking for new deviations after an upstream sync
 
 Run `node scripts/report-upstream-deviations.mjs` after merging a new upstream snapshot. It classifies every file that differs from `origin/MaxVideoAI` by customization (1 zh, 2 LLM Hub Pay, 3 CNY, 4 UI redesign, 5 LLM Hub API, 6 domestic providers, 7 white-label), deploy infrastructure, or documented kept deviation, and lists the paths that are new since `docs/engineering/keyvo-deviation-baseline.tsv`. A new path in `Z no signal` has no sign of belonging to a customization: document it here or restore the upstream file. The classification is heuristic and informational; `--strict` exits non-zero when such paths exist. After reviewing, refresh the baseline with `--write-baseline`.
