@@ -112,7 +112,7 @@ export function AdminDashboardView({ data }: { data: AdminOverview }) {
             <tbody className="divide-y divide-hairline">
               {data.users?.recent.map((user) => (
                 <tr key={user.id}>
-                  <td className="px-3 py-3 font-medium">{user.email ?? user.id}</td>
+                  <td className="px-3 py-3 font-medium">{user.email ?? user.phone ?? user.id}</td>
                   <td className="whitespace-nowrap px-3 py-3 text-xs text-text-secondary">{time(user.createdAt)}</td>
                   <td className="px-3 py-3 text-right">
                     <Link className="text-xs text-brand" href={`/admin/users/${user.id}`}>

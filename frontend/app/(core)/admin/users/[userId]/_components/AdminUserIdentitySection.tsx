@@ -14,7 +14,7 @@ export function AdminUserIdentitySection({ profile }: { profile: AdminUserProfil
         profile ? (
           <AdminSectionMeta
             title={profile.isAdmin ? 'Admin account' : 'Member account'}
-            lines={[profile.email ?? 'No email', profile.lastSignInAt ? `Last sign-in ${formatShortDate(profile.lastSignInAt)}` : 'No sign-in captured']}
+            lines={[profile.email ?? profile.phone ?? 'No email', profile.lastSignInAt ? `Last sign-in ${formatShortDate(profile.lastSignInAt)}` : 'No sign-in captured']}
           />
         ) : undefined
       }
@@ -23,6 +23,7 @@ export function AdminUserIdentitySection({ profile }: { profile: AdminUserProfil
         <div className="space-y-4">
           <dl className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
             <ProfileField label="Email">{profile.email ?? '—'}</ProfileField>
+            {profile.phone ? <ProfileField label="Phone">{profile.phone}</ProfileField> : null}
             <ProfileField label="User ID">
               <span className="font-mono text-xs">{profile.id}</span>
             </ProfileField>

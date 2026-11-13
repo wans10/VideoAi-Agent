@@ -62,7 +62,9 @@ export function useLoginPhoneAuth({
   setError,
 }: UseLoginPhoneAuthOptions) {
   const copy = authCopy.phone;
-  const [method, setMethodState] = useState<LoginMethod>('email');
+  // The hook only runs with the flag on, where phone is the default (and only) sign-up path;
+  // 'email' is the sign-in form kept for accounts created with an email before.
+  const [method, setMethodState] = useState<LoginMethod>('phone');
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
   const [codeSentTo, setCodeSentTo] = useState<string | null>(null);

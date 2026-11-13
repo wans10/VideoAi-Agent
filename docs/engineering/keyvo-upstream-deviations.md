@@ -146,10 +146,23 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
 - **Server side** (not part of the web image): `docs/deployment/phone-login-sms/` holds the GoTrue Send SMS hook
   (`hook.js`, Alibaba Cloud SMS, Standard Webhooks signature, masked logs, in-memory per-phone/global limits), its
   pinned `package.json`/lockfile, Dockerfile, compose snippet, GoTrue environment lines and an operator README.
-- **Tests:** `tests/login-phone-auth.test.ts` (validation, cooldown, error mapping, flag, DOM flow) and
+- **Tests:** `tests/login-phone-auth.test.ts` (validation, cooldown, error mapping, flag, DOM flow, phone-only
+  sign-up modes), `tests/phone-only-account-identity.test.ts` (null-email display, admin, MCP, settings) and
   `tests/phone-login-sms-hook.test.ts` (hook behaviour with injected verifier/sender). Keep them on upstream syncs.
-- The analytics journey sanitizer (`frontend/lib/analytics/journey.ts`) only knows `password` and `google` methods,
-  so `method: 'phone'` is not reported until it is added there.
+- **Phone-only sign-up (owner decision 2026-11-13):** with the flag on, new users register only with phone + SMS
+  code; Keyvo no longer collects an email. The phone form is the default and the email/phone tabs and the
+  sign-in/create-account tabs are gone; `?mode=signup` lands on the phone form (the controller never enters email
+  `signup`, `signUpWithPassword` is inert). Existing email accounts keep an email **sign-in** form behind
+  "已有邮箱账户？使用邮箱和密码登录" (`auth.phone.useEmailAccount`), with password reset; a wrong password shows
+  `auth.phone.emailSigninFailed` instead of the "create an account with this email" suggestion. Flag off: unchanged.
+  GoTrue cannot disable email sign-up alone, so `/auth/v1/signup` with an email stays callable directly.
+- **Accounts without an email:** GoTrue returns `email: ""` and `phone: "86…"` for them. `frontend/lib/account-identity.ts`
+  normalizes the email to null and masks the phone (`138****5678`). Header/marketing nav (whose signed-in state was
+  `Boolean(email)`), `getMarketingAuthSnapshot`, settings (masked phone field), admin user list/detail (masked
+  phone, phone search), `getUserIdentity` (`phone` added), DSAR export (`user.phone`) use it. The MCP/agent principal
+  treats a confirmed phone as a verified contact (`emailVerified` = email or phone confirmed). Admin impersonation
+  needs an email magic link and stays disabled for phone-only accounts. `method: 'phone'` is an allowed analytics
+  method. Audit: `tests/phone-only-account-identity.test.ts`; the full table is in the Keyvo package notes.
 
 ## Checking for new deviations after an upstream sync
 

@@ -4472,6 +4472,10 @@
             "placeholder": "you@domain.com",
             "readOnly": "Email changes are managed separately."
           },
+          "phone": {
+            "label": "Phone number",
+            "readOnly": "The mobile number you sign in with."
+          },
           "locale": {
             "label": "Language",
             "description": "Interface language:"
@@ -7035,6 +7039,13 @@
       "methodGroup": "Choose a sign-in method",
       "methodEmail": "Email & password",
       "methodPhone": "Phone code",
+      "title": "Sign in or sign up with your phone",
+      "description": "Use a mainland China mobile number and SMS code. A new number creates a Keyvo account after verification.",
+      "emailSigninTitle": "Sign in with email",
+      "emailSigninDescription": "For accounts created with an email address. New users sign up with a phone number.",
+      "useEmailAccount": "Have an email account? Sign in with email and password",
+      "usePhone": "Sign in or sign up with a phone number",
+      "emailSigninFailed": "Incorrect email or password. New users sign up with a phone number.",
       "fields": {
         "phone": "Mobile number",
         "code": "SMS code"
@@ -7066,9 +7077,9 @@
         "attemptsExhausted": "Too many wrong codes. Request a new code.",
         "rateLimited": "Too many code requests. Please try again later.",
         "verifyRateLimited": "Too many attempts. Please try again later.",
-        "providerUnavailable": "The SMS service is temporarily unavailable. Try again later or use email.",
+        "providerUnavailable": "The SMS service is temporarily unavailable. Please try again later.",
         "phoneDisabled": "Phone sign-in is not available yet. Please use email.",
-        "signupDisabled": "New accounts cannot be created with a phone number. Please sign up with email.",
+        "signupDisabled": "New accounts cannot be created with a phone number right now. Please try again later.",
         "invalidPhone": "This number cannot receive codes. Check it and try again.",
         "verifyUnavailable": "Verification is temporarily unavailable. Please try again."
       }

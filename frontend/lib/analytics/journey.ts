@@ -651,7 +651,7 @@ const EXACT_STRING_VALUES: Readonly<Record<string, ReadonlySet<string>>> = {
   destination: new Set(['verified_deep_link', 'setup_guide', 'manual_setup']),
   locale: ANALYTICS_LOCALES,
   auth_surface: new Set(['login']),
-  method: new Set(['password', 'google']),
+  method: new Set(['password', 'google', 'phone']),
   completion_source: new Set(['generation', 'tool']),
   source_mode: new Set(['scratch', 'reference-image']),
   output_mode: new Set(['portrait_reference', 'character_sheet']),

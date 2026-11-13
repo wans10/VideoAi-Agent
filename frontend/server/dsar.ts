@@ -42,6 +42,8 @@ export type DsraExportPayload = {
   user: {
     id: string;
     email: string | null;
+    /** The account's own phone number (phone sign-up); exported unmasked to its owner. */
+    phone: string | null;
     fullName: string | null;
     profile: ReturnType<typeof mapProfile> | null;
     preferences: PreferenceRow | null;
@@ -115,6 +117,7 @@ export async function buildDsarPayload(userId: string): Promise<DsraExportPayloa
     user: {
       id: userId,
       email: identity?.email ?? null,
+      phone: identity?.phone ?? null,
       fullName: identity?.fullName ?? null,
       profile: mapProfile(profile),
       preferences: preferencesRows[0] ?? null,

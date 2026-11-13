@@ -26,7 +26,7 @@ export function buildMemberPulseItems({
     {
       label: 'Access',
       value: profile ? (profile.isAdmin ? 'Admin' : 'Member') : 'Unknown',
-      helper: profile?.email ?? truncateId(userId),
+      helper: profile?.email ?? profile?.phone ?? truncateId(userId),
       tone: profile?.isAdmin ? 'info' : 'default',
       icon: profile?.isAdmin ? ShieldCheck : UserRound,
     },

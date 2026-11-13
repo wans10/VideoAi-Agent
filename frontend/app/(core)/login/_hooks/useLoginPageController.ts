@@ -38,6 +38,9 @@ const MIN_AGE_ENV = Number.parseInt(process.env.NEXT_PUBLIC_LEGAL_MIN_AGE ?? '15
 const LEGAL_MIN_AGE = Number.isNaN(MIN_AGE_ENV) ? 15 : MIN_AGE_ENV;
 // Build-time flag (NEXT_PUBLIC_PHONE_LOGIN_ENABLED); off until the GoTrue SMS hook is live.
 const PHONE_LOGIN_ENABLED = isPhoneLoginEnabled();
+// With phone login on, new accounts are created only by phone + SMS code: the email form is
+// sign-in (and password reset) for existing email accounts, never sign-up.
+const EMAIL_SIGNUP_ENABLED = !PHONE_LOGIN_ENABLED;
 
 type UseLoginPageControllerOptions = {
   initialMode: AuthMode;
@@ -53,7 +56,7 @@ export function useLoginPageController({
   const router = useRouter();
   const [locale] = useState<Locale>(initialLocale);
   const { authRedirectOrigin, nextPath, nextPathReady, persistNextTarget, safeNextPath } = useLoginNextTarget();
-  const [mode, setMode] = useState<AuthMode>(initialMode);
+  const [mode, setMode] = useState<AuthMode>(!EMAIL_SIGNUP_ENABLED && initialMode === 'signup' ? 'signin' : initialMode);
   const passwordSubmission = usePasswordAuthSubmission(mode);
   const invalidatePasswordSubmission = passwordSubmission.invalidate;
   const passwordSubmissionPending = passwordSubmission.pending;
@@ -113,6 +116,7 @@ export function useLoginPageController({
 
   const handleModeChange = useCallback((nextMode: AuthMode) => {
     if (passwordSubmissionPending.current || confirmationResendPendingRef.current || nextMode === mode) return;
+    if (!EMAIL_SIGNUP_ENABLED && nextMode === 'signup') return;
     invalidatePasswordSubmission();
     setStatus(null);
     setMode(nextMode);
@@ -244,6 +248,10 @@ export function useLoginPageController({
         } else if (continuation?.kind === 'mcp') {
           setError(error.code === 'invalid_credentials' ? authCopy.feedback.mcpSigninFailed : error.message);
           setStatus(null);
+        } else if (error.code === 'invalid_credentials' && !EMAIL_SIGNUP_ENABLED) {
+          // No email sign-up to suggest: new users register with their phone number.
+          setError(authCopy.phone.emailSigninFailed);
+          setStatus(null);
         } else if (error.code === 'invalid_credentials') {
           setSignupSuggestion({ email, password });
           setStatusTone('info');
@@ -312,7 +320,7 @@ export function useLoginPageController({
   }
 
   const handleAcceptSignupSuggestion = useCallback(() => {
-    if (!signupSuggestion) return;
+    if (!signupSuggestion || !EMAIL_SIGNUP_ENABLED) return;
     handleModeChange('signup');
     if (signupSuggestion.password) {
       setConfirm((prev) => (prev ? prev : signupSuggestion.password));
@@ -356,7 +364,7 @@ export function useLoginPageController({
 
   async function signUpWithPassword(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!nextPathReady || passwordSubmission.pending.current || !validateCurrentForm('signup')) return;
+    if (!EMAIL_SIGNUP_ENABLED || !nextPathReady || passwordSubmission.pending.current || !validateCurrentForm('signup')) return;
     await passwordSubmission.run(async (isCurrent) => {
       setStatusTone('info');
       setStatus(authCopy.feedback.creatingAccount);

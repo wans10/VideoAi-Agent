@@ -4513,6 +4513,10 @@
             "placeholder": "you@domain.com",
             "readOnly": "邮箱变更需单独处理。"
           },
+          "phone": {
+            "label": "手机号",
+            "readOnly": "用于登录 Keyvo 的手机号。"
+          },
           "locale": {
             "label": "语言",
             "description": "界面语言："
@@ -7264,6 +7268,13 @@
       "methodGroup": "选择登录方式",
       "methodEmail": "邮箱密码",
       "methodPhone": "手机验证码",
+      "title": "手机号登录 / 注册",
+      "description": "使用中国大陆手机号和短信验证码登录，新手机号验证后自动创建 Keyvo 账户。",
+      "emailSigninTitle": "邮箱账户登录",
+      "emailSigninDescription": "适用于此前使用邮箱注册的账户。新用户请使用手机号注册。",
+      "useEmailAccount": "已有邮箱账户？使用邮箱和密码登录",
+      "usePhone": "使用手机号登录或注册",
+      "emailSigninFailed": "邮箱或密码不正确。新用户请返回使用手机号注册。",
       "fields": {
         "phone": "手机号",
         "code": "短信验证码"
@@ -7295,9 +7306,9 @@
         "attemptsExhausted": "验证码错误次数过多，请重新获取验证码。",
         "rateLimited": "获取验证码过于频繁，请稍后再试。",
         "verifyRateLimited": "验证尝试过于频繁，请稍后再试。",
-        "providerUnavailable": "短信服务暂时不可用，请稍后重试或使用邮箱登录。",
+        "providerUnavailable": "短信服务暂时不可用，请稍后重试。",
         "phoneDisabled": "手机号登录暂未开放，请使用邮箱登录。",
-        "signupDisabled": "暂不支持用手机号注册新账户，请使用邮箱注册。",
+        "signupDisabled": "暂时无法使用手机号创建新账户，请稍后重试。",
         "invalidPhone": "该手机号无法接收验证码，请检查后重试。",
         "verifyUnavailable": "暂时无法完成验证，请稍后重试。"
       }

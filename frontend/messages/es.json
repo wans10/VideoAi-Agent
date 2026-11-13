@@ -4474,6 +4474,10 @@
             "placeholder": "tu@dominio.com",
             "readOnly": "Los cambios de correo electrónico se gestionan por separado."
           },
+          "phone": {
+            "label": "Número de teléfono",
+            "readOnly": "El número móvil con el que inicias sesión."
+          },
           "locale": {
             "label": "Idioma",
             "description": "Idioma de la interfaz:"
@@ -7037,6 +7041,13 @@
       "methodGroup": "Elige un método de acceso",
       "methodEmail": "Correo y contraseña",
       "methodPhone": "Código SMS",
+      "title": "Inicia sesión o regístrate con tu teléfono",
+      "description": "Usa un número móvil de China continental y un código SMS. Un número nuevo crea una cuenta de Keyvo tras la verificación.",
+      "emailSigninTitle": "Inicia sesión con correo electrónico",
+      "emailSigninDescription": "Para cuentas creadas con un correo electrónico. Los nuevos usuarios se registran con un número de teléfono.",
+      "useEmailAccount": "¿Tienes una cuenta con correo? Inicia sesión con correo y contraseña",
+      "usePhone": "Inicia sesión o regístrate con un número de teléfono",
+      "emailSigninFailed": "Correo o contraseña incorrectos. Los nuevos usuarios se registran con un número de teléfono.",
       "fields": {
         "phone": "Número de móvil",
         "code": "Código SMS"
@@ -7068,9 +7079,9 @@
         "attemptsExhausted": "Demasiados códigos incorrectos. Solicita un código nuevo.",
         "rateLimited": "Demasiadas solicitudes de código. Inténtalo más tarde.",
         "verifyRateLimited": "Demasiados intentos. Inténtalo más tarde.",
-        "providerUnavailable": "El servicio SMS no está disponible temporalmente. Inténtalo más tarde o usa el correo.",
+        "providerUnavailable": "El servicio de SMS no está disponible temporalmente. Inténtalo de nuevo más tarde.",
         "phoneDisabled": "El acceso por teléfono aún no está disponible. Usa el correo.",
-        "signupDisabled": "No se pueden crear cuentas con un número de teléfono. Regístrate con correo.",
+        "signupDisabled": "Ahora mismo no se pueden crear cuentas nuevas con un número de teléfono. Inténtalo de nuevo más tarde.",
         "invalidPhone": "Este número no puede recibir códigos. Revísalo e inténtalo de nuevo.",
         "verifyUnavailable": "La verificación no está disponible temporalmente. Inténtalo de nuevo."
       }

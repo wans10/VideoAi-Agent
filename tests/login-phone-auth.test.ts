@@ -139,11 +139,14 @@ async function mount({ enabled = true, mode = 'signin', stored }: { enabled?: bo
   if (stored) w.sessionStorage.setItem(PHONE_COOLDOWN_STORAGE_KEY, JSON.stringify(stored));
   const sends: Array<{ input: any; reply: ReturnType<typeof deferred<any>> }> = [];
   const verifies: Array<{ input: any; reply: ReturnType<typeof deferred<any>> }> = [];
+  const passwords: Array<{ input: any; reply: ReturnType<typeof deferred<any>> }> = [];
+  const signUps: any[] = [];
   const consents: any[] = [];
   const client = { auth: {
     signInWithOtp: (input: any) => { const reply = deferred<any>(); sends.push({ input, reply }); return reply.promise; },
     verifyOtp: (input: any) => { const reply = deferred<any>(); verifies.push({ input, reply }); return reply.promise; },
-    signInWithPassword: () => new Promise(() => {}), signUp: () => new Promise(() => {}),
+    signInWithPassword: (input: any) => { const reply = deferred<any>(); passwords.push({ input, reply }); return reply.promise; },
+    signUp: (input: any) => { signUps.push(input); return new Promise(() => {}); },
     signOut: async () => ({ error: null }),
   } };
   w.mode = mode; w.loadClient = async () => client;
@@ -162,7 +165,8 @@ async function mount({ enabled = true, mode = 'signin', stored }: { enabled?: bo
   const methodButton = (label: string) => [...w.document.querySelectorAll('[role=group] button')].find((b: any) => b.textContent === label) as any;
   const submit = () => act(() => $('[data-testid=phone-auth-form]')!.dispatchEvent(new w.Event('submit', { bubbles: true, cancelable: true })));
   const consent = () => act(() => { const boxes = $('[data-testid=phone-auth-form]')!.querySelectorAll('input[type=checkbox]'); boxes[0].click(); boxes[1].click(); });
-  return { w, $, text, alerts, act, type, methodButton, submit, consent, sends, verifies, consents,
+  const button = (label: string) => [...w.document.querySelectorAll('button')].find((b: any) => b.textContent === label) as any;
+  return { w, $, text, alerts, act, type, methodButton, button, submit, consent, sends, verifies, passwords, signUps, consents,
     async dispose() { await w.fx.act(async () => w.fx.unmount()); w.close(); } };
 }
 
@@ -174,17 +178,23 @@ test('without the flag the login page shows no phone option and keeps the email 
     assert.equal(f.$('#auth-phone'), null);
     assert.ok(f.$('#auth-email'));
     assert.ok(f.$('#auth-password'));
+    assert.equal(f.$('[data-testid=login-use-email-account]'), null);
+    assert.equal(f.$('[data-testid=login-use-phone]'), null);
+    // Today's page: the email sign-up tab still creates accounts with email + password.
+    const signupTab = f.button(zh.auth.tabs.signup);
+    assert.ok(signupTab, 'email sign-up tab is offered without the flag');
+    await f.act(() => signupTab.click());
+    assert.equal(f.w.controller.mode, 'signup');
+    assert.ok(f.$('#auth-confirm'), 'sign-up form asks for a password confirmation');
   } finally { await f.dispose(); }
 });
 
 test('phone sign-in validates the number and consent before any SMS is requested', async () => {
   const f = await mount();
   try {
-    const phoneTab = f.methodButton(phoneCopy.methodPhone);
-    assert.ok(phoneTab, 'method switch offers phone');
-    assert.equal(phoneTab.getAttribute('aria-pressed'), 'false');
-    await f.act(() => phoneTab.click());
-    assert.equal(phoneTab.getAttribute('aria-pressed'), 'true');
+    // Phone-only sign-up: the phone form is the default, without an email/phone method switch.
+    assert.equal(f.w.controller.phoneAuth.method, 'phone');
+    assert.equal(f.methodButton(phoneCopy.methodPhone), undefined);
     assert.equal(f.$('#auth-email'), null, 'email form is replaced by the phone form');
     assert.equal(f.$('label[for=auth-phone]')!.textContent, phoneCopy.fields.phone);
     assert.match(f.text(), /\+86/);
@@ -207,7 +217,6 @@ test('phone sign-in validates the number and consent before any SMS is requested
 test('sending a code starts a persisted 60 s cooldown and maps rate limits', async () => {
   const f = await mount();
   try {
-    await f.act(() => f.methodButton(phoneCopy.methodPhone).click());
     await f.type('#auth-phone', '13812345678');
     await f.consent();
     await f.submit();
@@ -229,7 +238,6 @@ test('sending a code starts a persisted 60 s cooldown and maps rate limits', asy
 
   const limited = await mount();
   try {
-    await limited.act(() => limited.methodButton(phoneCopy.methodPhone).click());
     await limited.type('#auth-phone', '13812345678');
     await limited.consent();
     await limited.submit();
@@ -246,7 +254,7 @@ test('a reload during the cooldown restores the number, code step and countdown'
   const now = Date.now();
   const f = await mount({ stored: { phone: '13912345678', sentAt: now - 20_000, cooldownUntil: now + 40_000 } });
   try {
-    assert.equal(f.methodButton(phoneCopy.methodPhone).getAttribute('aria-pressed'), 'true');
+    assert.equal(f.w.controller.phoneAuth.method, 'phone');
     assert.equal(f.$('#auth-phone')!.value, '13912345678');
     assert.ok(f.$('#auth-otp'));
     const resend = f.$('[data-testid=phone-resend]')!;
@@ -318,4 +326,62 @@ test('a new phone account records sign-up consents before redirecting; exhausted
     assert.equal(g.$('[data-testid=phone-auth-form] button[type=submit]')!.disabled, true);
     assert.equal(g.verifies.length, 5);
   } finally { await g.dispose(); }
+});
+
+test('phone-only sign-up: no email sign-up anywhere, existing email accounts keep sign-in and password reset', async () => {
+  // A sign-up link (?mode=signup) lands on the phone form, not an email registration form.
+  const f = await mount({ mode: 'signup' });
+  try {
+    assert.equal(f.w.controller.mode, 'signin', 'email sign-up mode is not reachable');
+    assert.ok(f.$('#auth-phone'));
+    assert.equal(f.$('#auth-email'), null);
+    assert.equal(f.button(zh.auth.tabs.signup), undefined, 'no create-account tab');
+    assert.equal(f.$('.videoai-auth-card h1')!.textContent, phoneCopy.title);
+    await f.act(() => f.w.controller.onModeChange('signup'));
+    assert.equal(f.w.controller.mode, 'signin');
+
+    await f.act(() => f.$('[data-testid=login-use-email-account]')!.click());
+    assert.equal(f.w.controller.phoneAuth.method, 'email');
+    assert.equal(f.$('#auth-phone'), null);
+    assert.ok(f.$('#auth-email'));
+    assert.ok(f.$('#auth-password'));
+    assert.equal(f.$('#auth-confirm'), null, 'email form is sign-in only');
+    assert.equal(f.$('.videoai-auth-card h1')!.textContent, phoneCopy.emailSigninTitle);
+    assert.equal(f.$('form button[type=submit]')!.textContent, zh.auth.actions.signin);
+    assert.ok(f.button(zh.auth.forgotPassword), 'password reset stays for email accounts');
+
+    await f.type('#auth-email', 'existing@example.invalid');
+    await f.type('#auth-password', 'not-the-password');
+    await f.act(() => f.$('form')!.dispatchEvent(new f.w.Event('submit', { bubbles: true, cancelable: true })));
+    assert.equal(f.passwords.length, 1);
+    assert.deepEqual(JSON.parse(JSON.stringify(f.passwords[0].input)), { email: 'existing@example.invalid', password: 'not-the-password' });
+    await f.act(() => f.passwords[0].reply.resolve({ data: { user: null, session: null }, error: { status: 400, code: 'invalid_credentials', message: 'Invalid login credentials' } }));
+    assert.match(f.alerts(), new RegExp(phoneCopy.emailSigninFailed));
+    assert.equal(f.w.controller.signupSuggestion, null, 'no email sign-up suggestion');
+    assert.doesNotMatch(f.text(), new RegExp(zh.auth.signupSuggestion.title));
+    assert.equal(f.signUps.length, 0);
+
+    await f.act(() => f.button(zh.auth.forgotPassword).click());
+    assert.equal(f.w.controller.mode, 'reset');
+    assert.ok(f.$('#reset-email'));
+    await f.act(() => f.button(zh.auth.links.backToSignIn).click());
+    assert.equal(f.w.controller.mode, 'signin');
+    assert.ok(f.$('#auth-email'), 'back to the email sign-in form');
+
+    await f.act(() => f.$('[data-testid=login-use-phone]')!.click());
+    assert.equal(f.w.controller.phoneAuth.method, 'phone');
+    assert.ok(f.$('#auth-phone'));
+    assert.equal(f.$('.videoai-auth-card h1')!.textContent, phoneCopy.title);
+  } finally { await f.dispose(); }
+});
+
+test('phone-only sign-up copy exists in every locale', () => {
+  for (const locale of ['en', 'es', 'fr', 'zh']) {
+    const messages = JSON.parse(readFileSync(`frontend/messages/${locale}.json`, 'utf8'));
+    for (const key of ['title', 'description', 'emailSigninTitle', 'emailSigninDescription', 'useEmailAccount', 'usePhone', 'emailSigninFailed']) {
+      assert.equal(typeof messages.auth.phone[key], 'string', `${locale} auth.phone.${key}`);
+      assert.ok(messages.auth.phone[key].length > 0);
+    }
+    assert.doesNotMatch(messages.auth.phone.feedback.signupDisabled, /email|邮箱|correo|e-mail/i, `${locale}: no email sign-up fallback`);
+  }
 });
