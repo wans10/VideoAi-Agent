@@ -78,6 +78,18 @@ for it. Supplier routing stays with Wan 3 Prime. The cost facts remain the nativ
 Wan input-plus-output owner: exact trimmed video seconds plus generated seconds,
 with audio excluded from video duration. Standard cent rounding is unchanged.
 
+Keyvo 2026-11-13 (owner decision): Recast costs exactly twice the ordinary Wan 3
+Prime customer price for the same inputs (which is `round(0.8 × official list)`
+under `official-list-80`), i.e. 1.6 × the official list. Every Recast quote, admin
+preview and transaction-locked confirmation applies the `recast-even-cents`
+profile (`RECAST_COMPATIBILITY_PROFILE_ID` in `src/lib/character-recast-pricing.ts`):
+supplier cost × coefficient rounded once to an even number of cents. With the
+scoped coefficient ×1.6 (`marginPercent = 0.6`) that is `2 × round(0.8 × list)`
+exactly (720p 8 s: 144; 720p 8 + 7.5 s: 280; 1080p 8 + 7.5 s: 558 cents). The
+stored rule keeps `standard` (or null) as its profile; the reservation lock requires
+the Recast profile in the snapshot provenance. The coefficient itself is DATABASE
+data: production must set ×1.6 in the admin Recast policy editor (preview, confirm).
+
 Authored admin scenarios use the pure standard-definition projection in `buildPublicPricingFacts`, sharing the native Wan duration facts without importing live quote/policy readers; every scenario is checked against the public Recast reader for exact supplier cost, currency, unit and quantity parity.
 
 Only the trusted Recast service selects `billingProduct: 'character-recast'`.

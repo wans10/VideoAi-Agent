@@ -10,9 +10,12 @@ import { readRecastPublicPrice } from '../frontend/server/character-studio/recas
 
 const productRule: PricingPolicyRule = {
   id: 'reviewed-recast-rule', engineId: 'character-recast', mode: 'recast', resolution: 'video',
-  marginPercent: 1, marginFlatCents: 0, surchargeAudioPercent: 0, surchargeUpscalePercent: 0,
+  // Keyvo 2026-11-13 owner decision: Recast = 2 x the ordinary Wan 3 Prime customer price (80% of the official list),
+  // i.e. the scoped coefficient x1.6 (was x2 = 2 x list).
+  marginPercent: 0.6, marginFlatCents: 0, surchargeAudioPercent: 0, surchargeUpscalePercent: 0,
   currency: 'USD', compatibilityProfile: 'standard',
 };
+const noTariff = async () => ({ status: 'loaded' as const, active: false, revision: 0, databaseCells: [], versionedCells: [] });
 const modelRule: PricingPolicyRule = {
   id: 'unrelated-model-rule', engineId: 'wan-3-prime', marginPercent: 4,
   marginFlatCents: 55, surchargeAudioPercent: 0.9, surchargeUpscalePercent: 0.9, currency: 'USD',
@@ -28,26 +31,34 @@ function context(changes: Partial<PricingContext> = {}): PricingContext {
 test('Recast applies the database product multiplier once to exact input plus output provider cost', async () => {
   // Independently authored supplier facts and expected settlement cents, including the existing two-stage rounding.
   // Keyvo 2026-11-13: Wan 3 Prime facts are the Bailian list (CNY 0.45 / 0.9 / 1.8 per second = 5.625 / 11.25 / 22.5
-  // cents); the Recast product rule (x2) is unchanged.
+  // cents). Recast x1.6 rounds once to even cents = exactly 2 x the ordinary customer price round(0.8 x list)
+  // (former x2 / standard rounding: 23, 90, 175, 175, 176, 349, 698, 1350).
   for (const [resolution, output, source, providerCents, customerCents] of [
-    ['480p', 2, 0, 11.25, 23],
-    ['480p', 8, 0, 45, 90],
-    ['480p', 8, 7.5, 87.188, 175],
-    ['480p', 8, 7.501, 87.193, 175],
-    ['480p', 8, 7.6, 87.75, 176],
-    ['720p', 8, 7.5, 174.375, 349],
-    ['1080p', 8, 7.5, 348.75, 698],
-    ['1080p', 15, 15, 675, 1350],
+    ['480p', 2, 0, 11.25, 18],
+    ['480p', 8, 0, 45, 72],
+    ['480p', 8, 7.5, 87.188, 140],
+    ['480p', 8, 7.501, 87.193, 140],
+    ['480p', 8, 7.6, 87.75, 140],
+    ['720p', 8, 7.5, 174.375, 280],
+    ['1080p', 8, 7.5, 348.75, 558],
+    ['1080p', 15, 15, 675, 1080],
   ] as const) {
     const quote = await computeCanonicalRecastBillingSnapshot(context({ resolution, durationSec: output,
       inputVideoDurationSec: source, mode: source ? 'v2v' : 'i2v' }), { pricingPolicy: pricingPolicy() });
     assert.equal(quote.totalCents, customerCents, `${resolution}/${source}+${output}s`);
+    // Owner rule: exactly twice the ordinary Wan 3 Prime customer quote for the same inputs (no model DB rule).
+    const ordinary = await computeCanonicalBillingSnapshot(context({ resolution, durationSec: output,
+      inputVideoDurationSec: source, mode: source ? 'v2v' : 'i2v' }), { pricingPolicy: pricingPolicy([productRule]),
+      loadCustomerTariffState: noTariff });
+    assert.equal(ordinary.meta?.pricingPolicy && (ordinary.meta.pricingPolicy as { compatibilityProfile?: string }).compatibilityProfile,
+      'official-list-80');
+    assert.equal(quote.totalCents, 2 * ordinary.totalCents, `2 x video ${resolution}/${source}+${output}s`);
     assert.equal(quote.currency, 'USD');
-    assert.equal(quote.margin.percentApplied, 1);
+    assert.equal(quote.margin.percentApplied, 0.6);
     assert.equal(quote.margin.flatCents, 0);
     assert.equal(quote.meta?.customerProduct, 'character-recast');
     assert.equal(quote.meta?.providerCostExactCents, providerCents);
-    assert.equal(quote.meta?.providerCostMultiplier, 2);
+    assert.equal(quote.meta?.providerCostMultiplier, 1.6);
     assert.equal(quote.meta?.input_video_duration_sec, source);
     assert.equal(quote.meta?.output_duration_sec, output);
     assert.equal(quote.meta?.billable_duration_sec, source + output);
@@ -56,7 +67,7 @@ test('Recast applies the database product multiplier once to exact input plus ou
     assert.equal(quote.meta?.customerTariffRevision, undefined);
     assert.equal(quote.margin.ruleId, productRule.id);
     assert.deepEqual(quote.meta?.pricingPolicy, { source: 'database', matchedBy: 'precise',
-      sourceRuleId: productRule.id, compatibilityProfile: 'standard' });
+      sourceRuleId: productRule.id, compatibilityProfile: 'recast-even-cents' });
   }
 });
 
@@ -66,7 +77,7 @@ test('audio references never add video seconds; no-video reference mode charges 
       inputAudioDurationSec: 0, addons: { audio: false } }), { pricingPolicy: pricingPolicy() });
     const withAudio = await computeCanonicalRecastBillingSnapshot(context({ mode: 'ref2v', inputVideoDurationSec: source,
       inputAudioDurationSec: 15, addons: { audio: true } }), { pricingPolicy: pricingPolicy() });
-    assert.equal(withAudio.totalCents, source ? 349 : 180);
+    assert.equal(withAudio.totalCents, source ? 280 : 144);
     assert.equal(withAudio.totalCents, withoutAudio.totalCents);
     assert.equal(withAudio.meta?.providerCostExactCents, source ? 174.375 : 90);
     assert.equal(withAudio.meta?.billable_duration_sec, source + 8);
@@ -76,15 +87,14 @@ test('audio references never add video seconds; no-video reference mode charges 
 test('model retail policy and existing source facts remain independent from the scoped Recast rate', async () => {
   const input = context();
   const unchanged = structuredClone(input);
-  const dependencies = { pricingPolicy: pricingPolicy(), loadCustomerTariffState: async () => ({
-    status: 'loaded' as const, active: false, revision: 0, databaseCells: [], versionedCells: [],
-  }) };
+  const dependencies = { pricingPolicy: pricingPolicy(), loadCustomerTariffState: noTariff };
   const ordinaryBefore = await computeCanonicalBillingSnapshot(input, dependencies);
   const recast = await computeCanonicalRecastBillingSnapshot(input, { pricingPolicy: pricingPolicy() });
   const changed = await computeCanonicalRecastBillingSnapshot(input, {
     pricingPolicy: pricingPolicy([{ ...productRule, marginPercent: 1.5 }, modelRule]),
   });
-  assert.equal(recast.totalCents, 349);
+  assert.equal(recast.totalCents, 280);
+  // x2.5 on 174.375 supplier cents = 435.94, rounded to even cents.
   assert.equal(changed.totalCents, 436);
   assert.equal(changed.meta?.providerCostMultiplier, 2.5);
   assert.notEqual(ordinaryBefore.totalCents, recast.totalCents);
@@ -127,7 +137,7 @@ test('public Recast estimates use the same scoped policy even with the retired p
     const estimate = await readRecastPublicPrice(input, { pricingPolicy: pricingPolicy() });
     assert.equal(estimate.status, 'exact');
     if (estimate.status !== 'exact') throw new Error('Missing Recast estimate');
-    assert.equal(estimate.amountCents, 349);
+    assert.equal(estimate.amountCents, 280);
     const changed = await readRecastPublicPrice(input, { pricingPolicy: pricingPolicy([{ ...productRule, marginPercent: 1.5 }]) });
     assert.equal(changed.status, 'exact');
     if (changed.status !== 'exact') throw new Error('Missing changed Recast estimate');

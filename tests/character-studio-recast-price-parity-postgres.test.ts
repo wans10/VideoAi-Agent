@@ -31,9 +31,11 @@ test('Recast price, measured passages, reservation and receipt agree across all 
           if (estimate.status !== 'exact') throw new Error('Missing current price');
           // Keyvo 2026-11-13: Wan 3 Prime supplier facts are the Bailian list (CNY 0.45 / 0.9 / 1.8 per second).
           const providerCentsPerSecond = { '480p': 5.625, '720p': 11.25, '1080p': 22.5 }[resolution]!;
-          const providerCents = Math.round(providerCentsPerSecond * (seconds + (mode === 'v2v' ? 7.5 : 0)) * 1000) / 1000;
-          // Standard policy preserves supplier cents, rounds margin upward, then total to nearest cent.
-          assert.equal(quote.amountCents, Math.round(providerCents + Math.ceil(providerCents)));
+          const providerExactCents = providerCentsPerSecond * (seconds + (mode === 'v2v' ? 7.5 : 0));
+          const providerCents = Math.round(providerExactCents * 1000) / 1000;
+          // Owner decision: Recast x1.6 is exactly twice the ordinary customer price, round(0.8 x list) under
+          // official-list-80 (the harness's own model tariff grid is a separate fixture).
+          assert.equal(quote.amountCents, 2 * Math.round(providerExactCents * 0.8));
           assert.equal(quote.amountCents, estimate.amountCents);
           assert.equal(quote.sourceSeconds, mode === 'v2v' ? 7.5 : 0);
           assert.equal(quote.audioSeconds, mode === 'i2v' ? 0 : 5.25);
@@ -41,7 +43,8 @@ test('Recast price, measured passages, reservation and receipt agree across all 
             'SELECT pricing_snapshot FROM mcp_generation_quotes WHERE quote_id=$1', [quote.quoteId],
           )).rows[0].pricing_snapshot.canonicalPricing;
           assert.equal(stored.meta.customerProduct, 'character-recast');
-          assert.equal(stored.meta.providerCostMultiplier, 2);
+          assert.equal(stored.meta.providerCostMultiplier, 1.6);
+          assert.equal(stored.meta.pricingPolicy.compatibilityProfile, 'recast-even-cents');
           assert.equal(stored.meta.providerCostExactCents, providerCents);
           assert.equal(stored.meta.customerTariffRevision, undefined);
           assert.equal(stored.meta.ruleId, 'recast-test-policy');

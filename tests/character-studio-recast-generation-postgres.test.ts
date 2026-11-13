@@ -106,8 +106,9 @@ test('Recast binds both independently trimmed asset IDs and output format to one
     prepareAudio: worker('audio', 5, 5.25),
   });
   // Keyvo 2026-11-13: Wan 3 Prime 1080p supplier facts are the Bailian list (CNY 1.8/s = 22.5 cents per supplier second);
-  // the Recast product multiplier is unchanged: 22.5 × (7.5 input + 8 output) × 2 (was 28 cents -> 868).
-  assert.equal(quote.amountCents, 698);
+  // owner decision: Recast x1.6 = 2 x the ordinary video price: 22.5 × (7.5 input + 8 output) × 1.6 = 558
+  // (= 2 x 279; was x2 -> 698, before that 28 cents -> 868).
+  assert.equal(quote.amountCents, 558);
   assert.equal(quote.sourceSeconds, 7.5);
   assert.equal(quote.audioSeconds, 5.25);
   assert.equal(

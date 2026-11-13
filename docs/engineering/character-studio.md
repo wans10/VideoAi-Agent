@@ -33,8 +33,8 @@ preview host is trusted. Metadata/SDK verification is separate from a real host
 OAuth connection and does not establish automatic tool selection by that host.
 
 The same `prepareRecast` materializes independent video/audio passages and obtains
-the Character Recast commercial quote, currently provider cost ×2 in the test
-policy. Duration, resolution, product and chosen original are immutable in that
+the Character Recast commercial quote, currently provider cost ×1.6 in the test
+policy (Keyvo: exactly 2 × the ordinary Wan 3 Prime price; see pricing-engine.md). Duration, resolution, product and chosen original are immutable in that
 quote. Its Recast binding and Studio journal entry commit in the same transaction.
 Confirmation requires the exact amount, currency and explicit approval. The quote
 is bound to the user, origin and OAuth client or Studio project; a generic Wan

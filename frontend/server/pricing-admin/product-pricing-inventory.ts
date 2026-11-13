@@ -56,7 +56,7 @@ export async function loadAdminProductPricing(durationSec = 10): Promise<Product
       unit: 's output', policySelector: RECAST_PRICING_SELECTOR, notes: [
         'Supplier reference: Wan 3 Prime · current configured provider-cost facts, including source plus output seconds.',
         'Catalogue estimate; contract and invoice unconfirmed. Displayed /s divides the full scenario cost by output seconds.',
-        'Customer price uses provider cost × the editable Recast coefficient, with canonical cent rounding. An exact scoped rule is required; model and global policies cannot supply the Recast price.',
+        'Customer price uses provider cost × the editable Recast coefficient, rounded once to an even number of cents (×1.6 = twice the ordinary Wan 3 Prime price). An exact scoped rule is required; model and global policies cannot supply the Recast price.',
       ] }, async () => {
         const context = resolveRecastPricingContext({ modelId: 'wan-3-prime', mode: 'ref2v', durationSec: recastDuration,
           resolution: String(scenario.input.outputResolution), aspectRatio: '16:9', hasVideoInput: scenario.input.hasVideoInput === true,

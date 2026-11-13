@@ -17,10 +17,12 @@ test('Recast editor shows a bounded coefficient and does not offer incompatible 
   const inputs = dom.window.document.querySelectorAll('input');
   assert.equal(inputs.length, 1);
   assert.equal(inputs[0].getAttribute('aria-label'), 'Supplier cost coefficient (×)');
-  assert.equal(inputs[0].value, '2');
+  // Keyvo 2026-11-13 owner decision: the initial scoped draft is x1.6 (2 x the ordinary Wan 3 Prime price; was x2).
+  assert.equal(inputs[0].value, '1.6');
   assert.equal(inputs[0].min, '1');
   assert.equal(inputs[0].max, '10');
   assert.match(dom.window.document.body.textContent!, /Source and output seconds/);
+  assert.match(dom.window.document.body.textContent!, /even number of cents/);
   dom.window.close();
 });
 

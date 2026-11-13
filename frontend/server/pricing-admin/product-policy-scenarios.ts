@@ -4,13 +4,13 @@ import { buildPublicPricingFacts } from '@/lib/pricing-public-facts';
 import type { PricingAuditScenario } from '@/lib/pricing-audit/types';
 import { FINISHING_TOOL_IDS, FINISHING_QUALITY_CHOICES, defaultFinishingSettings, finishingSettingsSchemas, isFinishingToolId } from '@/lib/toolbox/finishing';
 import { estimateFinishingVendorBudget } from '@/server/tools/finishing-providers';
-import { RECAST_PRICING_SELECTOR } from '@/lib/character-recast-pricing';
+import { RECAST_COMPATIBILITY_PROFILE_ID, RECAST_PRICING_SELECTOR } from '@/lib/character-recast-pricing';
 
 export function buildRecastPolicyScenarios(outputDurations: readonly number[] = [2, 5, 10, 15, 30]): PricingAuditScenario[] {
   return ['480p', '720p', '1080p'].flatMap(outputResolution => outputDurations.flatMap(durationSec =>
     [0, 3.25, 5, 15].filter(source => !source || source + durationSec <= 30).map(inputVideoDurationSec => ({
       id: `admin-recast:${outputResolution}:${durationSec}:${inputVideoDurationSec}`, surface: 'tool' as const,
-      ...RECAST_PRICING_SELECTOR, durationSec, membershipTier: 'member' as const, compatibilityProfile: 'standard',
+      ...RECAST_PRICING_SELECTOR, durationSec, membershipTier: 'member' as const, compatibilityProfile: RECAST_COMPATIBILITY_PROFILE_ID,
       input: { adminProduct: 'recast', outputResolution, hasVideoInput: inputVideoDurationSec > 0, inputVideoDurationSec,
         scenarioLabel: `Recast · ${outputResolution} · ${durationSec} s output · ${inputVideoDurationSec ? `${inputVideoDurationSec} s source` : 'no source video'}` },
     }))));

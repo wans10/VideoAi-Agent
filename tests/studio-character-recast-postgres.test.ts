@@ -78,8 +78,9 @@ test('Studio Recast journals a dedicated quote, requires displayed cents, and re
   assert.equal(quote.modelLabel,'Character Recast');
   assert.deepEqual(quote.recast?.videoRange,f.video.range);
   assert.deepEqual(quote.recast?.audioRange,f.audio.range);
-  // Keyvo 2026-11-13: Wan 3 Prime 720p supplier facts are the Bailian list (11.25 cents/s): (8 + 7.5) s x 11.25 x 2 = 349 (was 434); Recast x2 unchanged.
-  assert.equal(quote.price.amountCents,349);
+  // Keyvo 2026-11-13: Wan 3 Prime 720p supplier facts are the Bailian list (11.25 cents/s); owner decision: Recast x1.6
+  // = 2 x the ordinary 140-cent video price: (8 + 7.5) s x 11.25 x 1.6 = 279 -> even cents 280 (was x2 -> 349, before 434).
+  assert.equal(quote.price.amountCents,280);
   assert.equal(quote.price.amountCents,web.amountCents);
   assert.deepEqual(quote.summary,web.quote.summary);
   const [checkpoint]=(await f.pg.pool.query(`SELECT b.passages,s.result_json FROM studio_conversation_steps s
@@ -100,9 +101,9 @@ test('Studio Recast journals a dedicated quote, requires displayed cents, and re
         enabled:true,tasksEnabled:false,resolveAccess:async()=>({ok:true,userId}),serviceFactory:current=>makeService(current,enabled),
       });
   }
-  const approval={amountCents:349,currency:'USD'};
+  const approval={amountCents:280,currency:'USD'};
   assert.ok((await confirm('film',{})).status>=400);
-  assert.ok((await confirm('film',{...approval,amountCents:348})).status>=400);
+  assert.ok((await confirm('film',{...approval,amountCents:279})).status>=400);
   assert.ok((await confirm('other',approval)).status>=400);
   assert.ok((await confirm('foreign',approval)).status>=400);
   assert.ok((await confirm('film',approval,true,'different-user')).status>=400);
@@ -112,8 +113,8 @@ test('Studio Recast journals a dedicated quote, requires displayed cents, and re
   assert.equal(accepted.status,200,JSON.stringify(await accepted.clone().json()));
   assert.equal((await accepted.json()).result.jobId,quote.quoteId);
   const [charge]=await f.receipts(quote.quoteId);
-  assert.equal(charge.amount_cents,349);
-  assert.equal(charge.pricing_snapshot.meta.providerCostMultiplier,2);
+  assert.equal(charge.amount_cents,280);
+  assert.equal(charge.pricing_snapshot.meta.providerCostMultiplier,1.6);
   assert.equal((await confirm('film',approval)).status,200);
   assert.equal(f.provider.calls(quote.quoteId),1);
   const output='https://cdn.maxvideoai.com/recast-complete.mp4';
