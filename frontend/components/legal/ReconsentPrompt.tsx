@@ -50,14 +50,48 @@ function sessionHeaders(session: Session): Headers {
   return headers;
 }
 
+// Keyvo 2026-11-13: the prompt is Chinese when the page language is zh (the provider sets <html lang>);
+// every other case keeps the upstream English copy.
+function isChinesePage(): boolean {
+  return typeof document !== 'undefined' && document.documentElement.lang.toLowerCase().startsWith('zh');
+}
+
+const PROMPT_COPY = {
+  en: {
+    title: "We've updated our legal terms",
+    intro: 'To continue using Keyvo, please review and accept the updated documents below.',
+    grace: 'Grace period active',
+    version: 'Version',
+    lastAccepted: 'Your last acceptance:',
+    required: 'Acceptance required',
+    view: 'View',
+    saving: 'Saving…',
+    accept: 'Accept and continue',
+    docs: { terms: 'Terms of Service', privacy: 'Privacy Policy', cookies: 'Cookie Policy' },
+  },
+  zh: {
+    title: '我们更新了法律条款',
+    intro: '继续使用 Keyvo 前，请查看并接受下列文件。',
+    grace: '宽限期内',
+    version: '版本',
+    lastAccepted: '您上次接受的版本：',
+    required: '需要您的同意',
+    view: '查看',
+    saving: '保存中…',
+    accept: '接受并继续',
+    docs: { terms: '服务条款', privacy: '隐私政策', cookies: 'Cookie 政策' },
+  },
+} as const;
+
 function describeDocument(key: DocumentStatus['key']): { label: string; href: string } {
+  const labels = PROMPT_COPY[isChinesePage() ? 'zh' : 'en'].docs;
   switch (key) {
     case 'terms':
-      return { label: 'Terms of Service', href: '/legal/terms' };
+      return { label: labels.terms, href: '/legal/terms' };
     case 'privacy':
-      return { label: 'Privacy Policy', href: '/legal/privacy' };
+      return { label: labels.privacy, href: '/legal/privacy' };
     case 'cookies':
-      return { label: 'Cookie Policy', href: '/legal/cookies' };
+      return { label: labels.cookies, href: '/legal/cookies' };
     default:
       return { label: key, href: '#' };
   }
@@ -77,16 +111,20 @@ function useCountdown(targetIso: string | null): string | null {
     const target = Date.parse(targetIso);
     if (Number.isNaN(target)) return null;
     const diffMs = target - now;
-    if (diffMs <= 0) return 'Grace period expired';
+    const zh = isChinesePage();
+    if (diffMs <= 0) return zh ? '宽限期已结束' : 'Grace period expired';
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
     if (diffDays > 0) {
+      if (zh) return `剩余 ${diffDays} 天`;
       return diffDays === 1 ? '1 day remaining' : `${diffDays} days remaining`;
     }
     const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
     if (diffHours > 0) {
+      if (zh) return `剩余 ${diffHours} 小时`;
       return diffHours === 1 ? '1 hour remaining' : `${diffHours} hours remaining`;
     }
     const diffMinutes = Math.floor(diffMs / (1000 * 60));
+    if (zh) return diffMinutes <= 1 ? '剩余不到 1 分钟' : `剩余 ${diffMinutes} 分钟`;
     return diffMinutes <= 1 ? 'Less than a minute remaining' : `${diffMinutes} minutes remaining`;
   }, [targetIso, now]);
 }
@@ -313,20 +351,21 @@ export function ReconsentPrompt({ enabled = true }: ReconsentPromptProps) {
   if (!enabled || !status?.needsReconsent) return null;
 
   const documents = status.documents;
+  const copy = PROMPT_COPY[isChinesePage() ? 'zh' : 'en'];
   const handleAccept = () => { acceptRef.current?.(); };
 
   const content = (
     <div className="space-y-4">
       <div className="space-y-2 text-left">
         <h2 className="text-lg font-semibold text-text-primary">
-          We&apos;ve updated our legal terms
+          {copy.title}
         </h2>
         <p className="text-sm text-text-secondary">
-          To continue using Keyvo, please review and accept the updated documents below.
+          {copy.intro}
         </p>
         {status.mode === 'soft' && !status.shouldBlock ? (
           <p className="text-xs font-medium uppercase tracking-wide text-brand">
-            Grace period active {countdown ? `· ${countdown}` : ''}
+            {copy.grace} {countdown ? `· ${countdown}` : ''}
           </p>
         ) : null}
       </div>
@@ -342,8 +381,8 @@ export function ReconsentPrompt({ enabled = true }: ReconsentPromptProps) {
               <div>
                 <p className="font-medium text-text-primary">{meta.label}</p>
                 <p className="text-xs text-text-muted">
-                  Version {doc.currentVersion}
-                  {doc.acceptedVersion ? ` · Your last acceptance: ${doc.acceptedVersion}` : ' · Acceptance required'}
+                  {copy.version} {doc.currentVersion}
+                  {doc.acceptedVersion ? ` · ${copy.lastAccepted} ${doc.acceptedVersion}` : ` · ${copy.required}`}
                 </p>
               </div>
               <a
@@ -352,7 +391,7 @@ export function ReconsentPrompt({ enabled = true }: ReconsentPromptProps) {
                 rel="noopener noreferrer"
                 className="text-xs font-semibold uppercase tracking-wide text-brand underline hover:text-brandHover"
               >
-                View
+                {copy.view}
               </a>
             </li>
           );
@@ -368,7 +407,7 @@ export function ReconsentPrompt({ enabled = true }: ReconsentPromptProps) {
         disabled={submitting}
         className="w-full px-3 py-2 text-sm"
       >
-        {submitting ? 'Saving…' : 'Accept and continue'}
+        {submitting ? copy.saving : copy.accept}
       </Button>
     </div>
   );
