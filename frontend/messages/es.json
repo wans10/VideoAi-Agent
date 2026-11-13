@@ -6981,6 +6981,8 @@
       "termsLabel": "los Términos de servicio",
       "infix": " y la ",
       "privacyLabel": "Política de privacidad",
+      "listSeparator": ", ",
+      "cookiesLabel": "Política de cookies",
       "suffix": ".",
       "error": "Debes aceptar los términos y la política de privacidad para continuar.",
       "age": "Confirmo que tengo al menos {age} años.",
@@ -7083,8 +7085,33 @@
         "phoneDisabled": "El acceso por teléfono aún no está disponible. Usa el correo.",
         "signupDisabled": "Ahora mismo no se pueden crear cuentas nuevas con un número de teléfono. Inténtalo de nuevo más tarde.",
         "invalidPhone": "Este número no puede recibir códigos. Revísalo e inténtalo de nuevo.",
-        "verifyUnavailable": "La verificación no está disponible temporalmente. Inténtalo de nuevo."
-      }
+        "verifyUnavailable": "La verificación no está disponible temporalmente. Inténtalo de nuevo.",
+        "passwordSigningIn": "Iniciando sesión…",
+        "passwordInvalid": "Número de teléfono o contraseña incorrectos. Los nuevos usuarios se registran con un código SMS; si olvidaste la contraseña, elige «¿Olvidaste la contraseña? Inicia sesión con un código SMS».",
+        "passwordRateLimited": "Demasiados intentos de inicio de sesión. Inténtalo más tarde.",
+        "passwordUnavailable": "El inicio de sesión no está disponible temporalmente. Inténtalo de nuevo.",
+        "passwordSetupSaving": "Guardando contraseña…",
+        "passwordSetupSaved": "Contraseña guardada, redirigiendo…",
+        "passwordWeak": "Esta contraseña es demasiado débil. Usa al menos 6 caracteres difíciles de adivinar.",
+        "passwordSame": "La nueva contraseña debe ser distinta de la anterior.",
+        "passwordSessionExpired": "La verificación ha caducado. Solicita un código SMS nuevo para crear una contraseña.",
+        "passwordSetupUnavailable": "No se pudo guardar la contraseña. Inténtalo de nuevo.",
+        "passwordSetupRateLimited": "Demasiados intentos. Inténtalo más tarde."
+      },
+      "passwordSignin": {
+        "submit": "Iniciar sesión",
+        "forgotPassword": "¿Olvidaste la contraseña? Inicia sesión con un código SMS",
+        "newUser": "¿Nuevo aquí? Regístrate con un código SMS"
+      },
+      "passwordSetup": {
+        "title": "Crea una contraseña",
+        "description": "Una vez creada, podrás iniciar sesión con tu número de teléfono y tu contraseña sin un código SMS cada vez.",
+        "hint": "Al menos 6 caracteres.",
+        "submit": "Guardar contraseña y continuar",
+        "cancel": "Cancelar y volver al inicio de sesión",
+        "verified": "Verificado. Crea una contraseña para terminar de iniciar sesión."
+      },
+      "backToPassword": "Volver al inicio de sesión con contraseña"
     }
   },
   "comparePage": {

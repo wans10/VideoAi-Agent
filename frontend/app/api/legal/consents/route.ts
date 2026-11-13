@@ -10,6 +10,8 @@ type RequestBody = {
   userId?: string;
   marketingOptIn?: boolean;
   ageConfirmed?: boolean;
+  /** Keyvo: phone sign-up names the Cookie Policy next to the Terms and Privacy Policy. */
+  cookiesAccepted?: boolean;
   locale?: string | null;
   source?: ConsentSource;
 };
@@ -69,6 +71,15 @@ export async function POST(req: NextRequest) {
         source: body.source ?? 'signup',
       },
     ];
+
+    if (body.cookiesAccepted === true) {
+      entries.push({
+        docKey: 'cookies' as const,
+        docVersion: versions.cookies ?? LEGAL_FALLBACK_VERSIONS.cookies,
+        accepted: true,
+        source: body.source ?? 'signup',
+      });
+    }
 
     if (typeof body.marketingOptIn === 'boolean') {
       entries.push({

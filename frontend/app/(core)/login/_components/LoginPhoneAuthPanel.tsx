@@ -7,8 +7,9 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import type { AuthCopy, AuthMode } from '../_lib/login-copy';
 import { formatTemplate } from '../_lib/login-helpers';
-import { PHONE_COUNTRY_CODE, PHONE_OTP_LENGTH } from '../_lib/login-phone';
+import { PHONE_OTP_LENGTH } from '../_lib/login-phone';
 import type { LoginPhoneAuthState, PhoneFieldError } from '../_hooks/useLoginPhoneAuth';
+import { LoginPhoneNumberField } from './LoginPhoneNumberField';
 
 type LoginPhoneAuthPanelProps = {
   authCopy: AuthCopy;
@@ -19,7 +20,7 @@ type LoginPhoneAuthPanelProps = {
   termsStatement: ReactNode;
 };
 
-/** Mainland mobile number + 6-digit SMS code form (sign-in and sign-up share one OTP flow). */
+/** SMS code step: mainland mobile number + 6-digit code. New accounts and forgot-password recovery both use it. */
 export function LoginPhoneAuthPanel({ authCopy, mode, phone, isAuthReady, legalMinAge, termsStatement }: LoginPhoneAuthPanelProps) {
   const copy = authCopy.phone;
   const message = (field: PhoneFieldError) => {
@@ -40,44 +41,17 @@ export function LoginPhoneAuthPanel({ authCopy, mode, phone, isAuthReady, legalM
 
   return (
     <form method="post" noValidate onSubmit={phone.onVerifySubmit} className="stack-gap-sm" data-testid="phone-auth-form">
-      <div className="block text-sm">
-        <label htmlFor="auth-phone" className="mb-1 block text-text-secondary">
-          {copy.fields.phone}
-        </label>
-        <div className="flex items-stretch gap-2">
-          <span
-            aria-hidden="true"
-            className="inline-flex min-h-11 items-center rounded-input border border-hairline bg-bg px-3 text-sm text-text-secondary"
-          >
-            {PHONE_COUNTRY_CODE}
-          </span>
-          <Input
-            id="auth-phone"
-            type="tel"
-            inputMode="numeric"
-            autoComplete="tel-national"
-            name="phone"
-            required
-            ref={phone.phoneRef}
-            value={phone.phone}
-            readOnly={codeSent}
-            disabled={phone.isBusy}
-            onChange={(event) => phone.onPhoneChange(event.target.value)}
-            className="min-h-11"
-            placeholder={copy.placeholders.phone}
-            aria-invalid={Boolean(phoneError)}
-            aria-describedby={clsx('auth-phone-hint', phoneError && 'auth-phone-error')}
-          />
-        </div>
-        <p id="auth-phone-hint" className="mt-1 text-xs text-text-muted">
-          {copy.hint}
-        </p>
-        {phoneError ? (
-          <p id="auth-phone-error" className="mt-1 text-xs text-state-warning">
-            {phoneError}
-          </p>
-        ) : null}
-      </div>
+      <LoginPhoneNumberField
+        label={copy.fields.phone}
+        hint={copy.hint}
+        placeholder={copy.placeholders.phone}
+        inputRef={phone.phoneRef}
+        value={phone.phone}
+        error={phoneError}
+        readOnly={codeSent}
+        disabled={phone.isBusy}
+        onChange={phone.onPhoneChange}
+      />
 
       {codeSent ? (
         <div className="block text-sm">
@@ -170,6 +144,18 @@ export function LoginPhoneAuthPanel({ authCopy, mode, phone, isAuthReady, legalM
           </p>
         ) : null}
       </div>
+
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        data-testid="phone-back-to-password"
+        disabled={phone.isBusy}
+        onClick={phone.onBackToPasswordSignIn}
+        className="self-start text-xs text-text-secondary hover:text-text-primary"
+      >
+        {copy.backToPassword}
+      </Button>
 
       <Button
         type="submit"

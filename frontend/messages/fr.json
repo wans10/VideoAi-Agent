@@ -6989,6 +6989,8 @@
       "termsLabel": "les Conditions d’utilisation",
       "infix": " et la ",
       "privacyLabel": "Politique de confidentialité",
+      "listSeparator": ", ",
+      "cookiesLabel": "Politique relative aux cookies",
       "suffix": ".",
       "error": "Vous devez accepter les conditions et la politique de confidentialité pour continuer.",
       "age": "Je confirme avoir au moins {age} ans.",
@@ -7091,8 +7093,33 @@
         "phoneDisabled": "La connexion par téléphone n’est pas encore disponible. Utilisez l’e-mail.",
         "signupDisabled": "Impossible de créer un compte avec un numéro de téléphone pour le moment. Réessayez plus tard.",
         "invalidPhone": "Ce numéro ne peut pas recevoir de code. Vérifiez-le et réessayez.",
-        "verifyUnavailable": "Vérification momentanément indisponible. Réessayez."
-      }
+        "verifyUnavailable": "Vérification momentanément indisponible. Réessayez.",
+        "passwordSigningIn": "Connexion…",
+        "passwordInvalid": "Numéro de téléphone ou mot de passe incorrect. Les nouveaux utilisateurs s’inscrivent avec un code SMS ; en cas d’oubli, choisissez « Mot de passe oublié ? Connexion par code SMS ».",
+        "passwordRateLimited": "Trop de tentatives de connexion. Réessayez plus tard.",
+        "passwordUnavailable": "La connexion est momentanément indisponible. Réessayez.",
+        "passwordSetupSaving": "Enregistrement du mot de passe…",
+        "passwordSetupSaved": "Mot de passe enregistré, redirection…",
+        "passwordWeak": "Ce mot de passe est trop faible. Utilisez au moins 6 caractères difficiles à deviner.",
+        "passwordSame": "Le nouveau mot de passe doit être différent de l’ancien.",
+        "passwordSessionExpired": "La vérification a expiré. Demandez un nouveau code SMS pour définir un mot de passe.",
+        "passwordSetupUnavailable": "Le mot de passe n’a pas pu être enregistré. Réessayez.",
+        "passwordSetupRateLimited": "Trop de tentatives. Réessayez plus tard."
+      },
+      "passwordSignin": {
+        "submit": "Se connecter",
+        "forgotPassword": "Mot de passe oublié ? Connexion par code SMS",
+        "newUser": "Nouveau ici ? Inscription par code SMS"
+      },
+      "passwordSetup": {
+        "title": "Définir un mot de passe",
+        "description": "Une fois défini, vous pourrez vous connecter avec votre numéro de téléphone et votre mot de passe, sans code SMS à chaque fois.",
+        "hint": "Au moins 6 caractères.",
+        "submit": "Enregistrer le mot de passe et continuer",
+        "cancel": "Annuler et revenir à la connexion",
+        "verified": "Vérifié. Définissez un mot de passe pour finaliser la connexion."
+      },
+      "backToPassword": "Retour à la connexion par mot de passe"
     }
   },
   "comparePage": {

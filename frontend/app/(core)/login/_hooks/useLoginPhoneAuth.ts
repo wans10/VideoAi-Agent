@@ -1,11 +1,10 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
-import { persistPendingAnalyticsEvent } from '@/lib/analytics-client';
+import { useCallback, useEffect, useRef, useState, type FormEvent, type MutableRefObject } from 'react';
 import { resolveBrowserCommercialAnalyticsAuthContext } from '@/lib/analytics/commercial-client';
 import { loadSupabaseClient } from '@/lib/supabaseClientLoader';
 import type { AuthCopy, Locale } from '../_lib/login-copy';
-import { clearPendingGoogleLogin, formatTemplate, sanitizeNextPath } from '../_lib/login-helpers';
+import { clearPendingGoogleLogin, formatTemplate } from '../_lib/login-helpers';
 import {
   PHONE_MAX_VERIFY_ATTEMPTS,
   PHONE_RESEND_COOLDOWN_SECONDS,
@@ -23,8 +22,18 @@ import {
   toMainlandE164,
   writePhoneOtpState,
 } from '../_lib/login-phone';
+import {
+  clearPhonePasswordSetupState,
+  readPhonePasswordSetupState,
+  writePhonePasswordSetupState,
+  type PhonePasswordSetupState,
+} from '../_lib/login-phone-password';
+import { useLoginPhonePasswordSignIn } from './useLoginPhonePasswordSignIn';
+import { useLoginPhonePasswordSetup } from './useLoginPhonePasswordSetup';
 
 export type LoginMethod = 'email' | 'phone';
+/** signin: phone + password (default). code: SMS code (new account or forgot password). setPassword: required after a verified code. */
+export type LoginPhoneStep = 'signin' | 'code' | 'setPassword';
 export type PhoneFieldError = 'phoneRequired' | 'phoneInvalid' | 'codeRequired' | 'termsRequired' | 'ageRequired';
 
 type UseLoginPhoneAuthOptions = {
@@ -35,6 +44,8 @@ type UseLoginPhoneAuthOptions = {
   nextPathReady: boolean;
   blocked: boolean;
   completeAuthenticatedRedirect: (target: string, userId?: string | null) => void;
+  /** While set, the login page must not redirect: a verified code still owes a password. */
+  authRedirectHoldRef: MutableRefObject<boolean>;
   setStatus: (value: string | null) => void;
   setStatusTone: (value: 'info' | 'success') => void;
   setError: (value: string | null) => void;
@@ -48,7 +59,10 @@ function browserSessionStorage(): Storage | null {
   }
 }
 
-/** Phone + SMS one-time code sign-in / sign-up (signInWithOtp + verifyOtp). */
+/**
+ * Phone login state machine (flag on): phone + password sign-in, SMS code for new accounts and for
+ * forgot-password recovery, and the required password step after a verified code.
+ */
 export function useLoginPhoneAuth({
   enabled,
   authCopy,
@@ -57,14 +71,15 @@ export function useLoginPhoneAuth({
   nextPathReady,
   blocked,
   completeAuthenticatedRedirect,
+  authRedirectHoldRef,
   setStatus,
   setStatusTone,
   setError,
 }: UseLoginPhoneAuthOptions) {
   const copy = authCopy.phone;
-  // The hook only runs with the flag on, where phone is the default (and only) sign-up path;
-  // 'email' is the sign-in form kept for accounts created with an email before.
+  // The hook only runs with the flag on. 'email' is the sign-in form kept for accounts created with an email.
   const [method, setMethodState] = useState<LoginMethod>('phone');
+  const [step, setStep] = useState<LoginPhoneStep>('signin');
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
   const [codeSentTo, setCodeSentTo] = useState<string | null>(null);
@@ -77,23 +92,37 @@ export function useLoginPhoneAuth({
   const [isSending, setIsSending] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const pendingRef = useRef(false);
+  const setupRef = useRef<PhonePasswordSetupState | null>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
   const codeRef = useRef<HTMLInputElement>(null);
   const termsRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
+  const signInPasswordRef = useRef<HTMLInputElement>(null);
+  const setupPasswordRef = useRef<HTMLInputElement>(null);
+  const setupConfirmRef = useRef<HTMLInputElement>(null);
 
-  // Restore an in-flight code (number + cooldown) after a reload. Read in an effect so the first
-  // render matches the server markup.
+  // Restore after a reload in read-only effects (the first render must match the server markup).
+  // A verified code that still owes a password wins over a code that is merely cooling down.
   useEffect(() => {
     if (!enabled) return;
-    const restored = readPhoneOtpState(browserSessionStorage(), Date.now());
+    const storage = browserSessionStorage();
+    const pendingSetup = readPhonePasswordSetupState(storage, Date.now());
+    if (pendingSetup) {
+      setupRef.current = pendingSetup;
+      authRedirectHoldRef.current = true;
+      setPhone(pendingSetup.phone);
+      setStep('setPassword');
+      return;
+    }
+    const restored = readPhoneOtpState(storage, Date.now());
     if (!restored) return;
     setMethodState('phone');
+    setStep('code');
     setPhone(restored.phone);
     setCodeSentTo(restored.phone);
     setNow(Date.now());
     setCooldownUntil(restored.cooldownUntil);
-  }, [enabled]);
+  }, [enabled, authRedirectHoldRef]);
 
   const cooldownSeconds = remainingCooldownSeconds(cooldownUntil, now);
   useEffect(() => {
@@ -110,6 +139,7 @@ export function useLoginPhoneAuth({
   const setMethod = useCallback((next: LoginMethod) => {
     if (pendingRef.current || blocked) return;
     setMethodState(next);
+    setStep('signin');
     setFieldError(null);
     setError(null);
     setStatus(null);
@@ -126,15 +156,71 @@ export function useLoginPhoneAuth({
     return false;
   };
 
-  const validatePhoneAndConsent = () => {
+  /** Number only (phone password sign-in and the code step share this check). */
+  const validatePhone = () => {
     const normalized = normalizeMainlandMobile(phone);
     if (!normalized) return fail('phoneRequired');
     if (!isValidMainlandMobile(normalized)) return fail('phoneInvalid');
+    setFieldError(null);
+    return true;
+  };
+
+  const validatePhoneAndConsent = () => {
+    if (!validatePhone()) return false;
     if (!acceptTerms) return fail('termsRequired');
     if (!ageConfirmed) return fail('ageRequired');
     setFieldError(null);
     return true;
   };
+
+  /** Ends the password step: forgets the pending record and lets the page redirect again. */
+  const releaseSetup = useCallback(() => {
+    setupRef.current = null;
+    authRedirectHoldRef.current = false;
+    clearPhonePasswordSetupState(browserSessionStorage());
+  }, [authRedirectHoldRef]);
+
+  const returnToSignIn = useCallback(() => {
+    setStep('signin');
+    setCodeSentTo(null);
+    setCode('');
+    setCooldownUntil(null);
+    clearPhoneOtpState(browserSessionStorage());
+  }, []);
+
+  const isNewAccount = useCallback(() => setupRef.current?.newAccount ?? false, []);
+
+  const passwordSignIn = useLoginPhonePasswordSignIn({
+    enabled,
+    authCopy,
+    phone,
+    nextPath,
+    nextPathReady,
+    blocked,
+    validatePhone,
+    passwordRef: signInPasswordRef,
+    completeAuthenticatedRedirect,
+    setStatus,
+    setStatusTone,
+    setError,
+  });
+
+  const passwordSetup = useLoginPhonePasswordSetup({
+    enabled,
+    authCopy,
+    nextPath,
+    nextPathReady,
+    blocked,
+    isNewAccount,
+    releaseSetup,
+    returnToSignIn,
+    completeAuthenticatedRedirect,
+    passwordRef: setupPasswordRef,
+    confirmRef: setupConfirmRef,
+    setStatus,
+    setStatusTone,
+    setError,
+  });
 
   async function sendCode() {
     if (!enabled || pendingRef.current || blocked || !nextPathReady) return;
@@ -189,7 +275,7 @@ export function useLoginPhoneAuth({
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({ userId, ageConfirmed: true, locale, source: 'signup' }),
+      body: JSON.stringify({ userId, ageConfirmed: true, cookiesAccepted: true, locale, source: 'signup' }),
     });
     const json = await res.json().catch(() => null);
     if (!res.ok || !json?.ok) throw new Error(authCopy.feedback.consentSaveError);
@@ -215,10 +301,13 @@ export function useLoginPhoneAuth({
     setError(null);
     setStatusTone('info');
     setStatus(copy.feedback.verifying);
+    // A verified session exists from here on; hold the page's redirect until the password step ends.
+    authRedirectHoldRef.current = true;
     try {
       const supabase = await loadSupabaseClient();
       const { data, error } = await supabase.auth.verifyOtp({ phone: toMainlandE164(codeSentTo), token: code, type: 'sms' });
       if (error || !data?.session) {
+        authRedirectHoldRef.current = false;
         const kind = error ? classifyPhoneVerifyError(error) : 'unavailable';
         setStatus(null);
         if (kind === 'codeInvalid') {
@@ -235,33 +324,33 @@ export function useLoginPhoneAuth({
         return;
       }
       const user = data.session.user ?? data.user;
-      const isNewAccount = isNewPhoneAccount(user, Date.now());
-      if (isNewAccount && user?.id) {
+      const newAccount = isNewPhoneAccount(user, Date.now());
+      if (newAccount && user?.id) {
         try {
           await recordSignupConsents(user.id);
         } catch (consentError) {
+          authRedirectHoldRef.current = false;
           setStatus(null);
           setError(consentError instanceof Error ? consentError.message : authCopy.feedback.consentSaveError);
           await supabase.auth.signOut({ scope: 'local' }).catch(() => undefined);
           return;
         }
       }
+      const pending: PhonePasswordSetupState = { phone: codeSentTo, newAccount, verifiedAt: Date.now() };
+      setupRef.current = pending;
+      writePhonePasswordSetupState(browserSessionStorage(), pending);
       clearPhoneOtpState(browserSessionStorage());
-      setStatusTone(isNewAccount ? 'success' : 'info');
-      setStatus(copy.feedback.redirecting);
       if (user) void resolveBrowserCommercialAnalyticsAuthContext(user.id, data.session.access_token, user.app_metadata);
-      if (isNewAccount) {
-        persistPendingAnalyticsEvent('sign_up_completed', {
-          route_family: 'auth',
-          auth_surface: 'login',
-          method: 'phone',
-          email_confirmation_required: false,
-        });
-      } else {
-        persistPendingAnalyticsEvent('login_completed', { route_family: 'auth', auth_surface: 'login', method: 'phone' });
-      }
-      completeAuthenticatedRedirect(sanitizeNextPath(nextPath), user?.id ?? null);
+      setCodeSentTo(null);
+      setCode('');
+      setCooldownUntil(null);
+      setAttemptsLeft(PHONE_MAX_VERIFY_ATTEMPTS);
+      setStep('setPassword');
+      setStatusTone('success');
+      setStatus(copy.passwordSetup.verified);
     } catch {
+      // Keep the hold only when a verified session is pending its password step.
+      if (!setupRef.current) authRedirectHoldRef.current = false;
       setStatus(null);
       setError(copy.feedback.verifyUnavailable);
     } finally {
@@ -274,6 +363,25 @@ export function useLoginPhoneAuth({
     if (pendingRef.current) return;
     setCodeSentTo(null);
     setCode('');
+    setFieldError(null);
+    setError(null);
+    setStatus(null);
+    window.setTimeout(() => phoneRef.current?.focus(), 0);
+  }, [setError, setStatus]);
+
+  /** Code step -> password sign-in. The SMS state is dropped so a reload lands on the password form. */
+  const backToPasswordSignIn = useCallback(() => {
+    if (pendingRef.current) return;
+    returnToSignIn();
+    setFieldError(null);
+    setError(null);
+    setStatus(null);
+  }, [returnToSignIn, setError, setStatus]);
+
+  /** Password sign-in -> SMS code (forgot password, or a number that has no password yet). */
+  const startCodeLogin = useCallback(() => {
+    if (pendingRef.current) return;
+    setStep('code');
     setFieldError(null);
     setError(null);
     setStatus(null);
@@ -304,6 +412,7 @@ export function useLoginPhoneAuth({
 
   return {
     method,
+    step,
     phone,
     code,
     codeSentTo,
@@ -314,11 +423,13 @@ export function useLoginPhoneAuth({
     ageConfirmed,
     isSending,
     isVerifying,
-    isBusy: isSending || isVerifying,
+    isBusy: isSending || isVerifying || passwordSignIn.isSigningIn || passwordSetup.isSaving,
     phoneRef,
     codeRef,
     termsRef,
     ageRef,
+    signIn: passwordSignIn,
+    setup: passwordSetup,
     onMethodChange: setMethod,
     onPhoneChange,
     onCodeChange,
@@ -327,6 +438,8 @@ export function useLoginPhoneAuth({
     onSendCode: sendCode,
     onVerifySubmit: verifyCode,
     onChangePhone: changePhone,
+    onStartCodeLogin: startCodeLogin,
+    onBackToPasswordSignIn: backToPasswordSignIn,
   };
 }
 

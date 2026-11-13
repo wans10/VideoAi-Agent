@@ -13,6 +13,9 @@ const loginPaths = [
   'frontend/app/(core)/login/_hooks/useLoginAuthHashSession.ts',
   'frontend/app/(core)/login/_hooks/useLoginOAuthCodeExchange.ts',
   'frontend/app/(core)/login/_hooks/useLoginPageController.ts',
+  'frontend/app/(core)/login/_hooks/useLoginPhoneAuth.ts',
+  'frontend/app/(core)/login/_hooks/useLoginPhonePasswordSignIn.ts',
+  'frontend/app/(core)/login/_hooks/useLoginPhonePasswordSetup.ts',
 ];
 const loginSources = loginPaths.map((path) => readFileSync(join(process.cwd(), path), 'utf8')).join('\n');
 const authHashSessionSource = readFileSync(

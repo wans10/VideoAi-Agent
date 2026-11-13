@@ -122,7 +122,8 @@ export type PhoneVerifyErrorKind = 'codeInvalid' | 'rateLimited' | 'signupDisabl
 
 type AuthErrorLike = { status?: number; code?: string; message?: string } | null | undefined;
 
-function describe(error: unknown): { status: number; code: string; message: string } {
+/** Reads status/code/message from a Supabase AuthError-like value without trusting its shape. */
+export function describeAuthError(error: unknown): { status: number; code: string; message: string } {
   const value = (error && typeof error === 'object' ? error : {}) as NonNullable<AuthErrorLike>;
   return {
     status: typeof value.status === 'number' ? value.status : 0,
@@ -133,7 +134,7 @@ function describe(error: unknown): { status: number; code: string; message: stri
 
 /** Maps signInWithOtp errors. Provider details never reach the page. */
 export function classifyPhoneSendError(error: unknown): PhoneSendErrorKind {
-  const { status, code, message } = describe(error);
+  const { status, code, message } = describeAuthError(error);
   if (status === 429 || code === 'over_sms_send_rate_limit' || code === 'over_request_rate_limit') return 'rateLimited';
   if (code === 'signup_disabled' || code === 'otp_disabled' || message.includes('signups not allowed')) return 'signupDisabled';
   if (code === 'phone_provider_disabled' || code === 'sms_provider_disabled' || message.includes('unsupported phone provider')) {
@@ -145,7 +146,7 @@ export function classifyPhoneSendError(error: unknown): PhoneSendErrorKind {
 
 /** Maps verifyOtp errors (GoTrue answers 403 otp_expired for both wrong and expired codes). */
 export function classifyPhoneVerifyError(error: unknown): PhoneVerifyErrorKind {
-  const { status, code, message } = describe(error);
+  const { status, code, message } = describeAuthError(error);
   if (status === 429 || code === 'over_request_rate_limit') return 'rateLimited';
   if (code === 'signup_disabled' || code === 'otp_disabled') return 'signupDisabled';
   if (

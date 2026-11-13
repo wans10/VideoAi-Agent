@@ -5,10 +5,13 @@
 
 ## 它是怎么工作的
 
-1. 用户在 Keyvo 登录页选择「手机验证码」，输入 11 位手机号，点「获取验证码」。
-2. 网站调用 Supabase Auth（GoTrue）。GoTrue 生成 6 位验证码，然后调用我们自己的小服务 `sms-hook`。
-3. `sms-hook` 校验签名（防止别人冒充 GoTrue），检查频率限制，再调用阿里云短信接口发送验证码（模板参数 `code`）。
-4. 用户输入验证码，GoTrue 校验通过后登录；新手机号会自动创建账户。
+1. **老用户（已设置密码）**：在 Keyvo 登录页输入 11 位手机号和密码，网站调用 `supabase.auth.signInWithPassword({ phone: "+86…", password })`。**不发送短信**。
+2. **新用户注册**：输入手机号，勾选服务条款和年龄确认，点「获取验证码」。GoTrue 生成 6 位验证码，然后调用我们自己的小服务 `sms-hook`。`sms-hook` 校验签名（防止别人冒充 GoTrue），检查频率限制，再调用阿里云短信接口发送验证码（模板参数 `code`）。
+3. 用户输入验证码，GoTrue 校验通过后创建账户并建立会话。网站随后**必须**让用户设置登录密码（`supabase.auth.updateUser({ password })`），设置完成前不会跳转进入应用。
+4. **忘记密码 / 尚未设置密码的账户**：在密码登录页点「忘记密码？用短信验证码登录」，走第 2、3 步（验证码登录），然后设置新密码。
+5. 已有邮箱的老账户仍可在登录页点「已有邮箱账户？使用邮箱和密码登录」，使用邮箱和密码登录，也可以走邮箱重置密码。
+
+**服务器端不需要为密码登录做任何改动**：密码登录走 `POST /auth/v1/token?grant_type=password`，设置密码走 `PUT /auth/v1/user`。这两个接口**不得**被 OpenResty 或其他网关拦截（只拦截邮箱注册 `/auth/v1/signup` 和邮箱验证码 `/auth/v1/otp`，手机验证码 `/auth/v1/otp` 必须放行）。
 
 ## 本目录的文件
 
@@ -70,6 +73,16 @@ curl -sS -X POST "https://<Supabase 域名>/auth/v1/verify" \
   -H "apikey: <SUPABASE_ANON_KEY>" -H "Content-Type: application/json" \
   -d '{"type":"sms","phone":"+86<你的手机号>","token":"<收到的 6 位验证码>"}'
 
+# 3b. 设置密码（用第 3 步返回的 access_token；密码至少 6 位）
+curl -sS -X PUT "https://<Supabase 域名>/auth/v1/user" \
+  -H "apikey: <SUPABASE_ANON_KEY>" -H "Authorization: Bearer <第 3 步的 access_token>" \
+  -H "Content-Type: application/json" -d '{"password":"<测试密码>"}'
+
+# 3c. 用手机号和密码登录（不发送短信；成功返回 access_token）
+curl -sS -X POST "https://<Supabase 域名>/auth/v1/token?grant_type=password" \
+  -H "apikey: <SUPABASE_ANON_KEY>" -H "Content-Type: application/json" \
+  -d '{"phone":"+86<你的手机号>","password":"<测试密码>"}'
+
 # 4. 查看日志（手机号已打码，例如 138****5678；不会出现验证码和密钥）
 docker logs --tail 50 keyvo-sms-hook
 ```
@@ -83,6 +96,13 @@ docker logs --tail 50 keyvo-sms-hook
 - **阿里云 AccessKey**：RAM 控制台为同一个 RAM 用户再创建一个新 AccessKey → 修改服务器 `.env` 里的 `ALI_AK`、`ALI_SK` → 1Panel 中重启 `keyvo-sms-hook`（`docker compose up -d sms-hook`）→ 按上面「测试」第 2、3 步验证 → 在 RAM 控制台**禁用**旧 AccessKey，观察一天无异常后删除。
 - **Hook 密钥**：重新生成一行 `v1,whsec_...` → 修改 `.env` 的 `SMS_HOOK_SECRET` → **同时**重启 `auth` 和 `sms-hook`（约 1 分钟内发码可能失败）→ 测试。
 
+## 密码登录的限制与注意事项
+
+- 密码登录错误（号码未注册或密码错误）页面统一显示同一句提示，不区分两者，避免泄露号码是否已注册。
+- GoTrue 对登录和改密码有内置限流，超限时页面显示「尝试过于频繁，请稍后再试」。具体阈值以所用 GoTrue 版本和 `GOTRUE_RATE_LIMIT_*` 设置为准，本次未修改。
+- 验证码验证成功后、设置密码之前，浏览器里已经有一个会话。页面刷新会回到「设置密码」步骤；如果用户直接关闭浏览器，之后再打开登录页会被视为已登录并进入应用（没有密码）。网站目前没有服务端的「已设置密码」标记，这一点需要 owner 决定是否补充。
+- 忘记密码与新用户注册共用同一条验证码流程：号码未注册时，验证码会创建账户，因此仍需勾选服务条款和年龄确认。
+
 ## 频率限制（防止短信轰炸和费用失控）
 
 - sms-hook 内置：同一手机号 60 秒 1 条、每小时 5 条、每天 10 条；全站每小时 300 条（可在编排里调整 `LIMIT_*`）。计数保存在内存中，重启后清零。
@@ -93,10 +113,10 @@ docker logs --tail 50 keyvo-sms-hook
 
 ## 回滚（关闭手机号登录）
 
-1. 网站：把 GitHub 变量 `NEXT_PUBLIC_PHONE_LOGIN_ENABLED` 改为 `false`（或删除），重新构建并更新网站容器。在新镜像上线前，用户点手机登录会看到「手机号登录暂未开放，请使用邮箱登录」。
+1. 网站：把 GitHub 变量 `NEXT_PUBLIC_PHONE_LOGIN_ENABLED` 改为 `false`（或删除），重新构建并更新网站容器。关闭后登录页回到原来的邮箱和密码表单，**设置过密码的手机号账户将无法登录**（没有邮箱的账户只能通过手机号登录），直到重新开启该开关。
 2. Supabase：在 `auth` 服务里把 `GOTRUE_HOOK_SEND_SMS_ENABLED` 和 `GOTRUE_EXTERNAL_PHONE_ENABLED` 改为 `"false"`，重启 `auth`。
 3. 停止并删除 `sms-hook` 服务（编排里删掉这一段，再「重建」）。
-4. 已经用手机号注册的账户仍然保留，之后重新开启即可继续登录。
+4. 已经用手机号注册的账户仍然保留，之后重新开启即可继续登录（包括密码登录）。
 
 ## 合规提醒
 

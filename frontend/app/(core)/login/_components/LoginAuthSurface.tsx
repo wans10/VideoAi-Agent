@@ -11,6 +11,8 @@ import { formatTemplate } from '../_lib/login-helpers';
 import type { AuthFieldErrors, AuthFieldName } from '../_lib/login-validation';
 import { LoginPasswordField } from './LoginPasswordField';
 import { LoginPhoneAuthPanel } from './LoginPhoneAuthPanel';
+import { LoginPhoneSignInForm } from './LoginPhoneSignInForm';
+import { LoginPhonePasswordSetupForm } from './LoginPhonePasswordSetupForm';
 import type { LoginPhoneAuthState } from '../_hooks/useLoginPhoneAuth';
 import { AuthBrandStory } from '@/components/brand/AuthBrandStory';
 import { IcpFiling } from '@/components/marketing/IcpFiling';
@@ -149,19 +151,24 @@ export function LoginAuthSurface({
   const phoneOnlySignup = Boolean(phoneAuth);
   const formMode: Exclude<AuthMode, 'reset'> = phoneOnlySignup ? 'signin' : effectiveMode;
   const mcpSigninHeader = mode === 'signin' && continuation?.kind === 'mcp';
+  const phoneSetupStep = phoneMethod && phoneAuth?.step === 'setPassword';
   const headerTitle = mcpSigninHeader && continuation
     ? continuation.title
     : mode === 'reset'
       ? authCopy.modes.reset.title
       : phoneAuth
-        ? (phoneMethod ? authCopy.phone.title : authCopy.phone.emailSigninTitle)
+        ? (phoneMethod
+          ? (phoneSetupStep ? authCopy.phone.passwordSetup.title : authCopy.phone.title)
+          : authCopy.phone.emailSigninTitle)
         : mode === 'signup' ? authCopy.modes.signup.title : authCopy.modes.signin.title;
   const headerDescription = mcpSigninHeader && continuation
     ? continuation.body
     : mode === 'reset'
       ? authCopy.modes.reset.description
       : phoneAuth
-        ? (phoneMethod ? authCopy.phone.description : authCopy.phone.emailSigninDescription)
+        ? (phoneMethod
+          ? (phoneSetupStep ? authCopy.phone.passwordSetup.description : authCopy.phone.description)
+          : authCopy.phone.emailSigninDescription)
         : mode === 'signup' ? authCopy.modes.signup.description : authCopy.modes.signin.description;
 
   const renderTermsStatement = (highlight = Boolean(termsError)) => (
@@ -173,6 +180,25 @@ export function LoginAuthSurface({
       {authCopy.terms.infix}
       <a href="/legal/privacy" target="_blank" rel="noopener noreferrer" className="text-brand underline">
         {authCopy.terms.privacyLabel}
+      </a>
+      {authCopy.terms.suffix}
+    </span>
+  );
+
+  // Phone sign-up also records the Cookie Policy (Keyvo 2026-11-13), so the sentence names all three documents.
+  const renderPhoneTermsStatement = (highlight = Boolean(termsError)) => (
+    <span className={clsx(highlight && 'text-state-warning')}>
+      {authCopy.terms.prefix}
+      <a href="/legal/terms" target="_blank" rel="noopener noreferrer" className="text-brand underline">
+        {authCopy.terms.termsLabel}
+      </a>
+      {authCopy.terms.listSeparator}
+      <a href="/legal/privacy" target="_blank" rel="noopener noreferrer" className="text-brand underline">
+        {authCopy.terms.privacyLabel}
+      </a>
+      {authCopy.terms.infix}
+      <a href="/legal/cookies" target="_blank" rel="noopener noreferrer" className="text-brand underline">
+        {authCopy.terms.cookiesLabel}
       </a>
       {authCopy.terms.suffix}
     </span>
@@ -277,25 +303,41 @@ export function LoginAuthSurface({
             )}
             {phoneAuth && phoneMethod ? (
               <>
-                <LoginPhoneAuthPanel
-                  authCopy={authCopy}
-                  mode={effectiveMode}
-                  phone={phoneAuth}
-                  isAuthReady={isAuthReady && !isPasswordSubmitting && !isConfirmationResending}
-                  legalMinAge={legalMinAge}
-                  termsStatement={renderTermsStatement(false)}
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  data-testid="login-use-email-account"
-                  disabled={isPasswordSubmitting || isConfirmationResending || phoneBusy}
-                  onClick={() => phoneAuth.onMethodChange('email')}
-                  className="self-start text-xs text-text-secondary hover:text-text-primary"
-                >
-                  {authCopy.phone.useEmailAccount}
-                </Button>
+                {phoneAuth.step === 'setPassword' ? (
+                  <LoginPhonePasswordSetupForm
+                    authCopy={authCopy}
+                    phone={phoneAuth}
+                    isAuthReady={isAuthReady && !isPasswordSubmitting && !isConfirmationResending}
+                  />
+                ) : phoneAuth.step === 'code' ? (
+                  <LoginPhoneAuthPanel
+                    authCopy={authCopy}
+                    mode={effectiveMode}
+                    phone={phoneAuth}
+                    isAuthReady={isAuthReady && !isPasswordSubmitting && !isConfirmationResending}
+                    legalMinAge={legalMinAge}
+                    termsStatement={renderPhoneTermsStatement(false)}
+                  />
+                ) : (
+                  <LoginPhoneSignInForm
+                    authCopy={authCopy}
+                    phone={phoneAuth}
+                    isAuthReady={isAuthReady && !isPasswordSubmitting && !isConfirmationResending}
+                  />
+                )}
+                {phoneAuth.step === 'setPassword' ? null : (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    data-testid="login-use-email-account"
+                    disabled={isPasswordSubmitting || isConfirmationResending || phoneBusy}
+                    onClick={() => phoneAuth.onMethodChange('email')}
+                    className="self-start text-xs text-text-secondary hover:text-text-primary"
+                  >
+                    {authCopy.phone.useEmailAccount}
+                  </Button>
+                )}
               </>
             ) : (
             <form
