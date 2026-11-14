@@ -23,6 +23,7 @@ import {
 } from '@/server/agent-runtime/model-executability';
 import { normalizeVideoDurationOption } from '@/server/video-generation/execution-constraints';
 import type { EngineCaps, EngineModeUiCaps, Mode } from '@/types/engines';
+import { isKeyvoHiddenModel } from '@/config/keyvo-model-visibility';
 import { getPrivateRuntimeEngineById } from '@/server/video-generation/private-engine-registry';
 
 import type { AgentGenerationMode, AgentModel, AgentModelFilter } from './types';
@@ -181,9 +182,12 @@ function isVisibleRuntimeModel(
   includeExecutableLegacy: boolean,
 ): boolean {
   if (!runtime) return true;
-  if (!exactId) return runtime.publication.app.published
+  // Admin-tier engines keep app publication in the runtime for the app's viewer-aware choke point; MCP and agent
+  // catalogues are public-tier only (owner allowlist 2026-11-14), so a Keyvo-hidden model is never a public row.
+  const publishedToCustomers = runtime.publication.app.published && !isKeyvoHiddenModel(runtime.id);
+  if (!exactId) return publishedToCustomers
     && (runtime.lifecycle === 'current' || (includeExecutableLegacy && runtime.lifecycle === 'legacy'));
-  if (runtime.publication.app.published) return true;
+  if (publishedToCustomers) return true;
   if (runtime.lifecycle === 'deep_legacy' || runtime.lifecycle === 'retired') return true;
   return runtime.lifecycle === 'current' && access?.allowedPrelaunchModelIds.has(runtime.id) === true;
 }
