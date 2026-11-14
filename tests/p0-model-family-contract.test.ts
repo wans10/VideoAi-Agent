@@ -9,7 +9,7 @@ import {
 } from '../frontend/config/model-runtime';
 import { listFalEngines } from '../frontend/src/config/falEngines';
 import { getBaseEngines } from '../frontend/src/lib/engines';
-import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility';
+import { isKeyvoOfferedEngine, isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility';
 import { getModelRoster } from '../frontend/src/lib/model-roster';
 import { getSeoFamilyDictionary } from '../frontend/lib/seo/seo-intents';
 import {
@@ -94,7 +94,8 @@ test('all seven concrete raw contracts are materialized by the Fal aggregate', (
     assert.ok(engine, id);
     assert.equal(engine.lifecycle, 'current', id);
     assert.equal(engine.successorId, null, id);
-    assert.equal(engine.surfaces.app.enabled, true, id);
+    // Owner allowlist (2026-11-14): the Keyvo aggregate opens the App only for offered engines.
+    assert.equal(engine.surfaces.app.enabled, isKeyvoOfferedEngine(id), id);
   }
 });
 
@@ -141,8 +142,9 @@ test('published P0 identities stay aligned across model, workspace, MCP, roster,
     assert.equal(rosterIds.has(id), true, `roster missing ${id}`);
     assert.equal(publicModelIds.has(id), visible, `model publication mismatch ${id}`);
     // Backend workspace/MCP engines stay upstream; the web picker filters them in the engines route handler.
-    assert.equal(workspaceIds.has(id), true, `workspace mismatch ${id}`);
-    assert.equal(mcpIds.has(id), true, `MCP mismatch ${id}`);
+    const offered = isKeyvoOfferedEngine(id);
+    assert.equal(workspaceIds.has(id), offered, `workspace mismatch ${id}`);
+    assert.equal(mcpIds.has(id), offered, `MCP mismatch ${id}`);
 
     const family = getModelFamilyExamplesPageConfig(familyId);
     assert.equal(family?.publishedModelSlugs.includes(id), visible, `family publication mismatch ${id}`);

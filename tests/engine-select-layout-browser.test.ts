@@ -137,15 +137,16 @@ test('deferred registry metadata keeps workspace model/variant geometry stable w
   if (evidenceDirectory) await mkdir(evidenceDirectory, { recursive: true });
   const results: unknown[] = [];
   const scenarios: Scenario[] = baseline
-    ? [0, 1, 2].map(repeat => ({ width: 390, locale: 'en', engineId: 'veo-3-1', branch: 'starter', repeat }))
+    ? [0, 1, 2].map(repeat => ({ width: 390, locale: 'en', engineId: 'gemini-omni-flash', branch: 'starter', repeat }))
     : [
-        ...[0, 1, 2].map(repeat => ({ width: 390, locale: 'en', engineId: 'veo-3-1', branch: 'starter', repeat } as Scenario)),
+        ...[0, 1, 2].map(repeat => ({ width: 390, locale: 'en', engineId: 'gemini-omni-flash', branch: 'starter', repeat } as Scenario)),
         ...[320, 390, 768, 1440].flatMap(width => (['en', 'fr', 'es'] as const).flatMap(locale => [
+          // Owner allowlist (2026-11-14): Veo 3.1 and Pika are hidden; Gemini Omni Flash and Seedance 2.5 replace them as the scenarios.
           // MiniMax-H3-Max is hidden on Keyvo (no mainland route); H3 is the restored MiniMax scenario.
           { width, locale, engineId: 'minimax-h3', branch: 'empty', restored: true } as Scenario,
-          { width, locale, engineId: 'pika-text-to-video', branch: 'starter' } as Scenario,
+          { width, locale, engineId: 'seedance-2-5', branch: 'starter' } as Scenario,
         ])),
-        { width: 390, locale: 'fr', engineId: 'veo-3-1', branch: 'starter', cached: true },
+        { width: 390, locale: 'fr', engineId: 'gemini-omni-flash', branch: 'starter', cached: true },
         { width: 390, locale: 'es', engineId: 'gpt-image-2-5-flare', branch: 'image', restored: true },
         { width: 320, locale: 'en', engineId: 'gpt-image-2-5-sunburst', branch: 'image' },
         { width: 390, locale: 'en', engineId: 'minimax-h3', branch: 'empty', onlyEngineIds: ['minimax-h3'] },
@@ -228,7 +229,6 @@ test('deferred registry metadata keeps workspace model/variant geometry stable w
         assert.deepEqual(after.following, before.following);
         assert.equal(after.variantText, before.variantText);
         assert.equal(metadataShifts.length, 0, 'late metadata must not cause an eligible layout shift');
-        if (scenario.engineId === 'pika-text-to-video') assert.equal(after.variant, null, 'no permanent empty variant slot');
       }
       if (!baseline && index === 0) {
         if (!KEYVO_WORKSPACE_VARIANT_HIDDEN) {

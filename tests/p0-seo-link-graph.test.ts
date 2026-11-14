@@ -377,11 +377,8 @@ test('LLMS accepts a registry-derived projection and publishes the complete P0 s
     }],
     isLocalizedScoreboardComplete: () => true,
   });
-  assert.deepEqual(unrelatedProjection.primaryComparisons, [{
-    slug: 'kling-3-pro-vs-seedance-2-0',
-    label: 'Kling 3 Pro vs Seedance 2.0',
-    href: 'https://app.keyvo.cn/ai-video-engines/kling-3-pro-vs-seedance-2-0',
-  }]);
+  // Owner allowlist (2026-11-14): Seedance 2.0 is hidden, so its comparison is not offered as a primary comparison.
+  assert.deepEqual(unrelatedProjection.primaryComparisons, []);
 
   const wanUpgradeModels = wanOnlyModels.map((model) => {
     if (model.id === 'wan-3') {
