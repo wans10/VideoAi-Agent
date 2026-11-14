@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { isKeyvoHiddenModel, isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility.ts';
+import { isKeyvoHiddenModel, isKeyvoVisibleFamily, keyvoEngineTier } from '../frontend/config/keyvo-model-visibility.ts';
 import { buildLocalizedModelPath } from '../frontend/config/model-registry.ts';
 import {
   createRuntimeModelResolver,
@@ -131,8 +131,10 @@ test('runtime model projection matches every baseline identity and surface', () 
     const actualPublication = toLegacyModelSurfaces(actual);
     if (isKeyvoHiddenModel(expected.id)) {
       // Owner allowlist (2026-11-14): a model outside it is unpublished on every customer surface, including the
-      // app and pricing, even when its family is visible (for example Veo 3.1 beside Gemini Omni Flash).
-      for (const surface of ['model', 'examples', 'compare', 'sitemap', 'app', 'pricing'] as const) {
+      // pricing, even when its family is visible. Admin-tier engines keep their app publication in the runtime; the
+      // viewer-aware choke point (isKeyvoHiddenModelForViewer) keeps them out of customer engine lists and generation.
+      const surfaces = ['model', 'examples', 'compare', 'sitemap', 'pricing'] as const;
+      for (const surface of keyvoEngineTier(expected.id) === 'admin' ? surfaces : [...surfaces, 'app' as const]) {
         assert.equal(actual.publication[surface].published, false, `${expected.id} ${surface}`);
       }
       continue;
@@ -437,8 +439,8 @@ test('family membership and current variants preserve baseline with explicit lif
       : expected.id === 'kling'
         // Kling 2.5 Turbo / 2.6 Pro are offline on Keyvo (2026-11-13).
         ? ['kling-v4', 'kling-v4-flash', 'kling-3-turbo-pro', 'kling-3-turbo-standard', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
-          // The 4K tiers are not on the owner allowlist (2026-11-14) and leave the family examples too.
-          .filter((slug) => slug !== 'kling-2-5-turbo' && slug !== 'kling-2-6-pro' && slug !== 'kling-3-4k' && slug !== 'kling-o3-4k')
+          // Kling 2.5 Turbo / 2.6 Pro are retired; the 4K tiers are offered on the owner allowlist (2026-11-14).
+          .filter((slug) => slug !== 'kling-2-5-turbo' && slug !== 'kling-2-6-pro')
       : expected.id === 'hailuo'
         // H3 Max is served on Keyvo again (MiniMax's own API) and keeps its upstream examples membership.
         ? ['minimax-h3', 'minimax-h3-max', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
@@ -459,9 +461,8 @@ test('family membership and current variants preserve baseline with explicit lif
     const expectedCurrentModelSlugs = expected.id === 'seedance'
       ? ['seedance-2-5', ...baselineCurrentModelSlugs].filter((slug) => slug !== 'seedance-1-5-pro')
       : expected.id === 'kling'
-        // The 4K tiers are not on the owner allowlist (2026-11-14) and leave the current family variants too.
+        // The 4K tiers are offered on the owner allowlist (2026-11-14) and stay in the current family variants.
         ? ['kling-v4', 'kling-v4-flash', 'kling-3-turbo-pro', 'kling-3-turbo-standard', ...baselineCurrentModelSlugs]
-          .filter((slug) => slug !== 'kling-3-4k' && slug !== 'kling-o3-4k')
       : expected.id === 'hailuo'
         ? ['minimax-h3', 'minimax-h3-max']
         : expected.id === 'veo'
