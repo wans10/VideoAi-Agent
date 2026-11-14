@@ -110,7 +110,7 @@ export function sanitizeRequest(input: RunCharacterBuilderInput): CharacterBuild
         ? 'balanced'
         : null;
   const qualityMode = input.qualityMode === 'final' ? 'final' : 'draft';
-  const formatMode = normalizeCharacterFormatMode(input.formatMode ?? null, qualityMode);
+  const formatMode = normalizeCharacterFormatMode(input.formatMode ?? null);
   const traits = sanitizeTraits(input.traits);
   const outputOptions = {
     fullBodyRequired: outputMode === 'character-sheet' ? input.outputOptions?.fullBodyRequired === true : false,

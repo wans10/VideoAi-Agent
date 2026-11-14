@@ -14,7 +14,6 @@ import {
 } from '@/lib/character-builder';
 import type {
   CharacterBuilderAction,
-  CharacterBuilderFormatMode,
   CharacterBuilderResult,
   CharacterBuilderRun,
   CharacterBuilderSettingsSnapshot,
@@ -94,11 +93,7 @@ export function getResultActionLabel(copy: CharacterCopy, action: CharacterBuild
   return copy.resultCard.referenceOutput;
 }
 
-export function getFormatDisplayLabel(
-  copy: CharacterCopy,
-  _formatMode: CharacterBuilderFormatMode,
-  _qualityMode: CharacterBuilderState['qualityMode']
-): string {
+export function getFormatDisplayLabel(copy: CharacterCopy): string {
   // Every quality mode renders at the one size the Seedream engines offer.
   return copy.options.format['2k'].label;
 }
@@ -179,7 +174,7 @@ export function readPersistedState(accountId: string | null): CharacterBuilderSt
         ...base.traits,
         ...parsed.state.traits,
       }),
-      formatMode: normalizeCharacterFormatMode(parsed.state.formatMode, parsed.state.qualityMode ?? base.qualityMode),
+      formatMode: normalizeCharacterFormatMode(parsed.state.formatMode),
       outputOptions: {
         ...base.outputOptions,
         ...parsed.state.outputOptions,
@@ -308,7 +303,7 @@ export function buildRecoveredRunFromJob(
     action: snapshot?.action ?? pendingRun.action,
     outputMode: snapshot?.builder.outputMode ?? pendingRun.outputMode,
     qualityMode: snapshot?.builder.qualityMode ?? pendingRun.qualityMode,
-    formatMode: normalizeCharacterFormatMode(snapshot?.builder.formatMode ?? pendingRun.formatMode, snapshot?.builder.qualityMode ?? pendingRun.qualityMode),
+    formatMode: normalizeCharacterFormatMode(snapshot?.builder.formatMode ?? pendingRun.formatMode),
     engineId,
     engineLabel,
     createdAt,
@@ -421,7 +416,7 @@ export function parseCharacterBuilderSnapshot(snapshot: unknown): Partial<Charac
     consistencyMode: builder.consistencyMode ?? base.consistencyMode,
     referenceStrength: builder.referenceStrength ?? base.referenceStrength,
     qualityMode: builder.qualityMode ?? base.qualityMode,
-    formatMode: normalizeCharacterFormatMode(builder.formatMode, builder.qualityMode ?? base.qualityMode),
+    formatMode: normalizeCharacterFormatMode(builder.formatMode),
     outputOptions: {
       ...base.outputOptions,
       ...builder.outputOptions,

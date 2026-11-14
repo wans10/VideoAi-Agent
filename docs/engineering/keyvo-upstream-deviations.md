@@ -210,9 +210,11 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
 - **Keyvo:** Keyvo keeps `app_customer_tariff_state` inactive on purpose, so Nano Banana 2.1 cannot be quoted and the builder
   returned 500 `pricing_error`. The builder now runs on Volcengine Seedream on the official-list rule path
   (`src/lib/official-list-pricing.ts`), which needs no tariff. The tariff gate is not changed; Nano 2.1 stays gated.
-  - **Standard (draft)** = `seedream-5-0-flash`: ¥0.08 per image (official ¥0.12 x 0.8), input images free.
+  - **Standard (draft)** = `seedream-5-0-flash`: ¥0.08 per image (official ¥0.12 x 0.8 = ¥0.096, rounded by the engine to whole
+    cents x 8 = ¥0.08); input images free.
   - **Pro (final)** = `seedream-5-0-pro`: ¥0.48 per image (official ¥0.60 x 0.8); the first input image is free and each further
-    input image is ¥0.02 official (about ¥0.016 customer; the rounding of the whole total can make it one ¥0.08 step).
+    input image is ¥0.02 official (¥0.016 at customer price before the engine's whole-cent rounding). With 1 to 3 input images
+    the total is ¥0.48; with 4 it is ¥0.56.
   - Both render **2K only** (1K and 4K are not offered for characters). The format picker shows one 2K option.
   - Aspect: Seedream has no 4:5, so the portrait ratio renders as 3:4 (`getCharacterEngineAspectRatio`). Every other ratio the builder
     uses (3:2, 2:3, 16:9, 4:5 to 3:4) is accepted by both engines.

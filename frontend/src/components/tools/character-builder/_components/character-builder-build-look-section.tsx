@@ -227,13 +227,13 @@ export function CharacterBuilderBuildLookSection({
             setState((previous) => ({
               ...previous,
               qualityMode: value,
-              formatMode: normalizeCharacterFormatMode(previous.formatMode, value),
+              formatMode: normalizeCharacterFormatMode(previous.formatMode),
             }))
           }
           onFormatChange={(value) =>
             setState((previous) => ({
               ...previous,
-              formatMode: normalizeCharacterFormatMode(value, previous.qualityMode),
+              formatMode: normalizeCharacterFormatMode(value),
             }))
           }
           onGenerateOne={onGenerateOne}

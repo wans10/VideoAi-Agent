@@ -290,38 +290,23 @@ export function getDefaultAspectRatio(outputMode: CharacterBuilderOutputMode, ac
   return '4:5';
 }
 
-export function getDefaultResolution(_qualityMode: CharacterBuilderQualityMode): string {
-  return CHARACTER_BUILDER_RESOLUTION;
-}
+/** Seedream renders one size for both quality modes; this is the only format the builder offers. */
+export const CHARACTER_BUILDER_FORMAT_MODE = '2k' as const;
 
-/** Both quality modes render at 2K; the list is kept as a list so the dock keeps one control for every engine. */
-export function getAvailableCharacterFormatOptions(
-  _qualityMode: CharacterBuilderQualityMode
-): Array<(typeof CHARACTER_FORMAT_OPTIONS)[number]> {
+/** Both quality modes offer the one 2K size, so the list does not depend on the quality mode. */
+export function getAvailableCharacterFormatOptions(): Array<(typeof CHARACTER_FORMAT_OPTIONS)[number]> {
   return CHARACTER_FORMAT_OPTIONS;
 }
 
-export function getCharacterFormatResolution(
-  _formatMode: CharacterBuilderFormatMode,
-  _qualityMode: CharacterBuilderQualityMode
-): string {
+export function getCharacterFormatResolution(): string {
   return CHARACTER_BUILDER_RESOLUTION;
-}
-
-/** Only 2K is sold, so there is no size surcharge. */
-export function getCharacterFormatMultiplier(
-  _formatMode: CharacterBuilderFormatMode,
-  _qualityMode: CharacterBuilderQualityMode
-): number {
-  return 1;
 }
 
 /** Saved 1K and 4K choices from earlier builds resolve to the one size the engines render. */
 export function normalizeCharacterFormatMode(
-  _formatMode: CharacterBuilderFormatMode | null | undefined,
-  _qualityMode: CharacterBuilderQualityMode
+  formatMode: CharacterBuilderFormatMode | null | undefined
 ): CharacterBuilderFormatMode {
-  return '2k';
+  return formatMode === CHARACTER_BUILDER_FORMAT_MODE ? formatMode : CHARACTER_BUILDER_FORMAT_MODE;
 }
 
 export function createDefaultTraits(sourceMode: CharacterBuilderSourceMode = 'scratch'): CharacterBuilderTraits {

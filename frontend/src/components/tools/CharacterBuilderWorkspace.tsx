@@ -176,7 +176,7 @@ function CharacterBuilderAccountWorkspace({
     user,
   });
 
-  const { outputModeLabelOptions, qualityLabelOptions } = useCharacterBuilderOptions(copy, state.qualityMode);
+  const { outputModeLabelOptions, qualityLabelOptions } = useCharacterBuilderOptions(copy);
   const flattenedResults = getFlattenedResults(state.runs);
   const {
     historicalResults,
@@ -217,7 +217,7 @@ function CharacterBuilderAccountWorkspace({
     styleReference,
     user,
   });
-  const resolution = getCharacterFormatResolution(state.formatMode, state.qualityMode);
+  const resolution = getCharacterFormatResolution();
   const referenceCount = new Set(state.referenceImages.map(image => image.url).filter(Boolean)).size;
   const { displayedPrice, status: priceStatus, refreshPrice } = useCharacterBuilderPrice(
     getQualityEngineId(state.qualityMode), resolution, referenceCount,

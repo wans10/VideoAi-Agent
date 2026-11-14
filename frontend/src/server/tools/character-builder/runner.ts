@@ -41,7 +41,7 @@ export async function runCharacterBuilder(input: RunCharacterBuilderInput): Prom
     request.outputOptions.fullBodyRequired,
     request.outputOptions.includeCloseUps
   ));
-  const resolution = getCharacterFormatResolution(request.formatMode, request.qualityMode);
+  const resolution = getCharacterFormatResolution();
 
   try {
     const result = await executeImageGeneration({

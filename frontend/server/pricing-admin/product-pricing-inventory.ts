@@ -104,12 +104,12 @@ export async function loadAdminProductPricing(durationSec = 10): Promise<Product
       if (characterQuality) {
         // The builder charges the engine quote (Seedream 5.0 Flash / Pro, 2K); this fixed row is only a legacy reference.
         const character = getFalEngineById(characterQuality === 'final' ? CHARACTER_FINAL_ENGINE_ID : CHARACTER_DRAFT_ENGINE_ID);
-        const resolution = getCharacterFormatResolution('2k', characterQuality);
+        const resolution = getCharacterFormatResolution();
         row.scenario = `Legacy fixed product · 1 image · ${resolution.toUpperCase()} · ${character?.marketingName ?? 'Character Builder'}`;
         // Seedream has no provider catalogue reference (catalogSupplierReference is null for it). Its supplier cost is the
         // official Ark list per image, which the engine records as its USD base (CNY 0.12 / 0.60 at 8 CNY per USD).
         if (character && product.currency === 'USD') {
-          row.supplierCents = Number((character.engine.pricing.base * 100).toFixed(6));
+          row.supplierCents = Number(((character.engine.pricing?.base ?? 0) * 100).toFixed(6));
           row.supplierBasis = 'catalogue';
         }
         row.notes.push(`Supplier reference: ${character?.marketingName ?? 'underlying image model'} · Volcengine Ark official list · ${resolution.toUpperCase()} output.`,

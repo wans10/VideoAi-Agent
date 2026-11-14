@@ -49,12 +49,10 @@ test('Character Builder quality modes use the Seedream engines, both official-li
 test('Seedream renders 2K only, so the builder offers only 2K for both modes and never 1K or 4K', () => {
   assert.equal(CHARACTER_BUILDER_RESOLUTION, '2k');
   assert.deepEqual(CHARACTER_FORMAT_OPTIONS.map((option) => option.id), ['2k']);
-  for (const qualityMode of ['draft', 'final'] as const) {
-    assert.deepEqual(getAvailableCharacterFormatOptions(qualityMode).map((option) => option.id), ['2k']);
-    for (const formatMode of ['standard', '2k', '4k'] as const) {
-      assert.equal(getCharacterFormatResolution(formatMode, qualityMode), '2k');
-      assert.equal(normalizeCharacterFormatMode(formatMode, qualityMode), '2k');
-    }
+  assert.deepEqual(getAvailableCharacterFormatOptions().map((option) => option.id), ['2k']);
+  assert.equal(getCharacterFormatResolution(), '2k');
+  for (const formatMode of ['standard', '2k', '4k', null, undefined] as const) {
+    assert.equal(normalizeCharacterFormatMode(formatMode), '2k');
   }
   for (const id of engineIds) {
     const engine = engineOf(id);

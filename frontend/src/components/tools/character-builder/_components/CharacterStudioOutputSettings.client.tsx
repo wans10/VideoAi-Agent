@@ -50,7 +50,7 @@ export function CharacterStudioOutputSettings({
   labels: StudioCopy;
 }) {
   const id = useId();
-  const resolution = getCharacterFormatResolution(state.formatMode, state.qualityMode);
+  const resolution = getCharacterFormatResolution();
   const outputs = [
     { id: 'portrait-reference', label: labels.outputPortrait, description: labels.portraitCaption },
     {
@@ -99,7 +99,7 @@ export function CharacterStudioOutputSettings({
         <span aria-hidden="true" className="shrink-0 text-xs font-medium text-text-primary">{copy.generatePanel.format}</span>
         {/* Only the size the Seedream engines render is offered, so the picker never shows 1K or 4K. */}
         <div className="grid flex-1 grid-cols-1 gap-1 rounded-lg bg-bg p-1">
-          {getAvailableCharacterFormatOptions(state.qualityMode).map((option) => (
+          {getAvailableCharacterFormatOptions().map((option) => (
             <label key={option.id} className="cursor-pointer">
               <input
                 type="radio"
@@ -109,7 +109,7 @@ export function CharacterStudioOutputSettings({
                 className="peer sr-only"
                 onChange={() => setState((previous) => ({
                   ...previous,
-                  formatMode: normalizeCharacterFormatMode(option.id, previous.qualityMode),
+                  formatMode: normalizeCharacterFormatMode(option.id),
                 }))}
               />
               <span className="flex min-h-8 items-center justify-center rounded-md border border-transparent text-xs font-medium text-text-secondary transition-colors hover:text-text-primary peer-checked:border-border peer-checked:bg-surface peer-checked:text-text-primary peer-checked:shadow-sm peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-brand">
