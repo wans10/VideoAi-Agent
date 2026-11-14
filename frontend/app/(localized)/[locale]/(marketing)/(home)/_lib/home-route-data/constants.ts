@@ -10,7 +10,7 @@ export const EXAMPLE_ENGINE_PRIORITY = [
   'grok-imagine-video-1-5',
   'flux-3-max',
   'flux-3',
-  'seedance-2-0',
+  'seedance-2-5',
   'kling-3-pro',
   'veo-3-1',
   'veo-3-1-lite',
