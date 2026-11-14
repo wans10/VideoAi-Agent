@@ -1,3 +1,4 @@
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
@@ -89,7 +90,8 @@ test('existing route clamps and prices an ordinary text-to-image request', async
       seconds: payload.pricing?.base.seconds,
       marginCents: payload.pricing?.margin.amountCents,
     },
-    { currency: 'USD', totalCents: 16, baseCents: 12, seconds: 4, marginCents: 4 }
+    // Keyvo official-list-100 (2026-11-14): Nano Banana Lite sells at 100% of the official list price, no margin.
+    { currency: 'USD', totalCents: 13, baseCents: 13.44, seconds: 4, marginCents: 0 }
   );
 });
 

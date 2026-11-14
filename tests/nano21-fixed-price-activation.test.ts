@@ -1,3 +1,4 @@
+import './helpers/keyvo-unfiltered-catalog';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { getFalEngineById } from '../frontend/src/config/falEngines';
@@ -81,7 +82,8 @@ test('the same admitted Nano21 model is available to Studio image creation and e
 
 test('public and admin supplier facts admit Nano21 while keeping variable provider cost incomplete', () => {
   const engine = getFalEngineById('nano-banana-2-1')!.engine;
-  for (const [resolution, imageOnlyCents] of [['1K', 3.36], ['2K', 5.04], ['4K', 11.34]] as const) {
+  // 4K output uses the page's stated $0.113 per image (2026-11-14 official-list-100 review), not 3,780 tokens x $30/M.
+  for (const [resolution, imageOnlyCents] of [['1K', 3.36], ['2K', 5.04], ['4K', 11.3]] as const) {
     for (const referenceImageCount of [0, 14]) {
       const context = { engine, resolution, durationSec: 1, referenceImageCount,
         mode: referenceImageCount ? 'i2i' as const : 't2i' as const,

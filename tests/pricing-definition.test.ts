@@ -1,3 +1,4 @@
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -34,10 +35,12 @@ test('Nano Banana 2 pricing definition includes resolution tiers and web search 
 
   const definition = buildPricingDefinition(engine);
   assert.ok(definition);
-  assert.equal(definition?.baseUnitPriceCents, 8);
-  assert.equal(definition?.resolutionMultipliers['0.5k'], 0.5);
-  assert.equal(definition?.resolutionMultipliers['2k'], 1.5);
-  assert.equal(definition?.resolutionMultipliers['4k'], 2);
+  // Keyvo official-list-100 (2026-11-14): the 1K base is the official $0.067 list price (6.7 cents).
+  assert.equal(definition?.baseUnitPriceCents, 6.7);
+  // Multipliers are the official per-size list prices over the 1K price: 0.045 / 0.067, 0.101 / 0.067, 0.151 / 0.067.
+  assert.ok(Math.abs((definition?.resolutionMultipliers['0.5k'] ?? NaN) - 0.045 / 0.067) < 1e-9);
+  assert.ok(Math.abs((definition?.resolutionMultipliers['2k'] ?? NaN) - 0.101 / 0.067) < 1e-9);
+  assert.ok(Math.abs((definition?.resolutionMultipliers['4k'] ?? NaN) - 0.151 / 0.067) < 1e-9);
   assert.equal(definition?.addons?.enable_web_search?.flatCents, 1.5);
 });
 
