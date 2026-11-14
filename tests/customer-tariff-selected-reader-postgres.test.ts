@@ -1,3 +1,6 @@
+// These suites exercise the tariff reader, cutover and page-policy machinery with upstream fixture engines that the allowlist hides from customers.
+// Runs on the unfiltered catalog (Keyvo model allowlist); this import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { resolveManualTariffCell, type ManualTariffCell, type ManualTariffSelector } from '@maxvideoai/pricing';

@@ -1,3 +1,6 @@
+// These suites exercise Studio conversation/quote and prompt-assistance machinery with an upstream fixture engine that the allowlist hides from customers.
+// Runs on the unfiltered catalog (Keyvo model allowlist); this import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {readFileSync} from 'node:fs';
@@ -142,7 +145,7 @@ test('a natural cancellation uses the explicit tool, survives a lost reply and m
   for (const name of ['42_studio_connected_montages.sql','50_studio_image_conversation.sql','51_studio_image_model_usage.sql','52_studio_conversation_runs.sql']) await pg.pool.query(readFileSync('neon/migrations/'+name,'utf8'));
   await pg.pool.query("INSERT INTO studio_projects(id,user_id,name) VALUES ('film','owner','Film')");
   const actor = {authMethod: 'studio-session' as const,userId: 'owner',projectId: 'film',clientId: null};
-  const engine = getFalEngineById('gpt-image-2')!;
+  const engine = getFalEngineById('gpt-image-2-5-flare')!;
   const catalog = [{engine: engine.engine,surface: 'image' as const,publicModes: ['t2i' as const],modeCaps: Object.fromEntries(engine.modes.map(mode => [mode.mode,mode.ui]))}];
   const factory: ImageGenerationFactory = (scopedActor,options) => createStudioImageGenerationService(scopedActor,{...options,prepareDependencies: {listPublicEngines: async () => catalog,resolveRequestExecutability: () => ({executable: true,reason: 'available'})}});
   const original = createImageConversationService(actor,{enabled: true,generationFactory: factory,director: async () => ({reply: 'Review the image quote.',image: {prompt: 'Warm cinematic folded paper',aspectRatio: '16:9'}})});

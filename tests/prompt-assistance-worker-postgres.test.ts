@@ -1,3 +1,6 @@
+// These suites exercise Studio conversation/quote and prompt-assistance machinery with an upstream fixture engine that the allowlist hides from customers.
+// Runs on the unfiltered catalog (Keyvo model allowlist); this import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {readFileSync,existsSync} from 'node:fs';

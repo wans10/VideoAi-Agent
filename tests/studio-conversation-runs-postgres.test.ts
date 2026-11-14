@@ -1,3 +1,6 @@
+// These suites exercise Studio conversation/quote and prompt-assistance machinery with an upstream fixture engine that the allowlist hides from customers.
+// Runs on the unfiltered catalog (Keyvo model allowlist); this import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {readFileSync} from 'node:fs';
@@ -29,7 +32,7 @@ test('native tool runs preserve brief, every response, exact quote and accepted 
   await pg.pool.query(readFileSync('neon/migrations/52_studio_conversation_runs.sql', 'utf8'));
   await addTopup(pg.pool, 'owner', 1000);
   const actor = {authMethod: 'studio-session' as const, userId: 'owner', projectId: 'film', clientId: null};
-  const engine = getFalEngineById('gpt-image-2')!;
+  const engine = getFalEngineById('gpt-image-2-5-flare')!;
   const catalog = [{engine: engine.engine, surface: 'image' as const, publicModes: ['t2i' as const], modeCaps: Object.fromEntries(engine.modes.map(mode => [mode.mode, mode.ui]))}];
   const provider = new ProviderHarness(pg.pool);
   const factory: typeof createStudioImageGenerationService = (current, options) => createStudioImageGenerationService(current, {...options,
@@ -116,7 +119,7 @@ test('native tool runs preserve brief, every response, exact quote and accepted 
     return {...base, prepare: async value => {if (failPreparation) {failPreparation = false; throw new Error('Preparation unavailable once');} return base.prepare(value);}};
   };
   let prepareCalls = 0;
-  const chosenImage={prompt: 'Warm paper in sunlight',aspectRatio: '1:1',modelId: 'gpt-image-2',mode: 't2i' as const,
+  const chosenImage={prompt: 'Warm paper in sunlight',aspectRatio: '1:1',modelId: 'gpt-image-2-5-flare',mode: 't2i' as const,
     settings: [{name: 'resolution',value: '1024x1024'},{name: 'quality',value: 'medium'},{name: 'outputFormat',value: 'jpeg'}],references: [],outputCount: 1 as const};
   const preparationService = createImageConversationService(actor, {enabled: true, actionsEnabled: true, generationFactory: failingFactory,
     createActionResponse: async () => {prepareCalls++; return {id: 'preparation-response', model: 'gpt-6.1-sol', status: 'completed', service_tier: 'default', usage, output_text: '',

@@ -1,3 +1,6 @@
+// These suites exercise Studio conversation/quote and prompt-assistance machinery with an upstream fixture engine that the allowlist hides from customers.
+// Runs on the unfiltered catalog (Keyvo model allowlist); this import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
@@ -40,7 +43,7 @@ test("Studio image wallet insufficiency, retry, repeat confirmation, expiry, and
   );
   await pg.pool.query(readFileSync("neon/migrations/51_studio_image_model_usage.sql", "utf8"));
 
-  const entry = getFalEngineById("gpt-image-2");
+  const entry = getFalEngineById("gpt-image-2-5-flare");
   assert.ok(entry);
   const catalog: AgentPublicGenerationEngine[] = [
     {

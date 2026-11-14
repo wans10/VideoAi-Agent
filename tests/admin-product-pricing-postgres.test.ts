@@ -42,7 +42,8 @@ test('central admin and public rows read changed product/audio prices without an
     assert.equal(before.rows.find((row) => row.id === 'audio:voice_only:0')?.totalCents, 2);
     // Catalogue costs are independent of fixed retail prices, including multi-angle provider calls.
     for (const [id, supplierCents, totalCents] of [
-      ['character-draft', 8, 8], ['character-final', 15, 15],
+      // Nano Banana 2 catalogue cost follows the official-list-100 baseline (6.7 cents per 1K image); the retail price stays fixed.
+      ['character-draft', 6.7, 8], ['character-final', 15, 15],
       ['angle-flux-single', 2.1, 4], ['angle-flux-multi', 8.4, 24],
       ['angle-qwen-single', 3.5, 7], ['angle-qwen-multi', 14, 40],
     ] as const) {
@@ -95,7 +96,7 @@ test('central admin and public rows read changed product/audio prices without an
     invalidateBillingProductsCache();
     const after = await loadAdminProductPricing(10);
     assert.equal(after.rows.find((row) => row.id === 'character-draft')?.totalCents, 48);
-    assert.equal(after.rows.find((row) => row.id === 'character-draft')?.supplierCents, 8, 'retail edits never reprice supplier evidence');
+    assert.equal(after.rows.find((row) => row.id === 'character-draft')?.supplierCents, 6.7, 'retail edits never reprice supplier evidence');
     const audio = await computeCurrentAudioSnapshot({ pack: 'voice_only', durationSec: 10 });
     assert.equal(after.rows.find((row) => row.id === 'audio:voice_only:0')?.totalCents, audio.totalCents);
     assert.equal(audio.totalCents, 305);

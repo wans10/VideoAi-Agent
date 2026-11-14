@@ -1,4 +1,7 @@
-import { OFFICIAL_LIST_PRICED_ENGINE_IDS } from '../frontend/src/lib/official-list-pricing';
+// These suites exercise the tariff reader, cutover and page-policy machinery with upstream fixture engines that the allowlist hides from customers.
+// Runs on the unfiltered catalog (Keyvo model allowlist); this import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
+import { OFFICIAL_LIST_PRICED_ENGINE_IDS, OFFICIAL_LIST_100_PRICED_ENGINE_IDS } from '../frontend/src/lib/official-list-pricing';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -40,7 +43,8 @@ test('atomic local cutover rejects stale certificates, preserves staged evidence
     // (below cost). This cutover fixture keeps them on the margin path with explicit engine rules (an admin decision; 150%
     // so the Ark-list basis stays above every BytePlus supplier reference the Seedance input tariff guard compares),
     // so the activation machinery stays exercised; Keyvo's own prices are never cut over.
-    for (const engineId of OFFICIAL_LIST_PRICED_ENGINE_IDS) {
+    // Google's Nano Banana engines sell at 100% of the list (official-list-100) and are below cost for the same reason.
+    for (const engineId of [...OFFICIAL_LIST_PRICED_ENGINE_IDS, ...OFFICIAL_LIST_100_PRICED_ENGINE_IDS]) {
       await db.pool.query(`INSERT INTO app_pricing_rules (id, engine_id, margin_percent, margin_flat_cents, surcharge_audio_percent,
         surcharge_upscale_percent, currency) VALUES ($1, $2, 1.5, 0, .2, .5, 'USD')`, [`keyvo-margin-${engineId}`, engineId]);
     }
@@ -79,9 +83,10 @@ test('atomic local cutover rejects stale certificates, preserves staged evidence
       approvedSeedanceLasPolicy: 'reviewed_2_5x_las_list',
       policy, sourceTariffRevision: 0, sourceTariffStateHash, codeRevision: 'test-code', factualEnvironmentHash: 'test-env', approvedGptImage25ReferenceFloor });
     assert.equal(release.report.remainingCoverageGaps.length, 0);
-    // 89 upstream new-offer scenarios minus the 6 H3 Max Recast/Relight cells (Fal-only, KEYVO_UNSERVED_VIDEO_OPERATIONS).
-    assert.equal(release.report.newOfferScenarios, 83);
-    assert.equal(baseline.rows.filter(row => row.initialization?.kind === 'new_offer').length, 83);
+    // All 89 upstream new-offer scenarios: this suite runs on the unfiltered catalog, which keeps the 6 H3 Max
+    // Recast/Relight cells that Keyvo does not sell (Fal-only, KEYVO_UNSERVED_VIDEO_OPERATIONS; 83 on the Keyvo catalog).
+    assert.equal(release.report.newOfferScenarios, 89);
+    assert.equal(baseline.rows.filter(row => row.initialization?.kind === 'new_offer').length, 89);
     assert.ok(baseline.rows.filter(row => row.initialization).every(row => row.initialization!.beforeCents === null));
     // Upstream's 26982 plus Keyvo's Alibaba Qwen Image models (8 cells), less 555 for the provider-completeness sync (offline models, hidden H3 Max, H3 without 480P/4K, plus the new Hailuo 2.3 / Fast and Seedream Flash cells),
     // plus H3-Max's 3564 exact cells on MiniMax's own API (2026-11-12).

@@ -1,3 +1,6 @@
+// These suites exercise Studio conversation/quote and prompt-assistance machinery with an upstream fixture engine that the allowlist hides from customers.
+// Runs on the unfiltered catalog (Keyvo model allowlist); this import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -34,7 +37,7 @@ test('saved labels survive failed renewal, immutable replay and history without 
     `INSERT INTO media_assets(id,public_id,user_id,kind,url,mime_type,size_bytes,width,height,status,metadata) VALUES($1,$2,$3,'image',$4,'image/png',1024,1024,1024,'ready','{}')`,
     [`asset-${index}`, assetId, index === 2 ? 'foreign' : 'owner', `https://cdn.maxvideoai.com/owned-${index}.png`],
   );
-  const engine = getFalEngineById('gpt-image-2')!;
+  const engine = getFalEngineById('gpt-image-2-5-flare')!;
   const catalog = [{ engine: engine.engine, surface: 'image' as const, publicModes: ['t2i' as const, 'i2i' as const], modeCaps: Object.fromEntries(engine.modes.map(mode => [mode.mode, mode.ui])) }];
   const factory: ImageGenerationFactory = (actor, options) => createStudioImageGenerationService(actor, { ...options,
     prepareDependencies: { listPublicEngines: async () => catalog, resolveRequestExecutability: () => ({ executable: true, reason: 'available' }) },
