@@ -1,5 +1,6 @@
 import type { CharacterBuilderAccountRequest } from './character-builder-types';
 import { dispatchAnalyticsEvent } from '@/lib/analytics-client';
+import { formatCustomerUsdAmount } from '@/lib/customer-currency';
 import { authFetch } from '@/lib/authFetch';
 import { prepareImageFileForUpload } from '@/lib/client-image-upload';
 import {
@@ -107,9 +108,10 @@ export function getCharacterBillingProductKey(qualityMode: CharacterBuilderState
   return qualityMode === 'final' ? 'character-final' : 'character-draft';
 }
 
-export function formatUsd(value: number | null | undefined): string {
+/** Amounts are held in USD cents and shown in the customer currency (CNY in the Keyvo build). */
+export function formatEstimatedPrice(value: number | null | undefined): string {
   if (typeof value !== 'number' || !Number.isFinite(value)) return 'n/a';
-  return `$${value.toFixed(2)}`;
+  return formatCustomerUsdAmount(value);
 }
 
 export function getUploadTooLargeMessage(copy: CharacterCopy, maxMB: number): string {

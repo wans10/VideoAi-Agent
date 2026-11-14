@@ -14,8 +14,8 @@ import {
 } from '@/server/workspace-engine-availability';
 
 export const metadata: Metadata = {
-  title: 'Generate Images – Keyvo Workspace',
-  description: 'Create and edit high-fidelity images with Nano Banana and upcoming Fal image engines directly inside the Keyvo workspace.',
+  title: '生成图片 – Keyvo 工作台',
+  description: '在 Keyvo 工作台中直接创作和编辑高保真图片，支持 Nano Banana 及即将上线的图像引擎。',
   robots: {
     index: false,
     follow: true,

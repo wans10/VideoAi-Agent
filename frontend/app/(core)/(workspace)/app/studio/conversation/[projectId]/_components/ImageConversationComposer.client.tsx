@@ -99,7 +99,7 @@ export function ImageConversationComposer({
         className={styles.send}
         type="submit"
         disabled={!canSend}
-        aria-label={t('Send to Milo', 'Envoyer à Milo', 'Enviar a Milo')}
+        aria-label={t('Send to Milo', 'Envoyer à Milo', 'Enviar a Milo', '发送给 Milo')}
       >
         <ArrowUp size={20} />
       </button>

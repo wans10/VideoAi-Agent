@@ -8,8 +8,8 @@ import { AppSidebar } from '@/components/AppSidebar';
 import AudioCreationWorkspace from './AudioCreationWorkspace';
 
 export const metadata: Metadata = {
-  title: 'Generate Audio – Keyvo Workspace',
-  description: 'Add cinematic sound design, ambient score, and optional voice-over to your videos inside the Keyvo workspace.',
+  title: '生成音频 – Keyvo 工作台',
+  description: '在 Keyvo 工作台中为视频添加电影化声音设计、氛围配乐和可选的语音配音。',
   robots: {
     index: false,
     follow: true,

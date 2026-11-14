@@ -38,11 +38,14 @@ const workspaceSource = readFileSync(workspacePath, 'utf8');
 
 test('character builder delegates current-price lifecycle and exposes recovery in its composer', () => {
   const pricing = readFileSync(join(root, 'frontend/src/components/tools/character-builder/_hooks/useCharacterBuilderPrice.ts'), 'utf8');
+  const parser = readFileSync(join(root, 'frontend/src/components/tools/character-builder/_lib/character-builder-price.ts'), 'utf8');
   assert.match(workspaceSource, /useCharacterBuilderPrice\(resolution, referenceCount\)/);
   assert.doesNotMatch(workspaceSource, /await authFetch\(url/);
   assert.match(workspaceSource, /priceStatus=\{priceStatus\}/);
   assert.match(workspaceSource, /onRetryPrice=/);
-  assert.match(pricing, /customerTariffRevision/);
+  // The hook delegates estimate parsing (USD and Keyvo CNY snapshots) to the pure module, which keeps the tariff revision.
+  assert.match(pricing, /readCharacterBuilderEstimate/);
+  assert.match(parser, /customerTariffRevision/);
   assert.match(pricing, /keepPreviousData: false/);
 });
 
