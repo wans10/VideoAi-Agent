@@ -22,6 +22,30 @@ export function imageReferenceFingerprintFromReview(request: Pick<CanonicalGener
     return {...facts,role: reference.role,...(reference.slot === undefined ? {} : {slot: reference.slot})};
   }));
 }
+/**
+ * Domestic public-tier engines that back the Studio image conversation, quality first.
+ * All three support t2i and i2i with references and are offered to every customer
+ * (config/keyvo-model-allowlist.json, tier public). Admin-tier or hidden engines must
+ * never appear here; they can only be reached through an explicit user selection that
+ * is already present in the viewer's catalogue.
+ */
+export const STUDIO_IMAGE_ENGINE_ORDER = ['seedream-5-0-pro', 'seedream-5-0-flash', 'qwen-image-3-0-pro'] as const;
+
+/** The single resolver for the Studio image engine: honours a selection only inside the catalogue. */
+export function resolveStudioImageEngine(
+  catalog: readonly AgentPublicGenerationEngine[],
+  mode: 't2i' | 'i2i' | string,
+  modelId?: string | null,
+): AgentPublicGenerationEngine | undefined {
+  const supports = (entry: AgentPublicGenerationEngine) => entry.surface === 'image' && (entry.publicModes as readonly string[]).includes(mode);
+  if (modelId) return catalog.find(entry => entry.engine.id === modelId && supports(entry));
+  for (const id of STUDIO_IMAGE_ENGINE_ORDER) {
+    const entry = catalog.find(item => item.engine.id === id && supports(item));
+    if (entry) return entry;
+  }
+  return undefined;
+}
+
 export function imageRequestFromDraft(
   draft: ImageDraft,
   input: ImageTurnInput,
@@ -38,16 +62,7 @@ export function imageRequestFromDraft(
       return {kind: 'asset',assetId: reference.ref.assetId,role: reference.role,...(reference.slot == null ? {} : {slot: reference.slot})};
     });
   const mode = selection.mode ?? (references.length ? "i2i" : "t2i");
-  const candidate =
-    selection.modelId ? catalog.find(entry => entry.engine.id === selection.modelId && entry.publicModes.includes(mode)) : catalog.find(
-      (entry) =>
-        entry.engine.id === "gpt-image-2-5-flare" &&
-        entry.publicModes.includes(mode),
-    ) ??
-    catalog.find(
-      (entry) =>
-        entry.engine.id === "gpt-image-2-6-sunburst" && entry.publicModes.includes(mode),
-    );
+  const candidate = resolveStudioImageEngine(catalog, mode, selection.modelId);
   if (!candidate)
     throw new AgentApiError(
       "ENGINE_UNAVAILABLE",
@@ -67,6 +82,8 @@ export function imageRequestFromDraft(
     candidate.modeCaps[mode]?.resolution ?? candidate.engine.resolutions;
   const details = projectAgentModelModeDetails(candidate,mode);
   const image26 = isGptImage26EngineId(candidate.engine.id);
+  // Engines without an "auto" ratio (Qwen Image) take their own default framing instead.
+  const omitAutoRatio = ratio === 'auto' && !details.aspectRatios.includes('auto');
   // Explicit dimensions describe a custom size. Preserve that saved intent on
   // resume instead of pairing it with an incompatible aspect-ratio preset.
   const hasDimensions = selected.imageWidth !== undefined || selected.imageHeight !== undefined;
@@ -98,7 +115,7 @@ export function imageRequestFromDraft(
     mode,
     prompt: draft.image.prompt,
     settings: {
-      ...(!image26 ? {aspectRatio: ratio} : {}),
+      ...(!image26 && !omitAutoRatio ? {aspectRatio: ratio} : {}),
       resolution,
       ...(details.settings.some(setting => setting.key === 'quality') ? {quality: 'high'} : {}),
       ...(details.settings.some(setting => setting.key === 'outputFormat') ? {outputFormat: 'png'} : {}),

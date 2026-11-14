@@ -42,7 +42,7 @@ import {defaultStudioMediaFactories, type StudioMediaFactories} from './conversa
 import {resolveStudioConversationAttachments,type StudioAttachmentFactsDependencies} from './conversation-attachment-facts';
 import {buildStudioGenerationMediaAccess} from './generation-media-access';
 import {projectStudioReply} from '@/lib/studio/conversation-reply';
-import {imageRequestFromDraft,imageReferenceFingerprintFromReview} from './conversation-image-request';
+import {imageRequestFromDraft,imageReferenceFingerprintFromReview,resolveStudioImageEngine} from './conversation-image-request';
 export {imageRequestFromDraft,imageReferenceFingerprintFromReview} from './conversation-image-request';
 
 export const imageConfirmationSchema = z
@@ -202,11 +202,14 @@ export function createImageConversationService(
       const { turn, claimed, responseReplayOnly } = await claimImageTurn(actor, input, {allowRecordedResponseRecovery: dependencies.actionsEnabled === true,taskWorkerId:dependencies.taskExecution?.workerId});
       if (!claimed) return projectTurn(turn);
       try {
+        const referenceMode = input.references.length ? "i2i" : "t2i";
+        const referenceEngine = resolveStudioImageEngine(await generation.catalog(), referenceMode);
+        if (!referenceEngine) throw new AgentApiError("ENGINE_UNAVAILABLE", "The Studio image model is unavailable.");
         const refs = await generation.resolveReferences({
           schemaVersion: 1,
           surface: "image",
-          engineId: "gpt-image-2-6-sunburst",
-          mode: input.references.length ? "i2i" : "t2i",
+          engineId: referenceEngine.engine.id,
+          mode: referenceMode,
           prompt: input.message,
           settings: {},
           references: input.references.map((assetId) => ({
