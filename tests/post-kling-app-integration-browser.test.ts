@@ -1,3 +1,4 @@
+import './helpers/keyvo-unfiltered-catalog'; // mechanism test: pinned Seedance Mini is outside the Keyvo allowlist
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {mkdir,readFile,writeFile} from 'node:fs/promises';
@@ -99,7 +100,7 @@ test('assembled app keeps guest mode/source state, source guards and localized s
   // Pin the reviewed direct-provider configuration so this offline fixture exercises its source guards.
   const engines=getBaseEnginesByCategory('video').filter(e=>['seedance-2-0-mini','wan-3-prime','kling-v4'].includes(e.id))
     .map(engine=>engine.id==='seedance-2-0-mini'?applyBytePlusSeedanceRuntimeOptions(engine,{provider:'byteplus_modelark',allowedModes:['t2v','i2v','ref2v','v2v','extend']}):engine);
-  const fixture=await startWorkspaceReferenceFixture({source,config:{dictionaries,engines}});
+  const fixture=await startWorkspaceReferenceFixture({source,config:{dictionaries,engines},unfilteredCatalog:true});
   const observations=[];
   const browsers:Browser[]=[];
   if(evidence)await mkdir(evidence,{recursive:true});

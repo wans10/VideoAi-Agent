@@ -1,3 +1,4 @@
+import './helpers/keyvo-unfiltered-catalog'; // geometry mechanism test: scenarios include admin-tier engines (Gemini Omni Flash, GPT Image 2.5)
 import assert from 'node:assert/strict';
 import { KEYVO_WORKSPACE_VARIANT_HIDDEN } from '../frontend/config/keyvo-disabled-features';
 import { createServer } from 'node:http';
@@ -59,7 +60,7 @@ const fixtureSource = `
 async function startFixture() {
   const bundle = await build({
     absWorkingDir: frontend, bundle: true, splitting: true, format: 'esm', platform: 'browser',
-    jsx: 'automatic', minify: true, define: { 'process.env.NODE_ENV': '"production"' },
+    jsx: 'automatic', minify: true, define: { 'process.env.NODE_ENV': '"production"', 'process.env.KEYVO_MODEL_VISIBILITY': '"off"' },
     stdin: { contents: fixtureSource, loader: 'tsx', resolveDir: frontend, sourcefile: 'engine-select-fixture.tsx' },
     outdir: '/engine-select-fixture', chunkNames: '[name]-[hash]', write: false, metafile: true,
     tsconfig: join(frontend, 'tsconfig.json'),

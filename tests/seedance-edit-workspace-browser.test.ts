@@ -1,3 +1,4 @@
+import './helpers/keyvo-unfiltered-catalog'; // mechanism test over the whole upstream catalogue (Seedance 2.0 family, Luma, Kling)
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { join } from 'node:path';
@@ -66,7 +67,7 @@ createRoot(document.getElementById('root')).render(<Fixture />);
 test('real workspace source selection enables Edit and preserves unavailable saved sources', { timeout: 120_000 }, async (t) => {
   const frontend = join(process.cwd(), 'frontend');
   const bundle = await build({ stdin: { contents: source, loader: 'tsx', resolveDir: frontend }, write: false, bundle: true,
-    platform: 'browser', format: 'iife', jsx: 'automatic', tsconfig: join(frontend, 'tsconfig.json'), outdir: '/seedance-edit-fixture', define: { 'process.env.NODE_ENV': '"production"' } });
+    platform: 'browser', format: 'iife', jsx: 'automatic', tsconfig: join(frontend, 'tsconfig.json'), outdir: '/seedance-edit-fixture', define: { 'process.env.NODE_ENV': '"production"', 'process.env.KEYVO_MODEL_VISIBILITY': '"off"' } });
   const script = bundle.outputFiles.find((file) => file.path.endsWith('.js'))!.text;
   const css = bundle.outputFiles.find((file) => file.path.endsWith('.css'))?.text ?? '';
   const server = createServer((request, response) => {
