@@ -24,6 +24,7 @@ import {
 } from '@/lib/pricing-public-quote';
 import { getLumaRay2BasePriceUsd } from '@/lib/luma-ray2-pricing-config';
 import { isLumaAgentsImageEngineId, isLumaRay32EngineId, type LumaAgentsImageMode } from '@/lib/luma-agents';
+import { isOfficialList100PricedEngine } from '@/lib/official-list-pricing';
 import { buildSlugMap, type LocalizedSlugKey } from '@/lib/i18nSlugs';
 import { formatCurrencyForLocale } from './pricingPageContent';
 import { getPricingHubCopy } from './pricingHubCopy';
@@ -842,7 +843,9 @@ function quoteImageScenarioCents(engine: EngineCaps, preset: ImagePriceScenario)
   try {
     const mode = preset.mode ?? 't2i';
     const quantity = Math.max(1, Math.floor(preset.quantity ?? 1));
-    const scalePerUnit = quantity > 1 && !isLumaAgentsImageEngineId(engine.id);
+    // Official-list-100 engines (Nano Banana 2 / Lite) are billed as one total: 4 x 3.36 cents is 13 cents, so the hub
+    // must round that total like billing rather than 4 x round(3.36) = 12. Other image presets keep their reviewed rows.
+    const scalePerUnit = quantity > 1 && !isLumaAgentsImageEngineId(engine.id) && !isOfficialList100PricedEngine(engine.id);
     const facts = buildPublicPricingFacts({
       engine,
       durationSec: scalePerUnit ? 1 : quantity,

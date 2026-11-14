@@ -341,3 +341,11 @@ Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorde
 - **Tests:** `tests/keyvo-official-list-100-pricing.test.ts` (profile, selection, facts and the 2.1 partial list);
   `tests/creator-commercial-pricing.test.ts` and `tests/image-estimate-service.test.ts` updated to the new ordinary
   margin (Nano Banana 2 margin 0) and the Lite total (13 cents for four images).
+- **Hub image total rounding (2026-11-14):** the pricing hub quoted a multi-image preset as the rounded per-image price
+  times the count, while billing and the estimate round the whole output count once. For official-list-100 engines the
+  per-image cost is fractional (Nano Banana Lite 3.36 cents), so the 4-image hub price was 12 cents against a 13-cent
+  charge. `pricingHubData.ts` now quotes official-list-100 engines as one total. Nano Banana 2 4-image moves 28 -> 27
+  cents and Lite 12 -> 13 (both recorded in the 2026-11-14 official-list-100 transition fixture). Other engines still
+  use the per-image hub path: the same mismatch exists for GPT Image 2 / 2.5 Flare / Sunburst, Nano Banana / Pro and
+  Seedream 5.0 Flash 4-image presets (hub 24/8/8/24/80/4 vs total billing). Those rows are not changed here because the
+  owner has not approved moving them (GPT Image 2.5/2.6 prices are pending).

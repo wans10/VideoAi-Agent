@@ -1,0 +1,228 @@
+
+> maxvideoai-mock-api@0.1.0 pricing:public-baseline /work
+> tsx --tsconfig frontend/tsconfig.json frontend/scripts/pricing-public-baseline.ts
+
+[pricing-public-baseline] unexpected drift from standard pricing policy {
+  "changed": [
+    "pricing-hub-image:gpt-image-2-5-flare:quantity-4",
+    "pricing-hub-image:gpt-image-2-5-sunburst:quantity-4",
+    "pricing-hub-image:gpt-image-2:quantity-4",
+    "pricing-hub-image:nano-banana-2:quantity-4",
+    "pricing-hub-image:nano-banana-lite:quantity-4",
+    "pricing-hub-image:nano-banana-pro:quantity-4",
+    "pricing-hub-image:nano-banana:quantity-4",
+    "pricing-hub-image:seedream-5-0-flash:quantity-4"
+  ],
+  "missing": [],
+  "details": [
+    {
+      "actual": {
+        "id": "pricing-hub-image:gpt-image-2-5-flare:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 6,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.06",
+        "compatibilityProfile": "standard"
+      },
+      "expected": {
+        "id": "pricing-hub-image:gpt-image-2-5-flare:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 8,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.08",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "actual": {
+        "id": "pricing-hub-image:gpt-image-2-5-sunburst:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 6,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.06",
+        "compatibilityProfile": "standard"
+      },
+      "expected": {
+        "id": "pricing-hub-image:gpt-image-2-5-sunburst:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 8,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.08",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "actual": {
+        "id": "pricing-hub-image:gpt-image-2:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 21,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.21",
+        "compatibilityProfile": "standard"
+      },
+      "expected": {
+        "id": "pricing-hub-image:gpt-image-2:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 24,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.24",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "actual": {
+        "id": "pricing-hub-image:nano-banana-2:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "nano-banana-2",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 27,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.27",
+        "compatibilityProfile": "standard"
+      },
+      "expected": {
+        "id": "pricing-hub-image:nano-banana-2:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "nano-banana-2",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 28,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.28",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "actual": {
+        "id": "pricing-hub-image:nano-banana-lite:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "nano-banana-lite",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 13,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.13",
+        "compatibilityProfile": "standard"
+      },
+      "expected": {
+        "id": "pricing-hub-image:nano-banana-lite:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "nano-banana-lite",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 12,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.12",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "actual": {
+        "id": "pricing-hub-image:nano-banana-pro:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "nano-banana-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 78,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.78",
+        "compatibilityProfile": "standard"
+      },
+      "expected": {
+        "id": "pricing-hub-image:nano-banana-pro:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "nano-banana-pro",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 80,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.80",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "actual": {
+        "id": "pricing-hub-image:nano-banana:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "nano-banana",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 21,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.21",
+        "compatibilityProfile": "standard"
+      },
+      "expected": {
+        "id": "pricing-hub-image:nano-banana:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "nano-banana",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 24,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.24",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "actual": {
+        "id": "pricing-hub-image:seedream-5-0-flash:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "seedream-5-0-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 5,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.05",
+        "compatibilityProfile": "standard"
+      },
+      "expected": {
+        "id": "pricing-hub-image:seedream-5-0-flash:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "seedream-5-0-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 4,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.04",
+        "compatibilityProfile": "standard"
+      }
+    }
+  ]
+}
+ ELIFECYCLE  Command failed with exit code 1.
