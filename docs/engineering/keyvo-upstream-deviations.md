@@ -374,7 +374,6 @@ Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorde
   use the per-image hub path: the same mismatch exists for GPT Image 2 / 2.5 Flare / Sunburst, Nano Banana / Pro and
   Seedream 5.0 Flash 4-image presets (hub 24/8/8/24/80/4 vs total billing). Those rows are not changed here because the
   owner has not approved moving them (GPT Image 2.5/2.6 prices are pending).
-||||||| 5f7304884
 
 ## Subtitles creator tool hidden (2026-11-14)
 
