@@ -1,3 +1,4 @@
+import { KEYVO_MCP_TRIAL_DISABLED } from '@/config/keyvo-disabled-features';
 import {
   getMcpIntegration,
   getMcpPublicIntegrationPaths,
@@ -60,7 +61,7 @@ export function getMcpPublicationState({
       discovery &&
       paidGeneration &&
       referenceUploads,
-    showTrialClaim: trial,
+    showTrialClaim: KEYVO_MCP_TRIAL_DISABLED ? false : trial,
     showPaidGenerationClaim: paidGeneration,
     showReferenceClaim: referenceUploads,
   };

@@ -87,7 +87,7 @@ test('public indexation is not blocked by the optional introductory trial', () =
 
   assert.doesNotMatch(indexableExpression, /\btrial\b/);
   assert.doesNotMatch(sitemap, /const mcpIndexable =[\s\S]{0,220}mcpPublication\.trial/);
-  assert.match(publication, /showTrialClaim:\s*trial/);
+  assert.match(publication, /showTrialClaim:\s*KEYVO_MCP_TRIAL_DISABLED \? false : trial/);
 });
 
 test('the homepage and contextual links own a prospect-facing assistant workflow entry', () => {

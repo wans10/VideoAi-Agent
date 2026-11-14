@@ -319,6 +319,17 @@ test('trial confirmation rejects stale gates, principals, risk, and entitlement 
   }
 });
 
+test('Keyvo closes the included trial: the shipped confirmation gate refuses a trial quote before any reservation', async () => {
+  const { value, captures } = dependencies();
+  const { trialGenerationEnabled: _gate, trialRiskContext, ...overrides } = value;
+  const service = createConfirmGenerationService('https://keyvo.example/account', trialRiskContext, overrides);
+  await expectAgentError(service({ quoteId: QUOTE_ID, confirmed: true }, principal), 'TRIAL_NOT_ELIGIBLE');
+  assert.equal(captures.wallet, 0);
+  assert.equal(captures.provider, 0);
+  assert.equal(captures.events.includes('risk'), false);
+  assert.equal(captures.events.includes('reserve'), false);
+});
+
 test('trial repricing compares the exact included envelope and canonical preset before risk or reservation', async () => {
   for (const [label, overrides] of [
     ['normal price', { priceGeneration: async () => ({ priceCents: 126, currency: 'USD', membershipTier: 'member', pricingSnapshot: { ...canonicalPricing(), totalCents: 126 } }) }],

@@ -94,3 +94,13 @@ export function isKeyvoHiddenFeaturePath(href: string | null | undefined): boole
   // and the audio page and API answer 404 until MiniMax Speech is configured (isKeyvoAudioWorkspaceDisabled).
   return isKeyvoAudioDisabled() && /^(?:\/[a-z]{2})?\/app\/audio(?:\/|$)/.test(path);
 }
+
+/**
+ * The public MCP server's included trial (the first paid-generation trial funded by the platform) is closed for
+ * Keyvo: mainland users cannot use the Claude/Codex hosts the server serves, so the trial has no audience. While true,
+ * trial eligibility is never offered, quotes never use trial funding, confirmation refuses trial funding before any
+ * reservation, and no public copy claims a trial. Historical trial rows still read normally. MCP paid generation is
+ * unaffected. Reopening needs a migration widening the funding CHECK guard plus a ceiling/financial decision; see
+ * docs/engineering/keyvo-upstream-deviations.md.
+ */
+export const KEYVO_MCP_TRIAL_DISABLED: boolean = true;

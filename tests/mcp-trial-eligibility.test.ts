@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
+import { KEYVO_MCP_TRIAL_DISABLED } from '../frontend/config/keyvo-disabled-features';
 import { listFalEngines } from '../frontend/src/config/falEngines';
 import { getAgentAccountStatus } from '../frontend/src/server/agent-api/account-status';
 import { listPublicAgentGenerationEngines } from '../frontend/src/server/agent-api/model-catalog';
@@ -63,6 +64,7 @@ async function enabledDependencies(
   const candidate = await currentTrialCandidate();
   return {
     featureEnabled: true,
+    keyvoClosed: false,
     environmentEnabled: 'true',
     verificationUrl: VERIFICATION_URL,
     async getAccountRestriction() {
@@ -112,11 +114,32 @@ test('the direct eligibility gate fails closed without touching protected depend
 });
 
 test('the server trial predicate accepts only the exact raw true value', () => {
-  assert.equal(isTrialEligibilityEnabled(true, 'true'), true);
+  assert.equal(isTrialEligibilityEnabled(true, 'true', false), true);
   for (const raw of [undefined, '', ' true ', 'TRUE', 'True', '1', 'false']) {
-    assert.equal(isTrialEligibilityEnabled(true, raw), false);
+    assert.equal(isTrialEligibilityEnabled(true, raw, false), false);
   }
-  assert.equal(isTrialEligibilityEnabled(false, 'true'), false);
+  assert.equal(isTrialEligibilityEnabled(false, 'true', false), false);
+});
+
+test('Keyvo closes the included trial: even with the flag and environment on, nothing is offered', async () => {
+  assert.equal(KEYVO_MCP_TRIAL_DISABLED, true);
+  assert.equal(isTrialEligibilityEnabled(true, 'true'), false);
+  const calls: string[] = [];
+  const dependencies = await enabledDependencies({
+    async getAccountRestriction() {
+      calls.push('restriction');
+      return null;
+    },
+    async getEntitlement() {
+      calls.push('entitlement');
+      return null;
+    },
+  });
+  // The shipped default must be closed: only the explicit test override reopens the dormant machinery.
+  delete (dependencies as Partial<TrialEligibilityDependencies>).keyvoClosed;
+  const status = await getTrialEligibility(principal('keyvo-closed-user', true), dependencies);
+  assert.deepEqual(status, { status: 'disabled' });
+  assert.deepEqual(calls, []);
 });
 
 test('eligibility reads the raw production environment value without trimming', async () => {
