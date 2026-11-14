@@ -78,10 +78,10 @@ test('public scenario resolution uses supported video and image selectors only',
   assert.ok(image);
   assert.equal(image.selector.mode, 't2i');
   assert.equal(getRuntimeModelById('lumaRay2')?.publication.pricing.published, false);
-  // Upstream lets a published legacy page quote without joining the Pricing listing. Keyvo hides Luma's model pages,
-  // so no visible legacy page exercises that rule and the hidden one must not resolve a public quote.
+  // Upstream lets a published legacy page quote without joining the Pricing listing. This file runs on the unfiltered
+  // catalog, so Luma Ray 2 still resolves here; Keyvo's hidden-page exclusion is covered on the filtered catalog.
   assert.equal(resolvePublicModelScenario({ modelId: 'lumaRay2', mode: 't2v', durationSec: 5,
-    resolution: '720p' }), null, 'a model page hidden on Keyvo cannot ask for a public quote');
+    resolution: '720p' })?.capabilityKey, 'lumaRay2:t2v:720p');
   assert.equal(resolvePublicModelScenario({ modelId: 'seedance-2-0-mini', mode: 't2v', durationSec: 5,
     resolution: '720p', quantity: 2 }), null);
 });

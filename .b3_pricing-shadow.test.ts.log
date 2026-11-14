@@ -1,0 +1,241 @@
+TAP version 13
+# Subtest: committed pre-canonical pricing baseline is immutable after legacy deletion
+ok 1 - committed pre-canonical pricing baseline is immutable after legacy deletion
+  ---
+  duration_ms: 2.579542
+  type: 'test'
+  ...
+# Subtest: registry publication shadow additions are reproducible through the canonical audit generator
+ok 2 - registry publication shadow additions are reproducible through the canonical audit generator
+  ---
+  duration_ms: 848.858834
+  type: 'test'
+  ...
+# Subtest: the pricing audit reports the reviewed Gemini refresh and Keyvo official list changes without failing the release gate
+ok 3 - the pricing audit reports the reviewed Gemini refresh and Keyvo official list changes without failing the release gate
+  ---
+  duration_ms: 552.996583
+  type: 'test'
+  ...
+# Subtest: historical Sora and Seedance 1.5 billing and estimator evidence remains independently reproducible after retirement
+ok 4 - historical Sora and Seedance 1.5 billing and estimator evidence remains independently reproducible after retirement
+  ---
+  duration_ms: 365.271417
+  type: 'test'
+  ...
+# Subtest: canonical shadow quotes match frozen outputs except the Omni 1.2 refresh and Keyvo official list prices
+not ok 5 - canonical shadow quotes match frozen outputs except the Omni 1.2 refresh and Keyvo official list prices
+  ---
+  duration_ms: 18.570833
+  type: 'test'
+  location: '/work/tests/pricing-shadow.test.ts:4:1921'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    ... Skipped lines
+    
+      [
+        {
+          canonicalTotalCents: 91,
+          currentTotalCents: 130,
+          deltaCents: -39,
+    ...
+        },
+    +   {
+    +     canonicalTotalCents: 27,
+    +     currentTotalCents: 42,
+    +     deltaCents: -15,
+    +     scenarioId: 'estimator:nano-banana-2:4:1k',
+    +     status: 'approved-change'
+    +   },
+    +   {
+    +     canonicalTotalCents: 13,
+    +     currentTotalCents: 16,
+    +     deltaCents: -3,
+    +     scenarioId: 'estimator:nano-banana-lite:4:1k',
+    +     status: 'approved-change'
+    +   }
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0:
+      scenarioId: 'billing:gemini-omni-flash:t2v:10:720p:member'
+      currentTotalCents: 130
+      canonicalTotalCents: 91
+      deltaCents: -39
+      status: 'approved-change'
+    1:
+      scenarioId: 'billing:gemini-omni-flash:t2v:10:720p:plus'
+      currentTotalCents: 123
+      canonicalTotalCents: 86
+      deltaCents: -37
+      status: 'approved-change'
+    2:
+      scenarioId: 'billing:gemini-omni-flash:t2v:10:720p:pro'
+      currentTotalCents: 117
+      canonicalTotalCents: 82
+      deltaCents: -35
+      status: 'approved-change'
+    3:
+      scenarioId: 'billing:nano-banana-2:t2i:4:1k:member'
+      currentTotalCents: 42
+      canonicalTotalCents: 27
+      deltaCents: -15
+      status: 'approved-change'
+    4:
+      scenarioId: 'billing:nano-banana-2:t2i:4:1k:plus'
+      currentTotalCents: 40
+      canonicalTotalCents: 26
+      deltaCents: -14
+      status: 'approved-change'
+    5:
+      scenarioId: 'billing:nano-banana-2:t2i:4:1k:pro'
+      currentTotalCents: 38
+      canonicalTotalCents: 24
+      deltaCents: -14
+      status: 'approved-change'
+    6:
+      scenarioId: 'billing:nano-banana-lite:t2i:4:1k:member'
+      currentTotalCents: 16
+      canonicalTotalCents: 13
+      deltaCents: -3
+      status: 'approved-change'
+    7:
+      scenarioId: 'billing:nano-banana-lite:t2i:4:1k:plus'
+      currentTotalCents: 15
+      canonicalTotalCents: 12
+      deltaCents: -3
+      status: 'approved-change'
+    8:
+      scenarioId: 'billing:nano-banana-lite:t2i:4:1k:pro'
+      currentTotalCents: 14
+      canonicalTotalCents: 12
+      deltaCents: -2
+      status: 'approved-change'
+    9:
+      scenarioId: 'estimator:gemini-omni-flash:10:720p'
+      currentTotalCents: 130
+      canonicalTotalCents: 91
+      deltaCents: -39
+      status: 'approved-change'
+  actual:
+    0:
+      scenarioId: 'billing:gemini-omni-flash:t2v:10:720p:member'
+      currentTotalCents: 130
+      canonicalTotalCents: 91
+      deltaCents: -39
+      status: 'approved-change'
+    1:
+      scenarioId: 'billing:gemini-omni-flash:t2v:10:720p:plus'
+      currentTotalCents: 123
+      canonicalTotalCents: 86
+      deltaCents: -37
+      status: 'approved-change'
+    2:
+      scenarioId: 'billing:gemini-omni-flash:t2v:10:720p:pro'
+      currentTotalCents: 117
+      canonicalTotalCents: 82
+      deltaCents: -35
+      status: 'approved-change'
+    3:
+      scenarioId: 'billing:nano-banana-2:t2i:4:1k:member'
+      currentTotalCents: 42
+      canonicalTotalCents: 27
+      deltaCents: -15
+      status: 'approved-change'
+    4:
+      scenarioId: 'billing:nano-banana-2:t2i:4:1k:plus'
+      currentTotalCents: 40
+      canonicalTotalCents: 26
+      deltaCents: -14
+      status: 'approved-change'
+    5:
+      scenarioId: 'billing:nano-banana-2:t2i:4:1k:pro'
+      currentTotalCents: 38
+      canonicalTotalCents: 24
+      deltaCents: -14
+      status: 'approved-change'
+    6:
+      scenarioId: 'billing:nano-banana-lite:t2i:4:1k:member'
+      currentTotalCents: 16
+      canonicalTotalCents: 13
+      deltaCents: -3
+      status: 'approved-change'
+    7:
+      scenarioId: 'billing:nano-banana-lite:t2i:4:1k:plus'
+      currentTotalCents: 15
+      canonicalTotalCents: 12
+      deltaCents: -3
+      status: 'approved-change'
+    8:
+      scenarioId: 'billing:nano-banana-lite:t2i:4:1k:pro'
+      currentTotalCents: 14
+      canonicalTotalCents: 12
+      deltaCents: -2
+      status: 'approved-change'
+    9:
+      scenarioId: 'estimator:gemini-omni-flash:10:720p'
+      currentTotalCents: 130
+      canonicalTotalCents: 91
+      deltaCents: -39
+      status: 'approved-change'
+    10:
+      scenarioId: 'estimator:nano-banana-2:4:1k'
+      currentTotalCents: 42
+      canonicalTotalCents: 27
+      deltaCents: -15
+      status: 'approved-change'
+    11:
+      scenarioId: 'estimator:nano-banana-lite:4:1k'
+      currentTotalCents: 16
+      canonicalTotalCents: 13
+      deltaCents: -3
+      status: 'approved-change'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (/work/tests/pricing-shadow.test.ts:204:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: canonical audit delegates to the explicit historical projector without changing the live admin default
+ok 6 - canonical audit delegates to the explicit historical projector without changing the live admin default
+  ---
+  duration_ms: 0.710584
+  type: 'test'
+  ...
+# Subtest: canonical admin scenario projection has no transitive dependency on the broad ENV object
+ok 7 - canonical admin scenario projection has no transitive dependency on the broad ENV object
+  ---
+  duration_ms: 34.897667
+  type: 'test'
+  ...
+# Subtest: every cross-surface pricing difference is explicitly profiled
+ok 8 - every cross-surface pricing difference is explicitly profiled
+  ---
+  duration_ms: 3.365375
+  type: 'test'
+  ...
+# Subtest: matrix validation rejects missing scenarios and invalid quote fields with stable codes
+ok 9 - matrix validation rejects missing scenarios and invalid quote fields with stable codes
+  ---
+  duration_ms: 2.138875
+  type: 'test'
+  ...
+# Subtest: matrix validation rejects unapproved compatibility profiles
+ok 10 - matrix validation rejects unapproved compatibility profiles
+  ---
+  duration_ms: 1.038375
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 9
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2024.217376

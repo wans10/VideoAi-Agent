@@ -1,0 +1,385 @@
+TAP version 13
+# (node:242) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the real published catalog reaches Studio without the five-model pilot restriction
+ok 1 - the real published catalog reaches Studio without the five-model pilot restriction
+  ---
+  duration_ms: 11.402334
+  type: 'test'
+  ...
+# Subtest: Studio preserves runtime exclusions and mode-level eligibility instead of copying public availability
+ok 2 - Studio preserves runtime exclusions and mode-level eligibility instead of copying public availability
+  ---
+  duration_ms: 2.315208
+  type: 'test'
+  ...
+# Subtest: published retirement and legacy aliases survive the Studio integration
+ok 3 - published retirement and legacy aliases survive the Studio integration
+  ---
+  duration_ms: 0.112167
+  type: 'test'
+  ...
+# Subtest: original image and text/first-frame video creation preserve request and quote validation
+    # Subtest: nano-banana-lite t2i
+    ok 1 - nano-banana-lite t2i
+      ---
+      duration_ms: 36.495958
+      type: 'test'
+      ...
+    # Subtest: nano-banana-lite i2i
+    ok 2 - nano-banana-lite i2i
+      ---
+      duration_ms: 19.184625
+      type: 'test'
+      ...
+    # Subtest: nano-banana-2 t2i
+    ok 3 - nano-banana-2 t2i
+      ---
+      duration_ms: 17.265541
+      type: 'test'
+      ...
+    # Subtest: nano-banana-2 i2i
+    ok 4 - nano-banana-2 i2i
+      ---
+      duration_ms: 15.903333
+      type: 'test'
+      ...
+    # Subtest: nano-banana-2-1 t2i
+    ok 5 - nano-banana-2-1 t2i
+      ---
+      duration_ms: 15.174667
+      type: 'test'
+      ...
+    # Subtest: nano-banana-2-1 i2i
+    ok 6 - nano-banana-2-1 i2i
+      ---
+      duration_ms: 15.27825
+      type: 'test'
+      ...
+    # Subtest: gpt-image-2-5-flare t2i
+    ok 7 - gpt-image-2-5-flare t2i
+      ---
+      duration_ms: 28.737667
+      type: 'test'
+      ...
+    # Subtest: gpt-image-2-5-flare i2i
+    ok 8 - gpt-image-2-5-flare i2i
+      ---
+      duration_ms: 29.525667
+      type: 'test'
+      ...
+    # Subtest: gpt-image-2-6-flare t2i
+    ok 9 - gpt-image-2-6-flare t2i
+      ---
+      duration_ms: 29.469875
+      type: 'test'
+      ...
+    # Subtest: gpt-image-2-6-flare i2i
+    ok 10 - gpt-image-2-6-flare i2i
+      ---
+      duration_ms: 28.900708
+      type: 'test'
+      ...
+    # Subtest: gpt-image-2-6-sunburst t2i
+    ok 11 - gpt-image-2-6-sunburst t2i
+      ---
+      duration_ms: 28.67275
+      type: 'test'
+      ...
+    # Subtest: gpt-image-2-6-sunburst i2i
+    ok 12 - gpt-image-2-6-sunburst i2i
+      ---
+      duration_ms: 29.063125
+      type: 'test'
+      ...
+    # Subtest: seedream-5-0-pro t2i
+    ok 13 - seedream-5-0-pro t2i
+      ---
+      duration_ms: 14.295041
+      type: 'test'
+      ...
+    # Subtest: seedream-5-0-pro i2i
+    ok 14 - seedream-5-0-pro i2i
+      ---
+      duration_ms: 14.389958
+      type: 'test'
+      ...
+    # Subtest: seedream-5-0-flash t2i
+    ok 15 - seedream-5-0-flash t2i
+      ---
+      duration_ms: 14.95575
+      type: 'test'
+      ...
+    # Subtest: seedream-5-0-flash i2i
+    ok 16 - seedream-5-0-flash i2i
+      ---
+      duration_ms: 14.384083
+      type: 'test'
+      ...
+    # Subtest: veo-3-1 t2v
+    ok 17 - veo-3-1 t2v
+      ---
+      duration_ms: 18.234375
+      type: 'test'
+      ...
+    # Subtest: veo-3-1 i2v
+    ok 18 - veo-3-1 i2v
+      ---
+      duration_ms: 16.703333
+      type: 'test'
+      ...
+    # Subtest: veo-3-1-fast t2v
+    ok 19 - veo-3-1-fast t2v
+      ---
+      duration_ms: 15.85125
+      type: 'test'
+      ...
+    # Subtest: veo-3-1-fast i2v
+    ok 20 - veo-3-1-fast i2v
+      ---
+      duration_ms: 16.612584
+      type: 'test'
+      ...
+    # Subtest: veo-3-1-lite t2v
+    ok 21 - veo-3-1-lite t2v
+      ---
+      duration_ms: 15.721125
+      type: 'test'
+      ...
+    # Subtest: veo-3-1-lite i2v
+    ok 22 - veo-3-1-lite i2v
+      ---
+      duration_ms: 16.931958
+      type: 'test'
+      ...
+    # Subtest: gemini-omni-flash t2v
+    ok 23 - gemini-omni-flash t2v
+      ---
+      duration_ms: 16.849542
+      type: 'test'
+      ...
+    # Subtest: gemini-omni-flash i2v
+    ok 24 - gemini-omni-flash i2v
+      ---
+      duration_ms: 16.793833
+      type: 'test'
+      ...
+    # Subtest: kling-3-pro t2v
+    ok 25 - kling-3-pro t2v
+      ---
+      duration_ms: 17.243458
+      type: 'test'
+      ...
+    # Subtest: kling-3-pro i2v
+    ok 26 - kling-3-pro i2v
+      ---
+      duration_ms: 18.052708
+      type: 'test'
+      ...
+    # Subtest: kling-3-standard t2v
+    ok 27 - kling-3-standard t2v
+      ---
+      duration_ms: 17.107541
+      type: 'test'
+      ...
+    # Subtest: kling-3-standard i2v
+    ok 28 - kling-3-standard i2v
+      ---
+      duration_ms: 17.274333
+      type: 'test'
+      ...
+    # Subtest: kling-3-4k t2v
+    ok 29 - kling-3-4k t2v
+      ---
+      duration_ms: 28.873
+      type: 'test'
+      ...
+    # Subtest: kling-3-4k i2v
+    ok 30 - kling-3-4k i2v
+      ---
+      duration_ms: 19.761167
+      type: 'test'
+      ...
+    # Subtest: kling-o3-standard t2v
+    ok 31 - kling-o3-standard t2v
+      ---
+      duration_ms: 17.959667
+      type: 'test'
+      ...
+    # Subtest: kling-o3-standard i2v
+    ok 32 - kling-o3-standard i2v
+      ---
+      duration_ms: 18.453375
+      type: 'test'
+      ...
+    # Subtest: kling-o3-pro t2v
+    ok 33 - kling-o3-pro t2v
+      ---
+      duration_ms: 17.419375
+      type: 'test'
+      ...
+    # Subtest: kling-o3-pro i2v
+    ok 34 - kling-o3-pro i2v
+      ---
+      duration_ms: 17.747333
+      type: 'test'
+      ...
+    # Subtest: kling-o3-4k t2v
+    ok 35 - kling-o3-4k t2v
+      ---
+      duration_ms: 17.776625
+      type: 'test'
+      ...
+    # Subtest: kling-o3-4k i2v
+    ok 36 - kling-o3-4k i2v
+      ---
+      duration_ms: 17.677375
+      type: 'test'
+      ...
+    # Subtest: kling-3-turbo-standard t2v
+    ok 37 - kling-3-turbo-standard t2v
+      ---
+      duration_ms: 19.249208
+      type: 'test'
+      ...
+    # Subtest: kling-3-turbo-standard i2v
+    ok 38 - kling-3-turbo-standard i2v
+      ---
+      duration_ms: 19.256291
+      type: 'test'
+      ...
+    # Subtest: kling-3-turbo-pro t2v
+    ok 39 - kling-3-turbo-pro t2v
+      ---
+      duration_ms: 17.861208
+      type: 'test'
+      ...
+    # Subtest: kling-3-turbo-pro i2v
+    ok 40 - kling-3-turbo-pro i2v
+      ---
+      duration_ms: 18.661083
+      type: 'test'
+      ...
+    # Subtest: kling-v4 t2v
+    ok 41 - kling-v4 t2v
+      ---
+      duration_ms: 17.993167
+      type: 'test'
+      ...
+    # Subtest: kling-v4 i2v
+    ok 42 - kling-v4 i2v
+      ---
+      duration_ms: 19.190833
+      type: 'test'
+      ...
+    # Subtest: happy-horse-1-1 t2v
+    ok 43 - happy-horse-1-1 t2v
+      ---
+      duration_ms: 17.495917
+      type: 'test'
+      ...
+    # Subtest: happy-horse-1-1 i2v
+    ok 44 - happy-horse-1-1 i2v
+      ---
+      duration_ms: 17.086917
+      type: 'test'
+      ...
+    # Subtest: seedance-2-5 t2v
+    ok 45 - seedance-2-5 t2v
+      ---
+      duration_ms: 18.312334
+      type: 'test'
+      ...
+    # Subtest: seedance-2-5 i2v
+    ok 46 - seedance-2-5 i2v
+      ---
+      duration_ms: 18.894042
+      type: 'test'
+      ...
+    # Subtest: minimax-h3 t2v
+    ok 47 - minimax-h3 t2v
+      ---
+      duration_ms: 17.553209
+      type: 'test'
+      ...
+    # Subtest: minimax-h3 i2v
+    ok 48 - minimax-h3 i2v
+      ---
+      duration_ms: 17.665084
+      type: 'test'
+      ...
+    # Subtest: minimax-h3-max t2v
+    ok 49 - minimax-h3-max t2v
+      ---
+      duration_ms: 17.788125
+      type: 'test'
+      ...
+    # Subtest: minimax-h3-max i2v
+    ok 50 - minimax-h3-max i2v
+      ---
+      duration_ms: 19.669333
+      type: 'test'
+      ...
+    # Subtest: kling-v4-flash t2v
+    ok 51 - kling-v4-flash t2v
+      ---
+      duration_ms: 17.650792
+      type: 'test'
+      ...
+    # Subtest: kling-v4-flash i2v
+    ok 52 - kling-v4-flash i2v
+      ---
+      duration_ms: 17.654708
+      type: 'test'
+      ...
+    # Subtest: wan-3 t2v
+    ok 53 - wan-3 t2v
+      ---
+      duration_ms: 17.761416
+      type: 'test'
+      ...
+    # Subtest: wan-3 i2v
+    ok 54 - wan-3 i2v
+      ---
+      duration_ms: 17.879084
+      type: 'test'
+      ...
+    # Subtest: wan-3-prime t2v
+    ok 55 - wan-3-prime t2v
+      ---
+      duration_ms: 16.815541
+      type: 'test'
+      ...
+    # Subtest: wan-3-prime i2v
+    ok 56 - wan-3-prime i2v
+      ---
+      duration_ms: 17.215667
+      type: 'test'
+      ...
+    1..56
+ok 4 - original image and text/first-frame video creation preserve request and quote validation
+  ---
+  duration_ms: 1083.403251
+  type: 'test'
+  ...
+# Subtest: action-specific recommendations preserve a single compatible explicit choice and Pika on request
+ok 5 - action-specific recommendations preserve a single compatible explicit choice and Pika on request
+  ---
+  duration_ms: 11.029542
+  type: 'test'
+  ...
+# Subtest: compact discovery finds a current custom-size model whose real preparation retains exact client dimensions
+ok 6 - compact discovery finds a current custom-size model whose real preparation retains exact client dimensions
+  ---
+  duration_ms: 2.351667
+  type: 'test'
+  ...
+1..6
+# tests 62
+# suites 0
+# pass 62
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5627.206628

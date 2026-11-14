@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: pay-as-you-go current model choices retain the localized Seedance 2.5 profile
+ok 1 - pay-as-you-go current model choices retain the localized Seedance 2.5 profile
+  ---
+  duration_ms: 64.519042
+  type: 'test'
+  ...
+# Subtest: pricing video engine rows expose localized model hrefs for clickable engine names
+ok 2 - pricing video engine rows expose localized model hrefs for clickable engine names
+  ---
+  duration_ms: 50.972041
+  type: 'test'
+  ...
+# Subtest: pricing model links follow pricing publication and exclude deep legacy history
+ok 3 - pricing model links follow pricing publication and exclude deep legacy history
+  ---
+  duration_ms: 18.142333
+  type: 'test'
+  ...
+# Subtest: pricing video matrix links the rendered engine identity to its model page
+ok 4 - pricing video matrix links the rendered engine identity to its model page
+  ---
+  duration_ms: 0.557792
+  type: 'test'
+  ...
+# Subtest: pricing image matrix links the rendered engine identity to its model page
+ok 5 - pricing image matrix links the rendered engine identity to its model page
+  ---
+  duration_ms: 0.225375
+  type: 'test'
+  ...
+# Subtest: every exposed video pricing row has an exact price or an explicit current-quote placeholder
+ok 6 - every exposed video pricing row has an exact price or an explicit current-quote placeholder
+  ---
+  duration_ms: 8.938583
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 544.770251
