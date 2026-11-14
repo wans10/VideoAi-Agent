@@ -12,7 +12,7 @@ import { getExampleFamilyDescriptor, getExampleFamilyPrimaryModelSlug } from '@/
 import { quoteCurrentExamplePrices, type CurrentExamplePrice } from '@/server/current-example-price';
 import { formatCurrentExamplePrice } from '@/lib/current-example-price-display';
 import { resolveRuntimeEngineInput } from '@/config/model-runtime';
-import { isKeyvoVisibleFamily } from '@/config/keyvo-model-visibility';
+import { isKeyvoHiddenModel, isKeyvoVisibleFamily } from '@/config/keyvo-model-visibility';
 
 export const dynamic = 'force-dynamic';
 
@@ -171,7 +171,8 @@ export async function GET(req: NextRequest) {
 
     // Keyvo does not present hidden-vendor families, so an engine filter must not reach their bundled examples.
     const filterFamily = canonicalEngineFilter ?? resolveRuntimeEngineInput(engineFilter)?.family ?? null;
-    if (engineFilter && !(filterFamily && isKeyvoVisibleFamily(filterFamily))) {
+    const filterModelId = engineFilter ? (resolveRuntimeEngineInput(engineFilter)?.id ?? null) : null;
+    if ((engineFilter && !(filterFamily && isKeyvoVisibleFamily(filterFamily))) || isKeyvoHiddenModel(filterModelId)) {
       return NextResponse.json({ ok: true, cards: [], total: 0, limit, offset, hasMore: false });
     }
 

@@ -1,12 +1,23 @@
 import hiddenModelIds from './keyvo-hidden-model-ids.json';
+import modelAllowlist from './keyvo-model-allowlist.json';
 import visibleFamilies from './keyvo-visible-families.json';
 
 /**
- * Keyvo only presents models from mainland-China vendors. Everything else stays in the
- * upstream registry (so upstream syncs do not conflict) but is projected as unpublished.
+ * Keyvo only presents the engines the owner allowlisted (keyvo-model-allowlist.json). Everything else stays in the
+ * upstream registry, so upstream syncs do not conflict, and is projected as unpublished on every customer surface
+ * (model pages, App/workspace engine lists, pricing, compare, sitemap, examples, MCP and agent catalogues).
+ *
+ * Single choke points that read this module:
+ * - isKeyvoHiddenModel: model-runtime.ts (page, App and pricing publication), engines.ts buildBaseEngines (workspace
+ *   pickers), app/api/generate (refuses a hidden id before any charge), MCP/agent guidance and canary lists.
+ * - filterKeyvoVisibleEntries: engine-catalog-visible.ts and the sitemap roster readers.
  */
-// The family list lives in JSON so plain-Node scripts (IndexNow) read the same source.
+// The family list and the id lists live in JSON so plain-Node scripts (IndexNow) read the same source.
 const KEYVO_VISIBLE_FAMILIES: ReadonlySet<string> = new Set<string>(visibleFamilies);
+const KEYVO_OFFERED_ENGINE_IDS: ReadonlySet<string> = new Set<string>(
+  modelAllowlist.offeredEngineIds.map((id) => id.trim().toLowerCase()),
+);
+const KEYVO_HIDDEN_MODEL_IDS: ReadonlySet<string> = new Set<string>(hiddenModelIds);
 
 // Generators and the pricing baseline set KEYVO_MODEL_VISIBILITY=off to see the unfiltered upstream catalog.
 // Sandboxed bundles (offline tests, edge runtimes) have no `process`, so the filter then applies.
@@ -19,18 +30,21 @@ export function isKeyvoVisibleFamily(family: string | null | undefined): boolean
   return typeof family === 'string' && KEYVO_VISIBLE_FAMILIES.has(family.trim().toLowerCase());
 }
 
-/**
- * Models of a visible family that Keyvo cannot serve (no mainland route). They stay in the upstream registry and
- * are projected as unpublished on every surface, including the app. The list is empty since 2026-11-12, when
- * MiniMax-H3-Max moved to MiniMax's own API (docs/engineering/minimax-official-provider.md); keep the mechanism for
- * future models without a mainland route.
- */
-// The id list lives in JSON so plain-Node scripts (IndexNow) read the same source.
-const KEYVO_HIDDEN_MODEL_IDS: ReadonlySet<string> = new Set<string>(hiddenModelIds);
+/** True when the owner allowlist offers this registry engine id to customers. */
+export function isKeyvoOfferedEngine(id: string | null | undefined): boolean {
+  if (isKeyvoModelVisibilityOff()) return true;
+  return typeof id === 'string' && KEYVO_OFFERED_ENGINE_IDS.has(id.trim().toLowerCase());
+}
 
+/**
+ * A registry model Keyvo does not offer: not on the owner allowlist, or listed as a hidden id. Unknown or empty ids
+ * are not treated as hidden here; callers resolve those separately.
+ */
 export function isKeyvoHiddenModel(id: string | null | undefined): boolean {
   if (isKeyvoModelVisibilityOff()) return false;
-  return typeof id === 'string' && KEYVO_HIDDEN_MODEL_IDS.has(id.trim().toLowerCase());
+  if (typeof id !== 'string' || !id.trim()) return false;
+  const key = id.trim().toLowerCase();
+  return !KEYVO_OFFERED_ENGINE_IDS.has(key) || KEYVO_HIDDEN_MODEL_IDS.has(key);
 }
 
 export function filterKeyvoVisibleEntries<T extends { family?: string | null; engineId?: string; id?: string }>(entries: readonly T[]): T[] {

@@ -88,6 +88,15 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
 - **Keyvo:** `kling-3-turbo-standard` / `-pro` direct leg is the real `kling-3.0-turbo` model on the new-design API (`/text-to-video|/image-to-video/kling-3.0-turbo`, `/tasks` polling, API Key only, never Fal), see `docs/engineering/kling-official-provider.md`. Upstream sends Turbo to the legacy `/v1/videos/*` route as `kling-v3` with a Fal fallback.
 - Upstream tests that used Turbo as the representative legacy Kling engine (`fal-fallback-attempt-recovery`, `direct-ack-persistence-postgres`, `fal-provider-fallback-enqueue-postgres`, the Fal case in `kling-3-turbo-fallback`) use `kling-3-standard` instead; `kling-3-turbo-direct-contract.test.ts` holds the Keyvo Turbo contract. Re-check these after every sync.
 
+### Owner model allowlist (2026-11-14)
+
+- **Upstream:** every registry model of a visible family is offered on the workspace, pricing and MCP surfaces; only the page-level surfaces were hidden by family.
+- **Keyvo:** `frontend/config/keyvo-model-allowlist.json` is the single owner-decided list of 26 engine ids that customers may be offered. Every other registry model (40 of 66) is hidden on every customer surface. `frontend/config/keyvo-model-visibility.ts` reads it: `isKeyvoHiddenModel` is "not on the allowlist" and is consumed by the runtime publication projection (`config/model-runtime.ts`: page, App and pricing), the workspace engine list (`src/lib/engines.ts` `buildBaseEngines`), the generate route (`app/api/generate/_lib/route-context.ts`, which also refuses the hidden BytePlus fallback), the pricing hub, the examples API, MCP and agent guidance.
+- **Why:** the owner decided that only the listed Kling, Alibaba Bailian, MiniMax, Volcengine, Google Vertex and OpenAI models are offered. The registry stays the authored source; the allowlist is a Keyvo-owned overlay, so upstream registry edits do not conflict.
+- **Defaults repointed to offered engines:** Studio shot model (`seedance-2-5`), storyboard image preset and storyboard tool (`gpt-image-2-6-sunburst`), Studio image conversation (`gpt-image-2-6-sunburst`), MCP trial preset and agent trial quote (`seedance-2-5`), family defaults for Seedance (`seedance-2-5`) and Veo (`gemini-omni-flash`).
+- **Still to repoint (not done in this pass):** editorial copy that names hidden models (`pricing/_lib/pricingPageContent.ts` cards for FLUX 3 Max, Veo 3.1, Seedance 2.0 and Pika; PAYG discovery and film-programme configs; best-for scenes; home and content dictionary pricing rows). Those are copy and resolution changes, not default swaps.
+- **Tests:** `tests/keyvo-model-allowlist-contract.test.ts` locks the owner list, the workspace/publication/catalogue absence of hidden models, and the absence of hidden defaults.
+
 ### Official mainland list prices × 0.8 (2026-11-13)
 
 - **Keyvo:** every Keyvo-visible model is priced at 80% of its supplier's official mainland CNY list price

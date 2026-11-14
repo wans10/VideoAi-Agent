@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility.ts';
+import { isKeyvoHiddenModel, isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility.ts';
 import { buildLocalizedModelPath } from '../frontend/config/model-registry.ts';
 import {
   createRuntimeModelResolver,
@@ -129,6 +129,14 @@ test('runtime model projection matches every baseline identity and surface', () 
       APPROVED_SUCCESSORS[expected.id as keyof typeof APPROVED_SUCCESSORS] ?? expected.successorId,
     );
     const actualPublication = toLegacyModelSurfaces(actual);
+    if (isKeyvoHiddenModel(expected.id)) {
+      // Owner allowlist (2026-11-14): a model outside it is unpublished on every customer surface, including the
+      // app and pricing, even when its family is visible (for example Veo 3.1 beside Gemini Omni Flash).
+      for (const surface of ['model', 'examples', 'compare', 'sitemap', 'app', 'pricing'] as const) {
+        assert.equal(actual.publication[surface].published, false, `${expected.id} ${surface}`);
+      }
+      continue;
+    }
     if (!isKeyvoVisibleFamily(expected.family)) {
       // Keyvo hides these families from web pages; app and pricing publication stay upstream.
       assert.equal(actual.publication.model.published, false, expected.id);
@@ -406,7 +414,12 @@ test('family membership and current variants preserve baseline with explicit lif
           ? 'ltx-2-5-pro'
           : expected.id === 'wan'
             ? 'wan-3-prime'
-            : expected.defaultModelSlug,
+            // Veo 3.1 and Seedance 2.0 are not on the owner allowlist (2026-11-14); the families open on offered models.
+            : expected.id === 'veo'
+              ? 'gemini-omni-flash'
+              : expected.id === 'seedance'
+                ? 'seedance-2-5'
+                : expected.defaultModelSlug,
     );
     const expectedRouteAliases = expected.id === 'kling'
       ? ['kling-3-turbo-pro', 'kling-3-turbo-standard', ...expected.routeAliases]
@@ -424,12 +437,14 @@ test('family membership and current variants preserve baseline with explicit lif
       : expected.id === 'kling'
         // Kling 2.5 Turbo / 2.6 Pro are offline on Keyvo (2026-11-13).
         ? ['kling-v4', 'kling-v4-flash', 'kling-3-turbo-pro', 'kling-3-turbo-standard', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
-          .filter((slug) => slug !== 'kling-2-5-turbo' && slug !== 'kling-2-6-pro')
+          // The 4K tiers are not on the owner allowlist (2026-11-14) and leave the family examples too.
+          .filter((slug) => slug !== 'kling-2-5-turbo' && slug !== 'kling-2-6-pro' && slug !== 'kling-3-4k' && slug !== 'kling-o3-4k')
       : expected.id === 'hailuo'
         // H3 Max is served on Keyvo again (MiniMax's own API) and keeps its upstream examples membership.
         ? ['minimax-h3', 'minimax-h3-max', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
         : expected.id === 'veo'
-          ? [...(expected.examplesPage?.publishedModelSlugs ?? []), 'gemini-omni-flash']
+          // Veo 3.1 (fast, lite) is not on the owner allowlist (2026-11-14); only Gemini Omni Flash stays.
+          ? [...(expected.examplesPage?.publishedModelSlugs ?? []), 'gemini-omni-flash'].filter((slug) => !slug.startsWith('veo-3-1'))
         : expected.id === 'ltx'
           ? ['ltx-2-5-pro', 'ltx-2-5-fast', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
         : expected.id === 'wan'
@@ -444,11 +459,13 @@ test('family membership and current variants preserve baseline with explicit lif
     const expectedCurrentModelSlugs = expected.id === 'seedance'
       ? ['seedance-2-5', ...baselineCurrentModelSlugs].filter((slug) => slug !== 'seedance-1-5-pro')
       : expected.id === 'kling'
+        // The 4K tiers are not on the owner allowlist (2026-11-14) and leave the current family variants too.
         ? ['kling-v4', 'kling-v4-flash', 'kling-3-turbo-pro', 'kling-3-turbo-standard', ...baselineCurrentModelSlugs]
+          .filter((slug) => slug !== 'kling-3-4k' && slug !== 'kling-o3-4k')
       : expected.id === 'hailuo'
         ? ['minimax-h3', 'minimax-h3-max']
         : expected.id === 'veo'
-          ? [...baselineCurrentModelSlugs, 'gemini-omni-flash']
+          ? [...baselineCurrentModelSlugs, 'gemini-omni-flash'].filter((slug) => !slug.startsWith('veo-3-1'))
         : expected.id === 'ltx'
           ? ['ltx-2-5-pro', 'ltx-2-5-fast']
           : expected.id === 'wan'
@@ -456,13 +473,15 @@ test('family membership and current variants preserve baseline with explicit lif
           : expected.id === 'sora'
             ? []
         : baselineCurrentModelSlugs;
+    // A model outside the owner allowlist leaves every family list (see keyvo-model-visibility.ts).
+    const offeredOnly = (slugs: readonly string[]) => slugs.filter((slug) => !isKeyvoHiddenModel(slug));
     assert.deepEqual(
       getModelFamilyExamplesPageConfig(expected.id)?.publishedModelSlugs,
-      expectedPublishedModelSlugs,
+      offeredOnly(expectedPublishedModelSlugs),
     );
     assert.deepEqual(
       getModelFamilyExamplesPageConfig(expected.id)?.currentModelSlugs,
-      expectedCurrentModelSlugs,
+      offeredOnly(expectedCurrentModelSlugs),
     );
   }
 });

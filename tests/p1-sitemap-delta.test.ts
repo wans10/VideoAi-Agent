@@ -5,6 +5,7 @@ import modelRoster from '../frontend/config/model-roster.json' with { type: 'jso
 import fixture from './fixtures/p1-production-routes-before.json' with { type: 'json' };
 import { getHubComparisonSlugsForSitemap } from '../frontend/lib/compare-hub/data.ts';
 import { getIndexableComparisonLocales } from '../frontend/lib/compare-hub/indexation.ts';
+import { isKeyvoHiddenModel } from '../frontend/config/keyvo-model-visibility.ts';
 
 const comparisonPaths = getHubComparisonSlugsForSitemap().map(
   (slug) => `/ai-video-engines/${slug}`,
@@ -13,7 +14,7 @@ const modelPaths = modelRoster.map(({ modelSlug }) => `/models/${modelSlug}`);
 const dynamicPaths = new Set([...modelPaths, ...comparisonPaths]);
 
 // Keyvo hides comparison pages that involve non-Chinese-vendor models (see config/keyvo-model-visibility.ts).
-const HIDDEN_MODEL_TOKEN = /veo|gemini-omni|ltx|luma|grok|flux|pika|sora|gpt-image|nano-banana/;
+// Owner allowlist (2026-11-14): a comparison is published only when every model in it is offered.
 // Wan 2.5, Happy Horse 1.0, Seedance 1.5 Pro and Seedream 5.0 Lite are offline (owner decision 2026-11-11). Their
 // comparisons are hidden as well. Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro followed on 2026-11-13 (no mainland
 // route). MiniMax-H3-Max is served again since 2026-11-12 (MiniMax's own API).
@@ -21,8 +22,7 @@ const KEYVO_OFFLINE_MODEL_SLUGS = [
   'wan-2-5', 'happy-horse-1-0', 'seedance-1-5-pro', 'seedream', 'wan-2-6', 'kling-2-5-turbo', 'kling-2-6-pro',
 ] as const;
 const HIDDEN_KEYVO_MODEL_SLUGS = new Set<string>(KEYVO_OFFLINE_MODEL_SLUGS);
-const isVisiblePath = (path: string) => !HIDDEN_MODEL_TOKEN.test(path)
-  && !path.replace(/^\/ai-video-engines\//, '').split('-vs-').some((slug) => HIDDEN_KEYVO_MODEL_SLUGS.has(slug));
+const isVisiblePath = (path: string) => !path.replace(/^\/ai-video-engines\//, '').split('-vs-').some((slug) => HIDDEN_KEYVO_MODEL_SLUGS.has(slug) || isKeyvoHiddenModel(slug));
 
 test('P1 and subsequent candidates add four net model routes while Keyvo publishes only visible comparison routes', () => {
   // Eleven upstream additions minus the seven model pages Keyvo took offline (Wan 2.5, Happy Horse 1.0,

@@ -1,6 +1,6 @@
 export const IMAGE_STORYBOARD_PRESET = {
   tool: 'storyboard',
-  engineId: 'gpt-image-2',
+  engineId: 'gpt-image-2-6-sunburst',
   mode: 't2i',
   librarySource: 'storyboard',
   prompt:

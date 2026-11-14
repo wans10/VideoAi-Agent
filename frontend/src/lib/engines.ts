@@ -1,4 +1,5 @@
 import { listFalEngines } from '@/config/falEngines';
+import { isKeyvoHiddenModel } from '@/config/keyvo-model-visibility';
 import { getModelRoster } from '@/lib/model-roster';
 import type {
   EngineCaps,
@@ -38,7 +39,7 @@ const REGISTRY_BY_CATEGORY = {
 
 function buildBaseEngines(entries: typeof REGISTRY_ENTRIES): EngineCaps[] {
   return entries
-    .filter((entry) => entry.surfaces.app.enabled)
+    .filter((entry) => entry.surfaces.app.enabled && !isKeyvoHiddenModel(entry.id))
     .map((entry) =>
       cloneEngine({
         ...entry.engine,

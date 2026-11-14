@@ -205,7 +205,7 @@ export function createImageConversationService(
         const refs = await generation.resolveReferences({
           schemaVersion: 1,
           surface: "image",
-          engineId: "gpt-image-2",
+          engineId: "gpt-image-2-6-sunburst",
           mode: input.references.length ? "i2i" : "t2i",
           prompt: input.message,
           settings: {},

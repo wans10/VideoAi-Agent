@@ -182,7 +182,8 @@ test('published P0 representatives and pricing data project consistently into PA
 
 test('sparse PAYG data never relabels generic checks as P0 examples', () => {
   const pricingHub = structuredClone(buildPricingHubData('en'));
-  const seedance = pricingHub.video.rows.find((row) => row.id === 'seedance-2-0');
+  // Keyvo offers Seedance 2.5, not Seedance 2.0 (owner allowlist, 2026-11-14).
+  const seedance = pricingHub.video.rows.find((row) => row.id === 'seedance-2-5');
   assert.ok(seedance);
   pricingHub.video.rows = [seedance];
 
@@ -191,7 +192,7 @@ test('sparse PAYG data never relabels generic checks as P0 examples', () => {
     content: getPayAsYouGoContent('en'),
     pricingHub,
   });
-  assert.deepEqual(data.exampleCosts.items.map((item) => item.id), ['seedance-2-0']);
+  assert.deepEqual(data.exampleCosts.items.map((item) => item.id), ['seedance-2-5']);
   assert.deepEqual(p0IdsIn(data.exampleCosts.items), []);
 });
 
@@ -234,7 +235,8 @@ test('a future PAYG config fails closed until its canonical pricing row is visib
   }), /future-video-model|pricing#video-pricing/);
 
   const visiblePricingHub = structuredClone(buildPricingHubData('en'));
-  const visibleRow = structuredClone(visiblePricingHub.video.rows.find((row) => row.id === 'seedance-2-0'));
+  // Keyvo offers Seedance 2.5, not Seedance 2.0 (owner allowlist, 2026-11-14): clone an offered row.
+  const visibleRow = structuredClone(visiblePricingHub.video.rows.find((row) => row.id === 'seedance-2-5'));
   assert.ok(visibleRow);
   visibleRow.id = futureId;
   visibleRow.engineName = 'Future Video Model';
@@ -375,7 +377,12 @@ test('PAYG copies a P0 canonical quote instead of an authored amount', () => {
   // Upstream no longer lists Wan 3 Prime among the example costs (P0_VISIBLE_EXAMPLE_IDS); H3-Max holds that slot on
   // Keyvo again, and the LTX row is hidden in Keyvo, so there is no example-cost projection of the quote to compare.
   assert.deepEqual(p0IdsIn(data.exampleCosts.items), P0_VISIBLE_EXAMPLE_IDS);
-  assert.ok(data.exampleCosts.items.some((item) => item.id === 'minimax-h3-max'));
+  // The strip is the first six preferred examples that have a row. Keyvo now offers Gemini Omni Flash and Kling 4.0
+  // (owner allowlist, 2026-11-14), which take two of those slots, so MiniMax-H3-Max (ninth preferred) is not shown here.
+  // Placement of the strip is an owner question.
+  assert.deepEqual(data.exampleCosts.items.map((item) => item.id), [
+    'gemini-omni-flash', 'kling-v4', 'minimax-h3', 'seedance-2-5', 'kling-3-turbo-pro', 'kling-3-turbo-standard',
+  ]);
   assert.equal(
     data.hero.quote.previewRows.find((row) => row.id === 'wan-3-prime')?.quoteLabel,
     '$432.10',

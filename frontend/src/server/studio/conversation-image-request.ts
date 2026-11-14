@@ -46,7 +46,7 @@ export function imageRequestFromDraft(
     ) ??
     catalog.find(
       (entry) =>
-        entry.engine.id === "gpt-image-2" && entry.publicModes.includes(mode),
+        entry.engine.id === "gpt-image-2-6-sunburst" && entry.publicModes.includes(mode),
     );
   if (!candidate)
     throw new AgentApiError(

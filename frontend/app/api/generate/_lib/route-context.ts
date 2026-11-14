@@ -1,4 +1,5 @@
 import { resolveVideoOperationEngine } from '@/lib/video-operation';
+import { isKeyvoHiddenModel } from '@/config/keyvo-model-visibility';
 import { isArchivedGenerationModel } from '@/lib/model-generation-policy';
 import { isKlingV4ReleaseBlocked } from '@/server/video-generation/kling-v4-release-policy';
 import { randomUUID } from 'crypto';
@@ -310,6 +311,9 @@ export async function resolveGenerateRouteContext(params: {
     }
     return { ok: false, status: 400, body: { ok: false, error: 'Unknown engine' } };
   }
+
+  // Keyvo offers only the owner allowlist; the hidden-engine fallbacks above must not start a paid job.
+  if (isKeyvoHiddenModel(engine.id)) return { ok: false, status: 400, body: { ok: false, error: 'Unknown engine' } };
 
   let bytePlusProfile: BytePlusSeedanceProfile | null;
   try {
