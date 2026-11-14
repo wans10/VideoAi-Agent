@@ -116,7 +116,7 @@ test('every Keyvo-visible app model is priced by the official-list rule', () => 
   // Priced by the official-list rule but not offered (owner allowlist 2026-11-14). Their price rule stays so that a
   // future decision can offer them again without a price change; an id drifting between the two sets fails here.
   const PRICED_NOT_OFFERED = [
-    'kling-3-4k', 'kling-o3-4k', 'minimax-hailuo-02-text', 'minimax-hailuo-2-3', 'minimax-hailuo-2-3-fast',
+    'minimax-hailuo-02-text', 'minimax-hailuo-2-3', 'minimax-hailuo-2-3-fast',
     'seedance-2-0', 'seedance-2-0-fast', 'seedance-2-0-mini',
   ];
   for (const id of OFFICIAL_LIST_PRICED_ENGINE_IDS) {

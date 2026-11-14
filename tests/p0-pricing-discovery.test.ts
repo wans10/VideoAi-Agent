@@ -377,11 +377,11 @@ test('PAYG copies a P0 canonical quote instead of an authored amount', () => {
   // Upstream no longer lists Wan 3 Prime among the example costs (P0_VISIBLE_EXAMPLE_IDS); H3-Max holds that slot on
   // Keyvo again, and the LTX row is hidden in Keyvo, so there is no example-cost projection of the quote to compare.
   assert.deepEqual(p0IdsIn(data.exampleCosts.items), P0_VISIBLE_EXAMPLE_IDS);
-  // The strip is the first six preferred examples that have a row. Keyvo now offers Gemini Omni Flash and Kling 4.0
-  // (owner allowlist, 2026-11-14), which take two of those slots, so MiniMax-H3-Max (ninth preferred) is not shown here.
-  // Placement of the strip is an owner question.
+  // The strip is the first six preferred examples that have a row, among customer-visible models. Gemini Omni Flash is
+  // admin-tier on the owner allowlist (2026-11-14), so customers never see its pricing row; MiniMax-H3-Max takes the
+  // sixth slot. Placement of the strip is an owner question.
   assert.deepEqual(data.exampleCosts.items.map((item) => item.id), [
-    'gemini-omni-flash', 'kling-v4', 'minimax-h3', 'seedance-2-5', 'kling-3-turbo-pro', 'kling-3-turbo-standard',
+    'kling-v4', 'minimax-h3', 'seedance-2-5', 'kling-3-turbo-pro', 'kling-3-turbo-standard', 'minimax-h3-max',
   ]);
   assert.equal(
     data.hero.quote.previewRows.find((row) => row.id === 'wan-3-prime')?.quoteLabel,
