@@ -38,6 +38,15 @@ Chinese translations in `config/home-showcase-zh.json`. A bundled example withou
 when a sync adds examples, translate them (keep durations, timecodes, aspect ratios, `@` tokens and on-screen text
 unchanged, and drop any settings header line) or they will not appear. The translations are not the original inputs.
 
+Beyond the wall, every gallery that reads the bundled snapshot (the `/examples` hub, the visible-family pages and the model
+page galleries) shows the same Chinese prompt: `server/bundled-public-examples.ts` passes each example through
+`withChineseExamplePrompt` (`server/public-example-prompts-zh.ts`), which swaps in the Chinese `prompt` and a 160-character
+`promptExcerpt` and keeps the English text on `promptOriginal`. The lookup reads `config/home-showcase-zh.json` first and
+`config/public-examples-zh.json` second (the remaining examples of visible families, such as retired Seedance 1.5 and Wan 2.5
+works). Hidden-vendor examples have no translation and are not reachable on Keyvo. `tests/bundled-example-prompts-zh.test.ts`
+fails when a reachable example has no Chinese prompt, so translate new examples in one of the two files after a sync.
+Links such as "使用此提示词" still carry only the Chinese translation, never `promptOriginal`.
+
 The wall has **no per-card remix button**. A link can carry only the prompt, not the model, duration, framing or
 references, so "make the same" would promise a video the product cannot reproduce. The whole card is the link to the
 example's detail page; the prompt box and scene cards on the first screen are the creation entry.

@@ -62,6 +62,8 @@ type PricingHubCopy = {
       tools: string;
     };
     presetSubLabels: Record<string, string>;
+    /** Optional localized preset names; the preset's own label is used when an id has none. */
+    presetLabels?: Record<string, string>;
     mobile: {
       title: string;
       viewFullTable: string;
@@ -892,6 +894,15 @@ const zh: PricingHubCopy = {
     cheapestCurrentGen: '当代最实惠',
     tableHeaders: { engine: '模型引擎', caps: '规格能力', actions: '操作' },
     tabs: { video: '视频', image: '图片', audio: '音频', tools: '工具与超分辨率' },
+    presetLabels: {
+      'entry-route': '入门线路',
+      '5s-720p': '5 秒 720p',
+      '10s-720p': '10 秒 720p',
+      '8s-1080p': '8 秒 1080p',
+      '10s-1080p': '10 秒 1080p',
+      '10s-1080p-audio': '10 秒 + 音频',
+      '4k-route': '4K 输出',
+    },
     presetSubLabels: {
       'entry-route': '原生',
       '5s-720p': '草稿',

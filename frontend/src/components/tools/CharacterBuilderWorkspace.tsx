@@ -102,7 +102,7 @@ function CharacterBuilderAccountWorkspace({
   const { beginDraftIntent, captureDraftRequest } = useCharacterBuilderDraftScope(captureAccountRequest);
   const { t, locale } = useI18n();
   const studioCopy = getCharacterStudioCopy(locale);
-  const studioLocale: StudioLocale = locale === 'fr' || locale === 'es' ? locale : 'en';
+  const studioLocale: StudioLocale = locale === 'fr' || locale === 'es' || locale === 'zh' ? locale : 'en';
   const searchParams = useSearchParams();
   const [studioMode, setStudioMode] = useState<CharacterStudioMode>(() =>
     searchParams?.get('mode') === 'recast' ? 'recast' : 'character',

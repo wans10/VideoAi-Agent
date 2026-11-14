@@ -421,6 +421,7 @@ export async function MarketingModelPageLayout({
     <ModelCurrentDetails pricing={pricing} commercial={commercial} schema={schema} pricingData={templateData?.pricing ?? null} locale={locale}
       contentProps={{
         isDecision: Boolean(templateData),
+        locale,
         tocProps: { items: templateData ? decisionTocItems : tocItems, variant: templateData ? 'pill' : 'default', overviewLabel: decisionTocOverviewLabel },
         specsProps: { hasSpecs, specTitle, specNote, keySpecRows, specSectionsToShow, isImageEngine, locale, statusLabels, showBenchmarkLink },
         pricingCallout: legacyPricingCallout,

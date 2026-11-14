@@ -97,7 +97,7 @@ export default function SettingsPage() {
   const searchParams = useSearchParams();
   const tab = resolveSettingsContentTab(searchParams?.get('tab'));
   const { loading: authLoading, user } = useRequireAuth({ redirectIfLoggedOut: false });
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const rawCopy = t('workspace.settings', DEFAULT_SETTINGS_COPY);
   const copy = useMemo<SettingsCopy>(() => {
     if (!rawCopy || typeof rawCopy !== 'object') return DEFAULT_SETTINGS_COPY;
@@ -128,6 +128,7 @@ export default function SettingsPage() {
           <SettingsTabs
             activeTab={tab}
             labels={copy.tabs}
+            ariaLabel={locale === 'zh' ? '设置分区' : undefined}
             notificationsLive={notificationsLive}
             notificationsLiveLabel={copy.notifications.srLive}
             notificationsSoonLabel={copy.notifications.srSoon}

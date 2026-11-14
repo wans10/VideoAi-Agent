@@ -17,6 +17,7 @@ import { ModelTipsSection } from './ModelTipsSection';
 
 type ModelPageContentSectionsProps = {
   isDecision: boolean;
+  locale?: string;
   tocProps: ComponentProps<typeof ModelPageToc>;
   specsProps: ComponentProps<typeof ModelSpecsSection>;
   pricingCallout: ComponentProps<typeof ModelPricingCallout>['callout'] | null;
@@ -33,6 +34,7 @@ type ModelPageContentSectionsProps = {
 
 export function ModelPageContentSections({
   isDecision,
+  locale,
   tocProps,
   specsProps,
   pricingCallout,
@@ -47,7 +49,7 @@ export function ModelPageContentSections({
   safetyFaqProps,
 }: ModelPageContentSectionsProps) {
   const variant = isDecision ? 'decision' : 'default';
-  const toc = <ModelPageToc {...tocProps} />;
+  const toc = <ModelPageToc {...tocProps} locale={tocProps.locale ?? locale} />;
   const specs = <ModelSpecsSection {...specsProps} variant={variant} />;
   const examples = <ModelExamplesSection {...examplesProps} variant={variant} />;
   const prompting = <ModelPromptingSection {...promptingProps} variant={variant} />;
@@ -61,7 +63,7 @@ export function ModelPageContentSections({
       <>
         {toc}
         <DeferredMarketingContent>{examples}</DeferredMarketingContent>
-        <DeferredMarketingContent>{decisionCards ? <ModelDecisionCardsSection cards={decisionCards} /> : null}</DeferredMarketingContent>
+        <DeferredMarketingContent>{decisionCards ? <ModelDecisionCardsSection cards={decisionCards} locale={locale} /> : null}</DeferredMarketingContent>
         <DeferredMarketingContent>{prompting}</DeferredMarketingContent>
         <DeferredMarketingContent>{prepLinks}</DeferredMarketingContent>
         <DeferredMarketingContent>{tips}</DeferredMarketingContent>

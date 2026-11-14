@@ -2,6 +2,7 @@ import { CircleHelp, Compass, DollarSign, Film, LayoutList, Lightbulb, SlidersHo
 
 import { UIIcon } from '@/components/ui/UIIcon';
 
+import { modelPageAriaLabel } from '../_lib/model-page-aria-labels';
 import { FULL_BLEED_SECTION } from '../_lib/model-page-specs';
 
 type TocItem = {
@@ -13,6 +14,7 @@ type ModelPageTocProps = {
   items: TocItem[];
   variant?: 'default' | 'pill';
   overviewLabel?: string;
+  locale?: string;
 };
 
 const PILL_ICON_MAP = {
@@ -28,14 +30,14 @@ const PILL_ICON_MAP = {
   safety: CircleHelp,
 } as const;
 
-export function ModelPageToc({ items, variant = 'default', overviewLabel = 'On this page' }: ModelPageTocProps) {
+export function ModelPageToc({ items, variant = 'default', overviewLabel = 'On this page', locale }: ModelPageTocProps) {
   if (!items.length) return null;
 
   if (variant === 'pill') {
     return (
       <nav
         className={`model-section-nav ${FULL_BLEED_SECTION} sticky top-16 z-30 border-b border-hairline bg-white before:bg-white dark:border-white/10 dark:bg-[#071126] dark:before:bg-[#071126]`}
-        aria-label="Model page sections"
+        aria-label={modelPageAriaLabel('sections', locale)}
       >
         <div className="mx-auto w-full max-w-[1400px] px-3 sm:px-5 lg:px-6">
           <div className="flex flex-wrap items-center justify-center gap-x-1 gap-y-1 py-1.5 sm:gap-2 sm:py-2 lg:flex-nowrap">
@@ -65,7 +67,7 @@ export function ModelPageToc({ items, variant = 'default', overviewLabel = 'On t
   return (
     <nav
       className={`model-section-nav ${FULL_BLEED_SECTION} sticky top-16 z-30 border-b border-hairline bg-surface before:bg-surface`}
-      aria-label="Model page sections"
+      aria-label={modelPageAriaLabel('sections', locale)}
     >
       <div className="mx-auto w-full max-w-6xl px-6 sm:px-8">
         <div className="flex flex-wrap justify-center gap-2 py-2">
