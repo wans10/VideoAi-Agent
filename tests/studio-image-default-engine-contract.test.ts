@@ -35,7 +35,7 @@ test("no admin-tier or hidden engine id is hard-coded in the Studio server code"
 test("the Studio image conversation has a single engine resolver", () => {
   const service = readFileSync("frontend/src/server/studio/image-conversation-service.ts", "utf8");
   const request = readFileSync("frontend/src/server/studio/conversation-image-request.ts", "utf8");
-  assert.match(service, /resolveStudioImageEngine/);
+  assert.match(service, /STUDIO_IMAGE_ENGINE_ORDER\[0\]/);
   assert.doesNotMatch(service, /engineId:\s*["']/);
   assert.match(request, /STUDIO_IMAGE_ENGINE_ORDER = \['seedream-5-0-pro', 'seedream-5-0-flash', 'qwen-image-3-0-pro'\]/);
 });

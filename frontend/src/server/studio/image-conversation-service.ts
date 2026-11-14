@@ -42,7 +42,7 @@ import {defaultStudioMediaFactories, type StudioMediaFactories} from './conversa
 import {resolveStudioConversationAttachments,type StudioAttachmentFactsDependencies} from './conversation-attachment-facts';
 import {buildStudioGenerationMediaAccess} from './generation-media-access';
 import {projectStudioReply} from '@/lib/studio/conversation-reply';
-import {imageRequestFromDraft,imageReferenceFingerprintFromReview,resolveStudioImageEngine} from './conversation-image-request';
+import {imageRequestFromDraft,imageReferenceFingerprintFromReview,STUDIO_IMAGE_ENGINE_ORDER} from './conversation-image-request';
 export {imageRequestFromDraft,imageReferenceFingerprintFromReview} from './conversation-image-request';
 
 export const imageConfirmationSchema = z
@@ -203,12 +203,12 @@ export function createImageConversationService(
       if (!claimed) return projectTurn(turn);
       try {
         const referenceMode = input.references.length ? "i2i" : "t2i";
-        const referenceEngine = resolveStudioImageEngine(await generation.catalog(), referenceMode);
-        if (!referenceEngine) throw new AgentApiError("ENGINE_UNAVAILABLE", "The Studio image model is unavailable.");
+        // Reference review reads owned asset facts only and ignores the engine, so it needs no
+        // catalogue read; the real engine is resolved once, by resolveStudioImageEngine, at preparation.
         const refs = await generation.resolveReferences({
           schemaVersion: 1,
           surface: "image",
-          engineId: referenceEngine.engine.id,
+          engineId: STUDIO_IMAGE_ENGINE_ORDER[0],
           mode: referenceMode,
           prompt: input.message,
           settings: {},
