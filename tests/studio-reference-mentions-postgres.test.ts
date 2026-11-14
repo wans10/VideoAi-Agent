@@ -37,8 +37,12 @@ test('saved labels survive failed renewal, immutable replay and history without 
     `INSERT INTO media_assets(id,public_id,user_id,kind,url,mime_type,size_bytes,width,height,status,metadata) VALUES($1,$2,$3,'image',$4,'image/png',1024,1024,1024,'ready','{}')`,
     [`asset-${index}`, assetId, index === 2 ? 'foreign' : 'owner', `https://cdn.maxvideoai.com/owned-${index}.png`],
   );
+  // Studio's default image engine is Seedream Pro (resolveStudioImageEngine), so the catalogue must offer it with t2i and i2i.
+  // The GPT Image fixture stays in the catalogue for the tests that pin it explicitly.
+  const seedream = getFalEngineById('seedream-5-0-pro')!;
+  const seedreamEntry = {engine: seedream.engine, surface: 'image' as const, publicModes: ['t2i' as const, 'i2i' as const], modeCaps: Object.fromEntries(seedream.modes.map(mode => [mode.mode, mode.ui]))};
   const engine = getFalEngineById('gpt-image-2-5-flare')!;
-  const catalog = [{ engine: engine.engine, surface: 'image' as const, publicModes: ['t2i' as const, 'i2i' as const], modeCaps: Object.fromEntries(engine.modes.map(mode => [mode.mode, mode.ui])) }];
+  const catalog = [seedreamEntry,{ engine: engine.engine, surface: 'image' as const, publicModes: ['t2i' as const, 'i2i' as const], modeCaps: Object.fromEntries(engine.modes.map(mode => [mode.mode, mode.ui])) }];
   const factory: ImageGenerationFactory = (actor, options) => createStudioImageGenerationService(actor, { ...options,
     prepareDependencies: { listPublicEngines: async () => catalog, resolveRequestExecutability: () => ({ executable: true, reason: 'available' }) },
   });

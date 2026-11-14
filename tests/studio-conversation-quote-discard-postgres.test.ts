@@ -145,8 +145,12 @@ test('a natural cancellation uses the explicit tool, survives a lost reply and m
   for (const name of ['42_studio_connected_montages.sql','50_studio_image_conversation.sql','51_studio_image_model_usage.sql','52_studio_conversation_runs.sql']) await pg.pool.query(readFileSync('neon/migrations/'+name,'utf8'));
   await pg.pool.query("INSERT INTO studio_projects(id,user_id,name) VALUES ('film','owner','Film')");
   const actor = {authMethod: 'studio-session' as const,userId: 'owner',projectId: 'film',clientId: null};
+  // Studio's default image engine is Seedream Pro (resolveStudioImageEngine), so the catalogue must offer it with t2i and i2i.
+  // The GPT Image fixture stays in the catalogue for the tests that pin it explicitly.
+  const seedream = getFalEngineById('seedream-5-0-pro')!;
+  const seedreamEntry = {engine: seedream.engine, surface: 'image' as const, publicModes: ['t2i' as const, 'i2i' as const], modeCaps: Object.fromEntries(seedream.modes.map(mode => [mode.mode, mode.ui]))};
   const engine = getFalEngineById('gpt-image-2-5-flare')!;
-  const catalog = [{engine: engine.engine,surface: 'image' as const,publicModes: ['t2i' as const],modeCaps: Object.fromEntries(engine.modes.map(mode => [mode.mode,mode.ui]))}];
+  const catalog = [seedreamEntry,{engine: engine.engine,surface: 'image' as const,publicModes: ['t2i' as const],modeCaps: Object.fromEntries(engine.modes.map(mode => [mode.mode,mode.ui]))}];
   const factory: ImageGenerationFactory = (scopedActor,options) => createStudioImageGenerationService(scopedActor,{...options,prepareDependencies: {listPublicEngines: async () => catalog,resolveRequestExecutability: () => ({executable: true,reason: 'available'})}});
   const original = createImageConversationService(actor,{enabled: true,generationFactory: factory,director: async () => ({reply: 'Review the image quote.',image: {prompt: 'Warm cinematic folded paper',aspectRatio: '16:9'}})});
   const quoted = await original.submit({requestId: randomUUID(),message: 'Make one image. You choose.',references: []});

@@ -55,8 +55,8 @@ export async function POST(req: NextRequest) {
       { status: 401 }
     );
   }
-  // Both quality modes run Nano Banana 2.1, an admin-tier engine (owner decision C, 2026-11-14). Ordinary accounts get
-  // no usable Character Builder engine, so the route refuses them before any reservation or charge.
+  // Draft and final run on the public Seedream Flash and Pro engines. The access gate still refuses the request
+  // before any reservation or charge when the resolved engine is not offered to this account.
   const qualityEngineId = getQualityEngineId(body?.qualityMode ?? 'draft');
   if (await isKeyvoEngineRefusedForRequest(qualityEngineId, req)) {
     return NextResponse.json(

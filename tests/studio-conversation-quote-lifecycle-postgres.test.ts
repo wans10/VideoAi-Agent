@@ -27,8 +27,12 @@ test('conversation quote lifetime follows creation intent, not every message', a
     await pg.pool.query(readFileSync('neon/migrations/' + name,'utf8'));
   await addTopup(pg.pool,'owner',10000);
   t.afterEach(async () => {await pg.pool.query("UPDATE studio_image_turns SET state='failed' WHERE state='thinking'");});
+  // Studio's default image engine is Seedream Pro (resolveStudioImageEngine), so the catalogue must offer it with t2i and i2i.
+  // The GPT Image fixture stays in the catalogue for the tests that pin it explicitly.
+  const seedream = getFalEngineById('seedream-5-0-pro')!;
+  const seedreamEntry = {engine: seedream.engine, surface: 'image' as const, publicModes: ['t2i' as const, 'i2i' as const], modeCaps: Object.fromEntries(seedream.modes.map(mode => [mode.mode, mode.ui]))};
   const engine = getFalEngineById('gpt-image-2-5-flare')!;
-  const catalog = [{engine:engine.engine,surface:'image' as const,publicModes:['t2i' as const],modeCaps:Object.fromEntries(engine.modes.map(mode => [mode.mode,mode.ui]))}];
+  const catalog = [seedreamEntry,{engine:engine.engine,surface:'image' as const,publicModes:['t2i' as const],modeCaps:Object.fromEntries(engine.modes.map(mode => [mode.mode,mode.ui]))}];
   const provider = new ProviderHarness(pg.pool);
   const factory: ImageGenerationFactory = (actor,options) => createStudioImageGenerationService(actor,{...options,
     prepareDependencies:{listPublicEngines:async () => catalog,resolveRequestExecutability:() => ({executable:true,reason:'available'})},

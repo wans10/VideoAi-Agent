@@ -45,7 +45,16 @@ test("Studio image wallet insufficiency, retry, repeat confirmation, expiry, and
 
   const entry = getFalEngineById("gpt-image-2-5-flare");
   assert.ok(entry);
+  // Studio's default image engine is Seedream Pro (resolveStudioImageEngine): offer it with t2i/i2i; the GPT Image entry stays for explicit pins.
+  const seedream = getFalEngineById("seedream-5-0-pro");
+  assert.ok(seedream);
   const catalog: AgentPublicGenerationEngine[] = [
+    {
+      engine: seedream.engine,
+      surface: "image",
+      publicModes: ["t2i", "i2i"],
+      modeCaps: Object.fromEntries(seedream.modes.map((mode) => [mode.mode, mode.ui])),
+    },
     {
       engine: entry.engine,
       surface: "image",
