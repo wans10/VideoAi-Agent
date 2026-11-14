@@ -119,7 +119,7 @@ export function CharacterBuilderResultsGallery({
           findChoiceLabel(qualityLabelOptions, result.qualityMode) ?? copy.options.quality.draft.label;
         const resultFormatLabel = getFormatDisplayLabel(
           copy,
-          run?.formatMode ?? 'standard',
+          run?.formatMode ?? '2k',
           result.qualityMode,
         );
         const subtitle = `${resultOutputLabel} · ${resultQualityLabel} · ${resultFormatLabel}`;

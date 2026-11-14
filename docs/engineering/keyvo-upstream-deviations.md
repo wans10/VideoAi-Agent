@@ -204,21 +204,39 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
   `passwordSignin.newUser` are retired. Guards: `tests/login-phone-auth.test.ts`, `tests/login-phone-tabs-contract.test.ts`.
   The email-era tab bar (flag off) is unchanged.
 
-## Character Builder price in CNY and the Nano Banana 2.1 tariff gate (2026-11-13)
+## Character Builder on Seedream, priced in CNY (2026-11-14)
 
-- **Engine id is correct.** Both Character Studio quality modes (`draft`, `final`) price on `nano-banana-2-1`
-  (`frontend/src/lib/character-builder.ts`, `getQualityEngineId`). It is not a suffix bug.
-- **Why the production estimate returns 500 `pricing_error`:** `server/pricing/quote-billing.ts` forces Nano 2.1 onto the
-  native customer-tariff path (`requiresNano21Tariff`). That path needs `app_customer_tariff_state.active`, which Keyvo keeps
-  off (see the cutover section above). With the state inactive the quote throws "An active reviewed Nano Banana 2.1 customer
-  tariff is required.", so no price is ever shown. The reviewed Nano 2.1 cells in `frontend/config/customer-tariffs.json` take
-  effect only with that state active. Activating
-  the state or changing the gate is an owner decision, not a code fix. Guard: `tests/character-builder-nano21-gate.test.ts`.
-- **CNY in the Character Builder:** the workspace hook and the dock assumed USD (`payload.pricing.currency !== 'USD'`, `$` text),
-  so a CNY customer snapshot could never display. `_lib/character-builder-price.ts` now accepts the Keyvo CNY snapshot, converts
-  it back through `meta.customerCurrencyConversion` (refusing inconsistent totals), keeps the tariff revision requirement, and the
-  dock formats through `formatCustomerUsdAmount`. Guard: `tests/character-builder-price-currency.test.ts`. Still USD-only in the
-  Character Studio recast estimate route and `recast-submit.ts` (`quote.currency !== 'USD'`); not changed here.
+- **Upstream:** Character Studio draft and final run on Nano Banana 2.1 (1K/2K/4K), which needs an active reviewed customer tariff.
+- **Keyvo:** Keyvo keeps `app_customer_tariff_state` inactive on purpose, so Nano Banana 2.1 cannot be quoted and the builder
+  returned 500 `pricing_error`. The builder now runs on Volcengine Seedream on the official-list rule path
+  (`src/lib/official-list-pricing.ts`), which needs no tariff. The tariff gate is not changed; Nano 2.1 stays gated.
+  - **Standard (draft)** = `seedream-5-0-flash`: ¥0.08 per image (official ¥0.12 x 0.8), input images free.
+  - **Pro (final)** = `seedream-5-0-pro`: ¥0.48 per image (official ¥0.60 x 0.8); the first input image is free and each further
+    input image is ¥0.02 official (about ¥0.016 customer; the rounding of the whole total can make it one ¥0.08 step).
+  - Both render **2K only** (1K and 4K are not offered for characters). The format picker shows one 2K option.
+  - Aspect: Seedream has no 4:5, so the portrait ratio renders as 3:4 (`getCharacterEngineAspectRatio`). Every other ratio the builder
+    uses (3:2, 2:3, 16:9, 4:5 to 3:4) is accepted by both engines.
+  - Inputs: up to 4 reference images per request (`CHARACTER_BUILDER_MAX_INPUT_IMAGES`), well under Seedream's 10. Prompts name
+    each reference by its position in the request ("input image 1 (the uploaded identity reference image)").
+  - Watermark stays off (`watermark: false` in the Seedream payload).
+- **Estimate and generation:** `useCharacterBuilderPrice` quotes the engine of the selected mode. A rule-priced snapshot has no
+  tariff revision: `readCharacterBuilderEstimate` returns `revision: null` and no revision header is sent. A manual-tariff
+  snapshot still needs its revision. The server quotes its own current price at generation time, as for other rule-priced
+  image surfaces.
+- **Pricing rows:** the pricing hub's Character rows quote Standard on each engine at 2K; the Pro column shows a dash because
+  there is no higher size. The legacy fixed products `character-draft` / `character-final` keep their keys and stored prices
+  (the builder does not charge them); the inventory row now describes Seedream at 2K.
+- **Guards:** `tests/character-builder-domestic-engines.test.ts` (engines, 2K, aspect mapping, reference count, payload size,
+  prompt positions, CNY price table, no Nano 2.1 left in the builder source), `tests/character-builder-nano21-gate.test.ts` (Nano 2.1
+  still refuses without a tariff), `tests/character-studio-seedream-price-postgres.test.ts` (estimate = reserved receipt = hub row).
+- **Not verified here:** image quality of Seedream for character sheets (no provider calls were made). Try Pro at 2K with
+  the sheet layout first; if the sheet panels are cramped at 3:2, try the 16:9 close-up layout before changing engines.
+- **Recast (not changed):** the Character Studio Recast estimate route (`app/api/tools/character-studio/recast/estimate/route.ts`),
+  its timing display (`_components/CharacterStudioRecastTiming.client.tsx`) and `_lib/recast-submit.ts` still refuse any quote whose
+  `currency` is not `'USD'`. Keyvo quotes Recast in CNY, so they show no estimate. The submit check is on a financial quote, so it
+  is left for a separate change that fixes all three together.
+- **CNY snapshot reader:** `_lib/character-builder-price.ts` accepts the Keyvo CNY snapshot and converts it back through
+  `meta.customerCurrencyConversion` (refusing inconsistent totals). Guard: `tests/character-builder-price-currency.test.ts`.
 
 ## Chinese workspace copy coverage (2026-11-13)
 

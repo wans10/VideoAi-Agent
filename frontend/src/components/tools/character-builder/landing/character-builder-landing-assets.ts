@@ -30,12 +30,12 @@ export const WORKFLOW_CHARACTER_SHEET_ASSET = {
 } as const;
 export const WORKFLOW_NANO_BANANA_ASSET = {
   url: 'https://media.maxvideoai.com/marketing/marketing/ca5357cf-ec09-4327-bc18-03eeff7e7a66.jpg',
-  alt: 'Nano Banana still created from the same character sheet reference.',
+  alt: 'Still image created from the same character sheet reference.',
 } as const;
 export const WORKFLOW_VIDEO_START_FRAME_ASSET = {
   videoUrl: 'https://media.maxvideoai.com/renders/marketing/5816f421-1b4f-456b-aa53-229fa6742cbd.mp4',
   url: 'https://media.maxvideoai.com/renders/301cc489-d689-477f-94c4-0b051deda0bc/355c847c-7866-43b9-af28-85d6a64dfec8.jpg',
-  alt: 'Video start frame generated from the Nano Banana still and the same character identity.',
+  alt: 'Video start frame generated from the character still and the same character identity.',
 } as const;
 export const COMICS_PREVIZ_USE_CASE_ASSET = {
   url: 'https://media.maxvideoai.com/marketing/marketing/27e8772d-6705-47d8-925f-4652230d1ba2.png',

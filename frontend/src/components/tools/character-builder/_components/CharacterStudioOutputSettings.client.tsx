@@ -2,7 +2,7 @@
 import { useId, type Dispatch, type SetStateAction } from 'react';
 import Image from 'next/image';
 import { Check } from 'lucide-react';
-import { getCharacterFormatResolution, normalizeCharacterFormatMode } from '@/lib/character-builder';
+import { getAvailableCharacterFormatOptions, getCharacterFormatResolution, normalizeCharacterFormatMode } from '@/lib/character-builder';
 import type { CharacterBuilderState } from '@/types/character-builder';
 import type { CharacterCopy } from '../_lib/character-builder-copy';
 import type { StudioCopy } from '../_lib/character-studio-copy';
@@ -97,23 +97,23 @@ export function CharacterStudioOutputSettings({
       <fieldset className="flex items-center gap-3">
         <legend className="sr-only">{copy.generatePanel.format}</legend>
         <span aria-hidden="true" className="shrink-0 text-xs font-medium text-text-primary">{copy.generatePanel.format}</span>
-        <div className="grid flex-1 grid-cols-3 gap-1 rounded-lg bg-bg p-1">
-          {(['1k', '2k', '4k'] as const).map((format) => (
-            <label key={format} className="cursor-pointer">
+        {/* Only the size the Seedream engines render is offered, so the picker never shows 1K or 4K. */}
+        <div className="grid flex-1 grid-cols-1 gap-1 rounded-lg bg-bg p-1">
+          {getAvailableCharacterFormatOptions(state.qualityMode).map((option) => (
+            <label key={option.id} className="cursor-pointer">
               <input
                 type="radio"
                 name={`${id}-format`}
-                value={format}
-                checked={resolution === format}
+                value={option.id}
+                checked={resolution === option.resolution}
                 className="peer sr-only"
                 onChange={() => setState((previous) => ({
                   ...previous,
-                  qualityMode: 'draft',
-                  formatMode: normalizeCharacterFormatMode(format === '1k' ? 'standard' : format, 'draft'),
+                  formatMode: normalizeCharacterFormatMode(option.id, previous.qualityMode),
                 }))}
               />
               <span className="flex min-h-8 items-center justify-center rounded-md border border-transparent text-xs font-medium text-text-secondary transition-colors hover:text-text-primary peer-checked:border-border peer-checked:bg-surface peer-checked:text-text-primary peer-checked:shadow-sm peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-brand">
-                {format.toUpperCase()}
+                {option.label}
               </span>
             </label>
           ))}

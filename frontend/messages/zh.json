@@ -5442,25 +5442,17 @@
         "quality": {
           "draft": {
             "label": "标准",
-            "description": "基于 Nano Banana 2 进行快速探索性生成。"
+            "description": "基于 Seedream 5.0 Flash 进行快速探索性生成。"
           },
           "final": {
             "label": "专业级 (Pro)",
-            "description": "基于 Nano Banana Pro 生成导出级精细参考图。"
+            "description": "基于 Seedream 5.0 Pro 生成导出级精细参考图。"
           }
         },
         "format": {
-          "standard": {
-            "label": "1K",
-            "description": "基础渲染尺寸。"
-          },
           "2k": {
             "label": "2K",
-            "description": "更清晰的画面，2 倍积分价格。"
-          },
-          "4k": {
-            "label": "4K",
-            "description": "终稿级极清画面，3 倍积分价格。"
+            "description": "豆包 Seedream 模型可输出的最高尺寸；角色生成不提供 1K 与 4K。"
           }
         }
       },

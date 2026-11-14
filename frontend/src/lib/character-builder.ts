@@ -1,4 +1,3 @@
-import { NANO21_ENGINE_ID } from './nano-banana-2-1';
 import { STUDIO_CLOTHING, STUDIO_HAIR } from './character-studio-catalog';
 import { getStudioColorPrompt } from './character-studio-colors';
 import type {
@@ -28,6 +27,26 @@ function traitValue<T extends string>(value: T | 'auto' | null, source: 'auto' |
 export const CHARACTER_BUILDER_STORAGE_KEY = 'maxvideoai.character-builder.v1';
 export const CHARACTER_BUILDER_STORAGE_VERSION = 1;
 export const CHARACTER_BUILDER_MAX_REFERENCE_IMAGES = 2;
+/** The selected result, the pinned reference and up to two references: the most the builder sends to a model. */
+export const CHARACTER_BUILDER_MAX_INPUT_IMAGES = 4;
+
+/**
+ * Keyvo runs the builder on Volcengine Seedream 5.0 (customer price = 80% of the official CNY list). The former
+ * Google image engine is not used: it needs an active reviewed customer tariff, which Keyvo keeps inactive on purpose.
+ * Both Seedream variants render 2K only, one image per request, up to 10 reference images.
+ */
+export const CHARACTER_DRAFT_ENGINE_ID = 'seedream-5-0-flash';
+export const CHARACTER_FINAL_ENGINE_ID = 'seedream-5-0-pro';
+export const CHARACTER_BUILDER_RESOLUTION = '2k';
+
+/**
+ * Aspect ratios the builder uses that a Seedream engine does not accept, with the closest accepted one. Seedream has
+ * no 4:5, so the portrait ratio renders as 3:4 (the closest portrait ratio it accepts).
+ */
+const CHARACTER_ENGINE_ASPECT_RATIO_MAP: Readonly<Record<string, Readonly<Record<string, string>>>> = {
+  [CHARACTER_DRAFT_ENGINE_ID]: { '4:5': '3:4' },
+  [CHARACTER_FINAL_ENGINE_ID]: { '4:5': '3:4' },
+};
 
 export const CHARACTER_OUTPUT_OPTIONS: Array<{ id: CharacterBuilderOutputMode; label: string; description: string }> = [
   {
@@ -95,40 +114,28 @@ export const CHARACTER_QUALITY_OPTIONS: Array<{
   {
     id: 'draft',
     label: 'Standard',
-    description: 'Fast exploratory passes on Nano Banana 2.1.',
-    engineId: NANO21_ENGINE_ID,
+    description: 'Fast exploratory passes on Seedream 5.0 Flash.',
+    engineId: CHARACTER_DRAFT_ENGINE_ID,
   },
   {
     id: 'final',
     label: 'Pro',
-    description: 'Cleaner export-ready references on Nano Banana 2.1.',
-    engineId: NANO21_ENGINE_ID,
+    description: 'Cleaner export-ready references on Seedream 5.0 Pro.',
+    engineId: CHARACTER_FINAL_ENGINE_ID,
   },
 ];
 
 export const CHARACTER_FORMAT_OPTIONS: Array<{
-  id: CharacterBuilderFormatMode;
+  id: Extract<CharacterBuilderFormatMode, '2k'>;
   label: string;
   description: string;
   resolution: string;
 }> = [
   {
-    id: 'standard',
-    label: '1K',
-    description: 'Base render size.',
-    resolution: '1k',
-  },
-  {
     id: '2k',
     label: '2K',
-    description: 'Higher resolution.',
-    resolution: '2k',
-  },
-  {
-    id: '4k',
-    label: '4K',
-    description: 'Final-grade output. 3x price.',
-    resolution: '4k',
+    description: 'The largest size the Seedream models render. 1K and 4K are not offered for characters.',
+    resolution: CHARACTER_BUILDER_RESOLUTION,
   },
 ];
 
@@ -269,7 +276,12 @@ export const CHARACTER_TRAIT_OPTION_MAP = {
 } as const;
 
 export function getQualityEngineId(qualityMode: CharacterBuilderQualityMode): string {
-  return CHARACTER_QUALITY_OPTIONS.find((entry) => entry.id === qualityMode)?.engineId ?? NANO21_ENGINE_ID;
+  return CHARACTER_QUALITY_OPTIONS.find((entry) => entry.id === qualityMode)?.engineId ?? CHARACTER_DRAFT_ENGINE_ID;
+}
+
+/** Maps a builder aspect ratio to one the engine accepts; unmapped ratios pass through unchanged. */
+export function getCharacterEngineAspectRatio(engineId: string, aspectRatio: string): string {
+  return CHARACTER_ENGINE_ASPECT_RATIO_MAP[engineId]?.[aspectRatio] ?? aspectRatio;
 }
 
 export function getDefaultAspectRatio(outputMode: CharacterBuilderOutputMode, action: 'generate' | 'full-body-fix' | 'lighting-variant'): string {
@@ -278,53 +290,38 @@ export function getDefaultAspectRatio(outputMode: CharacterBuilderOutputMode, ac
   return '4:5';
 }
 
-export function getDefaultResolution(qualityMode: CharacterBuilderQualityMode): string {
-  return qualityMode === 'final' ? '2k' : '1k';
+export function getDefaultResolution(_qualityMode: CharacterBuilderQualityMode): string {
+  return CHARACTER_BUILDER_RESOLUTION;
 }
 
+/** Both quality modes render at 2K; the list is kept as a list so the dock keeps one control for every engine. */
 export function getAvailableCharacterFormatOptions(
-  qualityMode: CharacterBuilderQualityMode
+  _qualityMode: CharacterBuilderQualityMode
 ): Array<(typeof CHARACTER_FORMAT_OPTIONS)[number]> {
-  if (qualityMode === 'final') {
-    return CHARACTER_FORMAT_OPTIONS.filter((entry) => entry.id !== '2k');
-  }
   return CHARACTER_FORMAT_OPTIONS;
 }
 
 export function getCharacterFormatResolution(
-  formatMode: CharacterBuilderFormatMode,
-  qualityMode: CharacterBuilderQualityMode
+  _formatMode: CharacterBuilderFormatMode,
+  _qualityMode: CharacterBuilderQualityMode
 ): string {
-  if (qualityMode === 'final') {
-    return formatMode === '4k' ? '4k' : '2k';
-  }
-  if (formatMode === '2k' || formatMode === '4k') {
-    return CHARACTER_FORMAT_OPTIONS.find((entry) => entry.id === formatMode)?.resolution ?? '2k';
-  }
-  return '1k';
+  return CHARACTER_BUILDER_RESOLUTION;
 }
 
+/** Only 2K is sold, so there is no size surcharge. */
 export function getCharacterFormatMultiplier(
-  formatMode: CharacterBuilderFormatMode,
-  qualityMode: CharacterBuilderQualityMode
+  _formatMode: CharacterBuilderFormatMode,
+  _qualityMode: CharacterBuilderQualityMode
 ): number {
-  if (qualityMode === 'final') {
-    return formatMode === '4k' ? 2 : 1;
-  }
-  if (formatMode === '2k') return 2;
-  if (formatMode === '4k') return 3;
   return 1;
 }
 
+/** Saved 1K and 4K choices from earlier builds resolve to the one size the engines render. */
 export function normalizeCharacterFormatMode(
-  formatMode: CharacterBuilderFormatMode | null | undefined,
-  qualityMode: CharacterBuilderQualityMode
+  _formatMode: CharacterBuilderFormatMode | null | undefined,
+  _qualityMode: CharacterBuilderQualityMode
 ): CharacterBuilderFormatMode {
-  if (qualityMode === 'final' && formatMode === '2k') {
-    return 'standard';
-  }
-  if (formatMode === '2k' || formatMode === '4k') return formatMode;
-  return 'standard';
+  return '2k';
 }
 
 export function createDefaultTraits(sourceMode: CharacterBuilderSourceMode = 'scratch'): CharacterBuilderTraits {
@@ -393,7 +390,7 @@ export function createDefaultCharacterBuilderState(
     consistencyMode: 'balanced',
     referenceStrength: sourceMode === 'reference-image' ? 'balanced' : null,
     qualityMode: 'draft',
-    formatMode: 'standard',
+    formatMode: '2k',
     outputOptions: {
       fullBodyRequired: false,
       includeCloseUps: true,

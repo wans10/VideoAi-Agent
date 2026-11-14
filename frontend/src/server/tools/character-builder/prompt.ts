@@ -16,7 +16,7 @@ import {
   hasFlexibleCharacterAnatomy,
   isOutfitEnabled,
 } from './traits';
-import { collectReferenceImages, trimString, uniqueStrings } from './utils';
+import { buildImageUrls, collectReferenceImages, trimString, uniqueStrings } from './utils';
 
 function buildReferenceStrengthBlock(
   referenceStrength: CharacterBuilderReferenceStrength | null,
@@ -49,9 +49,24 @@ function buildConsistencyBlock(
   }
 }
 
-function buildReferenceBlock(input: CharacterBuilderRequest, referenceImages: CharacterBuilderReferenceImage[]): string[] {
+/**
+ * Seedream receives the reference images as an ordered list, so a reference is named by its position in the request
+ * ("input image 2"). The position comes from the same URL list the runner sends.
+ */
+function describeReference(imageUrls: string[], url: string | undefined, fallback: string): string {
+  const index = url ? imageUrls.indexOf(url) : -1;
+  return index >= 0 ? `input image ${index + 1} (${fallback})` : fallback;
+}
+
+function buildReferenceBlock(
+  input: CharacterBuilderRequest,
+  referenceImages: CharacterBuilderReferenceImage[],
+  imageUrls: string[],
+): string[] {
   const identityImages = collectReferenceImages(referenceImages, 'identity');
   const styleImages = collectReferenceImages(referenceImages, 'style');
+  const identityLabel = describeReference(imageUrls, identityImages[0]?.url, 'the uploaded identity reference image');
+  const styleLabel = describeReference(imageUrls, styleImages[0]?.url, 'the secondary reference image');
   const blocks: string[] = [];
   if (input.characterId) {
     blocks.push(
@@ -61,7 +76,7 @@ function buildReferenceBlock(input: CharacterBuilderRequest, referenceImages: Ch
 
   if (identityImages.length) {
     blocks.push(
-      `Treat the uploaded identity reference image as the primary anchor for ${buildAnchorParts(input.traits)} and recognizable identity cues.`
+      `Treat ${identityLabel} as the primary anchor for ${buildAnchorParts(input.traits)} and recognizable identity cues.`
     );
     blocks.push(buildReferenceStrengthBlock(input.referenceStrength ?? 'balanced', input.traits));
   }
@@ -69,8 +84,8 @@ function buildReferenceBlock(input: CharacterBuilderRequest, referenceImages: Ch
   if (styleImages.length) {
     blocks.push(
       isOutfitEnabled(input.traits)
-        ? 'Use any secondary reference image only for outfit, palette, or styling inspiration. Do not replace the core identity with it.'
-        : 'Use any secondary reference image only for palette or overall art direction. Do not replace the core identity with it.'
+        ? `Use ${styleLabel} only for outfit, palette, or styling inspiration. Do not replace the core identity with it.`
+        : `Use ${styleLabel} only for palette or overall art direction. Do not replace the core identity with it.`
     );
   }
 
@@ -201,13 +216,13 @@ function buildDetailLockBlock(input: CharacterBuilderRequest): string[] {
   return blocks;
 }
 
-export function buildPrompt(input: CharacterBuilderRequest): string {
+export function buildPrompt(input: CharacterBuilderRequest, imageUrls: string[] = buildImageUrls(input)): string {
   const referenceImages = input.referenceImages.filter((image) => /^https?:\/\//i.test(image.url));
   const sections: string[] = [
     'Create a reusable AI character reference asset as a single still image output. Do not imply motion, timeline editing, or video generation.',
   ];
   const traitPrompt = buildTraitPrompt(input.traits);
-  const referenceBlock = buildReferenceBlock(input, referenceImages);
+  const referenceBlock = buildReferenceBlock(input, referenceImages, imageUrls);
   const layoutBlock = buildLayoutBlock(input);
   const outputBlock = buildOutputOptionBlock(input);
   const detailLockBlock = buildDetailLockBlock(input);

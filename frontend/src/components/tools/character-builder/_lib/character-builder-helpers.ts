@@ -6,6 +6,7 @@ import { prepareImageFileForUpload } from '@/lib/client-image-upload';
 import {
   CHARACTER_BUILDER_MAX_REFERENCE_IMAGES,
   CHARACTER_BUILDER_STORAGE_KEY,
+  CHARACTER_FINAL_ENGINE_ID,
   CHARACTER_BUILDER_STORAGE_VERSION,
   createDefaultCharacterBuilderState,
   getQualityEngineId,
@@ -95,12 +96,11 @@ export function getResultActionLabel(copy: CharacterCopy, action: CharacterBuild
 
 export function getFormatDisplayLabel(
   copy: CharacterCopy,
-  formatMode: CharacterBuilderFormatMode,
-  qualityMode: CharacterBuilderState['qualityMode']
+  _formatMode: CharacterBuilderFormatMode,
+  _qualityMode: CharacterBuilderState['qualityMode']
 ): string {
-  if (formatMode === '4k') return copy.options.format['4k'].label;
-  if (formatMode === '2k') return copy.options.format['2k'].label;
-  return qualityMode === 'final' ? '2K' : '1K';
+  // Every quality mode renders at the one size the Seedream engines offer.
+  return copy.options.format['2k'].label;
 }
 
 
@@ -250,7 +250,7 @@ export function getFlattenedResults(runs: CharacterBuilderRun[]): CharacterBuild
 }
 
 export function getCharacterEngineLabel(qualityMode: CharacterBuilderRun['qualityMode']): string {
-  return getQualityEngineId(qualityMode) === 'nano-banana-2-1' ? 'Nano Banana 2.1' : 'Character Studio';
+  return getQualityEngineId(qualityMode) === CHARACTER_FINAL_ENGINE_ID ? 'Seedream 5.0 Pro' : 'Seedream 5.0 Flash';
 }
 
 export function buildRecoveredRunFromJob(

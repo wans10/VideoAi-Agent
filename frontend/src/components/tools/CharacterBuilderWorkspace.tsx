@@ -20,7 +20,7 @@ import type { User } from '@supabase/supabase-js';
 import { type MediaLightboxEntry } from '@/components/MediaLightbox';
 import { useCharacterBuilderPrice } from './character-builder/_hooks/useCharacterBuilderPrice';
 import { useI18n } from '@/lib/i18n/I18nProvider';
-import { createDefaultCharacterBuilderState, getCharacterFormatResolution } from '@/lib/character-builder';
+import { createDefaultCharacterBuilderState, getCharacterFormatResolution, getQualityEngineId } from '@/lib/character-builder';
 import { useRequireAuth } from '@/hooks/useRequireAuth';
 import { FEATURES } from '@/content/feature-flags';
 import type { CharacterBuilderState, CharacterBuilderReferenceImage } from '@/types/character-builder';
@@ -219,10 +219,12 @@ function CharacterBuilderAccountWorkspace({
   });
   const resolution = getCharacterFormatResolution(state.formatMode, state.qualityMode);
   const referenceCount = new Set(state.referenceImages.map(image => image.url).filter(Boolean)).size;
-  const { displayedPrice, status: priceStatus, refreshPrice } = useCharacterBuilderPrice(resolution, referenceCount);
+  const { displayedPrice, status: priceStatus, refreshPrice } = useCharacterBuilderPrice(
+    getQualityEngineId(state.qualityMode), resolution, referenceCount,
+  );
   const estimatedImageCostUsd = displayedPrice?.usd ?? null;
   const handleRun = useCharacterBuilderGenerationRunner({
-    tariffRevision: displayedPrice?.revision,
+    tariffRevision: displayedPrice?.revision ?? undefined,
     refreshPrice,
     captureAccountRequest,
     captureDraftRequest,

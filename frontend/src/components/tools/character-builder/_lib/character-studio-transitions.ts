@@ -51,7 +51,7 @@ export function createStudioDraftTransitions({
         const draft = buildStudioLookDraft(previous, character);
         if (!sheet) return draft;
         return {
-          ...draft, outputMode: 'character-sheet', qualityMode: 'draft', formatMode: 'standard',
+          ...draft, outputMode: 'character-sheet', qualityMode: 'draft', formatMode: '2k',
           traits: { ...draft.traits, sceneId: null, customSceneDescription: '' },
           outputOptions: { ...draft.outputOptions, includeCloseUps: false, fullBodyRequired: true, neutralStudioBackground: true },
         };

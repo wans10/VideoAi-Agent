@@ -39,7 +39,8 @@ const workspaceSource = readFileSync(workspacePath, 'utf8');
 test('character builder delegates current-price lifecycle and exposes recovery in its composer', () => {
   const pricing = readFileSync(join(root, 'frontend/src/components/tools/character-builder/_hooks/useCharacterBuilderPrice.ts'), 'utf8');
   const parser = readFileSync(join(root, 'frontend/src/components/tools/character-builder/_lib/character-builder-price.ts'), 'utf8');
-  assert.match(workspaceSource, /useCharacterBuilderPrice\(resolution, referenceCount\)/);
+  // The quote is taken on the engine of the selected quality mode (Seedream Flash or Pro), at the builder's size.
+  assert.match(workspaceSource, /useCharacterBuilderPrice\(\s*getQualityEngineId\(state\.qualityMode\),\s*resolution,\s*referenceCount/);
   assert.doesNotMatch(workspaceSource, /await authFetch\(url/);
   assert.match(workspaceSource, /priceStatus=\{priceStatus\}/);
   assert.match(workspaceSource, /onRetryPrice=/);
