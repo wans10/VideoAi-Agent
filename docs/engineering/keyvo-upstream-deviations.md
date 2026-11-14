@@ -211,3 +211,7 @@ Run `node scripts/report-upstream-deviations.mjs` after merging a new upstream s
 ## Phone sign-up records the Cookie Policy (2026-11-13)
 
 Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorded by the cookie banner, so a new account saw the re-consent prompt immediately. Keyvo's phone sign-up sentence now names all three documents and sends `cookiesAccepted: true` to `/api/legal/consents`, which then also records the `cookies` document at its current version. The email sign-up request is unchanged. Guard: `tests/phone-signup-cookie-consent.test.ts`.
+
+## Subtitles creator tool hidden (2026-11-14)
+
+`subtitles` has `publicReleased: false` in `frontend/src/lib/toolbox/creator-availability.ts`, so the tools index, menus, library/media handoff destinations, marketing pages and sitemap omit it. Its only speech-to-text route is ElevenLabs Scribe v2 on Fal (`frontend/src/server/subtitles/scribe.ts`); Keyvo has no `FAL_KEY` and no mainland ASR adapter exists. Restoring it needs a mainland ASR adapter (Bailian or Volcengine speech) plus a pricing decision. Guard: `tests/keyvo-subtitles-hidden.test.ts`.
