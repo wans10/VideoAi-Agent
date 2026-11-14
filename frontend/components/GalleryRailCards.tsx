@@ -57,7 +57,7 @@ export const GalleryRailCards = memo(function GalleryRailCards({
             eagerPreview={feedType === 'video' && index < backgroundWarmCount}
             warmOnVisible={false}
             showPrice={!group.hero.job?.curated}
-            priceLabel={locale === 'fr' ? 'Coût d’origine' : locale === 'es' ? 'Coste original' : 'Original cost'}
+            priceLabel={locale === 'fr' ? 'Coût d’origine' : locale === 'es' ? 'Coste original' : locale.startsWith('zh') ? '原始费用' : 'Original cost'}
           />
         );
       })}

@@ -220,6 +220,31 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
   `passwordSignin.newUser` are retired. Guards: `tests/login-phone-auth.test.ts`, `tests/login-phone-tabs-contract.test.ts`.
   The email-era tab bar (flag off) is unchanged.
 
+## Character Builder price in CNY and the Nano Banana 2.1 tariff gate (2026-11-13)
+
+- **Engine id is correct.** Both Character Studio quality modes (`draft`, `final`) price on `nano-banana-2-1`
+  (`frontend/src/lib/character-builder.ts`, `getQualityEngineId`). It is not a suffix bug.
+- **Why the production estimate returns 500 `pricing_error`:** `server/pricing/quote-billing.ts` forces Nano 2.1 onto the
+  native customer-tariff path (`requiresNano21Tariff`). That path needs `app_customer_tariff_state.active`, which Keyvo keeps
+  off (see the cutover section above). With the state inactive the quote throws "An active reviewed Nano Banana 2.1 customer
+  tariff is required.", so no price is ever shown. The reviewed Nano 2.1 cells in `frontend/config/customer-tariffs.json` take
+  effect only with that state active. Activating
+  the state or changing the gate is an owner decision, not a code fix. Guard: `tests/character-builder-nano21-gate.test.ts`.
+- **CNY in the Character Builder:** the workspace hook and the dock assumed USD (`payload.pricing.currency !== 'USD'`, `$` text),
+  so a CNY customer snapshot could never display. `_lib/character-builder-price.ts` now accepts the Keyvo CNY snapshot, converts
+  it back through `meta.customerCurrencyConversion` (refusing inconsistent totals), keeps the tariff revision requirement, and the
+  dock formats through `formatCustomerUsdAmount`. Guard: `tests/character-builder-price-currency.test.ts`. Still USD-only in the
+  Character Studio recast estimate route and `recast-submit.ts` (`quote.currency !== 'USD'`); not changed here.
+
+## Chinese workspace copy coverage (2026-11-13)
+
+- Keyvo-visible labels that rendered in English for `zh` now have zh branches: model picker copy (`engine-select/model-picker-copy.ts`,
+  with the CNY estimate note), the picker trigger and aria labels, the picker scenario controls (duration, audio, keep-source-audio),
+  gallery "Original cost", the Milo footer link and pricing link, the Send-to-Milo aria label, the tools catalogue heading (which now
+  uses the existing creator zh copy), the Character Studio copy (`zh` object), its catalogue labels (`ZH_STUDIO_LABELS`, prompts stay
+  English for the model), the presentation and sheet client components, and the `/app/image` and `/app/audio` page titles.
+- Model, brand and provider names stay in English. Example prompts in `/zh/examples` are user-prompt content and stay English.
+
 ## Checking for new deviations after an upstream sync
 
 Run `node scripts/report-upstream-deviations.mjs` after merging a new upstream snapshot. It classifies every file that differs from `origin/MaxVideoAI` by customization (1 zh, 2 LLM Hub Pay, 3 CNY, 4 UI redesign, 5 LLM Hub API, 6 domestic providers, 7 white-label), deploy infrastructure, or documented kept deviation, and lists the paths that are new since `docs/engineering/keyvo-deviation-baseline.tsv`. A new path in `Z no signal` has no sign of belonging to a customization: document it here or restore the upstream file. The classification is heuristic and informational; `--strict` exits non-zero when such paths exist. After reviewing, refresh the baseline with `--write-baseline`.
@@ -349,3 +374,8 @@ Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorde
   use the per-image hub path: the same mismatch exists for GPT Image 2 / 2.5 Flare / Sunburst, Nano Banana / Pro and
   Seedream 5.0 Flash 4-image presets (hub 24/8/8/24/80/4 vs total billing). Those rows are not changed here because the
   owner has not approved moving them (GPT Image 2.5/2.6 prices are pending).
+||||||| 5f7304884
+
+## Subtitles creator tool hidden (2026-11-14)
+
+`subtitles` has `publicReleased: false` in `frontend/src/lib/toolbox/creator-availability.ts`, so the tools index, menus, library/media handoff destinations, marketing pages and sitemap omit it. Its only speech-to-text route is ElevenLabs Scribe v2 on Fal (`frontend/src/server/subtitles/scribe.ts`); Keyvo has no `FAL_KEY` and no mainland ASR adapter exists. Restoring it needs a mainland ASR adapter (Bailian or Volcengine speech) plus a pricing decision. Guard: `tests/keyvo-subtitles-hidden.test.ts`.

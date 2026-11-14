@@ -152,7 +152,7 @@ test('Milo modes preserve model selection, credits, references and explicit cons
     const solSelection=await solSelected,solBody=await solSelection.json();assert.equal(solSelection.status(),200,JSON.stringify(solBody));assert.equal(solBody.result.selectedModel,'gpt-6.1-sol');
     await expect(max).toHaveAttribute('aria-pressed','true');await expect(max).toBeFocused();await expect(picker).toHaveCount(0);
     await message.fill('Help shape this film');
-    const send=page.getByRole('button',{name:'Send to Milo',exact:true});await expect(send).toBeEnabled();
+    const send=page.getByRole('button',{name:siteDefaultLocale==='zh'?'发送给 Milo':'Send to Milo',exact:true});await expect(send).toBeEnabled();
     const posted=page.waitForResponse(response=>response.url().endsWith('/image-conversation')&&response.request().method()==='POST');
     await send.click();const submitted=await posted;assert.equal(submitted.status(),200,JSON.stringify(await submitted.json()));
     const sent=JSON.parse(submitted.request().postData()!);assert.equal(sent.taskBudget.profile,'standard');assert.equal(sent.taskBudget.maxCredits,250);

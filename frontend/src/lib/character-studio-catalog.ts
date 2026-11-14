@@ -1,5 +1,5 @@
 /** Shared authored choice IDs/prompts. Preview images are inspiration, never generation references. */
-export type StudioLocale = 'en' | 'fr' | 'es';
+export type StudioLocale = 'en' | 'fr' | 'es' | 'zh';
 export type StudioLabel = Record<StudioLocale, string>;
 export type StudioChoice = {
   id: string;
@@ -8,10 +8,25 @@ export type StudioChoice = {
   tile: number;
   atlas?: 'identity' | 'creatures';
 };
+// Keyvo's Chinese build keys its labels by the authored English name; prompts stay English for the model.
+const ZH_STUDIO_LABELS: Record<string, string> = {
+  Natural: '自然', Distinctive: '独特', Exaggerated: '夸张', Animal: '动物', Insect: '昆虫', 'Fruit head': '水果头', Alien: '外星人',
+  Feminine: '女性感', Masculine: '男性感', Androgynous: '中性', 'Young adult': '青年', Adult: '成年', Mature: '中年', Senior: '老年',
+  Almond: '杏仁眼', Round: '圆眼', Hooded: '单眼皮', Monolid: '蒙古褶', Upturned: '上扬', Downturned: '下垂',
+  'Wavy bob': '波浪短发', 'Long straight': '长直发', 'Loose curls': '松散卷发', 'Tied back': '束发', 'Short crop': '短寸', Braids: '辫子',
+  Afro: '非洲卷发', 'Buzz cut': '平头', Bald: '光头', Locs: '脏辫', Pixie: '精灵短发', Fringe: '刘海',
+  Casual: '休闲', Streetwear: '街头', Sport: '运动', Business: '商务', Evening: '晚礼', Retro: '复古', Bohemian: '波西米亚', Alternative: '另类',
+  'Blue studio': '蓝色影棚', 'Warm studio': '暖色影棚', 'Architectural studio': '建筑感影棚', 'Softbox studio': '柔光箱影棚',
+  'Colored light': '彩色灯光', 'Monochrome studio': '单色影棚', 'Cozy café': '温馨咖啡馆', 'Living room': '客厅', Kitchen: '厨房',
+  'Shared office': '共享办公室', 'Art studio': '艺术工作室', Gym: '健身房', 'City rooftop': '城市天台', 'Hotel balcony': '酒店阳台',
+  'Street at night': '夜晚街道', 'Town street': '小镇街道', Underpass: '地下通道', 'Historic alley': '历史小巷', 'Sandy beach': '沙滩',
+  'Autumn forest': '秋日森林', 'Forest clearing': '林间空地', Garden: '花园', 'Lake pier': '湖畔码头', Mountains: '山地',
+};
 const label = (en: string, fr: string, es: string): StudioLabel => ({
   en,
   fr,
   es,
+  zh: ZH_STUDIO_LABELS[en] ?? en,
 });
 const choice = (
   id: string,

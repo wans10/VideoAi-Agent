@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import { authFetch } from '@/lib/authFetch';
-import { customerTariffRevision } from '@/lib/customer-tariff-revision';
 import { NANO21_ENGINE_ID } from '@/lib/nano-banana-2-1';
+import { readCharacterBuilderEstimate } from '../_lib/character-builder-price';
 
 export type CharacterPriceStatus = 'loading' | 'error' | 'ready';
 
@@ -16,12 +16,9 @@ export function useCharacterBuilderPrice(resolution: string, referenceCount: num
           method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: controller.signal,
           body: JSON.stringify({ engineId, resolution: size, mode: refs ? 'i2i' : 't2i', referenceImageCount: refs, numImages: 1 }),
         });
-        const payload = await response.json();
-        const cents = payload?.pricing?.totalCents;
-        const revision = customerTariffRevision(payload?.pricing);
-        if (!response.ok || !payload?.ok || payload.pricing.currency !== 'USD' ||
-          !Number.isSafeInteger(cents) || cents < 0 || !revision) throw new Error('PRICE_UNAVAILABLE');
-        return { usd: cents / 100, revision };
+        const estimate = readCharacterBuilderEstimate(await response.json().catch(() => null));
+        if (!response.ok || !estimate) throw new Error('PRICE_UNAVAILABLE');
+        return estimate;
       } finally { clearTimeout(timeout); }
     },
     { keepPreviousData: false, shouldRetryOnError: false },
