@@ -83,9 +83,10 @@ test('video routing prefers configured Alibaba and Vertex over LLM Hub', () => {
   }).kind, 'llmhub_primary');
 });
 
-test('Seedream and Sunburst use their own LLM Hub model IDs', async () => {
+// Keyvo 2026-11-14: Sunburst 2.5 moved to the OpenAI Images API; the legacy gpt-image-2 id stands in on LLM Hub.
+test('Seedream and GPT Image 2 use their own LLM Hub model IDs', async () => {
   const requested: string[] = [];
-  for (const engineId of ['seedream', 'gpt-image-2-5-sunburst']) {
+  for (const engineId of ['seedream', 'gpt-image-2']) {
     await runLlmhubFlareGeneration({
       engineId, effectivePrompt: 'tree', numImages: 1, mode: 't2i', combinedImageUrls: [],
       providerImageSize: 'square', outputFormat: 'png', quality: 'high', background: null,
@@ -98,7 +99,7 @@ test('Seedream and Sunburst use their own LLM Hub model IDs', async () => {
         : { b64_json: readFileSync('tests/fixtures/llmhub-square.png').toString('base64') }] });
     } });
   }
-  assert.deepEqual(requested, ['doubao-seedream-5.0-lite', 'gpt-image-2.5-sunburst']);
+  assert.deepEqual(requested, ['doubao-seedream-5.0-lite', 'gpt-image-2']);
 });
 
 test('Seedream forwards the quoted size, aspect ratio and watermark choice', async () => {

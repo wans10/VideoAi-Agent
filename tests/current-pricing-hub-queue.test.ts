@@ -20,7 +20,9 @@ const flush = () => new Promise<void>((resolve) => setImmediate(resolve));
 // 2026-11-12: MiniMax-H3-Max returns on MiniMax's own API at 480P/768P, so only its native entry-route preset is quoted
 // (its former 1080P presets have no tier): +1.
 // 2026-11-13: Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro went offline (no mainland route) and leave the hub: -9.
-const VIDEO_QUOTES = 72 - 4 - 3 - 1 + 1 - 9;
+// 2026-11-14: the hub is customer-facing, so it follows the owner model allowlist (public tier only; admin-tier engines
+// are absent for ordinary viewers): 11 fewer video inputs than the pre-allowlist Keyvo catalogue.
+const VIDEO_QUOTES = 72 - 4 - 3 - 1 + 1 - 9 - 11;
 const T2I_IMAGE_QUOTES = 7 - 2 + 1;
 const MODEL_QUOTES = VIDEO_QUOTES + T2I_IMAGE_QUOTES;
 const TOTAL_QUOTES = MODEL_QUOTES + 21;
@@ -70,7 +72,7 @@ test('a hub quotes each authored exact input once through at most eight distinct
     assert.deepEqual(new Set(requests.map(key)), new Set(authored.map(key)), 'every exact authored input remains quoted');
     assert.equal(requests.length, new Set(requests.map(key)).size, 'identical matrix inputs share one quote');
     assert.equal(requests.filter((input) => input.mode !== 't2i').length, VIDEO_QUOTES);
-    assert.equal(MODEL_QUOTES, 62);
+    assert.equal(MODEL_QUOTES, 51);
     for (const retired of ['happy-horse-1-0', 'seedream']) {
       assert.equal(requests.some((input) => input.modelId === retired), false, retired);
     }
