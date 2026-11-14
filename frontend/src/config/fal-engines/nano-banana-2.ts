@@ -111,22 +111,23 @@ const NANO_BANANA_2_ENGINE: EngineCaps = {
   },
   pricingDetails: {
     currency: 'USD',
+    // Official Google list (aistudio.google.com/docs/pricing, read 2026-11-14): 0.5K $0.045, 1K $0.067, 2K $0.101, 4K $0.151.
     perSecondCents: {
-      default: 8,
+      default: 6.7,
       byResolution: {
-        '0.5k': 4,
-        '1k': 8,
-        '2k': 12,
-        '4k': 16,
+        '0.5k': 4.5,
+        '1k': 6.7,
+        '2k': 10.1,
+        '4k': 15.1,
       },
     },
     flatCents: {
-      default: 8,
+      default: 6.7,
       byResolution: {
-        '0.5k': 4,
-        '1k': 8,
-        '2k': 12,
-        '4k': 16,
+        '0.5k': 4.5,
+        '1k': 6.7,
+        '2k': 10.1,
+        '4k': 15.1,
       },
     },
     addons: {
@@ -137,12 +138,12 @@ const NANO_BANANA_2_ENGINE: EngineCaps = {
   },
   pricing: {
     unit: 'image',
-    base: 0.08,
+    base: 0.067,
     byResolution: {
-      '0.5k': 0.04,
-      '1k': 0.08,
-      '2k': 0.12,
-      '4k': 0.16,
+      '0.5k': 0.045,
+      '1k': 0.067,
+      '2k': 0.101,
+      '4k': 0.151,
     },
     addons: {
       enable_web_search: {

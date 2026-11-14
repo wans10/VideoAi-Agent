@@ -23,8 +23,12 @@ export function calculateNano21ListImageComponents(input: Nano21ListImageInput, 
   assertNano21Scenario({ ...settings, mode: input.mode, referenceImageCount: input.referenceImageCount,
     outputCount: input.durationSec, aspectRatio: input.aspectRatio });
   const imageTokens = ({ '1K': 1120, '2K': 1680, '4K': 3780 } as const)[settings.imageSize];
+  // Official per-image output list (aistudio.google.com/docs/pricing, read 2026-11-14). The page's 4K figure is $0.113,
+  // which is not exactly 3,780 tokens x $30/M ($0.1134), so the stated per-size price is used. Input reference images
+  // stay at 1,120 image tokens x $1.50/M (the page's standard input rate for text/image/video).
+  const outputListUsd = ({ '1K': 0.0336, '2K': 0.0504, '4K': 0.113 } as const)[settings.imageSize];
   const inputImageTokens = (input.referenceImageCount ?? 0) * 1120;
-  const partialListUsd = (imageTokens * 30 + inputImageTokens * 1.5) / 1_000_000;
+  const partialListUsd = outputListUsd + (inputImageTokens * 1.5) / 1_000_000;
   return {
     partialListUsd,
     meta: {

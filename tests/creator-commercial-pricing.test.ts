@@ -52,7 +52,14 @@ test('creator image prices replace ordinary retail policy and include supplier r
     const creator = await computeCanonicalCreatorBillingSnapshot('product-photo-editor', context, { pricingPolicy });
     const ordinaryAfter = await computeCanonicalBillingSnapshot(context, deps);
     assert.deepEqual(ordinaryAfter, ordinaryBefore);
-    assert.equal(ordinaryAfter.margin.percentApplied, 4);
+    // Keyvo owner 2026-11-14: Nano Banana 2 sells at 100% of the official list (official-list-100, zero margin), so its
+    // ordinary policy no longer carries a retail margin. The creator uplift below is unchanged.
+    if (engineId === 'nano-banana-2') {
+      assert.equal(ordinaryAfter.margin.percentApplied, 0);
+      assert.equal((ordinaryAfter.meta?.pricingPolicy as { compatibilityProfile?: string } | undefined)?.compatibilityProfile, 'official-list-100');
+    } else {
+      assert.equal(ordinaryAfter.margin.percentApplied, 4);
+    }
     assert.equal(ordinaryAfter.meta?.creatorPricingPolicy, undefined);
     assert.equal(creator.margin.percentApplied, 1.2);
     assert.equal(creator.margin.flatCents, 0);

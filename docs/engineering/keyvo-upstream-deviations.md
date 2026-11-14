@@ -294,3 +294,46 @@ Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorde
   true/1 opening for every admin-tier id, non-opening for unlisted and hidden ids, the direct-API refusal path without
   a session lookup, and a child-process projection check that the model page is unpublished by default and published
   when the value is `true`.
+
+## Official-list-100 price rule for Nano Banana engines (2026-11-14)
+
+- **Owner decision:** Nano Banana 2 (`nano-banana-2`, `gemini-3.1-flash-image`), Nano Banana Lite
+  (`nano-banana-lite`, `gemini-3.1-flash-lite-image`) and Nano Banana 2.1 (`nano-banana-2-1`,
+  `gemini-nano-banana-2.1`) are sold at 100% of the official USD list, converted at 8 CNY/USD. No discount, no margin.
+  The owner confirmed Gemini API (AI Studio) prices equal Vertex prices.
+- **Source:** https://aistudio.google.com/docs/pricing (the `ai.google.dev` URL redirects there), read 2026-11-14.
+  Image output list prices as stated on that page:
+
+  | Engine | 0.5K | 1K | 2K | 4K | Input (text/image/video, standard) |
+  |---|---|---|---|---|---|
+  | Nano Banana 2 (`gemini-3.1-flash-image`) | $0.045 | $0.067 | $0.101 | $0.151 | $0.50 per 1M tokens |
+  | Nano Banana Lite (`gemini-3.1-flash-lite-image`) | not listed | $0.0336 | not listed | not listed | $0.25 per 1M tokens |
+  | Nano Banana 2.1 (`gemini-nano-banana-2.1`) | not listed | $0.0336 | $0.0504 | $0.113 | $1.50 per 1M tokens |
+
+  CNY per image at 8 CNY/USD, before rounding: Nano Banana 2 0.5K 0.36, 1K 0.536, 2K 0.808, 4K 1.208; Lite 1K 0.2688;
+  2.1 1K 0.2688, 2K 0.4032, 4K 0.904. Batch prices on the page are not used.
+- **Mechanism:** `official-list-100` in `frontend/config/pricing-policy.json` is `official-list-80` with
+  `marginPercentOverride: 0`. `resolveOfficialListCompatibilityProfile` in `frontend/src/lib/official-list-pricing.ts`
+  selects it for these three engines (`OFFICIAL_LIST_100_PRICED_ENGINE_IDS`) in place of the 80 profile. The database
+  engine rule (admin policy editor) still wins over the versioned profile, as for every official-list engine.
+- **Supplier facts:** `frontend/src/config/fal-engines/nano-banana-2.ts` and `nano-banana-lite.ts` now hold the official
+  per-size USD prices (they were fal-era values such as 0.04 / 0.08 / 0.12 / 0.16). Nano Banana 2.1 keeps its token model
+  in `nano-banana-2-1-pricing.ts`, but its output part is the page's stated per-size price (4K $0.113). The page's own
+  token count (3,780 x $30/M = $0.1134) differs by $0.0004, and the stated price was used.
+- **Kept as they were (page gives no figure):** input reference images (Nano Banana 2.1 keeps 1,120 image tokens per
+  reference at $1.50/M, the existing assumption; Nano Banana 2 and Lite keep their existing handling and the page gives
+  no per-image token count); web-search add-on (1.5 cents, not on the page); the batch tier; the 1-cent CNY floor, which
+  this change did not re-verify.
+- **Not changed by design:** the Nano Banana 2.1 native customer-tariff gate (`requiresNano21Tariff` in
+  `frontend/server/pricing/quote-billing.ts`). The 100 profile does not remove the need for an active tariff, so the gate
+  stays. Keyvo keeps the tariff state inactive.
+- **Stale customer copy:** `nano-banana-2.ts` billing notes still say "starts at $0.06 for 0.5K ... $0.21 for 4K" (fal
+  display prices). They are text, not computed; updating them is a copy change not made here.
+- **Awaiting owner prices (existing rules untouched):** Gemini Omni Flash 1.2 (the page lists per-second video prices,
+  so the owner must confirm the unit), Veo 3.1, Veo 3.1 Fast and Veo 3.1 Lite, GPT Image 2.5 and GPT Image 2.6 (Sunburst
+  and Flare).
+- **Not done here:** the governed baseline transition (new dated fixture, `approved-changes.ts`, `pricing:public-baseline`
+  and `pricing:audit` runs). The engines' prices changed, so that transition is still required before merge.
+- **Tests:** `tests/keyvo-official-list-100-pricing.test.ts` (profile, selection, facts and the 2.1 partial list);
+  `tests/creator-commercial-pricing.test.ts` and `tests/image-estimate-service.test.ts` updated to the new ordinary
+  margin (Nano Banana 2 margin 0) and the Lite total (13 cents for four images).

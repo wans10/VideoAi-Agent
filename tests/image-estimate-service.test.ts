@@ -217,7 +217,8 @@ test('transport-neutral estimate clamps ordinary text-to-image output count', as
   assert.equal(result.normalized.numImages, 4);
   assert.equal(result.normalized.aspectRatio, '16:9');
   assert.equal(result.pricing.currency, 'USD');
-  assert.equal(result.pricing.totalCents, 16);
+  // Keyvo owner 2026-11-14: Nano Banana Lite is 1K $0.0336 list at 100% (no margin). 4 x 3.36 = 13.44 cents -> 13.
+  assert.equal(result.pricing.totalCents, 13);
 });
 
 test('transport-neutral estimate preserves image-to-image reference count and auto-size behavior', async () => {

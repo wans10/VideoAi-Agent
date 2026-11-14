@@ -15,6 +15,18 @@
 export const OFFICIAL_LIST_PRICE_PROFILE_ID = 'official-list-80';
 export const OFFICIAL_LIST_CUSTOMER_PRICE_FACTOR = 0.8;
 
+/**
+ * Owner decision 2026-11-14: Google's Nano Banana engines are sold at 100% of the official USD list (Gemini API
+ * prices equal Vertex prices), converted at 8 CNY/USD with no discount and no margin. `official-list-100` is the same
+ * profile as `official-list-80` with `marginPercentOverride: 0`. Source: aistudio.google.com/docs/pricing, read 2026-11-14.
+ */
+export const OFFICIAL_LIST_100_PRICE_PROFILE_ID = 'official-list-100';
+export const OFFICIAL_LIST_100_PRICED_ENGINE_IDS: ReadonlySet<string> = new Set([
+  'nano-banana-2',
+  'nano-banana-lite',
+  'nano-banana-2-1',
+]);
+
 export const OFFICIAL_LIST_PRICED_ENGINE_IDS: ReadonlySet<string> = new Set([
   // Alibaba Bailian (cn-beijing)
   'wan-3',
@@ -71,9 +83,13 @@ export function resolveOfficialListCompatibilityProfile(
   policy?: { source: 'database' | 'versioned'; matchedBy: 'precise' | 'engine' | 'global' },
 ): string {
   if (policy?.source === 'database' && policy.matchedBy !== 'global') return profileId;
-  return isOfficialListPricedEngine(engineId) && VENDOR_FACT_PROFILE_IDS.has(profileId)
-    ? OFFICIAL_LIST_PRICE_PROFILE_ID
-    : profileId;
+  if (!VENDOR_FACT_PROFILE_IDS.has(profileId)) return profileId;
+  if (isOfficialList100PricedEngine(engineId)) return OFFICIAL_LIST_100_PRICE_PROFILE_ID;
+  return isOfficialListPricedEngine(engineId) ? OFFICIAL_LIST_PRICE_PROFILE_ID : profileId;
+}
+
+export function isOfficialList100PricedEngine(engineId: string | null | undefined): boolean {
+  return typeof engineId === 'string' && OFFICIAL_LIST_100_PRICED_ENGINE_IDS.has(engineId);
 }
 
 /**
