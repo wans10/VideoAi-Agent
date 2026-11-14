@@ -154,7 +154,8 @@ test.describe('admin critical flows', () => {
       new URL(response.url()).pathname === '/api/admin/pricing/inventory', { timeout: 90_000 });
     await openAdminRoute(page, '/admin/pricing');
     expect((await initialInventory).status()).toBe(200);
-    await expect(page.locator('summary').filter({ hasText: 'Seedance 2.0 Mini' })).toBeVisible();
+    // Seedance 2.0 Mini is outside the owner allowlist (hidden); Seedance 2.5 is the offered Seedance engine.
+    await expect(page.locator('summary').filter({ hasText: 'Seedance 2.5' }).first()).toBeVisible();
     await page.route('**/api/admin/pricing/inventory', (route) => route.fulfill({
       status: 401,
       contentType: 'application/json',
@@ -164,7 +165,7 @@ test.describe('admin critical flows', () => {
     await expect(refresh).toBeEnabled();
     await refresh.click();
     await expect(page.getByText(/Current prices are unavailable/)).toBeVisible();
-    await expect(page.locator('summary').filter({ hasText: 'Seedance 2.0 Mini' })).toHaveCount(0);
+    await expect(page.locator('summary').filter({ hasText: 'Seedance 2.5' })).toHaveCount(0);
   });
 
   test('site placements support drag order and cancel without publishing changes', async ({ page }) => {
