@@ -44,7 +44,7 @@ export function resolveWorkspaceReferenceFieldTitle(
     : null;
   const suffix = capacity == null ? '' : locale === 'fr' ? ` (jusqu’à ${capacity})` : locale === 'es' ? ` (hasta ${capacity})` : `（最多 ${capacity} 个）`;
 
-  if (field.id === 'video_url' && /^source video$/i.test(label)) {
+  if (/^source video$/i.test(label)) {
     return locale === 'fr' ? 'Vidéo source' : locale === 'es' ? 'Video fuente' : '源视频';
   }
   if (role !== 'reference') return field.label;

@@ -96,5 +96,37 @@ const es: StudioLibraryCopy = {
   rename: 'Renombrar',
   signIn: 'Inicia sesión para ver tus personajes',
 };
+const zh: StudioLibraryCopy = {
+  title: '我的角色',
+  empty: '留住你喜欢的角色。',
+  emptyBody: '生成一张图片后保存到这里，即可创建新造型，并在角色重塑中使用。',
+  loading: '正在加载你的角色…',
+  unavailable: '你的角色库暂时不可用，当前的选择已保留。',
+  retry: '重试',
+  more: '加载更多',
+  newLook: '新造型',
+  sheet: '角色表',
+  looks: '造型',
+  identity: '原始形象',
+  back: '全部角色',
+  recast: '在角色重塑中使用',
+  save: '保存',
+  saveMedia: '保存到我的素材',
+  saveCharacter: '保存角色',
+  saveLook: '保存造型',
+  name: '名称',
+  defaultCharacter: '我的角色',
+  defaultLook: '新造型',
+  cancel: '取消',
+  saving: '正在保存…',
+  failed: '保存失败，请重试。',
+  loadingSource: '正在加载这张图片的设置…',
+  characterHint: '保存这个形象，方便以后找到它并创建其他造型。',
+  lookHint: '这个造型将与其原始角色一起保存。',
+  identityLocked: '形象已保留。可自定义发型、服装和场景。',
+  saved: '已保存到我的角色。',
+  rename: '重命名',
+  signIn: '登录后查看你的角色',
+};
 export const getStudioLibraryCopy = (locale: string): StudioLibraryCopy =>
-  ({ en, fr, es })[locale as 'en' | 'fr' | 'es'] ?? en;
+  ({ en, fr, es, zh })[String(locale ?? '').slice(0, 2) as 'en' | 'fr' | 'es' | 'zh'] ?? en;

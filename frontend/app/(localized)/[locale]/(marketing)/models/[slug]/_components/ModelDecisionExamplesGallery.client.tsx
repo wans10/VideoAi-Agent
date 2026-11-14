@@ -6,7 +6,9 @@ import { ArrowRight, AudioLines, ChevronRight, ExternalLink } from 'lucide-react
 
 import { Link, type LocalizedLinkHref } from '@/i18n/navigation';
 import { UIIcon } from '@/components/ui/UIIcon';
+import { useI18n } from '@/lib/i18n/I18nProvider';
 
+import { modelPageAriaLabel } from '../_lib/model-page-aria-labels';
 import { MODEL_PAGE_ICON_MUTED, MODEL_PAGE_ICON_ON_DARK } from '../_lib/model-page-icon-styles';
 import type { DecisionExampleFilterId, ModelExampleFilter } from '../_lib/model-page-examples-content';
 import type { ModelExamplesGalleryItem } from '../_lib/model-page-examples-view-model';
@@ -34,6 +36,7 @@ export function ModelDecisionExamplesGallery({
   emptyLabel,
   noPreviewLabel,
 }: ModelDecisionExamplesGalleryProps) {
+  const { locale } = useI18n();
   const [activeFilter, setActiveFilter] = useState<DecisionExampleFilterId>('all');
   const [pageIndex, setPageIndex] = useState(0);
   const visibleItems = useMemo(
@@ -66,7 +69,7 @@ export function ModelDecisionExamplesGallery({
           <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600 dark:text-slate-300">{intro}</p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center xl:justify-end">
-          <div className="flex flex-wrap gap-2 xl:flex-nowrap" aria-label="Example filters">
+          <div className="flex flex-wrap gap-2 xl:flex-nowrap" aria-label={modelPageAriaLabel('exampleFilters', locale)}>
             {filters.map((filter) => {
               const isActive = activeFilter === filter.id;
               return (

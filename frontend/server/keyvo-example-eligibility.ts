@@ -1,8 +1,8 @@
-import showcasePromptsZh from '@/config/home-showcase-zh.json';
 import visibleFamilies from '@/config/keyvo-visible-families.json';
 import { resolveRuntimeEngineInput } from '@/config/model-runtime';
 import { buildWorkspacePromptHref, WORKSPACE_PROMPT_LINK_MAX_ENCODED } from '@/lib/workspace-prompt-link';
 import { getBundledPublicExamplesSnapshot } from './bundled-public-examples';
+import { getBundledExamplePromptZh } from './public-example-prompts-zh';
 
 const VISIBLE_FAMILIES: ReadonlySet<string> = new Set<string>(visibleFamilies);
 
@@ -24,7 +24,6 @@ export function isShowcaseEngine(engineId: string): boolean {
   );
 }
 
-const PROMPTS_ZH: Readonly<Record<string, string>> = showcasePromptsZh;
 /** Examples whose prompt only works with the reference files the original run attached. */
 const NEEDS_REFERENCE_ASSETS = /@\[[^\]]+\]|@(?:image|video|audio|element|ref)\w*\d*|\b(?:reference image|uploaded image)\b/i;
 
@@ -35,7 +34,7 @@ const NEEDS_REFERENCE_ASSETS = /@\[[^\]]+\]|@(?:image|video|audio|element|ref)\w
  * a silently shortened prompt would not make the video the visitor looked at.
  */
 export function bundledExamplePromptHref(exampleId: string): string | null {
-  const promptZh = PROMPTS_ZH[exampleId];
+  const promptZh = getBundledExamplePromptZh(exampleId);
   const original = getBundledPublicExamplesSnapshot().cards?.[exampleId];
   if (!promptZh || !original || NEEDS_REFERENCE_ASSETS.test(original.promptFull ?? original.prompt ?? '')) return null;
   const href = buildWorkspacePromptHref(promptZh, WORKSPACE_PROMPT_LINK_MAX_ENCODED);

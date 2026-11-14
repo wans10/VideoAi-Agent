@@ -75,7 +75,7 @@ export function EngineIcon({
 
   return (
     <div
-      aria-label={useImageAlt ? undefined : `${explicitLabel} engine`}
+      aria-label={useImageAlt ? undefined : explicitLabel}
       role={useImageAlt ? undefined : 'img'}
       className={clsx(
         'flex shrink-0 items-center justify-center overflow-hidden leading-none',

@@ -24,7 +24,7 @@ const es: typeof en = {
 const zh: typeof en = {
   source: '原始素材', result: '生成结果', download: '下载结果', play: '播放', pause: '暂停', seek: '播放位置', mute: '静音', sound: '开启声音', error: '播放失败。仍可下载原始文件。',
   photo: { title: '从产品图到广告大片。', intro: '同一双运动鞋，用 Nano Banana 2 换上全新场景。', source: '01 / 影棚图', result: '02 / 艺术指导的场景', instruction: '“保留这双运动鞋。打造一个钴蓝色的雕塑感场景，配以锐利的柠檬黄光线。”', note: '真实的生成式编辑。请对比产品的形状、材质和细节。' },
-  lip: { title: '一张静态肖像，开口说话。', intro: '一张肖像和一段英文语音录音，用于 Wan 3 的表演生成。', portrait: '起始肖像', audio: '语音录音', result: '开口说话的肖像', note: '由照片生成的真实视频结果。请聆听声音并观察嘴部动作。', transcript: '“I was going to take the last train tonight. Then you walked in, smiling like nothing had happened… and suddenly, leaving didn’t feel like such a good idea.”' },
+  lip: { title: '一张静态肖像，开口说话。', intro: '一张肖像和一段英文语音录音，用于 Wan 3 的表演生成。', portrait: '起始肖像', audio: '语音录音', result: '开口说话的肖像', note: '由照片生成的真实视频结果。请聆听声音并观察嘴部动作。', transcript: '“我本来打算今晚搭最后一班火车。可你走了进来，笑得好像什么事都没发生过……忽然间，离开似乎不再是个好主意。”（语音为英文，此为中文译文）' },
   video: { title: '同一块手表，不同的氛围。', intro: '对比原始镜头与它经 Wan 3 真实编辑后的版本。', before: '原始 / 电光蓝', after: '编辑后 / 绯红日蚀', play: '同时播放两段视频', pause: '同时暂停两段视频', note: '完整的六秒片段并排展示。生成式编辑可能改变产品的细微细节。' },
   motion: { title: '轮到你的角色登场。', intro: '一个角色，八秒编舞。看 Wan 3 把这支舞带入全新的场景。', character: '01 / 角色图像', performance: '02 / 舞蹈参考', result: '03 / 生成的舞蹈', note: '请对比脚步、手臂动作和节奏。Wan 3 会诠释参考动作，实际动作可能有所不同。', credit: '舞蹈参考：' },
 };

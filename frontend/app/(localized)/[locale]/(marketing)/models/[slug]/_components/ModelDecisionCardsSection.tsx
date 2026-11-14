@@ -3,6 +3,7 @@ import { ArrowRight, GitCompareArrows, Lightbulb, RefreshCcw } from 'lucide-reac
 import { Link } from '@/i18n/navigation';
 import { UIIcon } from '@/components/ui/UIIcon';
 
+import { modelPageAriaLabel } from '../_lib/model-page-aria-labels';
 import type { ModelDecisionData } from '../_lib/model-page-decision-data';
 import { MODEL_PAGE_ICON, MODEL_PAGE_ICON_MUTED, MODEL_PAGE_ICON_WRAP } from '../_lib/model-page-icon-styles';
 
@@ -10,13 +11,14 @@ const DECISION_CARD_ICONS = [GitCompareArrows, RefreshCcw, Lightbulb] as const;
 
 type ModelDecisionCardsSectionProps = {
   cards: ModelDecisionData['decisionCards'];
+  locale?: string;
 };
 
-export function ModelDecisionCardsSection({ cards }: ModelDecisionCardsSectionProps) {
+export function ModelDecisionCardsSection({ cards, locale }: ModelDecisionCardsSectionProps) {
   if (!cards.length) return null;
 
   return (
-    <section className="model-story-paths grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4" aria-label="Model decision paths">
+    <section className="model-story-paths grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4" aria-label={modelPageAriaLabel('decisionPaths', locale)}>
       {cards.map((card, index) => {
         const Icon = DECISION_CARD_ICONS[index] ?? Lightbulb;
         return (

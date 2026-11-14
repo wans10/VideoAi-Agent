@@ -16,13 +16,14 @@ export function CharacterStudioNavigation({
   onExplore: () => void;
   copy: StudioCopy;
 }) {
+  const studioName = copy.recastLocale === 'zh-CN' ? '角色生成器' : 'Character Studio';
   return (
     <div className="flex shrink-0 items-center gap-2 p-3">
-      <h1 className="sr-only">Character Studio</h1>
+      <h1 className="sr-only">{studioName}</h1>
       <div
         className="flex min-w-0 flex-1 rounded-xl border border-border bg-bg p-1"
         role="group"
-        aria-label="Character Studio"
+        aria-label={studioName}
       >
         {(['character', 'recast'] as const).map((value) => {
           const Icon = value === 'character' ? ScanFace : Clapperboard;

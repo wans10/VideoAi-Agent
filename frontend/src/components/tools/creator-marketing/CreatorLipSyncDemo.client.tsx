@@ -43,7 +43,7 @@ export function CreatorLipSyncDemo({ locale }: { locale: AppLocale }) {
           <input type="range" min="0" max={recorded.audio.duration} step="0.05" value={position} disabled={!ready} aria-label={`${copy.seek} — ${copy.lip.audio}`} onChange={event => { if (audio.current) audio.current.currentTime = Number(event.target.value); }} />
         </div>
         {failed ? <p role="alert">{copy.error} <a href={recorded.audio.original} download>{copy.download}</a></p> : null}
-        <blockquote lang="en">{copy.lip.transcript}</blockquote>
+        <blockquote lang={locale === 'zh' ? 'zh-CN' : 'en'}>{copy.lip.transcript}</blockquote>
       </div>
     </div>
     {result ? <div className="creator-lip-performance">
