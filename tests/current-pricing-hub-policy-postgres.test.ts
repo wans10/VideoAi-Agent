@@ -173,7 +173,8 @@ test('custom public quote injection performs no default policy I/O and retains a
       audio: async () => { audio++; return { totalCents: 444, currency: 'USD' }; },
       product: async () => { products++; return { totalCents: 555, currency: 'USD' }; },
     });
-    assert.deepEqual({ models, audio, products }, { models: MODEL_QUOTES, audio: 9, products: 12 });
+    // Keyvo 2026-11-14: Character Builder rows quote Seedream, so two fixed Character products are no longer quoted (12 -> 10).
+    assert.deepEqual({ models, audio, products }, { models: MODEL_QUOTES, audio: 9, products: 10 });
     assert.deepEqual(observe.counts, freshCounts(), 'an injected reader must remain entirely in control');
     assert.equal(pikaAmount(data), 333);
   });

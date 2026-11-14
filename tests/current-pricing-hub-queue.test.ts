@@ -23,7 +23,8 @@ const flush = () => new Promise<void>((resolve) => setImmediate(resolve));
 const VIDEO_QUOTES = 72 - 4 - 3 - 1 + 1 - 9;
 const T2I_IMAGE_QUOTES = 7 - 2 + 1;
 const MODEL_QUOTES = VIDEO_QUOTES + T2I_IMAGE_QUOTES;
-const TOTAL_QUOTES = MODEL_QUOTES + 21;
+// Keyvo 2026-11-14: the Character Builder rows quote the Seedream image price, so the two fixed Character products (draft/final) are no longer quoted: 12 -> 10 product quotes, 21 -> 19 other quotes.
+const TOTAL_QUOTES = MODEL_QUOTES + 19;
 const other = {
   audio: async () => ({ totalCents: 432, currency: 'USD' }),
   product: async () => ({ totalCents: 543, currency: 'USD' }),
@@ -61,7 +62,7 @@ test('a hub quotes each authored exact input once through at most eight distinct
     });
     await flush();
     assert.equal(requests.length, 8, 'the initial batch must remain bounded');
-    assert.equal(audioCalls + productCalls, 21, 'independent other reads progress while model quotes remain held');
+    assert.equal(audioCalls + productCalls, 19, 'independent other reads progress while model quotes remain held');
     while (gates.length) {
       gates.shift()!();
       await flush();
@@ -84,7 +85,7 @@ test('a hub quotes each authored exact input once through at most eight distinct
     assert.equal(requests.length + audioCalls + productCalls, TOTAL_QUOTES);
     assert.equal(maximum, 8);
     assert.equal(audioCalls, 9);
-    assert.equal(productCalls, 12);
+    assert.equal(productCalls, 10);
     for (const row of data.video.rows) for (const preset of VIDEO_PRICE_PRESETS) {
       if (base.video.rows.find((candidate) => candidate.id === row.id)!.quotes[preset.id].status === 'exact') {
         assert.equal(row.quotes[preset.id].amountCents, 321, 'all duplicate slots receive the current result');
@@ -168,7 +169,7 @@ test('eight model and four other quotes overlap until all model workers stop, th
   assert.deepEqual(held.active, { model: 0, other: 12 }, 'slow other work gets the complete budget after the last model worker');
   while (held.others.length) { held.others.shift()!.resolve(); await flush(); }
   const data = await pending;
-  assert.deepEqual(held.calls, { model: MODEL_QUOTES, other: 21 });
+  assert.deepEqual(held.calls, { model: MODEL_QUOTES, other: 19 });
   assert.deepEqual(held.maximum, { model: 8, other: 12, total: 12 });
   assert.deepEqual(held.active, { model: 0, other: 0 });
   assert.ok(data.otherSurfaces.imageRows.every(row => row.standardImage === '$7.77' && row.highQualityImage === '$7.77'),
@@ -194,13 +195,13 @@ test('early model rejection retains its original error and holds extra other wor
   // Late other errors retain their localized fallback and must remain observed after hub rejection.
   while (held.others.length) { held.others.shift()!.reject(new Error('late other failure')); await flush(); }
   assert.deepEqual(held.maximum, { model: 8, other: 12, total: 12 });
-  assert.deepEqual(held.calls, { model: MODEL_QUOTES, other: 21 });
+  assert.deepEqual(held.calls, { model: MODEL_QUOTES, other: 19 });
   let models = 0, others = 0;
   const recovered = await buildCurrentPricingHubData('fr', async () => { models++; return exact(321); }, {
     audio: async () => { others++; return { totalCents: 432, currency: 'USD' }; },
     product: async () => { others++; return { totalCents: 543, currency: 'USD' }; },
   });
   assert.equal(models, MODEL_QUOTES, 'the next request retries all distinct model inputs');
-  assert.equal(others, 21, 'the next request retries all other inputs');
+  assert.equal(others, 19, 'the next request retries all other inputs');
   assert.ok(recovered.otherSurfaces.imageRows.every(row => /3,21/.test(row.standardImage)));
 });
