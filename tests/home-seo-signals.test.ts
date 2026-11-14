@@ -46,7 +46,7 @@ const englishMessages = JSON.parse(readFileSync('frontend/messages/en.json', 'ut
 const frenchMessages = JSON.parse(readFileSync('frontend/messages/fr.json', 'utf8')) as HomeMessages;
 const spanishMessages = JSON.parse(readFileSync('frontend/messages/es.json', 'utf8')) as HomeMessages;
 
-test('homepage proof card stays on Seedance 2.0 while discovery surfaces lead with 2.5', () => {
+test('homepage proof card leads with Seedance 2.5 while the family default stays on Seedance 2.0', () => {
   const requiredTargets = {
     en: '/models/seedance-2-5',
     fr: '/fr/modeles/seedance-2-5',
@@ -75,7 +75,7 @@ test('homepage proof card stays on Seedance 2.0 while discovery surfaces lead wi
   assert.deepEqual(footerModelIds.slice(0, 3), ['kling-v4', 'minimax-h3', 'seedance-2-5']);
 });
 
-test('localized homepage keeps the Seedance 2.0 proof and renders a separate Seedance 2.5 discovery CTA', () => {
+test('localized homepage proof card and discovery CTA both point at Seedance 2.5', () => {
   (globalThis as typeof globalThis & { React: typeof React }).React = React;
   const onlySeedance25Video = {
     id: 'seedance-25-family-video',
@@ -92,9 +92,9 @@ test('localized homepage keeps the Seedance 2.0 proof and renders a separate See
     es: spanishMessages,
   } as const;
   const expectedDiscovery = {
-    en: { label: 'Discover Seedance 2.5', href: '/models/seedance-2-5', proofHref: '/models/seedance-2-0' },
-    fr: { label: 'Découvrir Seedance 2.5', href: '/fr/modeles/seedance-2-5', proofHref: '/fr/modeles/seedance-2-0' },
-    es: { label: 'Descubrir Seedance 2.5', href: '/es/modelos/seedance-2-5', proofHref: '/es/modelos/seedance-2-0' },
+    en: { label: 'Discover Seedance 2.5', href: '/models/seedance-2-5' },
+    fr: { label: 'Découvrir Seedance 2.5', href: '/fr/modeles/seedance-2-5' },
+    es: { label: 'Descubrir Seedance 2.5', href: '/es/modelos/seedance-2-5' },
   } as const;
 
   for (const locale of ['en', 'fr', 'es'] as const) {
@@ -120,15 +120,15 @@ test('localized homepage keeps the Seedance 2.0 proof and renders a separate See
         modelAriaLabel: `${card.modelCtaLabel} - ${card.engine}`,
       },
       {
-        title: 'Seedance 2.0',
-        engine: 'Seedance 2.0',
-        engineId: 'seedance-2-0',
-        imageSrc: '/hero/seedance-2-0.jpg',
+        title: 'Seedance 2.5',
+        engine: 'Seedance 2.5',
+        engineId: 'seedance-2-5',
+        imageSrc: '/models/seedance-2-5-launch.jpg',
         imageAlt: fallback.imageAlt,
-        modelHref: { pathname: '/models/[slug]', params: { slug: 'seedance-2-0' } },
-        modelAriaLabel: `${fallback.modelCta} - Seedance 2.0`,
+        modelHref: { pathname: '/models/[slug]', params: { slug: 'seedance-2-5' } },
+        modelAriaLabel: `${fallback.modelCta} - Seedance 2.5`,
       },
-      `${locale} proof card must keep one coherent Seedance 2.0 identity`,
+      `${locale} proof card must keep one coherent Seedance 2.5 identity`,
     );
 
     const markup = renderToStaticMarkup(
@@ -155,10 +155,10 @@ test('localized homepage keeps the Seedance 2.0 proof and renders a separate See
 
     const escapedProofLabel = fallback.modelCta.replaceAll('&', '&amp;');
     const proofModelLink = links.find(([anchor, href]) =>
-      href === expectedDiscovery[locale].proofHref &&
-      anchor.includes(`aria-label="${escapedProofLabel} - Seedance 2.0"`)
+      href === expectedDiscovery[locale].href &&
+      anchor.includes(`aria-label="${escapedProofLabel} - Seedance 2.5"`)
     );
-    assert.ok(proofModelLink, `${locale} homepage must render the Seedance 2.0 proof CTA`);
+    assert.ok(proofModelLink, `${locale} homepage must render the Seedance 2.5 proof CTA`);
     assert.match(proofModelLink[0], new RegExp(`>${escapedProofLabel}<span aria-hidden="true">→<\/span>`));
   }
 });

@@ -1,5 +1,7 @@
+import { isKeyvoAdminTierOpen } from '../lib/env';
 import hiddenModelIds from './keyvo-hidden-model-ids.json';
 import modelAllowlist from './keyvo-model-allowlist.json';
+import modelRegistry from './model-registry.json';
 import visibleFamilies from './keyvo-visible-families.json';
 
 /**
@@ -30,6 +32,30 @@ export function isKeyvoModelVisibilityOff(): boolean {
   return typeof process !== 'undefined' && process.env.KEYVO_MODEL_VISIBILITY === 'off';
 }
 
+// Families of the admin-tier engines (veo, gpt-image, nano-banana). They are not on the visible-family list, so the
+// family gate is opened per engine only while KEYVO_ADMIN_TIER_OPEN is on.
+const KEYVO_ADMIN_TIER_FAMILIES: ReadonlySet<string> = new Set<string>(
+  modelRegistry.models
+    .filter((model) => modelAllowlist.engineTiers[model.id as keyof typeof modelAllowlist.engineTiers] === 'admin')
+    .map((model) => model.family.trim().toLowerCase()),
+);
+
+function isOpenedAdminTierEngine(id: string | null | undefined): boolean {
+  if (typeof id !== 'string' || !id.trim() || !isKeyvoAdminTierOpen()) return false;
+  return KEYVO_ENGINE_TIERS.get(id.trim().toLowerCase()) === 'admin';
+}
+
+/** Family gate for a registry entry: its family is listed, or the entry is an admin-tier engine the override opens. */
+export function isKeyvoVisibleEntry(family: string | null | undefined, id: string | null | undefined): boolean {
+  return isKeyvoVisibleFamily(family) || isOpenedAdminTierEngine(id);
+}
+
+/** Family gate for a family-only filter (examples API): listed families, plus admin-tier families while opened. */
+export function isKeyvoVisibleOrOpenedFamily(family: string | null | undefined): boolean {
+  if (isKeyvoVisibleFamily(family)) return true;
+  return typeof family === 'string' && isKeyvoAdminTierOpen() && KEYVO_ADMIN_TIER_FAMILIES.has(family.trim().toLowerCase());
+}
+
 export function isKeyvoVisibleFamily(family: string | null | undefined): boolean {
   if (isKeyvoModelVisibilityOff()) return true;
   return typeof family === 'string' && KEYVO_VISIBLE_FAMILIES.has(family.trim().toLowerCase());
@@ -47,7 +73,11 @@ export function isKeyvoOfferedEngine(id: string | null | undefined): boolean {
  */
 export function keyvoEngineTier(id: string | null | undefined): KeyvoEngineTier | undefined {
   if (typeof id !== 'string' || !id.trim()) return undefined;
-  return KEYVO_ENGINE_TIERS.get(id.trim().toLowerCase());
+  const tier = KEYVO_ENGINE_TIERS.get(id.trim().toLowerCase());
+  // KEYVO_ADMIN_TIER_OPEN=true opens every admin-tier engine to all viewers. This is the only place it applies, so
+  // every surface that reads the tier (pickers, generate, estimate, pages, sitemap, MCP) switches together.
+  if (tier === 'admin' && isKeyvoAdminTierOpen()) return 'public';
+  return tier;
 }
 
 /**
@@ -61,7 +91,7 @@ export function isKeyvoHiddenModelForViewer(id: string | null | undefined, viewe
   if (typeof id !== 'string' || !id.trim()) return false;
   const key = id.trim().toLowerCase();
   if (!KEYVO_OFFERED_ENGINE_IDS.has(key) || KEYVO_HIDDEN_MODEL_IDS.has(key)) return true;
-  return KEYVO_ENGINE_TIERS.get(key) === 'admin' && viewer.isAdmin !== true;
+  return keyvoEngineTier(key) === 'admin' && viewer.isAdmin !== true;
 }
 
 /** A registry model Keyvo does not offer to ordinary customers (the non-admin view). */
@@ -70,7 +100,7 @@ export function isKeyvoHiddenModel(id: string | null | undefined): boolean {
 }
 
 export function filterKeyvoVisibleEntries<T extends { family?: string | null; engineId?: string; id?: string }>(entries: readonly T[]): T[] {
-  return entries.filter((entry) => isKeyvoVisibleFamily(entry.family) && !isKeyvoHiddenModel(entry.engineId ?? entry.id));
+  return entries.filter((entry) => isKeyvoVisibleEntry(entry.family, entry.engineId ?? entry.id) && !isKeyvoHiddenModel(entry.engineId ?? entry.id));
 }
 
 /** Keyvo does not present model comparisons or scores; typed as boolean so guarded code stays type-checked. */

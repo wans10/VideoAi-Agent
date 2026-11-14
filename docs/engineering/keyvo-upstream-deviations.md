@@ -265,3 +265,32 @@ Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorde
   than the customer surface.
 - **Not done in this change:** LLM Hub fallback removal for allowlisted engines (decision A) and the official-list-100
   profile for admin-tier prices (decision D). See the report for the call-site list and the unverified prices.
+
+## Admin-tier environment override: `KEYVO_ADMIN_TIER_OPEN` (2026-11-14)
+
+- **Switch:** `KEYVO_ADMIN_TIER_OPEN=true` (or `1`, case and spaces ignored) makes every admin-tier engine public on
+  every surface: workspace pickers, estimate and generate access checks, model pages, examples, sitemap, pricing hub
+  and estimator, nav, MCP and agent catalogues. Unset, `false`, `0`, `yes` or any other value keeps the admin tier
+  admin-only, exactly as before. The eleven ids are the admin tier in `keyvo-model-allowlist.json`.
+- **Single choke point:** `keyvoEngineTier()` in `frontend/config/keyvo-model-visibility.ts` returns `public` for an
+  admin-tier engine while the switch is on. Every tier check reads it. The family gate for the admin families (veo,
+  gpt-image, nano-banana) is opened per engine by `isKeyvoVisibleEntry` and, for the examples family filter, by
+  `isKeyvoVisibleOrOpenedFamily`. The env reader is `isKeyvoAdminTierOpen()` in `frontend/lib/env.ts`.
+- **Read time:** the value is read on each server call, never cached in a module constant. It is not visible in
+  browser bundles (a non-`NEXT_PUBLIC_` variable is undefined there), so browser code reports the admin tier as closed;
+  the server decides, and the engine lists arrive from the server.
+- **What needs what:**
+  - Restart only (no rebuild): API routes (generate, estimate, pricing quote, character builder, examples),
+    server-rendered pages without a build-time cache, and the workspace engine lists. These read the env per request.
+  - Rebuild required: statically prerendered model, example, pricing and blog pages, the homepage and any ISR cache,
+    and the sitemap. They keep the state of the build that produced them. Set the variable in the build environment
+    too, then rebuild and redeploy.
+  - The model runtime projection (`frontend/config/model-runtime.ts`) and the engine catalogue are built at module load,
+    so a restart is enough for them, but a rebuild is needed for the static copies above.
+- **Where to set it:** in `.env.production` (the compose `env_file`). Do not add it to the `environment:` block of
+  `docker-compose.1panel.yml`, because compose `environment:` values override `env_file` values and would pin it.
+  `.env.production.example` documents the commented key.
+- **Tests:** `tests/keyvo-admin-tier-env-override.test.ts` covers default-off (unset and non-true values), the
+  true/1 opening for every admin-tier id, non-opening for unlisted and hidden ids, the direct-API refusal path without
+  a session lookup, and a child-process projection check that the model page is unpublished by default and published
+  when the value is `true`.

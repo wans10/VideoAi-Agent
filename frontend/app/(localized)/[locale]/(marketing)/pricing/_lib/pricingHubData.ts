@@ -1,4 +1,4 @@
-import { KEYVO_COMPARE_HIDDEN, isKeyvoHiddenModel, isKeyvoVisibleFamily } from '@/config/keyvo-model-visibility';
+import { KEYVO_COMPARE_HIDDEN, isKeyvoHiddenModel, isKeyvoVisibleEntry } from '@/config/keyvo-model-visibility';
 import { isKeyvoAudioDisabled, isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
 import type { AppLocale } from '@/i18n/locales';
 import type { PublicModelQuoteInput } from '@/lib/pricing-public-model-contract';
@@ -282,14 +282,14 @@ function anchorFromSlug(slug: string) {
 export function isPricingDiscoveryEntry(entry: FalEngineEntry) {
   if (entry.availability !== 'available' && entry.availability !== 'limited') return false;
   if (entry.lifecycle !== 'current' && entry.lifecycle !== 'legacy') return false;
-  return entry.surfaces.pricing.includeInEstimator === true && isKeyvoVisibleFamily(entry.family) && !isKeyvoHiddenModel(entry.id);
+  return entry.surfaces.pricing.includeInEstimator === true && isKeyvoVisibleEntry(entry.family, entry.id) && !isKeyvoHiddenModel(entry.id);
 }
 
 // Keyvo keeps the image pricing rows of every visible model published on a public surface (for example the
 // direct Qwen Image models, which are not part of the video estimator); upstream now lists only estimator models.
 function isKeyvoPublicImagePricingEntry(entry: FalEngineEntry) {
   if (isPricingDiscoveryEntry(entry)) return true;
-  if (!isKeyvoVisibleFamily(entry.family) || isKeyvoHiddenModel(entry.id)) return false;
+  if (!isKeyvoVisibleEntry(entry.family, entry.id) || isKeyvoHiddenModel(entry.id)) return false;
   if (entry.availability !== 'available' && entry.availability !== 'limited') return false;
   // Only the Keyvo-native direct Qwen Image models (outside the video estimator) keep this relaxation; every
   // other model respects its own pricing publication even while its model page and App are open.
