@@ -7,8 +7,12 @@ import { POST as estimateImagePricing } from '../frontend/app/api/images/estimat
 import { NANO21_ENGINE_ID } from '../frontend/src/lib/nano-banana-2-1.ts';
 import { getQualityEngineId } from '../frontend/src/lib/character-builder.ts';
 
-test('Character Studio quality modes both price through Nano Banana 2.1', () => {
-  assert.deepEqual([getQualityEngineId('draft'), getQualityEngineId('final')], [NANO21_ENGINE_ID, NANO21_ENGINE_ID]);
+test('Character Studio quality modes price through Seedream 5.0, never through Nano Banana 2.1', () => {
+  // Keyvo keeps the customer tariff inactive, so Nano Banana 2.1 cannot be quoted. Standard runs on Seedream 5.0 Flash
+  // and Pro on Seedream 5.0 Pro (both official-list priced, no tariff needed).
+  assert.deepEqual([getQualityEngineId('draft'), getQualityEngineId('final')], ['seedream-5-0-flash', 'seedream-5-0-pro']);
+  assert.notEqual(getQualityEngineId('draft'), NANO21_ENGINE_ID);
+  assert.notEqual(getQualityEngineId('final'), NANO21_ENGINE_ID);
 });
 
 async function postEstimate(body: unknown) {

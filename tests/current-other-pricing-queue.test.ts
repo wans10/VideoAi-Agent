@@ -10,8 +10,8 @@ const expectedAudio = [
   { pack: 'music_only' }, { pack: 'voice_only' }, { pack: 'voice_only', voiceMode: 'clone' },
 ].flatMap((preset) => [30, 60, 120].map((durationSec) => ({ ...preset, durationSec, script: null, musicEnabled: true })));
 const expectedProducts = [
-  { productKey: 'character-sheet-1k', quantity: 1 }, { productKey: 'character-sheet-4k', quantity: 1 },
-  { productKey: 'character-sheet-2k', quantity: 1 }, { productKey: 'character-sheet-4k', quantity: 1 },
+  // Each character mode is quoted once, on its own Seedream engine at 2K (no pro column).
+  { productKey: 'character-sheet-draft-2k', quantity: 1 }, { productKey: 'character-sheet-final-2k', quantity: 1 },
   { productKey: 'angle-flux-single', quantity: 1 }, { productKey: 'angle-qwen-single', quantity: 1 },
   { productKey: 'angle-flux-multi', quantity: 1 }, { productKey: 'angle-qwen-multi', quantity: 1 },
   { productKey: 'upscale-image-seedvr', quantity: 1 }, { productKey: 'upscale-image-topaz', quantity: 1 },
@@ -44,13 +44,15 @@ test('audio and products share twelve workers and products can finish while an a
   while (gates.length) { gates.shift()!(); await flush(); }
   const data = await pending;
   assert.deepEqual(initiallyStarted, { audio: 9, product: 3, active: 12 });
-  assert.equal(productsBeforeLastAudio, 12, 'products are not held behind the final audio response');
+  assert.equal(productsBeforeLastAudio, expectedProducts.length, 'products are not held behind the final audio response');
   assert.equal(maximum, 12, 'combined active work retains the previous maximum');
   assert.deepEqual(audio, expectedAudio);
   assert.deepEqual(product, expectedProducts, 'Character Builder quantities and every fixed tool input are preserved');
   assert.equal(active, 0);
   assert.equal(data.audioRows.find((row) => row.id === 'audio-music-only')?.thirtySeconds, '$4.32');
-  assert.equal(data.toolRows.find((row) => row.id === 'character-builder-draft')?.proOutput, '4K: $4.32');
+  assert.equal(data.toolRows.find((row) => row.id === 'character-builder-draft')?.standardOutput, 'Seedream 5.0 Flash: $4.32');
+  assert.equal(data.toolRows.find((row) => row.id === 'character-builder-draft')?.proOutput, '—');
+  assert.equal(data.toolRows.find((row) => row.id === 'character-builder-final')?.standardOutput, 'Seedream 5.0 Pro: $4.32');
   assert.match(data.toolRows.find((row) => row.id === 'video-upscale')!.standardOutput, /\$4\.32.*minimum.*Live quote/i);
 });
 
@@ -69,7 +71,8 @@ test('failed and invalid current sources keep truthful localized prices and the 
         return { totalCents: input.quantity === 1 ? Number.MAX_SAFE_INTEGER + 1 : 432, currency: input.quantity === 1 ? 'USD' : '' };
       },
     });
-    assert.equal(calls, 21);
+    // Nine audio quotes plus the ten tool quotes (two characters, two angle, two image and two video upscale).
+    assert.equal(calls, 19);
     for (const row of failed.audioRows) {
       assert.doesNotMatch(`${row.thirtySeconds} ${row.sixtySeconds} ${row.oneTwentySeconds}`, /\d+[.,]\d{2}/);
     }
@@ -78,8 +81,8 @@ test('failed and invalid current sources keep truthful localized prices and the 
       audio: async () => { calls++; return { totalCents: 432, currency: 'USD' }; },
       product: async () => { calls++; return { totalCents: 543, currency: 'USD' }; },
     });
-    assert.equal(calls, 42);
+    assert.equal(calls, 38);
     assert.match(recovered.audioRows.find((row) => row.id === 'audio-music-only')!.thirtySeconds, /4[.,]32/);
-    assert.match(recovered.toolRows.find((row) => row.id === 'character-builder-draft')!.proOutput, /5[.,]43/);
+    assert.match(recovered.toolRows.find((row) => row.id === 'character-builder-draft')!.standardOutput, /5[.,]43/);
   }
 });

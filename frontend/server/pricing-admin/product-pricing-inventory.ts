@@ -4,7 +4,7 @@ import { loadPricingPolicyOverrides } from '@/lib/pricing-rule-store';
 import { getFalEngineById } from '@/config/falEngines';
 import { ANGLE_TOOL_ENGINES } from '@/config/tools-angle-engines';
 import { ANGLE_MULTI_OUTPUT_COUNT, estimateAngleCostUsd, getAngleBillingProductKeyForEngine } from '@/lib/tools-angle';
-import { getCharacterFormatResolution } from '@/lib/character-builder';
+import { CHARACTER_DRAFT_ENGINE_ID, CHARACTER_FINAL_ENGINE_ID, getCharacterFormatResolution } from '@/lib/character-builder';
 import { getBillingProductKey } from '@/server/tools/character-builder/utils';
 import { buildBillingPricingFacts } from '@/lib/pricing-billing-facts';
 import type { PricingContext } from '@/lib/pricing-context';
@@ -23,7 +23,6 @@ import { buildAdminAudioReferenceInputs, buildRecastPolicyScenarios, buildLivePr
 import { RECAST_PRICING_SELECTOR } from '@/lib/character-recast-pricing';
 import { resolveRecastPricingContext } from '@/server/character-studio/recast-public-price';
 import { computeCanonicalRecastBillingSnapshot } from '@/server/pricing/quote-recast';
-import { catalogSupplierReference } from './catalog-supplier-reference';
 import { resolveDynamicToolPriceMultiplier } from '@/lib/tools-dynamic-pricing';
 
 /** Bounded comparison scenarios only. No media reads, submissions, charges or schema writes. */
@@ -103,16 +102,18 @@ export async function loadAdminProductPricing(durationSec = 10): Promise<Product
       const characterQuality = (['draft', 'final'] as const).find((quality) => getBillingProductKey(quality) === product.productKey);
       const angle = ANGLE_TOOL_ENGINES.find((item) => [false, true].some((multi) => getAngleBillingProductKeyForEngine(item.id, multi) === product.productKey));
       if (characterQuality) {
-        const character = getFalEngineById(characterQuality === 'final' ? 'nano-banana-pro' : 'nano-banana-2');
-        const resolution = getCharacterFormatResolution('standard', characterQuality);
+        // The builder charges the engine quote (Seedream 5.0 Flash / Pro, 2K); this fixed row is only a legacy reference.
+        const character = getFalEngineById(characterQuality === 'final' ? CHARACTER_FINAL_ENGINE_ID : CHARACTER_DRAFT_ENGINE_ID);
+        const resolution = getCharacterFormatResolution();
         row.scenario = `Legacy fixed product · 1 image · ${resolution.toUpperCase()} · ${character?.marketingName ?? 'Character Builder'}`;
-        const reference = character && catalogSupplierReference({ engine: character.engine, durationSec: 1, mode: 't2i', resolution });
-        if (reference && product.currency === 'USD') {
-          row.supplierCents = reference.amountUsd * 100;
+        // Seedream has no provider catalogue reference (catalogSupplierReference is null for it). Its supplier cost is the
+        // official Ark list per image, which the engine records as its USD base (CNY 0.12 / 0.60 at 8 CNY per USD).
+        if (character && product.currency === 'USD') {
+          row.supplierCents = Number(((character.engine.pricing?.base ?? 0) * 100).toFixed(6));
           row.supplierBasis = 'catalogue';
         }
-        row.notes.push(`Supplier reference: ${character?.marketingName ?? 'underlying image model'} · Google Vertex catalogue · ${resolution.toUpperCase()} output.`,
-          'Catalogue estimate; contract and invoice unconfirmed. Standard format, one output; higher formats change provider resolution and customer billing quantity.');
+        row.notes.push(`Supplier reference: ${character?.marketingName ?? 'underlying image model'} · Volcengine Ark official list · ${resolution.toUpperCase()} output.`,
+          'Official list estimate; contract and invoice unconfirmed. The builder quotes the engine price per image (80% of list, CNY); this fixed row is not charged by the builder.');
       } else if (angle) {
         const count = product.productKey === getAngleBillingProductKeyForEngine(angle.id, true) ? ANGLE_MULTI_OUTPUT_COUNT : 1;
         row.scenario = `${count} image${count === 1 ? '' : 's'} · 1 MP source · 1 run`;

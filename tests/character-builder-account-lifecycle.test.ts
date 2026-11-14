@@ -227,7 +227,7 @@ test('late owned job snapshots and historical settings cannot overwrite a new ac
 });
 
 test('same-account pending jobs resume, while their late polling response cannot populate another account', async () => {
-  const pending = { id: 'pending-A', jobId: 'job-A', createdAt: '2026-10-17T10:00:00Z', action: 'generate', outputMode: 'portrait-reference', qualityMode: 'draft', formatMode: 'standard', generateCount: 1 };
+  const pending = { id: 'pending-A', jobId: 'job-A', createdAt: '2026-10-17T10:00:00Z', action: 'generate', outputMode: 'portrait-reference', qualityMode: 'draft', formatMode: '2k', generateCount: 1 };
   const f = await mountWorkspace({ storage: { [`${pendingKey}:account-A`]: JSON.stringify({ version: 1, runs: [pending] }) } });
   try {
     const request = f.w.requests.find((entry: any) => entry.url === '/api/jobs/job-A');
@@ -311,7 +311,7 @@ test('refreshing the same account token does not reload a job snapshot over edit
 });
 
 test('pending-job polling uses the refreshed token and retains a valid completion for its owner', async () => {
-  const pending = { id: 'pending-A', jobId: 'job-A', createdAt: '2026-10-17T10:00:00Z', action: 'generate', outputMode: 'portrait-reference', qualityMode: 'draft', formatMode: 'standard', generateCount: 1 };
+  const pending = { id: 'pending-A', jobId: 'job-A', createdAt: '2026-10-17T10:00:00Z', action: 'generate', outputMode: 'portrait-reference', qualityMode: 'draft', formatMode: '2k', generateCount: 1 };
   const f = await mountWorkspace({ storage: { [`${pendingKey}:account-A`]: JSON.stringify({ version: 1, runs: [pending] }) } });
   try {
     const first = f.w.requests.find((entry: any) => entry.url === '/api/jobs/job-A');
@@ -336,7 +336,7 @@ test('pending-job polling uses the refreshed token and retains a valid completio
 test('new-character navigation clears only the draft while keeping finished outputs and pending jobs', async () => {
   const ownedKey = `${stateKey}:account-A`;
   const ownedPendingKey = `${pendingKey}:account-A`;
-  const pending = { id: 'pending-A', jobId: 'pending-job-A', createdAt: '2026-11-03T10:00:00Z', action: 'generate', generateCount: 1, outputMode: 'portrait-reference', qualityMode: 'draft', formatMode: 'standard' };
+  const pending = { id: 'pending-A', jobId: 'pending-job-A', createdAt: '2026-11-03T10:00:00Z', action: 'generate', generateCount: 1, outputMode: 'portrait-reference', qualityMode: 'draft', formatMode: '2k' };
   const f = await mountWorkspace({ storage: { [ownedKey]: legacyState, [ownedPendingKey]: JSON.stringify({ version: 1, runs: [pending] }) } });
   try {
     await f.w.fx.act(async () => [...f.w.document.querySelectorAll('button')].find((button: any) => button.getAttribute('aria-label') === 'New character')?.click());
@@ -360,7 +360,7 @@ function assertFreshCharacter(draft: any) {
   assert.equal(draft.consistencyMode, 'balanced');
   assert.equal(draft.outputMode, 'portrait-reference');
   assert.equal(draft.qualityMode, 'draft');
-  assert.equal(draft.formatMode, 'standard');
+  assert.equal(draft.formatMode, '2k');
   assert.equal(draft.advancedNotes, '');
   assert.deepEqual(draft.mustRemainVisible, []);
   assert.equal(draft.selectedResultId, null);
@@ -427,7 +427,7 @@ test('an empty persisted draft with completed history does not claim to restore 
   try { assert.equal(restoredDraftNotice(f), undefined); } finally { await f.close(); }
 });
 
-for (const state of [{ traits: { customOutfitDescription: 'A red coat' } }, { formatMode: '4k' }]) {
+for (const state of [{ traits: { customOutfitDescription: 'A red coat' } }, { outputMode: 'character-sheet' }]) {
   test(`restoration notice covers ${'traits' in state ? 'custom clothing alone' : 'output settings alone'}`, async () => {
     const f = await mountWorkspace({ storage: { [`${stateKey}:account-A`]: JSON.stringify({ version: 1, state }) } });
     try {
@@ -463,7 +463,7 @@ test('New clears all custom and hidden overrides from persisted state and the ne
     await f.w.fx.act(async () => f.w.controls.setState((state: any) => ({
       ...state, characterId: '17', sourceMode: 'reference-image', referenceStrength: 'strong', consistencyMode: 'strict',
       referenceImages: [{ id: 'old-identity', role: 'identity', url: 'https://example.invalid/old-identity.png' }, { id: 'old-style', role: 'style', url: 'https://example.invalid/old-style.png' }],
-      outputMode: 'character-sheet', qualityMode: 'final', formatMode: '4k', advancedNotes: 'OLD extra direction', mustRemainVisible: ['OLD badge'],
+      outputMode: 'character-sheet', qualityMode: 'final', formatMode: '2k', advancedNotes: 'OLD extra direction', mustRemainVisible: ['OLD badge'],
       selectedResultId: 'old-result', pinnedReferenceResultId: 'old-pin',
       outputOptions: { fullBodyRequired: true, includeCloseUps: false, neutralStudioBackground: false, preserveFacialDetails: false, avoid3dRenderLook: false },
       traits: {
@@ -549,7 +549,7 @@ test('a generation completed after New remains in history without selecting its 
 });
 
 test('an old pending job recovered after New remains in history without selecting its result', async () => {
-  const pending = { id: 'old-pending', jobId: 'old-job', createdAt: '2026-11-03T10:00:00Z', action: 'generate', generateCount: 1, outputMode: 'portrait-reference', qualityMode: 'draft', formatMode: 'standard' };
+  const pending = { id: 'old-pending', jobId: 'old-job', createdAt: '2026-11-03T10:00:00Z', action: 'generate', generateCount: 1, outputMode: 'portrait-reference', qualityMode: 'draft', formatMode: '2k' };
   const f = await mountWorkspace({ storage: { [`${pendingKey}:account-A`]: JSON.stringify({ version: 1, runs: [pending] }) } });
   try {
     const first = f.w.requests.find((entry: any) => entry.url === '/api/jobs/old-job');

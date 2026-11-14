@@ -1,5 +1,5 @@
 import { AUDIO_CINEMATIC_MAX_DURATION_SEC, getAudioPackConfig, type AudioPricingInput } from '@/lib/audio-generation';
-import { NANO21_ENGINE_ID } from '@/lib/nano-banana-2-1';
+import { CHARACTER_BUILDER_RESOLUTION, CHARACTER_DRAFT_ENGINE_ID, CHARACTER_FINAL_ENGINE_ID } from '@/lib/character-builder';
 import { estimateWebImageGeneration } from '@/server/images/estimate-image-generation';
 import { computeBillingProductSnapshot } from '@/lib/billing-products';
 import { computeCurrentAudioSnapshot } from '@/server/pricing/quote-public';
@@ -19,12 +19,17 @@ export type CurrentOtherPricingDependencies = {
 };
 /** The hub reserves eight workers for models; standalone callers retain twelve. */
 type CurrentOtherPricingSchedule = { modelWorkersSettled: Promise<void> };
+/** Quoted on the engine that renders each character mode, at the one size the builder offers (2K). */
+const characterSheetPriceEngines: Record<string, string> = {
+  'character-sheet-draft-2k': CHARACTER_DRAFT_ENGINE_ID,
+  'character-sheet-final-2k': CHARACTER_FINAL_ENGINE_ID,
+};
 const defaults: CurrentOtherPricingDependencies = {
   audio: computeCurrentAudioSnapshot,
   product: async (input) => {
-    const match = /^character-sheet-(1k|2k|4k)$/.exec(input.productKey);
-    if (!match) return computeBillingProductSnapshot(input);
-    const { pricing } = await estimateWebImageGeneration({ engineId: NANO21_ENGINE_ID, mode: 't2i', numImages: 1, resolution: match[1] });
+    const engineId = characterSheetPriceEngines[input.productKey];
+    if (!engineId) return computeBillingProductSnapshot(input);
+    const { pricing } = await estimateWebImageGeneration({ engineId, mode: 't2i', numImages: 1, resolution: CHARACTER_BUILDER_RESOLUTION });
     return pricing;
   },
 };
@@ -35,9 +40,10 @@ const audioPresets: Record<string, Pick<AudioPricingInput, 'pack' | 'voiceMode'>
   'audio-cinematic-voice': { pack: 'cinematic_voice' },
   'audio-voice-clone': { pack: 'voice_only', voiceMode: 'clone' },
 };
-const toolPresets: Record<string, [string, string, number, number]> = {
-  'character-builder-draft': ['character-sheet-1k', 'character-sheet-4k', 1, 1],
-  'character-builder-final': ['character-sheet-2k', 'character-sheet-4k', 1, 1],
+/** [standard product, pro product or null when the tool has no pro column, standard quantity, pro quantity]. */
+const toolPresets: Record<string, [string, string | null, number, number]> = {
+  'character-builder-draft': ['character-sheet-draft-2k', null, 1, 1],
+  'character-builder-final': ['character-sheet-final-2k', null, 1, 1],
   'change-camera-angle': ['angle-flux-single', 'angle-qwen-single', 1, 1],
   'generate-best-angles': ['angle-flux-multi', 'angle-qwen-multi', 1, 1],
   'image-upscale': ['upscale-image-seedvr', 'upscale-image-topaz', 1, 1],
@@ -77,15 +83,19 @@ export async function buildCurrentOtherPricing(
   const toolRows = Promise.all(base.toolRows.map(async (row) => {
     const preset = toolPresets[row.id];
     if (!preset) return { ...row, standardOutput: copy.liveQuote, proOutput: copy.liveQuote };
-    const values = await Promise.all([0, 1].map((index) => format(() => dependencies.product({
-      productKey: index === 0 ? preset[0] : preset[1], quantity: index === 0 ? preset[2] : preset[3],
-    }))));
+    const values = await Promise.all([preset[0], preset[1]].map((productKey, index) => productKey === null
+      ? Promise.resolve(null)
+      : format(() => dependencies.product({ productKey, quantity: index === 0 ? preset[2] : preset[3] }))));
     const minimum = locale === 'fr' ? 'minimum' : locale === 'es' ? 'mínimo' : 'minimum';
     const display = (original: string, amount: string) => {
       const prefix = original.includes(':') ? original.slice(0, original.indexOf(':') + 1) + ' ' : '';
       return `${prefix}${amount}${row.id === 'video-upscale' && amount !== copy.liveQuote ? ` · ${minimum} · ${copy.liveQuote}` : ''}`;
     };
-    return { ...row, standardOutput: display(row.standardOutput, values[0]), proOutput: display(row.proOutput, values[1]) };
+    return {
+      ...row,
+      standardOutput: display(row.standardOutput, values[0] ?? copy.liveQuote),
+      proOutput: values[1] === null ? row.proOutput : display(row.proOutput, values[1]),
+    };
   }));
   const recastExamples = Promise.all([{ outputSeconds: 6, sourceSeconds: 0 }, { outputSeconds: 15, sourceSeconds: 15 }].map(async (scenario) => {
     const values = await Promise.all(['720p', '1080p'].map(resolution => format(async () => {

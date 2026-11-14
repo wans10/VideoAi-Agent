@@ -26,7 +26,7 @@ async function fixture(locale = 'fr', livePrice = false) {
         identitySlot={null} styleSlot={null} busy={false} price={price}
         canGenerate={price!==null} priceStatus={status} onRetryPrice={retry}
         onGenerate={()=>window.generations++}/>; }
-      function LivePrice(){const p=useCharacterBuilderPrice(window.resolution,window.references);return <Composer price={p.displayedPrice?.usd??null} status={p.status} retry={p.refreshPrice}/>}
+      function LivePrice(){const p=useCharacterBuilderPrice(window.engine,window.resolution,window.references);return <Composer price={p.displayedPrice?.usd??null} status={p.status} retry={p.refreshPrice}/>}
       window.fx={act,unmount:()=>root.unmount(),render:()=>root.render(window.livePrice?<LivePrice/>:<Composer/>)};
     ` },
   });
@@ -34,7 +34,7 @@ async function fixture(locale = 'fr', livePrice = false) {
   const w = dom.window as any;
   w.MessageChannel = class { port1 = { onmessage: () => {} }; port2 = { postMessage: () => setTimeout(() => this.port1.onmessage(), 0) }; };
   w.process = { env: {} }; w.locale = locale; w.price = null; w.status = 'loading'; w.retries = 0; w.generations = 0;
-  w.livePrice=livePrice; w.resolution='1k'; w.references=0; w.requests=[];
+  w.livePrice=livePrice; w.engine='seedream-5-0-flash'; w.resolution='2k'; w.references=0; w.requests=[];
   w.requestPrice=(url: string, init: any)=>new Promise(resolve=>w.requests.push({url,body:JSON.parse(init.body),resolve}));
   w.eval(bundle.outputFiles[0].text);
   await w.fx.act(async () => w.fx.render());
@@ -72,9 +72,10 @@ test('current price follows format and references, rejects old responses and rec
     request.resolve({ok:cents!==null,json:async()=>({ok:cents!==null,pricing:{totalCents:cents,currency:'USD',meta:{pricingMode:'manual_tariff',customerTariffRevision:1}}})});
   });
   try {
-    const first=f.w.requests[0]; assert.equal(first.body.resolution,'1k');
-    f.w.resolution='4k'; await f.render(); const next=f.w.requests[1];
-    assert.equal(next.body.resolution,'4k');
+    // Keyvo: characters render 2K on Seedream Flash (Standard) or Pro; switching the quality mode switches the engine.
+    const first=f.w.requests[0]; assert.equal(first.body.resolution,'2k'); assert.equal(first.body.engineId,'seedream-5-0-flash');
+    f.w.engine='seedream-5-0-pro'; await f.render(); const next=f.w.requests[1];
+    assert.equal(next.body.engineId,'seedream-5-0-pro'); assert.equal(next.body.resolution,'2k');
     await settle(next,23); assert.match(f.doc.querySelector('.app-generation-price').textContent,/0.23/);
     await settle(first,7); assert.match(f.doc.querySelector('.app-generation-price').textContent,/0.23/);
     f.w.references=1; await f.render(); const ref=f.w.requests[2];

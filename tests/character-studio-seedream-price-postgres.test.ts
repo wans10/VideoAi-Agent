@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { recastHarness } from './helpers/character-recast-harness';
 import { getFalEngineById } from '../frontend/src/config/falEngines';
-import { withDbTransaction } from '../frontend/src/lib/db';
+import { query, withDbTransaction } from '../frontend/src/lib/db';
 import { estimateImageGeneration } from '../frontend/src/server/images/estimate-image-generation';
 import { resolveImageGenerationPricingSnapshot } from '../frontend/src/server/images/image-generation-pricing';
 import { createInitialImageJobInExecutor } from '../frontend/src/server/images/image-initial-job';
@@ -10,28 +10,34 @@ import { buildCurrentOtherPricing } from '../frontend/app/(localized)/[locale]/(
 import { buildPricingHubData } from '../frontend/app/(localized)/[locale]/(marketing)/pricing/_lib/pricingHubData';
 import { formatCurrencyForLocale } from '../frontend/app/(localized)/[locale]/(marketing)/pricing/_lib/pricingPageContent';
 
-test('new Character Studio images and looks use one Nano Banana 2.1 image with the same estimate, tariff revision and receipt', async (t) => {
+// The Character Builder quotes Seedream 5.0 Flash (Standard) and Seedream 5.0 Pro (Pro) on the official-list rule path.
+// No customer tariff is needed, so the estimate, the reserved receipt and the public hub row must agree.
+const characterEngines = [
+  { engineId: 'seedream-5-0-flash', hubRow: 'character-builder-draft', label: 'Seedream 5.0 Flash' },
+  { engineId: 'seedream-5-0-pro', hubRow: 'character-builder-final', label: 'Seedream 5.0 Pro' },
+] as const;
+
+test('Character Studio images price through Seedream with the same estimate, receipt and hub row', async (t) => {
   const f = await recastHarness(t);
-  const engine = getFalEngineById('nano-banana-2-1')!.engine;
-  for (const resolution of ['1k', '2k', '4k'])
-    for (const mode of ['t2i', 'i2i'] as const)
-      await t.test(`${mode}/${resolution}`, async () => {
+  // Keyvo keeps the customer tariff state inactive (keyvo-upstream-deviations.md). The harness activates it for the model
+  // grid, so switch it off here: Seedream must price through the official-list rule alone, exactly as in production.
+  await query('UPDATE app_customer_tariff_state SET active = FALSE');
+  for (const { engineId, hubRow, label } of characterEngines) {
+    const engine = getFalEngineById(engineId)!.engine;
+    for (const [mode, referenceImageCount] of [['t2i', 0], ['i2i', 1], ['i2i', 3]] as const)
+      await t.test(`${engineId} ${mode}/${referenceImageCount} references`, async () => {
         const estimate = await estimateImageGeneration({
-          engineId: engine.id,
-          mode,
-          resolution,
-          numImages: 1,
-          aspectRatio: '3:4',
-          referenceImageCount: mode === 'i2i' ? 1 : 0,
+          engineId, mode, resolution: '2k', numImages: 1, aspectRatio: '3:4', referenceImageCount,
         });
+        assert.notEqual(estimate.pricing.meta?.pricingMode, 'manual_tariff', 'Seedream must not depend on a customer tariff');
         const { pricing } = await resolveImageGenerationPricingSnapshot({
           engine,
           mode,
           durationSec: 1,
-          resolution,
+          resolution: '2k',
           customImageSize: null,
           quality: null,
-          combinedImageCount: mode === 'i2i' ? 1 : 0,
+          combinedImageCount: referenceImageCount,
           enableWebSearch: false,
           numImages: 1,
           billingProductKey: null,
@@ -42,11 +48,10 @@ test('new Character Studio images and looks use one Nano Banana 2.1 image with t
           includedKlingFirstFrameParentJobId: null,
           resolvedAspectRatio: '3:4',
           trustedQuotedBilling: undefined,
-          customerTariffRevision: String(estimate.pricing.meta?.customerTariffRevision),
         });
         assert.equal(estimate.pricing.totalCents, pricing.totalCents);
         assert.equal(estimate.pricing.meta?.customerTariffRevision, pricing.meta?.customerTariffRevision);
-        const jobId = `character-${mode}-${resolution}`;
+        const jobId = `character-${engineId}-${mode}-${referenceImageCount}`;
         const params = {
           userId: f.actor.userId,
           mode,
@@ -68,37 +73,28 @@ test('new Character Studio images and looks use one Nano Banana 2.1 image with t
           canUpscale: false,
           finalPriceCents: pricing.totalCents,
           costBreakdownJson: null,
-          settingsSnapshotJson: JSON.stringify({ numImages: 1, resolution }),
+          settingsSnapshotJson: JSON.stringify({ numImages: 1, resolution: '2k' }),
           visibility: 'private' as const,
           indexable: false,
           preferredCurrency: 'usd',
           walletReservation: 'reserve' as const,
         };
-        assert.equal(
-          (await withDbTransaction((tx) => createInitialImageJobInExecutor(tx, params))).kind,
-          'created',
-        );
-        assert.equal(
-          (await withDbTransaction((tx) => createInitialImageJobInExecutor(tx, params))).kind,
-          'existing_job',
-        );
+        assert.equal((await withDbTransaction((tx) => createInitialImageJobInExecutor(tx, params))).kind, 'created');
+        assert.equal((await withDbTransaction((tx) => createInitialImageJobInExecutor(tx, params))).kind, 'existing_job');
         const receipts = await f.receipts(jobId);
         assert.equal(receipts.length, 1);
         assert.equal(receipts[0].amount_cents, pricing.totalCents);
-        assert.deepEqual(receipts[0].pricing_snapshot, pricing);
+        // The receipt is stored as JSON, which drops undefined optional fields such as durationSteps.default.
+        assert.deepEqual(receipts[0].pricing_snapshot, JSON.parse(JSON.stringify(pricing)));
         assert.equal(estimate.normalized.numImages, 1);
-        // Marketing reads the same native tariff as the estimate and reserved receipt.
-        for (const locale of ['en', 'fr', 'es'] as const) {
-          const publicRows = await buildCurrentOtherPricing(buildPricingHubData(locale).otherSurfaces, locale);
-          const amount = formatCurrencyForLocale(locale, pricing.currency, pricing.totalCents / 100);
-          const draft = publicRows.toolRows.find((row) => row.id === 'character-builder-draft')!;
-          const final = publicRows.toolRows.find((row) => row.id === 'character-builder-final')!;
-          if (resolution === '1k') assert.equal(draft.standardOutput, amount);
-          if (resolution === '2k') assert.equal(final.standardOutput, amount);
-          if (resolution === '4k') {
-            assert.equal(draft.proOutput, `4K: ${amount}`);
-            assert.equal(final.proOutput, `4K: ${amount}`);
+        if (mode === 't2i') {
+          // The public hub quotes the same single text-to-image output for each character mode.
+          for (const locale of ['en', 'fr', 'es'] as const) {
+            const publicRows = await buildCurrentOtherPricing(buildPricingHubData(locale).otherSurfaces, locale);
+            const amount = formatCurrencyForLocale(locale, pricing.currency, pricing.totalCents / 100);
+            assert.equal(publicRows.toolRows.find((row) => row.id === hubRow)!.standardOutput, `${label}: ${amount}`);
           }
         }
       });
+  }
 });

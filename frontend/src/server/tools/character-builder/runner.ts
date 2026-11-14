@@ -1,6 +1,7 @@
 import { randomUUID } from 'crypto';
 import { resolveStudioLookRequest } from '@/server/character-studio/look';
 import {
+  getCharacterEngineAspectRatio,
   getCharacterFormatResolution,
   getQualityEngineId,
 } from '@/lib/character-builder';
@@ -34,13 +35,13 @@ export async function runCharacterBuilder(input: RunCharacterBuilderInput): Prom
     throw new CharacterBuilderError('Generate one character image at a time.', { status: 400, code: 'single_output_required' });
   }
   const settingsSnapshot = buildSettingsSnapshot(request, prompt, engineId, engineLabel, inputMode);
-  const aspectRatio = getAspectRatio(
+  const aspectRatio = getCharacterEngineAspectRatio(engineId, getAspectRatio(
     request.outputMode,
     request.action,
     request.outputOptions.fullBodyRequired,
     request.outputOptions.includeCloseUps
-  );
-  const resolution = getCharacterFormatResolution(request.formatMode, request.qualityMode);
+  ));
+  const resolution = getCharacterFormatResolution();
 
   try {
     const result = await executeImageGeneration({

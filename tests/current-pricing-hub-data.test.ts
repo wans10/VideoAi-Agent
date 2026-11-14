@@ -89,8 +89,9 @@ test('Pricing audio and tools project current server totals, including Character
     assert.equal(row.oneTwentySeconds, '$4.32');
   }
   assert.match(data.otherSurfaces.toolRows.find((row) => row.id === 'character-builder-draft')!.standardOutput, /\$5\.43/);
-  assert.ok(requests.some((input) => input.productKey === 'character-sheet-4k' && input.quantity === 1));
-  assert.ok(requests.some((input) => input.productKey === 'character-sheet-2k' && input.quantity === 1));
+  assert.ok(requests.some((input) => input.productKey === 'character-sheet-draft-2k' && input.quantity === 1));
+  assert.ok(requests.some((input) => input.productKey === 'character-sheet-final-2k' && input.quantity === 1));
+  assert.ok(!requests.some((input) => /character-sheet-(1k|4k)/.test(input.productKey)), 'the builder offers no 1K or 4K quote');
   assert.match(data.otherSurfaces.toolRows.find((row) => row.id === 'video-upscale')!.standardOutput, /minimum/i);
 });
 
