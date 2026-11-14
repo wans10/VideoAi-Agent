@@ -300,7 +300,7 @@ Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorde
 - **Single choke point:** `keyvoEngineTier()` in `frontend/config/keyvo-model-visibility.ts` returns `public` for an
   admin-tier engine while the switch is on. Every tier check reads it. The family gate for the admin families (veo,
   gpt-image, nano-banana) is opened per engine by `isKeyvoVisibleEntry` and, for the examples family filter, by
-  `isKeyvoVisibleOrOpenedFamily`. The env reader is `isKeyvoAdminTierOpen()` in `frontend/lib/env.ts`.
+  `isKeyvoVisibleOrOpenedFamily`. The env reader is `isKeyvoAdminTierOpen()` in `frontend/config/keyvo-model-visibility.ts` (not `lib/env.ts`, whose load-time `process` reads would break sandboxed bundles).
 - **Read time:** the value is read on each server call, never cached in a module constant. It is not visible in
   browser bundles (a non-`NEXT_PUBLIC_` variable is undefined there), so browser code reports the admin tier as closed;
   the server decides, and the engine lists arrive from the server.

@@ -13,14 +13,3 @@ export const ENV = {
 } as const;
 
 export type EnvShape = typeof ENV;
-
-/**
- * Keyvo admin-tier override. KEYVO_ADMIN_TIER_OPEN=true (or 1) treats every admin-tier engine as public on every
- * surface. It is read on each call, never cached, and only on the server: browser bundles never see a non-public
- * variable, so they report false. Static pages and sitemaps keep the value they were built with (rebuild needed).
- */
-export function isKeyvoAdminTierOpen(): boolean {
-  if (typeof process === 'undefined' || typeof window !== 'undefined') return false;
-  const raw = (process.env.KEYVO_ADMIN_TIER_OPEN ?? '').trim().toLowerCase();
-  return raw === 'true' || raw === '1';
-}

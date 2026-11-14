@@ -1,4 +1,3 @@
-import { isKeyvoAdminTierOpen } from '../lib/env';
 import hiddenModelIds from './keyvo-hidden-model-ids.json';
 import modelAllowlist from './keyvo-model-allowlist.json';
 import modelRegistry from './model-registry.json';
@@ -21,6 +20,19 @@ const KEYVO_OFFERED_ENGINE_IDS: ReadonlySet<string> = new Set<string>(
   modelAllowlist.offeredEngineIds.map((id) => id.trim().toLowerCase()),
 );
 const KEYVO_HIDDEN_MODEL_IDS: ReadonlySet<string> = new Set<string>(hiddenModelIds);
+
+/**
+ * Keyvo admin-tier override. KEYVO_ADMIN_TIER_OPEN=true (or 1) treats every admin-tier engine as public on every
+ * surface. It lives here, not in lib/env.ts, so sandboxed bundles that import this module do not pull in the
+ * process-reading ENV module. It is read on each call, never cached, and only on the server: browser bundles never see a non-public
+ * variable, so they report false. Static pages and sitemaps keep the value they were built with (rebuild needed).
+ */
+export function isKeyvoAdminTierOpen(): boolean {
+  if (typeof process === 'undefined' || typeof window !== 'undefined') return false;
+  const raw = (process.env.KEYVO_ADMIN_TIER_OPEN ?? '').trim().toLowerCase();
+  return raw === 'true' || raw === '1';
+}
+
 export type KeyvoEngineTier = 'public' | 'admin';
 const KEYVO_ENGINE_TIERS: ReadonlyMap<string, KeyvoEngineTier> = new Map<string, KeyvoEngineTier>(
   Object.entries(modelAllowlist.engineTiers).map(([id, tier]) => [id.trim().toLowerCase(), tier as KeyvoEngineTier]),
