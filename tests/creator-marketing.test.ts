@@ -8,11 +8,19 @@ import { localizePathFromEnglish, englishPathFromLocale } from '../frontend/lib/
 import { routing } from '../frontend/i18n/routing';
 import { isKeyvoToolDisabled } from '../frontend/config/keyvo-disabled-features';
 
-test('the five released creators are discoverable without publishing unknown identities', () => {
-  assert.deepEqual(getReleasedCreatorToolIds(), CREATOR_TOOL_IDS);
-  for (const id of CREATOR_TOOL_IDS) {
+// Keyvo 2026-11-14: Subtitles is hidden (no mainland speech-to-text route); the other four stay released.
+const KEYVO_HIDDEN_CREATORS = ['subtitles'] as const;
+const RELEASED_CREATORS = CREATOR_TOOL_IDS.filter(id => !(KEYVO_HIDDEN_CREATORS as readonly string[]).includes(id));
+
+test('the four released creators are discoverable without publishing unknown or hidden identities', () => {
+  assert.deepEqual(getReleasedCreatorToolIds(), RELEASED_CREATORS);
+  for (const id of RELEASED_CREATORS) {
     assert.equal(isCreatorToolPublic(id), true);
     assert.equal(isCreatorPublicPathAvailable(`/tools/${id}`), true);
+  }
+  for (const id of KEYVO_HIDDEN_CREATORS) {
+    assert.equal(isCreatorToolPublic(id), false);
+    assert.equal(isCreatorPublicPathAvailable(`/tools/${id}`), false);
   }
   assert.equal(isCreatorToolPublic('invented'), false);
   assert.equal(isCreatorPublicPathAvailable('/tools/upscale'), true);
@@ -48,14 +56,21 @@ test('released creator routes appear in the actual discovered sitemap', async ()
     const entries = await getCanonicalPathEntries();
     // Keyvo has no provider for Upscale; its landing page is deliberately kept out of the sitemap.
     assert.equal(entries.some(entry => entry.englishPath === '/tools/upscale'), !isKeyvoToolDisabled('upscale'));
-    for (const id of CREATOR_TOOL_IDS) assert.ok(entries.some(entry => entry.englishPath === `/tools/${id}`));
+    for (const id of RELEASED_CREATORS) assert.ok(entries.some(entry => entry.englishPath === `/tools/${id}`));
+    for (const id of KEYVO_HIDDEN_CREATORS) assert.equal(entries.some(entry => entry.englishPath === `/tools/${id}`), false);
   } finally {
     if (old === undefined) delete process.env.NODE_ENV; else process.env.NODE_ENV = old;
   }
 });
 
 test('unreleased route rendering and metadata stop at the same not-found gate', async () => {
-  for (const id of CREATOR_TOOL_IDS) {
+  for (const id of KEYVO_HIDDEN_CREATORS) {
+    const route = await import(`../frontend/app/(localized)/[locale]/(marketing)/tools/${id}/page.tsx`);
+    const props = { params: Promise.resolve({ locale: 'fr' }) };
+    await assert.rejects(route.default(props), /NEXT_HTTP_ERROR_FALLBACK;404/);
+    await assert.rejects(route.generateMetadata(props), /NEXT_HTTP_ERROR_FALLBACK;404/);
+  }
+  for (const id of RELEASED_CREATORS) {
     const route = await import(`../frontend/app/(localized)/[locale]/(marketing)/tools/${id}/page.tsx`);
     const props = { params: Promise.resolve({ locale: 'fr' }) };
     assert.ok(await route.default(props));
@@ -76,5 +91,6 @@ test('released creators appear in the public hub and marketing navigation', asyn
   const { CreatorToolsCollection } = await import('../frontend/src/components/tools/creator-marketing/CreatorToolsCollection');
   const { MARKETING_NAV_TOOLS } = await import('../frontend/config/navigation');
   assert.ok(CreatorToolsCollection({ locale: 'en' }));
-  for (const id of CREATOR_TOOL_IDS) assert.ok(MARKETING_NAV_TOOLS.some(item => item.key === id));
+  for (const id of RELEASED_CREATORS) assert.ok(MARKETING_NAV_TOOLS.some(item => item.key === id));
+  for (const id of KEYVO_HIDDEN_CREATORS) assert.equal(MARKETING_NAV_TOOLS.some(item => item.key === id), false);
 });

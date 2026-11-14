@@ -2,7 +2,8 @@
 import { CREATOR_TOOL_IDS, type CreatorToolId } from './catalogue';
 export { CREATOR_TOOL_IDS, type CreatorToolId } from './catalogue';
 export const CREATOR_TOOL_AVAILABILITY: Readonly<Record<CreatorToolId, { publicReleased: boolean }>> = {
-  subtitles: { publicReleased: true },
+  // Keyvo 2026-11-14: hidden. The only speech-to-text route is ElevenLabs Scribe v2 on Fal (no FAL_KEY, no mainland ASR adapter).
+  subtitles: { publicReleased: false },
   'lip-sync': { publicReleased: true },
   'product-photo-editor': { publicReleased: true },
   'product-video-editor': { publicReleased: true },

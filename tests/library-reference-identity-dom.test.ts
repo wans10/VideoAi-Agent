@@ -47,10 +47,13 @@ test('saved Media carries public identity, measured audio facts and separate ori
     await settle(f.w,()=>f.w.data.currentAssets.length===1);
     const projected=JSON.parse(JSON.stringify(f.w.data.currentAssets[0]));
     for(const key of ['id','assetId','ref','durationSec','mediaFacts','url','accessUrl','thumbnailAccessUrl','previewAccessUrl','playbackAccessUrl','source'] as const) assert.deepEqual(projected[key],asset[key],key);
-    const target=Array.from(f.w.document.querySelectorAll('button')).find((b:any)=>b.textContent==='Subtitles') as HTMLButtonElement;
+    // Keyvo 2026-11-14: Subtitles is hidden (no mainland speech-to-text route), so the released audio destination is Lip Sync.
+    const buttons=Array.from(f.w.document.querySelectorAll('button')) as HTMLButtonElement[];
+    assert.equal(buttons.some((b:any)=>b.textContent==='Subtitles'),false,'hidden Subtitles is not offered');
+    const target=buttons.find((b:any)=>b.textContent==='Lip Sync') as HTMLButtonElement;
     assert.ok(target,'released audio creator destination');await f.w.fx.act(async()=>target.click());
     const handoff=JSON.parse(f.w.sessionStorage.getItem('maxvideoai:media-handoff:v1'));
-    assert.equal(handoff.destination,'subtitles');assert.equal(handoff.account,'owner');
+    assert.equal(handoff.destination,'lip-sync');assert.equal(handoff.account,'owner');
     assert.deepEqual(handoff.asset.ref,{type:'asset',assetId,kind:'audio'});
     assert.equal(handoff.asset.id,'url:internal-row');assert.equal(handoff.asset.url,asset.url);
     assert.deepEqual(handoff.asset.mediaFacts,asset.mediaFacts);assert.equal(handoff.asset.durationSec,12.5);
