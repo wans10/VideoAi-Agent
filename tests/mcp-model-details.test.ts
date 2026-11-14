@@ -1,3 +1,6 @@
+// Model-detail mechanism tests inspect engine records that Keyvo does not offer (hidden by the owner allowlist);
+// they run on the unfiltered catalog. This import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
 import { resolveAgentGenerationEngineExecutability } from '../frontend/src/server/agent-runtime/model-executability';
 import assert from 'node:assert/strict';
 import test from 'node:test';

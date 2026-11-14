@@ -218,7 +218,7 @@ for (const productCase of ['verified password account', 'confirmed Google accoun
     assert.deepEqual(status, {
       status: 'available',
       preset: {
-        engineId: 'seedance-2-0-mini',
+        engineId: 'seedance-2-5',
         surface: 'video',
         mode: 't2v',
         durationSec: 5,

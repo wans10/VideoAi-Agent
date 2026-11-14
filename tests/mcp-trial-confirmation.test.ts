@@ -26,6 +26,10 @@ import type { AgentGenerationStatus } from '../frontend/src/server/generations/g
 import { buildTrustedIncludedTrialVideoBilling } from '../frontend/src/server/video-generation/trusted-video-billing';
 import type { EngineCaps } from '../frontend/types/engines';
 
+// seedance-2-5 trial preset costs 52 cents (authoritative); the default emergency ceiling is 25 cents. Pin the ceiling
+// for these fixtures; the production default is an owner decision (docs/operations/mcp-trial-runbook.md).
+process.env.MCP_TRIAL_PROVIDER_COST_CEILING_CENTS = '100';
+
 const QUOTE_ID = '123e4567-e89b-42d3-a456-426614174000';
 const USER_ID = 'trial-confirm-user';
 const CLIENT_ID = 'trial-confirm-client';
@@ -43,7 +47,7 @@ const principal: AgentPrincipal = {
 const request: CanonicalGenerationRequest = {
   schemaVersion: 1,
   surface: 'video',
-  engineId: 'seedance-2-0-mini',
+  engineId: 'seedance-2-5',
   mode: 't2v',
   prompt: 'A private trial prompt',
   settings: {
@@ -57,7 +61,7 @@ const request: CanonicalGenerationRequest = {
 };
 
 function candidate(): AgentPublicGenerationEngine {
-  const entry = getFalEngineById('seedance-2-0-mini');
+  const entry = getFalEngineById('seedance-2-5');
   assert.ok(entry);
   const t2v = entry.modes.find((mode) => mode.mode === 't2v');
   assert.ok(t2v);
@@ -107,7 +111,7 @@ function includedSnapshot() {
       kind: 'included_trial',
       customerChargeCents: 0,
       normalPriceCents: 125,
-      providerCostCents: 18,
+      providerCostCents: 52,
     },
   };
 }
@@ -125,7 +129,7 @@ function trialQuote(options: Partial<McpGenerationQuote> = {}): McpGenerationQuo
     currency: 'USD',
     fundingMode: 'trial',
     trialFunding: {
-      kind: 'included_trial', customerChargeCents: 0, normalPriceCents: 125, providerCostCents: 18,
+      kind: 'included_trial', customerChargeCents: 0, normalPriceCents: 125, providerCostCents: 52,
     },
     state: 'prepared',
     jobId: null,
@@ -198,7 +202,7 @@ function dependencies(
         oauthClientId: CLIENT_ID,
         clientIp: riskContext.clientIp,
         userAgent: riskContext.userAgent,
-        providerCostCents: 18,
+        providerCostCents: 52,
       });
       return { allowed: true };
     },

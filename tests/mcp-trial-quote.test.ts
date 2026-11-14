@@ -45,11 +45,16 @@ const principal: AgentPrincipal = {
 };
 const trialInput = {
   surface: 'video',
-  engineId: 'seedance-2-0-mini',
+  engineId: 'seedance-2-5',
   mode: 't2v',
   prompt: 'A paper fox crossing a quiet moonlit street',
   settings: { aspectRatio: '9:16', audio: false },
 } as const;
+
+// The trial preset is seedance-2-5 (52 cents authoritative provider cost at 480p/5s), above the 25-cent default
+// emergency ceiling. Prepared-trial fixtures therefore run with the ceiling raised; the default refusal is asserted
+// explicitly below. Raising the production ceiling is an owner decision (docs/operations/mcp-trial-runbook.md).
+process.env.MCP_TRIAL_PROVIDER_COST_CEILING_CENTS = '100';
 
 function trialCapability(): AgentPublicGenerationEngine {
   const fields: EngineInputField[] = [
@@ -68,7 +73,7 @@ function trialCapability(): AgentPublicGenerationEngine {
     audioToggle: true,
   };
   const engine: EngineCaps = {
-    id: 'seedance-2-0-mini',
+    id: 'seedance-2-5',
     label: 'Seedance 2 Mini',
     provider: 'test',
     status: 'live',
@@ -96,7 +101,7 @@ function trialCapability(): AgentPublicGenerationEngine {
 const available: TrialStatus = {
   status: 'available',
   preset: {
-    engineId: 'seedance-2-0-mini',
+    engineId: 'seedance-2-5',
     surface: 'video',
     mode: 't2v',
     durationSec: 5,
@@ -226,6 +231,22 @@ function prepareDependencies(options: {
   return { captures, deps, executor };
 }
 
+test('the default emergency ceiling closes the seedance-2-5 trial preset before any risk check or quote', async () => {
+  const previous = process.env.MCP_TRIAL_PROVIDER_COST_CEILING_CENTS;
+  delete process.env.MCP_TRIAL_PROVIDER_COST_CEILING_CENTS;
+  try {
+    const { captures, deps } = prepareDependencies({ paidEnabled: false });
+    await assert.rejects(
+      prepareGeneration(trialInput, principal, deps as never),
+      { code: 'INTERNAL_ERROR', message: 'The included trial cost is unavailable.' },
+    );
+    assert.equal(captures.risk.length, 0);
+    assert.equal(captures.spending, 0);
+  } finally {
+    process.env.MCP_TRIAL_PROVIDER_COST_CEILING_CENTS = previous ?? '100';
+  }
+});
+
 test('a qualifying original request prepares a zero-charge trial without reducing the wallet', async () => {
   const { captures, deps, executor } = prepareDependencies({ paidEnabled: false });
   const prepared = await prepareGeneration(trialInput, principal, deps as never);
@@ -242,7 +263,7 @@ test('a qualifying original request prepares a zero-charge trial without reducin
     oauthClientId: 'codex-client',
     clientIp: '203.0.113.17',
     userAgent: 'Codex/1.0',
-    providerCostCents: 18,
+    providerCostCents: 52,
   }]);
   assert.equal(captures.inserted.length, 1);
   const inserted = captures.inserted[0]!;
@@ -255,11 +276,11 @@ test('a qualifying original request prepares a zero-charge trial without reducin
     kind: 'included_trial',
     customerChargeCents: 0,
     normalPriceCents: 125,
-    providerCostCents: 18,
+    providerCostCents: 52,
   });
   assert.deepEqual(captures.audits, [{
     quoteId,
-    engineId: 'seedance-2-0-mini',
+    engineId: 'seedance-2-5',
     aspectRatio: '9:16',
     audio: false,
     oauthClientId: 'codex-client',
@@ -427,7 +448,7 @@ test('trial provider cost is independent from the marked-up public canonical bas
     const { captures, deps } = prepareDependencies({ paidEnabled: false, baseAmountCents });
     const prepared = await prepareGeneration(trialInput, principal, deps as never);
     assert.equal(prepared.fundingMode, 'trial');
-    assert.equal(captures.risk[0]?.providerCostCents, 18);
+    assert.equal(captures.risk[0]?.providerCostCents, 52);
     assert.equal(captures.inserted.length, 1);
   }
 
@@ -444,7 +465,7 @@ function canonicalTrialRequest(): CanonicalGenerationRequest {
   return {
     schemaVersion: 1,
     surface: 'video',
-    engineId: 'seedance-2-0-mini',
+    engineId: 'seedance-2-5',
     mode: 't2v',
     prompt: trialInput.prompt,
     settings: {
@@ -481,7 +502,7 @@ function validTrialPricingSnapshot(): Record<string, unknown> {
     schemaVersion: 1,
     catalogRevision: 'catalog-1',
     surface: 'video',
-    engineId: 'seedance-2-0-mini',
+    engineId: 'seedance-2-5',
     membership: {
       tier: 'member', source: 'app_receipts_rolling_30d', spent30Cents: 0,
       thresholdCents: 0, discountPercent: 0,
@@ -489,7 +510,7 @@ function validTrialPricingSnapshot(): Record<string, unknown> {
     canonicalPricing: pricingSnapshot(),
     funding: {
       kind: 'included_trial', customerChargeCents: 0, normalPriceCents: 125,
-      providerCostCents: 18,
+      providerCostCents: 52,
     },
   };
 }
@@ -534,8 +555,8 @@ test('quote repository requires explicit funding mode and parses a private typed
 
 test('trial quote repository accepts only the authoritative request-derived provider cost', async () => {
   for (const [aspectRatio, providerCostCents] of [
-    ['9:16', 18],
-    ['1:1', 17],
+    ['9:16', 52],
+    ['1:1', 52],
   ] as const) {
     const request = {
       ...canonicalTrialRequest(),
@@ -623,7 +644,7 @@ test('trial quote repository accepts only the authoritative request-derived prov
 });
 
 test('accepted historical trial funding remains readable but cannot fund a new quote', async () => {
-  for (const [aspectRatio, historicalCost] of [['16:9', 17], ['9:16', 17], ['1:1', 10]] as const) {
+  for (const [aspectRatio, historicalCost] of [['16:9', 52], ['9:16', 52], ['1:1', 10]] as const) {
     const request = { ...canonicalTrialRequest(), settings: { ...canonicalTrialRequest().settings, aspectRatio } };
     const snapshot = validTrialPricingSnapshot();
     (snapshot.funding as Record<string, unknown>).providerCostCents = historicalCost;
@@ -756,7 +777,7 @@ test('trial quote preparation audit has a narrow exact parameterized repository 
   };
   const audit = {
     quoteId,
-    engineId: 'seedance-2-0-mini',
+    engineId: 'seedance-2-5',
     aspectRatio: '9:16',
     audio: false,
     oauthClientId: 'codex-client',
@@ -767,7 +788,7 @@ test('trial quote preparation audit has a narrow exact parameterized repository 
   assert.match(calls[0]!.sql, /INSERT INTO mcp_trial_quote_prepared_audit/i);
   assert.doesNotMatch(calls[0]!.sql, /trial-user|paper fox|203\.0\.113\.17|Codex\/1\.0/);
   assert.deepEqual(calls[0]!.params, [
-    quoteId, 'seedance-2-0-mini', '9:16', false, 'codex-client', 'success',
+    quoteId, 'seedance-2-5', '9:16', false, 'codex-client', 'success',
   ]);
   for (const privateField of ['userId', 'prompt', 'clientIp', 'userAgent', 'providerCostCents']) {
     await assert.rejects(
@@ -786,7 +807,7 @@ test('trial quote audit rejects exotic DTO properties without invoking accessors
   ) => Promise<boolean>;
   const validAudit = {
     quoteId,
-    engineId: 'seedance-2-0-mini',
+    engineId: 'seedance-2-5',
     aspectRatio: '9:16',
     audio: false,
     oauthClientId: 'codex-client',
@@ -988,7 +1009,7 @@ test('migration 30 to 31, reapplication, funding attacks and audit privacy execu
     schemaVersion: 1,
     catalogRevision: 'catalog-1',
     surface: 'video',
-    engineId: 'seedance-2-0-mini',
+    engineId: 'seedance-2-5',
     membership: {
       tier: 'member', source: 'app_receipts_rolling_30d', spent30Cents: 0,
       thresholdCents: 0, discountPercent: 0,
@@ -996,7 +1017,7 @@ test('migration 30 to 31, reapplication, funding attacks and audit privacy execu
     canonicalPricing: pricingSnapshot(),
     funding: {
       kind: 'included_trial', customerChargeCents: 0, normalPriceCents: 125,
-      providerCostCents: 17,
+      providerCostCents: 52,
     },
   };
   const trialPricing = JSON.stringify(trialPricingValue).replaceAll("'", "''");
@@ -1051,7 +1072,7 @@ test('migration 30 to 31, reapplication, funding attacks and audit privacy execu
     INSERT INTO mcp_trial_quote_prepared_audit (
       quote_id, engine_id, aspect_ratio, audio, oauth_client_id, outcome
     ) VALUES (
-      '${quoteId}', 'seedance-2-0-mini', '9:16', FALSE, 'codex-client', 'success'
+      '${quoteId}', 'seedance-2-5', '9:16', FALSE, 'codex-client', 'success'
     );
   `);
   assert.equal(valid.status, 0, commandOutput(valid));
@@ -1064,7 +1085,7 @@ test('migration 30 to 31, reapplication, funding attacks and audit privacy execu
   const upgrade = psql('--single-transaction', '-v', 'ON_ERROR_STOP=1', '-f', join(root, rasterMigrationPath));
   assert.equal(upgrade.status, 0, commandOutput(upgrade));
   assert.equal(historicalRows().stdout, beforeUpgrade, 'forward migration preserves every stored quote field');
-  for (const [sequence, aspectRatio, providerCostCents] of [[4, '16:9', 18], [5, '9:16', 18], [6, '1:1', 17]] as const) {
+  for (const [sequence, aspectRatio, providerCostCents] of [[4, '16:9', 52], [5, '9:16', 52], [6, '1:1', 52]] as const) {
     const value = { ...requestValue, settings: { ...requestValue.settings, aspectRatio } };
     const pricing = { ...trialPricingValue, funding: { ...trialPricingValue.funding, providerCostCents } };
     const inserted = psql('-v', 'ON_ERROR_STOP=1', '-c', `
@@ -1158,7 +1179,7 @@ test('migration 30 to 31, reapplication, funding attacks and audit privacy execu
     }),
     cloneQuoteAttack(19, 'trial-user', {
       requestJson: `jsonb_set(request_json, '{settings,aspectRatio}', '"1:1"')`,
-      pricingSnapshot: "jsonb_set(pricing_snapshot, '{funding,providerCostCents}', '18')",
+      pricingSnapshot: "jsonb_set(pricing_snapshot, '{funding,providerCostCents}', '51')",
     }),
     cloneQuoteAttack(20, 'trial-user', {
       pricingSnapshot: "jsonb_set(pricing_snapshot, '{funding,providerCostCents}', '10')",
@@ -1177,9 +1198,9 @@ test('migration 30 to 31, reapplication, funding attacks and audit privacy execu
     `UPDATE mcp_trial_quote_prepared_audit SET outcome = 'failure' WHERE quote_id = '${quoteId}'`,
     `DELETE FROM mcp_trial_quote_prepared_audit WHERE quote_id = '${quoteId}'`,
     `INSERT INTO mcp_trial_quote_prepared_audit (quote_id, engine_id, aspect_ratio, audio, oauth_client_id, outcome)
-       VALUES ('123e4567-e89b-42d3-a456-426614174001', 'seedance-2-0-mini', '9:16', FALSE, 'codex-client', 'success')`,
+       VALUES ('123e4567-e89b-42d3-a456-426614174001', 'seedance-2-5', '9:16', FALSE, 'codex-client', 'success')`,
     `INSERT INTO mcp_trial_quote_prepared_audit (quote_id, engine_id, aspect_ratio, audio, oauth_client_id, outcome)
-       VALUES ('123e4567-e89b-42d3-a456-426614174002', 'seedance-2-0-mini', '9:16', FALSE, 'codex-client', 'failure')`,
+       VALUES ('123e4567-e89b-42d3-a456-426614174002', 'seedance-2-5', '9:16', FALSE, 'codex-client', 'failure')`,
   ];
   for (const sql of auditAttacks) {
     const attacked = psql('-v', 'ON_ERROR_STOP=1', '-c', sql);

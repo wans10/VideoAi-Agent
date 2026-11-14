@@ -75,8 +75,8 @@ async function resolveModeAtGenerateBoundary(input: {
 }
 
 test('generate defaults only a truly absent mode and keeps normalized public mode compatibility', async () => {
-  const publicPika = getFalEngineById('pika-text-to-video')?.engine;
-  assert.ok(publicPika);
+  const publicSeedance25 = getFalEngineById('kling-3-standard')?.engine;
+  assert.ok(publicSeedance25);
 
   // Keyvo: with no Turbo route at all, the omitted mode still normalizes but the request is refused before charging.
   const unrouted = await withTurboRouteEnv({}, () => resolveModeAtGenerateBoundary({
@@ -91,7 +91,7 @@ test('generate defaults only a truly absent mode and keeps normalized public mod
 
   for (const fixture of [
     { engine: KLING_3_TURBO_STANDARD_ENGINE },
-    { engine: publicPika },
+    { engine: publicSeedance25 },
   ]) {
     const omitted = await withTurboRouteEnv(OFFICIAL_TURBO_ROUTE_ENV, () => resolveModeAtGenerateBoundary({
       ...fixture,
@@ -104,7 +104,7 @@ test('generate defaults only a truly absent mode and keeps normalized public mod
   }
 
   const normalizedPublic = await resolveModeAtGenerateBoundary({
-    engine: publicPika,
+    engine: publicSeedance25,
     modePresent: true,
     mode: '  T2V  ',
   });
@@ -113,8 +113,8 @@ test('generate defaults only a truly absent mode and keeps normalized public mod
 });
 
 test('generate rejects every explicitly invalid mode before database and billing work', async (context) => {
-  const publicPika = getFalEngineById('pika-text-to-video')?.engine;
-  assert.ok(publicPika);
+  const publicSeedance25 = getFalEngineById('kling-3-standard')?.engine;
+  assert.ok(publicSeedance25);
   const invalidModes: Array<{ label: string; value: unknown }> = [
     { label: 'empty string', value: '' },
     { label: 'whitespace string', value: '   ' },
@@ -127,7 +127,7 @@ test('generate rejects every explicitly invalid mode before database and billing
 
   for (const fixture of [
     { label: 'P1 public', engine: KLING_3_TURBO_STANDARD_ENGINE },
-    { label: 'established public', engine: publicPika },
+    { label: 'established public', engine: publicSeedance25 },
   ]) {
     for (const invalid of invalidModes) {
       await context.test(`${fixture.label}: ${invalid.label}`, async () => {
