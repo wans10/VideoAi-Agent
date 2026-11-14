@@ -4,7 +4,7 @@ import path from 'node:path';
 import test from 'node:test';
 
 import engineCatalog from '../frontend/config/engine-catalog.json' with { type: 'json' };
-import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility.ts';
+import { keyvoEngineTier } from '../frontend/config/keyvo-model-visibility.ts';
 
 import { BEST_FOR_PAGES } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/best-for/[usecase]/_lib/best-for-detail-config.ts';
 
@@ -95,8 +95,9 @@ const EXPECTED_SHORTLISTS: Record<string, string[]> = {
   ]
 };
 
-// Keyvo hides non-Chinese-vendor models, so the visible shortlist drops them while the authored editorial keeps the full list.
-const VISIBLE_SLUGS = new Set(engineCatalog.filter((entry) => isKeyvoVisibleFamily(entry.family)).map((entry) => entry.modelSlug));
+// Keyvo offers only the owner allowlist to customers (public tier; admin-tier engines are administrator-only), so the
+// visible shortlist drops every other engine while the authored editorial keeps the full list.
+const VISIBLE_SLUGS = new Set(engineCatalog.filter((entry) => keyvoEngineTier(entry.engineId) === 'public').map((entry) => entry.modelSlug));
 const visibleShortlist = (slugs: string[]) => slugs.filter((slug) => VISIBLE_SLUGS.has(slug));
 
 const OBSOLETE_RECOMMENDATIONS = new Set([

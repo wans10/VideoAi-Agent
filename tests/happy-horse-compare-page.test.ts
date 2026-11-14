@@ -13,12 +13,13 @@ type EngineCatalogEntry = (typeof engineCatalog)[number];
 
 const HAPPY_HORSE_SEO_EXPANSION_SLUGS = [
   'happy-horse-1-1-vs-kling-o3-pro',
-  'happy-horse-1-1-vs-seedance-2-0-fast',
-  'dreamina-seedance-2-0-mini-vs-happy-horse-1-1',
 ] as const;
 
-// Veo and LTX are hidden by Keyvo, so their pairs are no longer published.
-const HIDDEN_OPPONENT_SLUGS = ['happy-horse-1-1-vs-veo-3-1-fast', 'happy-horse-1-1-vs-ltx-2-3-pro'] as const;
+// Only pairs between engines on the owner allowlist are published: Veo, LTX and Seedance 2.0 Fast/Mini are not offered.
+const HIDDEN_OPPONENT_SLUGS = [
+  'happy-horse-1-1-vs-veo-3-1-fast', 'happy-horse-1-1-vs-ltx-2-3-pro',
+  'happy-horse-1-1-vs-seedance-2-0-fast', 'dreamina-seedance-2-0-mini-vs-happy-horse-1-1',
+] as const;
 
 function getCatalogEntry(slug: string): EngineCatalogEntry {
   const entry = engineCatalog.find((candidate) => candidate.modelSlug === slug);
@@ -47,7 +48,7 @@ test('Happy Horse 1.1 first-wave SEO comparisons are published', () => {
   const publishedComparisonSlugs = getPublishedComparisonSlugs();
   const happyHorse = getCatalogEntry('happy-horse-1-1');
 
-  ['kling-o3-pro', 'seedance-2-0-fast', 'dreamina-seedance-2-0-mini'].forEach((slug) =>
+  ['kling-o3-pro'].forEach((slug) =>
     assert.ok(happyHorse.surfaces.compare.publishedPairs.includes(slug), `Happy Horse 1.1 missing published pair ${slug}`)
   );
 
@@ -94,12 +95,12 @@ test('Seedance Mini vs Happy Horse stays scoreboard-only without comparison vide
   assert.deepEqual(slots, []);
 });
 
-test('llms.txt features current Happy Horse and Seedance Mini models without hidden comparison hubs', () => {
+test('llms.txt features current Happy Horse and Seedance 2.5 models without hidden comparison hubs', () => {
   const llmsSource = buildLlmsText(mcpPublication);
 
   [
     'https://app.keyvo.cn/models/happy-horse-1-1',
-    'https://app.keyvo.cn/models/dreamina-seedance-2-0-mini',
+    'https://app.keyvo.cn/models/seedance-2-5',
   ].forEach((url) => assert.ok(llmsSource.includes(url), `Missing llms.txt URL ${url}`));
   // Keyvo hides comparison and best-for pages.
   assert.doesNotMatch(llmsSource, /\/ai-video-engines/);

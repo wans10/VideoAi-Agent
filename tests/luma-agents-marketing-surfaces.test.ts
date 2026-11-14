@@ -153,9 +153,10 @@ test('Luma Ray 2 routes stay indexable but move behind current Ray 3.2 discovery
   assert.match(ray2Flash.seo.title, /Legacy/);
   assert.match(catalogEntry('luma-ray-2').bestFor ?? '', /Legacy Luma/i);
   assert.match(catalogEntry('luma-ray-2-flash').bestFor ?? '', /Legacy fast Luma/i);
-  assert.equal(ray32.surfaces.app.enabled, true);
-  assert.equal(ray2.surfaces.app.enabled, true);
-  assert.equal(ray2Flash.surfaces.app.enabled, true);
+  // The owner allowlist does not offer any Luma engine, so none is enabled in the app.
+  assert.equal(ray32.surfaces.app.enabled, false);
+  assert.equal(ray2.surfaces.app.enabled, false);
+  assert.equal(ray2Flash.surfaces.app.enabled, false);
   const engineSelectFamilyPriority = ENGINE_SELECT_FAMILY_PRIORITY as readonly string[];
   assert.equal(engineSelectFamilyPriority.includes('luma'), true);
   assert.ok(engineSelectFamilyPriority.indexOf('luma') > engineSelectFamilyPriority.indexOf('happy-horse'));

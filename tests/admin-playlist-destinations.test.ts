@@ -124,7 +124,8 @@ test('projects_missing_and_historical_core_destinations', async () => {
     const missingModel = byId.get('model:happy-horse-1-1');
     assert.equal(missingModel?.status, 'missing');
     assert.equal(missingModel?.label, 'Happy Horse 1.1');
-    assert.equal(byId.get('model:dreamina-seedance-2-0-mini')?.label, 'Seedance 2.0 Mini');
+    // Seedance 2.0 Mini is not on the owner allowlist, so it has no destination row.
+    assert.equal(byId.has('model:dreamina-seedance-2-0-mini'), false);
     assert.match(missingModel?.warning ?? '', /editable collection/i);
     assert.match(missingModel?.warning ?? '', /currently displays 0 public videos/i);
     assert.match(missingModel?.warning ?? '', /examples-happy-horse-1-1/);

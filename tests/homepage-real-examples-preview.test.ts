@@ -57,7 +57,7 @@ test('homepage real examples preview uses compact decision-oriented copy and CTA
   assert.deepEqual(
     cards.map((card) => [card.title, card.useCase, card.mode, card.duration ?? null, card.price ?? null]),
     [
-      ['Seedance 2.0', 'Cinematic realism', 'Reference-to-video', '12s', 'Live price'],
+      ['Seedance 2.5', 'Cinematic realism', 'Reference-to-video', '12s', 'Live price'],
       ['Kling 3 Pro', 'Camera motion', 'Image-to-video', '15s', 'Live price'],
       ['Veo 3.1', 'Premium realism', 'Image-to-video', '6s', 'Live price'],
       ['Happy Horse 1.1', 'Audio-native workflows', 'Text/image/reference-to-video', '10s', 'Live price'],
@@ -68,7 +68,8 @@ test('homepage real examples preview uses compact decision-oriented copy and CTA
   );
 
   for (const card of cards) {
-    assert.equal(card.cta, 'Examples & prompts');
+    // The Seedance 2.5 card (the offered Seedance) links straight to its model page, without an examples family.
+    assert.equal(card.cta, card.engineId === 'seedance-2-5' ? 'Explore Seedance 2.5' : 'Examples & prompts');
     assert.notEqual((card as FallbackCard & { showExamplesCta?: boolean }).showExamplesCta, false);
     assert.equal(card.modelCta, 'Specs & pricing');
     assert.ok(!card.cta.includes('Open model'));
@@ -99,13 +100,15 @@ test('homepage examples preview pins accurate recent 16:9 media for Wan, Veo, an
 
 test('homepage examples preview keeps only real crawlable example routes', () => {
   const expectedExamples = new Map([
-    ['Seedance 2.0', 'seedance'],
     ['Kling 3 Pro', 'kling'],
     ['Happy Horse 1.1', 'happy-horse'],
     ['Wan 3', 'wan'],
   ]);
   // Keyvo unpublishes non-Chinese-vendor families, so their examples routes are not indexed.
   for (const hidden of ['veo', 'ltx']) assert.equal(isIndexedExampleFamilyId(hidden), false, `/examples/${hidden} must be hidden`);
+
+  // Seedance 2.0 is not offered under the owner allowlist; the homepage card is Seedance 2.5 and has no examples family.
+  assert.equal(cards.find((card) => card.title === 'Seedance 2.5')?.examplesSlug, undefined);
 
   for (const [title, examplesSlug] of expectedExamples) {
     assert.equal(cards.find((card) => card.title === title)?.examplesSlug, examplesSlug);

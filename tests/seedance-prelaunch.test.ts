@@ -39,170 +39,6 @@ function collectPublicCopy(value: unknown): string[] {
   return Object.values(value as Record<string, unknown>).flatMap(collectPublicCopy);
 }
 
-test('Seedance 2 registry centralizes provisional Fal IDs and keeps both launch surfaces aligned', () => {
-  const seedance = listFalEngines().find((entry) => entry.id === 'seedance-2-0');
-  const fast = listFalEngines().find((entry) => entry.id === 'seedance-2-0-fast');
-  const mini = listFalEngines().find((entry) => entry.id === 'seedance-2-0-mini');
-
-  assert.ok(seedance);
-  assert.ok(fast);
-  assert.ok(mini);
-
-  assert.equal(seedance.defaultFalModelId, 'bytedance/seedance-2.0/text-to-video');
-  assert.equal(seedance.engine.providerMeta?.modelSlug, 'bytedance/seedance-2.0/text-to-video');
-  assert.equal(fast.defaultFalModelId, 'bytedance/seedance-2.0/fast/text-to-video');
-  assert.equal(fast.engine.providerMeta?.modelSlug, 'bytedance/seedance-2.0/fast/text-to-video');
-  assert.equal(seedance.engine.status, 'live');
-  assert.equal(fast.engine.status, 'live');
-  assert.deepEqual(seedance.engine.modes, ['t2v', 'i2v', 'ref2v', 'v2v', 'extend']);
-  assert.deepEqual(fast.engine.modes, ['t2v', 'i2v', 'ref2v', 'v2v', 'extend']);
-  assert.equal(seedance.engine.extend, true);
-  assert.equal(fast.engine.extend, true);
-  assert.equal(seedance.modes.some((mode) => mode.mode === 'ref2v'), true);
-  assert.equal(fast.modes.some((mode) => mode.mode === 'ref2v'), true);
-  assert.equal(seedance.modes.some((mode) => mode.mode === 'v2v'), true);
-  assert.equal(seedance.modes.some((mode) => mode.mode === 'extend'), true);
-  assert.equal(fast.modes.some((mode) => mode.mode === 'v2v'), true);
-  assert.equal(fast.modes.some((mode) => mode.mode === 'extend'), true);
-  assert.deepEqual(seedance.engine.resolutions, ['480p', '720p', '1080p', '4k']);
-  assert.deepEqual(fast.engine.resolutions, ['480p', '720p']);
-  assert.deepEqual(seedance.engine.aspectRatios, ['auto', '21:9', '16:9', '4:3', '1:1', '3:4', '9:16']);
-  assert.deepEqual(fast.engine.aspectRatios, ['auto', '21:9', '16:9', '4:3', '1:1', '3:4', '9:16']);
-  // Keyvo 2026-11-13: the token fact is the Volcengine Ark list (CNY 46/M tokens at 720p, 8 CNY/USD), sold at 80%.
-  assert.equal(seedance.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokens, 46 / 8 / 1000);
-  assert.equal(seedance.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokensByResolution?.['1080p'], 51 / 8 / 1000);
-  assert.equal(seedance.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokensByResolution?.['4k'], 26 / 8 / 1000);
-  // Ark lists a lower rate for requests with video input (CNY 22/M for Fast).
-  assert.equal(fast.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokensByInputType?.video_input, 22 / 8 / 1000);
-  assert.equal(fast.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokens, 37 / 8 / 1000);
-  assert.equal(seedance.engine.pricingDetails?.tokenPricing?.defaultAspectRatio, '16:9');
-  assert.equal(fast.engine.pricingDetails?.tokenPricing?.defaultAspectRatio, '16:9');
-  assert.equal(mini.defaultFalModelId, 'byteplus/dreamina-seedance-2.0-mini/text-to-video');
-  assert.equal(mini.engine.providerMeta?.provider, 'byteplus_modelark');
-  assert.equal(mini.engine.providerMeta?.modelSlug, 'doubao-seedance-2-0-mini-260615');
-  assert.deepEqual(mini.engine.modes, ['t2v', 'i2v', 'ref2v', 'v2v', 'extend']);
-  assert.deepEqual(mini.engine.resolutions, ['480p', '720p']);
-  assert.deepEqual(mini.engine.fps, [24]);
-  assert.equal(mini.engine.audio, true);
-  assert.equal(mini.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokens, 23 / 8 / 1000);
-  assert.equal(mini.engine.pricingDetails?.tokenPricing?.unitPriceUsdPer1kTokensByInputType?.video_input, 14 / 8 / 1000);
-  assert.equal(mini.engine.pricingDetails?.tokenPricing?.pricingSource, 'volcengine_ark_cn_beijing_list_2026_11_13');
-  assert.deepEqual(Object.keys(mini.engine.pricingDetails?.tokenPricing?.dimensions ?? {}), ['480p', '720p']);
-
-  const seedanceI2v = seedance.modes.find((mode) => mode.mode === 'i2v');
-  const seedanceRef2v = seedance.modes.find((mode) => mode.mode === 'ref2v');
-  const fastRef2v = fast.modes.find((mode) => mode.mode === 'ref2v');
-  assert.ok(seedanceI2v);
-  assert.ok(seedanceRef2v);
-  assert.ok(fastRef2v);
-  assert.deepEqual(seedanceI2v.ui.duration, { options: ['auto', 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], default: 'auto' });
-  assert.deepEqual(seedanceI2v.ui.resolution, ['480p', '720p', '1080p', '4k']);
-  assert.deepEqual(seedanceI2v.ui.aspectRatio, ['auto', '21:9', '16:9', '4:3', '1:1', '3:4', '9:16']);
-  assert.deepEqual(seedanceRef2v.ui.resolution, ['480p', '720p', '1080p', '4k']);
-  assert.deepEqual(fastRef2v.ui.resolution, ['480p', '720p']);
-  const miniV2v = mini.modes.find((mode) => mode.mode === 'v2v');
-  assert.ok(miniV2v);
-  assert.deepEqual(miniV2v.ui.duration, { options: ['auto', 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], default: 5 });
-  assert.deepEqual(miniV2v.ui.resolution, ['480p', '720p']);
-  assert.equal(mini.modes.find((mode) => mode.mode === 't2v')?.ui.maxUploadMB, undefined);
-  assert.equal(mini.modes.find((mode) => mode.mode === 'i2v')?.ui.maxUploadMB, 30);
-  assert.equal(mini.modes.find((mode) => mode.mode === 'ref2v')?.ui.maxUploadMB, 200);
-  assert.equal(mini.modes.find((mode) => mode.mode === 'v2v')?.ui.maxUploadMB, 200);
-  assert.equal(mini.modes.find((mode) => mode.mode === 'extend')?.ui.maxUploadMB, 200);
-
-  const seedanceFields = [...(seedance.engine.inputSchema?.required ?? []), ...(seedance.engine.inputSchema?.optional ?? [])];
-  const fastFields = [...(fast.engine.inputSchema?.required ?? []), ...(fast.engine.inputSchema?.optional ?? [])];
-  assert.ok(seedanceFields.some((field) => field.id === 'end_image_url' && field.modes?.includes('i2v')));
-  assert.ok(seedanceFields.some((field) => field.id === 'image_urls' && field.modes?.includes('ref2v') && field.maxCount === 9));
-  assert.ok(seedanceFields.some((field) => field.id === 'video_urls' && field.modes?.includes('ref2v') && field.maxCount === 3));
-  assert.ok(seedanceFields.some((field) => field.id === 'audio_urls' && field.modes?.includes('ref2v') && field.maxCount === 3));
-  assert.equal(seedanceFields.find((field) => field.id === 'image_url')?.label, 'Start image');
-  assert.equal(seedanceFields.find((field) => field.id === 'end_image_url')?.label, 'End image');
-  assert.equal(seedanceFields.find((field) => field.id === 'image_urls')?.label, 'Reference images (up to 9)');
-  assert.equal(seedanceFields.find((field) => field.id === 'video_urls')?.label, 'Reference video clips (up to 3)');
-  assert.equal(seedanceFields.find((field) => field.id === 'audio_urls')?.label, 'Reference audio clips (up to 3)');
-  const seedanceVideoField = seedanceFields.find((field) => field.id === 'video_urls');
-  assert.equal(seedanceVideoField?.minDurationSec, 2);
-  assert.equal(seedanceVideoField?.maxDurationSec, 15);
-  assert.equal(seedanceFields.some((field) => field.id === 'reference_image_urls' && field.modes?.includes('ref2v')), false);
-  assert.ok(fastFields.some((field) => field.id === 'end_image_url' && field.modes?.includes('i2v')));
-  assert.ok(fastFields.some((field) => field.id === 'image_urls' && field.modes?.includes('ref2v') && field.maxCount === 9));
-  assert.ok(fastFields.some((field) => field.id === 'video_urls' && field.modes?.includes('ref2v') && field.maxCount === 3));
-  assert.ok(fastFields.some((field) => field.id === 'audio_urls' && field.modes?.includes('ref2v') && field.maxCount === 3));
-  assert.equal(fastFields.find((field) => field.id === 'image_url')?.label, 'Start image');
-  assert.equal(fastFields.find((field) => field.id === 'end_image_url')?.label, 'End image');
-  assert.equal(fastFields.find((field) => field.id === 'image_urls')?.label, 'Reference images (up to 9)');
-  assert.equal(fastFields.find((field) => field.id === 'video_urls')?.label, 'Reference video clips (up to 3)');
-  assert.equal(fastFields.find((field) => field.id === 'audio_urls')?.label, 'Reference audio clips (up to 3)');
-  const fastVideoField = fastFields.find((field) => field.id === 'video_urls');
-  assert.equal(fastVideoField?.minDurationSec, 2);
-  assert.equal(fastVideoField?.maxDurationSec, 15);
-  assert.equal(fastFields.some((field) => field.id === 'reference_image_urls' && field.modes?.includes('ref2v')), false);
-  const miniFields = [...(mini.engine.inputSchema?.required ?? []), ...(mini.engine.inputSchema?.optional ?? [])];
-  const miniSourceVideoField = miniFields.find((field) => field.id === 'video_url');
-  const miniReferenceVideoField = miniFields.find((field) => field.id === 'video_urls');
-  const miniExtensionVideoField = miniFields.find((field) => field.id === 'extension_source_videos');
-  const miniReferenceAudioField = miniFields.find((field) => field.id === 'audio_urls');
-  assert.ok(miniSourceVideoField);
-  assert.equal(miniSourceVideoField.type, 'video');
-  assert.equal(miniSourceVideoField.label, 'Source video');
-  assert.deepEqual(miniSourceVideoField.modes, ['v2v']);
-  assert.deepEqual(miniSourceVideoField.requiredInModes, ['v2v']);
-  assert.equal(miniSourceVideoField.maxCount, 1);
-  assert.ok(miniReferenceVideoField);
-  assert.deepEqual(miniReferenceVideoField.modes, ['ref2v', 'v2v']);
-  assert.equal(miniReferenceVideoField.maxCount, 3);
-  assert.ok(miniExtensionVideoField);
-  assert.equal(miniExtensionVideoField.type, 'video');
-  assert.equal(miniExtensionVideoField.label, 'Source clips to extend (up to 3)');
-  assert.deepEqual(miniExtensionVideoField.modes, ['extend']);
-  assert.deepEqual(miniExtensionVideoField.requiredInModes, ['extend']);
-  assert.equal(miniExtensionVideoField.minCount, 1);
-  assert.equal(miniExtensionVideoField.maxCount, 3);
-  assert.equal(miniExtensionVideoField.slotLabelPattern, 'Source clip {n}');
-  assert.ok(miniReferenceAudioField);
-  assert.deepEqual(miniReferenceAudioField.modes, ['ref2v', 'v2v', 'extend']);
-  assert.ok(miniFields.some((field) => field.id === 'image_urls' && field.modes?.includes('v2v')));
-
-  assert.equal(seedance.availability, 'available');
-  assert.equal(fast.availability, 'available');
-  assert.equal(mini.availability, 'available');
-  assert.equal(mini.engine.availability, 'available');
-  assert.equal(seedance.surfaces.app.enabled, true);
-  assert.equal(fast.surfaces.app.enabled, true);
-  assert.equal(seedance.surfaces.pricing.includeInEstimator, true);
-  assert.equal(fast.surfaces.pricing.includeInEstimator, true);
-  assert.equal(seedance.surfaces.compare.includeInHub, true);
-  assert.equal(fast.surfaces.compare.includeInHub, true);
-  assert.equal(seedance.surfaces.modelPage.indexable, true);
-  assert.equal(fast.surfaces.modelPage.indexable, true);
-  // Seedance 1.5 Pro and Wan 2.5 are retired on Keyvo, so their pairs left both lists. Keyvo 2026-11-13: Wan 2.6, Kling 2.5
-  // Turbo and Kling 2.6 Pro went offline too (21 -> 18, 20 -> 17).
-  assert.equal(seedance.surfaces.compare.publishedPairs.length, 18);
-  assert.equal(fast.surfaces.compare.publishedPairs.length, 17);
-  for (const retired of ['wan-2-5', 'wan-2-6', 'kling-2-5-turbo', 'kling-2-6-pro']) {
-    assert.equal(seedance.surfaces.compare.publishedPairs.includes(retired), false, retired);
-    assert.equal(fast.surfaces.compare.publishedPairs.includes(retired), false, retired);
-  }
-  assert.equal(mini.surfaces.app.enabled, true);
-  assert.equal(mini.surfaces.modelPage.indexable, true);
-  assert.equal(mini.surfaces.examples.includeInFamilyResolver, true);
-  assert.equal(mini.surfaces.pricing.includeInEstimator, true);
-  assert.equal(mini.surfaces.compare.includeInHub, true);
-  assert.deepEqual(mini.surfaces.compare.publishedPairs, [
-    'seedance-2-0',
-    'seedance-2-0-fast',
-    'ltx-2-3-fast',
-    'veo-3-1-fast',
-    'luma-ray-3-2',
-  ]);
-  ['veo-3-1', 'kling-3-pro', 'sora-2', 'seedance-2-0-fast'].forEach((slug) =>
-    assert.ok(seedance.surfaces.compare.publishedPairs.includes(slug), `Seedance 2.0 missing published pair ${slug}`)
-  );
-  ['veo-3-1-fast', 'ltx-2-3-fast', 'seedance-2-0', 'kling-3-pro'].forEach((slug) =>
-    assert.ok(fast.surfaces.compare.publishedPairs.includes(slug), `Seedance 2.0 Fast missing published pair ${slug}`)
-  );
-});
 
 test('Seedance aliases, family routing, hub publication, and locale coverage are launch-ready', () => {
   assert.equal(normalizeEngineId('seedance-2.0'), 'seedance-2-0');
@@ -212,29 +48,27 @@ test('Seedance aliases, family routing, hub publication, and locale coverage are
 
   const family = getModelFamilyDefinition('seedance');
   assert.ok(family);
-  assert.equal(family.defaultModelSlug, 'seedance-2-0');
+  // The offered Seedance is 2.5; 2.0, Fast and Mini are outside the owner allowlist.
+  assert.equal(family.defaultModelSlug, 'seedance-2-5');
   assert.deepEqual(family.routeAliases, ['seedance-1-5-pro', 'seedance-2-0', 'seedance-2-0-fast', 'dreamina-seedance-2-0-mini']);
-  assert.deepEqual(family.examplesPage?.publishedModelSlugs, [
-    'seedance-2-5',
-    'seedance-2-0',
-    'seedance-2-0-fast',
-    'dreamina-seedance-2-0-mini',
-  ]);
+  // Seedance 2.0, Fast and Mini are outside the owner allowlist, so the family publishes only Seedance 2.5.
+  assert.deepEqual(family.examplesPage?.publishedModelSlugs, ['seedance-2-5']);
 
   const publishedComparisonSlugs = getPublishedComparisonSlugs();
+  // Only pairs between offered engines publish: Seedance 2.0, Fast and Mini are outside the owner allowlist.
   [
-    'kling-3-pro-vs-seedance-2-0',
-    'dreamina-seedance-2-0-mini-vs-seedance-2-0',
-    'dreamina-seedance-2-0-mini-vs-seedance-2-0-fast',
+    'kling-3-pro-vs-seedance-2-5',
   ].forEach((slug) => assert.ok(publishedComparisonSlugs.includes(slug), `Missing published comparison ${slug}`));
-  ['seedance-2-0-vs-veo-3-1', 'seedance-2-0-vs-sora-2', 'dreamina-seedance-2-0-mini-vs-luma-ray-3-2'].forEach((slug) =>
+  ['kling-3-pro-vs-seedance-2-0', 'dreamina-seedance-2-0-mini-vs-seedance-2-0', 'dreamina-seedance-2-0-mini-vs-seedance-2-0-fast',
+    'seedance-2-0-vs-veo-3-1', 'seedance-2-0-vs-sora-2', 'dreamina-seedance-2-0-mini-vs-luma-ray-3-2'].forEach((slug) =>
     assert.ok(!publishedComparisonSlugs.includes(slug), `Hidden-model comparison ${slug} must not be published`));
 
   const hubEngines = getHubEngines();
-  assert.ok(hubEngines.some((engine) => engine.modelSlug === 'seedance-2-0'));
-  assert.ok(hubEngines.some((engine) => engine.modelSlug === 'seedance-2-0-fast'));
-  assert.equal(hubEngines.some((engine) => engine.modelSlug === 'dreamina-seedance-2-0-mini'), true);
-  assert.equal(getBaseEnginesByCategory('video').some((engine) => engine.id === 'seedance-2-0-mini'), true);
+  assert.ok(hubEngines.some((engine) => engine.modelSlug === 'seedance-2-5'));
+  for (const hidden of ['seedance-2-0', 'seedance-2-0-fast', 'dreamina-seedance-2-0-mini']) {
+    assert.equal(hubEngines.some((engine) => engine.modelSlug === hidden), false, hidden);
+  }
+  assert.equal(getBaseEnginesByCategory('video').some((engine) => engine.id === 'seedance-2-0-mini'), false);
 
   const esFastOverlayPath = path.join(process.cwd(), 'content/models/es/seedance-2-0-fast.json');
   assert.equal(fs.existsSync(esFastOverlayPath), true);
@@ -376,9 +210,10 @@ test('Public marketing media fetchers stay visibility-safe for pinned and prompt
 test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter marketing navigation', () => {
   const appEngineIds = getBaseEnginesByCategory('video').map((engine) => engine.id);
   assert.equal(appEngineIds[0], 'seedance-2-5');
-  assert.equal(appEngineIds[1], 'seedance-2-0');
-  assert.equal(appEngineIds[2], 'minimax-h3');
-  assert.equal(appEngineIds[3], 'seedance-2-0-fast');
+  // Seedance 2.0 and Fast are not offered under the owner allowlist; MiniMax H3 follows Seedance 2.5.
+  assert.equal(appEngineIds[1], 'minimax-h3');
+  assert.ok(!appEngineIds.includes('seedance-2-0'));
+  assert.ok(!appEngineIds.includes('seedance-2-0-fast'));
   assert.ok(!appEngineIds.includes('sora-2'));
   assert.ok(!appEngineIds.includes('sora-2-pro'));
 
@@ -389,9 +224,9 @@ test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter mark
   );
   assert.deepEqual(
     MARKETING_NAV_COMPARE.map((item) => item.key),
-    ['kling-v4-vs-kling-v4-flash', 'kling-v4-vs-seedance-2-5', 'kling-v4-vs-wan-3-prime', 'minimax-h3-vs-seedance-2-5', 'minimax-h3-vs-minimax-h3-max', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'wan-3-vs-wan-3-prime', 'seedance-2-0-vs-seedance-2-0-fast'],
+    ['kling-v4-vs-kling-v4-flash', 'kling-v4-vs-seedance-2-5', 'kling-v4-vs-wan-3-prime', 'minimax-h3-vs-seedance-2-5', 'minimax-h3-vs-minimax-h3-max', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'wan-3-vs-wan-3-prime'],
   );
-  assert.equal(MARKETING_NAV_COMPARE.length, 9);
+  assert.equal(MARKETING_NAV_COMPARE.length, 8);
   const expectedExampleFamilies = [
     'seedance',
     'kling',
@@ -470,12 +305,8 @@ test('Examples family current model groups do not classify new delivery models a
     'kling-3-standard',
     'kling-3-4k',
   ]);
-  assert.deepEqual(getExampleFamilyCurrentModelSlugs('seedance'), [
-    'seedance-2-5',
-    'seedance-2-0',
-    'seedance-2-0-fast',
-    'dreamina-seedance-2-0-mini',
-  ]);
+  // Seedance 2.0, Fast and Mini are outside the owner allowlist.
+  assert.deepEqual(getExampleFamilyCurrentModelSlugs('seedance'), ['seedance-2-5']);
   assert.deepEqual(getExampleFamilyCurrentModelSlugs('ltx'), []); // LTX is hidden by Keyvo
 });
 

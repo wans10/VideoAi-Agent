@@ -1,8 +1,16 @@
+// Mechanism test: runs on the unfiltered upstream catalog (the Keyvo model allowlist hides this fixture engine).
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
-import test from 'node:test';
+import test, { afterEach, beforeEach } from 'node:test';
 import { collectSellableManualTariffCoverage } from '../frontend/lib/pricing-audit/manual-tariff-coverage';
 import { collectCustomerTariffCutoverCheckpoints } from '../frontend/server/pricing/customer-tariff-cutover-evidence';
 import { KEYVO_UNSERVED_VIDEO_OPERATIONS, videoOperationTariffContexts } from '../frontend/lib/pricing-audit/video-operation-tariff-inventory';
+
+// The catalogue projection is frozen unfiltered at import (fixture engines such as Veo, Luma and Flux are hidden by the
+// owner allowlist), but the Keyvo rule that drops the Fal-only H3-Max Recast/Relight operations is read per call. Each
+// test therefore re-enables that single rule while the catalogue stays unfiltered.
+beforeEach(() => { delete process.env.KEYVO_MODEL_VISIBILITY; });
+afterEach(() => { process.env.KEYVO_MODEL_VISIBILITY = 'off'; });
 
 test('operation inventory distinguishes omitted scope from explicit empty model or mode', () => {
   const full = videoOperationTariffContexts();

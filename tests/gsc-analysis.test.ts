@@ -137,8 +137,9 @@ test('summarizeGscPerformance aggregates weighted CTR and position', () => {
 test('findGscOpportunities prioritizes CTR, push-distance, and zero-click issues', () => {
   const opportunities = findGscOpportunities([
     {
-      query: 'seedance 2.0 fast vs normal',
-      page: 'https://maxvideoai.com/models/seedance-2-0-fast',
+      query: 'seedance 2.5 vs kling 3',
+      // Seedance 2.5 is the offered Seedance (2.0 Fast is hidden by the owner allowlist, so demand for it is monitor-only).
+      page: 'https://maxvideoai.com/models/seedance-2-5',
       country: 'usa',
       device: 'DESKTOP',
       searchAppearance: null,

@@ -116,7 +116,7 @@ test('bounded discovery surfaces retain both H3 variants and Seedance 2.5 after 
   // H3 Max is served on Keyvo again (MiniMax's own API), so it and its H3 pair return to the menus.
   assert.ok(MARKETING_NAV_COMPARE.some(({ key }) => key === 'minimax-h3-vs-minimax-h3-max'));
   // FLUX 3 Max (and the FLUX pair) is hidden as a non-mainland family. Keyvo shows only keyvo-visible-families (no LTX or Veo pairs); the kling-v4 pairs lead the menu.
-  assert.equal(MARKETING_NAV_COMPARE.length, 9, 'the LTX and Veo-led menu entries are hidden on Keyvo');
+  assert.equal(MARKETING_NAV_COMPARE.length, 8, 'the LTX and Veo-led menu entries are hidden on Keyvo');
   assert.equal(MARKETING_NAV_COMPARE[0]?.key, 'kling-v4-vs-kling-v4-flash');
   assert.equal(MARKETING_NAV_COMPARE[3]?.key, 'minimax-h3-vs-seedance-2-5');
   assert.ok(MARKETING_NAV_COMPARE.some(({ key }) => key === 'minimax-h3-vs-seedance-2-5'));
