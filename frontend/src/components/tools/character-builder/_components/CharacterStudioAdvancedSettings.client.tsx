@@ -13,7 +13,7 @@ export function CharacterStudioAdvancedSettings({ state, setState, copy, labels 
   copy: CharacterCopy;
   labels: StudioCopy;
 }) {
-  const options = useCharacterBuilderOptions(copy, state.qualityMode);
+  const options = useCharacterBuilderOptions(copy);
   return (
     <details className="group mx-3 mb-3 rounded-xl border border-border bg-bg">
       <summary className="flex min-h-11 cursor-pointer list-none items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-text-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand [&::-webkit-details-marker]:hidden">

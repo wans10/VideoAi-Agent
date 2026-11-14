@@ -57,7 +57,7 @@ export function useCharacterBuilderResultActions({
         consistencyMode: snapshot.builder.consistencyMode,
         referenceStrength: snapshot.builder.referenceStrength,
         qualityMode: snapshot.builder.qualityMode,
-        formatMode: normalizeCharacterFormatMode(snapshot.builder.formatMode, snapshot.builder.qualityMode),
+        formatMode: normalizeCharacterFormatMode(snapshot.builder.formatMode),
         outputOptions: snapshot.builder.outputOptions,
         advancedNotes: snapshot.builder.advancedNotes,
         mustRemainVisible: snapshot.builder.mustRemainVisible,

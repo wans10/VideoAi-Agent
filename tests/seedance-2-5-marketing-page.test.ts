@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
+import { isKeyvoHiddenModel } from '../frontend/config/keyvo-model-visibility.ts';
 
 import { getRuntimeModelById } from '../frontend/config/model-runtime.ts';
 import { getFalEngineById } from '../frontend/src/config/falEngines.ts';
@@ -120,10 +121,13 @@ test('Seedance 2.5 uses the public conversion template with pricing and comparis
 });
 
 // Keyvo hides Veo, so only the pairs between visible models stay published.
-const visiblePriorityComparisonSlugs = priorityComparisonSlugs.filter((comparisonSlug) => comparisonSlug !== 'seedance-2-5-vs-veo-3-1');
+// Owner allowlist (2026-11-14): Seedance 2.0 and Veo 3.1 are hidden, so only the Kling 3 Pro pair stays published.
+const visiblePriorityComparisonSlugs = priorityComparisonSlugs.filter((comparisonSlug) =>
+  priorityComparisonModels[comparisonSlug].every((modelSlug) => !isKeyvoHiddenModel(modelSlug)));
 
-test('Seedance 2.5 launches with two localized, indexable comparison decisions and hides the Veo pair', () => {
+test('Seedance 2.5 launches with localized, indexable comparison decisions for offered models and hides the hidden pairs', () => {
   assert.equal(isPublishedComparisonSlug('seedance-2-5-vs-veo-3-1'), false, 'Veo comparison is hidden');
+  assert.equal(isPublishedComparisonSlug('seedance-2-0-vs-seedance-2-5'), false, 'Seedance 2.0 comparison is hidden');
   for (const comparisonSlug of visiblePriorityComparisonSlugs) {
     assert.equal(isPublishedComparisonSlug(comparisonSlug), true, `${comparisonSlug} publication`);
     assert.deepEqual(getIndexableComparisonLocales(comparisonSlug), [...locales, 'zh'], `${comparisonSlug} indexation`);
@@ -186,12 +190,13 @@ test('the three priority Seedance 2.5 comparisons remain published while best-fo
   assert.ok(bestForBySlug.get('multi-shot-video')?.includes('kling-o3-pro-vs-minimax-h3'));
 });
 
-test('the indexation matrix keeps all six localized visible Seedance 2.5 comparison URLs', () => {
+test('the indexation matrix keeps every localized URL of the visible Seedance 2.5 comparisons', () => {
   const rows = generateComparisonIndexationArtifacts().document.rows.filter((row) =>
     visiblePriorityComparisonSlugs.includes(row.slug as (typeof priorityComparisonSlugs)[number]),
   );
 
-  assert.equal(rows.length, 6);
+  // Three localized URLs per visible comparison (en, fr, es).
+  assert.equal(rows.length, 3 * visiblePriorityComparisonSlugs.length);
   for (const row of rows) {
     assert.equal(row.hasLocalizedOverride, true, `${row.locale} ${row.slug} localized content`);
     assert.equal(row.classification, 'keep', `${row.locale} ${row.slug} classification`);

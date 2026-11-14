@@ -1,3 +1,5 @@
+// Mechanism test: runs on the unfiltered upstream catalog (the Keyvo model allowlist hides this fixture engine).
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -9,7 +11,10 @@ import { resolveGptImage25PricingTier, resolveGptImage2PricingTier } from '../fr
 import { listFalEngines } from '../frontend/src/config/falEngines.ts';
 
 const png = readFileSync('tests/fixtures/llmhub-output.png');
+// Keyvo 2026-11-14: GPT Image 2.5 runs on the OpenAI Images API now, so LLM Hub no longer routes its ids. The LLM Hub
+// persistence mechanism is exercised through the legacy gpt-image-2 route; the 2.5 pricing-tier and schema checks stay.
 const input = {
+  engineId: 'gpt-image-2',
   effectivePrompt: 'Test', numImages: 1, mode: 't2i' as const, combinedImageUrls: [],
   providerImageSize: 'landscape_4_3', outputFormat: 'png', quality: 'high',
   background: 'opaque', maskUrl: null, jobId: 'test-job', userId: 'account-1',
@@ -17,7 +22,7 @@ const input = {
 const stored = { url: 'https://media.maxvideoai.com/owned.png', key: 'renders/images/account-1/test.png',
   width: 1024, height: 768, size: png.length, mime: 'image/png' };
 
-for (const engineId of ['gpt-image-2-5-flare', 'gpt-image-2-5-sunburst']) {
+for (const engineId of ['gpt-image-2']) {
   test(`${engineId} persists Base64 before returning owned results`, async () => {
     let captured: string | null = null;
     let submissions = 0;
@@ -53,6 +58,14 @@ for (const engineId of ['gpt-image-2-5-flare', 'gpt-image-2-5-sunburst']) {
     assert.deepEqual(projected, [{ url: stored.url, width: 1024, height: 768, mimeType: 'image/png' }]);
   });
 }
+
+test('GPT Image 2.5 ids are refused by the LLM Hub route', async () => {
+  for (const engineId of ['gpt-image-2-5-flare', 'gpt-image-2-5-sunburst']) {
+    await assert.rejects(runLlmhubFlareGeneration({ ...input, engineId }, {
+      apiKey: 'test', fetch: async () => { throw new Error('must not call LLM Hub'); },
+    }), /Unsupported LLM Hub image engine/);
+  }
+});
 
 test('accepted storage failure retains provider identity and never resubmits', async () => {
   let submissions = 0;
@@ -115,7 +128,7 @@ test('2.5 valid landscape and auto dimensions preserve canonical price tiers wit
 
 test('16 references and mask retain multipart order and explicit quoted edit size', async () => {
   let reads = 0;
-  await runLlmhubFlareGeneration({ ...input, engineId: 'gpt-image-2-5-sunburst', mode: 'i2i',
+  await runLlmhubFlareGeneration({ ...input, engineId: 'gpt-image-2', mode: 'i2i',
     combinedImageUrls: Array.from({ length: 16 }, (_, i) => `https://media.maxvideoai.com/ref-${i}.png`),
     maskUrl: 'https://media.maxvideoai.com/mask.png', providerImageSize: {width:1024,height:768},
   }, { apiKey: 'test', upload: async () => stored,

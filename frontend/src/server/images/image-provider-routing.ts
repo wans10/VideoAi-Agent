@@ -55,7 +55,8 @@ export function resolveImageProviderSelection(
   }
   if (engine.providerMeta?.provider === 'google_vertex_image'
     || engine.providerMeta?.provider === 'alibaba_qwen_image'
-    || engine.providerMeta?.provider === 'byteplus_modelark') {
+    || engine.providerMeta?.provider === 'byteplus_modelark'
+    || engine.providerMeta?.provider === 'openai_images') {
     return { kind: 'direct', engine };
   }
   return resolveLlmhubImageModel(engine.id) ? { kind: 'llmhub' } : { kind: 'other' };

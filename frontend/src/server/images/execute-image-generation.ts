@@ -1,5 +1,5 @@
 import { NANO21_ENGINE_ID, normalizeNano21Settings, assertNano21UnsupportedFields, assertNano21Scenario } from '@/lib/nano-banana-2-1';
-import { isGptImage26EngineId, normalizeGptImage26Settings } from '@/lib/image/gptImage26';
+import { isOpenAIDirectImageEngineId, normalizeGptImage26Settings } from '@/lib/image/gptImage26';
 import { assertOpenAIImageAvailable } from './openai-image-execution';
 import { randomUUID } from 'crypto';
 import type { ImageGenerationResponse } from '@/types/image-generation';
@@ -72,7 +72,7 @@ export async function executeImageGeneration({
 
   const { engineEntry, engine, mode, modeConfig, resolvedAspectRatio, prompt, numImages, durationSec } =
     resolveImageGenerationRequestContext(requestedBody);
-  const gpt26 = isGptImage26EngineId(engine.id) ? normalizeGptImage26Settings(requestedBody) : null;
+  const gpt26 = isOpenAIDirectImageEngineId(engine.id) ? normalizeGptImage26Settings(requestedBody) : null;
   const body = gpt26 ? { ...requestedBody, ...gpt26 } : requestedBody;
 
   let nano21: ReturnType<typeof normalizeNano21Settings> | null = null;

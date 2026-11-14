@@ -192,6 +192,20 @@ async function main(): Promise<void> {
   }
   const appliedOfficialChanges = new Set<string>();
   const appliedOfficialRetirements = new Set<string>();
+  // Keyvo official list 100% rule (2026-11-14): Nano Banana 2 / Lite rows move from the official-list-80 price to the
+  // official list price (profile official-list-100). The change is additive on top of the 2026-11-13 transition.
+  const official100 = JSON.parse(await readFile(new URL(
+    '../../tests/fixtures/keyvo-official-list-100-public-pricing-2026-11-14.json', import.meta.url,
+  ), 'utf8')) as { retiredEngineIds: string[]; retiredRowIds: string[];
+    changes: Array<{ previous: typeof rows[number]; current: typeof rows[number] }>; rows: typeof rows };
+  const official100Changes = new Map(official100.changes.map(row => [row.previous.id, row]));
+  if (official100.retiredEngineIds.length !== 0 || official100.retiredRowIds.length !== 0 || official100.rows.length !== 0
+    || official100Changes.size !== 18 || official100Changes.size !== official100.changes.length
+    || official100.changes.some(({ previous, current }) => previous.id !== current.id || previous.engineId !== current.engineId
+      || !['nano-banana-2', 'nano-banana-lite'].includes(current.engineId))) {
+    throw new Error('Invalid Keyvo official list 100% public pricing transition.');
+  }
+  const appliedOfficial100Changes = new Set<string>();
   const byId = new Map(fixture.rows.map((row) => [row.id, row]));
   const expected = fixture.rows.map((row) => {
     const standardId = row.id.replace(/:(plus|pro):/u, ':member:');
@@ -332,6 +346,13 @@ async function main(): Promise<void> {
       appliedOfficialChanges.add(row.id);
       return change.current;
     })
+    .map(row => {
+      const change = official100Changes.get(row.id);
+      if (!change) return row;
+      if (!isDeepStrictEqual(row, change.previous)) throw new Error(`Keyvo official list 100% change does not match the previous row: ${row.id}`);
+      appliedOfficial100Changes.add(row.id);
+      return change.current;
+    })
     .filter(row => {
       if (!officialRetiredRows.has(row.id)) {
         if (officialRetiredEngines.has(row.engineId)) throw new Error(`Keyvo retirement leaves an unlisted public row: ${row.id}`);
@@ -345,6 +366,7 @@ async function main(): Promise<void> {
   if (appliedKeyvoChanges.size !== keyvoChanges.size) throw new Error('Missing Keyvo H3 transition scenario.');
   if (appliedOfficialChanges.size !== officialChanges.size) throw new Error('Missing Keyvo official list pricing scenario.');
   if (appliedOfficialRetirements.size !== officialRetiredRows.size) throw new Error('Missing Keyvo official list retired scenario.');
+  if (appliedOfficial100Changes.size !== official100Changes.size) throw new Error('Missing Keyvo official list 100% pricing scenario.');
   if (appliedH3MaxChanges.size !== h3MaxChanges.size) throw new Error('Missing Keyvo H3-Max official pricing scenario.');
   if (appliedKeyvoRetirements.size !== keyvoRetiredRows.size) throw new Error('Missing Keyvo retired public pricing scenario.');
   if (appliedOmniChanges.size !== omniChanges.size) throw new Error('Missing Omni 1.2 supplier-cost projection scenario.');

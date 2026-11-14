@@ -82,7 +82,7 @@ export function CharacterStudioComposer({
   const [section, setSection] = useState<string | null>(state.characterId ? 'clothing' : 'type');
   const [moreHair, setMoreHair] = useState(false);
   const [sceneFamily, setSceneFamily] = useState('all');
-  const options = useCharacterBuilderOptions(copy, state.qualityMode);
+  const options = useCharacterBuilderOptions(copy);
   const traits = state.traits;
   function patchTraits(patch: Partial<CharacterBuilderTraits>) {
     setState((previous) => ({
@@ -485,7 +485,7 @@ export function CharacterStudioComposer({
                   : labels.generate}</span>
           </span>
           <span role="status" aria-live="polite" aria-atomic="true" className="app-generation-price shrink-0 border-l border-current/30 pl-3 text-base font-semibold tabular-nums">
-            <span className="sr-only">{labels.imagePrice} · {getCharacterFormatResolution(state.formatMode, state.qualityMode).toUpperCase()} : </span>
+            <span className="sr-only">{labels.imagePrice} · {getCharacterFormatResolution().toUpperCase()} : </span>
             {price == null ? (
               <span className="block max-w-24 whitespace-normal text-xs font-medium">{priceStatus === 'loading' ? labels.priceLoading : labels.priceUnavailable}</span>
             ) : new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(price)}

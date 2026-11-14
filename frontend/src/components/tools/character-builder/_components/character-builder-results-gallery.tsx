@@ -97,7 +97,7 @@ export function CharacterBuilderResultsGallery({
           findChoiceLabel(outputModeLabelOptions, pendingRun.outputMode) ?? copy.generatePanel.portraitTitle;
         const pendingQualityLabel =
           findChoiceLabel(qualityLabelOptions, pendingRun.qualityMode) ?? copy.options.quality.draft.label;
-        const pendingFormatLabel = getFormatDisplayLabel(copy, pendingRun.formatMode, pendingRun.qualityMode);
+        const pendingFormatLabel = getFormatDisplayLabel(copy);
         const subtitle = `${pendingOutputLabel} · ${pendingQualityLabel} · ${pendingFormatLabel}`;
         const badge = pendingRun.generateCount === 4 ? '4x' : null;
         return (
@@ -117,11 +117,7 @@ export function CharacterBuilderResultsGallery({
           findChoiceLabel(outputModeLabelOptions, result.outputMode) ?? copy.generatePanel.portraitTitle;
         const resultQualityLabel =
           findChoiceLabel(qualityLabelOptions, result.qualityMode) ?? copy.options.quality.draft.label;
-        const resultFormatLabel = getFormatDisplayLabel(
-          copy,
-          run?.formatMode ?? 'standard',
-          result.qualityMode,
-        );
+        const resultFormatLabel = getFormatDisplayLabel(copy);
         const subtitle = `${resultOutputLabel} · ${resultQualityLabel} · ${resultFormatLabel}`;
         const badge = run && run.results.length > 1 ? `${run.results.length}x` : null;
         const title = getResultActionLabel(copy, result.action);

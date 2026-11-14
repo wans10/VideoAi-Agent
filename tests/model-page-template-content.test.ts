@@ -1,3 +1,5 @@
+// Mechanism test: runs on the unfiltered upstream catalog (the Keyvo model allowlist hides this fixture engine).
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -397,10 +399,11 @@ test('Nano Banana 2 uses display pricing and still-image scenario labels', () =>
   assert.deepEqual(
     nano2.pricing.scenarios.map((scenario) => [scenario.label, scenario.value]),
     [
-      ['Entry draft', expectedCustomerPrice('$0.06')],
-      ['Standard preview', expectedCustomerPrice('$0.11')],
-      ['4K still', expectedCustomerPrice('$0.21')],
-      ['Reference edit set', expectedCustomerPrice('$0.44')],
+      // 2026-11-14: Nano Banana 2 prices at the official list (official-list-100 rule, governed baseline).
+      ['Entry draft', expectedCustomerPrice('$0.05')],
+      ['Standard preview', expectedCustomerPrice('$0.07')],
+      ['4K still', expectedCustomerPrice('$0.15')],
+      ['Reference edit set', expectedCustomerPrice('$0.27')],
     ]
   );
 

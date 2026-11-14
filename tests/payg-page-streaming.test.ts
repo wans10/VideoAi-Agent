@@ -68,7 +68,8 @@ function projection(document: Document) {
 // Happy Horse 1.0 went offline, 2026-11-11); the unfiltered upstream catalog issues 125.
 // 2026-11-12/13 (same video presets as tests/current-pricing-hub-queue.test.ts): MiniMax-H3-Max returns at its native
 // entry-route preset (+1); Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro went offline without a mainland route (-9).
-const KEYVO_VIDEO_QUOTE_CALLS = 64 + 1 - 9;
+// Keyvo owner allowlist: 45 current video quote calls for the hero and details (the allowlist removed 11 of the 56 upstream-visible scenarios).
+const KEYVO_VIDEO_QUOTE_CALLS = 45;
 const UPSTREAM_VIDEO_QUOTE_CALLS = 125;
 
 test('PAYG emits its hero before held current prices, then preserves the settled localized page', async t => {

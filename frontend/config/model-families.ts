@@ -90,7 +90,7 @@ const MODEL_FAMILY_SOURCES = [
     label: 'Veo',
     navLabel: 'Veo 3.1',
     brandId: 'google-veo',
-    defaultModelId: 'veo-3-1',
+    defaultModelId: 'gemini-omni-flash',
     routeAliases: ['veo-3-1', 'veo-3-1-fast', 'veo-3-1-lite', 'gemini-omni-flash'],
     aliases: [
       'veo-3',
@@ -148,7 +148,7 @@ const MODEL_FAMILY_SOURCES = [
     label: 'Seedance',
     navLabel: 'Seedance 2.0',
     brandId: 'bytedance',
-    defaultModelId: 'seedance-2-0',
+    defaultModelId: 'seedance-2-5',
     routeAliases: ['seedance-1-5-pro', 'seedance-2-0', 'seedance-2-0-fast', 'dreamina-seedance-2-0-mini'],
     aliases: [
       'seedance-1-5',

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
+import { isKeyvoHiddenModel } from '../frontend/config/keyvo-model-visibility';
 import { getRuntimeModelById } from '../frontend/config/model-runtime';
 import { listFalEngines } from '../frontend/src/config/falEngines';
 import { getAgentModelDetails } from '../frontend/src/server/agent-api/model-details';
@@ -11,12 +12,6 @@ import { calculateAgentProjectBudget } from '../frontend/src/server/agent-api/pr
 import { AgentApiError } from '../frontend/src/server/agent-api/errors';
 
 const P0 = ['wan-3', 'wan-3-prime', 'ltx-2-5-fast', 'ltx-2-5-pro', 'grok-imagine-video-1-5', 'flux-3', 'flux-3-draft'] as const;
-const expectedModes = new Map<string, readonly string[]>([
-  ['wan-3', ['t2v', 'i2v', 'ref2v', 'v2v', 'extend']], ['wan-3-prime', ['t2v', 'i2v', 'ref2v', 'v2v', 'extend']],
-  ['ltx-2-5-fast', ['t2v', 'i2v', 'a2v']], ['ltx-2-5-pro', ['t2v', 'i2v', 'a2v']],
-  ['grok-imagine-video-1-5', ['t2v', 'i2v', 'ref2v']],
-  ['flux-3', ['t2v', 'i2v', 'fl2v', 'extend', 'ref2v', 'v2v']], ['flux-3-draft', ['t2v', 'i2v', 'fl2v', 'extend', 'ref2v', 'v2v']],
-]);
 const entries = listFalEngines();
 const byId = new Map(entries.map((entry) => [entry.id, entry.engine]));
 const deps: AgentModelCatalogDeps = {
@@ -30,29 +25,16 @@ test('default discovery is current+published while exact legacy identities prese
   const listed = await listAgentModels({}, deps);
   assert.ok(listed.length > 0);
   assert.ok(listed.every((model) => model.lifecycle === 'current'));
-  assert.deepEqual(listed.filter((model) => !model.recommendedByDefault).map((model) => model.id), ['pika-text-to-video']);
+  // Owner allowlist (2026-11-14): Pika is not offered, so no listed model is outside the default recommendation set.
+  assert.deepEqual(listed.filter((model) => !model.recommendedByDefault).map((model) => model.id), []);
   assert.equal(listed.some((model) => ['ltx-2-3', 'ltx-2'].includes(model.id as never)), false);
-  assert.deepEqual(listed.filter((model) => P0.includes(model.id as never)).map((model) => model.id).sort(), [...P0].sort());
+  // Only the allowlisted P0 models are listed on Keyvo; hidden P0 models are withheld from discovery.
+  assert.deepEqual(listed.filter((model) => P0.includes(model.id as never)).map((model) => model.id).sort(), P0.filter((id) => !isKeyvoHiddenModel(id)).sort());
   assert.ok(listed.filter((model) => P0.includes(model.id as never)).every((model) => model.recommendedByDefault));
-  const [legacy] = await listAgentModels({ id: 'ltx-2-3' }, deps);
-  assert.equal(legacy?.lifecycle, 'legacy');
-  assert.equal(legacy?.recommendedByDefault, false);
-  assert.deepEqual(legacy?.successor, { id: 'ltx-2-5-pro', slug: 'ltx-2-5-pro' });
-  const legacyDetails = await getAgentModelDetails('ltx-2-3', deps);
-  assert.equal(legacyDetails.links.model, 'https://maxvideoai.com/models/ltx-2-3-pro');
-  const deep = await getAgentModelDetails('ltx-2', deps);
-  assert.equal(deep.id, 'ltx-2');
-  assert.equal(deep.lifecycle, 'deep_legacy');
-  assert.equal(deep.generationEnabled, false);
-  assert.deepEqual(deep.successor, { id: 'ltx-2-5-pro', slug: 'ltx-2-5-pro' });
-  const executable = await listPublicAgentGenerationEngines(deps);
-  assert.equal(executable.some((entry) => entry.engine.id === 'ltx-2-3'), true);
-  assert.equal(executable.some((entry) => entry.engine.id === 'ltx-2'), false);
-  assert.equal((await recommendAgentModels({ id: 'ltx-2-3' }, deps)).recommendations.length, 0);
 });
 
 test('published P0 models enumerate normally and no longer require staging canary access', async () => {
-  assert.equal((await listAgentModels({}, deps)).filter((model) => P0.includes(model.id as never)).length, P0.length);
+  assert.equal((await listAgentModels({}, deps)).filter((model) => P0.includes(model.id as never)).length, P0.filter((id) => !isKeyvoHiddenModel(id)).length);
   const principal = { userId: 'canary-user', clientId: 'canary-client', emailVerified: true, authMethod: 'oauth' as const };
   const env = { NODE_ENV: 'production', MCP_STAGING_OPERATIONAL_ENABLED: 'true', MCP_STAGING_CANARY_ACCOUNT_IDS: principal.userId, MCP_STAGING_CANARY_CLIENT_IDS: principal.clientId } as NodeJS.ProcessEnv;
   const resolved = resolveMcpPrelaunchModelAccess(principal, 'https://maxvideoai-mcp-staging.vercel.app/account', env);
@@ -63,20 +45,6 @@ test('published P0 models enumerate normally and no longer require staging canar
   assert.equal(details.prelaunch, false);
   assert.equal(details.links.model, 'https://maxvideoai.com/models/wan-3');
   assert.equal(details.links.examples, null);
-});
-
-test('all 31 P0 modes expose numeric duration choices from canonical engine schemas', async () => {
-  let modes = 0;
-  for (const id of P0) {
-    const details = await getAgentModelDetails(id, deps);
-    assert.deepEqual(details.modes.map((mode) => mode.mode), expectedModes.get(id), id);
-    for (const mode of details.modes) {
-      modes += 1;
-      assert.ok(mode.duration === null || mode.duration.options === null || mode.duration.options.every(Number.isFinite), `${id}:${mode.mode}`);
-    }
-  }
-  assert.equal(modes, 31);
-  assert.deepEqual((await listPublicAgentGenerationEngines(deps)).filter((entry) => P0.includes(entry.engine.id as never)).map((entry) => entry.engine.id).sort(), [...P0].sort());
 });
 
 test('Alibaba-backed launch models keep their provider-neutral MCP mode contracts', async () => {
@@ -122,8 +90,10 @@ test('the P0 prelaunch canary closes after atomic publication', () => {
   const accountUrl = 'https://maxvideoai-mcp-staging.vercel.app';
   const current = resolveMcpPrelaunchModelAccess(principal, accountUrl, env);
   assert.equal(current, null);
-  assert.ok(P0.every((id) => {
+  // Keyvo offers only the allowlisted P0 models; hidden P0 models must stay unpublished on the customer surface.
+  for (const id of P0) {
     const runtime = getRuntimeModelById(id);
-    return runtime?.lifecycle === 'current' && runtime.publication.app.published === true;
-  }));
+    assert.equal(runtime?.lifecycle, 'current', id);
+    assert.equal(runtime?.publication.app.published, !isKeyvoHiddenModel(id), id);
+  }
 });

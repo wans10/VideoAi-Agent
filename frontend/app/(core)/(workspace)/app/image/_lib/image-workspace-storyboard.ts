@@ -1,6 +1,7 @@
 export const IMAGE_STORYBOARD_PRESET = {
   tool: 'storyboard',
-  engineId: 'gpt-image-2',
+  // Public default (owner decision C): GPT Image 2.6 is admin-tier, so the storyboard preset uses a public image engine.
+  engineId: 'seedream-5-0-flash',
   mode: 't2i',
   librarySource: 'storyboard',
   prompt:

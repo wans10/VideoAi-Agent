@@ -1,3 +1,4 @@
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 

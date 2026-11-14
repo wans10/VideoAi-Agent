@@ -52,12 +52,17 @@ async function projectReadOnlyEngines(
     .map((entry) => applyConfiguredEngineRuntimeOptions(entry.engine));
 }
 
+/**
+ * Engines a viewer may see. MCP and other agent catalogues call this without a viewer and therefore never receive
+ * admin-tier engines; the authenticated workspace passes the verified admin flag.
+ */
 export function getReadOnlyConfiguredEnginesByCategory(
   category: EngineCategory = 'video',
   includeDisabled = false,
   dependencies: ReadOnlyEngineCatalogDependencies = defaultDependencies,
+  viewer?: { isAdmin: boolean },
 ): Promise<EngineCaps[]> {
-  return projectReadOnlyEngines(getBaseEnginesByCategory(category), includeDisabled, dependencies);
+  return projectReadOnlyEngines(getBaseEnginesByCategory(category, viewer), includeDisabled, dependencies);
 }
 
 export async function getReadOnlyConfiguredEngine(

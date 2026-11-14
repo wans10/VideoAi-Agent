@@ -79,7 +79,8 @@ test('displayed pricing remains a live projection of the pricing hub', () => {
   const sourceRow = pricingHub.video.rows.find((row) => row.id === sourceId);
   assert.ok(sourceRow);
   sourceRow.quotes['5s-720p'] = { status: 'exact', display: '$987.65' };
-  // Keyvo hides the first upstream example models, so the sample cost is the first visible example (Kling 4.0).
+  // Keyvo hides the first upstream example models, so the sample cost is the first customer-visible example (Kling 4.0).
+  // Gemini Omni Flash is admin-tier on the owner allowlist (2026-11-14) and has no customer pricing row.
   const sampleSourceRow = pricingHub.video.rows.find((row) => row.id === 'kling-v4');
   assert.ok(sampleSourceRow);
   sampleSourceRow.quotes['5s-720p'] = { status: 'exact', display: '$876.54' };

@@ -1,3 +1,5 @@
+// Mechanism test: runs on the unfiltered upstream catalog (the Keyvo model allowlist hides this fixture engine).
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
@@ -13,13 +15,14 @@ import {
 } from '../frontend/src/server/agent-api/paid-generation-execution';
 import type { McpGenerationQuote } from '../frontend/src/server/agent-api/quote-repository';
 
+// The MCP trial preset is seedance-2-5 (52 cents authoritative provider cost at 480p/5s) under the Keyvo allowlist.
 function input(trial = false, studio = false): ReservePaidGenerationInput {
-  const entry = getFalEngineById(trial ? 'seedance-2-0-mini' : 'wan-3-prime');
+  const entry = getFalEngineById(trial ? 'seedance-2-5' : 'wan-3-prime');
   assert.ok(entry);
   const pricing = { totalCents: 125, currency: 'USD', membershipTier: 'member', base: { amountCents: 55 }, platformRevenueCents: 70 };
   const pricingSnapshot = {
     canonicalPricing: pricing,
-    ...(trial ? { funding: { kind: 'included_trial', customerChargeCents: 0, normalPriceCents: 125, providerCostCents: 18 } } : {}),
+    ...(trial ? { funding: { kind: 'included_trial', customerChargeCents: 0, normalPriceCents: 125, providerCostCents: 52 } } : {}),
   };
   const now = new Date('2026-10-25T15:00:00Z');
   const quote: McpGenerationQuote = {
@@ -34,7 +37,7 @@ function input(trial = false, studio = false): ReservePaidGenerationInput {
     },
     requestHash: 'fixture', catalogRevision: 'fixture', pricingSnapshot,
     priceCents: trial ? 0 : 125, currency: 'USD', fundingMode: trial ? 'trial' : 'wallet',
-    ...(trial ? { trialFunding: { kind: 'included_trial', customerChargeCents: 0, normalPriceCents: 125, providerCostCents: 18 } as const } : {}),
+    ...(trial ? { trialFunding: { kind: 'included_trial', customerChargeCents: 0, normalPriceCents: 125, providerCostCents: 52 } as const } : {}),
     state: 'prepared', jobId: null, expiresAt: now, claimedAt: null, createdAt: now, updatedAt: now,
   };
   return { quote, candidate: { engine: entry.engine, surface: 'video', publicModes: [quote.request.mode], modeCaps: {} }, pricingSnapshot };

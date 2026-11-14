@@ -1,3 +1,6 @@
+// These suites exercise Studio conversation/quote and prompt-assistance machinery with an upstream fixture engine that the allowlist hides from customers.
+// Runs on the unfiltered catalog (Keyvo model allowlist); this import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import {readFileSync} from 'node:fs';
@@ -24,8 +27,12 @@ test('conversation quote lifetime follows creation intent, not every message', a
     await pg.pool.query(readFileSync('neon/migrations/' + name,'utf8'));
   await addTopup(pg.pool,'owner',10000);
   t.afterEach(async () => {await pg.pool.query("UPDATE studio_image_turns SET state='failed' WHERE state='thinking'");});
-  const engine = getFalEngineById('gpt-image-2')!;
-  const catalog = [{engine:engine.engine,surface:'image' as const,publicModes:['t2i' as const],modeCaps:Object.fromEntries(engine.modes.map(mode => [mode.mode,mode.ui]))}];
+  // Studio's default image engine is Seedream Pro (resolveStudioImageEngine), so the catalogue must offer it with t2i and i2i.
+  // The GPT Image fixture stays in the catalogue for the tests that pin it explicitly.
+  const seedream = getFalEngineById('seedream-5-0-pro')!;
+  const seedreamEntry = {engine: seedream.engine, surface: 'image' as const, publicModes: ['t2i' as const, 'i2i' as const], modeCaps: Object.fromEntries(seedream.modes.map(mode => [mode.mode, mode.ui]))};
+  const engine = getFalEngineById('gpt-image-2-5-flare')!;
+  const catalog = [seedreamEntry,{engine:engine.engine,surface:'image' as const,publicModes:['t2i' as const],modeCaps:Object.fromEntries(engine.modes.map(mode => [mode.mode,mode.ui]))}];
   const provider = new ProviderHarness(pg.pool);
   const factory: ImageGenerationFactory = (actor,options) => createStudioImageGenerationService(actor,{...options,
     prepareDependencies:{listPublicEngines:async () => catalog,resolveRequestExecutability:() => ({executable:true,reason:'available'})},
@@ -43,7 +50,7 @@ test('conversation quote lifetime follows creation intent, not every message', a
     const actor = await actorFor('custom-character');
     const original = input('3D');
     const saved: ImageDraft = {reply: 'A stylized 3D character reference. Review the quote.', image: {
-      modelId: 'gpt-image-2', mode: 't2i', prompt: 'A full-body adult streetwear character in stylized 3D on a neutral background', aspectRatio: '3:4',
+      modelId: 'gpt-image-2-5-flare', mode: 't2i', prompt: 'A full-body adult streetwear character in stylized 3D on a neutral background', aspectRatio: '3:4',
       settings: [{name: 'imageWidth', value: 1024}, {name: 'imageHeight', value: 1360}, {name: 'quality', value: 'high'}, {name: 'outputFormat', value: 'png'}], references: [], outputCount: 1,
     }};
     const claimed = await claimImageTurn(actor, original);

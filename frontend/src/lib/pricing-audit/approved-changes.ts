@@ -8,6 +8,7 @@ export type ApprovedPricingAuditChange = {
 };
 
 const KEYVO_OFFICIAL_LIST_REASON = 'Keyvo official list price rule (2026-11-13): supplier facts are the official mainland CNY list price (CNY / 8) and the official-list-80 profile sells at 80% of it with no margin component.';
+const KEYVO_OFFICIAL_LIST_100_REASON = 'Keyvo official list 100% price rule (2026-11-14): Nano Banana 2 and Nano Banana Lite supplier facts are the official mainland CNY list price (CNY / 8) and the official-list-100 profile sells at 100% of it with no margin component (4-image presets).';
 
 /**
  * Reviewed differences from the immutable pre-canonical baseline.
@@ -493,6 +494,80 @@ export const APPROVED_PRICING_AUDIT_CHANGES: readonly ApprovedPricingAuditChange
       marginCents: { current: 4, canonical: 0 },
       customerTotalCents: { current: 16, canonical: 6 },
       displayedAmount: { current: '$0.16', canonical: '$0.06' },
+    },
+  },
+  {
+    scenarioId: 'billing:nano-banana-2:t2i:4:1k:member',
+    reason: KEYVO_OFFICIAL_LIST_100_REASON,
+    fieldDeltas: {
+      vendorSubtotalCents: { current: 32, canonical: 27 },
+      marginCents: { current: 10, canonical: 0 },
+      customerTotalCents: { current: 42, canonical: 27 },
+    },
+  },
+  {
+    scenarioId: 'billing:nano-banana-2:t2i:4:1k:plus',
+    reason: KEYVO_OFFICIAL_LIST_100_REASON,
+    fieldDeltas: {
+      vendorSubtotalCents: { current: 32, canonical: 27 },
+      marginCents: { current: 10, canonical: 0 },
+      customerTotalCents: { current: 40, canonical: 26 },
+    },
+  },
+  {
+    scenarioId: 'billing:nano-banana-2:t2i:4:1k:pro',
+    reason: KEYVO_OFFICIAL_LIST_100_REASON,
+    fieldDeltas: {
+      vendorSubtotalCents: { current: 32, canonical: 27 },
+      marginCents: { current: 10, canonical: 0 },
+      customerTotalCents: { current: 38, canonical: 24 },
+    },
+  },
+  {
+    scenarioId: 'billing:nano-banana-lite:t2i:4:1k:member',
+    reason: KEYVO_OFFICIAL_LIST_100_REASON,
+    fieldDeltas: {
+      vendorSubtotalCents: { current: 12, canonical: 13 },
+      marginCents: { current: 4, canonical: 0 },
+      customerTotalCents: { current: 16, canonical: 13 },
+    },
+  },
+  {
+    scenarioId: 'billing:nano-banana-lite:t2i:4:1k:plus',
+    reason: KEYVO_OFFICIAL_LIST_100_REASON,
+    fieldDeltas: {
+      vendorSubtotalCents: { current: 12, canonical: 13 },
+      marginCents: { current: 4, canonical: 0 },
+      customerTotalCents: { current: 15, canonical: 12 },
+    },
+  },
+  {
+    scenarioId: 'billing:nano-banana-lite:t2i:4:1k:pro',
+    reason: KEYVO_OFFICIAL_LIST_100_REASON,
+    fieldDeltas: {
+      vendorSubtotalCents: { current: 12, canonical: 13 },
+      marginCents: { current: 4, canonical: 0 },
+      customerTotalCents: { current: 14, canonical: 12 },
+    },
+  },
+  {
+    scenarioId: 'estimator:nano-banana-2:4:1k',
+    reason: KEYVO_OFFICIAL_LIST_100_REASON,
+    fieldDeltas: {
+      vendorSubtotalCents: { current: 32, canonical: 27 },
+      marginCents: { current: 10, canonical: 0 },
+      customerTotalCents: { current: 42, canonical: 27 },
+      displayedAmount: { current: '$0.42', canonical: '$0.27' },
+    },
+  },
+  {
+    scenarioId: 'estimator:nano-banana-lite:4:1k',
+    reason: KEYVO_OFFICIAL_LIST_100_REASON,
+    fieldDeltas: {
+      vendorSubtotalCents: { current: 12, canonical: 13 },
+      marginCents: { current: 4, canonical: 0 },
+      customerTotalCents: { current: 16, canonical: 13 },
+      displayedAmount: { current: '$0.16', canonical: '$0.13' },
     },
   },
 ];

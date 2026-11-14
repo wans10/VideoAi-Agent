@@ -1,3 +1,6 @@
+// GPT 2.5 source-cost parity is upstream pricing mechanism for admin-tier engines Keyvo does not sell to customers;
+// this file runs on the unfiltered catalog. This import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 

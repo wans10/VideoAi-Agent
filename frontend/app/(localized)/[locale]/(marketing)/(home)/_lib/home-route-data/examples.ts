@@ -111,7 +111,7 @@ export function assembleHomepageExampleCards({
         videoSrc: null,
         imageAlt: fallback.imageAlt,
         href,
-        modelHref: family ? ({ pathname: '/models/[slug]', params: { slug: modelSlug } } satisfies LocalizedLinkHref) : undefined,
+        modelHref: family || fallback.modelSlug ? ({ pathname: '/models/[slug]', params: { slug: modelSlug } } satisfies LocalizedLinkHref) : undefined,
         cloneHref: undefined,
         ctaLabel: fallback.cta,
         examplesCtaVisible: fallback.showExamplesCta !== false,

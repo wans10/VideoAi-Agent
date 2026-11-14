@@ -1,4 +1,5 @@
 import { listFalEngines } from '@/config/falEngines';
+import { isKeyvoHiddenModelForViewer } from '@/config/keyvo-model-visibility';
 import { getModelRoster } from '@/lib/model-roster';
 import type {
   EngineCaps,
@@ -36,9 +37,12 @@ const REGISTRY_BY_CATEGORY = {
   all: REGISTRY_ENTRIES,
 };
 
-function buildBaseEngines(entries: typeof REGISTRY_ENTRIES): EngineCaps[] {
+/** The Keyvo viewer for the engine lists: admin-tier engines are listed only for administrators. */
+export type EngineListViewer = Readonly<{ isAdmin: boolean }>;
+
+function buildBaseEngines(entries: typeof REGISTRY_ENTRIES, viewer: EngineListViewer = { isAdmin: false }): EngineCaps[] {
   return entries
-    .filter((entry) => entry.surfaces.app.enabled)
+    .filter((entry) => entry.surfaces.app.enabled && !isKeyvoHiddenModelForViewer(entry.id, viewer))
     .map((entry) =>
       cloneEngine({
         ...entry.engine,
@@ -232,9 +236,9 @@ export function getBaseEngines(): EngineCaps[] {
   return ENGINES_BASE.map(cloneEngine);
 }
 
-export function getBaseEnginesByCategory(category: EngineCategory = 'video'): EngineCaps[] {
+export function getBaseEnginesByCategory(category: EngineCategory = 'video', viewer?: EngineListViewer): EngineCaps[] {
   const entries = REGISTRY_BY_CATEGORY[category] ?? REGISTRY_BY_CATEGORY.video;
-  return buildBaseEngines(entries);
+  return buildBaseEngines(entries, viewer ? { isAdmin: viewer.isAdmin === true } : undefined);
 }
 
 export async function enginesResponse(): Promise<{ ok: true; engines: EngineCaps[] }> {

@@ -26,7 +26,7 @@ return <I18nProvider locale="en" dictionary={{}} fallback={{}}><main style={{pad
 test('compact model selector keeps logos, short names and eligible variants reachable', {timeout:60_000}, async () => {
   const ids=['seedance-2-0-mini','seedance-2-0','seedance-2-0-fast','wan-3-prime'];
   const engines=listFalEngines().filter(entry=>ids.includes(entry.id)).map(entry=>entry.engine);
-  const fixture=await startWorkspaceReferenceFixture({source,config:{engines},assistancePreview:true});
+  const fixture=await startWorkspaceReferenceFixture({source,config:{engines},assistancePreview:true,unfilteredCatalog:true});
   try {
     for(const browserType of [chromium,webkit]) {
       const browser=await browserType.launch({headless:true});
@@ -79,7 +79,7 @@ test('compact model selector keeps logos, short names and eligible variants reac
 
 test('Milo level selection keeps writing geometry and drafts stable across tabs', {timeout:60_000}, async () => {
   const engine=listFalEngines().find(entry=>entry.id==='seedance-2-0-mini')!.engine;
-  const fixture=await startWorkspaceReferenceFixture({source,config:{engines:[engine]},assistancePreview:true});
+  const fixture=await startWorkspaceReferenceFixture({source,config:{engines:[engine]},assistancePreview:true,unfilteredCatalog:true});
   try {
     for(const browserType of [chromium,webkit]) {
       const browser=await browserType.launch({headless:true});
@@ -129,7 +129,7 @@ test('reference command stays beside the model while media wrap together and can
   const field=[...engine.inputSchema!.required,...engine.inputSchema!.optional].find(field=>field.id==='image_urls')!;
   const layoutSource=source.replace("function Fixture(){", "function Fixture(){const [refs,setRefs]=useState({});globalThis.replaceReferences=setRefs;")
     .replace('assetFields={[]} assets={{}}', 'assetFields={globalThis.fixtureConfig.fields} assets={refs} onAssetRemove={(field,index)=>setRefs(previous=>({...previous,[field.id]:previous[field.id].map((item,i)=>i===index?null:item)}))}');
-  const fixture=await startWorkspaceReferenceFixture({source:layoutSource,config:{engines,fields:[{field,required:false,role:'reference'}]},assistancePreview:true});
+  const fixture=await startWorkspaceReferenceFixture({source:layoutSource,config:{engines,fields:[{field,required:false,role:'reference'}]},assistancePreview:true,unfilteredCatalog:true});
   const assets=Array.from({length:8},(_,i)=>({id:String(i),kind:'image',name:`private-${i}.png`,size:1,type:'image/png',url:`/${i}.svg`,previewUrl:`/${i}.svg`,status:'ready'}));
   try {
     for(const browserType of [chromium,webkit]) {

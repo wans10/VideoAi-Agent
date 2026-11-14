@@ -1,3 +1,5 @@
+// Mechanism test: runs on the unfiltered upstream catalog (the Keyvo model allowlist hides this fixture engine).
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
@@ -46,8 +48,9 @@ test('Gemini Omni Flash shares the Veo model family instead of creating a Gemini
   assert.ok(veoFamily.aliases?.includes('gemini-omni-flash-preview'));
   assert.ok(veoFamily.aliases?.includes('omni-flash'));
   assert.ok(veoFamily.prefixes?.includes('gemini-omni'));
-  // Keyvo hides the Veo family's example pages; the family identity itself is unchanged.
-  assert.equal(veoFamily.examplesPage?.publishedModelSlugs?.includes('gemini-omni-flash'), false);
+  // On the unfiltered catalogue the family publishes Omni Flash; the Keyvo allowlist (admin tier) hides it for customers
+  // and is asserted in the allowlist suites.
+  assert.equal(veoFamily.examplesPage?.publishedModelSlugs?.includes('gemini-omni-flash'), true);
 });
 
 test('Gemini Omni Flash catalog keeps unsupported Veo/Fal-only controls out of the schema', () => {

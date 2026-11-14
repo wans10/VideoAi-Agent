@@ -1,4 +1,4 @@
-import { KEYVO_COMPARE_HIDDEN, isKeyvoVisibleFamily } from '@/config/keyvo-model-visibility';
+import { KEYVO_COMPARE_HIDDEN, isKeyvoHiddenModel, isKeyvoVisibleEntry } from '@/config/keyvo-model-visibility';
 import { isKeyvoAudioDisabled, isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
 import type { AppLocale } from '@/i18n/locales';
 import type { PublicModelQuoteInput } from '@/lib/pricing-public-model-contract';
@@ -7,7 +7,7 @@ import { listFalEngines, type FalEngineEntry } from '@/config/falEngines';
 import { listAngleToolEngines } from '@/config/tools-angle-engines';
 import { listUpscaleToolEngines } from '@/config/tools-upscale-engines';
 import type { EngineCaps, Mode, Resolution } from '@/types/engines';
-import { CHARACTER_FORMAT_OPTIONS } from '@/lib/character-builder';
+import { CHARACTER_DRAFT_ENGINE_ID, CHARACTER_FINAL_ENGINE_ID } from '@/lib/character-builder';
 import type { AudioPackId, AudioVoiceMode } from '@/lib/audio-generation';
 import type { GptImage2Quality } from '@/lib/image/gptImage2';
 import { isGptImageFamilyEngineId } from '@/lib/image/gptImage2';
@@ -24,6 +24,7 @@ import {
 } from '@/lib/pricing-public-quote';
 import { getLumaRay2BasePriceUsd } from '@/lib/luma-ray2-pricing-config';
 import { isLumaAgentsImageEngineId, isLumaRay32EngineId, type LumaAgentsImageMode } from '@/lib/luma-agents';
+import { isOfficialList100PricedEngine } from '@/lib/official-list-pricing';
 import { buildSlugMap, type LocalizedSlugKey } from '@/lib/i18nSlugs';
 import { formatCurrencyForLocale } from './pricingPageContent';
 import { getPricingHubCopy } from './pricingHubCopy';
@@ -282,14 +283,14 @@ function anchorFromSlug(slug: string) {
 export function isPricingDiscoveryEntry(entry: FalEngineEntry) {
   if (entry.availability !== 'available' && entry.availability !== 'limited') return false;
   if (entry.lifecycle !== 'current' && entry.lifecycle !== 'legacy') return false;
-  return entry.surfaces.pricing.includeInEstimator === true && isKeyvoVisibleFamily(entry.family);
+  return entry.surfaces.pricing.includeInEstimator === true && isKeyvoVisibleEntry(entry.family, entry.id) && !isKeyvoHiddenModel(entry.id);
 }
 
 // Keyvo keeps the image pricing rows of every visible model published on a public surface (for example the
 // direct Qwen Image models, which are not part of the video estimator); upstream now lists only estimator models.
 function isKeyvoPublicImagePricingEntry(entry: FalEngineEntry) {
   if (isPricingDiscoveryEntry(entry)) return true;
-  if (!isKeyvoVisibleFamily(entry.family)) return false;
+  if (!isKeyvoVisibleEntry(entry.family, entry.id) || isKeyvoHiddenModel(entry.id)) return false;
   if (entry.availability !== 'available' && entry.availability !== 'limited') return false;
   // Only the Keyvo-native direct Qwen Image models (outside the video estimator) keep this relaxation; every
   // other model respects its own pricing publication even while its model page and App are open.
@@ -842,7 +843,9 @@ function quoteImageScenarioCents(engine: EngineCaps, preset: ImagePriceScenario)
   try {
     const mode = preset.mode ?? 't2i';
     const quantity = Math.max(1, Math.floor(preset.quantity ?? 1));
-    const scalePerUnit = quantity > 1 && !isLumaAgentsImageEngineId(engine.id);
+    // Official-list-100 engines (Nano Banana 2 / Lite) are billed as one total: 4 x 3.36 cents is 13 cents, so the hub
+    // must round that total like billing rather than 4 x round(3.36) = 12. Other image presets keep their reviewed rows.
+    const scalePerUnit = quantity > 1 && !isLumaAgentsImageEngineId(engine.id) && !isOfficialList100PricedEngine(engine.id);
     const facts = buildPublicPricingFacts({
       engine,
       durationSec: scalePerUnit ? 1 : quantity,
@@ -1151,7 +1154,9 @@ function formatFixedPublicProduct(locale: AppLocale, engineId: string, amountCen
 
 function buildToolPricingRows(locale: AppLocale): ToolPricingRow[] {
   const copy = getPricingHubCopy(locale);
-  const fourKFormat = CHARACTER_FORMAT_OPTIONS.find((option) => option.id === '4k');
+  // Both character modes render at 2K on one engine each; there is no Pro-size column for them.
+  const draftEngine = listFalEngines().find((entry) => entry.id === CHARACTER_DRAFT_ENGINE_ID);
+  const finalEngine = listFalEngines().find((entry) => entry.id === CHARACTER_FINAL_ENGINE_ID);
   const angleEngines = listAngleToolEngines();
   const upscaleImageEngines = listUpscaleToolEngines('image');
   const upscaleVideoEngines = listUpscaleToolEngines('video');
@@ -1167,8 +1172,8 @@ function buildToolPricingRows(locale: AppLocale): ToolPricingRow[] {
       id: 'character-builder-draft',
       anchorId: 'character-builder-pricing',
       tool: copy.tools.characterBuilderDraft,
-      standardOutput: copy.liveQuote,
-      proOutput: `${fourKFormat?.label ?? '4K'}: ${copy.liveQuote}`,
+      standardOutput: `${draftEngine?.marketingName ?? 'Seedream 5.0 Flash'}: ${copy.liveQuote}`,
+      proOutput: '—',
       bestUsedBefore: copy.tools.imageToVideoReferences,
       links: [
         { label: copy.links.tool, href: '/tools/character-builder' },
@@ -1179,8 +1184,8 @@ function buildToolPricingRows(locale: AppLocale): ToolPricingRow[] {
       id: 'character-builder-final',
       anchorId: 'character-builder-final-pricing',
       tool: copy.tools.characterBuilderFinal,
-      standardOutput: copy.liveQuote,
-      proOutput: `${fourKFormat?.label ?? '4K'}: ${copy.liveQuote}`,
+      standardOutput: `${finalEngine?.marketingName ?? 'Seedream 5.0 Pro'}: ${copy.liveQuote}`,
+      proOutput: '—',
       bestUsedBefore: copy.tools.finalCharacterReferences,
       links: [
         { label: copy.links.tool, href: '/tools/character-builder' },

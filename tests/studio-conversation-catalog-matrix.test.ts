@@ -1,4 +1,6 @@
-import {isKeyvoVisibleFamily} from '../frontend/config/keyvo-model-visibility';
+// Mechanism test: runs on the unfiltered upstream catalog (the Keyvo model allowlist hides this fixture engine).
+import './helpers/keyvo-unfiltered-catalog';
+import {isKeyvoOfferedEngine,isKeyvoVisibleFamily} from '../frontend/config/keyvo-model-visibility';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {listFalEngines} from '../frontend/src/config/falEngines';
@@ -56,11 +58,12 @@ async function services(deps=sourceDeps) {
 
 test('the real published catalog reaches Studio without the five-model pilot restriction',async()=>{
   const {catalog}=await services();
-  assert.deepEqual(catalog.filter(entry=>getRuntimeModelById(entry.engine.id)?.lifecycle==='current').map(entry=>entry.engine.id).sort(),currentCertified.slice().sort());
+  // Keyvo's owner allowlist narrows the certified current set on the customer catalog (admin-tier engines are opened separately).
+  assert.deepEqual(catalog.filter(entry=>getRuntimeModelById(entry.engine.id)?.lifecycle==='current').map(entry=>entry.engine.id).sort(),currentCertified.filter(id=>isKeyvoOfferedEngine(id)).sort());
   assert.deepEqual(catalog.find(entry=>entry.engine.id==='kling-v4')?.publicModes,['t2v','i2v','ref2v','v2v']);
   for(const id of [...uncertified,...keyvoHidden,...archive,...retired,'seedance-2-0-fast-byteplus'])
     assert.equal(catalog.some(entry=>entry.engine.id===id),false,id);
-  assert.deepEqual(catalog.filter(entry=>getRuntimeModelById(entry.engine.id)?.lifecycle==='legacy').map(entry=>entry.engine.id).sort(),executableLegacy.slice().sort(),'Published legacy explicit choices remain executable.');
+  assert.deepEqual(catalog.filter(entry=>getRuntimeModelById(entry.engine.id)?.lifecycle==='legacy').map(entry=>entry.engine.id).sort(),executableLegacy.filter(id=>isKeyvoOfferedEngine(id)).sort(),'Published legacy explicit choices remain executable where Keyvo offers them.');
   for(const candidate of catalog){
     if(candidate.surface==='image')assert.deepEqual(candidate.publicModes,['t2i','i2i'],candidate.engine.id);
     else assert.ok(candidate.publicModes.includes('t2v')&&candidate.publicModes.includes('i2v'),candidate.engine.id);
@@ -181,8 +184,9 @@ test('action-specific recommendations preserve a single compatible explicit choi
   assert.ok(open.recommendations.length>0&&open.recommendations.length<=3);
   assert.equal(open.recommendations[0].editorialGuidance?.level,'reference');
   assert.notEqual(open.recommendations[0].model.id,'pika-text-to-video');
+  // Pika is outside the owner allowlist, so an exact request must not resolve to it on Keyvo.
   const pika=await recommendAgentModels({id:'pika-text-to-video',surface:'video',mode:'i2v'},deps);
-  assert.deepEqual(pika.recommendations.map(item=>item.model.id),['pika-text-to-video']);
+  assert.deepEqual(pika.recommendations.map(item=>item.model.id),isKeyvoOfferedEngine('pika-text-to-video')?['pika-text-to-video']:[]);
   const fourK=await recommendAgentModels({surface:'video',mode:'t2v',resolution:'4k',preferredModelIds:['seedance-2-5']},deps);
   assert.ok(fourK.recommendations.length>0);
   assert.notEqual(fourK.recommendations[0].model.id,'seedance-2-5');

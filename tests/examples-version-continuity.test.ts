@@ -1,3 +1,5 @@
+// Upstream mechanism test over hidden (non-allowlisted) engines: run on the unfiltered catalog (see keyvo-unfiltered-catalog).
+import './helpers/keyvo-unfiltered-catalog.ts';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { buildExamplesVersionLinks } from '../frontend/app/(localized)/[locale]/(marketing)/examples/_lib/examples-version-links';

@@ -421,7 +421,7 @@ export async function prepareGenerationForActor(
         || principal.clientId === null
         || !await dependencies.recordTrialQuotePreparedAudit({
           quoteId: inserted.quoteId,
-          engineId: 'seedance-2-0-mini',
+          engineId: 'seedance-2-5',
           aspectRatio: aspectRatio as TrialQuotePreparedAuditInput['aspectRatio'],
           audio,
           oauthClientId: principal.clientId,

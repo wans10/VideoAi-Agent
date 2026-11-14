@@ -63,7 +63,7 @@ Static Character Studio marketing rows contain no historical fixed amounts.
 the four retired static projections while the original baseline remains frozen.
 Current rows use the native image estimator; EN/FR/ES public prices, estimates
 and reserved receipts are checked together in
-`tests/character-studio-nano21-price-postgres.test.ts`. Missing native pricing
+`tests/character-studio-seedream-price-postgres.test.ts` (Keyvo: Seedream on the official-list rule path). Missing native pricing
 cannot fall back to an admin-edited legacy Character product.
 
 ## Character Studio Recast product policy (2026-11-05)

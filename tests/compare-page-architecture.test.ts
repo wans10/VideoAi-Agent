@@ -348,7 +348,8 @@ test('public comparison engine selector excludes disabled admin-only engines', (
   assert.doesNotMatch(serializedOptions, /byteplus|BytePlus/);
   assert.doesNotMatch(serializedOptions, /Fast Direct/);
   assert.equal(ENGINE_OPTIONS.some((option) => option.value === 'seedance-2-0-fast-byteplus'), false);
-  assert.equal(CATALOG_BY_SLUG.get('seedance-2-0-fast-byteplus')?.surfaces?.compare?.includeInHub, false);
+  // The owner allowlist removes this hidden engine from the catalogue entirely; it must never be a public hub engine.
+  assert.notEqual(CATALOG_BY_SLUG.get('seedance-2-0-fast-byteplus')?.surfaces?.compare?.includeInHub, true);
   ENGINE_OPTIONS.forEach((option) => {
     assert.equal(
       CATALOG_BY_SLUG.get(String(option.value))?.surfaces?.compare?.includeInHub,

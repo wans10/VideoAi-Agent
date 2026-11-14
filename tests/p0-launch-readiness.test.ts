@@ -127,8 +127,9 @@ test('the complete P0 graph publishes atomically across public discovery surface
     assert.equal(publication?.examples.published, false, `${id} examples`);
     assert.equal(publication?.compare.published, false, `${id} compare`);
     assert.equal(publication?.sitemap.published, false, `${id} sitemap`);
-    assert.equal(publication?.app.published, true, `${id} app stays upstream`);
-    assert.equal(publication?.pricing.published, true, `${id} pricing stays upstream`);
+    // Owner allowlist (2026-11-14): a hidden P0 model is closed on the App and pricing surfaces too.
+    assert.equal(publication?.app.published, false, `${id} app`);
+    assert.equal(publication?.pricing.published, false, `${id} pricing`);
   }
 
   assert.deepEqual(

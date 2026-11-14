@@ -134,6 +134,8 @@ test('the visible Create control preserves canonical recalled frames through rep
   const harnessSource = (await readFile('tests/helpers/workspace-gallery-recall-harness.ts', 'utf8')).replaceAll('../../frontend/', './');
   const source = harnessSource + '\n' + galleryRecallBrowserSource.replace("import {useGalleryRecallHarness} from '../tests/helpers/workspace-gallery-recall-harness';", '');
   const fixture = await startWorkspaceReferenceFixture({ source, config: { jobs: frameJobs },
+    // Mechanism test over engines outside the Keyvo allowlist (Veo, LTX Retake): use the unfiltered catalogue.
+    unfilteredCatalog: true,
     hostModules: { '@/lib/authFetch': 'export const authFetch=(url,options)=>fetch(url,options);',
       '@/lib/supabaseClientLoader': `export const loadSupabaseClient=async()=>({auth:{getSession:async()=>({data:{session:{access_token:'synthetic-owned',user:{id:'recall-owner'}}},error:null})}});` },
   });
@@ -195,6 +197,8 @@ test('LTX Retake exits through the real surface action or Create while retaining
   const harnessSource = (await readFile('tests/helpers/workspace-gallery-recall-harness.ts', 'utf8')).replaceAll('../../frontend/', './');
   const source = harnessSource + '\n' + galleryRecallBrowserSource.replace("import {useGalleryRecallHarness} from '../tests/helpers/workspace-gallery-recall-harness';", '');
   const fixture = await startWorkspaceReferenceFixture({ source, config: { jobs: [retakeJob], fullSurface: true },
+    // Mechanism test over engines outside the Keyvo allowlist (Veo, LTX Retake): use the unfiltered catalogue.
+    unfilteredCatalog: true,
     hostModules: { '@/lib/authFetch': 'export const authFetch=(url,options)=>fetch(url,options);',
       '@/lib/supabaseClientLoader': `export const loadSupabaseClient=async()=>({auth:{getSession:async()=>({data:{session:{access_token:'synthetic-owned',user:{id:'recall-owner'}}},error:null})}});` },
   });

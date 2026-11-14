@@ -3,7 +3,7 @@ import test from 'node:test';
 
 import { listFalEngines } from '../frontend/src/config/falEngines';
 import { getModelRegistryEntryById } from '../frontend/config/model-registry';
-import { isKeyvoHiddenModel } from '../frontend/config/keyvo-model-visibility';
+import { isKeyvoHiddenModel, isKeyvoOfferedEngine } from '../frontend/config/keyvo-model-visibility';
 import {
   validateCanonicalGenerationCapabilities,
 } from '../frontend/src/server/agent-api/generation-capability-validation';
@@ -73,13 +73,13 @@ function request(input: Record<string, unknown>): CanonicalGenerationRequest {
 
 test('MCP discovery exposes the executable first/last-frame and reference-video workflows', async () => {
   const deps = realRegistryDeps();
-  const [veo] = await listAgentModels({ id: 'veo-3-1' }, deps);
+  // Owner allowlist (2026-11-14): MCP is public-tier only. Gemini Omni Flash (admin-tier, first/last-frame) and Veo 3.1
+  // are withheld, so no public MCP model exposes the first/last-frame workflow.
+  assert.deepEqual(await listAgentModels({ id: 'gemini-omni-flash' }, deps), []);
+  assert.deepEqual(await listAgentModels({ mode: 'fl2v' as never }, deps), []);
   // Keyvo 2026-11-13: Wan 2.6 (the only r2v model) is offline, so MCP no longer lists a reference-video r2v route.
   const wan = await listAgentModels({ id: 'wan-2-6' }, deps);
-
-  assert.ok(veo);
   assert.deepEqual(wan, []);
-  assert.ok(veo.modes.includes('fl2v' as never));
 });
 
 test('Wan 3 edit and extension use canonical source-video contracts without provider selection', async () => {
@@ -173,12 +173,15 @@ test('MCP mode parity audit identifies every remaining specialized public workfl
     })
   ).sort();
 
-  assert.deepEqual(remaining, [
-    'gemini-omni-flash:retake',
-  ]);
+  // Gemini Omni Flash (the retake workflow) is admin-tier on the owner allowlist (2026-11-14), so it is not a public
+  // workflow and the public remainder is empty.
+  assert.deepEqual(remaining, []);
 
   const deps = realRegistryDeps();
-  assert.deepEqual(keyvoHiddenEntries.map(({ id }) => id), []);
+  // Owner allowlist (2026-11-14): every app-published engine outside the allowlist is hidden from MCP.
+  assert.ok(keyvoHiddenEntries.some(({ id }) => id === 'veo-3-1'));
+  assert.equal(keyvoHiddenEntries.some(({ id }) => id === 'minimax-h3-max'), false);
+  assert.equal(publicEntries.every(({ id }) => isKeyvoOfferedEngine(id)), true);
   assert.ok(publicEntries.some(({ id }) => id === 'minimax-h3-max'));
   for (const entry of keyvoHiddenEntries) {
     assert.deepEqual(await listAgentModels({ id: entry.id }, deps), [], `${entry.id} is hidden from MCP discovery on Keyvo`);

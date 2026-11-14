@@ -50,7 +50,6 @@ export function normalizeWorkspaceCharacterBuilderSettings(
   const qualityMode = record.qualityMode === 'final' ? 'final' : 'draft';
   const formatMode = normalizeCharacterFormatMode(
     record.formatMode as CharacterBuilderFormatMode | null | undefined,
-    qualityMode
   );
 
   return {

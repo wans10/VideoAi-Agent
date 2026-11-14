@@ -2,6 +2,10 @@
 
 ## Current availability and kill switch
 
+> Keyvo: the included trial is closed outright by the code constant `KEYVO_MCP_TRIAL_DISABLED` (see
+> `docs/engineering/keyvo-upstream-deviations.md`). `MCP_TRIAL_ENABLED` and the other trial variables below have no effect
+> until that constant is changed and the guard migration is widened.
+
 The MCP included trial is not live. The checked-in `trial` publication flag in
 `frontend/config/mcp-publication.json` remains `false`, as do the other seven
 public MCP flags. Runtime eligibility additionally requires

@@ -162,7 +162,7 @@ test('catalogue streams the complete stable hero before prices and reveals exact
       } finally {h.release();await pending.catch(()=>undefined);}
     });
     await t.test('catalogue adds only versions missing from the display name',async()=>{
-      // FLUX is hidden on Keyvo, so the label rules run on a visible Seedance card.
+      // FLUX is hidden on Keyvo, so the label rules run on the offered Seedance 2.5 card.
       h.configure('en');h.release();
       for(const [marketingName,versionLabel,want] of [
         ['FLUX 3 Video Draft','3 Draft','FLUX 3 Video Draft'],
@@ -174,9 +174,9 @@ test('catalogue streams the complete stable hero before prices and reveals exact
         ['FLUX v3','v3','FLUX v3'],
         ['FLUX Video','','FLUX Video'],
       ]) {
-        h.configureName({slug:'seedance-2-0-fast',marketingName,versionLabel});
+        h.configureName({slug:'seedance-2-5',marketingName,versionLabel});
         const cards=await h.buildModelsCatalogCards({activeLocale:'en',engineMetaCopy:{},galleryCopy:{},scope:'video'});
-        assert.equal(cards.find((card:any)=>card.id==='seedance-2-0-fast')?.label,want,`${marketingName} / ${versionLabel}`);
+        assert.equal(cards.find((card:any)=>card.id==='seedance-2-5')?.label,want,`${marketingName} / ${versionLabel}`);
       }
     });
     for(const outcome of ['unavailable','rejected'])await t.test(outcome,async()=>{

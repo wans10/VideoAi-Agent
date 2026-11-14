@@ -19,11 +19,10 @@ import {
   REALISM_STYLE_OPTIONS,
   SKIN_TONE_OPTIONS,
 } from '@/lib/character-builder';
-import type { CharacterBuilderState } from '@/types/character-builder';
 import { getFormatDisplayLabel } from '../_lib/character-builder-helpers';
 import type { CharacterCopy } from '../_lib/character-builder-copy';
 
-export function useCharacterBuilderOptions(copy: CharacterCopy, qualityMode: CharacterBuilderState['qualityMode']) {
+export function useCharacterBuilderOptions(copy: CharacterCopy) {
   const genderOptions = useMemo(
     () => GENDER_PRESENTATION_OPTIONS.map((option) => ({ ...option, label: copy.options.gender[option.id as keyof typeof copy.options.gender] ?? option.label })),
     [copy]
@@ -114,12 +113,12 @@ export function useCharacterBuilderOptions(copy: CharacterCopy, qualityMode: Cha
   );
   const formatOptions = useMemo(
     () =>
-      getAvailableCharacterFormatOptions(qualityMode).map((option) => ({
+      getAvailableCharacterFormatOptions().map((option) => ({
         ...option,
-        label: getFormatDisplayLabel(copy, option.id, qualityMode),
+        label: getFormatDisplayLabel(copy),
         description: copy.options.format[option.id].description,
       })),
-    [copy, qualityMode]
+    [copy]
   );
 
   const outputModeLabelOptions = useMemo(

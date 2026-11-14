@@ -238,7 +238,7 @@ function OwnedStoryboardWorkspace({ auth }: { auth: ReturnType<typeof useRequire
       });
       const response = await runImageGeneration({
         jobId: `storyboard_${crypto.randomUUID()}`,
-        engineId: 'gpt-image-2',
+        engineId: 'gpt-image-2-6-sunburst',
         mode: 'i2i',
         prompt,
         numImages: 1,
@@ -269,7 +269,7 @@ function OwnedStoryboardWorkspace({ auth }: { auth: ReturnType<typeof useRequire
         if (!request.isCurrent() || !firstFrameRequest) return;
         const firstFrameResponse = await runImageGeneration({
           jobId: firstFrameJobId,
-          engineId: 'gpt-image-2',
+          engineId: 'gpt-image-2-6-sunburst',
           mode: 'i2i',
           prompt: buildKlingStoryboardFirstFramePrompt({
             subject,

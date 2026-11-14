@@ -6,6 +6,7 @@ import { prepareImageFileForUpload } from '@/lib/client-image-upload';
 import {
   CHARACTER_BUILDER_MAX_REFERENCE_IMAGES,
   CHARACTER_BUILDER_STORAGE_KEY,
+  CHARACTER_FINAL_ENGINE_ID,
   CHARACTER_BUILDER_STORAGE_VERSION,
   createDefaultCharacterBuilderState,
   getQualityEngineId,
@@ -13,7 +14,6 @@ import {
 } from '@/lib/character-builder';
 import type {
   CharacterBuilderAction,
-  CharacterBuilderFormatMode,
   CharacterBuilderResult,
   CharacterBuilderRun,
   CharacterBuilderSettingsSnapshot,
@@ -93,14 +93,9 @@ export function getResultActionLabel(copy: CharacterCopy, action: CharacterBuild
   return copy.resultCard.referenceOutput;
 }
 
-export function getFormatDisplayLabel(
-  copy: CharacterCopy,
-  formatMode: CharacterBuilderFormatMode,
-  qualityMode: CharacterBuilderState['qualityMode']
-): string {
-  if (formatMode === '4k') return copy.options.format['4k'].label;
-  if (formatMode === '2k') return copy.options.format['2k'].label;
-  return qualityMode === 'final' ? '2K' : '1K';
+export function getFormatDisplayLabel(copy: CharacterCopy): string {
+  // Every quality mode renders at the one size the Seedream engines offer.
+  return copy.options.format['2k'].label;
 }
 
 
@@ -179,7 +174,7 @@ export function readPersistedState(accountId: string | null): CharacterBuilderSt
         ...base.traits,
         ...parsed.state.traits,
       }),
-      formatMode: normalizeCharacterFormatMode(parsed.state.formatMode, parsed.state.qualityMode ?? base.qualityMode),
+      formatMode: normalizeCharacterFormatMode(parsed.state.formatMode),
       outputOptions: {
         ...base.outputOptions,
         ...parsed.state.outputOptions,
@@ -250,7 +245,7 @@ export function getFlattenedResults(runs: CharacterBuilderRun[]): CharacterBuild
 }
 
 export function getCharacterEngineLabel(qualityMode: CharacterBuilderRun['qualityMode']): string {
-  return getQualityEngineId(qualityMode) === 'nano-banana-2-1' ? 'Nano Banana 2.1' : 'Character Studio';
+  return getQualityEngineId(qualityMode) === CHARACTER_FINAL_ENGINE_ID ? 'Seedream 5.0 Pro' : 'Seedream 5.0 Flash';
 }
 
 export function buildRecoveredRunFromJob(
@@ -308,7 +303,7 @@ export function buildRecoveredRunFromJob(
     action: snapshot?.action ?? pendingRun.action,
     outputMode: snapshot?.builder.outputMode ?? pendingRun.outputMode,
     qualityMode: snapshot?.builder.qualityMode ?? pendingRun.qualityMode,
-    formatMode: normalizeCharacterFormatMode(snapshot?.builder.formatMode ?? pendingRun.formatMode, snapshot?.builder.qualityMode ?? pendingRun.qualityMode),
+    formatMode: normalizeCharacterFormatMode(snapshot?.builder.formatMode ?? pendingRun.formatMode),
     engineId,
     engineLabel,
     createdAt,
@@ -421,7 +416,7 @@ export function parseCharacterBuilderSnapshot(snapshot: unknown): Partial<Charac
     consistencyMode: builder.consistencyMode ?? base.consistencyMode,
     referenceStrength: builder.referenceStrength ?? base.referenceStrength,
     qualityMode: builder.qualityMode ?? base.qualityMode,
-    formatMode: normalizeCharacterFormatMode(builder.formatMode, builder.qualityMode ?? base.qualityMode),
+    formatMode: normalizeCharacterFormatMode(builder.formatMode),
     outputOptions: {
       ...base.outputOptions,
       ...builder.outputOptions,

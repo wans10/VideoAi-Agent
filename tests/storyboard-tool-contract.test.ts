@@ -57,7 +57,8 @@ const storyboardTemplatePortrait4Path = join(root, 'frontend/public/storyboard/t
 const storyboardTemplatePortrait6Path = join(root, 'frontend/public/storyboard/templates/storyboard-template-portrait-6.png');
 const storyboardTemplatePortrait8Path = join(root, 'frontend/public/storyboard/templates/storyboard-template-portrait-8.png');
 
-test('storyboard tool exposes a focused image workspace preset for GPT Image 2', async () => {
+// GPT Image 2.6 is admin-tier under the owner allowlist, so ordinary viewers get a public image engine by default.
+test('storyboard tool exposes a focused image workspace preset on a public image engine', async () => {
   assert.equal(existsSync(storyboardPresetPath), true, 'storyboard preset helper should live under image _lib');
 
   const module = await import('../frontend/app/(core)/(workspace)/app/image/_lib/image-workspace-storyboard.ts');
@@ -70,7 +71,7 @@ test('storyboard tool exposes a focused image workspace preset for GPT Image 2',
   };
 
   assert.equal(preset.tool, 'storyboard');
-  assert.equal(preset.engineId, 'gpt-image-2');
+  assert.equal(preset.engineId, 'seedream-5-0-flash');
   assert.equal(preset.mode, 't2i');
   assert.equal(preset.librarySource, 'storyboard');
   assert.match(preset.prompt, /storyboard/i);

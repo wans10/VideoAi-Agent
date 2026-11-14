@@ -2,7 +2,7 @@ import type { QueryExecutor } from '@/lib/db';
 
 export type TrialQuotePreparedAuditInput = Readonly<{
   quoteId: string;
-  engineId: 'seedance-2-0-mini';
+  engineId: 'seedance-2-5';
   aspectRatio: '16:9' | '9:16' | '1:1';
   audio: boolean;
   oauthClientId: string;
@@ -45,7 +45,7 @@ function assertInput(value: unknown): asserts value is TrialQuotePreparedAuditIn
   }
   if (typeof input.quoteId !== 'string'
     || !UUID_V4_PATTERN.test(input.quoteId)
-    || input.engineId !== 'seedance-2-0-mini'
+    || input.engineId !== 'seedance-2-5'
     || typeof input.aspectRatio !== 'string'
     || !ASPECT_RATIOS.has(input.aspectRatio)
     || typeof input.audio !== 'boolean'

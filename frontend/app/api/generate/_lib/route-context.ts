@@ -1,4 +1,5 @@
 import { resolveVideoOperationEngine } from '@/lib/video-operation';
+import { isKeyvoHiddenModelForViewer, keyvoEngineTier } from '@/config/keyvo-model-visibility';
 import { isArchivedGenerationModel } from '@/lib/model-generation-policy';
 import { isKlingV4ReleaseBlocked } from '@/server/video-generation/kling-v4-release-policy';
 import { randomUUID } from 'crypto';
@@ -232,6 +233,14 @@ export async function resolveGenerateRouteContext(params: {
     ...params.boundaryOverrides,
   };
   const requestedEngineId = String(body.engineId || '');
+  // Keyvo admin-tier engines (keyvo-model-allowlist.json) are refused for ordinary viewers before any lookup or charge.
+  // The admin check runs only for admin-tier ids, so ordinary generation adds no session lookup.
+  const viewerIsAdmin = keyvoEngineTier(requestedEngineId) === 'admin'
+    ? await boundaries.requireAdmin(req).then(() => true, () => false)
+    : false;
+  if (isKeyvoHiddenModelForViewer(requestedEngineId, { isAdmin: viewerIsAdmin })) {
+    return { ok: false, status: 400, body: { ok: false, error: 'Unknown engine' } };
+  }
   if (isKlingV4ReleaseBlocked(requestedEngineId)) {
     return { ok: false, status: 503, body: { ok: false, error: 'KLING_V4_NOT_QUALIFIED' } };
   }
@@ -296,7 +305,8 @@ export async function resolveGenerateRouteContext(params: {
     }
   }
 
-  const publicEngine = await boundaries.getConfiguredEngine(requestedEngineId);
+  const publicEngine = await boundaries.getConfiguredEngine(requestedEngineId)
+    ?? (viewerIsAdmin ? await boundaries.getConfiguredEngineIncludingHidden(requestedEngineId) : undefined);
   let engine =
     publicEngine ??
     (isBytePlusSeedanceHiddenEngine(requestedEngineId) || isPrivateRuntimeEngineId(requestedEngineId)
@@ -308,6 +318,11 @@ export async function resolveGenerateRouteContext(params: {
       console.info('[api/generate] runtime lock active; generation blocked', { engineId: requestedEngineId });
       return { ok: false, status: 400, body: { ok: false, error: 'Engine unavailable' } };
     }
+    return { ok: false, status: 400, body: { ok: false, error: 'Unknown engine' } };
+  }
+
+  // Keyvo offers only the owner allowlist; the hidden-engine fallbacks above must not start a paid job.
+  if (isKeyvoHiddenModelForViewer(engine.id, { isAdmin: viewerIsAdmin })) {
     return { ok: false, status: 400, body: { ok: false, error: 'Unknown engine' } };
   }
 

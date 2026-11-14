@@ -798,19 +798,18 @@
         "fallbackCards": [
           {
             "id": "fallback-seedance",
-            "title": "Seedance 2.0",
-            "engine": "Seedance 2.0",
-            "engineId": "seedance-2-0",
-            "modelSlug": "seedance-2-0",
+            "title": "Seedance 2.5",
+            "engine": "Seedance 2.5",
+            "engineId": "seedance-2-5",
+            "modelSlug": "seedance-2-5",
             "mode": "Reference-to-video",
             "duration": "12s",
             "price": "Live price",
             "useCase": "Cinematic realism",
-            "cta": "Examples & prompts",
+            "cta": "Explore Seedance 2.5",
             "modelCta": "Specs & pricing",
-            "imageSrc": "/hero/seedance-2-0.jpg",
-            "imageAlt": "Seedance 2.0 AI video example for cinematic commercial shots.",
-            "examplesSlug": "seedance"
+            "imageSrc": "/models/seedance-2-5-launch.jpg",
+            "imageAlt": "Seedance 2.5 AI video example for cinematic commercial shots."
           },
           {
             "id": "fallback-kling",
@@ -5359,25 +5358,17 @@
         "quality": {
           "draft": {
             "label": "Standard",
-            "description": "Fast exploratory passes on Nano Banana 2.1."
+            "description": "Fast exploratory passes on Seedream 5.0 Flash."
           },
           "final": {
             "label": "Pro",
-            "description": "Cleaner export-ready references on Nano Banana 2.1."
+            "description": "Cleaner export-ready references on Seedream 5.0 Pro."
           }
         },
         "format": {
-          "standard": {
-            "label": "1K",
-            "description": "Base render size."
-          },
           "2k": {
             "label": "2K",
-            "description": "Sharper output. 2x price."
-          },
-          "4k": {
-            "label": "4K",
-            "description": "Final-grade output. 3x price."
+            "description": "The largest size the Seedream models render. 1K and 4K are not offered for characters."
           }
         }
       }

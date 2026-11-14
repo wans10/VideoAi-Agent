@@ -1,6 +1,7 @@
 import { isDatabaseConfigured } from '@/lib/db';
 import type { AppLocale } from '@/i18n/locales';
 import { findProgrammePrint, PAYG_FILM_PROGRAMME } from './payg-film-programme';
+import { isKeyvoHiddenModel } from '@/config/keyvo-model-visibility';
 import { getSeoVideosByIds, listGalleryVideos, listPlaylistVideos, type GalleryVideo } from '@/server/videos';
 import type { PayAsYouGoContent, PaygShowcaseTitleId } from '../_content/types';
 
@@ -40,8 +41,14 @@ function videoModelSearchText(video: GalleryVideo) {
   return [video.engineId, video.engineLabel, video.promptExcerpt, video.prompt].filter(Boolean).join(' ');
 }
 
+// Owner decision E (2026-11-14): the PAYG strip shows only domestic model families; admin-tier and every other
+// non-offered engine stay out of the strip even when a gallery video for them exists.
+const PAYG_DOMESTIC_ENGINE_PATTERN = /^(?:kling|seedance|seedream|wan|happy-?horse|minimax|hailuo|qwen)/i;
+
 function isAllowedShowcaseModel(video: GalleryVideo) {
-  return !SHOWCASE_DISALLOWED_MODEL_PATTERN.test(videoModelSearchText(video));
+  if (isKeyvoHiddenModel(video.engineId)) return false;
+  return PAYG_DOMESTIC_ENGINE_PATTERN.test(video.engineId.trim())
+    && !SHOWCASE_DISALLOWED_MODEL_PATTERN.test(videoModelSearchText(video));
 }
 
 function modelPriorityIndex(video: GalleryVideo) {

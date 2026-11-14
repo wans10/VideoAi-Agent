@@ -11,7 +11,7 @@ import {
 import type { AudioPricingInput } from '../frontend/src/lib/audio-generation';
 import { quotePublicAudioPricingSnapshot } from '../frontend/src/lib/pricing-public-quote';
 import { repriceCanonicalFixedProductSnapshot } from '../frontend/src/lib/billing-products';
-import { isOfficialListPricedEngine, OFFICIAL_LIST_PRICE_PROFILE_ID } from '../frontend/src/lib/official-list-pricing';
+import { isOfficialList100PricedEngine, isOfficialListPricedEngine, OFFICIAL_LIST_100_PRICE_PROFILE_ID, OFFICIAL_LIST_PRICE_PROFILE_ID } from '../frontend/src/lib/official-list-pricing';
 import type { PricingSnapshot } from '@maxvideoai/pricing';
 
 const entriesById = new Map(listFalEngines().map((entry) => [entry.id, entry.engine]));
@@ -147,7 +147,10 @@ for (const scenario of scenarios) {
       sourceRuleId: 'default',
       // Keyvo 2026-11-13: re-priced mainland engines (HappyHorse 1.1, Seedance 2.0) quote through the official-list-80
       // profile, which replaces their supplier-fact rounding profile; billing and public financial fields still match.
-      compatibilityProfile: isOfficialListPricedEngine(scenario.context.engine?.id)
+      // Keyvo official-list-100 (2026-11-14): Nano Banana 2 / Lite / 2.1 sell at 100% of the official list price.
+      compatibilityProfile: isOfficialList100PricedEngine(scenario.context.engine?.id)
+        ? OFFICIAL_LIST_100_PRICE_PROFILE_ID
+        : isOfficialListPricedEngine(scenario.context.engine?.id)
         ? OFFICIAL_LIST_PRICE_PROFILE_ID
         : scenario.id === 'luma-reference-image' ||
         scenario.id === 'luma-ray-3-2' ||

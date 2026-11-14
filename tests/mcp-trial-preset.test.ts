@@ -14,11 +14,12 @@ import {
 } from '../frontend/src/server/agent-api/trial-preset';
 import type { AgentPublicGenerationEngine } from '../frontend/src/server/agent-api/model-catalog';
 
+// The trial preset moved from Seedance 2.0 Mini to the owner-offered Seedance 2.5 (2026-11-14, Keyvo allowlist).
 function trialCandidate(overrides: Record<string, unknown> = {}): Record<string, unknown> {
   return {
     schemaVersion: 1,
     surface: 'video',
-    engineId: 'seedance-2-0-mini',
+    engineId: 'seedance-2-5',
     mode: 't2v',
     prompt: '  A paper sculpture unfolds\ninto a luminous city.  ',
     settings: { aspectRatio: '16:9', audio: true },
@@ -69,7 +70,7 @@ test('owns the exact immutable Seedance Mini trial preset', () => {
   assert.equal(presetMutationSucceeded, false);
   assert.equal(ratioMutationSucceeded, false);
   assert.deepEqual(MCP_TRIAL_PRESET, {
-    engineId: 'seedance-2-0-mini',
+    engineId: 'seedance-2-5',
     surface: 'video',
     mode: 't2v',
     durationSec: 5,
@@ -110,7 +111,7 @@ test('normalizes a trial candidate to the forced canonical no-reference request'
   assert.deepEqual(normalizeTrialCandidate(trialCandidate()), {
     schemaVersion: 1,
     surface: 'video',
-    engineId: 'seedance-2-0-mini',
+    engineId: 'seedance-2-5',
     mode: 't2v',
     prompt: 'A paper sculpture unfolds into a luminous city.',
     settings: {
@@ -343,7 +344,7 @@ test('returns fresh settings and references that cannot be changed through calle
   assert.deepEqual(normalized, {
     schemaVersion: 1,
     surface: 'video',
-    engineId: 'seedance-2-0-mini',
+    engineId: 'seedance-2-5',
     mode: 't2v',
     prompt: 'A paper sculpture unfolds into a luminous city.',
     settings: {

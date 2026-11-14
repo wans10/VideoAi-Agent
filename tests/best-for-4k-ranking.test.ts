@@ -30,8 +30,8 @@ function createPick(slug: string): RankedPick {
 
 test('4K selection leads with the reference-capable Omni variant and keeps distinct workflows', () => {
   assert.ok(fourKEntry);
-  // Veo and Gemini Omni (family veo) are hidden on Keyvo: the visible shortlist keeps upstream's order without them.
-  assert.deepEqual(fourKEntry.topPicks, ['kling-o3-4k', 'minimax-h3', 'seedance-2-0']);
+  // Veo and Gemini Omni (admin tier) and Seedance 2.0 are not offered on Keyvo: the shortlist keeps upstream's order without them.
+  assert.deepEqual(fourKEntry.topPicks, ['kling-o3-4k', 'minimax-h3']);
   // Every authored 4K comparison pairs a Veo or Gemini Omni model, so none is published on Keyvo.
   const related = getPublishedRelatedComparisons(fourKEntry, 'en');
   assert.deepEqual(related, []);

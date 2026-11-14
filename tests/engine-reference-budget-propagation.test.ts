@@ -1,3 +1,6 @@
+// Engine clone and projection mechanism: the base engine is an upstream record Keyvo does not offer, so this runs on the
+// unfiltered catalog. This import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 

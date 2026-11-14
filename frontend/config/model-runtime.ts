@@ -1,7 +1,7 @@
 import runtimeDocument from './model-runtime.json' with { type: 'json' };
 import type { ModelPublicationSurfaces } from './model-publication';
 import type { ModelRegistryEntry } from './model-registry-validation';
-import { isKeyvoHiddenModel, isKeyvoModelVisibilityOff, isKeyvoVisibleFamily } from './keyvo-model-visibility';
+import { isKeyvoHiddenModel, isKeyvoModelVisibilityOff, isKeyvoVisibleEntry, keyvoEngineTier } from './keyvo-model-visibility';
 
 export type RuntimeModelEntry = Omit<ModelRegistryEntry, 'replacement'> & {
   successorSlug: string | null;
@@ -70,7 +70,7 @@ export function createRuntimeModelResolver(document: ModelRuntimeDocument) {
 // Generator scripts set KEYVO_MODEL_VISIBILITY=off so generated projections stay identical to upstream.
 function hideNonKeyvoModel(model: RuntimeModelEntry): RuntimeModelEntry {
   const hiddenModel = isKeyvoHiddenModel(model.id);
-  if (!hiddenModel && (isKeyvoModelVisibilityOff() || isKeyvoVisibleFamily(model.family))) return model;
+  if (!hiddenModel && (isKeyvoModelVisibilityOff() || isKeyvoVisibleEntry(model.family, model.id))) return model;
   const { publication } = model;
   return {
     ...model,
@@ -80,9 +80,11 @@ function hideNonKeyvoModel(model: RuntimeModelEntry): RuntimeModelEntry {
       examples: { ...publication.examples, published: false, includeInFamilyCopy: false, current: false },
       compare: { ...publication.compare, published: false, indexed: false, suggestedOpponentIds: [], publishedPairIds: [] },
       sitemap: { ...publication.sitemap, published: false },
-      // A visible-family model without a mainland route is also kept out of the workspace and pricing.
+      // A visible-family model without a mainland route is also kept out of the workspace and pricing. Admin-tier
+      // engines keep their workspace publication: the engine lists and generate route apply the viewer-aware choke
+      // point (isKeyvoHiddenModelForViewer), so only administrators see them in the app.
       ...(hiddenModel ? {
-        app: { published: false },
+        ...(keyvoEngineTier(model.id) === 'admin' ? {} : { app: { published: false } }),
         pricing: { published: false },
       } : {}),
     },

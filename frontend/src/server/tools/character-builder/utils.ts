@@ -1,3 +1,4 @@
+import { CHARACTER_DRAFT_ENGINE_ID, CHARACTER_FINAL_ENGINE_ID } from '@/lib/character-builder';
 import type {
   CharacterBuilderAction,
   CharacterBuilderOutputMode,
@@ -64,7 +65,9 @@ export function buildImageUrls(input: {
 }
 
 export function getEngineLabel(engineId: string): string {
-  return engineId === 'nano-banana-2-1' ? 'Nano Banana 2.1' : engineId === 'nano-banana-pro' ? 'Nano Banana Pro' : 'Nano Banana 2';
+  if (engineId === CHARACTER_FINAL_ENGINE_ID) return 'Seedream 5.0 Pro';
+  if (engineId === CHARACTER_DRAFT_ENGINE_ID) return 'Seedream 5.0 Flash';
+  return 'Seedream 5.0 Flash';
 }
 
 export function getBillingProductKey(qualityMode: CharacterBuilderQualityMode): string {

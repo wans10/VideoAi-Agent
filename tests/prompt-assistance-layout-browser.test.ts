@@ -71,7 +71,7 @@ test('compact reference picker retains the field character library action', asyn
 
 test('compact Modify and Extend keep source references inside the writing footer in both tabs', async () => {
   const source=sourceSettingsBrowserSource.replace('<Composer density="workspace"','<Composer assistance={{scopeKey:"owner",contextKey:"modify"}} density="workspace"');
-  const fixture=await startWorkspaceReferenceFixture({source,assistancePreview:true,config:{}});
+  const fixture=await startWorkspaceReferenceFixture({source,assistancePreview:true,unfilteredCatalog:true,config:{}});
   const browser=await chromium.launch({headless:true});
   try {
     for(const width of [320,390,1440]) {

@@ -1,3 +1,5 @@
+// Mechanism test: runs on the unfiltered upstream catalog (the Keyvo model allowlist hides this fixture engine).
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { collectCustomerTariffCutoverCheckpoints, cutoverDigest, assertCustomerTariffCutoverRelease,
@@ -15,7 +17,9 @@ test('cutover derives all ordinary, workflow and real input duration checkpoints
   // images x 0-15 billed reference-video seconds). Its 6 Recast/Relight new-offer cells stay unsold (Fal-only).
   const h3MaxOfficialCells = 22 + 22 + 11 * 2 * 10 * 16;
   const keyvoProviderDelta = -104 - 90 - 132 + h3MaxOfficialCells - (528 - 288) + 6 + 3 + 2;
-  const keyvoProviderNewOfferDelta = -6;
+    // This suite runs on the unfiltered catalogue (the allowlist hides Hailuo and other fixtures), where H3-Max's Fal-only
+  // Recast/Relight cells are inventoried again, so the Keyvo-world removal of those 6 new-offer cells does not apply.
+  const keyvoProviderNewOfferDelta = 0;
   // Keyvo official list prices (2026-11-13): Wan 2.6 (16), Kling 2.5 Turbo (6) and Kling 2.6 Pro (8) went offline; Kling 3
   // Standard / Pro lost their 26 voice-control variants each (no official surcharge, so they share the audio-on identity);
   // Hailuo 02 512P text-to-video (2) is not sold by MiniMax.
@@ -23,7 +27,7 @@ test('cutover derives all ordinary, workflow and real input duration checkpoints
   assert.equal(keyvoOfficialListDelta, -84);
   assert.equal(h3MaxOfficialCells, 3564);
   assert.equal(keyvoProviderDelta, 3009);
-  for (const [modelId, count] of [['happy-horse-1-0', 0], ['seedream', 0], ['minimax-h3-max', 3564], ['minimax-h3', 288],
+  for (const [modelId, count] of [['happy-horse-1-0', 0], ['seedream', 0], ['minimax-h3-max', 3564 + 6], ['minimax-h3', 288],
     ['minimax-hailuo-2-3', 6], ['minimax-hailuo-2-3-fast', 3], ['seedream-5-0-flash', 2], ['wan-2-6', 0], ['kling-2-5-turbo', 0],
     ['kling-2-6-pro', 0], ['kling-3-standard', 52], ['kling-3-pro', 52], ['minimax-hailuo-02-text', 6]] as const) {
     assert.equal(cases.filter(row => row.scenario.modelId === modelId).length, count, modelId);

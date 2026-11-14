@@ -1,4 +1,7 @@
-import { OFFICIAL_LIST_PRICED_ENGINE_IDS } from '../frontend/src/lib/official-list-pricing';
+// These suites exercise the tariff reader, cutover and page-policy machinery with upstream fixture engines that the allowlist hides from customers.
+// Runs on the unfiltered catalog (Keyvo model allowlist); this import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
+import { OFFICIAL_LIST_PRICED_ENGINE_IDS, OFFICIAL_LIST_100_PRICED_ENGINE_IDS } from '../frontend/src/lib/official-list-pricing';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -79,7 +82,10 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
     const keyvoOfflineDelta = -84;
     assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length, 26435 + h3MaxOfficialCells + keyvoOfflineDelta);
     // -561: 555 ordinary checkpoints and 6 new-offer cells left with the provider-completeness sync (see the comment above).
-    const fullCheckedQuotes = 26826 - 561 + h3MaxOfficialCells + maxCells + lumaModifyExtraCells + additiveCells + keyvoOfflineDelta;
+    // The unfiltered catalog this suite runs on (Keyvo allowlist) also keeps MiniMax-H3-Max's six Recast/Relight new-offer
+    // cells, which Keyvo does not sell (KEYVO_UNSERVED_VIDEO_OPERATIONS); the ordinary-checkpoint count above excludes them.
+    const unsoldH3MaxOperationOffers = 6;
+    const fullCheckedQuotes = 26826 - 561 + h3MaxOfficialCells + unsoldH3MaxOperationOffers + maxCells + lumaModifyExtraCells + additiveCells + keyvoOfflineDelta;
     assert.equal(collectCustomerTariffCutoverCheckpoints().length, fullCheckedQuotes,
       'Review inventory changes before running the exhaustive monetary replay');
     assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.scenario.modelId === 'flux-3-max').length, maxCells);
@@ -120,7 +126,8 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
     const pointEngines = officialList.filter(row => !row.modelId.startsWith('seedance-') && !row.modelId.startsWith('wan-'));
     const pointInput = await seedInput(pointEngines);
     const pointAudit = await auditReviewedCustomerTariffSeed(pointInput);
-    assert.equal(pointAudit.checkedScenarios, 4424);
+    // +6: the unsold H3-Max Recast/Relight offers kept by the unfiltered catalog (see unsoldH3MaxOperationOffers above).
+    assert.equal(pointAudit.checkedScenarios, 4424 + unsoldH3MaxOperationOffers);
     assert.equal(pointAudit.settlementGuardFailures.length, 4408, 'every fixed official-list point cell is below cost');
     assert.ok(pointAudit.settlementGuardFailures.every(row => row.customerCents < row.referenceCeilCents));
     assert.deepEqual([...new Set(pointAudit.settlementGuardFailures.map(row => row.scenarioId.split('|')[0]!.slice('engineId='.length)))].sort(),
@@ -133,7 +140,9 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
     // Positive rehearsal: the upstream atomicity / rollback / actual-reader checks on the engines that are NOT
     // official-list priced. The official-list engines are unpublished in this process only (as the historical catalogue
     // helper does for Kling V4 / Nano21); no price and no rule changes.
-    const officialModels = [...OFFICIAL_LIST_PRICED_ENGINE_IDS].map(id => getRuntimeModelById(id)!);
+    // Google's Nano Banana engines (official-list-100, 100% of the list) are below cost as manual cells for the same
+    // reason and are left out of the rehearsal alongside them.
+    const officialModels = [...OFFICIAL_LIST_PRICED_ENGINE_IDS, ...OFFICIAL_LIST_100_PRICED_ENGINE_IDS].map(id => getRuntimeModelById(id)!);
     const officialPublished = officialModels.map(model => model.publication.app.published);
     const release = await (async () => {
       try {
@@ -152,12 +161,13 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
 
     async function rehearseWithoutOfficialList(): Promise<CustomerTariffCutoverRelease> {
       const reduced = collectSellableManualTariffCoverage();
-      assert.equal(reduced.scenarios.some(row => OFFICIAL_LIST_PRICED_ENGINE_IDS.has(row.modelId)), false);
-      assert.equal(reduced.scenarios.length, coverage.scenarios.length - officialList.length);
+      assert.equal(reduced.scenarios.some(row => OFFICIAL_LIST_PRICED_ENGINE_IDS.has(row.modelId) || OFFICIAL_LIST_100_PRICED_ENGINE_IDS.has(row.modelId)), false);
+      assert.equal(reduced.scenarios.length, coverage.scenarios.length - officialList.length
+        - coverage.scenarios.filter(row => OFFICIAL_LIST_100_PRICED_ENGINE_IDS.has(row.modelId)).length);
       const inventory = collectCustomerTariffCutoverCheckpoints();
       const expectedCheckedQuotes = inventory.length;
       assert.deepEqual(Object.fromEntries(['ordinary', 'new_offer', 'local_workflow', 'input_stress'].map(kind =>
-        [kind, inventory.filter(row => row.kind === kind).length])), { ordinary: 6247, new_offer: 67, local_workflow: 0, input_stress: 0 },
+        [kind, inventory.filter(row => row.kind === kind).length])), { ordinary: 6207, new_offer: 67, local_workflow: 0, input_stress: 0 },
       'Review the non-official-list inventory before running the monetary replay');
       assert.equal(inventory.filter(row => row.currentStatus === 'unavailable').length, 0, 'the unavailable LAS checkpoints are Seedance 2.5');
       const input = await seedInput(reduced.scenarios);
@@ -236,7 +246,8 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
       // No Seedance engine remains, so no legacy fixed Seedance row is archived and no LAS checkpoint is unavailable.
       assert.deepEqual({ candidateCells: applied.candidateCells, archivedLegacyCells: applied.archivedLegacyCells, unavailableQuotes: applied.unavailableQuotes },
         { candidateCells: cells.length, archivedLegacyCells: 0, unavailableQuotes: 0 });
-      assert.equal(applied.candidateCells, 6226, 'Review the candidate grid size (continuous classes collapse 6314 scenarios)');
+      // 6226 less the 40 Nano Banana 2 / Lite cells that the rehearsal leaves out (official-list-100).
+      assert.equal(applied.candidateCells, 6186, 'Review the candidate grid size (continuous classes collapse the checked scenarios)');
       t.diagnostic('Actual reader activation accepted before commit.');
       await assert.rejects(run(), /initial.*empty|revision/i);
       await assert.rejects(db.pool.query('DELETE FROM app_customer_tariff_cutover_events'), /immutable/i);

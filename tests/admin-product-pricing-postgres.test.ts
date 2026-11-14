@@ -1,3 +1,6 @@
+// This suite exercises the tariff editing/cutover mechanism with an upstream fixture engine that the allowlist hides from customers.
+// Runs on the unfiltered catalog (Keyvo model allowlist); this import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -39,7 +42,8 @@ test('central admin and public rows read changed product/audio prices without an
     assert.equal(before.rows.find((row) => row.id === 'audio:voice_only:0')?.totalCents, 2);
     // Catalogue costs are independent of fixed retail prices, including multi-angle provider calls.
     for (const [id, supplierCents, totalCents] of [
-      ['character-draft', 8, 8], ['character-final', 15, 15],
+      // Characters: Seedream's official Ark list per image (CNY 0.12 / 0.60 at 8 CNY per USD); the retail product is unchanged.
+      ['character-draft', 1.5, 8], ['character-final', 7.5, 15],
       ['angle-flux-single', 2.1, 4], ['angle-flux-multi', 8.4, 24],
       ['angle-qwen-single', 3.5, 7], ['angle-qwen-multi', 14, 40],
     ] as const) {
@@ -50,7 +54,8 @@ test('central admin and public rows read changed product/audio prices without an
       assert.ok(row.notes.some((note) => /contract and invoice unconfirmed/i.test(note)), id);
     }
     assert.match(before.rows.find((row) => row.id === 'character-final')!.scenario, /2K/);
-    assert.match(before.rows.find((row) => row.id === 'character-draft')!.notes.join(' '), /Nano Banana 2.*Google Vertex/);
+    assert.match(before.rows.find((row) => row.id === 'character-draft')!.notes.join(' '), /Seedream 5\.0 Flash.*Volcengine Ark/);
+    assert.match(before.rows.find((row) => row.id === 'character-final')!.notes.join(' '), /Seedream 5\.0 Pro.*Volcengine Ark/);
     assert.match(before.rows.find((row) => row.id === 'angle-flux-multi')!.scenario, /4 images.*1 MP/);
     assert.match(before.rows.find((row) => row.id === 'angle-qwen-single')!.notes.join(' '), /Qwen.*Fal/);
     for (const [id, cents] of [['storyboard:hd', 4], ['storyboard:4k', 11], ['storyboard:ultra', 41],
@@ -92,18 +97,19 @@ test('central admin and public rows read changed product/audio prices without an
     invalidateBillingProductsCache();
     const after = await loadAdminProductPricing(10);
     assert.equal(after.rows.find((row) => row.id === 'character-draft')?.totalCents, 48);
-    assert.equal(after.rows.find((row) => row.id === 'character-draft')?.supplierCents, 8, 'retail edits never reprice supplier evidence');
+    assert.equal(after.rows.find((row) => row.id === 'character-draft')?.supplierCents, 1.5, 'retail edits never reprice supplier evidence');
     const audio = await computeCurrentAudioSnapshot({ pack: 'voice_only', durationSec: 10 });
     assert.equal(after.rows.find((row) => row.id === 'audio:voice_only:0')?.totalCents, audio.totalCents);
     assert.equal(audio.totalCents, 305);
     const publicRows = await buildCurrentOtherPricing(buildPricingHubData('en').otherSurfaces, 'en');
     assert.match(publicRows.toolRows.find((row) => row.id === 'change-camera-angle')!.standardOutput, /\$0\.17/);
-    // Legacy Character product settings remain in admin, but cannot price new Nano21 work.
-    // This fixture has no native tariff schema: Studio must refuse a numeric fallback.
-    for (const row of publicRows.toolRows.filter((row) => row.id.startsWith('character-builder-'))) {
-      assert.equal(row.standardOutput, 'Live quote');
-      assert.equal(row.proOutput, '4K: Live quote');
-    }
+    // The builder quotes Seedream on the official-list rule path, which needs no tariff schema. Each character row
+    // shows its own engine and a live amount; there is no pro-size column for characters.
+    const characterRows = publicRows.toolRows.filter((row) => row.id.startsWith('character-builder-'));
+    assert.deepEqual(characterRows.map((row) => row.id), ['character-builder-draft', 'character-builder-final']);
+    assert.match(characterRows[0]!.standardOutput, /^Seedream 5\.0 Flash: (?!Live quote)\S+/);
+    assert.match(characterRows[1]!.standardOutput, /^Seedream 5\.0 Pro: (?!Live quote)\S+/);
+    for (const row of characterRows) assert.equal(row.proOutput, '—');
     assert.equal(publicRows.audioRows.find((row) => row.id === 'audio-voice-only')!.thirtySeconds, '$3.10');
     const tables = (await database.pool.query("SELECT tablename FROM pg_tables WHERE schemaname='public' ORDER BY tablename")).rows.map((row) => row.tablename);
     assert.deepEqual(tables, ['app_billing_products', 'app_pricing_rules']);

@@ -10,7 +10,7 @@ import { isPublicAgentEngine, type AgentPublicGenerationEngine } from './public-
 const MCP_TRIAL_ASPECT_RATIOS = Object.freeze(['16:9', '9:16', '1:1'] as const);
 
 export const MCP_TRIAL_PRESET = Object.freeze({
-  engineId: 'seedance-2-0-mini',
+  engineId: 'seedance-2-5',
   surface: 'video',
   mode: 't2v',
   durationSec: 5,

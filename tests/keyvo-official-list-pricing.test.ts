@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
+import { isKeyvoHiddenModel } from '../frontend/config/keyvo-model-visibility.ts';
 
 import {
   quoteCanonicalPricing,
@@ -29,8 +30,13 @@ const registry = JSON.parse(readFileSync('frontend/config/model-registry.json', 
   models: Array<{ id: string; family: string; publication: { app: { published: boolean } } }>;
 };
 const visibleFamilies = new Set(JSON.parse(readFileSync('frontend/config/keyvo-visible-families.json', 'utf8')) as string[]);
-const hiddenModelIds = new Set(JSON.parse(readFileSync('frontend/config/keyvo-hidden-model-ids.json', 'utf8')) as string[]);
-const PENDING_OFFICIAL_LIST_ENGINE_IDS = new Set<string>();
+// Owner allowlist (2026-11-14) offers these Google Vertex and OpenAI engines, but the repo has no official mainland CNY
+// list price for them yet, so they are not in OFFICIAL_LIST_PRICED_ENGINE_IDS. Their prices stay on their existing rules
+// (no price was guessed or changed here). Owner to supply the CNY list prices; then move them to the official-list set.
+const PENDING_OFFICIAL_LIST_ENGINE_IDS = new Set<string>([
+  'nano-banana-2-1', 'nano-banana-2', 'nano-banana-lite', 'gemini-omni-flash',
+  'gpt-image-2-6-sunburst', 'gpt-image-2-6-flare', 'gpt-image-2-5-sunburst', 'gpt-image-2-5-flare',
+]);
 
 // A seeded database-wide margin (ensureBillingCoreSchema inserts `default`) must not change the official-list price.
 const GLOBAL_DATABASE_MARGIN: PricingPolicyRule = {
@@ -101,12 +107,22 @@ test('the canonical kernel quotes round(0.8 x official cost) with the true vendo
 });
 
 test('every Keyvo-visible app model is priced by the official-list rule', () => {
+  // Keyvo-visible = app-published and on the owner allowlist (keyvo-model-allowlist.json), not merely in a visible family.
   const visible = registry.models.filter((model) => model.publication.app.published && visibleFamilies.has(model.family)
-    && !hiddenModelIds.has(model.id)).map((model) => model.id);
+    && !isKeyvoHiddenModel(model.id)).map((model) => model.id);
   for (const id of visible) {
     assert.ok(OFFICIAL_LIST_PRICED_ENGINE_IDS.has(id) || PENDING_OFFICIAL_LIST_ENGINE_IDS.has(id), `${id} lacks an official-list price`);
   }
-  for (const id of OFFICIAL_LIST_PRICED_ENGINE_IDS) assert.ok(visible.includes(id), `${id} is not a Keyvo app model`);
+  // Priced by the official-list rule but not offered (owner allowlist 2026-11-14). Their price rule stays so that a
+  // future decision can offer them again without a price change; an id drifting between the two sets fails here.
+  const PRICED_NOT_OFFERED = [
+    'minimax-hailuo-02-text', 'minimax-hailuo-2-3', 'minimax-hailuo-2-3-fast',
+    'seedance-2-0', 'seedance-2-0-fast', 'seedance-2-0-mini',
+  ];
+  for (const id of OFFICIAL_LIST_PRICED_ENGINE_IDS) {
+    if (PRICED_NOT_OFFERED.includes(id)) assert.equal(visible.includes(id), false, `${id} is offered but listed as not offered`);
+    else assert.ok(visible.includes(id), `${id} is official-list priced but not a Keyvo app model`);
+  }
   // Retired models without a mainland route are not sold.
   for (const id of ['wan-2-6', 'kling-2-5-turbo', 'kling-2-6-pro']) assert.equal(visible.includes(id), false, id);
   // Only supplier-fact rounding profiles are replaced; authored offers, fixed products and audio keep theirs.

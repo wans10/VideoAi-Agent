@@ -150,8 +150,8 @@ test('the pricing audit reports the reviewed Gemini refresh and Keyvo official l
     encoding: 'utf8',
   });
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
-  // 4 Gemini Omni 1.2 rows plus 48 Keyvo official list price rows (2026-11-13).
-  assert.match(result.stdout, /52 approved changes; 0 mismatches/u);
+  // 4 Gemini Omni 1.2 rows, 48 Keyvo official list price rows (2026-11-13) and 8 Nano Banana 2 / Lite official-list-100 rows (2026-11-14).
+  assert.match(result.stdout, /60 approved changes; 0 mismatches/u);
 });
 
 test('historical Sora and Seedance 1.5 billing and estimator evidence remains independently reproducible after retirement', async () => {
@@ -199,7 +199,7 @@ test('canonical shadow quotes match frozen outputs except the Omni 1.2 refresh a
   assert.deepEqual([...new Set(keyvoOfficial.map((row) => row.engineId))].sort(), ['happy-horse-1-1', 'kling-3-4k', 'kling-3-pro',
     'kling-3-standard', 'kling-o3-4k', 'kling-o3-pro', 'kling-o3-standard', 'minimax-hailuo-02-text', 'seedance-2-0',
     'seedance-2-0-fast', 'seedance-2-0-mini', 'seedream-5-0-pro']);
-  assert.equal(matrix.summary.approvedChanges, 4 + 48);
+  assert.equal(matrix.summary.approvedChanges, 4 + 48 + 8);
   assert.equal(matrix.summary.mismatches, 0);
   assert.deepEqual(
     matrix.rows
@@ -234,10 +234,66 @@ test('canonical shadow quotes match frozen outputs except the Omni 1.2 refresh a
         status: 'approved-change',
       },
       {
+        scenarioId: 'billing:nano-banana-2:t2i:4:1k:member',
+        currentTotalCents: 42,
+        canonicalTotalCents: 27,
+        deltaCents: -15,
+        status: 'approved-change',
+      },
+      {
+        scenarioId: 'billing:nano-banana-2:t2i:4:1k:plus',
+        currentTotalCents: 40,
+        canonicalTotalCents: 26,
+        deltaCents: -14,
+        status: 'approved-change',
+      },
+      {
+        scenarioId: 'billing:nano-banana-2:t2i:4:1k:pro',
+        currentTotalCents: 38,
+        canonicalTotalCents: 24,
+        deltaCents: -14,
+        status: 'approved-change',
+      },
+      {
+        scenarioId: 'billing:nano-banana-lite:t2i:4:1k:member',
+        currentTotalCents: 16,
+        canonicalTotalCents: 13,
+        deltaCents: -3,
+        status: 'approved-change',
+      },
+      {
+        scenarioId: 'billing:nano-banana-lite:t2i:4:1k:plus',
+        currentTotalCents: 15,
+        canonicalTotalCents: 12,
+        deltaCents: -3,
+        status: 'approved-change',
+      },
+      {
+        scenarioId: 'billing:nano-banana-lite:t2i:4:1k:pro',
+        currentTotalCents: 14,
+        canonicalTotalCents: 12,
+        deltaCents: -2,
+        status: 'approved-change',
+      },
+      {
         scenarioId: 'estimator:gemini-omni-flash:10:720p',
         currentTotalCents: 130,
         canonicalTotalCents: 91,
         deltaCents: -39,
+        status: 'approved-change',
+      },
+      {
+        scenarioId: 'estimator:nano-banana-2:4:1k',
+        currentTotalCents: 42,
+        canonicalTotalCents: 27,
+        deltaCents: -15,
+        status: 'approved-change',
+      },
+      {
+        scenarioId: 'estimator:nano-banana-lite:4:1k',
+        currentTotalCents: 16,
+        canonicalTotalCents: 13,
+        deltaCents: -3,
         status: 'approved-change',
       },
     ]

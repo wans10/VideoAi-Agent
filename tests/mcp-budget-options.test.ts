@@ -1,6 +1,9 @@
+// Mechanism test: runs on the unfiltered upstream catalog (the Keyvo model allowlist hides this fixture engine).
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
+import { KEYVO_MCP_TRIAL_DISABLED } from '../frontend/config/keyvo-disabled-features';
 import { buildLocalizedModelPath } from '../frontend/config/model-registry';
 import { getUpstreamRuntimeModelById } from '../frontend/config/model-runtime';
 import { withUpstreamSurfaces } from './keyvo-upstream-view';
@@ -121,7 +124,6 @@ function collectAuthoritativePaidRoutes(
     const runtime = dependencies.getRuntimeByEngineId(entry.id);
     const t2v = entry.modes.find((mode) => mode.mode === 't2v');
     if (
-      entry.id === 'seedance-2-0-mini' ||
       !roster ||
       !runtime ||
       !t2v ||
@@ -267,7 +269,7 @@ test('lowest paid is the independently derived minimum across exact eligible rou
   const dependencies = defaultDependencies();
   const expected = collectAuthoritativePaidRoutes(dependencies)[0];
   assert.ok(expected);
-  assert.equal(expected.engineId, 'gemini-omni-flash');
+  assert.equal(expected.engineId, 'seedance-2-0-mini');
   assertLowestMatchesAuthoritativeMinimum(dependencies);
 });
 
@@ -311,16 +313,10 @@ test('quote failures recompute the minimum or hide paid options when none remain
   const withoutPaidQuotes: McpBudgetOptionsDependencies = {
     ...dependencies,
     quotePricing: (input) => {
-      if (input.scenario.engineId !== 'seedance-2-0-mini') {
-        throw new Error('injected paid quote failure');
-      }
-      return dependencies.quotePricing(input);
+      throw new Error('injected paid quote failure');
     },
   };
-  assert.deepEqual(
-    buildMcpBudgetOptions('en', livePublication, withoutPaidQuotes).map((candidate) => candidate.slot),
-    ['included_trial'],
-  );
+  assert.deepEqual(buildMcpBudgetOptions('en', livePublication, withoutPaidQuotes), []);
 });
 
 test('clamped canonical facts cannot be displayed as the requested duration', () => {
@@ -353,34 +349,14 @@ test('noninteger duration presets fail closed instead of being normalized', () =
   assertLowestMatchesAuthoritativeMinimum(dependencies);
 });
 
-test('the included trial is hidden when its exact duration preset is removed', () => {
-  const dependencies = withMutatedEngine('seedance-2-0-mini', (entry) => {
-    const t2v = entry.modes.find((mode) => mode.mode === 't2v');
-    assert.ok(t2v);
-    t2v.ui.duration = { options: [4, 6], default: 4 };
-  });
-
-  assert.equal(
-    buildMcpBudgetOptions('en', livePublication, dependencies).some(
-      (candidate) => candidate.slot === 'included_trial',
-    ),
-    false,
-  );
-});
-
-test('the included trial is hidden when its exact resolution preset is removed', () => {
-  const dependencies = withMutatedEngine('seedance-2-0-mini', (entry) => {
-    const t2v = entry.modes.find((mode) => mode.mode === 't2v');
-    assert.ok(t2v);
-    t2v.ui.resolution = ['720p'];
-  });
-
-  assert.equal(
-    buildMcpBudgetOptions('en', livePublication, dependencies).some(
-      (candidate) => candidate.slot === 'included_trial',
-    ),
-    false,
-  );
+test('the included trial is closed for Keyvo: no trial option even when the publication state claims one', () => {
+  assert.equal(KEYVO_MCP_TRIAL_DISABLED, true);
+  const options = buildMcpBudgetOptions('en', livePublication, defaultDependencies());
+  assert.equal(options.some((candidate) => candidate.slot === 'included_trial'), false);
+  assert.equal(options.some((candidate) => candidate.priceSource === 'included_trial'), false);
+  assert.equal(options.some((candidate) => candidate.amountCents === null), false);
+  // The paid minimum is computed across every eligible route; no engine is reserved for a trial.
+  assertLowestMatchesAuthoritativeMinimum(defaultDependencies());
 });
 
 test('canonical quote scenario mismatches fail closed for the displayed resolution', () => {
@@ -433,24 +409,16 @@ test('catalog resolution mismatches are excluded before pricing', () => {
   assertLowestMatchesAuthoritativeMinimum(dependencies);
 });
 
-test('budget options use the current canonical trial and lowest paid route without legacy upgrades', () => {
+test('budget options use the current canonical lowest paid route without a trial or legacy upgrades', () => {
   const options = buildMcpBudgetOptions('en', livePublication, defaultDependencies());
+  const expected = collectAuthoritativePaidRoutes(defaultDependencies())[0];
+  assert.ok(expected);
 
-  assert.deepEqual(options.map((candidate) => candidate.slot), [
-    'included_trial',
-    'lowest_paid',
-  ]);
-  assert.equal(options[0].engineId, 'seedance-2-0-mini');
-  assert.equal(options[0].modelSlug, 'dreamina-seedance-2-0-mini');
-  assert.equal(options[0].amountCents, null);
-  assert.equal(options[0].priceSource, 'included_trial');
-  assert.equal(options[0].audioState, 'enabled');
-
-  assert.equal(options[1].engineId, 'gemini-omni-flash');
-  assert.equal(options[1].amountCents, 10);
-  assert.equal(options[1].amountCents, quoteScenario('gemini-omni-flash', 3, '360p'));
-  assert.equal(options[1].priceSource, 'canonical_public_quote');
-  assert.equal(options[1].audioState, 'enabled', 'prompt-directed native Omni audio must not be advertised as silent');
+  assert.equal(options[0].slot, 'lowest_paid');
+  assert.equal(options.some((candidate) => candidate.slot === 'included_trial'), false);
+  assert.equal(options[0].engineId, expected.engineId);
+  assert.equal(options[0].amountCents, quoteScenario(expected.engineId, expected.durationSeconds, expected.resolution));
+  assert.equal(options[0].priceSource, 'canonical_public_quote');
 
   assert.equal(options.some((candidate) => candidate.engineId === 'wan-2-6'), false);
 });
@@ -462,7 +430,7 @@ test('audio presentation follows exact T2V defaults and optional inputs instead 
     audio.default = false;
   });
   assert.equal(
-    option(buildMcpBudgetOptions('en', livePublication, seedanceDefaultOff), 'included_trial').audioState,
+    option(buildMcpBudgetOptions('en', livePublication, seedanceDefaultOff), 'lowest_paid').audioState,
     'optional',
   );
 
@@ -533,7 +501,8 @@ test('the named public pricing scenarios stay locked to current canonical totals
 
 test('selected routes are current, public, enabled, non-legacy, and text-to-video compatible', () => {
   for (const selected of buildMcpBudgetOptions('en', livePublication, defaultDependencies())) {
-    const entry = listFalEngines().find((candidate) => candidate.id === selected.engineId);
+    const rawEntry = listFalEngines().find((candidate) => candidate.id === selected.engineId);
+    const entry = rawEntry ? withUpstreamSurfaces(rawEntry) : rawEntry;
     const rosterEntry = getModelByEngineId(selected.engineId);
     const roster = rosterEntry ? withUpstreamSurfaces(rosterEntry) : rosterEntry;
     const runtime = getUpstreamRuntimeModelById(selected.engineId);
@@ -553,13 +522,13 @@ test('selected routes are current, public, enabled, non-legacy, and text-to-vide
   }
 });
 
-test('trial and paid claims fail closed with publication gates after legacy recommendation exclusion', () => {
+test('paid claims fail closed with publication gates and the trial claim never renders', () => {
   const trialOnly = buildMcpBudgetOptions('en', {
     ...livePublication,
     showPaidGenerationClaim: false,
     showReferenceClaim: false,
   });
-  assert.deepEqual(trialOnly.map((candidate) => candidate.slot), ['included_trial']);
+  assert.deepEqual(trialOnly, []);
 
   const paidOnly = buildMcpBudgetOptions('en', {
     ...livePublication,
@@ -574,10 +543,7 @@ test('trial and paid claims fail closed with publication gates after legacy reco
     indexable: false,
     showReferenceClaim: false,
   });
-  assert.deepEqual(withoutReferenceClaim.map((candidate) => candidate.slot), [
-    'included_trial',
-    'lowest_paid',
-  ]);
+  assert.deepEqual(withoutReferenceClaim.map((candidate) => candidate.slot), ['lowest_paid']);
   assert.equal(
     withoutReferenceClaim.some((candidate) => /reference/i.test(candidate.scenarioLabel)),
     false,
@@ -603,40 +569,19 @@ test('trial and paid claims fail closed with publication gates after legacy reco
 });
 
 test('labels, currency, and model links are stable and localized in English, French, and Spanish', () => {
-  const expectations: Record<
-    AppLocale,
-    { included: string; silent: RegExp; trialHref: string; paidHref: string }
-  > = {
-    en: {
-      included: 'Included',
-      nativeAudio: /Audio enabled/,
-      trialHref: '/models/dreamina-seedance-2-0-mini',
-      paidHref: '/models/gemini-omni-flash',
-    },
-    fr: {
-      included: 'Inclus',
-      nativeAudio: /Audio activé/,
-      trialHref: '/fr/modeles/dreamina-seedance-2-0-mini',
-      paidHref: '/fr/modeles/gemini-omni-flash',
-    },
-    es: {
-      included: 'Incluido',
-      nativeAudio: /Audio activado/,
-      trialHref: '/es/modelos/dreamina-seedance-2-0-mini',
-      paidHref: '/es/modelos/gemini-omni-flash',
-    },
+  const expectations: Record<AppLocale, { nativeAudio: RegExp; modelPrefix: string }> = {
+    en: { nativeAudio: /Audio enabled/, modelPrefix: '/models/' },
+    fr: { nativeAudio: /Audio activé/, modelPrefix: '/fr/modeles/' },
+    es: { nativeAudio: /Audio activado/, modelPrefix: '/es/modelos/' },
   };
 
   for (const locale of ['en', 'fr', 'es'] as const) {
     const options = buildMcpBudgetOptions(locale, livePublication, defaultDependencies());
-    const trial = option(options, 'included_trial');
     const paid = option(options, 'lowest_paid');
     const expected = expectations[locale];
 
-    assert.equal(trial.priceLabel, expected.included);
-    assert.equal(trial.modelHref, expected.trialHref);
-    assert.equal(trial.modelHref, buildLocalizedModelPath(locale, trial.modelSlug));
-    assert.equal(paid.modelHref, expected.paidHref);
+    assert.equal(options.some((candidate) => candidate.slot === 'included_trial'), false);
+    assert.equal(paid.modelHref.startsWith(expected.modelPrefix), true);
     assert.equal(paid.modelHref, buildLocalizedModelPath(locale, paid.modelSlug));
     assert.equal(paid.currency, 'USD');
     assert.equal(
@@ -660,12 +605,10 @@ test('unmatched localized route segments fall back without crashing MCP budget l
     livePublication,
     defaultDependencies(),
   );
-  const trial = option(options, 'included_trial');
   const paid = option(options, 'lowest_paid');
 
-  assert.equal(trial.priceLabel, 'Included');
+  assert.equal(options.some((candidate) => candidate.slot === 'included_trial'), false);
   assert.match(paid.scenarioLabel, /Audio enabled/);
-  assert.equal(trial.modelHref.startsWith('/models/'), true);
   assert.equal(paid.modelHref.startsWith('/models/'), true);
 });
 

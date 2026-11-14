@@ -78,7 +78,7 @@ export function useStoryboardPricing({
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              engineId: 'gpt-image-2',
+              engineId: 'gpt-image-2-6-sunburst',
               mode: 'i2i',
               numImages: 1,
               referenceImageSizes: [STORYBOARD_TEMPLATE_SIZES[storyboardOrientation]],
@@ -125,7 +125,7 @@ export function useStoryboardPricing({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          engineId: 'gpt-image-2',
+          engineId: 'gpt-image-2-6-sunburst',
           mode: 'i2i',
           numImages: 1,
           referenceImageSizes: [{ width: selectedImageWidth, height: selectedImageHeight }],

@@ -6,7 +6,7 @@ import { startWorkspaceReferenceFixture } from './helpers/workspace-reference-br
 import { sourceSettingsBrowserSource } from './helpers/workspace-source-settings-browser-source';
 
 test('source settings stay truthful across reload, recall, upload, model/mode switches and Create', { timeout: 180000 }, async () => {
-  const fixture = await startWorkspaceReferenceFixture({ source: sourceSettingsBrowserSource, config: {} });
+  const fixture = await startWorkspaceReferenceFixture({ source: sourceSettingsBrowserSource, config: {}, unfilteredCatalog: true });
   const evidence = process.env.SOURCE_SETTINGS_EVIDENCE_DIR;
   if (evidence) await mkdir(evidence, { recursive: true });
   const browsers: Browser[] = [];

@@ -21,6 +21,7 @@ const ENGINE_CATALOG_PATH = path.join(REPO_ROOT, 'frontend/config/engine-catalog
 const MODEL_ROSTER_PATH = path.join(REPO_ROOT, 'frontend/config/model-roster.json');
 const HIDDEN_MODEL_IDS_PATH = path.join(REPO_ROOT, 'frontend/config/keyvo-hidden-model-ids.json');
 const VISIBLE_FAMILIES_PATH = path.join(REPO_ROOT, 'frontend/config/keyvo-visible-families.json');
+const MODEL_ALLOWLIST_PATH = path.join(REPO_ROOT, 'frontend/config/keyvo-model-allowlist.json');
 
 // Keyvo hides comparison/best-for pages and non-Chinese-vendor models, so IndexNow must not submit them.
 const COMPARISON_PAGES_HIDDEN = true;
@@ -40,11 +41,25 @@ function readJson(filePath, fallback = {}) {
 
 const VISIBLE_FAMILIES = new Set(readJson(VISIBLE_FAMILIES_PATH, []));
 const HIDDEN_MODEL_IDS = new Set(readJson(HIDDEN_MODEL_IDS_PATH, []));
-const isVisibleEntry = (entry) =>
-  VISIBLE_FAMILIES.has(String(entry?.family ?? '').trim().toLowerCase()) &&
-  ![entry?.engineId, entry?.id, entry?.modelSlug].some(
-    (id) => typeof id === 'string' && HIDDEN_MODEL_IDS.has(id.trim().toLowerCase()),
+// Keyvo 2026-11-14: mirrors filterKeyvoVisibleEntries (frontend/config/keyvo-model-visibility.ts), non-admin view:
+// the family is listed (or the entry is an admin-tier engine while KEYVO_ADMIN_TIER_OPEN is on), the engine is on the
+// owner allowlist, it is not a hidden id, and an admin-tier engine counts only while the override is on.
+const MODEL_ALLOWLIST = readJson(MODEL_ALLOWLIST_PATH, { offeredEngineIds: [], engineTiers: {} });
+const OFFERED_ENGINE_IDS = new Set((MODEL_ALLOWLIST.offeredEngineIds ?? []).map((id) => String(id).trim().toLowerCase()));
+const ENGINE_TIERS = MODEL_ALLOWLIST.engineTiers ?? {};
+const ADMIN_TIER_OPEN = ['1', 'true'].includes(String(process.env.KEYVO_ADMIN_TIER_OPEN ?? '').trim().toLowerCase());
+const isVisibleEntry = (entry) => {
+  if (process.env.KEYVO_MODEL_VISIBILITY === 'off') return true;
+  const id = String(entry?.engineId ?? entry?.id ?? '').trim().toLowerCase();
+  const adminTier = ENGINE_TIERS[id] === 'admin';
+  const familyListed = VISIBLE_FAMILIES.has(String(entry?.family ?? '').trim().toLowerCase());
+  if (!familyListed && !(adminTier && ADMIN_TIER_OPEN)) return false;
+  if (!OFFERED_ENGINE_IDS.has(id)) return false;
+  if (adminTier && !ADMIN_TIER_OPEN) return false;
+  return ![entry?.engineId, entry?.id, entry?.modelSlug].some(
+    (value) => typeof value === 'string' && HIDDEN_MODEL_IDS.has(value.trim().toLowerCase()),
   );
+};
 
 function safeGitChangedFiles(before, after) {
   if (!before || /^0+$/.test(before)) {

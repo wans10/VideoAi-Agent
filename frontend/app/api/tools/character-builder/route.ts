@@ -1,3 +1,5 @@
+import { isKeyvoEngineRefusedForRequest } from '@/server/keyvo-engine-access';
+import { getQualityEngineId } from '@/lib/character-builder';
 import { CUSTOMER_TARIFF_REVISION_HEADER } from '@/lib/customer-tariff-revision';
 import { requireCurrentWebPricingPolicy } from '@/server/pricing/web-pricing-policy';
 export const runtime = 'nodejs';
@@ -51,6 +53,21 @@ export async function POST(req: NextRequest) {
         },
       } satisfies CharacterBuilderResponse,
       { status: 401 }
+    );
+  }
+  // Draft and final run on the public Seedream Flash and Pro engines. The access gate still refuses the request
+  // before any reservation or charge when the resolved engine is not offered to this account.
+  const qualityEngineId = getQualityEngineId(body?.qualityMode ?? 'draft');
+  if (await isKeyvoEngineRefusedForRequest(qualityEngineId, req)) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: {
+          code: 'tools_disabled',
+          message: 'Character Builder is not available for this account.',
+        },
+      } satisfies CharacterBuilderResponse,
+      { status: 404 }
     );
   }
   const pricingPolicyError = requireCurrentWebPricingPolicy(req, 'tool');

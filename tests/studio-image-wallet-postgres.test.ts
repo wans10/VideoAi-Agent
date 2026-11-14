@@ -1,3 +1,6 @@
+// These suites exercise Studio conversation/quote and prompt-assistance machinery with an upstream fixture engine that the allowlist hides from customers.
+// Runs on the unfiltered catalog (Keyvo model allowlist); this import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
@@ -40,9 +43,18 @@ test("Studio image wallet insufficiency, retry, repeat confirmation, expiry, and
   );
   await pg.pool.query(readFileSync("neon/migrations/51_studio_image_model_usage.sql", "utf8"));
 
-  const entry = getFalEngineById("gpt-image-2");
+  const entry = getFalEngineById("gpt-image-2-5-flare");
   assert.ok(entry);
+  // Studio's default image engine is Seedream Pro (resolveStudioImageEngine): offer it with t2i/i2i; the GPT Image entry stays for explicit pins.
+  const seedream = getFalEngineById("seedream-5-0-pro");
+  assert.ok(seedream);
   const catalog: AgentPublicGenerationEngine[] = [
+    {
+      engine: seedream.engine,
+      surface: "image",
+      publicModes: ["t2i", "i2i"],
+      modeCaps: Object.fromEntries(seedream.modes.map((mode) => [mode.mode, mode.ui])),
+    },
     {
       engine: entry.engine,
       surface: "image",

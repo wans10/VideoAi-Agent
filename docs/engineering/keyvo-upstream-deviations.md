@@ -88,6 +88,22 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
 - **Keyvo:** `kling-3-turbo-standard` / `-pro` direct leg is the real `kling-3.0-turbo` model on the new-design API (`/text-to-video|/image-to-video/kling-3.0-turbo`, `/tasks` polling, API Key only, never Fal), see `docs/engineering/kling-official-provider.md`. Upstream sends Turbo to the legacy `/v1/videos/*` route as `kling-v3` with a Fal fallback.
 - Upstream tests that used Turbo as the representative legacy Kling engine (`fal-fallback-attempt-recovery`, `direct-ack-persistence-postgres`, `fal-provider-fallback-enqueue-postgres`, the Fal case in `kling-3-turbo-fallback`) use `kling-3-standard` instead; `kling-3-turbo-direct-contract.test.ts` holds the Keyvo Turbo contract. Re-check these after every sync.
 
+### Owner model allowlist (2026-11-14)
+
+- **Upstream:** every registry model of a visible family is offered on the workspace, pricing and MCP surfaces; only the page-level surfaces were hidden by family.
+- **Keyvo:** `frontend/config/keyvo-model-allowlist.json` is the single owner-decided list of 26 engine ids that customers may be offered. Every other registry model (40 of 66) is hidden on every customer surface. `frontend/config/keyvo-model-visibility.ts` reads it: `isKeyvoHiddenModel` is "not on the allowlist" and is consumed by the runtime publication projection (`config/model-runtime.ts`: page, App and pricing), the workspace engine list (`src/lib/engines.ts` `buildBaseEngines`), the generate route (`app/api/generate/_lib/route-context.ts`, which also refuses the hidden BytePlus fallback), the pricing hub, the examples API, MCP and agent guidance.
+- **Why:** the owner decided that only the listed Kling, Alibaba Bailian, MiniMax, Volcengine, Google Vertex and OpenAI models are offered. The registry stays the authored source; the allowlist is a Keyvo-owned overlay, so upstream registry edits do not conflict.
+- **Defaults repointed to offered engines:** Studio shot model (`seedance-2-5`), storyboard image preset and storyboard tool (`gpt-image-2-6-sunburst`), Studio image conversation (`gpt-image-2-6-sunburst`), MCP trial preset and agent trial quote (`seedance-2-5`), family defaults for Seedance (`seedance-2-5`) and Veo (`gemini-omni-flash`).
+- **Veo family stays visible for Gemini Omni Flash.** Gemini Omni Flash is registry family `veo`; a model outside a visible family is closed even when allowlisted, so `veo` is in `keyvo-visible-families.json`. Veo 3.1 (x3) stays hidden. Open question for the owner: the Veo family nav label still reads "Veo 3.1" and the examples/footer lists show a Veo entry (Gemini Omni only).
+- **Hidden P0 models are closed on App and pricing too** (previously upstream kept App and pricing open for hidden models). Visible-family models still follow the family rule.
+- **Still to repoint (not done):** editorial copy that names hidden models (`pricing/_lib/pricingPageContent.ts` cards for FLUX 3 Max, Veo 3.1, Seedance 2.0 and Pika; PAYG discovery and film-programme configs; best-for scenes; home and content dictionary pricing rows). Those are copy and resolution changes, not default swaps.
+- **Test fixtures:** upstream mechanism tests (family grouping, settings defaults, MCP catalogue, open-quantity tariffs, public projection, the Pika/Seedance layout browser scenarios) run on the unfiltered catalog via `tests/helpers/keyvo-unfiltered-catalog.ts`. Customer-surface expectations were updated to the allowlist (MCP guidance, MCP specialised-mode audit, marketing navigation, P0 graph, LLMS comparison feed).
+- **Route priority:** no route change was needed for Kling 3 / 3 Omni / 3 Turbo, MiniMax-H3 (both already Bailian first), Wan 3, HappyHorse and Qwen (Alibaba direct). Still open: LLM Hub remains a fallback in `src/server/video-providers/router.ts` (`llmhubFallback()`) for allowlisted models, which the owner rule ("official API only" when Bailian does not host the model) does not allow; GPT Image 2.5 still routes through LLM Hub (`src/config/fal-engines/gpt-image-2-5.ts`, `src/server/images/llmhub-image-models.ts`).
+- **Tests:** `tests/keyvo-model-allowlist-contract.test.ts` locks the owner list, the workspace/publication/catalogue absence of hidden models, and the absence of hidden defaults.
+- **Offered but not yet priced by the official-list rule:** Nano Banana 2 / 2.1 / Lite, Gemini Omni Flash 1.2 and the GPT Image 2.5 / 2.6 engines have no official mainland CNY list price in the repo. Their prices stay on their existing rules (nothing was guessed or changed). `tests/keyvo-official-list-pricing.test.ts` lists them as pending; the owner must supply the CNY list prices. The GPT Image 2.6 engines also still show "Price unavailable" in the picker (existing tariff-gate/dispatch defect, follow-up).
+- **Priced but not offered:** Kling 3 4K tiers, Kling O3 4K, Hailuo 02 / 2.3 / 2.3 Fast, Seedance 2.0 / Fast / Mini keep their official-list price rule and are listed as such in the same test, so a future offer needs no price change.
+- **PAYG strip:** the first six preferred examples now include Gemini Omni Flash and Kling 4.0, so MiniMax-H3-Max drops out of the strip (its row stays offered). Strip placement is an owner question.
+
 ### Official mainland list prices × 0.8 (2026-11-13)
 
 - **Keyvo:** every Keyvo-visible model is priced at 80% of its supplier's official mainland CNY list price
@@ -204,21 +220,41 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
   `passwordSignin.newUser` are retired. Guards: `tests/login-phone-auth.test.ts`, `tests/login-phone-tabs-contract.test.ts`.
   The email-era tab bar (flag off) is unchanged.
 
-## Character Builder price in CNY and the Nano Banana 2.1 tariff gate (2026-11-13)
+## Character Builder on Seedream, priced in CNY (2026-11-14)
 
-- **Engine id is correct.** Both Character Studio quality modes (`draft`, `final`) price on `nano-banana-2-1`
-  (`frontend/src/lib/character-builder.ts`, `getQualityEngineId`). It is not a suffix bug.
-- **Why the production estimate returns 500 `pricing_error`:** `server/pricing/quote-billing.ts` forces Nano 2.1 onto the
-  native customer-tariff path (`requiresNano21Tariff`). That path needs `app_customer_tariff_state.active`, which Keyvo keeps
-  off (see the cutover section above). With the state inactive the quote throws "An active reviewed Nano Banana 2.1 customer
-  tariff is required.", so no price is ever shown. The reviewed Nano 2.1 cells in `frontend/config/customer-tariffs.json` take
-  effect only with that state active. Activating
-  the state or changing the gate is an owner decision, not a code fix. Guard: `tests/character-builder-nano21-gate.test.ts`.
-- **CNY in the Character Builder:** the workspace hook and the dock assumed USD (`payload.pricing.currency !== 'USD'`, `$` text),
-  so a CNY customer snapshot could never display. `_lib/character-builder-price.ts` now accepts the Keyvo CNY snapshot, converts
-  it back through `meta.customerCurrencyConversion` (refusing inconsistent totals), keeps the tariff revision requirement, and the
-  dock formats through `formatCustomerUsdAmount`. Guard: `tests/character-builder-price-currency.test.ts`. Still USD-only in the
-  Character Studio recast estimate route and `recast-submit.ts` (`quote.currency !== 'USD'`); not changed here.
+- **Upstream:** Character Studio draft and final run on Nano Banana 2.1 (1K/2K/4K), which needs an active reviewed customer tariff.
+- **Keyvo:** Keyvo keeps `app_customer_tariff_state` inactive on purpose, so Nano Banana 2.1 cannot be quoted and the builder
+  returned 500 `pricing_error`. The builder now runs on Volcengine Seedream on the official-list rule path
+  (`src/lib/official-list-pricing.ts`), which needs no tariff. The tariff gate is not changed; Nano 2.1 stays gated.
+  - **Standard (draft)** = `seedream-5-0-flash`: ¥0.08 per image (official ¥0.12 x 0.8 = ¥0.096, rounded by the engine to whole
+    cents x 8 = ¥0.08); input images free.
+  - **Pro (final)** = `seedream-5-0-pro`: ¥0.48 per image (official ¥0.60 x 0.8); the first input image is free and each further
+    input image is ¥0.02 official (¥0.016 at customer price before the engine's whole-cent rounding). With 1 to 3 input images
+    the total is ¥0.48; with 4 it is ¥0.56.
+  - Both render **2K only** (1K and 4K are not offered for characters). The format picker shows one 2K option.
+  - Aspect: Seedream has no 4:5, so the portrait ratio renders as 3:4 (`getCharacterEngineAspectRatio`). Every other ratio the builder
+    uses (3:2, 2:3, 16:9, 4:5 to 3:4) is accepted by both engines.
+  - Inputs: up to 4 reference images per request (`CHARACTER_BUILDER_MAX_INPUT_IMAGES`), well under Seedream's 10. Prompts name
+    each reference by its position in the request ("input image 1 (the uploaded identity reference image)").
+  - Watermark stays off (`watermark: false` in the Seedream payload).
+- **Estimate and generation:** `useCharacterBuilderPrice` quotes the engine of the selected mode. A rule-priced snapshot has no
+  tariff revision: `readCharacterBuilderEstimate` returns `revision: null` and no revision header is sent. A manual-tariff
+  snapshot still needs its revision. The server quotes its own current price at generation time, as for other rule-priced
+  image surfaces.
+- **Pricing rows:** the pricing hub's Character rows quote Standard on each engine at 2K; the Pro column shows a dash because
+  there is no higher size. The legacy fixed products `character-draft` / `character-final` keep their keys and stored prices
+  (the builder does not charge them); the inventory row now describes Seedream at 2K.
+- **Guards:** `tests/character-builder-domestic-engines.test.ts` (engines, 2K, aspect mapping, reference count, payload size,
+  prompt positions, CNY price table, no Nano 2.1 left in the builder source), `tests/character-builder-nano21-gate.test.ts` (Nano 2.1
+  still refuses without a tariff), `tests/character-studio-seedream-price-postgres.test.ts` (estimate = reserved receipt = hub row).
+- **Not verified here:** image quality of Seedream for character sheets (no provider calls were made). Try Pro at 2K with
+  the sheet layout first; if the sheet panels are cramped at 3:2, try the 16:9 close-up layout before changing engines.
+- **Recast (not changed):** the Character Studio Recast estimate route (`app/api/tools/character-studio/recast/estimate/route.ts`),
+  its timing display (`_components/CharacterStudioRecastTiming.client.tsx`) and `_lib/recast-submit.ts` still refuse any quote whose
+  `currency` is not `'USD'`. Keyvo quotes Recast in CNY, so they show no estimate. The submit check is on a financial quote, so it
+  is left for a separate change that fixes all three together.
+- **CNY snapshot reader:** `_lib/character-builder-price.ts` accepts the Keyvo CNY snapshot and converts it back through
+  `meta.customerCurrencyConversion` (refusing inconsistent totals). Guard: `tests/character-builder-price-currency.test.ts`.
 
 ## Chinese workspace copy coverage (2026-11-13)
 
@@ -237,6 +273,137 @@ Run `node scripts/report-upstream-deviations.mjs` after merging a new upstream s
 
 Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorded by the cookie banner, so a new account saw the re-consent prompt immediately. Keyvo's phone sign-up sentence now names all three documents and sends `cookiesAccepted: true` to `/api/legal/consents`, which then also records the `cookies` document at its current version. The email sign-up request is unchanged. Guard: `tests/phone-signup-cookie-consent.test.ts`.
 
+## Owner model allowlist: admin tier, Kling 3 4K, GPT Image 2.5 on OpenAI (2026-11-14)
+
+- **Allowlist (`frontend/config/keyvo-model-allowlist.json`):** `offeredEngineIds` now has 31 engines. New: `kling-3-4k`
+  and `kling-o3-4k` (public, owner decision F opened), `veo-3-1`, `veo-3-1-fast`, `veo-3-1-lite` (admin tier). Each
+  offered engine has an explicit `engineTiers` entry: `public` or `admin`.
+- **Admin tier (owner decision C):** `nano-banana-2-1`, `nano-banana-2`, `nano-banana-lite`, `gemini-omni-flash`,
+  `gpt-image-2-6-sunburst`, `gpt-image-2-6-flare`, `gpt-image-2-5-sunburst`, `gpt-image-2-5-flare`, `veo-3-1`,
+  `veo-3-1-fast`, `veo-3-1-lite`. Single choke point: `isKeyvoHiddenModelForViewer(id, { isAdmin })` in
+  `frontend/config/keyvo-model-visibility.ts`. `isKeyvoHiddenModel(id)` is its non-admin view and is what every public
+  surface uses (pages, sitemap, pricing hub, MCP/agent catalogues, examples, PAYG strip). Admins see admin-tier
+  engines in the authenticated workspace list (`getBaseEnginesByCategory(category, { isAdmin })`, the engines GET
+  handler) and may generate with them.
+  Refusals before any charge: `app/api/generate` (`resolveGenerateRouteContext`, admin check only for admin-tier ids),
+  `app/api/images/generate`, `app/api/images/estimate` and `app/api/pricing/quote` (`src/server/keyvo-engine-access.ts`).
+  The image generate refusal also covers every hidden engine (it previously accepted any registry image engine).
+- **Families:** `veo`, `gpt-image` and `nano-banana` are removed from `keyvo-visible-families.json` because they have no
+  public member. Their public pages, sitemap and comparisons are therefore absent.
+- **Public defaults:** the image storyboard preset moved from GPT Image 2.6 (admin tier) to `seedream-5-0-flash`.
+  Character Builder (both quality modes run Nano Banana 2.1, admin tier) refuses ordinary accounts in
+  `app/api/tools/character-builder` with `tools_disabled` before any reservation. Its marketing page and the home
+  and model-page links to it still render for everyone; hiding those entries is an owner decision (see report).
+- **PAYG strip (owner decision E):** `payg-video-showcase.ts` shows only domestic engine ids (Kling, Seedance, Seedream,
+  Wan, HappyHorse, MiniMax/Hailuo, Qwen) and drops hidden engines. `payg-discovery-config.ts` drops Gemini Omni Flash
+  and Veo 3.1 entries.
+- **GPT Image 2.5 on OpenAI official (owner decision B):** `gpt-image-2-5-{flare,sunburst}` providerMeta is
+  `openai_images` (was `llmhub`); removed from `llmhub-image-models.ts`. `lib/image/gptImage26.ts` gains
+  `isOpenAIDirectImageEngineId` and `openAIImageModelSlugForEngineId`; the executor, executability check and settings
+  normalisation use them for 2.5 and 2.6. Dispatch defect fixed: `resolveImageProviderSelection` now returns the direct
+  route for `openai_images` (2.6 previously fell through to the fal path), and `assertDirectImageProviderAvailable`
+  calls `assertOpenAIImageAvailable` before the wallet reservation.
+- **Tests:** `tests/keyvo-model-allowlist-contract.test.ts` pins the 31-engine list, the 11 admin-tier ids, the workspace
+  split and the family rule. `tests/keyvo-customer-offer-visibility.test.ts` (new) pins the customer view without the
+  unfiltered-catalog override. `tests/mcp-model-recommendations.test.ts` and `tests/product-schema-visible-offer.test.ts`
+  now import `tests/helpers/keyvo-unfiltered-catalog.ts`, because they test recommendation and offer mechanisms rather
+  than the customer surface.
+- **Not done in this change:** LLM Hub fallback removal for allowlisted engines (decision A) and the official-list-100
+  profile for admin-tier prices (decision D). See the report for the call-site list and the unverified prices.
+
+## Admin-tier environment override: `KEYVO_ADMIN_TIER_OPEN` (2026-11-14)
+
+- **Switch:** `KEYVO_ADMIN_TIER_OPEN=true` (or `1`, case and spaces ignored) makes every admin-tier engine public on
+  every surface: workspace pickers, estimate and generate access checks, model pages, examples, sitemap, pricing hub
+  and estimator, nav, MCP and agent catalogues. Unset, `false`, `0`, `yes` or any other value keeps the admin tier
+  admin-only, exactly as before. The eleven ids are the admin tier in `keyvo-model-allowlist.json`.
+- **Single choke point:** `keyvoEngineTier()` in `frontend/config/keyvo-model-visibility.ts` returns `public` for an
+  admin-tier engine while the switch is on. Every tier check reads it. The family gate for the admin families (veo,
+  gpt-image, nano-banana) is opened per engine by `isKeyvoVisibleEntry` and, for the examples family filter, by
+  `isKeyvoVisibleOrOpenedFamily`. The env reader is `isKeyvoAdminTierOpen()` in `frontend/config/keyvo-model-visibility.ts` (not `lib/env.ts`, whose load-time `process` reads would break sandboxed bundles).
+- **Read time:** the value is read on each server call, never cached in a module constant. It is not visible in
+  browser bundles (a non-`NEXT_PUBLIC_` variable is undefined there), so browser code reports the admin tier as closed;
+  the server decides, and the engine lists arrive from the server.
+- **What needs what:**
+  - Restart only (no rebuild): API routes (generate, estimate, pricing quote, character builder, examples),
+    server-rendered pages without a build-time cache, and the workspace engine lists. These read the env per request.
+  - Rebuild required: statically prerendered model, example, pricing and blog pages, the homepage and any ISR cache,
+    and the sitemap. They keep the state of the build that produced them. Set the variable in the build environment
+    too, then rebuild and redeploy.
+  - The model runtime projection (`frontend/config/model-runtime.ts`) and the engine catalogue are built at module load,
+    so a restart is enough for them, but a rebuild is needed for the static copies above.
+- **Where to set it:** in `.env.production` (the compose `env_file`). Do not add it to the `environment:` block of
+  `docker-compose.1panel.yml`, because compose `environment:` values override `env_file` values and would pin it.
+  `.env.production.example` documents the commented key.
+- **Tests:** `tests/keyvo-admin-tier-env-override.test.ts` covers default-off (unset and non-true values), the
+  true/1 opening for every admin-tier id, non-opening for unlisted and hidden ids, the direct-API refusal path without
+  a session lookup, and a child-process projection check that the model page is unpublished by default and published
+  when the value is `true`.
+
+## Official-list-100 price rule for Nano Banana engines (2026-11-14)
+
+- **Owner decision:** Nano Banana 2 (`nano-banana-2`, `gemini-3.1-flash-image`), Nano Banana Lite
+  (`nano-banana-lite`, `gemini-3.1-flash-lite-image`) and Nano Banana 2.1 (`nano-banana-2-1`,
+  `gemini-nano-banana-2.1`) are sold at 100% of the official USD list, converted at 8 CNY/USD. No discount, no margin.
+  The owner confirmed Gemini API (AI Studio) prices equal Vertex prices.
+- **Source:** https://aistudio.google.com/docs/pricing (the `ai.google.dev` URL redirects there), read 2026-11-14.
+  Image output list prices as stated on that page:
+
+  | Engine | 0.5K | 1K | 2K | 4K | Input (text/image/video, standard) |
+  |---|---|---|---|---|---|
+  | Nano Banana 2 (`gemini-3.1-flash-image`) | $0.045 | $0.067 | $0.101 | $0.151 | $0.50 per 1M tokens |
+  | Nano Banana Lite (`gemini-3.1-flash-lite-image`) | not listed | $0.0336 | not listed | not listed | $0.25 per 1M tokens |
+  | Nano Banana 2.1 (`gemini-nano-banana-2.1`) | not listed | $0.0336 | $0.0504 | $0.113 | $1.50 per 1M tokens |
+
+  CNY per image at 8 CNY/USD, before rounding: Nano Banana 2 0.5K 0.36, 1K 0.536, 2K 0.808, 4K 1.208; Lite 1K 0.2688;
+  2.1 1K 0.2688, 2K 0.4032, 4K 0.904. Batch prices on the page are not used.
+- **Mechanism:** `official-list-100` in `frontend/config/pricing-policy.json` is `official-list-80` with
+  `marginPercentOverride: 0`. `resolveOfficialListCompatibilityProfile` in `frontend/src/lib/official-list-pricing.ts`
+  selects it for these three engines (`OFFICIAL_LIST_100_PRICED_ENGINE_IDS`) in place of the 80 profile. The database
+  engine rule (admin policy editor) still wins over the versioned profile, as for every official-list engine.
+- **Supplier facts:** `frontend/src/config/fal-engines/nano-banana-2.ts` and `nano-banana-lite.ts` now hold the official
+  per-size USD prices (they were fal-era values such as 0.04 / 0.08 / 0.12 / 0.16). Nano Banana 2.1 keeps its token model
+  in `nano-banana-2-1-pricing.ts`, but its output part is the page's stated per-size price (4K $0.113). The page's own
+  token count (3,780 x $30/M = $0.1134) differs by $0.0004, and the stated price was used.
+- **Kept as they were (page gives no figure):** input reference images (Nano Banana 2.1 keeps 1,120 image tokens per
+  reference at $1.50/M, the existing assumption; Nano Banana 2 and Lite keep their existing handling and the page gives
+  no per-image token count); web-search add-on (1.5 cents, not on the page); the batch tier; the 1-cent CNY floor, which
+  this change did not re-verify.
+- **Not changed by design:** the Nano Banana 2.1 native customer-tariff gate (`requiresNano21Tariff` in
+  `frontend/server/pricing/quote-billing.ts`). The 100 profile does not remove the need for an active tariff, so the gate
+  stays. Keyvo keeps the tariff state inactive.
+- **Stale customer copy:** `nano-banana-2.ts` billing notes still say "starts at $0.06 for 0.5K ... $0.21 for 4K" (fal
+  display prices). They are text, not computed; updating them is a copy change not made here.
+- **Awaiting owner prices (existing rules untouched):** Gemini Omni Flash 1.2 (the page lists per-second video prices,
+  so the owner must confirm the unit), Veo 3.1, Veo 3.1 Fast and Veo 3.1 Lite, GPT Image 2.5 and GPT Image 2.6 (Sunburst
+  and Flare).
+- **Governed baseline (2026-11-14):** `tests/fixtures/keyvo-official-list-100-public-pricing-2026-11-14.json` records the
+  18 public rows that moved (Nano Banana 2: 4-image estimate 42 -> 28 cents, standard image 11 -> 7, offer 11 -> 7;
+  Nano Banana Lite: standard image 4 -> 3, 4-image 16 -> 12, estimator 16 -> 13). It is wired into
+  `frontend/scripts/pricing-public-baseline.ts`. The eight audit scenarios (4-image billing and estimator rows) are
+  approved in `frontend/src/lib/pricing-audit/approved-changes.ts` (60 approved changes, 0 mismatches). Nothing is added
+  or retired; Nano Banana 2.1 public rows are unchanged.
+- **Tests:** `tests/keyvo-official-list-100-pricing.test.ts` (profile, selection, facts and the 2.1 partial list);
+  `tests/creator-commercial-pricing.test.ts` and `tests/image-estimate-service.test.ts` updated to the new ordinary
+  margin (Nano Banana 2 margin 0) and the Lite total (13 cents for four images).
+- **Hub image total rounding (2026-11-14):** the pricing hub quoted a multi-image preset as the rounded per-image price
+  times the count, while billing and the estimate round the whole output count once. For official-list-100 engines the
+  per-image cost is fractional (Nano Banana Lite 3.36 cents), so the 4-image hub price was 12 cents against a 13-cent
+  charge. `pricingHubData.ts` now quotes official-list-100 engines as one total. Nano Banana 2 4-image moves 28 -> 27
+  cents and Lite 12 -> 13 (both recorded in the 2026-11-14 official-list-100 transition fixture). Other engines still
+  use the per-image hub path: the same mismatch exists for GPT Image 2 / 2.5 Flare / Sunburst, Nano Banana / Pro and
+  Seedream 5.0 Flash 4-image presets (hub 24/8/8/24/80/4 vs total billing). Those rows are not changed here because the
+  owner has not approved moving them (GPT Image 2.5/2.6 prices are pending).
+
 ## Subtitles creator tool hidden (2026-11-14)
 
 `subtitles` has `publicReleased: false` in `frontend/src/lib/toolbox/creator-availability.ts`, so the tools index, menus, library/media handoff destinations, marketing pages and sitemap omit it. Its only speech-to-text route is ElevenLabs Scribe v2 on Fal (`frontend/src/server/subtitles/scribe.ts`); Keyvo has no `FAL_KEY` and no mainland ASR adapter exists. Restoring it needs a mainland ASR adapter (Bailian or Volcengine speech) plus a pricing decision. Guard: `tests/keyvo-subtitles-hidden.test.ts`.
+
+### MCP included trial closed (`KEYVO_MCP_TRIAL_DISABLED`)
+
+- **Upstream:** an eligible verified account can receive one platform-funded Seedance generation through the public MCP server (`FEATURES.mcp.trial` AND `MCP_TRIAL_ENABLED=true`).
+- **Keyvo:** the trial is closed by the owner. Mainland users cannot use Claude or Codex, so it has no audience. `KEYVO_MCP_TRIAL_DISABLED = true` in `frontend/config/keyvo-disabled-features.ts` is a constant, not an environment switch, so no deployment setting can reopen it.
+- **What it closes:** `isTrialEligibilityEnabled` (shared by trial eligibility and the confirm gate) returns false, so `get_account_status` reports `trial: { status: 'disabled' }` and prepare never creates trial-funded quotes (they become ordinary wallet quotes). `confirmGeneration` refuses a trial quote with `TRIAL_NOT_ELIGIBLE` before any risk check, reservation, wallet or provider call. `getMcpPublicationState` forces `showTrialClaim` to false and `buildMcpBudgetOptions` never emits an `included_trial` option, so no page, budget card or llms text claims a trial; paid-minimum selection runs across all eligible routes. The `content/docs/mcp.mdx` section states that the introductory credit is not offered.
+- **Kept on purpose:** the MCP server, all tools and paid MCP generation; the trial repositories, readers and admin views, so existing trial entitlements, quotes and jobs still read correctly. No migration was written or run; `neon/migrations/31` and `60` and their CHECK guard (which pins `seedance-2-0-mini` while the app preset is `seedance-2-5`, so a new trial row cannot even be inserted) are untouched. The MCP tool descriptions still mention an "included trial" in neutral terms because they feed the reviewed tool-policy fingerprint.
+- **Tests:** `tests/mcp-trial-*.test.ts` reopen the switch explicitly (`keyvoClosed: false`) to keep the dormant machinery covered and add closed-state cases; `tests/mcp-budget-options.test.ts` asserts no trial option; `tests/integration/mcp-seedance-mini-trial.test.ts` now pins the fail-closed behaviour. `tests/mcp-trial-confirmation-concurrency.test.ts` was removed: its three PostgreSQL cases only exercised inserting and reserving trial rows, which the guard now refuses.
+- **How to reopen later:** a trial would need (1) a migration widening the `mcp_generation_quotes_funding_shape` and related CHECK guards and the provider-cost function to the preset engine and its current cost (the guard is pinned to Seedance Mini), (2) an owner financial decision on the ceiling (`MCP_TRIAL_PROVIDER_COST_CEILING_CENTS`, default 25 cents against a 52-cent authoritative cost) and risk limits, (3) setting `KEYVO_MCP_TRIAL_DISABLED` to false, `trial: true` in `frontend/config/mcp-publication.json` and `MCP_TRIAL_ENABLED=true`, and (4) the reconcile cron from `docs/operations/mcp-trial-runbook.md`, then reverting the closed-state test pins.

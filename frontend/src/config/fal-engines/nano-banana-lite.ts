@@ -106,24 +106,25 @@ const NANO_BANANA_LITE_ENGINE: EngineCaps = {
   },
   pricingDetails: {
     currency: 'USD',
+    // Official Google list (aistudio.google.com/docs/pricing, read 2026-11-14): standard 1K $0.0336 (no other size listed).
     perSecondCents: {
-      default: 3,
+      default: 3.36,
       byResolution: {
-        '1k': 3,
+        '1k': 3.36,
       },
     },
     flatCents: {
-      default: 3,
+      default: 3.36,
       byResolution: {
-        '1k': 3,
+        '1k': 3.36,
       },
     },
   },
   pricing: {
     unit: 'image',
-    base: 0.03,
+    base: 0.0336,
     byResolution: {
-      '1k': 0.03,
+      '1k': 0.0336,
     },
     currency: 'USD',
     notes: 'Fast 1K direct provider route for high-volume still generation and edits.',

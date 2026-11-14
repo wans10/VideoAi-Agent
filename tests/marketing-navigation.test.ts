@@ -156,8 +156,7 @@ test('editorial navigation promotes current models and preserves comparisons wit
     'kling-v4-vs-seedance-2-5',
     'kling-v4-vs-wan-3-prime',
     'minimax-h3-vs-seedance-2-5',
-    'seedance-2-0-vs-seedance-2-0-fast',
-  ]; // LTX and Veo comparisons are hidden by the Keyvo visibility policy
+  ]; // LTX, Veo and Seedance 2.0 comparisons are hidden by the Keyvo visibility policy (owner allowlist 2026-11-14)
   const actualComparisons = MARKETING_NAV_DROPDOWNS.compare?.items
     .map(({ key }) => key)
     .filter((key) => expectedComparisons.includes(key)) ?? [];
@@ -217,6 +216,7 @@ test('marketing footer keeps crawlable Best-For hub and priority child links', (
 test('examples navigation exposes discoverable families without promoting archives', () => {
   const examplesDropdown = MARKETING_NAV_DROPDOWNS.examples;
   assert.equal(examplesDropdown?.desktopColumns, 2);
+  // The Veo family is admin-tier on the owner allowlist (2026-11-14): customers never see it in navigation.
   assert.deepEqual(examplesDropdown?.items.map((item) => item.key), ['all-examples', 'kling', 'seedance', 'wan', 'hailuo', 'happy-horse']);
   assert.equal(hrefPath(examplesDropdown?.items[0].href), '/examples');
   assert.equal(examplesDropdown?.allLinkInItems, true, 'the root gallery is a primary entry instead of a duplicate heading action');

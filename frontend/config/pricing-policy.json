@@ -1,6 +1,8 @@
 {
   "version": 1,
-  "supportedCurrencies": ["USD"],
+  "supportedCurrencies": [
+    "USD"
+  ],
   "compatibilityProfiles": [
     {
       "id": "standard",
@@ -75,6 +77,20 @@
       "totalRounding": "nearest",
       "subtotalRounding": "nearest",
       "marginPercentOverride": -0.2,
+      "marginFlatCentsOverride": 0,
+      "surchargeAudioPercentOverride": 0,
+      "surchargeUpscalePercentOverride": 0,
+      "minimumSubtotalCents": 1
+    },
+    {
+      "id": "official-list-100",
+      "vendorSubtotalRounding": "preserve",
+      "marginRounding": "nearest",
+      "surchargeRounding": "nearest",
+      "discountRounding": "nearest",
+      "totalRounding": "nearest",
+      "subtotalRounding": "nearest",
+      "marginPercentOverride": 0,
       "marginFlatCentsOverride": 0,
       "surchargeAudioPercentOverride": 0,
       "surchargeUpscalePercentOverride": 0,

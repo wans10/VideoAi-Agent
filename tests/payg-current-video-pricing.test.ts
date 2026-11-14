@@ -24,7 +24,8 @@ test('PAYG preserves its whole localized projection with only the video quotes i
     const video = await buildCurrentVideoPricingData(locale, quote(videoCalls));
     assert.deepEqual(Object.keys(video), ['video'], 'The narrow owner must expose no unrefreshed pricing surface');
     assert.ok(fullCalls.length > videoCalls.length);
-    assert.equal(otherCalls, 21);
+    // Keyvo 2026-11-14: Character Builder products are no longer quoted (it prices on Seedream): 21 -> 19.
+    assert.equal(otherCalls, 19);
     assert.equal(new Set(videoCalls.map(input => JSON.stringify(input))).size, videoCalls.length);
     // Keyvo quotes only its visible (Chinese-vendor) families; FLUX is hidden, so it is never quoted.
     for (const id of ['kling-v4', 'minimax-h3', 'seedance-2-5']) {

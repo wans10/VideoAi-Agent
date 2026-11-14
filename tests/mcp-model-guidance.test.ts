@@ -31,23 +31,14 @@ function validEntry() {
 test('guidance exposes exactly the reviewed engine records without pricing data', () => {
   const reviewed = listAgentModelGuidance();
 
+  // Owner allowlist (2026-11-14): MCP/agent guidance is public-tier only. Hidden models (FLUX, GPT Image 2, Grok, LTX,
+  // Seedance 2.0 Mini) and admin-tier models (Gemini Omni Flash, GPT Image 2.5/2.6, Nano Banana, Veo) are withheld.
   assert.deepEqual(reviewed.map((entry) => entry.engineId).sort(), [
-    'flux-3',
-    'flux-3-draft',
-    'gemini-omni-flash',
-    'gpt-image-2',
-    'gpt-image-2-5-flare',
-    'gpt-image-2-6-flare',
-    'gpt-image-2-6-sunburst',
-    'grok-imagine-video-1-5',
     'happy-horse-1-1',
     'kling-o3-pro',
     'kling-v4-flash',
-    'ltx-2-5-fast',
-    'ltx-2-5-pro',
     'minimax-h3',
     'minimax-h3-max',
-    'seedance-2-0-mini',
     'seedance-2-5',
     'wan-3',
     'wan-3-prime',
@@ -63,7 +54,9 @@ test('guidance exposes exactly the reviewed engine records without pricing data'
     assert.ok(Object.isFrozen(entry.strengths));
   }
   assert.equal(getAgentModelGuidance('seedance-2-5')?.bestFor.includes('product_video'), false);
-  assert.equal(getAgentModelGuidance('ltx-2-5-fast')?.bestFor.includes('native_audio'), true);
+  // LTX 2.5 Fast is hidden on Keyvo (owner allowlist 2026-11-14), so its guidance is withheld.
+  assert.equal(getAgentModelGuidance('ltx-2-5-fast'), null);
+  assert.equal(getAgentModelGuidance('gemini-omni-flash'), null); // admin-tier: withheld from MCP guidance
   assert.equal(getAgentModelGuidance('unknown-model'), null);
   // MiniMax-H3-Max is served on Keyvo (MiniMax's own API); its guidance names only the official 480P/768P tiers.
   const h3Max = getAgentModelGuidance('minimax-h3-max');

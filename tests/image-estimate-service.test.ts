@@ -1,3 +1,4 @@
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
@@ -89,7 +90,8 @@ test('existing route clamps and prices an ordinary text-to-image request', async
       seconds: payload.pricing?.base.seconds,
       marginCents: payload.pricing?.margin.amountCents,
     },
-    { currency: 'USD', totalCents: 16, baseCents: 12, seconds: 4, marginCents: 4 }
+    // Keyvo official-list-100 (2026-11-14): Nano Banana Lite sells at 100% of the official list price, no margin.
+    { currency: 'USD', totalCents: 13, baseCents: 13.44, seconds: 4, marginCents: 0 }
   );
 });
 
@@ -217,7 +219,8 @@ test('transport-neutral estimate clamps ordinary text-to-image output count', as
   assert.equal(result.normalized.numImages, 4);
   assert.equal(result.normalized.aspectRatio, '16:9');
   assert.equal(result.pricing.currency, 'USD');
-  assert.equal(result.pricing.totalCents, 16);
+  // Keyvo owner 2026-11-14: Nano Banana Lite is 1K $0.0336 list at 100% (no margin). 4 x 3.36 = 13.44 cents -> 13.
+  assert.equal(result.pricing.totalCents, 13);
 });
 
 test('transport-neutral estimate preserves image-to-image reference count and auto-size behavior', async () => {

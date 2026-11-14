@@ -898,19 +898,18 @@
         "fallbackCards": [
           {
             "id": "fallback-seedance",
-            "title": "Seedance 2.0",
-            "engine": "Seedance 2.0",
-            "engineId": "seedance-2-0",
-            "modelSlug": "seedance-2-0",
+            "title": "Seedance 2.5",
+            "engine": "Seedance 2.5",
+            "engineId": "seedance-2-5",
+            "modelSlug": "seedance-2-5",
             "mode": "Referencia a video",
             "duration": "12 s",
             "price": "Precio actualizado",
             "useCase": "Realismo cinematográfico",
-            "cta": "Ejemplos y prompts",
+            "cta": "Explorar Seedance 2.5",
             "modelCta": "Especificaciones y precios",
-            "imageSrc": "/hero/seedance-2-0.jpg",
-            "imageAlt": "Ejemplo de video IA Seedance 2.0 para piezas comerciales cinematográficas.",
-            "examplesSlug": "seedance"
+            "imageSrc": "/models/seedance-2-5-launch.jpg",
+            "imageAlt": "Ejemplo de video IA Seedance 2.5 para tomas publicitarias cinematográficas."
           },
           {
             "id": "fallback-kling",

@@ -1,4 +1,5 @@
 import { buildLocalizedModelPath } from '@/config/model-registry';
+import { KEYVO_MCP_TRIAL_DISABLED } from '@/config/keyvo-disabled-features';
 import { getRuntimeModelById } from '@/config/model-runtime';
 import { localeRegions, normalizeAppLocale, type AppLocale } from '@/i18n/locales';
 import type { McpPublicationState } from '@/lib/mcp-publication';
@@ -438,7 +439,7 @@ export function buildMcpBudgetOptions(
   if (!publication.renderPublicPage) return [];
   const resolvedLocale = normalizeAppLocale(locale);
   const candidates = buildCandidates(dependencies);
-  const trial = publication.showTrialClaim ? toTrialOption(resolvedLocale, candidates, dependencies) : null;
+  const trial = !KEYVO_MCP_TRIAL_DISABLED && publication.showTrialClaim ? toTrialOption(resolvedLocale, candidates, dependencies) : null;
   const options: McpBudgetOption[] = trial ? [trial] : [];
   if (!publication.showPaidGenerationClaim) return options;
 

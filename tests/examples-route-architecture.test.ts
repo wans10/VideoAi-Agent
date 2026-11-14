@@ -1,3 +1,5 @@
+// Upstream mechanism test over hidden (non-allowlisted) engines: run on the unfiltered catalog (see keyvo-unfiltered-catalog).
+import './helpers/keyvo-unfiltered-catalog.ts';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -167,7 +169,8 @@ test('Seedance family opening stays stable while keeping 2.5 guidance and histor
   assert.match(landing.summary, /^Seedance 2\.5 supports 4–30 second videos up to 1080p/);
   assert.match(landing.summary, /Earlier 1\.5 Pro videos remain labeled, although new 1\.5 generations are closed/);
   assert.doesNotMatch(landing.intro, /every example|all examples.*2\.5/i);
-  assert.equal(family.defaultModelSlug, 'seedance-2-0');
+  // Keyvo allowlist (2026-11-14): the family default is the offered Seedance 2.5; 2.0 is not on the customer allowlist.
+  assert.equal(family.defaultModelSlug, 'seedance-2-5');
   assert.deepEqual(family.routeAliases, ['seedance-1-5-pro', 'seedance-2-0', 'seedance-2-0-fast', 'dreamina-seedance-2-0-mini']);
   assert.deepEqual(getExampleFamilyModelSlugs('seedance'), [
     'seedance-2-5',

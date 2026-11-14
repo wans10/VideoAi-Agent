@@ -84,9 +84,10 @@ export async function getConfiguredEnginesByCategory(
 
 export async function getPublicConfiguredEnginesByCategory(
   category: EngineCategory = 'video',
-  includeDisabled = false
+  includeDisabled = false,
+  viewer?: { isAdmin: boolean },
 ): Promise<EngineCaps[]> {
-  return getReadOnlyConfiguredEnginesByCategory(category, includeDisabled);
+  return getReadOnlyConfiguredEnginesByCategory(category, includeDisabled, undefined, viewer);
 }
 
 export async function getPublicConfiguredEnginesByCategoryInExecutor(

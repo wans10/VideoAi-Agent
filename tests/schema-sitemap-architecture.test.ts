@@ -115,7 +115,9 @@ test('models sitemap retains every localized H3, Seedance 2.5 and Seedance 2.0 c
   const { buildModelsSitemapXml } = await import('../frontend/lib/sitemapData.ts');
   const xml = await buildModelsSitemapXml();
 
-  for (const slug of ['minimax-h3', 'seedance-2-5', 'seedance-2-0']) {
+  // Seedance 2.0 is not offered under the owner allowlist, so its canonicals leave the sitemap.
+  assert.doesNotMatch(xml, /\/models\/seedance-2-0<\/loc>/);
+  for (const slug of ['minimax-h3', 'seedance-2-5']) {
     const urls = {
       en: `https://app.keyvo.cn/models/${slug}`,
       fr: `https://app.keyvo.cn/fr/modeles/${slug}`,

@@ -90,8 +90,8 @@ by the current save/download/continuation actions.
 
 ## Generation readiness and price recovery (2026-11-05)
 
-`useCharacterBuilderPrice` owns the current Nano Banana 2.1 estimate, selected
-format/reference key, bounded request timeout, and explicit retry. The composer
+`useCharacterBuilderPrice` owns the current estimate for the selected mode's engine
+(Seedream 5.0 Flash or Pro, 2K), selected format/reference key, bounded request timeout, and explicit retry. The composer
 keeps the price inside Generate and distinguishes loading from unavailable pricing.
 A pending or failed replacement estimate cannot reuse an old amount or enable a
 paid generation. Retry only reads a price; it never submits a generation. Image
@@ -392,7 +392,8 @@ approval to publish a demo or change a production tariff.
 
 ### Character Studio image policy, casting notes and sheets (2026-11-04)
 
-New portraits, looks and sheets all use Nano Banana 2.1, one image per request.
+New portraits, looks and sheets use Seedream 5.0 Flash (Standard) or Seedream 5.0 Pro (Pro), 2K,
+one image per request (Keyvo, 2026-11-14; see `keyvo-upstream-deviations.md`).
 The display and wallet use the same resolution-specific image tariff and displayed
 revision. Old jobs keep their original engine, settings and receipt. Do not
 multiply the current image tariff by a historical quality or format quantity.
@@ -481,8 +482,9 @@ only the provider execution and excerpt storage boundaries; preparation,
 normalization, ownership, quote locking, reservation and receipts remain real.
 The price matrix covers three modes, three resolutions and three durations,
 independent 7.5 s video / 5.25 s audio excerpts, all six framings and input/output
-limits. Nano Banana 2.1 creation/editing checks cover one image at 1K/2K/4K,
-including the displayed tariff revision and immutable receipt. These fixtures
+limits. Nano Banana 2.1 creation/editing checks (upstream) cover one image at 1K/2K/4K,
+including the displayed tariff revision and immutable receipt. Keyvo's builder uses Seedream on the
+official-list rule path instead and is checked by `tests/character-studio-seedream-price-postgres.test.ts`. These fixtures
 establish consistency, not approval of a new commercial tariff.
 
 Wan 3 Prime reference mode preserves explicitly numbered reference order, just like its

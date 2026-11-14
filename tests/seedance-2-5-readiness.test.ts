@@ -108,12 +108,10 @@ test('Seedance publication ranks and reciprocal flagship comparison pairs stay e
 
   const standard = getRuntimeModelById('seedance-2-0');
   assert.ok(standard);
-  assert.deepEqual(standard.publication.compare.suggestedOpponentIds, [
-    'veo-3-1',
-    'kling-3-pro',
-    'sora-2',
-  ]);
-  for (const opponentId of ['seedance-2-0', 'kling-3-pro']) {
+  // Seedance 2.0 is not offered under the owner allowlist, so it suggests no comparison opponents.
+  assert.deepEqual(standard.publication.compare.suggestedOpponentIds, []);
+  // Seedance 2.0 is outside the owner allowlist and publishes no pairs; the offered Kling 3 Pro pair stays.
+  for (const opponentId of ['kling-3-pro']) {
     assert.equal(
       getRuntimeModelById(opponentId)?.publication.compare.publishedPairIds.includes(slug),
       true,

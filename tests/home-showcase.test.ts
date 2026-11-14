@@ -34,7 +34,8 @@ function allShowcaseCards() {
 
 test('the works wall holds only orderable models from the Chinese-vendor families', () => {
   const wall = allShowcaseCards();
-  assert.ok(wall.length >= 100, `expected a substantial wall, got ${wall.length}`);
+  // Keyvo allowlist (2026-11-14): the works wall holds the orderable cards of the public families only (74 today).
+  assert.ok(wall.length >= 70, `expected a substantial wall, got ${wall.length}`);
   const byId = new Map(cards.map((card) => [card.id, card]));
   for (const card of wall) {
     const source = byId.get(card.id)!;
@@ -124,9 +125,9 @@ test('the batch endpoint serves the same cards, caps its size and reads no datab
 
 test('the general examples endpoint cannot be used to reach hidden-vendor examples through an engine filter', () => {
   const source = readFileSync('frontend/app/api/examples/route.ts', 'utf8');
-  assert.match(source, /isKeyvoVisibleFamily\(filterFamily\)/);
-  assert.match(source, /engineFilter && !\(filterFamily && isKeyvoVisibleFamily\(filterFamily\)\)[\s\S]*?cards: \[\]/);
-  assert.ok(source.indexOf('isKeyvoVisibleFamily(filterFamily)') < source.indexOf('listExampleFamilyPage(engineFilter'));
+  assert.match(source, /isKeyvoVisibleOrOpenedFamily\(filterFamily\)/);
+  assert.match(source, /engineFilter && !\(filterFamily && isKeyvoVisibleOrOpenedFamily\(filterFamily\)\)[\s\S]*?cards: \[\]/);
+  assert.ok(source.indexOf('isKeyvoVisibleOrOpenedFamily(filterFamily)') < source.indexOf('listExampleFamilyPage(engineFilter'));
 });
 
 test('the wall reuses the examples gallery card and layout and keeps the media rules', () => {
@@ -152,7 +153,7 @@ test('the wall reuses the examples gallery card and layout and keeps the media r
 test('every wall card carries a Chinese prompt', () => {
   const wall = allShowcaseCards();
   const zhPrompts = zhShowcasePrompts as Record<string, string>;
-  assert.ok(wall.length > 100);
+  assert.ok(wall.length >= 70);
   for (const card of wall) {
     const zh = zhPrompts[card.id];
     assert.ok(zh && /[\u4e00-\u9fff]/.test(zh), `${card.id} has a Chinese prompt`);

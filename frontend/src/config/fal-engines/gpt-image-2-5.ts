@@ -128,7 +128,8 @@ function buildEngine(variant: Variant): EngineCaps {
     },
     updatedAt: '2026-09-15T00:00:00Z',
     ttlSec: 600,
-    providerMeta: { provider: 'llmhub', modelSlug: `gpt-image-2.5-${variant}` },
+    // OpenAI official Images API (owner decision B, 2026-11-14); LLM Hub is no longer a route for 2.5.
+    providerMeta: { provider: 'openai_images', modelSlug: `gpt-image-2.5-${variant}` },
     availability: 'available',
     brandId: 'openai',
   };

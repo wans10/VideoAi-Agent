@@ -1,3 +1,4 @@
+import { isKeyvoEngineRefusedForRequest } from '@/server/keyvo-engine-access';
 import { requireCurrentWebPricingPolicy } from '@/server/pricing/web-pricing-policy';
 import { CUSTOMER_TARIFF_REVISION_HEADER } from '@/lib/customer-tariff-revision';
 export const runtime = 'nodejs';
@@ -47,6 +48,10 @@ export async function POST(req: NextRequest) {
   }
   const pricingPolicyError = requireCurrentWebPricingPolicy(req, 'image');
   if (pricingPolicyError) return pricingPolicyError;
+  // Keyvo offers only the owner allowlist; admin-tier engines are refused for ordinary viewers before any reservation.
+  if (await isKeyvoEngineRefusedForRequest(typeof body?.engineId === 'string' ? body.engineId : '', req)) {
+    return respondError('t2i', 'engine_unavailable', 'Unknown engine.', 400);
+  }
   const restriction = await getActiveAccountRestriction(userId);
   if (restriction) {
     return respondError('t2i', 'account_restricted', RESTRICTED_ACCOUNT_MESSAGE, 403);

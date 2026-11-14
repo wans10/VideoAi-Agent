@@ -55,7 +55,8 @@ test('MiniMax family keeps H3 canonical while adding H3 Max and retaining Hailuo
   assert.ok(hailuo02);
   assert.equal(family.defaultModelSlug, slug);
   // Keyvo serves H3 Max again (MiniMax's own API), so its examples return to the family page as upstream publishes them.
-  assert.deepEqual(family.examplesPage.publishedModelSlugs, [slug, 'minimax-h3-max', 'minimax-hailuo-02-text']);
+  // Hailuo 02 is not on the owner allowlist, so the family page publishes only the two H3 models.
+  assert.deepEqual(family.examplesPage.publishedModelSlugs, [slug, 'minimax-h3-max']);
   assert.deepEqual(family.examplesPage.currentModelSlugs, [slug, 'minimax-h3-max']);
   assert.equal(hailuo02.publication.examples.current, false);
   assert.equal(hailuo02.publication.examples.familyRank, 1);

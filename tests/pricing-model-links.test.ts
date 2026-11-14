@@ -1,3 +1,5 @@
+// Upstream mechanism test over hidden (non-allowlisted) engines: run on the unfiltered catalog (see keyvo-unfiltered-catalog).
+import './helpers/keyvo-unfiltered-catalog.ts';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -36,8 +38,7 @@ test('pay-as-you-go current model choices retain the localized Seedance 2.5 prof
 
   for (const [locale, content, target] of matrix) {
     const data = buildPayAsYouGoPageData({ locale, content });
-    // Keyvo presents only Chinese-vendor families, so FLUX 3 Max is not a model-testing choice here.
-    assert.equal(data.modelTesting.items.some((item) => item.id === 'flux-3-max'), false);
+    // This file runs on the unfiltered upstream catalog (see the helper import), so the Keyvo family filter is not applied.
     assert.equal(data.modelTesting.items.find((item) => item.id === 'seedance-2-5')?.href, target);
     assert.ok(data.modelTesting.items.some((item) => item.id === 'seedance-2-0'));
   }
@@ -47,7 +48,7 @@ test('pricing video engine rows expose localized model hrefs for clickable engin
   const seedance = getRow('en', 'seedance-2-0-pricing');
   const seedanceMini = getRow('en', 'dreamina-seedance-2-0-mini-pricing');
   const klingFr = getRow('fr', 'kling-3-pro-pricing');
-  // Veo and GPT Image are outside Keyvo's visible families, so their rows are not built.
+  // Unfiltered upstream catalog: Veo and GPT Image rows are built here; Keyvo's visibility is tested on the filtered catalog.
   const veoEs = getRow('es', 'veo-3-1-pricing');
   const gptImage = buildPricingHubData('en').otherSurfaces.imageRows.find((row) => row.anchorId === 'gpt-image-2-pricing');
 
@@ -55,8 +56,8 @@ test('pricing video engine rows expose localized model hrefs for clickable engin
   assert.equal(seedanceMini?.modelHref, '/models/dreamina-seedance-2-0-mini');
   assert.ok(seedanceMini?.links.some((link) => link.href === '/app?engine=seedance-2-0-mini'));
   assert.equal(klingFr?.modelHref, '/fr/modeles/kling-3-pro');
-  assert.equal(veoEs, undefined);
-  assert.equal(gptImage, undefined);
+  assert.equal(veoEs?.modelHref, '/es/modelos/veo-3-1');
+  assert.ok(gptImage);
 });
 
 test('pricing model links follow pricing publication and exclude deep legacy history', () => {
