@@ -1,3 +1,5 @@
+// Mechanism test: runs on the unfiltered upstream catalog (the Keyvo model allowlist hides this fixture engine).
+import './helpers/keyvo-unfiltered-catalog';
 import {CUSTOMER_CURRENCY,USD_TO_CNY_CUSTOMER_RATE} from '../frontend/src/lib/customer-currency';
 import assert from 'node:assert/strict';
 import { ENV } from '../frontend/src/lib/env';

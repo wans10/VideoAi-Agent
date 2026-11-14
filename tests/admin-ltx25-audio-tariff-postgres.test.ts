@@ -1,3 +1,6 @@
+// This suite exercises the tariff editing/cutover mechanism with an upstream fixture engine that the allowlist hides from customers.
+// Runs on the unfiltered catalog (Keyvo model allowlist); this import must stay first.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
