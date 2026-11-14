@@ -6,7 +6,8 @@ import {getFalEngineById} from '../frontend/src/config/falEngines';
 import {studioVisualCapabilityDetails} from '../frontend/src/server/studio/conversation-capabilities';
 
 test('shared guidance exposes attributed vendor recommendations without fabricating measured ratings or prices', async () => {
-  for (const id of ['gpt-image-2-5-flare','gpt-image-2','seedance-2-0-mini','wan-3','minimax-h3']) {
+  // Public-tier ids only: MCP/agent guidance withholds admin-tier and hidden models (owner allowlist 2026-11-14).
+  for (const id of ['wan-3','minimax-h3']) {
     const guidance=getAgentModelGuidance(id);
     assert.ok(guidance?.sourceAssessments?.length,id);
     for (const assessment of guidance.sourceAssessments) {

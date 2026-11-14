@@ -125,9 +125,9 @@ test('the batch endpoint serves the same cards, caps its size and reads no datab
 
 test('the general examples endpoint cannot be used to reach hidden-vendor examples through an engine filter', () => {
   const source = readFileSync('frontend/app/api/examples/route.ts', 'utf8');
-  assert.match(source, /isKeyvoVisibleFamily\(filterFamily\)/);
-  assert.match(source, /engineFilter && !\(filterFamily && isKeyvoVisibleFamily\(filterFamily\)\)[\s\S]*?cards: \[\]/);
-  assert.ok(source.indexOf('isKeyvoVisibleFamily(filterFamily)') < source.indexOf('listExampleFamilyPage(engineFilter'));
+  assert.match(source, /isKeyvoVisibleOrOpenedFamily\(filterFamily\)/);
+  assert.match(source, /engineFilter && !\(filterFamily && isKeyvoVisibleOrOpenedFamily\(filterFamily\)\)[\s\S]*?cards: \[\]/);
+  assert.ok(source.indexOf('isKeyvoVisibleOrOpenedFamily(filterFamily)') < source.indexOf('listExampleFamilyPage(engineFilter'));
 });
 
 test('the wall reuses the examples gallery card and layout and keeps the media rules', () => {

@@ -216,8 +216,8 @@ test('marketing footer keeps crawlable Best-For hub and priority child links', (
 test('examples navigation exposes discoverable families without promoting archives', () => {
   const examplesDropdown = MARKETING_NAV_DROPDOWNS.examples;
   assert.equal(examplesDropdown?.desktopColumns, 2);
-  // The Veo family stays visible for Gemini Omni Flash (the only offered Veo-family model, owner allowlist 2026-11-14).
-  assert.deepEqual(examplesDropdown?.items.map((item) => item.key), ['all-examples', 'kling', 'seedance', 'wan', 'veo', 'hailuo', 'happy-horse']);
+  // The Veo family is admin-tier on the owner allowlist (2026-11-14): customers never see it in navigation.
+  assert.deepEqual(examplesDropdown?.items.map((item) => item.key), ['all-examples', 'kling', 'seedance', 'wan', 'hailuo', 'happy-horse']);
   assert.equal(hrefPath(examplesDropdown?.items[0].href), '/examples');
   assert.equal(examplesDropdown?.allLinkInItems, true, 'the root gallery is a primary entry instead of a duplicate heading action');
   for (const locale of ['en', 'fr', 'es']) {
@@ -226,7 +226,7 @@ test('examples navigation exposes discoverable families without promoting archiv
     assert.match(copy.examples.descriptions['all-examples'], /prompt/i);
   }
   const allEntries = [...examplesDropdown!.items, ...examplesDropdown!.sections!.flatMap(section => section.items)];
-  assert.deepEqual(allEntries.map(item => item.key).sort(), ['all-examples','seedance','kling','wan','veo','happy-horse','hailuo'].sort());
+  assert.deepEqual(allEntries.map(item => item.key).sort(), ['all-examples','seedance','kling','wan','happy-horse','hailuo'].sort());
   assert.equal(new Set(allEntries.map(item => item.key)).size, allEntries.length);
   assert.match(marketingDesktopNavSource, /dropdown\.desktopColumns === 2/);
   assert.match(marketingDesktopNavSource, /two-columns/);
@@ -257,7 +257,7 @@ test('marketing footer promotes Kling 4 while preserving the previous visible mo
     'Existing labels and destinations remain intact and in the same order',
   );
   assert.deepEqual(FOOTER_EXAMPLES.map(item => item.key), [
-    'kling', 'seedance', 'wan', 'veo', 'hailuo', 'happy-horse',
+    'kling', 'seedance', 'wan', 'hailuo', 'happy-horse',
   ]);
 });
 
