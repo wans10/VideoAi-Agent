@@ -26,7 +26,7 @@ const copy: Record<AppLocale, StudioMarketingCopy> = {
     meta:{title:'Studio — 通过对话创作图片、视频和音频',description:'在 Keyvo Studio 中使用参考素材创作图片、视频和音频，审核生成报价、编辑时间线并下载作品。'},
     eyebrow:'Keyvo Studio',title:'创作、编辑、探索。\n只需告诉 Milo。',introduction:'把你的想法变成 AI 视频、图片和音频。Milo 负责处理提示词，并在一次对话中汇集所需工具。',
     primaryCta:'打开 Studio',secondaryCta:'了解创作流程',accessNote:'登录或创建 Keyvo 账户以开始 Studio 对话。',
-    costNote:'Milo 标准与 Max 模式共用赠送和购买的助理积分。素材生成另行报价，请审核并确认。',
+    costNote:'Milo Standard 与 Max 模式共用赠送和购买的助理积分。素材生成另行报价，请审核并确认。',
     brief:{label:'试试这个需求',body:'水边的一处安静产品场景。请帮助我完善光线并准备一个短片。展示模型、参数和准确报价，在我确认前不要生成。'},
     imageAlt:'Studio 工作区中的创意对话、视觉参考素材与剪辑时间线',imageCaption:'使用示例素材的 Studio。',
     workflow:{eyebrow:'从第一个想法到下一帧',title:'由您的需求决定节奏。',steps:[
@@ -42,7 +42,7 @@ const copy: Record<AppLocale, StudioMarketingCopy> = {
     faq:{title:'开始前',items:[
       {question:'如何开始使用 Studio？',answer:'登录或创建 Keyvo 账户以开始创意对话，也可以重新打开已有项目。'},
       {question:'需要完整的视频计划吗？',answer:'不需要。从需求、参考素材、待完善的提示词或图片开始，按创意需要构建序列。'},
-      {question:'Studio 助理收费吗？',answer:'Milo 标准与 Milo Max 先使用账户每月赠送积分，再使用购买积分。新项目不会重置积分。每次积分包购买需要您确认并从钱包扣款，购买积分可累计，没有自动充值。日常对话可选择 Milo Lite，无额外助理费用和月度配额，受请求限制和服务可用性约束。素材生成单独计费，须审核当前准确报价并明确确认。'},
+      {question:'Studio 助理收费吗？',answer:'Milo Standard 与 Milo Max 先使用账户每月赠送积分，再使用购买积分。新项目不会重置积分。每次积分包购买需要您确认并从钱包扣款，购买积分可累计，没有自动充值。日常对话可选择 Milo Lite，无额外助理费用和月度配额，受请求限制和服务可用性约束。素材生成单独计费，须审核当前准确报价并明确确认。'},
       {question:'如何得知生成费用？',answer:'Studio 根据模型、参数和参考素材准备报价。确认前审核准确金额，估价不会授权支出。'},
       {question:'如何使用作品？',answer:'从素材库下载图片、视频或音频，也可在 Studio 时间线上组织已有素材。'},
       {question:'Studio 与 MCP 连接一样吗？',answer:'Studio 是创作工作区。MCP 将外部助理连接到特定工具。外部宿主保留自己的对话，该连接不会提供完整聊天历史。'}]},

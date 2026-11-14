@@ -21,6 +21,16 @@ import type { GroupedJobAction, GroupedJobMenuVariant } from './grouped-job-card
 export type { GroupedJobAction } from './grouped-job-card-types';
 export { GroupPreviewMedia } from './GroupedJobCardMedia';
 
+const ZH_AUDIO_PACK_LABELS: Record<string, string> = {
+  'Voice Over': '配音旁白',
+  'Music Only': '纯音乐',
+  'SFX Only': '纯音效',
+  'Cinematic Audio': '电影级音效',
+  'Cinematic + Voice': '电影音效 + 旁白',
+  Song: '歌曲',
+  Ambience: '环境音',
+};
+
 export interface GroupedJobCardProps {
   group: GroupSummary;
   engine?: EngineCaps | null;
@@ -85,6 +95,8 @@ export function GroupedJobCard({
   const menuRef = useRef<HTMLDivElement>(null);
 
   const hero = group.hero;
+  // Audio jobs store their English pack name as the engine label; show the Chinese pack name on the Chinese surface.
+  const heroEngineLabel = locale === 'zh' ? (ZH_AUDIO_PACK_LABELS[hero.engineLabel] ?? hero.engineLabel) : hero.engineLabel;
   const splitLabel = `×${group.count}`;
 
   useEffect(() => {
@@ -296,13 +308,13 @@ export function GroupedJobCard({
         ))}
       </div>
       {useRailCaption ? <div className={clsx('app-rail-caption', priceLabel && priceText && 'app-rail-caption-with-cost')}>
-        <EngineIcon engine={engine ?? undefined} label={hero.engineLabel} size={20} />
-        <strong title={hero.engineLabel}>{hero.engineLabel}</strong>
+        <EngineIcon engine={engine ?? undefined} label={heroEngineLabel} size={20} />
+        <strong title={heroEngineLabel}>{heroEngineLabel}</strong>
         <span>{detailLabel}</span>{priceText ? <span className="app-rail-cost">{priceText}</span> : null}
       </div> : <div className="overflow-hidden rounded-b-card">
         <div className="flex items-center justify-between gap-4 border-t border-hairline bg-surface-glass-80 px-3 py-2 text-sm text-text-secondary">
           <div className="flex items-center gap-2">
-            <EngineIcon engine={engine ?? undefined} label={hero.engineLabel} size={28} className="shrink-0" />
+            <EngineIcon engine={engine ?? undefined} label={heroEngineLabel} size={28} className="shrink-0" />
             {detailLabel ? (
               <span className="text-[11px] uppercase tracking-micro text-text-muted">{detailLabel}</span>
             ) : null}

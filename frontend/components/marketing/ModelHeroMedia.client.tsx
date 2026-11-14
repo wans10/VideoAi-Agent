@@ -5,6 +5,7 @@ import Image from 'next/image';
 
 import { usePublicVideoPlayback } from '@/components/media/usePublicVideoPlayback';
 import { isCrawlerUserAgent } from '@/lib/crawler-user-agent';
+import { useOptionalI18n } from '@/lib/i18n/I18nProvider';
 
 type ModelHeroMediaProps = {
   posterSrc: string | null;
@@ -59,6 +60,7 @@ export function ModelHeroMedia({
   const playIntendedRef = useRef(false);
   const loadGenerationRef = useRef(0);
   const playGenerationRef = useRef(0);
+  const zhUi = useOptionalI18n()?.locale === 'zh';
   const [loadedVideoSrc, setLoadedVideoSrc] = useState<string | null>(null);
   const [blockedVideoSrc, setBlockedVideoSrc] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(true);
@@ -326,7 +328,7 @@ export function ModelHeroMedia({
           <button
             type="button"
             onClick={() => requestPlayback('user', terminalError)}
-            aria-label={terminalError ? 'Retry preview' : 'Play preview'}
+            aria-label={terminalError ? (zhUi ? '重试预览' : 'Retry preview') : (zhUi ? '播放预览' : 'Play preview')}
             className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/[0.24] bg-[rgba(7,17,31,0.82)] text-white shadow-[0_14px_36px_rgba(0,0,0,0.28)] backdrop-blur-sm transition hover:-translate-y-0.5 hover:bg-[rgba(7,17,31,0.92)]"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" className="fill-current">

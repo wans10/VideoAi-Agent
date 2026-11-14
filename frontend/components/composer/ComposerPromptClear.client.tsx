@@ -8,6 +8,7 @@ const COPY = {
   en: { clear: 'Clear', undo: 'Undo clearing' },
   fr: { clear: 'Effacer', undo: 'Annuler l’effacement' },
   es: { clear: 'Borrar', undo: 'Deshacer borrado' },
+  zh: { clear: '清空', undo: '撤销清空' },
 };
 
 export function ComposerPromptClear({ prompt, onPromptChange, inputId, locale }: {
@@ -17,7 +18,7 @@ export function ComposerPromptClear({ prompt, onPromptChange, inputId, locale }:
   locale: string;
 }) {
   const [clearedPrompt, setClearedPrompt] = useState<string | null>(null);
-  const copy = COPY[locale === 'fr' || locale === 'es' ? locale : 'en'];
+  const copy = COPY[locale === 'fr' || locale === 'es' || locale === 'zh' ? locale : 'en'];
   // Keep only the most recent explicit clear, in memory. Any replacement retires it.
   // Retire it before committing new text, including rapid type-then-delete edits.
   if (prompt.length && clearedPrompt !== null) setClearedPrompt(null);

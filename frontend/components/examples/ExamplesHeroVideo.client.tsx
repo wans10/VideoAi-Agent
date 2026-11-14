@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { usePublicVideoPlayback } from '@/components/media/usePublicVideoPlayback';
 import { isCrawlerUserAgent } from '@/lib/crawler-user-agent';
+import { useOptionalI18n } from '@/lib/i18n/I18nProvider';
 
 type ExamplesHeroVideoProps = {
   src: string;
@@ -37,6 +38,7 @@ export function ExamplesHeroVideo({
   controls = true,
   posterFit = 'cover',
 }: ExamplesHeroVideoProps) {
+  const zhUi = useOptionalI18n()?.locale === 'zh';
   const containerRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const playerVisibleRef = useRef(true);
@@ -253,10 +255,10 @@ export function ExamplesHeroVideo({
         <button
           type="button"
           onClick={retry}
-          aria-label="Retry preview"
+          aria-label={zhUi ? '重试预览' : 'Retry preview'}
           className="absolute z-30 rounded-full border border-white/30 bg-black/70 px-4 py-2 text-sm font-semibold text-white"
         >
-          Retry preview
+          {zhUi ? '重试预览' : 'Retry preview'}
         </button>
       ) : null}
     </div>

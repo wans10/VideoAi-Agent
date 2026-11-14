@@ -60,10 +60,10 @@ export function insertReferenceMention(prompt: string, token: string, selectionS
 
 export function selectedReferenceLabel(engine: EngineCaps, field: EngineInputField, kind: ComposerAttachment['kind'], sequence: number, locale: string, source = false): string {
   if (isWorkspaceModifyGuide(field)) return referenceRoleHelpCopy(locale).guide.title;
-  if (engine.activeVideoOperation === 'h3-recast' && field.id === 'reference_image_urls') return `${locale === 'es' ? 'Retrato' : 'Portrait'} ${sequence}`;
-  if (engine.activeVideoOperation === 'h3-relight' && field.id === 'reference_image_url') return locale === 'fr' ? 'Éclairage' : locale === 'es' ? 'Iluminación' : 'Lighting';
+  if (engine.activeVideoOperation === 'h3-recast' && field.id === 'reference_image_urls') return `${locale === 'es' ? 'Retrato' : locale === 'zh' ? '人像' : 'Portrait'} ${sequence}`;
+  if (engine.activeVideoOperation === 'h3-relight' && field.id === 'reference_image_url') return locale === 'fr' ? 'Éclairage' : locale === 'es' ? 'Iluminación' : locale === 'zh' ? '光照' : 'Lighting';
   if (source && !field.description?.includes('@Video1')) {
-    const label = locale === 'fr' ? 'Vidéo source' : locale === 'es' ? 'Vídeo fuente' : 'Source video';
+    const label = locale === 'fr' ? 'Vidéo source' : locale === 'es' ? 'Vídeo fuente' : locale === 'zh' ? '源视频' : 'Source video';
     return (field.maxCount ?? 1) > 1 ? `${label} ${sequence}` : label;
   }
   const label = kind === 'image' ? locale === 'es' ? 'Imagen' : 'Image' : kind === 'video' ? locale === 'fr' ? 'Vidéo' : locale === 'es' ? 'Vídeo' : 'Video' : 'Audio';

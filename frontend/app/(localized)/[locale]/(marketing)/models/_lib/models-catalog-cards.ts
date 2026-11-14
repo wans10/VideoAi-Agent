@@ -281,7 +281,8 @@ export async function prepareModelsCatalogCards({
     ].includes(engine.modelSlug);
     const bestForFallback = catalogEntry?.bestFor ? sanitizeDescription(catalogEntry.bestFor) : engineType;
     const generatedDescription =
-      DECISION_DESCRIPTION_OVERRIDES[engine.modelSlug] ??
+      // The decision overrides are English text; Chinese cards use the localized value sentence.
+      (activeLocale === 'zh' ? undefined : DECISION_DESCRIPTION_OVERRIDES[engine.modelSlug]) ??
       descriptionOverrides[engine.modelSlug] ??
       buildValueSentence({
         slug: engine.modelSlug,
