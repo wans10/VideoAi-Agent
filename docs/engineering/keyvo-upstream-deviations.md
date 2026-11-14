@@ -96,6 +96,9 @@ The deliberate customizations are: (1) Simplified Chinese with the other languag
 - **Defaults repointed to offered engines:** Studio shot model (`seedance-2-5`), storyboard image preset and storyboard tool (`gpt-image-2-6-sunburst`), Studio image conversation (`gpt-image-2-6-sunburst`), MCP trial preset and agent trial quote (`seedance-2-5`), family defaults for Seedance (`seedance-2-5`) and Veo (`gemini-omni-flash`).
 - **Still to repoint (not done in this pass):** editorial copy that names hidden models (`pricing/_lib/pricingPageContent.ts` cards for FLUX 3 Max, Veo 3.1, Seedance 2.0 and Pika; PAYG discovery and film-programme configs; best-for scenes; home and content dictionary pricing rows). Those are copy and resolution changes, not default swaps.
 - **Tests:** `tests/keyvo-model-allowlist-contract.test.ts` locks the owner list, the workspace/publication/catalogue absence of hidden models, and the absence of hidden defaults.
+- **Offered but not yet priced by the official-list rule:** Nano Banana 2 / 2.1 / Lite, Gemini Omni Flash 1.2 and the GPT Image 2.5 / 2.6 engines have no official mainland CNY list price in the repo. Their prices stay on their existing rules (nothing was guessed or changed). `tests/keyvo-official-list-pricing.test.ts` lists them as pending; the owner must supply the CNY list prices. The GPT Image 2.6 engines also still show "Price unavailable" in the picker (existing tariff-gate/dispatch defect, follow-up).
+- **Priced but not offered:** Kling 3 4K tiers, Kling O3 4K, Hailuo 02 / 2.3 / 2.3 Fast, Seedance 2.0 / Fast / Mini keep their official-list price rule and are listed as such in the same test, so a future offer needs no price change.
+- **PAYG strip:** the first six preferred examples now include Gemini Omni Flash and Kling 4.0, so MiniMax-H3-Max drops out of the strip (its row stays offered). Strip placement is an owner question.
 
 ### Official mainland list prices × 0.8 (2026-11-13)
 
