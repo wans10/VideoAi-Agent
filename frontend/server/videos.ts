@@ -5,7 +5,7 @@ import { createCurationReadScope, listPlaylistVideosWithOptions, listCuratedGall
 import { BASE_SELECT, BASE_SELECT_FOR_REUSE, BASE_SELECT_WITH_SETTINGS, PUBLIC_VIDEO_SOURCE_ELIGIBILITY } from './videos-query';
 import { getLocalPublicExample, isLocalPublicExamplesEnabled, listLocalPublicExamples } from './local-public-examples';
 import { isDatabaseConfigured, query } from '@/lib/db';
-import { getBundledPublicExample, listBundledPublicExamples } from './bundled-public-examples';
+import { getBundledPublicExampleZh, listBundledPublicExamples } from './bundled-public-examples';
 import { bundledExampleFallback, keyvoBundledExamplesOnly } from './videos-bundled-fallback';
 import { getDiscoverableExampleEngineAliases } from '@/lib/examples/discovery';
 import { getExampleFamilyEngineAliases } from '@/lib/model-families';
@@ -130,7 +130,7 @@ export async function getPublicVideosByIds(videoIds: string[]): Promise<Map<stri
   }
   if (shouldSkipBuildTimeMarketingVideoQueries() || !isDatabaseConfigured()) {
     return new Map(videoIds.flatMap(id => {
-      const video = getBundledPublicExample(id);
+      const video = getBundledPublicExampleZh(id);
       return video ? [[id, video] as const] : [];
     }));
   }

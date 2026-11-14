@@ -15,9 +15,16 @@ export function getBundledPublicExamplesSnapshot(): PublicExamplesSnapshot {
   return snapshot;
 }
 
+/** The upstream shape: English prompt. SEO and upstream-contract readers use this; Keyvo's galleries use `getBundledPublicExampleZh`. */
 export function getBundledPublicExample(id: string): GalleryVideo | null {
   const card = snapshot.cards?.[id];
-  return card ? withChineseExamplePrompt(publicCardToVideo(card)) : null;
+  return card ? publicCardToVideo(card) : null;
+}
+
+/** Same example with the Chinese display prompt (when translated). */
+export function getBundledPublicExampleZh(id: string): GalleryVideo | null {
+  const video = getBundledPublicExample(id);
+  return video ? withChineseExamplePrompt(video) : null;
 }
 
 export function listBundledPublicExamples(

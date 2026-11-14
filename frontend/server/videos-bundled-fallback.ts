@@ -1,4 +1,4 @@
-import { getBundledPublicExample } from './bundled-public-examples';
+import { getBundledPublicExample, getBundledPublicExampleZh } from './bundled-public-examples';
 import { isShowcaseEngine } from './keyvo-example-eligibility';
 import type { GalleryVideo } from './videos-normalization';
 
@@ -18,7 +18,7 @@ export function isBundledFallbackVideo(video: GalleryVideo | null | undefined): 
  * pages so they stay out of search indexes.
  */
 function keyvoBundledExample(videoId: string): GalleryVideo | null {
-  const example = getBundledPublicExample(videoId);
+  const example = getBundledPublicExampleZh(videoId);
   if (!example || !isShowcaseEngine(example.engineId)) return null;
   // getBundledPublicExample already carries the Chinese prompt.
   const video: GalleryVideo = { ...example };
