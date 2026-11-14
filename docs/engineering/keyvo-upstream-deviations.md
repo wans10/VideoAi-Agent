@@ -332,8 +332,12 @@ Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorde
 - **Awaiting owner prices (existing rules untouched):** Gemini Omni Flash 1.2 (the page lists per-second video prices,
   so the owner must confirm the unit), Veo 3.1, Veo 3.1 Fast and Veo 3.1 Lite, GPT Image 2.5 and GPT Image 2.6 (Sunburst
   and Flare).
-- **Not done here:** the governed baseline transition (new dated fixture, `approved-changes.ts`, `pricing:public-baseline`
-  and `pricing:audit` runs). The engines' prices changed, so that transition is still required before merge.
+- **Governed baseline (2026-11-14):** `tests/fixtures/keyvo-official-list-100-public-pricing-2026-11-14.json` records the
+  18 public rows that moved (Nano Banana 2: 4-image estimate 42 -> 28 cents, standard image 11 -> 7, offer 11 -> 7;
+  Nano Banana Lite: standard image 4 -> 3, 4-image 16 -> 12, estimator 16 -> 13). It is wired into
+  `frontend/scripts/pricing-public-baseline.ts`. The eight audit scenarios (4-image billing and estimator rows) are
+  approved in `frontend/src/lib/pricing-audit/approved-changes.ts` (60 approved changes, 0 mismatches). Nothing is added
+  or retired; Nano Banana 2.1 public rows are unchanged.
 - **Tests:** `tests/keyvo-official-list-100-pricing.test.ts` (profile, selection, facts and the 2.1 partial list);
   `tests/creator-commercial-pricing.test.ts` and `tests/image-estimate-service.test.ts` updated to the new ordinary
   margin (Nano Banana 2 margin 0) and the Lite total (13 cents for four images).
