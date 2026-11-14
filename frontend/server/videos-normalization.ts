@@ -47,6 +47,8 @@ export type GalleryVideo = {
   durationSec: number;
   prompt: string;
   promptExcerpt: string;
+  /** Set when `prompt` is a Chinese display translation: the English text the example was generated from. */
+  promptOriginal?: string;
   thumbUrl?: string;
   videoUrl?: string;
   previewVideoUrl?: string;
