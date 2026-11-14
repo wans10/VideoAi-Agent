@@ -8,9 +8,10 @@ export { assertQwenImageRequest } from './alibaba-qwen-image-client';
 
 export function assertDirectImageProviderAvailable(engine: EngineCaps) {
   assertGoogleVertexImageAvailable(engine);
+  assertOpenAIImageAvailable(engine);
   if (engine.providerMeta?.provider === 'alibaba_qwen_image') getQwenImageConfig();
 }
-import { executeOpenAIImageGeneration, type OpenAIImageExecutionParams } from './openai-image-execution';
+import { assertOpenAIImageAvailable, executeOpenAIImageGeneration, type OpenAIImageExecutionParams } from './openai-image-execution';
 
 type GoogleVertexImageParams = Parameters<typeof executeGoogleVertexImageGeneration>[0];
 type BytePlusSeedreamParams = Parameters<typeof executeBytePlusSeedreamGeneration>[0];

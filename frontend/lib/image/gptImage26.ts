@@ -10,6 +10,17 @@ export const GPT_IMAGE_26_QUALITIES = [...GPT_IMAGE_26_EXPLICIT_QUALITIES, 'auto
 export const GPT_IMAGE_26_COMPLEXITIES = ['low', 'medium', 'high'] as const;
 export const isGptImage26EngineId = (id: string | null | undefined): boolean => GPT_IMAGE_26_IDS.some(value => value === id);
 
+/**
+ * Engine ids that run on the OpenAI official Images API (providerMeta.provider `openai_images`): GPT Image 2.5 and
+ * 2.6, each in the sunburst and flare variants. Keyvo has no LLM Hub route for them (owner decision B, 2026-11-14).
+ */
+export const GPT_IMAGE_25_26_DIRECT_IDS = ['gpt-image-2-5-flare', 'gpt-image-2-5-sunburst', ...GPT_IMAGE_26_IDS] as const;
+export const isOpenAIDirectImageEngineId = (id: string | null | undefined): boolean =>
+  GPT_IMAGE_25_26_DIRECT_IDS.some(value => value === id);
+/** The OpenAI model slug for an engine id: `gpt-image-2-5-flare` -> `gpt-image-2.5-flare`. Null for other ids. */
+export const openAIImageModelSlugForEngineId = (id: string | null | undefined): string | null =>
+  isOpenAIDirectImageEngineId(id) ? String(id).replace(/^gpt-image-2-(5|6)-/, 'gpt-image-2.$1-') : null;
+
 /** Owned original metadata must be admissible before either a quote or submission. */
 export function gptImage26ReferenceFailure(reference: {
   mimeType?: string | null; sizeBytes?: number | null; width?: number | null; height?: number | null;

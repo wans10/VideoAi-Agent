@@ -227,3 +227,41 @@ Run `node scripts/report-upstream-deviations.mjs` after merging a new upstream s
 ## Phone sign-up records the Cookie Policy (2026-11-13)
 
 Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorded by the cookie banner, so a new account saw the re-consent prompt immediately. Keyvo's phone sign-up sentence now names all three documents and sends `cookiesAccepted: true` to `/api/legal/consents`, which then also records the `cookies` document at its current version. The email sign-up request is unchanged. Guard: `tests/phone-signup-cookie-consent.test.ts`.
+
+## Owner model allowlist: admin tier, Kling 3 4K, GPT Image 2.5 on OpenAI (2026-11-14)
+
+- **Allowlist (`frontend/config/keyvo-model-allowlist.json`):** `offeredEngineIds` now has 31 engines. New: `kling-3-4k`
+  and `kling-o3-4k` (public, owner decision F opened), `veo-3-1`, `veo-3-1-fast`, `veo-3-1-lite` (admin tier). Each
+  offered engine has an explicit `engineTiers` entry: `public` or `admin`.
+- **Admin tier (owner decision C):** `nano-banana-2-1`, `nano-banana-2`, `nano-banana-lite`, `gemini-omni-flash`,
+  `gpt-image-2-6-sunburst`, `gpt-image-2-6-flare`, `gpt-image-2-5-sunburst`, `gpt-image-2-5-flare`, `veo-3-1`,
+  `veo-3-1-fast`, `veo-3-1-lite`. Single choke point: `isKeyvoHiddenModelForViewer(id, { isAdmin })` in
+  `frontend/config/keyvo-model-visibility.ts`. `isKeyvoHiddenModel(id)` is its non-admin view and is what every public
+  surface uses (pages, sitemap, pricing hub, MCP/agent catalogues, examples, PAYG strip). Admins see admin-tier
+  engines in the authenticated workspace list (`getBaseEnginesByCategory(category, { isAdmin })`, the engines GET
+  handler) and may generate with them.
+  Refusals before any charge: `app/api/generate` (`resolveGenerateRouteContext`, admin check only for admin-tier ids),
+  `app/api/images/generate`, `app/api/images/estimate` and `app/api/pricing/quote` (`src/server/keyvo-engine-access.ts`).
+  The image generate refusal also covers every hidden engine (it previously accepted any registry image engine).
+- **Families:** `veo`, `gpt-image` and `nano-banana` are removed from `keyvo-visible-families.json` because they have no
+  public member. Their public pages, sitemap and comparisons are therefore absent.
+- **Public defaults:** the image storyboard preset moved from GPT Image 2.6 (admin tier) to `seedream-5-0-flash`.
+  Character Builder (both quality modes run Nano Banana 2.1, admin tier) refuses ordinary accounts in
+  `app/api/tools/character-builder` with `tools_disabled` before any reservation. Its marketing page and the home
+  and model-page links to it still render for everyone; hiding those entries is an owner decision (see report).
+- **PAYG strip (owner decision E):** `payg-video-showcase.ts` shows only domestic engine ids (Kling, Seedance, Seedream,
+  Wan, HappyHorse, MiniMax/Hailuo, Qwen) and drops hidden engines. `payg-discovery-config.ts` drops Gemini Omni Flash
+  and Veo 3.1 entries.
+- **GPT Image 2.5 on OpenAI official (owner decision B):** `gpt-image-2-5-{flare,sunburst}` providerMeta is
+  `openai_images` (was `llmhub`); removed from `llmhub-image-models.ts`. `lib/image/gptImage26.ts` gains
+  `isOpenAIDirectImageEngineId` and `openAIImageModelSlugForEngineId`; the executor, executability check and settings
+  normalisation use them for 2.5 and 2.6. Dispatch defect fixed: `resolveImageProviderSelection` now returns the direct
+  route for `openai_images` (2.6 previously fell through to the fal path), and `assertDirectImageProviderAvailable`
+  calls `assertOpenAIImageAvailable` before the wallet reservation.
+- **Tests:** `tests/keyvo-model-allowlist-contract.test.ts` pins the 31-engine list, the 11 admin-tier ids, the workspace
+  split and the family rule. `tests/keyvo-customer-offer-visibility.test.ts` (new) pins the customer view without the
+  unfiltered-catalog override. `tests/mcp-model-recommendations.test.ts` and `tests/product-schema-visible-offer.test.ts`
+  now import `tests/helpers/keyvo-unfiltered-catalog.ts`, because they test recommendation and offer mechanisms rather
+  than the customer surface.
+- **Not done in this change:** LLM Hub fallback removal for allowlisted engines (decision A) and the official-list-100
+  profile for admin-tier prices (decision D). See the report for the call-site list and the unverified prices.

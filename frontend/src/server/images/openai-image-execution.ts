@@ -1,5 +1,5 @@
 import { getRuntimeModelById } from '@/config/model-runtime';
-import { isGptImage26EngineId, normalizeGptImage26Settings } from '@/lib/image/gptImage26';
+import { isOpenAIDirectImageEngineId, normalizeGptImage26Settings, openAIImageModelSlugForEngineId } from '@/lib/image/gptImage26';
 import { isStorageConfigured } from '@/server/storage';
 import type { EngineCaps } from '@/types/engines';
 import type { ImageGenerationResponse } from '@/types/image-generation';
@@ -23,8 +23,8 @@ export type OpenAIImageExecutionParams = Parameters<typeof executeGoogleVertexIm
 
 export function assertOpenAIImageAvailable(engine: EngineCaps): void {
   if (engine.providerMeta?.provider !== 'openai_images') return;
-  const expected = engine.id.replace('gpt-image-2-6-', 'gpt-image-2.6-');
-  if (!isGptImage26EngineId(engine.id) || engine.providerMeta.modelSlug !== expected
+  const expected = openAIImageModelSlugForEngineId(engine.id);
+  if (!isOpenAIDirectImageEngineId(engine.id) || !expected || engine.providerMeta.modelSlug !== expected
     || getRuntimeModelById(engine.id)?.publication.app.published !== true || !isOpenAIImageConfigured() || !isStorageConfigured()) {
     throw new ImageGenerationExecutionError('OpenAI image generation is unavailable.', { code: 'openai_image_unavailable', status: 503 });
   }

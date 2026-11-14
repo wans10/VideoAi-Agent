@@ -1,3 +1,4 @@
+import { isKeyvoEngineRefusedForRequest } from '@/server/keyvo-engine-access';
 import { NextRequest, NextResponse } from 'next/server';
 import type { ImageGenerationMode, ImageGenerationRequest } from '@/types/image-generation';
 import type { GptImage2ImageSize } from '@/lib/image/gptImage2';
@@ -47,6 +48,10 @@ export async function POST(req: NextRequest) {
     body = (await req.json()) as ImageEstimateBody | null;
   } catch {
     return NextResponse.json({ ok: false, error: 'invalid_payload' }, { status: 400 });
+  }
+
+  if (await isKeyvoEngineRefusedForRequest(typeof body?.engineId === 'string' ? body.engineId : '', req)) {
+    return NextResponse.json({ ok: false, error: 'Unknown engine' }, { status: 400 });
   }
 
   const referenceImageSizes = Array.isArray(body?.referenceImageSizes)

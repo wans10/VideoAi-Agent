@@ -34,7 +34,8 @@ function allShowcaseCards() {
 
 test('the works wall holds only orderable models from the Chinese-vendor families', () => {
   const wall = allShowcaseCards();
-  assert.ok(wall.length >= 100, `expected a substantial wall, got ${wall.length}`);
+  // Keyvo allowlist (2026-11-14): the works wall holds the orderable cards of the public families only (74 today).
+  assert.ok(wall.length >= 70, `expected a substantial wall, got ${wall.length}`);
   const byId = new Map(cards.map((card) => [card.id, card]));
   for (const card of wall) {
     const source = byId.get(card.id)!;
@@ -152,7 +153,7 @@ test('the wall reuses the examples gallery card and layout and keeps the media r
 test('every wall card carries a Chinese prompt', () => {
   const wall = allShowcaseCards();
   const zhPrompts = zhShowcasePrompts as Record<string, string>;
-  assert.ok(wall.length > 100);
+  assert.ok(wall.length >= 70);
   for (const card of wall) {
     const zh = zhPrompts[card.id];
     assert.ok(zh && /[\u4e00-\u9fff]/.test(zh), `${card.id} has a Chinese prompt`);

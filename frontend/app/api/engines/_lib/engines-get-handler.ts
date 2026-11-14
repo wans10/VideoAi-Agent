@@ -78,7 +78,7 @@ export function createEnginesGetHandler(
     const viewer = isAdmin ? 'admin' : 'member';
     try {
       const [publicEngines, averages, engineScores, launchCanaryContext, engineScoreReviews] = await Promise.all([
-        dependencies.getPublicConfiguredEnginesByCategory(category),
+        dependencies.getPublicConfiguredEnginesByCategory(category, false, { isAdmin }),
         includeAverages ? dependencies.fetchEngineAverageDurations() : Promise.resolve([]),
         includeScores ? dependencies.loadAppEngineScoreMap() : Promise.resolve({}),
         category === 'image'

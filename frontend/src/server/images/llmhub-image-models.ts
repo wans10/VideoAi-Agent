@@ -2,8 +2,6 @@ import { ImageGenerationExecutionError } from './image-generation-error';
 
 export const LLMHUB_OPENAI_IMAGE_MODELS = {
   'gpt-image-2': 'gpt-image-2',
-  'gpt-image-2-5-flare': 'gpt-image-2.5-flare',
-  'gpt-image-2-5-sunburst': 'gpt-image-2.5-sunburst',
   seedream: 'doubao-seedream-5.0-lite',
 } as const;
 

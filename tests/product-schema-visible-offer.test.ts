@@ -1,3 +1,4 @@
+import './helpers/keyvo-unfiltered-catalog';
 import { CNY_BUILD } from './helpers/customer-currency-expectations';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';

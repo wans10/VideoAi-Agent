@@ -1,3 +1,4 @@
+import { isKeyvoEngineRefusedForRequest } from '@/server/keyvo-engine-access';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
@@ -46,5 +47,8 @@ export async function POST(req: NextRequest) {
   }
   const input = parseInput(await req.json().catch(() => null));
   if (!input) return NextResponse.json({ status: 'unavailable' }, { status: 400, headers: { 'Cache-Control': 'no-store' } });
+  if (await isKeyvoEngineRefusedForRequest(input.modelId, req)) {
+    return NextResponse.json({ status: 'unavailable' }, { status: 404, headers: { 'Cache-Control': 'no-store' } });
+  }
   return NextResponse.json(await quotePublicModelScenario(input), { headers: { 'Cache-Control': 'no-store' } });
 }

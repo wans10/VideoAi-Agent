@@ -1,3 +1,5 @@
+import { isKeyvoEngineRefusedForRequest } from '@/server/keyvo-engine-access';
+import { getQualityEngineId } from '@/lib/character-builder';
 import { CUSTOMER_TARIFF_REVISION_HEADER } from '@/lib/customer-tariff-revision';
 import { requireCurrentWebPricingPolicy } from '@/server/pricing/web-pricing-policy';
 export const runtime = 'nodejs';
@@ -51,6 +53,21 @@ export async function POST(req: NextRequest) {
         },
       } satisfies CharacterBuilderResponse,
       { status: 401 }
+    );
+  }
+  // Both quality modes run Nano Banana 2.1, an admin-tier engine (owner decision C, 2026-11-14). Ordinary accounts get
+  // no usable Character Builder engine, so the route refuses them before any reservation or charge.
+  const qualityEngineId = getQualityEngineId(body?.qualityMode ?? 'draft');
+  if (await isKeyvoEngineRefusedForRequest(qualityEngineId, req)) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: {
+          code: 'tools_disabled',
+          message: 'Character Builder is not available for this account.',
+        },
+      } satisfies CharacterBuilderResponse,
+      { status: 404 }
     );
   }
   const pricingPolicyError = requireCurrentWebPricingPolicy(req, 'tool');

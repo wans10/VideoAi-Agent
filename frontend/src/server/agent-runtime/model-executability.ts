@@ -1,4 +1,4 @@
-import { isGptImage26EngineId } from '@/lib/image/gptImage26';
+import { isOpenAIDirectImageEngineId, openAIImageModelSlugForEngineId } from '@/lib/image/gptImage26';
 import { getRuntimeModelById } from '../../../config/model-runtime';
 import { videoOperationEndpoint } from '@/lib/video-operation';
 import { hasKlingCredentials } from '@/server/video-providers/kling-direct/credentials';
@@ -225,8 +225,8 @@ function resolveAgentGenerationModeOperationExecutability(
   }
 
   if (engine.providerMeta?.provider === 'openai_images') {
-    if (!isGptImage26EngineId(engine.id) || !['t2i', 'i2i'].includes(mode)
-      || engine.providerMeta.modelSlug !== engine.id.replace('2-6', '2.6')) return { executable: false, reason: 'profile_invalid' };
+    if (!isOpenAIDirectImageEngineId(engine.id) || !['t2i', 'i2i'].includes(mode)
+      || engine.providerMeta.modelSlug !== openAIImageModelSlugForEngineId(engine.id)) return { executable: false, reason: 'profile_invalid' };
     if (getRuntimeModelById(engine.id)?.publication.app.published !== true) return { executable: false, reason: 'provider_disabled' };
     return credentialDecision(configured(environment.openaiApiKey ?? providerEnv.OPENAI_API_KEY)
       && ['S3_BUCKET','S3_REGION','S3_ACCESS_KEY_ID','S3_SECRET_ACCESS_KEY'].every(key => configured(providerEnv[key])));

@@ -6,7 +6,9 @@ import engineCatalog from '../frontend/config/engine-catalog.json' with { type: 
 import visibleEngineCatalog from '../frontend/config/engine-catalog-visible.ts';
 import {
   filterKeyvoVisibleEntries,
+  isKeyvoVisibleFamily,
   isKeyvoHiddenModel,
+  isKeyvoHiddenModelForViewer,
   isKeyvoOfferedEngine,
 } from '../frontend/config/keyvo-model-visibility.ts';
 import { getRuntimeModelById, listPublishedRuntimeModels } from '../frontend/config/model-runtime.ts';
@@ -29,6 +31,14 @@ const OWNER_OFFERED_ENGINE_IDS = [
   'seedance-2-5', 'seedream-5-0-pro', 'seedream-5-0-flash',
   'nano-banana-2-1', 'nano-banana-2', 'nano-banana-lite', 'gemini-omni-flash',
   'gpt-image-2-6-sunburst', 'gpt-image-2-6-flare', 'gpt-image-2-5-sunburst', 'gpt-image-2-5-flare',
+  // Owner 2026-11-14: Kling 3 4K tiers are public (decision F); Veo 3.1 family is admin-tier (decision C).
+  'kling-3-4k', 'kling-o3-4k', 'veo-3-1', 'veo-3-1-fast', 'veo-3-1-lite',
+].sort();
+// Owner decision C (2026-11-14): admin-tier engines are visible and runnable only for administrators.
+const OWNER_ADMIN_TIER_ENGINE_IDS = [
+  'nano-banana-2-1', 'nano-banana-2', 'nano-banana-lite', 'gemini-omni-flash',
+  'gpt-image-2-6-sunburst', 'gpt-image-2-6-flare', 'gpt-image-2-5-sunburst', 'gpt-image-2-5-flare',
+  'veo-3-1', 'veo-3-1-fast', 'veo-3-1-lite',
 ].sort();
 
 const registryIds = registryDocument.models.map((model) => model.id);
@@ -41,7 +51,28 @@ test('the allowlist is the owner decision, every entry is a registry model, and 
   for (const id of allowlist.offeredEngineIds) {
     assert.ok(registryIds.includes(id), `allowlist id must be a registry model: ${id}`);
     assert.equal(isKeyvoOfferedEngine(id), true, id);
+    assert.equal(isKeyvoHiddenModelForViewer(id, { isAdmin: true }), false, id);
+  }
+  for (const id of allowlist.offeredEngineIds.filter((entry) => !OWNER_ADMIN_TIER_ENGINE_IDS.includes(entry))) {
     assert.equal(isKeyvoHiddenModel(id), false, id);
+  }
+});
+
+test('admin-tier engines are exactly the owner list; every other offered engine is public', () => {
+  const adminIds = Object.entries(allowlist.engineTiers).filter(([, tier]) => tier === 'admin').map(([id]) => id).sort();
+  assert.deepEqual(adminIds, OWNER_ADMIN_TIER_ENGINE_IDS);
+  assert.deepEqual(Object.keys(allowlist.engineTiers).sort(), allowlistIds);
+  for (const id of OWNER_ADMIN_TIER_ENGINE_IDS) {
+    assert.equal(isKeyvoHiddenModel(id), true, `admin-tier engine reaches a public surface: ${id}`);
+    assert.equal(isKeyvoHiddenModelForViewer(id, { isAdmin: false }), true, id);
+    assert.equal(isKeyvoHiddenModelForViewer(id, { isAdmin: true }), false, `admin cannot run ${id}`);
+    const publicWorkspace = getBaseEnginesByCategory('all').some((engine) => engine.id === id);
+    assert.equal(publicWorkspace, false, `non-admin workspace lists ${id}`);
+    const adminWorkspace = getBaseEnginesByCategory('all', { isAdmin: true }).some((engine) => engine.id === id);
+    assert.equal(adminWorkspace, true, `admin workspace misses ${id}`);
+  }
+  for (const id of allowlist.offeredEngineIds.filter((entry) => !OWNER_ADMIN_TIER_ENGINE_IDS.includes(entry))) {
+    assert.equal(isKeyvoHiddenModelForViewer(id, { isAdmin: false }), false, `public engine hidden: ${id}`);
   }
 });
 
@@ -51,7 +82,7 @@ test('every offered engine that the registry makes executable is in the allowlis
   for (const id of offeredWorkspaceIds) {
     assert.ok(allowlist.offeredEngineIds.includes(id), `workspace offers a non-allowlisted engine: ${id}`);
   }
-  for (const id of allowlist.offeredEngineIds) {
+  for (const id of allowlist.offeredEngineIds.filter((entry) => !OWNER_ADMIN_TIER_ENGINE_IDS.includes(entry))) {
     assert.ok(offeredWorkspaceIds.includes(id), `allowlisted engine is missing from the workspace: ${id}`);
     assert.ok(engineCatalog.some((row) => row.engineId === id), `allowlisted engine has no catalogue row: ${id}`);
   }
@@ -89,14 +120,19 @@ test('no customer surface defaults to a hidden engine', () => {
   for (const [surface, id] of Object.entries(defaults)) {
     assert.equal(isKeyvoOfferedEngine(id), true, `${surface} defaults to a hidden engine: ${id}`);
   }
-  // A family with at least one offered engine must default to an offered engine.
-  const offeredFamilies = new Set(
-    registryDocument.models.filter((model) => allowlist.offeredEngineIds.includes(model.id)).map((model) => model.family),
+  // A family with at least one public (non-admin-tier) engine must default to a public engine on every surface.
+  const publicIds = allowlist.offeredEngineIds.filter((id) => !OWNER_ADMIN_TIER_ENGINE_IDS.includes(id));
+  const publicFamilies = new Set(
+    registryDocument.models.filter((model) => publicIds.includes(model.id)).map((model) => model.family),
   );
   for (const family of MODEL_FAMILIES) {
     if (!family.defaultModelId) continue;
-    if (!offeredFamilies.has(family.id)) continue;
-    assert.equal(isKeyvoOfferedEngine(family.defaultModelId), true,
+    if (!publicFamilies.has(family.id)) continue;
+    assert.equal(isKeyvoHiddenModel(family.defaultModelId), false,
       `family ${family.id} defaults to a hidden engine: ${family.defaultModelId}`);
+  }
+  // Families whose members are all admin-tier are not public families at all.
+  for (const family of ['veo', 'gpt-image', 'nano-banana']) {
+    assert.equal(isKeyvoVisibleFamily(family), false, family);
   }
 });
