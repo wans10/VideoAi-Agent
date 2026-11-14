@@ -1,3 +1,4 @@
+import { KEYVO_MCP_TRIAL_DISABLED } from '@/config/keyvo-disabled-features';
 import { FEATURES } from '@/content/feature-flags';
 import { getActiveAccountRestrictionStrict } from '@/server/fraud-cleanup/restrictions';
 
@@ -21,6 +22,8 @@ type AccountRestriction = Awaited<ReturnType<typeof getActiveAccountRestrictionS
 
 export type TrialEligibilityDependencies = {
   featureEnabled: boolean;
+  /** Keyvo owner switch (KEYVO_MCP_TRIAL_DISABLED); only tests of the dormant machinery override it. */
+  keyvoClosed: boolean;
   environmentEnabled: string | undefined;
   verificationUrl: string;
   getAccountRestriction(userId: string): Promise<AccountRestriction>;
@@ -46,6 +49,7 @@ const SERVICE_UNAVAILABLE = Object.freeze({
 
 const defaultDependencies: Omit<TrialEligibilityDependencies, 'environmentEnabled'> = {
   featureEnabled: FEATURES.mcp.trial as boolean,
+  keyvoClosed: KEYVO_MCP_TRIAL_DISABLED,
   verificationUrl: DEFAULT_VERIFICATION_URL,
   getAccountRestriction: getActiveAccountRestrictionStrict,
   getEntitlement: getTrialStatus,
@@ -56,7 +60,9 @@ const defaultDependencies: Omit<TrialEligibilityDependencies, 'environmentEnable
 export function isTrialEligibilityEnabled(
   featureEnabled: boolean,
   rawEnvironmentValue: string | undefined,
+  keyvoClosed: boolean = KEYVO_MCP_TRIAL_DISABLED,
 ): boolean {
+  if (keyvoClosed) return false;
   return featureEnabled === true && rawEnvironmentValue === 'true';
 }
 
@@ -94,6 +100,7 @@ export async function getTrialEligibility(
   if (!isTrialEligibilityEnabled(
     dependencies.featureEnabled,
     dependencies.environmentEnabled,
+    dependencies.keyvoClosed,
   )) {
     return DISABLED;
   }
