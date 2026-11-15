@@ -197,7 +197,9 @@ test('llms response is built deterministically from publication state without a 
   assert.doesNotMatch(enabledText, /api\.maxvideoai\.com\/mcp/);
 
   const routeSource = readFileSync(routePath, 'utf8');
-  assert.match(routeSource, /mcp-publication\.json/);
+  // The route reads the UI publication (config/mcp-ui-publication.ts), which wraps mcp-publication.json and closes it while Keyvo hides MCP.
+  assert.match(routeSource, /mcp-ui-publication/);
+  assert.match(readFileSync('frontend/config/mcp-ui-publication.ts', 'utf8'), /mcp-publication\.json/);
   assert.match(routeSource, /buildLlmsText\(mcpPublication, buildLlmsModelDiscoveryProjection\(\)\)/);
   const { GET } = await import('../frontend/app/llms.txt/route.ts');
   const response = GET();

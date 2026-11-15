@@ -1,4 +1,4 @@
-import mcpPublication from '@/config/mcp-publication.json';
+import { mcpUiPublication as mcpPublication } from '@/config/mcp-ui-publication';
 import { localePathnames, type AppLocale } from '@/i18n/locales';
 import { getMcpPublicationState, type McpPublicationState } from '@/lib/mcp-publication';
 

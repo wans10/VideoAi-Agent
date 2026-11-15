@@ -1,3 +1,4 @@
+import { isKeyvoMcpUiHidden } from '@/config/keyvo-disabled-features';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
@@ -26,6 +27,8 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { title: 'Connected applications', robots: { index: false, follow: false } };
 
 export default async function McpConnectionsPage() {
+  // Keyvo hides MCP from customers (KEYVO_MCP_UI_HIDDEN); the OAuth grant endpoints themselves stay.
+  if (isKeyvoMcpUiHidden()) notFound();
   const requestHeaders = await headers();
   const requestHost = getMcpRequestHost(requestHeaders);
   if (!isMcpFoundationFeatureEnabled('oauth', process.env, requestHost)) notFound();

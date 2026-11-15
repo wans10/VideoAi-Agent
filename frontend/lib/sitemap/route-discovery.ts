@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import type { AppLocale } from '@/i18n/locales';
 import modelRoster from '@/config/model-roster.json';
-import mcpPublication from '@/config/mcp-publication.json';
+import { mcpUiPublication as mcpPublication } from '@/config/mcp-ui-publication';
 import { INDEXED_MARKETING_EXAMPLE_CANONICAL_SLUGS } from '@/config/model-families';
 import { getContentEntries } from '@/lib/content/markdown';
 import { getMcpPublicationState } from '@/lib/mcp-publication';

@@ -1,3 +1,5 @@
+// Keyvo hides the MCP/ChatGPT surfaces (KEYVO_MCP_UI_HIDDEN); this file pins them, so it reopens the rule first.
+import './helpers/keyvo-mcp-full-ui';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import React, { act } from 'react';

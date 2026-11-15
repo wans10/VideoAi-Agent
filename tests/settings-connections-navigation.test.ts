@@ -1,3 +1,5 @@
+// Keyvo hides the Connected apps tab (KEYVO_MCP_UI_HIDDEN); this file pins the tab itself, so it reopens the rule first.
+import './helpers/keyvo-mcp-full-ui';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import * as React from 'react';

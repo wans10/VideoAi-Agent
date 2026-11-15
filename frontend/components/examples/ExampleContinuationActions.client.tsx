@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { ArrowUpRight, Check, Copy, Sparkles } from 'lucide-react';
 import { McpIntegrationMark } from '@/components/marketing/mcp/McpIntegrationMark';
+import { isKeyvoMcpUiHidden } from '@/config/keyvo-disabled-features';
 import { copyTextToClipboard } from '@/lib/clipboard';
 import { buildAssistantRequestHref, buildExampleRequest, type ExampleRequestSource } from '@/lib/example-continuation';
 import { exampleContinuationCopy } from '@/lib/example-continuation-copy';
@@ -22,7 +23,7 @@ export function ExampleContinuationActions({ source, locale }: { source: Example
     <a className={styles.studioCta} href={studioHref}>
       <Sparkles size={17} aria-hidden="true"/><span>{copy.studio}</span><ArrowUpRight size={16} aria-hidden="true"/>
     </a>
-    <div className={styles.assistants}>
+    {!isKeyvoMcpUiHidden() && <div className={styles.assistants}>
       <p className={styles.continuationLabel}>{copy.continueWith}</p>
       <div className={styles.assistantOptions}>
         {(['chatgpt', 'claude'] as const).map(assistant => <a key={assistant} className={styles.assistantCta}
@@ -39,6 +40,6 @@ export function ExampleContinuationActions({ source, locale }: { source: Example
       </button>
       <p className={status === 'error' ? styles.copyStatus : 'sr-only'} role="status">{status === 'copied' ? copy.copied : status === 'error' ? copy.copyError : ''}</p>
       {status === 'error' && <textarea className={styles.copyFallback} aria-label={copy.manualCopy} value={request} readOnly onFocus={event => event.currentTarget.select()}/>}
-    </div>
+    </div>}
   </div>;
 }
