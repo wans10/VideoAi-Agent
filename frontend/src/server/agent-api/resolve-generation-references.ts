@@ -1,3 +1,4 @@
+import {PRODUCT_BRAND_NAME} from '@/lib/product-brand';
 import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
 import {validateKlingV4OwnedMedia,type KlingV4OwnedMediaDependencies} from '@/app/api/generate/_lib/kling-v4-owned-media';
 import { qualifyFluxLtxSourceReference } from './flux-ltx-source-reference';
@@ -21,7 +22,7 @@ export function assertGenerationReferenceUrls(request: CanonicalGenerationReques
     if (reference.kind === 'https' && !isAllowedAssetHost(reference.url)) {
       throw new AgentApiError(
         'REFERENCE_INVALID',
-        'This reference link cannot be used. Import the original file into MaxVideoAI before preparing a new quote. No credits were charged.',
+        `This reference link cannot be used. Import the original file into ${PRODUCT_BRAND_NAME} before preparing a new quote. No credits were charged.`,
         false,
         { type: 'import_reference_files' },
       );

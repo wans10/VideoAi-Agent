@@ -1,3 +1,4 @@
+import {PRODUCT_BRAND_NAME} from '@/lib/product-brand';
 import {getAgentModelGuidance} from '@/server/agent-api/model-guidance';
 import {getAgentModelPromptingSources} from '@/server/agent-api/model-prompting-sources';
 
@@ -18,7 +19,7 @@ export function getPromptAssistanceProfile(engineId:string,mode:string) {
   return {
     version:'2026-10-30-v2',reviewedAt:'2026-10-30',family:selected?.family??'capability-guided',
     promptLanguage:engineId.startsWith('veo-3-1')?{instructions:'English-only',literalContent:'Keep requested dialogue and visible text in its intended language.',source:'https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/veo/3-1-generate?hl=en'}:null,
-    provenance:'MaxVideoAI editorial synthesis; technical capabilities override all examples',
+    provenance:`${PRODUCT_BRAND_NAME} editorial synthesis; technical capabilities override all examples`,
     advice:selected?.advice??'Follow the supplied model capabilities. Build a concrete brief with subject, action or desired sound, setting, composition and relevant constraints. Do not claim undocumented model-specific tricks.',
     example:selected?.example??null,
     operation:['v2v','i2i','reframe'].includes(mode)?'Describe the requested changes and explicit preservation constraints on the source.':mode==='extend'?'Continue the source action and visual continuity; describe the new segment, not a replacement of the original.': ['i2v','fl2v'].includes(mode)?'Describe action and movement from the start frame, preserving the visible scene; respect the end frame if supplied.':'Describe a coherent action or composition; retain useful creative detail without an arbitrary word limit.',

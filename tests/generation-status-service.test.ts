@@ -355,11 +355,12 @@ test('agent failure messages map recognized categories to fixed public copy', ()
     },
     {
       raw: 'Failed to download the generated output video.',
-      expected: `The render finished, but MaxVideoAI could not prepare the output for download. ${FAILED_ATTEMPT_BOUNDARY}`,
+      // Keyvo brand: the agent failure copy comes from PRODUCT_BRAND_NAME (was the upstream name).
+      expected: `The render finished, but Keyvo could not prepare the output for download. ${FAILED_ATTEMPT_BOUNDARY}`,
     },
     {
       raw: 'The provider finished this render, but the video could not be copied to MaxVideoAI storage.',
-      expected: `The render finished, but MaxVideoAI could not prepare the output for download. ${FAILED_ATTEMPT_BOUNDARY}`,
+      expected: `The render finished, but Keyvo could not prepare the output for download. ${FAILED_ATTEMPT_BOUNDARY}`,
     },
   ];
   for (const fixture of cases) {
@@ -444,7 +445,7 @@ test('web status projects historical output refusals while preserving explicit m
 test('agent reference-read failures preserve refund evidence and require a newly approved quote', () => {
   for (const rawMessage of [
     'Failed to download the file. Please check if the URL is accessible and try again.',
-    'MaxVideoAI could not read the reference media for this render. Select the reference again or upload a new file before trying again.',
+    'Keyvo could not read the reference media for this render. Select the reference again or upload a new file before trying again.',
     'Reference media could not be read.',
     'Failed to download the file. Please check if the URL is accessible and try again. input.start_image_url=https://private.test/reference.png?token=secret provider request_id=private-request',
   ]) {
@@ -455,7 +456,7 @@ test('agent reference-read failures preserve refund evidence and require a newly
     }));
 
     assert.equal(result?.message,
-      `MaxVideoAI could not read the reference media for this render. Select the reference again or upload a new file before preparing a new request. Your credits were returned to your wallet. ${FAILED_ATTEMPT_BOUNDARY}`);
+      `Keyvo could not read the reference media for this render. Select the reference again or upload a new file before preparing a new request. Your credits were returned to your wallet. ${FAILED_ATTEMPT_BOUNDARY}`);
     assert.equal(result?.status, 'failed');
     assert.equal(result?.paymentStatus, 'refunded_wallet');
     assert.equal(result?.result, null);

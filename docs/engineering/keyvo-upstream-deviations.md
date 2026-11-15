@@ -498,3 +498,23 @@ Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorde
   `scripts/email/auth-templates.mjs` (upstream-branded Supabase email templates with `support@maxvideoai.com`; Supabase templates are
   configured outside this repo, so they need a Keyvo zh rewrite before use), and the unused `PartnerBadges`/`HomeStartupFameLink`
   upstream promotion badges.
+
+## Milo brand (2026-11-15)
+
+Milo, the Studio conversation director and the user-visible Studio/render messages speak as Keyvo. The name comes
+from `PRODUCT_BRAND_NAME` (`frontend/lib/product-brand.ts`), never a literal. Changed: the Milo system prompt
+(`prompt-assistance/provider.ts`), the editorial profile provenance, the French image-director prompt, the
+agent-generation-policy failure copy, assistance restriction / export / Studio timeline / reference-import errors and
+the image batch review message. Prompts are otherwise byte-identical. Pinned by `tests/keyvo-milo-brand.test.ts`.
+
+No version or fingerprint is derived from this text: `STUDIO_ASSISTANCE_POLICY_VERSION`
+(`studio-credits-2026-10-05-v2`, compared with the production env `STUDIO_ASSISTANCE_APPROVED_POLICY`), the profile
+version `2026-10-30-v2`, `MILO_SCOPE_VERSION` and the context version are literals, so they did not change.
+
+Stays MaxVideoAI on purpose: npm scope `@maxvideoai/*`, the MCP server, its tool descriptions and reviewed policy
+fingerprint, MCP account-URL allowlists and plugin repository (hidden, not removed); storage and header keys
+(`maxvideoai:media-handoff:v1`, `x-maxvideoai-*`, `maxvideoai.*` localStorage keys); Stripe customer source, ECS task
+tags, remotion composition ids, `source: 'maxvideoai-editor'`, billing `product` metadata (persisted); media host
+allowlists (`media.maxvideoai.com`); the `MaxVideoAI Recast` billing label (feature hidden by `KEYVO_RECAST_HIDDEN`);
+the MCP `AUTH_REQUIRED` text in `agent-api/character-studio.ts`; non-zh locale marketing copy and the `User-Agent`
+`MaxVideoAI-MCP/1.0` of the MCP media fetcher.

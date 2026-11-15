@@ -1,3 +1,4 @@
+import {PRODUCT_BRAND_NAME} from '@/lib/product-brand';
 import { createHash } from "node:crypto";
 import { stableJson } from "./generation-normalization";
 import type { ResolvedReference } from "./reference-types";
@@ -67,7 +68,7 @@ export function requireOAuthGenerationActor(actor: AgentPrincipal): void {
   if (actor.authMethod !== "oauth") {
     throw new AgentApiError(
       "AUTH_REQUIRED",
-      "Connect MaxVideoAI before using the agent generation API.",
+      `Connect ${PRODUCT_BRAND_NAME} before using the agent generation API.`,
     );
   }
 }
@@ -93,7 +94,7 @@ export function quoteMatchesActor<Request>(
 export function requireAudioGenerationActor(actor: GenerationActor): void {
   requireGenerationActor(actor);
   if (actor.authMethod === 'oauth' && actor.clientId === null)
-    throw new AgentApiError('AUTH_REQUIRED', 'Connect MaxVideoAI before using Audio.');
+    throw new AgentApiError('AUTH_REQUIRED', `Connect ${PRODUCT_BRAND_NAME} before using Audio.`);
 }
 
 const OPTIONAL_REFERENCE_FIELDS = new Set([

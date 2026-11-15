@@ -1,3 +1,4 @@
+import {PRODUCT_BRAND_NAME} from '@/lib/product-brand';
 import * as z from 'zod/v4';
 import {conversationTimelineCommandSchema,type ConversationTimelineCommand} from '@/lib/studio/conversation-timeline-editing';
 import {editStudioConversationTimeline,type ConversationEditDependencies,type ConversationEditResult} from '@/server/studio/conversation-edit-command';
@@ -59,7 +60,7 @@ export function asStudioTimelineAgentError(error: unknown,projectId: string): un
   if (message === 'SUBTITLE_SOURCE_HAS_NO_AUDIO') return new AgentApiError('REFERENCE_INVALID','The current sequence has no audible audio to subtitle.');
   if (['STUDIO_PROJECT_NOT_FOUND','STUDIO_SEQUENCE_CONFLICT','MEDIA_NOT_AVAILABLE'].includes(message)) return new AgentApiError('REFERENCE_NOT_FOUND','The requested project, sequence or media is not available.');
   if (message === 'STUDIO_CONVERSATION_EDITING_DISABLED') return new AgentApiError('ENGINE_UNAVAILABLE','Studio timeline tools are not available.');
-  if (message === 'UNAUTHORIZED') return new AgentApiError('AUTH_REQUIRED','Connect MaxVideoAI before editing a Studio timeline.');
+  if (message === 'UNAUTHORIZED') return new AgentApiError('AUTH_REQUIRED',`Connect ${PRODUCT_BRAND_NAME} before editing a Studio timeline.`);
   if (message === 'STUDIO_CONNECTED_SCHEMA_UNAVAILABLE') return new AgentApiError('RATE_LIMITED','Studio timeline tools are temporarily unavailable.',true);
   if (message === 'MEDIA_METADATA_REQUIRED') return new AgentApiError('REFERENCE_INVALID','This media needs measured duration before it can be inserted. Choose another ready asset.');
   if (/^(Invalid Studio timeline|Timeline clip not found|Timeline track is locked|Timeline track capacity|Edit would change a locked|Clip duration must|This clip has no audio)/u.test(message)) return new AgentApiError('PARAMETER_INVALID',message);
@@ -70,7 +71,7 @@ export function asStudioTimelineAgentError(error: unknown,projectId: string): un
 export function createAgentStudioTimelineService(dependencies: ConversationEditDependencies = {}) {
   function actor(principal: AgentPrincipal) {
     requireOAuthGenerationActor(principal);
-    if (!principal.clientId) throw new AgentApiError('AUTH_REQUIRED','Connect MaxVideoAI before using Studio timeline tools.');
+    if (!principal.clientId) throw new AgentApiError('AUTH_REQUIRED',`Connect ${PRODUCT_BRAND_NAME} before using Studio timeline tools.`);
     if (dependencies.featureEnabled !== true) throw new AgentApiError('ENGINE_UNAVAILABLE','Studio timeline tools are not available.');
     return {userId: principal.userId,authOrigin: 'oauth' as const,clientId: principal.clientId};
   }

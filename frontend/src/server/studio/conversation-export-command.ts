@@ -1,3 +1,4 @@
+import {PRODUCT_BRAND_NAME} from '@/lib/product-brand';
 import {hydrateSubtitleTimelineItems,readSubtitleSequenceAttachment} from '../subtitles/studio';
 import {AgentApiError} from '@/server/agent-api/errors';
 import {randomUUID} from 'node:crypto';
@@ -140,7 +141,7 @@ export async function readStudioConversationExport(actor:StudioExportActor,rawIn
 export function asStudioExportAgentError(error: unknown) {
   if (error instanceof AgentApiError) return error;
   const code=error instanceof Error ? error.message : '';
-  if (code==='UNAUTHORIZED') return new AgentApiError('AUTH_REQUIRED','Connect MaxVideoAI before exporting a Studio film.');
+  if (code==='UNAUTHORIZED') return new AgentApiError('AUTH_REQUIRED',`Connect ${PRODUCT_BRAND_NAME} before exporting a Studio film.`);
   if (['EXPORT_NOT_FOUND','EXPORT_QUOTE_NOT_FOUND','STUDIO_PROJECT_NOT_FOUND','STUDIO_SEQUENCE_CONFLICT'].includes(code)) return new AgentApiError('REFERENCE_NOT_FOUND','This project, sequence or export quote is not available.');
   if (code==='STUDIO_CONNECTED_SCHEMA_UNAVAILABLE') return new AgentApiError('RATE_LIMITED','Connected Studio storage is temporarily unavailable. Retry the same operation after it recovers.',true);
   if (['EXPORT_ESTIMATE_EXPIRED','EXPORT_ESTIMATE_CHANGED','EXPORT_ESTIMATE_REQUIRED','EXPORT_ESTIMATE_INVALID','EXPORT_PROJECT_STATE_STALE'].includes(code)) return new AgentApiError('QUOTE_EXPIRED','The saved cut or its export quote changed. Prepare a fresh quote and review it before confirming.');
