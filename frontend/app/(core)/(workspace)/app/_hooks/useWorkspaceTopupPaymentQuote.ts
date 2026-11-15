@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
 import { recordCheckoutInteractionEvent } from '@/lib/analytics/checkout-interaction-events';
+import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
+
+// Keyvo 2026-11-15: the Keyvo build charges in CNY, so the top-up modal starts in, and falls back to, the build's customer
+// currency instead of a hard-coded USD (a failed /api/me/currency lookup must not quote the wrong currency).
+const DEFAULT_TOPUP_CURRENCY: string = CUSTOMER_CURRENCY;
 
 type CurrencyState = {
   token: string | null;
@@ -25,7 +30,7 @@ export function useWorkspaceTopupPaymentQuote({
   const [currencyState, setCurrencyState] = useState<CurrencyState>({
     token: null,
     status: 'idle',
-    currency: 'USD',
+    currency: DEFAULT_TOPUP_CURRENCY,
   });
   const [quoteState, setQuoteState] = useState<QuoteState>({
     key: '',
@@ -36,10 +41,10 @@ export function useWorkspaceTopupPaymentQuote({
   useEffect(() => {
     if (!enabled || !accessToken) return;
     const controller = new AbortController();
-    setCurrencyState({ token: accessToken, status: 'loading', currency: 'USD' });
+    setCurrencyState({ token: accessToken, status: 'loading', currency: DEFAULT_TOPUP_CURRENCY });
     async function loadCurrency() {
       const startedAt = performance.now();
-      let currency = 'USD';
+      let currency = DEFAULT_TOPUP_CURRENCY;
       let status = 'fallback';
       let failureCategory: string | null = 'network';
       try {
@@ -57,7 +62,7 @@ export function useWorkspaceTopupPaymentQuote({
           failureCategory = null;
         }
       } catch {
-        // USD is the original workspace checkout currency if preference lookup fails.
+        // The build's customer currency is the checkout currency if the preference lookup fails.
       }
       if (!controller.signal.aborted) {
         recordCheckoutInteractionEvent({
@@ -72,7 +77,7 @@ export function useWorkspaceTopupPaymentQuote({
   }, [accessToken, enabled]);
 
   const currencyReady = !accessToken || (currencyState.token === accessToken && currencyState.status === 'ready');
-  const chargeCurrency = currencyReady && accessToken ? currencyState.currency : 'USD';
+  const chargeCurrency = currencyReady && accessToken ? currencyState.currency : DEFAULT_TOPUP_CURRENCY;
   const quoteKey = `${accessToken ?? 'guest'}:${chargeCurrency}:${amountCents}`;
 
   useEffect(() => {
@@ -106,9 +111,11 @@ export function useWorkspaceTopupPaymentQuote({
         });
         failureCategory = response.ok ? 'invalid_response' : 'http';
         const data = response.ok ? await response.json() : null;
+        // The quote route returns walletAmountCents (wallet-currency cents); usdAmountCents is the upstream field name,
+        // kept as a fallback exactly like the billing page hook (useBillingTopupQuotes).
         const match = Array.isArray(data?.quotes)
           ? data.quotes.find((entry: Record<string, unknown>) =>
-              Number(entry.usdAmountCents) === amountCents && String(entry.currency).toUpperCase() === chargeCurrency)
+              Number(entry.walletAmountCents ?? entry.usdAmountCents) === amountCents && String(entry.currency).toUpperCase() === chargeCurrency)
           : null;
         const amountMinor = Number(match?.localAmountMinor);
         if (!data?.ok || !match || !Number.isFinite(amountMinor) || amountMinor <= 0) {
