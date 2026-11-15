@@ -1,3 +1,4 @@
+import {PRODUCT_BRAND_NAME} from '@/lib/product-brand';
 import {CUSTOMER_CURRENCY,USD_TO_CNY_CUSTOMER_RATE} from '@/lib/customer-currency';
 import {readStudioAnalysisExposure} from './media-analysis/exposure';
 import {readStudioTaskBudget,enforceStudioTaskBounds,enforceStudioTaskQuote} from './tasks/budget';
@@ -154,7 +155,7 @@ export async function reserveStudioAssistanceCall(input:{userId:string;projectId
   requireEnabled(policy);
   const reserve=async(tx:TransactionQueryExecutor)=>{
     if(await getActiveAccountRestrictionInExecutor(input.userId,tx)) {
-      throw new AgentApiError('ACCOUNT_RESTRICTED','This account is temporarily restricted. Open MaxVideoAI for help.');
+      throw new AgentApiError('ACCOUNT_RESTRICTED',`This account is temporarily restricted. Open ${PRODUCT_BRAND_NAME} for help.`);
     }
     const account=await lockAccount(tx,input.userId,policy);
     let turn=(await tx.query<AssistanceTurn>('SELECT * FROM studio_assistance_turns WHERE user_id=$1 AND project_id=$2 AND request_id=$3',[input.userId,input.projectId,input.requestId]))[0];

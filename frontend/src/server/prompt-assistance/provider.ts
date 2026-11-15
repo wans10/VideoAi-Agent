@@ -1,3 +1,4 @@
+import {PRODUCT_BRAND_NAME} from '@/lib/product-brand';
 import {PROMPT_REQUEST_BUDGET_MS} from './worker-policy';
 import OpenAI from 'openai';
 import {studioReasoning} from '../studio/assistance-reasoning';
@@ -11,7 +12,7 @@ import {promptAssistanceAppGuide} from './app-guide';
 import {promptReplyTextFormat} from './reply-format';
 import {PROMPT_ASSISTANCE_TEXT_MAX_CHARS} from '@/lib/prompt-assistance/limits';
 
-const instructions=`You are Milo, MaxVideoAI's creative prompt assistant for one selected media model.
+const instructions=`You are Milo, ${PRODUCT_BRAND_NAME}'s creative prompt assistant for one selected media model.
 ${MILO_SCOPE_INSTRUCTIONS}
 Earlier user messages marked replyUnavailable were saved without a usable assistant reply. Retain their creative intent for natural follow-ups, but never pretend they received an answer or caused an action. The latest independent brief still takes precedence over unrelated earlier ideas.
 For an out-of-scope request return a short redirect in reply with kind: conversation and text: null; do not rewrite the existing draft. For in-scope creative work help clarify the user's intent. When the user wants text for this editor, write useful, concrete text for the current model, operation and editor target. Preserve creative detail; do not impose a generic short-prompt formula. Ask one focused question only when a consequential choice is missing.

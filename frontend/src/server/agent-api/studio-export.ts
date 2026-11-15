@@ -1,3 +1,4 @@
+import {PRODUCT_BRAND_NAME} from '@/lib/product-brand';
 import * as z from 'zod/v4';
 import {studioExportPreparationSchema,studioExportConfirmationSchema,studioExportReadSchema,type StudioPreparedExport} from '@/lib/studio/conversation-export-contract';
 import {prepareStudioTimelineExport,confirmStudioTimelineExport,readStudioTimelineExport,asStudioExportAgentError,type StudioExportDependencies} from '@/server/studio/conversation-export-command';
@@ -54,7 +55,7 @@ export async function projectAgentStudioExportJob(job:TimelineExportJobResponse,
 export function createAgentStudioExportService(dependencies:AgentStudioExportDependencies){
   function actor(principal:AgentPrincipal){
     requireOAuthGenerationActor(principal);
-    if(!principal.clientId)throw new AgentApiError('AUTH_REQUIRED','Connect MaxVideoAI before using Studio exports.');
+    if(!principal.clientId)throw new AgentApiError('AUTH_REQUIRED',`Connect ${PRODUCT_BRAND_NAME} before using Studio exports.`);
     if(!dependencies.enabled)throw new AgentApiError('ENGINE_UNAVAILABLE','Studio export is not available in this environment.');
     return {userId:principal.userId,authOrigin:'oauth' as const,clientId:principal.clientId};
   }

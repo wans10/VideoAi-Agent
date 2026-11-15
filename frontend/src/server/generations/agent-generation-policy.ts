@@ -1,3 +1,4 @@
+import {PRODUCT_BRAND_NAME} from '@/lib/product-brand';
 import { getKnownGenerationFailureMessage } from '@/lib/generation-failure-messages';
 import { appendConfirmedWalletRefund } from '@/lib/seedance-failure-messages';
 import { deriveJobSurface } from '@/lib/job-surface';
@@ -67,10 +68,10 @@ const AGENT_FAILURE_COPY = {
   default: 'Keyvo could not complete this render.',
   busy: 'The render queue is temporarily busy.',
   noOutput: 'The render finished without a usable output.',
-  reference: 'MaxVideoAI could not read the reference media for this render. Select the reference again or upload a new file before preparing a new request.',
+  reference: `${PRODUCT_BRAND_NAME} could not read the reference media for this render. Select the reference again or upload a new file before preparing a new request.`,
   safety: 'This request was blocked by safety checks. Review the prompt and any reference images, video, or audio before preparing a new request.',
-  start: 'MaxVideoAI could not start this render.',
-  storage: 'The render finished, but MaxVideoAI could not prepare the output for download.',
+  start: `${PRODUCT_BRAND_NAME} could not start this render.`,
+  storage: `The render finished, but ${PRODUCT_BRAND_NAME} could not prepare the output for download.`,
   timeout: 'This render exceeded the expected processing window.',
   unsupported: 'This request is not supported with the selected inputs. Adjust the prompt, media, or settings before preparing a new request.',
   pollingStalled: 'This render needs manual review. Contact Keyvo support with your request ID before preparing another attempt.',

@@ -1,3 +1,4 @@
+import {PRODUCT_BRAND_NAME} from '@/lib/product-brand';
 import { randomUUID } from 'node:crypto';
 import { query } from '@/lib/db';
 import { normalizeMediaUrl } from '@/lib/media';
@@ -52,7 +53,7 @@ export async function recoverOpenAIImageResult(jobId: string, userId: string, de
         provider_job_id=COALESCE($4,provider_job_id),message=$5,updated_at=NOW()
         WHERE job_id IN (SELECT job_id FROM review) AND user_id=$2
           AND payment_status='paid_wallet' AND status NOT IN ('completed','failed')`, [jobId, userId, lease, receipt.provider_request_id,
-        `This image batch needs manual review (${stored.length} validated, ${receipt.completion_context.numImages} requested). The received originals are preserved. Contact MaxVideoAI support with this job ID; do not submit it again.`]);
+        `This image batch needs manual review (${stored.length} validated, ${receipt.completion_context.numImages} requested). The received originals are preserved. Contact ${PRODUCT_BRAND_NAME} support with this job ID; do not submit it again.`]);
       return null;
     }
     const ordered = stored.sort((a, b) => a.index - b.index).map(entry => entry.image);

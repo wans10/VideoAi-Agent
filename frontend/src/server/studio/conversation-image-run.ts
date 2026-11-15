@@ -1,3 +1,4 @@
+import {PRODUCT_BRAND_NAME} from '@/lib/product-brand';
 import {sameStudioProjectAssetReference} from './project-asset-media-facts';
 import {toolAssetRefSchema,type ToolAssetRef} from '@/lib/toolbox/contract';
 import {STUDIO_TASK_POLICY_VERSION,STUDIO_TASK_V3_POLICY_VERSION} from '@/lib/studio/task-budget-contract';
@@ -257,7 +258,7 @@ export async function runStudioImageActions(options: {
       let lunaFallback:StudioLunaFallback|undefined=currentModel==='gpt-6-luna'&&assistance&&assistance.model!=='gpt-6-luna'?{}:undefined;
       const checkpoint=()=>checkpointStudioResponse(actor, turn, index, create, assistance ? {prepare: async () => {
       if (await getActiveAccountRestrictionStrict(actor.userId)) {
-        throw new AgentApiError('ACCOUNT_RESTRICTED','This account is temporarily restricted. Open MaxVideoAI for help.');
+        throw new AgentApiError('ACCOUNT_RESTRICTED',`This account is temporarily restricted. Open ${PRODUCT_BRAND_NAME} for help.`);
       }
       if(options.taskExecution){await assertStudioTaskExecution(actor,options.taskExecution);await setStudioTaskPhase(actor,options.taskExecution,"thinking");}
       if (!params) throw new AgentApiError('INTERNAL_ERROR','Studio is missing its model request bounds.');
