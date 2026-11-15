@@ -76,7 +76,7 @@ export function ImageQuoteCard({
       {presentation.operation && <p className={styles.muted}>{presentation.operation}</p>}
       {turn.extensionAssembly && turn.generation?.status!=='failed' && <p className={styles.muted} role="status">
         {turn.extensionAssembly.state==='saved'
-          ? t(`Sequence assembled · ${turn.extensionAssembly.durationSec} s. Open the timeline to play it.`,`Séquence assemblée · ${turn.extensionAssembly.durationSec} s. Ouvrez la timeline pour la lire.`,`Secuencia montada · ${turn.extensionAssembly.durationSec} s. Abre la línea de tiempo para reproducirla.`)
+          ? t(`Sequence assembled · ${turn.extensionAssembly.durationSec} s. Open the timeline to play it.`,`Séquence assemblée · ${turn.extensionAssembly.durationSec} s. Ouvrez la timeline pour la lire.`,`Secuencia montada · ${turn.extensionAssembly.durationSec} s. Abre la línea de tiempo para reproducirla.`,`序列已合成 · ${turn.extensionAssembly.durationSec} 秒。打开时间线即可播放。`)
           : turn.extensionAssembly.state==='blocked'||assemblyError==='STUDIO_REVISION_CONFLICT'
             ? t('The timeline changed. Ask Studio to assemble the continuation while preserving your edits.','La timeline a changé. Demandez à Studio d’assembler la prolongation en conservant vos modifications.', "La línea de tiempo ha cambiado. Pide a Studio que una la continuación conservando tus cambios.")
             : assemblyError==='EXTENSION_SOURCE_CHANGED'?t('The original media changed. Ask Studio to review the source before assembling.','Le média d’origine a changé. Demandez à Studio de vérifier la source avant l’assemblage.', "El archivo original ha cambiado. Pide a Studio que revise el original antes de unir los clips.")
@@ -89,7 +89,7 @@ export function ImageQuoteCard({
         <p style={{whiteSpace:'pre-wrap'}}>{presentation.direction}</p>
       </details>
       {!failed&&quote.summary.surface==='video'&&quote.summary.engineId==='kling-v4'&&Array.isArray(quote.summary.settings.multiPrompt)&&onEditShotPlan&&quote.state==='prepared'&&<StudioShotPlanEditor
-        key={quote.quoteId} engineId={quote.summary.engineId} shots={quote.summary.settings.multiPrompt} locale={locale==='fr'?'fr':'en'} busy={busy}
+        key={quote.quoteId} engineId={quote.summary.engineId} shots={quote.summary.settings.multiPrompt} locale={locale==='zh'?'zh':locale==='fr'?'fr':'en'} busy={busy}
         onEditing={()=>setEditingShots(true)} onDraft={onEditShotPlan}/>}
       {!failed && (quote.state === 'prepared' || expired) && !quote.recast && (
         <p className={styles.muted}>

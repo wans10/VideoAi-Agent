@@ -1,6 +1,7 @@
 import {siteDefaultLocale} from '../frontend/i18n/locales';
 import {conversationCopy} from '../frontend/lib/studio/conversation-copy';
 const copy=(en:string,fr=en)=>conversationCopy(siteDefaultLocale,en,fr);
+const refsLabel=(count:number)=>siteDefaultLocale==='zh'?`参考素材 · 已附加 ${count} 个`:copy(`References · ${count} attached`);
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
@@ -207,7 +208,7 @@ test('Milo modes preserve model selection, credits, references and explicit cons
     assert.equal((await runtime.database.pool.query("SELECT count(*)::int n FROM app_receipts WHERE type='charge'")).rows[0].n,0);
     assert.equal((await runtime.database.pool.query('SELECT count(*)::int n FROM mcp_generation_quotes')).rows[0].n,0);
     await page.setViewportSize({width:390,height:844});
-    await page.getByRole('button',{name:copy('References · 1 attached'),exact:true}).click();await page.getByRole('button',{name:`${copy('Remove ')}Image 1`,exact:true}).click();await page.getByRole('button',{name:copy('Close references'),exact:true}).click();
+    await page.getByRole('button',{name:refsLabel(1),exact:true}).click();await page.getByRole('button',{name:`${copy('Remove ')}Image 1`,exact:true}).click();await page.getByRole('button',{name:copy('Close references'),exact:true}).click();
     await page.reload();await expect(page.getByRole('button',{name:`${copy('Remove ')}Image 1`,exact:true})).toHaveCount(0);
     await message.fill('HEY!');const greetingPosted=page.waitForResponse(response=>response.url().endsWith('/image-conversation')&&response.request().method()==='POST');await send.click();assert.equal((await greetingPosted).status(),200);
     await runStudioTaskWorkerOnce({...worker,serviceOptions:{...worker.serviceOptions,countInputTokens:async()=>{throw new Error('A greeting must not count provider input.');},createActionResponse:async()=>{throw new Error('A greeting must not buy a model call.');}}});

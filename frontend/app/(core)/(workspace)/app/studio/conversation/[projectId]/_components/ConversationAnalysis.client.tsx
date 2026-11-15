@@ -19,7 +19,7 @@ export function ConversationAnalysis({quote,projectId,accountKey,locale,busy,onC
     <p>{t('Maximum','Maximum')} <strong>{quote.maxCredits} {t('credits','crédits')}</strong>. {t('Included credits are used first. Purchased credits stay paused until you resume them.','Les crédits inclus sont utilisés en premier. Les crédits achetés restent en pause jusqu’à leur réactivation.')}</p>
     {(state==='queued'||state==='running')&&<p role="status">{t('Analysis in progress. Your media is preserved.','Analyse en cours. Votre média est conservé.')}</p>}
     {state==='unknown'&&<p role="status">{t('Usage is being recovered. Credits remain reserved; this analysis will not be repeated.','La consommation est en cours de récupération. Les crédits restent réservés ; cette analyse ne sera pas répétée.')}</p>}
-    {analysis.error&&<p role="alert">{analysis.error}</p>}
+    {analysis.error&&<p role="alert">{locale==='zh'?'分析状态暂不可用。请刷新后重试。':analysis.error}</p>}
     {state==='failed'&&<p role="alert">{t('Analysis stopped. Check the recorded usage before requesting another inspection.','L’analyse s’est arrêtée. Vérifiez la consommation enregistrée avant de demander une nouvelle inspection.')}</p>}
     {analysis.status?.chargedCredits!=null&&<p>{t('Recorded usage','Consommation enregistrée')} : {analysis.status.chargedCredits} {t('credits','crédits')}.</p>}
     {analysis.status?.result&&<>

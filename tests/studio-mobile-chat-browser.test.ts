@@ -1,6 +1,7 @@
 import {siteDefaultLocale} from '../frontend/i18n/locales';
 import {conversationCopy} from '../frontend/lib/studio/conversation-copy';
 const copy=(en:string,fr=en)=>conversationCopy(siteDefaultLocale,en,fr);
+const refsLabel=(count:number)=>siteDefaultLocale==='zh'?`参考素材 · 已附加 ${count} 个`:copy(`References · ${count} attached`);
 const zh=siteDefaultLocale==='zh';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -97,7 +98,7 @@ test('mobile chat keeps reading space, references and navigation without changin
     // CSS can switch before React closes the desktop reference and film panels.
     await expect(page.locator('[data-mobile-chat]')).toHaveAttribute('data-mobile-chat','true');
     assert.ok((await geometry()).logHeight>=844*.6,'The conversation receives at least 60% of the mobile viewport with three references and a film.');
-    const references=page.getByRole('button',{name:copy('References · 3 attached'),exact:true});
+    const references=page.getByRole('button',{name:refsLabel(3),exact:true});
     await references.click();
     const panel=page.getByRole('dialog',{name:copy('References'),exact:true});
     await expect(panel).toBeVisible({timeout:20000});
@@ -112,10 +113,10 @@ test('mobile chat keeps reading space, references and navigation without changin
     await expect(panel.getByRole('button',{name:copy('Enlarge ')+'Image 1',exact:true})).toBeFocused();
     await panel.getByRole('button',{name:copy('Include in next message'),exact:true}).click();
     await page.keyboard.press('Escape');
-    await expect(page.getByRole('button',{name:copy('References · 2 attached'),exact:true})).toBeFocused();
+    await expect(page.getByRole('button',{name:refsLabel(2),exact:true})).toBeFocused();
     await log.evaluate(element=>{element.scrollTop=100;});
     const scroll=await log.evaluate(element=>element.scrollTop);
-    await page.getByRole('button',{name:copy('References · 2 attached'),exact:true}).click();
+    await page.getByRole('button',{name:refsLabel(2),exact:true}).click();
     await page.keyboard.press('Escape');
     assert.ok(Math.abs(await log.evaluate(element=>element.scrollTop)-scroll)<2,'Opening references preserves reading position.');
     await message.fill('A long follow-up\nwith several lines\nabout the framing\nand the camera\nand the lighting\nand the ending.');
@@ -141,7 +142,7 @@ test('mobile chat keeps reading space, references and navigation without changin
       Object.defineProperty(window.visualViewport!,'offsetTop',{configurable:true,value:60});
       window.visualViewport!.dispatchEvent(new Event('resize'));
     });
-    await page.getByRole('button',{name:copy('References · 2 attached'),exact:true}).click();
+    await page.getByRole('button',{name:refsLabel(2),exact:true}).click();
     const keyboardPanel=await panel.boundingBox();
     if(!keyboardPanel||keyboardPanel.y<60||keyboardPanel.y+keyboardPanel.height>490)layoutIssues.push('References must fit above the keyboard in the visual viewport.');
     await page.keyboard.press('Escape');
@@ -150,7 +151,7 @@ test('mobile chat keeps reading space, references and navigation without changin
       Reflect.deleteProperty(window.visualViewport!,'offsetTop');
       window.visualViewport!.dispatchEvent(new Event('resize'));
     });
-    await page.getByRole('button',{name:copy('References · 2 attached'),exact:true}).click();
+    await page.getByRole('button',{name:refsLabel(2),exact:true}).click();
     await panel.getByRole('button',{name:copy('Preview ')+'Image 2',exact:true}).click();
     await panel.getByRole('button',{name:copy('Add to timeline'),exact:true}).click();
     await expect(page.getByRole('dialog',{name:copy('Film tools'),exact:true})).toBeVisible();

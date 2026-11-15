@@ -13,7 +13,7 @@ import mobileStyles from './studio-mobile.module.css';
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
-  title: "Studio | Keyvo",
+  title: "创作工作室 – Keyvo 工作台",
   robots: { index: false, follow: false },
 };
 export default async function StudioConversationPage({

@@ -23,7 +23,7 @@ export function useConversationMediaShelf(turns:ImageConversationTurn[],locale:C
   const captured=context.current,liveMedia=useRef(mediaEnabled);liveMedia.current=mediaEnabled;
   const history=turns.flatMap(turn=>turn.referenceMentions??[]);
   const latestHistory=useRef(history);latestHistory.current=history;
-  const t=(en: string, fr: string) => conversationCopy(locale, en, fr);
+  const t=(en: string, fr: string, zh?: string) => conversationCopy(locale, en, fr, en, zh);
   useEffect(()=>{alive.current=true;return()=>{alive.current=false;pendingUpload.current?.abort();};},[]);
   useEffect(()=>{
     const desktop=window.matchMedia('(min-width: 801px)');
@@ -74,7 +74,7 @@ export function useConversationMediaShelf(turns:ImageConversationTurn[],locale:C
     }
     const identities=new Set([...attached.current.map(item=>item.assetId),...assets.map(item=>item.assetId)]);
     if(identities.size>STUDIO_CONVERSATION_MAX_ATTACHMENTS) {
-      const message=t(`You can attach up to ${STUDIO_CONVERSATION_MAX_ATTACHMENTS} media to one message.`,`Vous pouvez joindre ${STUDIO_CONVERSATION_MAX_ATTACHMENTS} médias par message.`);setError(message);return message;
+      const message=t(`You can attach up to ${STUDIO_CONVERSATION_MAX_ATTACHMENTS} media to one message.`,`Vous pouvez joindre ${STUDIO_CONVERSATION_MAX_ATTACHMENTS} médias par message.`,`每条消息最多可附加 ${STUDIO_CONVERSATION_MAX_ATTACHMENTS} 个素材。`);setError(message);return message;
     }
     let next=all.current;
     const refs=attached.current.slice();
@@ -115,8 +115,8 @@ export function useConversationMediaShelf(turns:ImageConversationTurn[],locale:C
   async function upload(files:File[]) {
     if(busy.current)return;
     const kinds:Record<string,'image'|'video'|'audio'>={'image/png':'image','image/jpeg':'image','image/webp':'image','video/mp4':'video','video/quicktime':'video','audio/mpeg':'audio','audio/wav':'audio','audio/x-wav':'audio'};
-    if(files.length+attached.current.length>STUDIO_CONVERSATION_MAX_ATTACHMENTS) {setError(t(`Attach up to ${STUDIO_CONVERSATION_MAX_ATTACHMENTS} media at a time.`,`Joignez ${STUDIO_CONVERSATION_MAX_ATTACHMENTS} médias au maximum.`));return;}
-    if(files.some(file=>!kinds[file.type]||(!mediaEnabled&&kinds[file.type]!=='image'))) {setError(t('Choose a supported image'+(mediaEnabled?', MP4/MOV video, or MP3/WAV audio.':': PNG, JPEG or WebP.'),'Choisissez une image compatible'+(mediaEnabled?', une vidéo MP4/MOV ou un audio MP3/WAV.':' : PNG, JPEG ou WebP.')));return;}
+    if(files.length+attached.current.length>STUDIO_CONVERSATION_MAX_ATTACHMENTS) {setError(t(`Attach up to ${STUDIO_CONVERSATION_MAX_ATTACHMENTS} media at a time.`,`Joignez ${STUDIO_CONVERSATION_MAX_ATTACHMENTS} médias au maximum.`,`一次最多附加 ${STUDIO_CONVERSATION_MAX_ATTACHMENTS} 个素材。`));return;}
+    if(files.some(file=>!kinds[file.type]||(!mediaEnabled&&kinds[file.type]!=='image'))) {setError(t('Choose a supported image'+(mediaEnabled?', MP4/MOV video, or MP3/WAV audio.':': PNG, JPEG or WebP.'),'Choisissez une image compatible'+(mediaEnabled?', une vidéo MP4/MOV ou un audio MP3/WAV.':' : PNG, JPEG ou WebP.'),'请选择受支持的图片'+(mediaEnabled?'、MP4/MOV 视频或 MP3/WAV 音频。':'：PNG、JPEG 或 WebP。')));return;}
     busy.current=true;setUploading(true);setError(null);
     const controller=new AbortController();pendingUpload.current=controller;
     const request=(input:RequestInfo|URL,init?:RequestInit)=>ownedAuthFetch(input,accountKey,{...init,signal:controller.signal});

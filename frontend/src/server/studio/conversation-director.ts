@@ -45,17 +45,20 @@ export type StudioDirectorContext = {
 const replyEnvelopeSchema=z.object({reply:z.string().min(1)}).strict();
 const replySchema=replyEnvelopeSchema.extend({reply:z.string().min(1).max(STUDIO_CONVERSATION_REPLY_MAX_CHARS).transform(projectStudioReply)});
 
-function overlongDirectorReply(completedEdits:number,locale:'en'|'fr'|'es'):ImageDraft {
-  const message=locale==='fr'?'La réponse de Studio dépassait la limite de texte de la conversation et n’a pas pu être livrée. Aucun nouvel essai automatique ne sera effectué.'
+function overlongDirectorReply(completedEdits:number,locale:'en'|'fr'|'es'|'zh'):ImageDraft {
+  const message=locale==='zh'?'Studio 的回复超出了对话文本长度上限，无法送达，也不会自动重试。':locale==='fr'?'La réponse de Studio dépassait la limite de texte de la conversation et n’a pas pu être livrée. Aucun nouvel essai automatique ne sera effectué.'
     :locale==='es'?'La respuesta de Studio superó el límite de texto de la conversación y no se pudo entregar. No se volverá a intentar automáticamente.'
     :'Studio’s reply exceeded the conversation text limit and could not be delivered. It will not be retried automatically.';
   return {image:null,reply:message,continuation:{reason:'output_limit',completedEdits,lastError:{code:'STUDIO_REPLY_TOO_LONG',message}}};
 }
-function pendingDirectorReply(reason: 'action_limit'|'output_limit',completedEdits: number,lastResult?: StudioActionResult,correctionRejected = false,locale:'en'|'fr'|'es'='en'): ImageDraft {
+function pendingDirectorReply(reason: 'action_limit'|'output_limit',completedEdits: number,lastResult?: StudioActionResult,correctionRejected = false,locale:'en'|'fr'|'es'|'zh'='en'): ImageDraft {
   const lastError = lastResult && !lastResult.ok ? {code: lastResult.error.code,message: lastResult.error.message.slice(0,800)} : undefined;
   if(locale!=='en'){
-    const saved=completedEdits?(locale==='fr'?`${completedEdits} modification(s) de la timeline enregistrée(s). `:`${completedEdits} cambio(s) guardado(s) en la línea de tiempo. `):'';
-    const text=locale==='fr'
+    const saved=completedEdits?(locale==='zh'?`已保存 ${completedEdits} 项时间线修改。`:locale==='fr'?`${completedEdits} modification(s) de la timeline enregistrée(s). `:`${completedEdits} cambio(s) guardado(s) en la línea de tiempo. `):'';
+    const text=locale==='zh'
+      ? correctionRejected?'准备请求及其修正均被拒绝，未创建新的报价。请先选择与模型选项及所选素材兼容的设置，再继续。'
+        :'此请求已达到工作或回复上限。已保存的工作会保留，但完整请求尚未完成。请告诉我下一步要做什么。'
+      :locale==='fr'
       ? correctionRejected?'La préparation et sa correction ont été refusées. Aucun nouveau devis n’a été créé. Il faut choisir des réglages compatibles avec les options du modèle et les médias sélectionnés avant de poursuivre.'
         :'Cette demande a atteint sa limite de travail ou de réponse. Le travail enregistré est conservé, mais la demande complète reste à terminer. Précisez la prochaine étape à réaliser.'
       : correctionRejected?'La preparación y su corrección han sido rechazadas. No se ha creado un nuevo presupuesto. Hay que elegir ajustes compatibles con las opciones del modelo y los medios seleccionados antes de continuar.'

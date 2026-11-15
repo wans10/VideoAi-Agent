@@ -7,6 +7,7 @@ import {studioProjectSummariesSchema,type StudioProjectSummary} from '@/lib/stud
 import {studioConversationEntryCopy} from '../_lib/studio-conversation-entry';
 import {useStudioProjectCreation} from '../_hooks/useStudioProjectCreation';
 import {ConversationProjectRow} from './ConversationProjectRow.client';
+import {conversationCopy} from '@/lib/studio/conversation-copy';
 import styles from './conversation-projects.module.css';
 
 type Props={accountKey:string;currentProjectId?:string;locale:string;disabled?:boolean;onRename?:(projectId:string)=>void};
@@ -21,7 +22,7 @@ export function ConversationProjects(props:Props) {
 }
 
 function ProjectDialog({accountKey,currentProjectId,locale,trigger,onClose,onRename}:Props&{trigger:RefObject<HTMLButtonElement>;onClose:()=>void}) {
-  const t=(en:string,fr:string)=>locale==='zh'?({'Opening your projects…':'正在打开项目…','Your projects could not be loaded.':'无法加载项目。','No matching project.':'没有匹配项目。','Your conversations will live here.':'你的对话会保存在这里。'}[en]??en):locale==='fr'?fr:en;
+  const t=(en:string,fr:string)=>conversationCopy(locale==='zh'?'zh':locale==='fr'?'fr':'en',en,fr);
   const router=useRouter(),id=useId(),dialog=useRef<HTMLDialogElement>(null);
   const [projects,setProjects]=useState<StudioProjectSummary[]>([]),[query,setQuery]=useState(''),[loading,setLoading]=useState(true),[failed,setFailed]=useState(false),[retry,setRetry]=useState(0);
   const creation=useStudioProjectCreation(accountKey,projectId=>router.push('/app/studio/conversation/'+encodeURIComponent(projectId)));

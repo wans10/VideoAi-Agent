@@ -69,7 +69,7 @@ function StudioImageConversationWorkspace({
 }) {
   const {locale: appLocale} = useI18n();
   const locale = appLocale === 'zh' ? 'zh' : appLocale === 'fr' ? 'fr' : 'en';
-  const t = (en: string, fr: string) => conversationCopy(locale, en, fr);
+  const t = (en: string, fr: string, zh?: string) => conversationCopy(locale, en, fr, en, zh);
   const studio = useImageConversation(projectId, accountKey, projectName, locale);
   const extensions=useConversationExtensions(projectId,accountKey,studio.conversation.turns,editingEnabled===true,studio.refresh);
   const assistance=useStudioAssistance(accountKey,studio.busy);
@@ -288,7 +288,7 @@ function StudioImageConversationWorkspace({
                     setShotPlanRevision({modelId:'kling-v4',mode:summary.mode as 't2v'|'i2v'|'ref2v',durationSec:shots.reduce((sum,shot)=>sum+shot.durationSec,0),shots});
                     const settings:Record<string,unknown>={...summary.settings,durationSec:shots.reduce((sum,shot)=>sum+shot.durationSec,0)};
                     delete settings.multiPrompt;
-                    const instruction=locale==='fr'?'Prépare un nouveau devis avec ce plan de séquences exact. Conserve les références et leur ordre. Attends ma confirmation après le devis.':'Prepare a new quote with this exact shot plan. Preserve references and their order. Wait for my confirmation after the quote.';
+                    const instruction=locale==='zh'?'请用这套准确的镜头计划准备新的报价，保留参考素材及其顺序，报价后等待我确认。':locale==='fr'?'Prépare un nouveau devis avec ce plan de séquences exact. Conserve les références et leur ordre. Attends ma confirmation après le devis.':'Prepare a new quote with this exact shot plan. Preserve references and their order. Wait for my confirmation after the quote.';
                     setText(`${instruction}\n${JSON.stringify({modelId:summary.engineId,mode:summary.mode,settings,references:summary.references,...(summary.subjects?{subjects:summary.subjects}:{})})}`);
                     shelf.restore(imageTurnRetryInput(turn));
                     composerRegion.current?.querySelector('textarea')?.focus();
@@ -410,7 +410,7 @@ function StudioImageConversationWorkspace({
           </div>
           <div className={styles.composerTools}>
             <div className={mobileStyles.mobileTools}>
-              {!!shelf.items.length && <button type="button" ref={referencesTrigger} className={mobileStyles.references} aria-haspopup="dialog" aria-label={t(`References · ${references.length} attached`, `Références · ${references.length} jointes`)} onClick={() => setMobilePanel('references')}><Images size={17}/><span>{references.length} {t('attached', 'jointes')}</span></button>}
+              {!!shelf.items.length && <button type="button" ref={referencesTrigger} className={mobileStyles.references} aria-haspopup="dialog" aria-label={t(`References · ${references.length} attached`, `Références · ${references.length} jointes`, `参考素材 · 已附加 ${references.length} 个`)} onClick={() => setMobilePanel('references')}><Images size={17}/><span>{references.length} {t('attached', 'jointes')}</span></button>}
               {editingEnabled && <button type="button" ref={filmTrigger} aria-haspopup="dialog" aria-label={t('Open film tools', 'Ouvrir les outils du film')} title={t('Film tools', 'Outils du film')} onClick={() => setMobilePanel('film')}><Clapperboard size={18}/></button>}
             </div>
           <StudioAssistance tasksEnabled={tasksEnabled} {...assistance} locale={locale} conversationBusy={studio.busy} onChoice={afterAssistanceChoice} openSignal={budgetPrompt}/>

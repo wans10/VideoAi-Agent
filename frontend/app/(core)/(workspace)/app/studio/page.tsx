@@ -13,7 +13,7 @@ import {loadStudioExampleEntry} from '@/server/studio-example-entry';
 
 export const dynamic='force-dynamic';
 export const runtime='nodejs';
-export const metadata:Metadata={title:'Studio | Keyvo',robots:{index:false,follow:false}};
+export const metadata:Metadata={title:'创作工作室 – Keyvo 工作台',robots:{index:false,follow:false}};
 
 export default async function StudioPage({searchParams}: {searchParams: Promise<{starter?: string | string[];continueDraft?: string | string[];example?: string | string[]}>}) {
   const query=await searchParams;

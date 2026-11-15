@@ -17,7 +17,7 @@ export function ConversationMedia({result, locale}: {result: AgentGenerationResu
     </figure> : <>
       {result.audioUrl && <figure>
         <audio src={result.audioUrl} controls preload="none" aria-label={t('Generated audio', 'Audio créé')} />
-        <figcaption><span>Audio{result.durationSec !== null ? ` · ${result.durationSec} s` : ''}</span>{open(result.audioUrl)}</figcaption>
+        <figcaption><span>{t('Audio','Audio')}{result.durationSec !== null ? ` · ${result.durationSec} s` : ''}</span>{open(result.audioUrl)}</figcaption>
       </figure>}
       {result.videoUrl && <figure><video src={result.videoUrl} poster={result.thumbnailUrl ?? undefined} controls playsInline preload="none" aria-label={t('Generated video', 'Vidéo créée')} /><figcaption>{open(result.videoUrl)}</figcaption></figure>}
     </>}
