@@ -254,7 +254,9 @@ test('comparison owner batches selected tariffs with real PG17 snapshot and loca
       const first = render(routeInput(), true);
       try {
         await loaded;
-        await database.pool.query("UPDATE app_pricing_rules SET margin_percent=0.8 WHERE id='default'");
+// Keyvo 2026-11-15: Veo 3.1 sells at provider cost (official-list-100) unless an explicit engine rule applies, so this policy
+// flip also adds/removes an engine rule for it (the global 'default' row alone no longer changes its quote).
+        await database.pool.query("UPDATE app_pricing_rules SET margin_percent=0.8 WHERE id='default'; INSERT INTO app_pricing_rules (id, engine_id, margin_percent, margin_flat_cents, surcharge_audio_percent, surcharge_upscale_percent, currency) VALUES ('veo-flip', 'veo-3-1', 0.8, 0, 0.2, 0.5, 'USD')");
         const second = await render(routeInput(), true);
         releaseGate();
         assert.deepEqual(await first, original, 'the first render keeps the complete policy already read');
@@ -263,7 +265,7 @@ test('comparison owner batches selected tariffs with real PG17 snapshot and loca
         evidence.push({ label: 'overlapping scopes observe separate committed policies', counts: { ...counts }, first: await first, second });
       } finally {
         releaseGate(); await first; after = undefined;
-        await database.pool.query("UPDATE app_pricing_rules SET margin_percent=0.3 WHERE id='default'");
+        await database.pool.query("UPDATE app_pricing_rules SET margin_percent=0.3 WHERE id='default'; DELETE FROM app_pricing_rules WHERE id = 'veo-flip'");
       }
       reset(); assert.deepEqual(await render(routeInput(), true), original);
       assert.deepEqual(counts, healthyCounts(1));

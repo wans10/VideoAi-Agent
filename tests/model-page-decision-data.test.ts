@@ -831,7 +831,8 @@ test('migrated model pricing scenarios return configured IDs and helper values',
     [
       'veo-3-1',
       ['4s-720p-audio', '6s-1080p-audio', '8s-1080p-audio', '8s-4k-audio', 'max-duration'],
-      ['$2.08', '$3.12', '$4.16', '$6.24', '8s'],
+      // Keyvo 2026-11-15: official-list-100 sells Veo 3.1 at the provider cost ($0.40/s, $0.60/s at 4K) with no margin.
+      ['$1.60', '$2.40', '$3.20', '$4.80', '8s'],
     ],
     [
       'kling-3-pro',

@@ -25,6 +25,10 @@ test('Omni preserved token bands and editable output/source prices share active 
         effective_from TIMESTAMPTZ, updated_at TIMESTAMPTZ, updated_by UUID);
       INSERT INTO app_pricing_rules (id, margin_percent, margin_flat_cents, surcharge_audio_percent,
         surcharge_upscale_percent, currency) VALUES ('default', 0.3, 0, 0.2, 0.5, 'USD');
+      -- Keyvo 2026-11-15: Omni sells at provider cost (official-list-100), which the continuous compiler refuses; this
+      -- mechanism test keeps it on the margin path through an explicit engine rule.
+      INSERT INTO app_pricing_rules (id, engine_id, margin_percent, margin_flat_cents, surcharge_audio_percent,
+        surcharge_upscale_percent, currency) VALUES ('keyvo-margin-gemini-omni-flash', 'gemini-omni-flash', 0.3, 0, 0.2, 0.5, 'USD');
       CREATE TABLE app_pricing_change_events (id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         domain TEXT NOT NULL CHECK (domain IN ('policy_rule', 'membership', 'billing_product')),
         operation TEXT NOT NULL CHECK (operation IN ('create', 'update', 'delete', 'rollback')),

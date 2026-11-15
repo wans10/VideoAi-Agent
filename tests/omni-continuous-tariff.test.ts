@@ -69,13 +69,18 @@ test('Omni decimal source/inherited output quotes are reachable from the compact
     inputVideoDurationSec: 3.25, inheritedDurationSec: 4.75 }), null, 'retake reuses an owned interaction without submitting a source clip');
 });
 
+// Keyvo 2026-11-15: Gemini Omni Flash sells at its provider cost (official-list-100), a profile the Omni continuous compiler
+// refuses by design. These mechanism tests keep Omni on the margin path through an explicit engine rule (an admin decision).
+const omniMarginRule = { id: 'keyvo-margin-gemini-omni-flash', engineId: 'gemini-omni-flash', marginPercent: 0.3, marginFlatCents: 0,
+  surchargeAudioPercent: 0.2, surchargeUpscalePercent: 0.5, currency: 'USD' };
+
 test('Omni preservation and output/source unit changes share the guarded admin protocol', async () => {
   const engine = getFalEngineById('gemini-omni-flash')!.engine;
   const context = { engine, mode: 'v2v' as const, resolution: '720p', durationSec: 5,
     inheritedDurationSec: 3.25, inputVideoDurationSec: 3.25 };
   const scenario = buildManualTariffCoverageScenario(context, 'omni');
   const state = { status: 'loaded' as const, active: false, revision: 0, databaseCells: [], versionedCells: [] };
-  const policy = { status: 'loaded' as const, rules: [] };
+  const policy = { status: 'loaded' as const, rules: [omniMarginRule] };
   const proposal = { operation: 'create' as const, scope: 'continuous_input' as const, scenarioId: scenario.id,
     price: { kind: 'preserve_current' as const } };
   const current = await computeCanonicalBillingSnapshot(context, { pricingPolicy: { loadOverrides: async () => policy } });
@@ -117,7 +122,7 @@ test('Omni frozen customer bands preserve every double at a price boundary and i
         inheritedDurationSec: mode === 'extend' ? undefined : output };
       const facts = buildBillingPricingFacts(c, engine.pricingDetails, 'USD').facts;
       const quantities = buildManualTariffScenario(c, facts).quantities;
-      const old = await computeCanonicalBillingSnapshot(c, { pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [] }) } });
+      const old = await computeCanonicalBillingSnapshot(c, { pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [omniMarginRule] }) } });
       assert.equal(evaluateManualTariffPrice(price, quantities).customerTotalCents, old.totalCents, `${mode}/${resolution}/${output}/${source}`);
     }
   }

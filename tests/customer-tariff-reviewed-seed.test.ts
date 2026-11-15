@@ -8,11 +8,13 @@ import { auditReviewedCustomerTariffSeed } from '../frontend/server/pricing/cust
 import { readFileSync } from 'node:fs';
 
 // Keyvo 2026-11-13: Wan 3 and H3-Max sell at 80% of their official list cost (below cost), which a manual tariff cannot
-// represent. These fixtures exercise the seed machinery on the margin path, so explicit engine rules (an admin
-// decision) keep the two Keyvo engines on it; the official-list prices themselves are never seeded into tariffs.
+// represent; Gemini Omni Flash sells at 100% of its provider cost (official-list-100, 2026-11-15), which the Omni
+// continuous compiler refuses by design. These fixtures exercise the seed machinery on the margin path, so explicit
+// engine rules (an admin decision) keep those Keyvo engines on it (GPT Image 2.5 too, so its reference-floor machinery stays
+// exercised on the 30% margin path); the official-list prices are never seeded into tariffs.
 const policy = { status: 'loaded' as const, rules: [{ id: 'default', marginPercent: 0.3, marginFlatCents: 0,
   surchargeAudioPercent: 0.2, surchargeUpscalePercent: 0.5, currency: 'USD' },
-  ...['minimax-h3-max', 'wan-3'].map(engineId => ({ id: `margin-${engineId}`, engineId, marginPercent: 0.3, marginFlatCents: 0,
+  ...['gemini-omni-flash', 'gpt-image-2-5-flare', 'gpt-image-2-5-sunburst', 'minimax-h3-max', 'wan-3'].map(engineId => ({ id: `margin-${engineId}`, engineId, marginPercent: 0.3, marginFlatCents: 0,
     surchargeAudioPercent: 0.2, surchargeUpscalePercent: 0.5, currency: 'USD' }))] };
 const rulesHash = createHash('sha256').update(JSON.stringify(policy.rules)).digest('hex');
 const scenarios = [
@@ -48,6 +50,17 @@ test('Keyvo official-list Wan prices are refused by the seed audit instead of be
   const databaseRulesHash = createHash('sha256').update(JSON.stringify(defaultOnly.rules)).digest('hex');
   await assert.rejects(auditReviewedCustomerTariffSeed({ baseline: { ...baseline, databaseRulesHash }, scenarios: wanScenarios,
     registryHash: baseline.registryHash, coverageGaps: gaps, policy: defaultOnly }), /Unsupported Wan continuous tariff profile/);
+});
+
+test('Keyvo official-list-100 Omni prices are refused by the seed audit instead of being frozen into tariffs', async () => {
+  const defaultOnly = { status: 'loaded' as const, rules: [policy.rules[0]!] };
+  const omniScenarios = scenarios.filter(row => row.modelId === 'gemini-omni-flash');
+  const baseline = await collectEffectiveCustomerTariffBaseline({ at: '2026-09-30T12:00:00Z', registryHash: 'reviewed-registry',
+    databaseIdentity: 'private-test', scenarios: omniScenarios, quote: row => computeCanonicalBillingSnapshot(row.context,
+      { pricingPolicy: { loadOverrides: async () => defaultOnly } }) });
+  const databaseRulesHash = createHash('sha256').update(JSON.stringify(defaultOnly.rules)).digest('hex');
+  await assert.rejects(auditReviewedCustomerTariffSeed({ baseline: { ...baseline, databaseRulesHash }, scenarios: omniScenarios,
+    registryHash: baseline.registryHash, coverageGaps: gaps, policy: defaultOnly }), /Unsupported Omni continuous price profile/);
 });
 
 test('read-only candidate collapses reviewed continuous classes with full-domain guards and zero captured cent deltas', async () => {

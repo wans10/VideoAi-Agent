@@ -269,7 +269,9 @@ test('lowest paid is the independently derived minimum across exact eligible rou
   const dependencies = defaultDependencies();
   const expected = collectAuthoritativePaidRoutes(dependencies)[0];
   assert.ok(expected);
-  assert.equal(expected.engineId, 'seedance-2-0-mini');
+  // Keyvo 2026-11-15: Gemini Omni Flash sells at its provider cost with no margin (official-list-100), which makes its
+  // shortest 360p route the cheapest exact paid route in the unfiltered catalogue (previously Seedance 2.0 Mini).
+  assert.equal(expected.engineId, 'gemini-omni-flash');
   assertLowestMatchesAuthoritativeMinimum(dependencies);
 });
 
@@ -424,7 +426,7 @@ test('budget options use the current canonical lowest paid route without a trial
 });
 
 test('audio presentation follows exact T2V defaults and optional inputs instead of engine capability', () => {
-  const seedanceDefaultOff = withMutatedEngine('seedance-2-0-mini', (entry) => {
+  const seedanceDefaultOff = withOnlyEngine('seedance-2-0-mini', (entry) => {
     const audio = entry.engine.inputSchema?.optional?.find((field) => field.id === 'generate_audio');
     assert.ok(audio);
     audio.default = false;
