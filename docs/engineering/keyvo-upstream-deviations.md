@@ -494,7 +494,7 @@ Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorde
   upstream's, so either set `INDEXNOW_KEY` to that file's name or add a key file of your own and set the variable to match, then it
   is verified at `https://app.keyvo.cn/<key>.txt`.
 - **Left deliberately:** the MCP/agent-api account and destination URLs and trusted-origin allowlists (protocol layer, MCP hidden),
-  internal fetch origins, the admin editorial pipeline, the `blog.maxvideoai.com` host redirect (applies only on that host),
+  internal fetch origins, the admin editorial pipeline, the host-conditional redirect for the upstream blog subdomain in `next.config.js` (applies only on that host),
   `scripts/email/auth-templates.mjs` (upstream-branded Supabase email templates with `support@maxvideoai.com`; Supabase templates are
   configured outside this repo, so they need a Keyvo zh rewrite before use), and the unused `PartnerBadges`/`HomeStartupFameLink`
   upstream promotion badges.

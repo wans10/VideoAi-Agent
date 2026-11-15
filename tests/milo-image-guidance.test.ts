@@ -1,3 +1,4 @@
+import { SITE_ORIGIN } from '../frontend/lib/siteOrigin';
 import assert from 'node:assert/strict';
 import {existsSync} from 'node:fs';
 import {randomUUID} from 'node:crypto';
@@ -15,7 +16,7 @@ test('the actual image provider request receives app upscale and text-only setti
   const context=await buildPromptAssistanceContext('owner',input,{catalog:{...createAgentModelCatalogDeps(),listEngines:async()=>getBaseEngines(),isEngineExecutable:()=>true,isModeExecutable:()=>true}});
   const params=promptResponseParams({model:'gpt-6-luna',input_json:input} as PromptRequestRow,context,[]);
   const instructions=String(params.instructions);
-  assert.match(instructions,/https:\/\/maxvideoai\.com\/app\/tools\/upscale/);
+  assert.ok(instructions.includes(`${SITE_ORIGIN}/app/tools/upscale`)); // Keyvo: the site's own origin, never the upstream host
   assert.match(instructions,/Tools → Upscale/);
   assert.doesNotMatch(instructions,/\[Upscale\]\(/);
   assert.match(instructions,/plain text[^\n]*Markdown[^\n]*clickable/i);
