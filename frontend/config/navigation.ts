@@ -3,7 +3,7 @@ import { isKeyvoHiddenFeaturePath } from './keyvo-disabled-features';
 import { getReleasedCreatorToolIds } from '@/lib/toolbox/creator-availability';
 import { getMcpPublicIntegrationIds, getMcpIntegration } from '@/lib/mcp-integration-registry';
 import type { LocalizedLinkHref } from '@/i18n/navigation';
-import mcpPublication from '@/config/mcp-publication.json';
+import { mcpUiPublication as mcpPublication } from '@/config/mcp-ui-publication';
 import { getExampleNavFamilyIds, getModelFamilyDefinition } from '@/config/model-families';
 import { listRuntimeModels, type RuntimeModelEntry } from '@/config/model-runtime';
 import { orderExamplesHubFamilyIds } from '@/lib/examples/familyOrder';

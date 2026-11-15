@@ -1,3 +1,4 @@
+import { isKeyvoMcpUiHidden } from '@/config/keyvo-disabled-features';
 import type { AppLocale } from '@/i18n/locales';
 
 type Feature = { title: string; body: string };
@@ -148,5 +149,8 @@ const copy: Record<AppLocale, StudioMarketingCopy> = {
 };
 
 export function getStudioMarketingCopy(locale: AppLocale): StudioMarketingCopy {
-  return copy[locale];
+  const localized = copy[locale];
+  if (!isKeyvoMcpUiHidden()) return localized;
+  // Keyvo hides MCP (KEYVO_MCP_UI_HIDDEN): drop the FAQ entry about the MCP connection (also from the FAQPage JSON-LD).
+  return { ...localized, faq: { ...localized.faq, items: localized.faq.items.filter((item) => !/MCP/.test(item.question)) } };
 }

@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
+import { SITE_ORIGIN } from '@/lib/siteOrigin';
 
 const INDEXNOW_ENDPOINT = 'https://api.indexnow.org/indexnow';
-const HOST = 'maxvideoai.com';
+// The host is the site's own origin (NEXT_PUBLIC_SITE_URL / SITE_URL, default https://app.keyvo.cn); the key file is served at its root.
+const HOST = new URL(SITE_ORIGIN).host;
 
 type IndexNowRequest = {
   url?: string;

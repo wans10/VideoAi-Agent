@@ -1,4 +1,4 @@
-import mcpPublication from '../config/mcp-publication.json';
+import { mcpUiPublication as mcpPublication } from '../config/mcp-ui-publication';
 
 export const FEATURES = {
   studio: {

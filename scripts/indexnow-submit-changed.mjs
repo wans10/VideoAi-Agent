@@ -10,7 +10,7 @@ import {
   getPublishedComparisonSlugsForModels,
 } from './indexnow-url-selection.mjs';
 
-const SITE = (process.env.SITE || 'https://maxvideoai.com').replace(/\/+$/, '');
+const SITE = (process.env.SITE || 'https://app.keyvo.cn').replace(/\/+$/, '');
 const INDEXNOW_PROXY = process.env.INDEXNOW_PROXY || `${SITE}/api/indexnow`;
 const BEFORE = process.env.GITHUB_EVENT_BEFORE || '';
 const AFTER = process.env.GITHUB_SHA || 'HEAD';

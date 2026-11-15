@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { getPathname } from '@/i18n/navigation';
-import mcpPublication from '@/config/mcp-publication.json';
+import { mcpUiPublication as mcpPublication } from '@/config/mcp-ui-publication';
 import { McpIntegrationMark } from '@/components/marketing/mcp/McpIntegrationMark';
 import { getMcpIntegration, getMcpPublicIntegrationIds } from '@/lib/mcp-integration-registry';
 import { getMcpPublicationState, type McpPublicationState } from '@/lib/mcp-publication';

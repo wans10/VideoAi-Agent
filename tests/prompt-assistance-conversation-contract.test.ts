@@ -1,3 +1,4 @@
+import { SITE_ORIGIN } from '../frontend/lib/siteOrigin';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {randomUUID} from 'node:crypto';
@@ -18,8 +19,9 @@ test('provider receives clarification and current-settings policy alongside real
   const params=promptResponseParams({model:'gpt-6-luna',input_json:input} as PromptRequestRow,context,history);
   const instructions=String(params.instructions);
   assert.match(instructions,/account.*billing.*wallet transfer/i);
-  assert.match(instructions,/\[Contact support\]\(https:\/\/maxvideoai\.com\/contact\)/);
-  assert.match(instructions,/\[support@maxvideoai\.com\]\(mailto:support@maxvideoai\.com\)/);
+  // Keyvo: support points at the site itself and its own contact address, never the upstream brand.
+  assert.ok(instructions.includes(`[Contact support](${SITE_ORIGIN}/contact)`));
+  assert.match(instructions,/\[contact@llmhub\.com\.cn\]\(mailto:contact@llmhub\.com\.cn\)/);
   assert.match(instructions,/cannot transfer funds or approve refunds/i);
   assert.match(instructions,/(?:referent|alternative).*unresolved/i);
   assert.match(instructions,/no (?:existing|prior|working).*?(?:draft|proposal|text)/i);

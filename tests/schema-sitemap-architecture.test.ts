@@ -82,7 +82,7 @@ test('sitemap data facade delegates route discovery, lastmod, locales, and XML h
   assert.doesNotMatch(routeDiscoverySource, /listEligibleSeoWatchVideos/, 'localized sitemaps should not duplicate video sitemap URLs');
   assert.match(
     routeDiscoverySource,
-    /mcp-publication\.json/,
+    /mcp-ui-publication/, // wraps mcp-publication.json; closed while Keyvo hides MCP (KEYVO_MCP_UI_HIDDEN)
     'runtime sitemap discovery should consume the shared MCP publication source',
   );
   assert.match(

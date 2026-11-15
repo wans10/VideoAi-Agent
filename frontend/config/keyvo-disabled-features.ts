@@ -126,3 +126,25 @@ export function isKeyvoHiddenFeaturePath(href: string | null | undefined): boole
  * docs/engineering/keyvo-upstream-deviations.md.
  */
 export const KEYVO_MCP_TRIAL_DISABLED: boolean = true;
+
+/**
+ * Keyvo does not offer MCP (Model Context Protocol assistants: ChatGPT, Claude, Codex, OpenClaw, n8n connectors) to
+ * customers for now: mainland users cannot use the Claude/Codex hosts, and the MCP free trial is already closed. Every
+ * customer-facing MCP surface is hidden: the marketing pages and docs (404), navigation/footer/app-menu links, sitemap,
+ * route discovery, llms.txt, the Studio Milo dialog footer, the "Connected apps" settings tab and account page, the
+ * Studio/Milo/tool marketing links, and the ChatGPT/Claude hand-off on example pages. This is a UI, marketing and
+ * discovery hide only: the MCP server, its OAuth/discovery endpoints, tools, reviewed tool policy, publication JSON
+ * (`config/mcp-publication.json`), database code and /admin pages are untouched, so internal testing keeps working.
+ * To reopen: flip this to false (and set `publicMarketing`/`publicIndexing` in `config/mcp-publication.json`).
+ */
+export const KEYVO_MCP_UI_HIDDEN: boolean = true;
+
+/** Rule used by guarded code. KEYVO_MCP_FULL_UI=1 is for tests that exercise the MCP surfaces; it is never set in production. */
+export function isKeyvoMcpUiHidden(): boolean {
+  try {
+    if (process.env.KEYVO_MCP_FULL_UI === '1') return false;
+  } catch {
+    // A plain browser bundle has no `process`; the constant applies.
+  }
+  return KEYVO_MCP_UI_HIDDEN;
+}

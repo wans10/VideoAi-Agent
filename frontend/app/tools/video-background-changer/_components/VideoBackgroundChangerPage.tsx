@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { isKeyvoMcpUiHidden } from '@/config/keyvo-disabled-features';
 import type { VideoBackgroundMedia } from '../_lib/media';
 import { VideoBackgroundComparison } from './VideoBackgroundComparison.client';
 import styles from '../video-background-changer.module.css';
@@ -40,5 +41,5 @@ export function VideoBackgroundChangerPage({ media }: { media: VideoBackgroundMe
       <details><summary>What will my edit cost?</summary><p>Your source duration and chosen settings affect the quote. Import the clip, choose the excerpt and review the current price before generation. The amount shown in a recorded tutorial is not a quote for your request.</p></details>
     </div></section>
     <section className={[styles["closing"],styles["wrap"]].join(" ")}><div><p className={[styles["eyebrow"]].join(" ")}>START WITH ONE SHOT</p><h2>Your next scene<br />starts with this take.</h2></div><div><Link className={[styles["button"],styles["primary"]].join(" ")} href="/app?engine=wan-3-prime&mode=v2v" prefetch={false}>Change my video background <span aria-hidden="true">↗</span></Link><Link className={[styles["text-link"],styles["secondary-link"]].join(" ")} href="/models/wan-3-prime" prefetch={false}>See Wan 3 Prime details ↗</Link></div></section>
-  <div className={[styles["wrap"],styles["site-footer"]].join(" ")}><div><Link href="/studio" prefetch={false}>Shape a brief in Studio ↗</Link><Link href="/mcp" prefetch={false}>Assistant connections & host limits ↗</Link><Link href="/tools" prefetch={false}>All tools ↗</Link></div><p>Studio assistance and media generation have separate costs. Review the applicable quote and host requirements.</p></div></div>);
+  <div className={[styles["wrap"],styles["site-footer"]].join(" ")}><div><Link href="/studio" prefetch={false}>Shape a brief in Studio ↗</Link>{!isKeyvoMcpUiHidden()&&<Link href="/mcp" prefetch={false}>Assistant connections & host limits ↗</Link>}<Link href="/tools" prefetch={false}>All tools ↗</Link></div><p>Studio assistance and media generation have separate costs. Review the applicable quote and host requirements.</p></div></div>);
 }

@@ -2,6 +2,8 @@
 
 import type { FormEvent, Ref } from 'react';
 import clsx from 'clsx';
+import { SITE_ORIGIN } from '@/lib/siteOrigin';
+import { isKeyvoMcpUiHidden } from '@/config/keyvo-disabled-features';
 import { CheckCircle2, LoaderCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -242,7 +244,7 @@ export function LoginAuthSurface({
             <div role="alert" className="rounded-input border border-border bg-bg px-3 py-2.5 text-sm text-text-primary">
               <p className="font-medium">{authCopy.mcpStaging.title}</p>
               <p className="mt-1 text-text-secondary">{authCopy.mcpStaging.body}</p>
-              <a href="https://maxvideoai.com/mcp" className="mt-2 inline-block underline underline-offset-4">{authCopy.mcpStaging.action}</a>
+              {!isKeyvoMcpUiHidden() ? <a href={`${SITE_ORIGIN}/mcp`} className="mt-2 inline-block underline underline-offset-4">{authCopy.mcpStaging.action}</a> : null}
             </div>
           ) : null}
 

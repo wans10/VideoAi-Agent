@@ -62,7 +62,7 @@ async function createPlaybackFixture(locale = 'en') {
     }
     createRoot(document.getElementById('root')).render(<Fixture/>);
   `, loader: 'tsx', resolveDir: frontend }, write: false, bundle: true, platform: 'browser', format: 'iife', jsx: 'automatic', minify: true,
-    tsconfig: join(frontend, 'tsconfig.json'), define: { 'process.env.NODE_ENV': '"production"' } });
+    tsconfig: join(frontend, 'tsconfig.json'), define: { 'process.env.NODE_ENV': '"production"', 'process.env.KEYVO_MCP_FULL_UI': '"1"' } }); // reopens the ChatGPT/Claude hand-off this test pins (hidden on Keyvo: KEYVO_MCP_UI_HIDDEN)
   const video = await readFile('tests/fixtures/studio-media/pattern-a.mp4');
   const shareIcons = new Map(await Promise.all(['x', 'whatsapp', 'telegram', 'facebook'].map(async target => [
     `/brand/share/${target}.svg`, await readFile(join(frontend, 'public', 'brand', 'share', `${target}.svg`)),

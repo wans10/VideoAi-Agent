@@ -1,4 +1,5 @@
 import mcpPublication from '@/config/mcp-publication.json';
+import { isKeyvoMcpUiHidden } from '@/config/keyvo-disabled-features';
 export type SettingsTab = 'account' | 'connections' | 'privacy' | 'notifications';
 export type SettingsContentTab = Exclude<SettingsTab, 'connections'>;
 
@@ -7,7 +8,7 @@ export const SETTINGS_TAB_ITEMS: ReadonlyArray<{
   href: string;
 }> = [
   { id: 'account', href: '/settings' },
-  ...(mcpPublication.transport ? [{ id: 'connections' as const, href: '/account/connections' }] : []),
+  ...(mcpPublication.transport && !isKeyvoMcpUiHidden() ? [{ id: 'connections' as const, href: '/account/connections' }] : []),
   { id: 'privacy', href: '/settings?tab=privacy' },
   { id: 'notifications', href: '/settings?tab=notifications' },
 ];

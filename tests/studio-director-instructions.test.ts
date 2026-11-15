@@ -1,3 +1,4 @@
+import { SITE_ORIGIN } from '../frontend/lib/siteOrigin';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {createStudioConversationDirector} from '../frontend/src/server/studio/conversation-director';
@@ -41,7 +42,8 @@ test('director sends creative purpose, current help and live quote rules with it
       assert.match(instructions,/assistance.*separate.*generation/i);
       assert.match(instructions,/Studio help/);
       assert.match(instructions,/account.*billing.*wallet transfer/i);
-      assert.match(instructions,/\[Support\]\(https:\/\/maxvideoai\.com\/contact\)/);
+      // Keyvo: the site's own contact page, never the upstream host.
+      assert.ok(instructions.includes(`[Support](${SITE_ORIGIN}/contact)`));
       assert.match(instructions,/Open library/);
       assert.ok(instructions.replace(MILO_SCOPE_INSTRUCTIONS,'').length<8500,`Keep creative guidance within its existing budget; received ${instructions.replace(MILO_SCOPE_INSTRUCTIONS,'').length} characters, exact model facts belong in tools.`);
       assert.ok(MILO_SCOPE_INSTRUCTIONS.length<800,'The shared product boundary has its own bounded budget.');

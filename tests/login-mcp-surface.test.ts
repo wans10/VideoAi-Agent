@@ -1,3 +1,5 @@
+// The staging notice's MCP guide link is hidden on Keyvo (KEYVO_MCP_UI_HIDDEN); this file pins it, so it reopens the rule first.
+import './helpers/keyvo-mcp-full-ui';
 import { I18nProvider } from '../frontend/lib/i18n/I18nProvider';
 import assert from 'node:assert/strict';
 import test from 'node:test';
@@ -42,7 +44,7 @@ test('staging consent explains separate accounts and links to setup without repl
     const html = renderLogin(locale, true);
     assert.match(html, /role="alert"/);
     assert.ok(html.includes(AUTH_COPY[locale].mcpStaging.title));
-    assert.match(html, /href="https:\/\/maxvideoai\.com\/mcp"/);
+    assert.match(html, /href="https?:\/\/[^"/]+\/mcp"/); assert.doesNotMatch(html, /href="https:\/\/maxvideoai\.com/); // the site's own origin, never upstream
     assert.doesNotMatch(html, /href="https:\/\/maxvideoai\.com\/oauth\/consent/);
   }
 });

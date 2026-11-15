@@ -1,3 +1,4 @@
+import { isKeyvoMcpUiHidden } from '@/config/keyvo-disabled-features';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import { ArrowRight, Check, MessageCircle, PanelsTopLeft, Sparkles } from 'lucide-react';
@@ -51,10 +52,10 @@ export function StudioMarketingPage({ copy, locale }: { copy: StudioMarketingCop
       })}</div>
       <div className={styles.control}><Check size={22} aria-hidden="true" /><div><h3>{copy.control.title}</h3><p>{copy.control.body}</p></div></div>
     </section>
-    <section className={styles.mcp} aria-labelledby="studio-mcp">
+    {!isKeyvoMcpUiHidden() && <section className={styles.mcp} aria-labelledby="studio-mcp">
       <div><p className={styles.eyebrow}>MCP</p><h2 id="studio-mcp">{copy.mcp.title}</h2><p>{copy.mcp.body}</p></div>
       <Link href="/mcp" locale={locale} prefetch={false} className={styles.secondary}>{copy.mcp.cta}<ArrowRight size={17} aria-hidden="true" /></Link>
-    </section>
+    </section>}
     <section className={styles.faq} aria-labelledby="studio-faq"><h2 id="studio-faq">{copy.faq.title}</h2><div>
       {copy.faq.items.map(item => <details key={item.question}><summary>{item.question}<span aria-hidden="true">+</span></summary><p>{item.answer}</p></details>)}
     </div></section>

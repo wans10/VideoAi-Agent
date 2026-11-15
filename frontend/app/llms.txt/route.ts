@@ -1,4 +1,4 @@
-import mcpPublication from '@/config/mcp-publication.json';
+import { mcpUiPublication as mcpPublication } from '@/config/mcp-ui-publication';
 import { buildLlmsModelDiscoveryProjection, buildLlmsText } from '@/lib/seo/llms-text';
 
 export const dynamic = 'force-static';

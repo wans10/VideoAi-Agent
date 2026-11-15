@@ -36,7 +36,7 @@ export function HeaderWalletStatus({
     ? t('workspace.header.wallet.loading', 'Loading…') ?? 'Loading…'
     : t('workspace.header.wallet.unavailable', 'Unavailable') ?? 'Unavailable';
   const walletLabel = localQa ? 'Wallet QA local — données de test' : `${walletBaseLabel}: ${wallet ? walletAmount : missingLabel}`;
-  const billingHref = localQa ? 'https://maxvideoai.com/billing' : '/billing';
+  const billingHref = '/billing';
 
   return (
     <div className="relative shrink-0" onMouseEnter={onOpenPrompt} onMouseLeave={onSchedulePromptClose}>

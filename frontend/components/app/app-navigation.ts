@@ -1,4 +1,4 @@
-import mcpPublication from '@/config/mcp-publication.json';
+import { mcpUiPublication as mcpPublication } from '@/config/mcp-ui-publication';
 import { KEYVO_FAL_FEATURES_HIDDEN, isKeyvoAudioVoiceOnly, isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
 import { FEATURES } from '@/content/feature-flags';
 import { getReleasedCreatorToolIds, type CreatorToolId } from '@/lib/toolbox/creator-availability';

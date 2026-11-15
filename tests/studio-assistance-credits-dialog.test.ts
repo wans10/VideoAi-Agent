@@ -11,6 +11,7 @@ test('the product dialog reviews cumulative packs before purchase and preserves 
   const require=createRequire(import.meta.url),oldCss=require.extensions['.css'];require.extensions['.css']=module=>{module.exports={};};
   const dom=new JSDOM('<div id="root"></div>',{url:'http://localhost/app/studio',pretendToBeVisual:true});
   Object.assign(dom.window.HTMLDialogElement.prototype,{showModal(){this.open=true;},close(){this.open=false;}});
+  process.env.KEYVO_MCP_FULL_UI='1';// this test pins the MCP links in the footer; the hidden case is asserted below and in keyvo-mcp-ui-hidden.test.ts
   const globals={window:dom.window,self:dom.window,document:dom.window.document,navigator:dom.window.navigator,HTMLElement:dom.window.HTMLElement,React,IS_REACT_ACT_ENVIRONMENT:true};
   const previous=new Map(Object.keys(globals).map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)]));for(const[key,value]of Object.entries(globals))Object.defineProperty(globalThis,key,{configurable:true,writable:true,value});
   const root=createRoot(dom.window.document.getElementById('root')!),choices:unknown[]=[];let changed=0;
@@ -90,6 +91,9 @@ test('the product dialog reviews cumulative packs before purchase and preserves 
     await act(async()=>button('Standard').click());
     await render(status,null,'fr');
     for(const link of Array.from(dom.window.document.querySelectorAll('a')).filter(link=>link.href.includes('/integrations/'))){assert.match(new URL(link.href).pathname,/^\/fr\/integrations\//);assert.equal(new URL(link.href).searchParams.get('lang'),'fr');}
+    delete process.env.KEYVO_MCP_FULL_UI;await render(status,null,'fr');
+    assert.equal(Array.from(dom.window.document.querySelectorAll('a')).filter(link=>link.href.includes('/integrations/')||link.href.includes('/mcp')).length,0,'Keyvo hides MCP: the footer has no connector links');
+    assert.doesNotMatch(dom.window.document.body.textContent??'',/MCP|ChatGPT|Claude|Codex/);
     await act(async()=>button('Fermer l’assistance').click());
     assert.equal(dom.window.document.querySelectorAll('input[type=radio]').length,0,'Work profiles are not exposed in the assistance dialog');
     const sentenceOpener=dom.window.document.createElement('button');sentenceOpener.textContent='Switch to Max';dom.window.document.body.append(sentenceOpener);sentenceOpener.focus();
@@ -97,5 +101,5 @@ test('the product dialog reviews cumulative packs before purchase and preserves 
     assert.equal(dom.window.document.activeElement===sentenceOpener,true,'The sentence entry returns keyboard focus to its actual opener');
     sentenceOpener.focus();await render(status,null,'en',{openSignal:2});sentenceOpener.remove();await act(async()=>button('Close assistance').click());
     assert.equal(dom.window.document.activeElement===button('Milo settings and credits'),true,'A removed Standard sentence falls back to the persistent model selector');
-  }finally{await act(async()=>root.unmount());dom.window.close();for(const[key,value]of previous){if(value)Object.defineProperty(globalThis,key,value);else Reflect.deleteProperty(globalThis,key);}if(oldCss)require.extensions['.css']=oldCss;else delete require.extensions['.css'];}
+  }finally{delete process.env.KEYVO_MCP_FULL_UI;await act(async()=>root.unmount());dom.window.close();for(const[key,value]of previous){if(value)Object.defineProperty(globalThis,key,value);else Reflect.deleteProperty(globalThis,key);}if(oldCss)require.extensions['.css']=oldCss;else delete require.extensions['.css'];}
 });

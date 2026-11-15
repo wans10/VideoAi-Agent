@@ -144,7 +144,7 @@ export function ImageQuoteCard({
           <div className={styles.walletActions}>
             {walletState === "insufficient" && (
               <a
-                href={localQa ? "https://maxvideoai.com/billing" : "/billing"}
+                href="/billing"
                 target="_blank"
                 rel="noopener noreferrer"
               >
