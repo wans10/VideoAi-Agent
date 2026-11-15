@@ -8,6 +8,7 @@ export type ApprovedPricingAuditChange = {
 };
 
 const KEYVO_OFFICIAL_LIST_REASON = 'Keyvo official list price rule (2026-11-13): supplier facts are the official mainland CNY list price (CNY / 8) and the official-list-80 profile sells at 80% of it with no margin component.';
+const KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON = 'Keyvo official list 100% price rule extension (2026-11-15, owner decision; supersedes the Gemini Omni 1.2 $12/M refresh approvals of 2026-11-05 for the Omni rows): Veo 3.1 / Fast / Lite, Gemini Omni Flash 1.2 and GPT Image 2.5 sell at the repo provider USD cost facts x 8 CNY/USD through the official-list-100 profile (no margin, no discount) instead of the 20% default margin. The facts are not verified against the Google / OpenAI official list pages (admin-only engines, owner accepted).';
 const KEYVO_OFFICIAL_LIST_100_REASON = 'Keyvo official list 100% price rule (2026-11-14): Nano Banana 2 and Nano Banana Lite supplier facts are the official mainland CNY list price (CNY / 8) and the official-list-100 profile sells at 100% of it with no margin component (4-image presets).';
 
 /**
@@ -15,43 +16,6 @@ const KEYVO_OFFICIAL_LIST_100_REASON = 'Keyvo official list 100% price rule (202
  * Exact field deltas are required so a later pricing drift cannot inherit an old approval.
  */
 export const APPROVED_PRICING_AUDIT_CHANGES: readonly ApprovedPricingAuditChange[] = [
-  {
-    scenarioId: 'billing:gemini-omni-flash:t2v:10:720p:member',
-    reason: 'Gemini Omni 1.2 uses the verified $12/M output-token supplier rate. These inactive-policy baseline projections do not change active authored customer tariffs.',
-    fieldDeltas: {
-      vendorSubtotalCents: { current: 100, canonical: 70 },
-      marginCents: { current: 30, canonical: 21 },
-      customerTotalCents: { current: 130, canonical: 91 },
-    },
-  },
-  {
-    scenarioId: 'billing:gemini-omni-flash:t2v:10:720p:plus',
-    reason: 'Gemini Omni 1.2 uses the verified $12/M output-token supplier rate. These inactive-policy baseline projections do not change active authored customer tariffs.',
-    fieldDeltas: {
-      vendorSubtotalCents: { current: 100, canonical: 70 },
-      marginCents: { current: 30, canonical: 21 },
-      customerTotalCents: { current: 123, canonical: 86 },
-    },
-  },
-  {
-    scenarioId: 'billing:gemini-omni-flash:t2v:10:720p:pro',
-    reason: 'Gemini Omni 1.2 uses the verified $12/M output-token supplier rate. These inactive-policy baseline projections do not change active authored customer tariffs.',
-    fieldDeltas: {
-      vendorSubtotalCents: { current: 100, canonical: 70 },
-      marginCents: { current: 30, canonical: 21 },
-      customerTotalCents: { current: 117, canonical: 82 },
-    },
-  },
-  {
-    scenarioId: 'estimator:gemini-omni-flash:10:720p',
-    reason: 'Gemini Omni 1.2 uses the verified $12/M output-token supplier rate. These inactive-policy baseline projections do not change active authored customer tariffs.',
-    fieldDeltas: {
-      vendorSubtotalCents: { current: 100, canonical: 70 },
-      marginCents: { current: 30, canonical: 21 },
-      customerTotalCents: { current: 130, canonical: 91 },
-      displayedAmount: { current: '$1.30', canonical: '$0.91' },
-    },
-  },
   {
     scenarioId: 'billing:happy-horse-1-1:t2v:5:1080p:member',
     reason: KEYVO_OFFICIAL_LIST_REASON,
@@ -568,6 +532,142 @@ export const APPROVED_PRICING_AUDIT_CHANGES: readonly ApprovedPricingAuditChange
       marginCents: { current: 4, canonical: 0 },
       customerTotalCents: { current: 16, canonical: 13 },
       displayedAmount: { current: '$0.16', canonical: '$0.13' },
+    },
+  },
+  {
+    scenarioId: 'billing:gemini-omni-flash:t2v:10:720p:member',
+    reason: KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON,
+    fieldDeltas: {
+      vendorSubtotalCents: { current: 100, canonical: 70 },
+      marginCents: { current: 30, canonical: 0 },
+      customerTotalCents: { current: 130, canonical: 70 },
+    },
+  },
+  {
+    scenarioId: 'billing:gemini-omni-flash:t2v:10:720p:plus',
+    reason: KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON,
+    fieldDeltas: {
+      vendorSubtotalCents: { current: 100, canonical: 70 },
+      marginCents: { current: 30, canonical: 0 },
+      customerTotalCents: { current: 123, canonical: 66 },
+    },
+  },
+  {
+    scenarioId: 'billing:gemini-omni-flash:t2v:10:720p:pro',
+    reason: KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON,
+    fieldDeltas: {
+      vendorSubtotalCents: { current: 100, canonical: 70 },
+      marginCents: { current: 30, canonical: 0 },
+      customerTotalCents: { current: 117, canonical: 63 },
+    },
+  },
+  {
+    scenarioId: 'billing:veo-3-1-fast:t2v:8:720p:member',
+    reason: KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON,
+    fieldDeltas: {
+      marginCents: { current: 24, canonical: 0 },
+      customerTotalCents: { current: 104, canonical: 80 },
+    },
+  },
+  {
+    scenarioId: 'billing:veo-3-1-fast:t2v:8:720p:plus',
+    reason: KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON,
+    fieldDeltas: {
+      marginCents: { current: 24, canonical: 0 },
+      customerTotalCents: { current: 99, canonical: 76 },
+    },
+  },
+  {
+    scenarioId: 'billing:veo-3-1-fast:t2v:8:720p:pro',
+    reason: KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON,
+    fieldDeltas: {
+      marginCents: { current: 24, canonical: 0 },
+      customerTotalCents: { current: 94, canonical: 72 },
+    },
+  },
+  {
+    scenarioId: 'billing:veo-3-1-lite:t2v:8:720p:member',
+    reason: KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON,
+    fieldDeltas: {
+      marginCents: { current: 12, canonical: 0 },
+      customerTotalCents: { current: 52, canonical: 40 },
+    },
+  },
+  {
+    scenarioId: 'billing:veo-3-1-lite:t2v:8:720p:plus',
+    reason: KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON,
+    fieldDeltas: {
+      marginCents: { current: 12, canonical: 0 },
+      customerTotalCents: { current: 49, canonical: 38 },
+    },
+  },
+  {
+    scenarioId: 'billing:veo-3-1-lite:t2v:8:720p:pro',
+    reason: KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON,
+    fieldDeltas: {
+      marginCents: { current: 12, canonical: 0 },
+      customerTotalCents: { current: 47, canonical: 36 },
+    },
+  },
+  {
+    scenarioId: 'billing:veo-3-1:t2v:8:720p:member',
+    reason: KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON,
+    fieldDeltas: {
+      marginCents: { current: 96, canonical: 0 },
+      customerTotalCents: { current: 416, canonical: 320 },
+    },
+  },
+  {
+    scenarioId: 'billing:veo-3-1:t2v:8:720p:plus',
+    reason: KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON,
+    fieldDeltas: {
+      marginCents: { current: 96, canonical: 0 },
+      customerTotalCents: { current: 395, canonical: 304 },
+    },
+  },
+  {
+    scenarioId: 'billing:veo-3-1:t2v:8:720p:pro',
+    reason: KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON,
+    fieldDeltas: {
+      marginCents: { current: 96, canonical: 0 },
+      customerTotalCents: { current: 374, canonical: 288 },
+    },
+  },
+  {
+    scenarioId: 'estimator:gemini-omni-flash:10:720p',
+    reason: KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON,
+    fieldDeltas: {
+      vendorSubtotalCents: { current: 100, canonical: 70 },
+      marginCents: { current: 30, canonical: 0 },
+      customerTotalCents: { current: 130, canonical: 70 },
+      displayedAmount: { current: '$1.30', canonical: '$0.70' },
+    },
+  },
+  {
+    scenarioId: 'estimator:veo-3-1-fast:8:720p',
+    reason: KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON,
+    fieldDeltas: {
+      marginCents: { current: 24, canonical: 0 },
+      customerTotalCents: { current: 104, canonical: 80 },
+      displayedAmount: { current: '$1.04', canonical: '$0.80' },
+    },
+  },
+  {
+    scenarioId: 'estimator:veo-3-1-lite:8:720p',
+    reason: KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON,
+    fieldDeltas: {
+      marginCents: { current: 12, canonical: 0 },
+      customerTotalCents: { current: 52, canonical: 40 },
+      displayedAmount: { current: '$0.52', canonical: '$0.40' },
+    },
+  },
+  {
+    scenarioId: 'estimator:veo-3-1:8:720p',
+    reason: KEYVO_OFFICIAL_LIST_100_ADMIN_ENGINES_REASON,
+    fieldDeltas: {
+      marginCents: { current: 96, canonical: 0 },
+      customerTotalCents: { current: 416, canonical: 320 },
+      displayedAmount: { current: '$4.16', canonical: '$3.20' },
     },
   },
 ];

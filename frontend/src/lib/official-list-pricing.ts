@@ -25,6 +25,15 @@ export const OFFICIAL_LIST_100_PRICED_ENGINE_IDS: ReadonlySet<string> = new Set(
   'nano-banana-2',
   'nano-banana-lite',
   'nano-banana-2-1',
+  // Owner decision 2026-11-15: the admin-tier Google / OpenAI engines below are sold at 100% of the repo's existing
+  // provider USD cost facts x 8 CNY/USD, with no margin and no discount. These facts are NOT verified against the
+  // Google / OpenAI official list pages (accepted by the owner because the engines are admin-only).
+  'veo-3-1',
+  'veo-3-1-fast',
+  'veo-3-1-lite',
+  'gemini-omni-flash',
+  'gpt-image-2-5-sunburst',
+  'gpt-image-2-5-flare',
 ]);
 
 export const OFFICIAL_LIST_PRICED_ENGINE_IDS: ReadonlySet<string> = new Set([
