@@ -1,3 +1,4 @@
+import { CUSTOMER_CURRENCY, USD_TO_CNY_CUSTOMER_RATE, formatWalletBalance } from '@/lib/customer-currency';
 import type { PricingSnapshot } from '@maxvideoai/pricing';
 
 import { customerTariffRevision } from '@/lib/customer-tariff-revision';
@@ -25,4 +26,13 @@ export function readCharacterBuilderEstimate(payload: { ok?: unknown; pricing?: 
     return null;
   }
   return { usd: (conversion.sourceTotalCents as number) / 100, revision: manual ? revision : null };
+}
+
+/**
+ * The generate button price. The estimate reader returns a USD amount; the Keyvo build charges in CNY (8 CNY per USD),
+ * so the button must show the CNY amount (not "$0.01"). Other builds keep the USD display in the page locale.
+ */
+export function formatCharacterPrice(usdAmount: number, locale: string, currency: string = CUSTOMER_CURRENCY): string {
+  if (currency === 'CNY') return formatWalletBalance(usdAmount * USD_TO_CNY_CUSTOMER_RATE, 'CNY');
+  return new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(usdAmount);
 }

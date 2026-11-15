@@ -32,6 +32,7 @@ import { useCharacterBuilderOptions } from '../_hooks/useCharacterBuilderOptions
 import { StudioChips, StudioVisualChoices } from './CharacterStudioChoices.client';
 import { isStudioColorTrait, normalizeStudioColor } from '@/lib/character-studio-colors';
 import type { CharacterPriceStatus } from '../_hooks/useCharacterBuilderPrice';
+import { formatCharacterPrice } from '../_lib/character-builder-price';
 
 type TraitKey =
   | 'characterType'
@@ -488,7 +489,7 @@ export function CharacterStudioComposer({
             <span className="sr-only">{labels.imagePrice} · {getCharacterFormatResolution().toUpperCase()} : </span>
             {price == null ? (
               <span className="block max-w-24 whitespace-normal text-xs font-medium">{priceStatus === 'loading' ? labels.priceLoading : labels.priceUnavailable}</span>
-            ) : new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(price)}
+            ) : formatCharacterPrice(price, locale)}
           </span>
         </button>
       </div>
