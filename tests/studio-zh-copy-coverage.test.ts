@@ -84,3 +84,15 @@ test('server-authored Studio replies and starters are Chinese for the zh site', 
   assert.match(reply.reply, CJK);
   assert.ok(!looksEnglish(reply.reply.replace(/\([^)]*\)/g, '')));
 });
+
+test('every local Studio translator resolves Chinese instead of falling back to English', () => {
+  const offenders: string[] = [];
+  for (const file of sourceFiles(STUDIO_ROOT)) {
+    const text = fs.readFileSync(path.join(root, file), 'utf8');
+    for (const match of text.matchAll(/\bconst\s+t\s*=\s*\(([^)]*)\)[^=]*=>([^;\n]*)/g)) {
+      const body = match[2];
+      if (!/conversationCopy\(|zh/.test(body)) offenders.push(`${file}: ${match[0].slice(0, 90)}`);
+    }
+  }
+  assert.deepEqual(offenders, []);
+});

@@ -1,6 +1,8 @@
 import {siteDefaultLocale} from '../frontend/i18n/locales';
 import {conversationCopy} from '../frontend/lib/studio/conversation-copy';
 const copy=(en:string,fr=en)=>conversationCopy(siteDefaultLocale,en,fr);
+const refsLabel=(count:number)=>siteDefaultLocale==='zh'?`参考素材 · 已附加 ${count} 个`:copy(`References · ${count} attached`);
+const renameLabel=(name:string)=>siteDefaultLocale==='zh'?'重命名 '+name:'Rename '+name;
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile,mkdir} from 'node:fs/promises';
@@ -143,11 +145,11 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     await expect(page.getByRole('heading',{name:(siteDefaultLocale==='zh'?'你想 做什么？':copy('What would you like to do?'))})).toBeVisible();
     const namingBefore=(await runtime.database.pool.query('SELECT name,revision FROM studio_projects WHERE id=$1',[project.projectId])).rows[0];
     await page.getByRole('button',{name:(siteDefaultLocale==='zh'?'项目':'Projects'),exact:true}).click();
-    const projectsDialog=page.getByRole('dialog',{name:'Your projects',exact:true});
-    await projectsDialog.getByRole('button',{name:'Rename '+namingBefore.name,exact:true}).click();
-    const nameField=projectsDialog.getByRole('textbox',{name:'Project name',exact:true});
+    const projectsDialog=page.getByRole('dialog',{name:copy('Your projects'),exact:true});
+    await projectsDialog.getByRole('button',{name:renameLabel(namingBefore.name),exact:true}).click();
+    const nameField=projectsDialog.getByRole('textbox',{name:copy('Project name'),exact:true});
     await expect(nameField).toBeFocused();await nameField.fill('Native Studio film');await nameField.press('Enter');
-    await expect(projectsDialog.getByRole('button',{name:'Rename Native Studio film',exact:true})).toBeFocused();
+    await expect(projectsDialog.getByRole('button',{name:renameLabel('Native Studio film'),exact:true})).toBeFocused();
     await page.keyboard.press('Escape');
     await expect(page.getByRole('button',{name:(siteDefaultLocale==='zh'?'项目':'Projects'),exact:true})).toBeFocused();
     await expect(page.locator('section > header').getByText('Native Studio film',{exact:true})).toBeVisible();
@@ -253,9 +255,9 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     await shelf.getByRole('button',{name:copy('Open media'),exact:true}).click();
     await page.setViewportSize({width:390,height:844});
     await expect(message).toBeVisible();
-    await expect(page.getByRole('button',{name:copy('References · 2 attached'),exact:true})).toBeVisible();
+    await expect(page.getByRole('button',{name:refsLabel(2),exact:true})).toBeVisible();
     await proof('media-dock-mobile-compact');
-    await page.getByRole('button',{name:copy('References · 2 attached'),exact:true}).click();
+    await page.getByRole('button',{name:refsLabel(2),exact:true}).click();
     await expect(shelf.getByRole('button',{name:copy('Mention in message'),exact:true})).toBeVisible();
     await shelf.getByRole('button',{name:copy('Preview ')+'Image 2',exact:true}).click();
     await expect.poll(async()=>{const b=await shelf.locator('[data-media-card][data-selected="true"]').boundingBox();return !!b&&b.x>=0&&b.x+b.width<=390;}).toBe(true);
@@ -502,12 +504,12 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     }
     await page.setViewportSize({width:1440,height:900});
     await page.getByRole('button',{name:(siteDefaultLocale==='zh'?'项目':'Projects'),exact:true}).click();
-    await expect(page.getByRole('dialog',{name:'Your projects',exact:true})).toBeVisible({timeout:30000});
-    await page.getByRole('button',{name:'Rename Native Studio film',exact:true}).click();
-    const mobileName=page.getByRole('textbox',{name:'Project name',exact:true});
+    await expect(page.getByRole('dialog',{name:copy('Your projects'),exact:true})).toBeVisible({timeout:30000});
+    await page.getByRole('button',{name:renameLabel('Native Studio film'),exact:true}).click();
+    const mobileName=page.getByRole('textbox',{name:copy('Project name'),exact:true});
     await expect(mobileName).toBeInViewport();await mobileName.fill('Cancelled mobile title');await mobileName.press('Escape');
-    await expect(page.getByRole('button',{name:'Rename Native Studio film',exact:true})).toBeFocused();
-    await expect(page.getByRole('dialog',{name:'Your projects',exact:true})).toBeVisible();
+    await expect(page.getByRole('button',{name:renameLabel('Native Studio film'),exact:true})).toBeFocused();
+    await expect(page.getByRole('dialog',{name:copy('Your projects'),exact:true})).toBeVisible();
     await proof('projects-entry');
     const previousProjectId=new URL(page.url()).pathname.split('/').at(-1);
     const creation=page.waitForResponse(response=>new URL(response.url()).pathname==='/api/studio/conversation-projects' && response.request().method()==='POST').then(async response=>{
@@ -524,7 +526,7 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
       return response.url()===`${runtime.browserOrigin}/api/studio/projects/${created.result.projectId}/image-conversation`;
     },{timeout:30_000});
     const [,newConversation,history]=await Promise.all([
-      page.getByRole('button',{name:'New conversation',exact:true}).click(),creation,historyLoaded,
+      page.getByRole('button',{name:copy('New conversation'),exact:true}).click(),creation,historyLoaded,
     ]);
     await expect(page).toHaveURL(`${runtime.browserOrigin}/app/studio/conversation/${newConversation.result.projectId}`,{timeout:30000});
     assert.equal(history.status(),200);

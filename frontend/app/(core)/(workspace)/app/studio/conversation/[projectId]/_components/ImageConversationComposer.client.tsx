@@ -1,5 +1,6 @@
 "use client";
 
+import {conversationZhCopy} from '@/lib/studio/conversation-copy';
 import { useCallback, useEffect, useId, useLayoutEffect, useRef, type Ref } from "react";
 import { ArrowUp, Plus } from "lucide-react";
 import styles from "../image-conversation.module.css";
@@ -30,7 +31,7 @@ export function ImageConversationComposer({
   libraryLabel?: string;
   compact?: boolean;
 }) {
-  const t = (en: string, fr: string, es=en, zh=en) => locale === 'zh' ? zh : locale === 'fr' ? fr : locale === 'es' ? es : en;
+  const t = (en: string, fr: string, es=en, zh=conversationZhCopy[en] ?? en) => locale === 'zh' ? zh : locale === 'fr' ? fr : locale === 'es' ? es : en;
   const textarea = useRef<HTMLTextAreaElement>(null);
   const lengthNoticeId = useId();
   const tooLong = text.length > 4000;

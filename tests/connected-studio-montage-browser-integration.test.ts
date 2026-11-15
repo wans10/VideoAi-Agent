@@ -427,7 +427,7 @@ test('MCP montage opens the current conversation with private playback, durable 
     // The current mobile picker recovers one committed project after a lost acknowledgement.
     await page.setViewportSize({ width: 390, height: 844 });
     await page.getByRole('button', { name: (siteDefaultLocale==='zh'?'项目':'Projects'), exact: true }).click();
-    const projects = page.getByRole('dialog', { name: 'Your projects', exact: true });
+    const projects = page.getByRole('dialog', { name:copy('Your projects'), exact: true });
     await expect(projects.locator('[data-project-row]')).toHaveCount(1,{ timeout: 45_000 });
     await expect(projects.locator('[data-project-row]')).toHaveAttribute('href', montage.studioUrl,{ timeout: 45_000 });
     await expect(projects.getByRole('button', { name: 'Canvas', exact: true })).toHaveCount(0);
@@ -444,7 +444,7 @@ test('MCP montage opens the current conversation with private playback, durable 
       if (createAttempts.length === 1) return route.abort('failed');
       return route.fulfill({ response });
     });
-    await projects.getByRole('button', { name: 'New conversation', exact: true }).click();
+    await projects.getByRole('button', { name:copy('New conversation'), exact: true }).click();
     await expect(projects.getByRole('alert')).toContainText(/Try again to recover the same project\.|请重试以恢复同一项目/);
     await projects.getByRole('button', { name:/^(?:Try again|重试)$/ }).click();
     await expect(page).toHaveURL(`${runtime.browserOrigin}/app/studio/conversation/${newProjectId}`);
