@@ -1031,6 +1031,39 @@ Promotions (for example Bailian's limited-time 70% on Wan 3) and free quotas are
   and Volcengine/Bailian account discounts. Seedream 5.0 Pro's CNY 0.02 for the second and later input images is
   billed (`input_images_after_first`) but public estimates carry no input images.
 
+### Keyvo official-list-100 profile (Nano Banana, and admin-tier Veo / Omni / GPT Image 2.5)
+
+`official-list-100` is `official-list-80` with `marginPercentOverride: 0` (zero margin, zero platform fee, no discount,
+nearest subtotal rounding, 1-cent floor). `OFFICIAL_LIST_100_PRICED_ENGINE_IDS` in
+`frontend/src/lib/official-list-pricing.ts` selects it for Nano Banana 2 / Lite / 2.1 (owner decision 2026-11-14,
+Google AI Studio list) and, since 2026-11-15, for `veo-3-1`, `veo-3-1-fast`, `veo-3-1-lite`, `gemini-omni-flash`,
+`gpt-image-2-5-sunburst` and `gpt-image-2-5-flare`: the customer price is the repo's existing provider USD cost fact x 8
+CNY/USD. **These six facts are not verified against the Google / OpenAI official list pages**; the owner accepted that
+because the engines are admin-only. Their vendor cost facts were not changed.
+
+- Every surface routes through `resolveOfficialListCompatibilityProfile`: billing (`quote-billing.ts`), public quotes
+  (`pricing-public-quote.ts`, also used by the hub, MCP/agent quotes and the image estimate, whose
+  `computeCanonicalPublicSnapshot` is the billing snapshot), admin canonical scenarios and the tariff compilers.
+  `pricingHubData.ts` quotes multi-image presets of every official-list-100 engine as one total (GPT Image 2.5 4 images
+  at medium quality: hub 4 cents, billed 4 cents).
+- Veo: per-second cost by resolution with the audio-off add-on (a negative per-second adjustment inside the vendor
+  subtotal) and the 4/6/8 s rules computed unchanged; the audio surcharge override of the profile is 0. Omni: output
+  tokens per second by resolution x $12/M plus input tokens. Image/video operations keep their own reviewed policy and
+  tariff gates, which this profile does not touch: Veo image-to-video at 4/6 s and the video operations (extend/edit)
+  still require a reviewed customer tariff, Omni source-video modes keep their tariff cells.
+- Exact examples (cents; CNY = cents x 8 / 100): Veo 3.1 4 s 720p audio on 160 (CNY 12.80), audio off 80; Fast 4 s 720p
+  40 (CNY 3.20); Lite 4 s 720p 20 (CNY 1.60); Omni 4 s 360p 9 (CNY 0.72), 4 s 720p 28; GPT Image 2.5 1024x768 high 4
+  (CNY 0.32), 4 images 14. Whole-cent rounding applies, so a sub-cent difference can be up to about 30% on the cheapest
+  GPT Image 2.5 qualities (medium 1024x768 is 1 cent).
+- **GPT Image 2.6 is not in the set.** Its supplier facts are output-token only (`providerCostIncomplete`, input text and
+  reference image tokens unqualified), `quotePublicPricing` refuses it by design and `quote-billing.ts`
+  (`requiresGpt26Tariff`) requires an active reviewed tariff, which Keyvo keeps inactive. Selling at 100% of an incomplete
+  cost would under-charge image edits, so no gate was weakened.
+- Governed baseline: `tests/fixtures/keyvo-official-list-100-public-pricing-2026-11-15.json` (61 public rows) wired
+  into `frontend/scripts/pricing-public-baseline.ts`; `approved-changes.ts` holds the 16 Veo/Omni audit rows; the GPT
+  Image 2.5 shadow additions were regenerated (`pnpm pricing:shadow-additions:generate`). Exact-amount tests live in
+  `tests/keyvo-official-list-100-pricing.test.ts`.
+
 ## Gated Studio assistance product
 
 Studio assistant usage has a separate dated customer tariff and provider-cost ledger.

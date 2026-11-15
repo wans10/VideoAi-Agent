@@ -206,6 +206,20 @@ async function main(): Promise<void> {
     throw new Error('Invalid Keyvo official list 100% public pricing transition.');
   }
   const appliedOfficial100Changes = new Set<string>();
+  // 2026-11-15 extension of the official-list-100 rule to the admin-tier Veo 3.1 family, Gemini Omni Flash 1.2 and
+  // GPT Image 2.5 (provider cost x 8 CNY/USD, no margin). Additive on top of the 2026-11-14 transition.
+  const official100b = JSON.parse(await readFile(new URL(
+    '../../tests/fixtures/keyvo-official-list-100-public-pricing-2026-11-15.json', import.meta.url,
+  ), 'utf8')) as typeof official100;
+  const official100bChanges = new Map(official100b.changes.map(row => [row.previous.id, row]));
+  if (official100b.retiredEngineIds.length !== 0 || official100b.retiredRowIds.length !== 0 || official100b.rows.length !== 0
+    || official100bChanges.size !== 61 || official100bChanges.size !== official100b.changes.length
+    || official100b.changes.some(({ previous, current }) => previous.id !== current.id || previous.engineId !== current.engineId
+      || !['veo-3-1', 'veo-3-1-fast', 'veo-3-1-lite', 'gemini-omni-flash', 'gpt-image-2-5-sunburst', 'gpt-image-2-5-flare']
+        .includes(current.engineId))) {
+    throw new Error('Invalid Keyvo official list 100% admin engines public pricing transition.');
+  }
+  const appliedOfficial100bChanges = new Set<string>();
   const byId = new Map(fixture.rows.map((row) => [row.id, row]));
   const expected = fixture.rows.map((row) => {
     const standardId = row.id.replace(/:(plus|pro):/u, ':member:');
@@ -353,6 +367,13 @@ async function main(): Promise<void> {
       appliedOfficial100Changes.add(row.id);
       return change.current;
     })
+    .map(row => {
+      const change = official100bChanges.get(row.id);
+      if (!change) return row;
+      if (!isDeepStrictEqual(row, change.previous)) throw new Error(`Keyvo official list 100% admin engines change does not match the previous row: ${row.id}`);
+      appliedOfficial100bChanges.add(row.id);
+      return change.current;
+    })
     .filter(row => {
       if (!officialRetiredRows.has(row.id)) {
         if (officialRetiredEngines.has(row.engineId)) throw new Error(`Keyvo retirement leaves an unlisted public row: ${row.id}`);
@@ -367,6 +388,7 @@ async function main(): Promise<void> {
   if (appliedOfficialChanges.size !== officialChanges.size) throw new Error('Missing Keyvo official list pricing scenario.');
   if (appliedOfficialRetirements.size !== officialRetiredRows.size) throw new Error('Missing Keyvo official list retired scenario.');
   if (appliedOfficial100Changes.size !== official100Changes.size) throw new Error('Missing Keyvo official list 100% pricing scenario.');
+  if (appliedOfficial100bChanges.size !== official100bChanges.size) throw new Error('Missing Keyvo official list 100% admin engines pricing scenario.');
   if (appliedH3MaxChanges.size !== h3MaxChanges.size) throw new Error('Missing Keyvo H3-Max official pricing scenario.');
   if (appliedKeyvoRetirements.size !== keyvoRetiredRows.size) throw new Error('Missing Keyvo retired public pricing scenario.');
   if (appliedOmniChanges.size !== omniChanges.size) throw new Error('Missing Omni 1.2 supplier-cost projection scenario.');

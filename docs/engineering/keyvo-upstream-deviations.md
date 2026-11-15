@@ -440,3 +440,19 @@ Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorde
 - **Kept on purpose:** the MCP server, all tools and paid MCP generation; the trial repositories, readers and admin views, so existing trial entitlements, quotes and jobs still read correctly. No migration was written or run; `neon/migrations/31` and `60` and their CHECK guard (which pins `seedance-2-0-mini` while the app preset is `seedance-2-5`, so a new trial row cannot even be inserted) are untouched. The MCP tool descriptions still mention an "included trial" in neutral terms because they feed the reviewed tool-policy fingerprint.
 - **Tests:** `tests/mcp-trial-*.test.ts` reopen the switch explicitly (`keyvoClosed: false`) to keep the dormant machinery covered and add closed-state cases; `tests/mcp-budget-options.test.ts` asserts no trial option; `tests/integration/mcp-seedance-mini-trial.test.ts` now pins the fail-closed behaviour. `tests/mcp-trial-confirmation-concurrency.test.ts` was removed: its three PostgreSQL cases only exercised inserting and reserving trial rows, which the guard now refuses.
 - **How to reopen later:** a trial would need (1) a migration widening the `mcp_generation_quotes_funding_shape` and related CHECK guards and the provider-cost function to the preset engine and its current cost (the guard is pinned to Seedance Mini), (2) an owner financial decision on the ceiling (`MCP_TRIAL_PROVIDER_COST_CEILING_CENTS`, default 25 cents against a 52-cent authoritative cost) and risk limits, (3) setting `KEYVO_MCP_TRIAL_DISABLED` to false, `trial: true` in `frontend/config/mcp-publication.json` and `MCP_TRIAL_ENABLED=true`, and (4) the reconcile cron from `docs/operations/mcp-trial-runbook.md`, then reverting the closed-state test pins.
+
+## Official-list-100 for Veo 3.1, Gemini Omni Flash 1.2 and GPT Image 2.5 (2026-11-15)
+
+- **Owner decision:** Veo 3.1, Veo 3.1 Fast, Veo 3.1 Lite, Gemini Omni Flash 1.2 and GPT Image 2.5 (Sunburst, Flare) sell
+  at the repo's existing provider USD cost facts x 8 CNY/USD with no margin and no discount (`official-list-100`).
+  Before, they sat on the rule path with the production default 20% margin. No vendor cost fact was changed.
+- **Unverified source (recorded on purpose):** these facts were not checked against the Google / OpenAI official list
+  pages. The owner accepted that because the engines are admin-only. Re-check them before offering the engines to
+  ordinary accounts; the Nano Banana facts of 2026-11-14 are the only ones read from a list page.
+- **Surfaces that changed:** billing quotes, public/estimate quotes (same snapshot), pricing hub rows, model-page,
+  JSON-LD offers, price chip, workspace preflight, MCP/agent quotes and the admin canonical scenarios (all through the
+  profile resolver). Public price pages only show them where the owner allowlist exposes them; governed rows: 61 in
+  `tests/fixtures/keyvo-official-list-100-public-pricing-2026-11-15.json`.
+- **Unchanged by design:** Veo image-to-video at 4/6 s and video operations (extend/edit) keep their reviewed tariff
+  gate; Omni source-video modes keep their tariff cells; GPT Image 2.6 stays gated (output-only incomplete facts, see
+  pricing-engine.md); the customer tariff state stays inactive.

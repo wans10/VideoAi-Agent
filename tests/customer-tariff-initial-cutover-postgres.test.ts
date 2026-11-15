@@ -23,6 +23,12 @@ import { pricingCutoverTarget } from '../frontend/server/pricing/cutover-target'
 import { computeCustomerTariffInitializationBaseline } from '../frontend/server/pricing/customer-tariff-initialization-baseline';
 import { getRuntimeModelById } from '../frontend/config/model-runtime';
 
+// Veo 3.1 / Fast / Lite, Gemini Omni Flash and GPT Image 2.5 moved to official-list-100 on 2026-11-15 (zero margin: a manual tariff
+// cannot represent it and the Omni continuous compiler refuses the profile). This rehearsal keeps them on the fixture's 30% margin
+// through explicit engine rules in its disposable database, so their upstream coverage stays exercised; only the Nano Banana
+// engines are left out of the rehearsal, as before. Their zero-margin prices are never cut over.
+const ADMIN_TIER_100 = new Set(['veo-3-1', 'veo-3-1-fast', 'veo-3-1-lite', 'gemini-omni-flash', 'gpt-image-2-5-sunburst', 'gpt-image-2-5-flare']);
+const isLeftOutOf100 = (modelId: string) => OFFICIAL_LIST_100_PRICED_ENGINE_IDS.has(modelId) && !ADMIN_TIER_100.has(modelId);
 const actor = '11111111-1111-4111-8111-111111111111';
 const key = (value: object) => JSON.stringify(Object.entries(value).sort(([a], [b]) => a.localeCompare(b)));
 const digest = (value: string) => createHash('sha256').update(value).digest('hex');
@@ -47,6 +53,8 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
       currency text, compatibility_profile text, vendor_account_id text, effective_from timestamptz, updated_at timestamptz, updated_by uuid);
       INSERT INTO app_pricing_rules (id,margin_percent,margin_flat_cents,surcharge_audio_percent,surcharge_upscale_percent,currency)
       VALUES ('default',.3,0,.2,.5,'USD');
+      INSERT INTO app_pricing_rules (id,engine_id,margin_percent,margin_flat_cents,surcharge_audio_percent,surcharge_upscale_percent,currency)
+      SELECT 'keyvo-margin-' || engine, engine, .3, 0, .2, .5, 'USD' FROM unnest(ARRAY['veo-3-1','veo-3-1-fast','veo-3-1-lite','gemini-omni-flash','gpt-image-2-5-sunburst','gpt-image-2-5-flare']) AS engine;
       CREATE TABLE user_roles (user_id uuid PRIMARY KEY,role text NOT NULL);
       INSERT INTO user_roles VALUES ('${actor}','admin');
       CREATE TABLE app_billing_products (product_key text PRIMARY KEY,surface text,label text,currency text,unit_kind text,unit_price_cents integer,active boolean,metadata jsonb);
@@ -142,7 +150,7 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
     // helper does for Kling V4 / Nano21); no price and no rule changes.
     // Google's Nano Banana engines (official-list-100, 100% of the list) are below cost as manual cells for the same
     // reason and are left out of the rehearsal alongside them.
-    const officialModels = [...OFFICIAL_LIST_PRICED_ENGINE_IDS, ...OFFICIAL_LIST_100_PRICED_ENGINE_IDS].map(id => getRuntimeModelById(id)!);
+    const officialModels = [...OFFICIAL_LIST_PRICED_ENGINE_IDS, ...OFFICIAL_LIST_100_PRICED_ENGINE_IDS].filter(id => !ADMIN_TIER_100.has(id)).map(id => getRuntimeModelById(id)!);
     const officialPublished = officialModels.map(model => model.publication.app.published);
     const release = await (async () => {
       try {
@@ -161,9 +169,9 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
 
     async function rehearseWithoutOfficialList(): Promise<CustomerTariffCutoverRelease> {
       const reduced = collectSellableManualTariffCoverage();
-      assert.equal(reduced.scenarios.some(row => OFFICIAL_LIST_PRICED_ENGINE_IDS.has(row.modelId) || OFFICIAL_LIST_100_PRICED_ENGINE_IDS.has(row.modelId)), false);
+      assert.equal(reduced.scenarios.some(row => OFFICIAL_LIST_PRICED_ENGINE_IDS.has(row.modelId) || isLeftOutOf100(row.modelId)), false);
       assert.equal(reduced.scenarios.length, coverage.scenarios.length - officialList.length
-        - coverage.scenarios.filter(row => OFFICIAL_LIST_100_PRICED_ENGINE_IDS.has(row.modelId)).length);
+        - coverage.scenarios.filter(row => isLeftOutOf100(row.modelId)).length);
       const inventory = collectCustomerTariffCutoverCheckpoints();
       const expectedCheckedQuotes = inventory.length;
       assert.deepEqual(Object.fromEntries(['ordinary', 'new_offer', 'local_workflow', 'input_stress'].map(kind =>

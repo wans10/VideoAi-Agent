@@ -12,6 +12,7 @@ import {
 import { listFalEngines } from '../frontend/src/config/falEngines';
 import {
   isOfficialListPricedAudio,
+  OFFICIAL_LIST_100_PRICE_PROFILE_ID,
   OFFICIAL_LIST_CUSTOMER_PRICE_FACTOR,
   OFFICIAL_LIST_PRICE_PROFILE_ID,
   OFFICIAL_LIST_PRICED_ENGINE_IDS,
@@ -30,9 +31,9 @@ const registry = JSON.parse(readFileSync('frontend/config/model-registry.json', 
   models: Array<{ id: string; family: string; publication: { app: { published: boolean } } }>;
 };
 const visibleFamilies = new Set(JSON.parse(readFileSync('frontend/config/keyvo-visible-families.json', 'utf8')) as string[]);
-// Owner allowlist (2026-11-14) offers these Google Vertex and OpenAI engines, but the repo has no official mainland CNY
-// list price for them yet, so they are not in OFFICIAL_LIST_PRICED_ENGINE_IDS. Their prices stay on their existing rules
-// (no price was guessed or changed here). Owner to supply the CNY list prices; then move them to the official-list set.
+// Owner allowlist (2026-11-14) offers these Google Vertex and OpenAI engines. They are not in OFFICIAL_LIST_PRICED_ENGINE_IDS
+// (the 80% rule); the Nano Banana, Omni and GPT Image 2.5 engines sell at 100% of their provider USD facts through
+// official-list-100 (official-list-pricing.ts, owner 2026-11-14 / 2026-11-15). GPT Image 2.6 keeps its customer-tariff gate.
 const PENDING_OFFICIAL_LIST_ENGINE_IDS = new Set<string>([
   'nano-banana-2-1', 'nano-banana-2', 'nano-banana-lite', 'gemini-omni-flash',
   'gpt-image-2-6-sunburst', 'gpt-image-2-6-flare', 'gpt-image-2-5-sunburst', 'gpt-image-2-5-flare',
@@ -129,7 +130,8 @@ test('every Keyvo-visible app model is priced by the official-list rule', () => 
   assert.equal(resolveOfficialListCompatibilityProfile('wan-3', 'public-rounded-vendor-current'), OFFICIAL_LIST_PRICE_PROFILE_ID);
   assert.equal(resolveOfficialListCompatibilityProfile('seedance-2-0', 'provider-reference-current'), OFFICIAL_LIST_PRICE_PROFILE_ID);
   assert.equal(resolveOfficialListCompatibilityProfile('wan-3', 'schema-current'), 'schema-current');
-  assert.equal(resolveOfficialListCompatibilityProfile('veo-3-1', 'standard'), 'standard');
+  assert.equal(resolveOfficialListCompatibilityProfile('veo-3-1', 'standard'), OFFICIAL_LIST_100_PRICE_PROFILE_ID);
+  assert.equal(resolveOfficialListCompatibilityProfile('gpt-image-2-6-flare', 'standard'), 'standard');
   assert.equal(isOfficialListPricedAudio({ pack: 'voice_only', voiceModel: 'minimax' }), true);
   assert.equal(isOfficialListPricedAudio({ pack: 'voice_only', voiceModel: 'eleven-v4' }), false);
   assert.equal(isOfficialListPricedAudio({ pack: 'music_only' }), false);

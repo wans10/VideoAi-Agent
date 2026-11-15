@@ -1,0 +1,1733 @@
+{
+  "version": 1,
+  "generatedFrom": "keyvo-official-list-100-admin-engines-price-rule",
+  "reviewedAt": "2026-11-15",
+  "note": "Keyvo official list 100% price rule extension (2026-11-15, owner decision). Veo 3.1, Veo 3.1 Fast, Veo 3.1 Lite, Gemini Omni Flash 1.2 and GPT Image 2.5 (Sunburst and Flare) sell at 100% of the repo's existing provider USD cost facts converted at 8 CNY/USD (profile official-list-100: no margin, no discount) instead of the production default 20% margin. The facts are NOT verified against the Google / OpenAI official list pages (the owner accepted this because the engines are admin-only). Only existing public rows of these six engines change (61 rows: estimator, image-estimate, json-ld and model-page offers, price chip, workspace preflight, pricing-hub-image and pricing-hub-video presets); nothing is added or retired. GPT Image 2.6 is unchanged (its customer-tariff gate stays). Rows are captured from the canonical public collector against the 2026-11-14 transition (unfiltered catalog).",
+  "retiredEngineIds": [],
+  "retiredRowIds": [],
+  "changes": [
+    {
+      "previous": {
+        "id": "estimator:gemini-omni-flash:member:default",
+        "surface": "estimator",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 23,
+        "marginCents": 7,
+        "discountCents": 0,
+        "customerTotalCents": 30,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:gemini-omni-flash:member:default",
+        "surface": "estimator",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 23,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 23,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:gemini-omni-flash:plus:default",
+        "surface": "estimator",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 23,
+        "marginCents": 7,
+        "discountCents": 0,
+        "customerTotalCents": 30,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:gemini-omni-flash:plus:default",
+        "surface": "estimator",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 23,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 23,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:gemini-omni-flash:pro:default",
+        "surface": "estimator",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 23,
+        "marginCents": 7,
+        "discountCents": 0,
+        "customerTotalCents": 30,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:gemini-omni-flash:pro:default",
+        "surface": "estimator",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 23,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 23,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:gpt-image-2-5-flare:member:default",
+        "surface": "estimator",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 0,
+        "marginCents": 1,
+        "discountCents": 0,
+        "customerTotalCents": 1,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:gpt-image-2-5-flare:member:default",
+        "surface": "estimator",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 0,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 1,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:gpt-image-2-5-flare:plus:default",
+        "surface": "estimator",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 0,
+        "marginCents": 1,
+        "discountCents": 0,
+        "customerTotalCents": 1,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:gpt-image-2-5-flare:plus:default",
+        "surface": "estimator",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 0,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 1,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:gpt-image-2-5-flare:pro:default",
+        "surface": "estimator",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 0,
+        "marginCents": 1,
+        "discountCents": 0,
+        "customerTotalCents": 1,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:gpt-image-2-5-flare:pro:default",
+        "surface": "estimator",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 0,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 1,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:gpt-image-2-5-sunburst:member:default",
+        "surface": "estimator",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 0,
+        "marginCents": 1,
+        "discountCents": 0,
+        "customerTotalCents": 1,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:gpt-image-2-5-sunburst:member:default",
+        "surface": "estimator",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 0,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 1,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:gpt-image-2-5-sunburst:plus:default",
+        "surface": "estimator",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 0,
+        "marginCents": 1,
+        "discountCents": 0,
+        "customerTotalCents": 1,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:gpt-image-2-5-sunburst:plus:default",
+        "surface": "estimator",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 0,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 1,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:gpt-image-2-5-sunburst:pro:default",
+        "surface": "estimator",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 0,
+        "marginCents": 1,
+        "discountCents": 0,
+        "customerTotalCents": 1,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:gpt-image-2-5-sunburst:pro:default",
+        "surface": "estimator",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 0,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 1,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:veo-3-1-fast:member:audio-off",
+        "surface": "estimator",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 64,
+        "marginCents": 20,
+        "discountCents": 0,
+        "customerTotalCents": 84,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:veo-3-1-fast:member:audio-off",
+        "surface": "estimator",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 64,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 64,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:veo-3-1-fast:member:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 80,
+        "marginCents": 24,
+        "discountCents": 0,
+        "customerTotalCents": 104,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:veo-3-1-fast:member:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 80,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 80,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:veo-3-1-fast:plus:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 80,
+        "marginCents": 24,
+        "discountCents": 0,
+        "customerTotalCents": 104,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:veo-3-1-fast:plus:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 80,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 80,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:veo-3-1-fast:pro:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 80,
+        "marginCents": 24,
+        "discountCents": 0,
+        "customerTotalCents": 104,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:veo-3-1-fast:pro:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 80,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 80,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:veo-3-1-lite:member:audio-off",
+        "surface": "estimator",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 24,
+        "marginCents": 8,
+        "discountCents": 0,
+        "customerTotalCents": 32,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:veo-3-1-lite:member:audio-off",
+        "surface": "estimator",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 24,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 24,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:veo-3-1-lite:member:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 40,
+        "marginCents": 12,
+        "discountCents": 0,
+        "customerTotalCents": 52,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:veo-3-1-lite:member:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 40,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 40,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:veo-3-1-lite:plus:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 40,
+        "marginCents": 12,
+        "discountCents": 0,
+        "customerTotalCents": 52,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:veo-3-1-lite:plus:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 40,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 40,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:veo-3-1-lite:pro:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 40,
+        "marginCents": 12,
+        "discountCents": 0,
+        "customerTotalCents": 52,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:veo-3-1-lite:pro:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 40,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 40,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:veo-3-1:member:audio-off",
+        "surface": "estimator",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 160,
+        "marginCents": 48,
+        "discountCents": 0,
+        "customerTotalCents": 208,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:veo-3-1:member:audio-off",
+        "surface": "estimator",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 160,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 160,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:veo-3-1:member:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 320,
+        "marginCents": 96,
+        "discountCents": 0,
+        "customerTotalCents": 416,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:veo-3-1:member:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 320,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 320,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:veo-3-1:plus:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 320,
+        "marginCents": 96,
+        "discountCents": 0,
+        "customerTotalCents": 416,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:veo-3-1:plus:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 320,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 320,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:veo-3-1:pro:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 320,
+        "marginCents": 96,
+        "discountCents": 0,
+        "customerTotalCents": 416,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:veo-3-1:pro:default",
+        "surface": "estimator",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 320,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 320,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "image-estimate:gpt-image-2-5-flare:default",
+        "surface": "image-estimate",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 4,
+        "marginCents": 2,
+        "discountCents": 0,
+        "customerTotalCents": 6,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "image-estimate:gpt-image-2-5-flare:default",
+        "surface": "image-estimate",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 4,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 4,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "image-estimate:gpt-image-2-5-sunburst:default",
+        "surface": "image-estimate",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 4,
+        "marginCents": 2,
+        "discountCents": 0,
+        "customerTotalCents": 6,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "image-estimate:gpt-image-2-5-sunburst:default",
+        "surface": "image-estimate",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 4,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 4,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:gemini-omni-flash:offer",
+        "surface": "json-ld",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 91,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.91",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:gemini-omni-flash:offer",
+        "surface": "json-ld",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 70,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.70",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:gpt-image-2-5-flare:offer",
+        "surface": "json-ld",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 6,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.06",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:gpt-image-2-5-flare:offer",
+        "surface": "json-ld",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 4,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.04",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:gpt-image-2-5-sunburst:offer",
+        "surface": "json-ld",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 6,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.06",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:gpt-image-2-5-sunburst:offer",
+        "surface": "json-ld",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 4,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.04",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:veo-3-1-fast:offer",
+        "surface": "json-ld",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 125,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "1.25",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:veo-3-1-fast:offer",
+        "surface": "json-ld",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 96,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.96",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:veo-3-1-lite:offer",
+        "surface": "json-ld",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 52,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.52",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:veo-3-1-lite:offer",
+        "surface": "json-ld",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 40,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "0.40",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "json-ld:veo-3-1:offer",
+        "surface": "json-ld",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 416,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "4.16",
+        "compatibilityProfile": "schema-current"
+      },
+      "current": {
+        "id": "json-ld:veo-3-1:offer",
+        "surface": "json-ld",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 320,
+        "unit": "offer",
+        "quantity": 1,
+        "structuredDataAmount": "3.20",
+        "compatibilityProfile": "schema-current"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:gemini-omni-flash:default",
+        "surface": "model-page",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 70,
+        "marginCents": 21,
+        "discountCents": 0,
+        "customerTotalCents": 91,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:gemini-omni-flash:default",
+        "surface": "model-page",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 70,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 70,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:gpt-image-2-5-flare:default",
+        "surface": "model-page",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 4,
+        "marginCents": 2,
+        "discountCents": 0,
+        "customerTotalCents": 6,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:gpt-image-2-5-flare:default",
+        "surface": "model-page",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 4,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 4,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:gpt-image-2-5-sunburst:default",
+        "surface": "model-page",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 4,
+        "marginCents": 2,
+        "discountCents": 0,
+        "customerTotalCents": 6,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:gpt-image-2-5-sunburst:default",
+        "surface": "model-page",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 4,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 4,
+        "unit": "image",
+        "quantity": 1,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:veo-3-1-fast:default",
+        "surface": "model-page",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 80,
+        "marginCents": 24,
+        "discountCents": 0,
+        "customerTotalCents": 104,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:veo-3-1-fast:default",
+        "surface": "model-page",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 80,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 80,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:veo-3-1-lite:default",
+        "surface": "model-page",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 40,
+        "marginCents": 12,
+        "discountCents": 0,
+        "customerTotalCents": 52,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:veo-3-1-lite:default",
+        "surface": "model-page",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 40,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 40,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "model-page:veo-3-1:default",
+        "surface": "model-page",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 320,
+        "marginCents": 96,
+        "discountCents": 0,
+        "customerTotalCents": 416,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "model-page:veo-3-1:default",
+        "surface": "model-page",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 320,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 320,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "price-chip:veo-3-1-fast:default",
+        "surface": "price-chip",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 96,
+        "marginCents": 29,
+        "discountCents": 0,
+        "customerTotalCents": 125,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "price-chip:veo-3-1-fast:default",
+        "surface": "price-chip",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 96,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 96,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-image:gpt-image-2-5-flare:high",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 13,
+        "unit": "image",
+        "quantity": 1,
+        "displayedAmount": "$0.13",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-image:gpt-image-2-5-flare:high",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 10,
+        "unit": "image",
+        "quantity": 1,
+        "displayedAmount": "$0.10",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-image:gpt-image-2-5-flare:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 8,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.08",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-image:gpt-image-2-5-flare:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 4,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.04",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-image:gpt-image-2-5-flare:standard",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 2,
+        "unit": "image",
+        "quantity": 1,
+        "displayedAmount": "$0.02",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-image:gpt-image-2-5-flare:standard",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2-5-flare",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 1,
+        "unit": "image",
+        "quantity": 1,
+        "displayedAmount": "$0.01",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-image:gpt-image-2-5-sunburst:high",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 13,
+        "unit": "image",
+        "quantity": 1,
+        "displayedAmount": "$0.13",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-image:gpt-image-2-5-sunburst:high",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 10,
+        "unit": "image",
+        "quantity": 1,
+        "displayedAmount": "$0.10",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-image:gpt-image-2-5-sunburst:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 8,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.08",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-image:gpt-image-2-5-sunburst:quantity-4",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 4,
+        "unit": "image",
+        "quantity": 4,
+        "displayedAmount": "$0.04",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-image:gpt-image-2-5-sunburst:standard",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 2,
+        "unit": "image",
+        "quantity": 1,
+        "displayedAmount": "$0.02",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-image:gpt-image-2-5-sunburst:standard",
+        "surface": "pricing-hub-image",
+        "engineId": "gpt-image-2-5-sunburst",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 1,
+        "unit": "image",
+        "quantity": 1,
+        "displayedAmount": "$0.01",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:gemini-omni-flash:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 136,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.36",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:gemini-omni-flash:10s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 104,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.04",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:gemini-omni-flash:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 136,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.36",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:gemini-omni-flash:10s-1080p-audio",
+        "surface": "pricing-hub-video",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 104,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.04",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:gemini-omni-flash:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 91,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.91",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:gemini-omni-flash:10s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 70,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.70",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:gemini-omni-flash:4k-route",
+        "surface": "pricing-hub-video",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 272,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.72",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:gemini-omni-flash:4k-route",
+        "surface": "pricing-hub-video",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 209,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.09",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:gemini-omni-flash:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 46,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.46",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:gemini-omni-flash:5s-720p",
+        "surface": "pricing-hub-video",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 35,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.35",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:gemini-omni-flash:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 108,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.08",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:gemini-omni-flash:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 83,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.83",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:gemini-omni-flash:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 91,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.91",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:gemini-omni-flash:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 70,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.70",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:veo-3-1-fast:4k-route",
+        "surface": "pricing-hub-video",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 260,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.60",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:veo-3-1-fast:4k-route",
+        "surface": "pricing-hub-video",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 200,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.00",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:veo-3-1-fast:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 104,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.04",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:veo-3-1-fast:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 80,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.80",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:veo-3-1-fast:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 84,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.84",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:veo-3-1-fast:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 64,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.64",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:veo-3-1-lite:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 52,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.52",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:veo-3-1-lite:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 40,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.40",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:veo-3-1-lite:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 32,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.32",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:veo-3-1-lite:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 24,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$0.24",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:veo-3-1:4k-route",
+        "surface": "pricing-hub-video",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 416,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$4.16",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:veo-3-1:4k-route",
+        "surface": "pricing-hub-video",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 320,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$3.20",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:veo-3-1:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 208,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.08",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:veo-3-1:8s-1080p",
+        "surface": "pricing-hub-video",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 160,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.60",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "pricing-hub-video:veo-3-1:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 208,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$2.08",
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "pricing-hub-video:veo-3-1:entry-route",
+        "surface": "pricing-hub-video",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 160,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$1.60",
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "workspace-preflight:gemini-omni-flash:default",
+        "surface": "workspace-preflight",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 70,
+        "marginCents": 21,
+        "discountCents": 0,
+        "customerTotalCents": 91,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "workspace-preflight:gemini-omni-flash:default",
+        "surface": "workspace-preflight",
+        "engineId": "gemini-omni-flash",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 70,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 70,
+        "unit": "sec",
+        "quantity": 10,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "workspace-preflight:veo-3-1-fast:default",
+        "surface": "workspace-preflight",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 80,
+        "marginCents": 24,
+        "discountCents": 0,
+        "customerTotalCents": 104,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "workspace-preflight:veo-3-1-fast:default",
+        "surface": "workspace-preflight",
+        "engineId": "veo-3-1-fast",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 80,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 80,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "workspace-preflight:veo-3-1-lite:default",
+        "surface": "workspace-preflight",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 40,
+        "marginCents": 12,
+        "discountCents": 0,
+        "customerTotalCents": 52,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "workspace-preflight:veo-3-1-lite:default",
+        "surface": "workspace-preflight",
+        "engineId": "veo-3-1-lite",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 40,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 40,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "workspace-preflight:veo-3-1:default",
+        "surface": "workspace-preflight",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 320,
+        "marginCents": 96,
+        "discountCents": 0,
+        "customerTotalCents": 416,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "workspace-preflight:veo-3-1:default",
+        "surface": "workspace-preflight",
+        "engineId": "veo-3-1",
+        "status": "exact",
+        "currency": "USD",
+        "vendorSubtotalCents": 320,
+        "marginCents": 0,
+        "discountCents": 0,
+        "customerTotalCents": 320,
+        "unit": "sec",
+        "quantity": 8,
+        "compatibilityProfile": "standard"
+      }
+    }
+  ],
+  "rows": []
+}

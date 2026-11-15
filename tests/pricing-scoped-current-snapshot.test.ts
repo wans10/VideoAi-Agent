@@ -7,7 +7,9 @@ import * as pricing from '../frontend/server/pricing/quote-public';
 
 const context: PricingContext = { engine: PRICING_ENGINES.get('veo-3-1-fast')!, mode: 't2v', durationSec: 4,
   resolution: '720p', membershipTier: 'member', hasVideoInput: false, inputVideoDurationSec: 0, addons: { audio: true } };
-const policy = (marginPercent = 0.3): PricingPolicyOverrideLoadResult => ({ status: 'loaded', rules: [{ id: 'fixture',
+// Veo 3.1 Fast sells at zero margin (official-list-100, 2026-11-15) unless an explicit engine rule applies; the fixture rule is
+// engine-specific so this mechanism test keeps exercising margin changes between fresh scopes.
+const policy = (marginPercent = 0.3): PricingPolicyOverrideLoadResult => ({ status: 'loaded', rules: [{ id: 'fixture', engineId: 'veo-3-1-fast',
   marginPercent, marginFlatCents: 0, currency: 'USD' }], routingRules: [{ id: 'fixture', marginPercent, marginFlatCents: 0,
   surchargeAudioPercent: 0, surchargeUpscalePercent: 0, currency: 'USD', vendorAccountId: 'acct_context_scope' }] });
 const flush = () => new Promise<void>(resolve => setImmediate(resolve));

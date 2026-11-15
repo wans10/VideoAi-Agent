@@ -44,9 +44,13 @@ test('atomic local cutover rejects stale certificates, preserves staged evidence
     // so the Ark-list basis stays above every BytePlus supplier reference the Seedance input tariff guard compares),
     // so the activation machinery stays exercised; Keyvo's own prices are never cut over.
     // Google's Nano Banana engines sell at 100% of the list (official-list-100) and are below cost for the same reason.
+    // Veo 3.1 / Fast / Lite, Gemini Omni Flash and GPT Image 2.5 (official-list-100 since 2026-11-15) keep the fixture's 30%
+    // default margin through explicit engine rules, so the Omni continuous compiler and the GPT Image 2.5 reference-floor
+    // settlement guard stay exercised; their zero-margin prices are never cut over.
+    const adminTier100 = new Set(['veo-3-1', 'veo-3-1-fast', 'veo-3-1-lite', 'gemini-omni-flash', 'gpt-image-2-5-sunburst', 'gpt-image-2-5-flare']);
     for (const engineId of [...OFFICIAL_LIST_PRICED_ENGINE_IDS, ...OFFICIAL_LIST_100_PRICED_ENGINE_IDS]) {
       await db.pool.query(`INSERT INTO app_pricing_rules (id, engine_id, margin_percent, margin_flat_cents, surcharge_audio_percent,
-        surcharge_upscale_percent, currency) VALUES ($1, $2, 1.5, 0, .2, .5, 'USD')`, [`keyvo-margin-${engineId}`, engineId]);
+        surcharge_upscale_percent, currency) VALUES ($1, $2, $3, 0, .2, .5, 'USD')`, [`keyvo-margin-${engineId}`, engineId, adminTier100.has(engineId) ? 0.3 : 1.5]);
     }
     for (const migration of ['27_pricing_admin_cockpit.sql', '54_customer_tariff_cells.sql', '55_customer_tariff_versions.sql', '57_customer_tariff_local_activation_events.sql', '58_customer_tariff_bulk_interval_lock.sql']) {
       await db.pool.query(readFileSync(`neon/migrations/${migration}`, 'utf8'));

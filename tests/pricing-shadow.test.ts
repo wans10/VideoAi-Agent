@@ -150,8 +150,8 @@ test('the pricing audit reports the reviewed Gemini refresh and Keyvo official l
     encoding: 'utf8',
   });
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
-  // 4 Gemini Omni 1.2 rows, 48 Keyvo official list price rows (2026-11-13) and 8 Nano Banana 2 / Lite official-list-100 rows (2026-11-14).
-  assert.match(result.stdout, /60 approved changes; 0 mismatches/u);
+  // 48 Keyvo official list price rows (2026-11-13) 8 Nano Banana 2 / Lite official-list-100 rows (2026-11-14) and 16 Veo 3.1 / Fast / Lite and Gemini Omni Flash official-list-100 rows (2026-11-15; the GPT Image 2.5 launch additions are regenerated at the new price).
+  assert.match(result.stdout, /72 approved changes; 0 mismatches/u);
 });
 
 test('historical Sora and Seedance 1.5 billing and estimator evidence remains independently reproducible after retirement', async () => {
@@ -199,11 +199,19 @@ test('canonical shadow quotes match frozen outputs except the Omni 1.2 refresh a
   assert.deepEqual([...new Set(keyvoOfficial.map((row) => row.engineId))].sort(), ['happy-horse-1-1', 'kling-3-4k', 'kling-3-pro',
     'kling-3-standard', 'kling-o3-4k', 'kling-o3-pro', 'kling-o3-standard', 'minimax-hailuo-02-text', 'seedance-2-0',
     'seedance-2-0-fast', 'seedance-2-0-mini', 'seedream-5-0-pro']);
-  assert.equal(matrix.summary.approvedChanges, 4 + 48 + 8);
+  // The 2026-11-15 official-list-100 extension (Veo 3.1 / Fast / Lite, Gemini Omni Flash 1.2, GPT Image 2.5) approves 16 rows
+  // with zero margin; its four Omni rows supersede the 2026-11-05 Omni 1.2 refresh approvals. The GPT Image 2.5 4-image rows are
+  // regenerated launch additions (pricing:shadow-additions:generate) and need no approval.
+  const keyvoAdmin = matrix.rows.filter((row) => row.status === 'approved-change'
+    && row.approvalReason?.startsWith('Keyvo official list 100% price rule extension'));
+  assert.equal(keyvoAdmin.length, 16);
+  assert.ok(keyvoAdmin.every((row) => row.deltaCents < 0 && row.fieldDeltas.marginCents?.canonical === 0), 'official-list-100 admin rows');
+  assert.deepEqual([...new Set(keyvoAdmin.map((row) => row.engineId))].sort(), ['gemini-omni-flash', 'veo-3-1', 'veo-3-1-fast', 'veo-3-1-lite']);
+  assert.equal(matrix.summary.approvedChanges, 48 + 8 + 16);
   assert.equal(matrix.summary.mismatches, 0);
   assert.deepEqual(
     matrix.rows
-      .filter((row) => row.status !== 'match' && !keyvoOfficial.includes(row))
+      .filter((row) => row.status !== 'match' && !keyvoOfficial.includes(row) && !keyvoAdmin.includes(row))
       .map((row) => ({
         scenarioId: row.scenarioId,
         currentTotalCents: row.currentTotalCents,
@@ -212,27 +220,6 @@ test('canonical shadow quotes match frozen outputs except the Omni 1.2 refresh a
         status: row.status,
       })),
     [
-      {
-        scenarioId: 'billing:gemini-omni-flash:t2v:10:720p:member',
-        currentTotalCents: 130,
-        canonicalTotalCents: 91,
-        deltaCents: -39,
-        status: 'approved-change',
-      },
-      {
-        scenarioId: 'billing:gemini-omni-flash:t2v:10:720p:plus',
-        currentTotalCents: 123,
-        canonicalTotalCents: 86,
-        deltaCents: -37,
-        status: 'approved-change',
-      },
-      {
-        scenarioId: 'billing:gemini-omni-flash:t2v:10:720p:pro',
-        currentTotalCents: 117,
-        canonicalTotalCents: 82,
-        deltaCents: -35,
-        status: 'approved-change',
-      },
       {
         scenarioId: 'billing:nano-banana-2:t2i:4:1k:member',
         currentTotalCents: 42,
@@ -273,13 +260,6 @@ test('canonical shadow quotes match frozen outputs except the Omni 1.2 refresh a
         currentTotalCents: 14,
         canonicalTotalCents: 12,
         deltaCents: -2,
-        status: 'approved-change',
-      },
-      {
-        scenarioId: 'estimator:gemini-omni-flash:10:720p',
-        currentTotalCents: 130,
-        canonicalTotalCents: 91,
-        deltaCents: -39,
         status: 'approved-change',
       },
       {

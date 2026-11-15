@@ -237,10 +237,12 @@ test('active model route and real server layout share policy while preserving in
     await t.test('successful scoped policy stays fresh per render and tariff amounts/revisions stay fresh per quote', async () => {
       const input = pageInput('veo-3-1');
       const prior = await render(input, true);
-      await database.pool.query("UPDATE app_pricing_rules SET margin_percent = 0.8 WHERE id = 'default'");
+// Keyvo 2026-11-15: Veo 3.1 sells at provider cost (official-list-100) unless an explicit engine rule applies, so this policy
+// flip also adds/removes an engine rule for it (the global 'default' row alone no longer changes its quote).
+      await database.pool.query("UPDATE app_pricing_rules SET margin_percent = 0.8 WHERE id = 'default'; INSERT INTO app_pricing_rules (id, engine_id, margin_percent, margin_flat_cents, surcharge_audio_percent, surcharge_upscale_percent, currency) VALUES ('veo-flip', 'veo-3-1', 0.8, 0, 0.2, 0.5, 'USD')");
       reset(); const changed = await render(input, true);
       assert.equal(counts.policy, 1); assert.notDeepEqual(changed.snapshots, prior.snapshots);
-      await database.pool.query("UPDATE app_pricing_rules SET margin_percent = 0.3 WHERE id = 'default'");
+      await database.pool.query("UPDATE app_pricing_rules SET margin_percent = 0.3 WHERE id = 'default'; DELETE FROM app_pricing_rules WHERE id = 'veo-flip'");
       const scenario = pricing.resolvePublicModelScenario(pikaInput)!;
       const create = { operation: 'create' as const, scenarioId: scenario.id, customerCents: 37 };
       await confirmCustomerTariffChange(create, (await previewCustomerTariffChange(create)).fingerprint, actor, () => {});
@@ -287,7 +289,7 @@ test('active model route and real server layout share policy while preserving in
       const first = render(input, true);
       try {
         await read;
-        await database.pool.query("UPDATE app_pricing_rules SET margin_percent = 0.8 WHERE id = 'default'");
+        await database.pool.query("UPDATE app_pricing_rules SET margin_percent = 0.8 WHERE id = 'default'; INSERT INTO app_pricing_rules (id, engine_id, margin_percent, margin_flat_cents, surcharge_audio_percent, surcharge_upscale_percent, currency) VALUES ('veo-flip', 'veo-3-1', 0.8, 0, 0.2, 0.5, 'USD')");
         const second = await render(input, true);
         release();
         assert.deepEqual(await first, healthy);
@@ -295,7 +297,7 @@ test('active model route and real server layout share policy while preserving in
         assert.equal(counts.policy, 2); assert.equal(counts.begin, 24); assert.equal(counts.commit, 24);
       } finally {
         release(); await first; after = undefined;
-        await database.pool.query("UPDATE app_pricing_rules SET margin_percent = 0.3 WHERE id = 'default'");
+        await database.pool.query("UPDATE app_pricing_rules SET margin_percent = 0.3 WHERE id = 'default'; DELETE FROM app_pricing_rules WHERE id = 'veo-flip'");
       }
     });
 

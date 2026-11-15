@@ -8,13 +8,15 @@ type OfficialListTransition = {
 /**
  * Current Product offer (JSON-LD) customer cents of an engine re-priced by Keyvo's official list price rules,
  * read from the reviewed public transition fixtures: the 2026-11-13 official-list-80 rule and the later
- * 2026-11-14 official-list-100 correction for Nano Banana 2 / Lite, which wins where both change an offer.
+ * 2026-11-14 official-list-100 correction for Nano Banana 2 / Lite and the 2026-11-15 extension to the admin-tier Veo,
+ * Omni and GPT Image 2.5 engines, which win where several change an offer.
  * Undefined when no rule changed the offer.
  */
 const transition = JSON.parse(readFileSync('tests/fixtures/keyvo-official-list-public-pricing-2026-11-13.json', 'utf8')) as OfficialListTransition;
 const transition100 = JSON.parse(readFileSync('tests/fixtures/keyvo-official-list-100-public-pricing-2026-11-14.json', 'utf8')) as OfficialListTransition;
+const transition100b = JSON.parse(readFileSync('tests/fixtures/keyvo-official-list-100-public-pricing-2026-11-15.json', 'utf8')) as OfficialListTransition;
 const offers = new Map(
-  [...transition.changes, ...transition100.changes]
+  [...transition.changes, ...transition100.changes, ...transition100b.changes]
     .filter((change) => change.current.id.startsWith('json-ld:') && change.current.id.endsWith(':offer'))
     .map((change) => [change.current.id.split(':')[1]!, change.current.customerTotalCents]),
 );
