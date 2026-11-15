@@ -1,3 +1,4 @@
+import { isKeyvoRecastHidden } from '@/config/keyvo-disabled-features';
 import { createCharacterStudioIntegration, type CharacterStudioIntegrationOptions } from '@/server/character-studio/integration';
 import type { StudioGenerationActor } from '@/server/agent-api/generation-actor';
 import { AgentApiError } from '@/server/agent-api/errors';
@@ -22,7 +23,7 @@ export async function prepareStudioConversationRecast(options: {
   characterFactory?:StudioCharacterFactory;
   characterEnabled?:boolean;
 }, action:StudioRecastIntent, callId:string) {
-  if (!options.characterEnabled) throw new AgentApiError('ENGINE_UNAVAILABLE','Studio Recast preparation is unavailable.');
+  if (!options.characterEnabled || isKeyvoRecastHidden()) throw new AgentApiError('ENGINE_UNAVAILABLE','Studio Recast preparation is unavailable.');
   if (options.input.shotPlanRevision) throw new AgentApiError('PARAMETER_INVALID','The revised shot plan requires a new video quote.');
   const {actor,turn,input} = options;
   const assetId = (ref:Parameters<typeof studioConversationSourceAsset>[1]) =>

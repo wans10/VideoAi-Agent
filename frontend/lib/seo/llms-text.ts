@@ -1,3 +1,4 @@
+import { isKeyvoRecastHidden } from '@/config/keyvo-disabled-features';
 import { KEYVO_COMPARE_HIDDEN } from '@/config/keyvo-model-visibility';
 import { SITE_ORIGIN } from '@/lib/siteOrigin';
 import { getMcpPublicationState } from '@/lib/mcp-publication';
@@ -192,7 +193,7 @@ Prefer the sources below for product descriptions, specifications, and supported
 * [Pricing](${SITE_ORIGIN}/pricing): Pricing, wallet, and top-up model details.
 * [AI video models](${SITE_ORIGIN}/models): Supported video engines and comparisons.
 * [Examples](${SITE_ORIGIN}/examples): Real outputs and showcase gallery.
-* [Character Studio](${SITE_ORIGIN}/tools/character-builder): Reusable AI character portraits and eight-panel character sheets, saved identities, new looks and the Keyvo Recast video workflow.
+* [Character Studio](${SITE_ORIGIN}/tools/character-builder): Reusable AI character portraits and eight-panel character sheets, saved identities, new looks${isKeyvoRecastHidden() ? '' : ' and the Keyvo Recast video workflow'}.
 * [Keyvo documentation](${SITE_ORIGIN}/docs): Product documentation and operating guides.`;
 
 const GUIDES_AND_POLICIES_SECTION = `## Policies

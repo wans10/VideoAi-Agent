@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import {isKeyvoRecastHidden} from '@/config/keyvo-disabled-features';
 import {studioReasoning} from './assistance-reasoning';
 import {STUDIO_ANALYSIS_DIRECTOR_TOOLS,studioAnalysisDirectorTools} from '@/lib/studio/media-analysis-contract';
 import type {StudioAssistantModel,MiloRuntimePolicy} from '@/lib/studio/assistance-contract';
@@ -155,7 +156,7 @@ export function createStudioConversationDirector(options: {model?: StudioAssista
     const maxResponses=options.taskExecution?.maxCalls??4;
     for (let index = 0; index < maxResponses; index++) {
       const analysisTools=options.analysisEnabled?studioAnalysisDirectorTools(options.analysisProfiles??{video:true,audio:true}):context.project.analyses?.length?[STUDIO_ANALYSIS_DIRECTOR_TOOLS[1]]:[];
-      const availableTools = [...STUDIO_DIRECTOR_TOOLS,...(options.taskExecution?STUDIO_TASK_DIRECTOR_TOOLS:[]), ...(options.mediaEnabled ? STUDIO_MEDIA_DIRECTOR_TOOLS : []),...(characterEnabled ? STUDIO_CHARACTER_DIRECTOR_TOOLS : []),...(options.editingEnabled ? STUDIO_EDITING_DIRECTOR_TOOLS : []),...(options.exportsEnabled ? STUDIO_EXPORT_DIRECTOR_TOOLS : []),...analysisTools]
+      const availableTools = [...STUDIO_DIRECTOR_TOOLS,...(options.taskExecution?STUDIO_TASK_DIRECTOR_TOOLS:[]), ...(options.mediaEnabled ? STUDIO_MEDIA_DIRECTOR_TOOLS : []),...(characterEnabled ? STUDIO_CHARACTER_DIRECTOR_TOOLS.filter(tool=>!isKeyvoRecastHidden()||tool.action!=='recast.prepare') : []),...(options.editingEnabled ? STUDIO_EDITING_DIRECTOR_TOOLS : []),...(options.exportsEnabled ? STUDIO_EXPORT_DIRECTOR_TOOLS : []),...analysisTools]
         .filter(tool=>!selectedFilmPlan||tool.action!=='pricing.compare');
       // A final comparison renders its own reply; other reads need another Response.
       // Older checkpointed reads remain recoverable during paid-response replay.

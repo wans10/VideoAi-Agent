@@ -8,6 +8,7 @@ import { createDefaultCharacterBuilderState } from '../frontend/src/lib/characte
 import { createAgentCharacterStudioService } from '../frontend/src/server/agent-api/character-studio';
 import { AgentApiError } from '../frontend/src/server/agent-api/errors';
 import type { GenerationActor } from '../frontend/src/server/agent-api/generation-actor';
+process.env.KEYVO_RECAST_FULL_UI = '1'; // Pins the Recast service paths themselves: Keyvo hides Recast (KEYVO_RECAST_HIDDEN), see keyvo-recast-hidden.test.ts.
 
 test('Recast spending denials use the MCP preview destination in preparation and confirmation', async t => {
   const f = await recastHarness(t);

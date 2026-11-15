@@ -6,7 +6,7 @@ export async function mountToolFixture(contents: string, stubs: Record<string, s
   const frontend = path.join(process.cwd(), 'frontend');
   const bundle = await build({
     absWorkingDir: frontend, bundle: true, format: 'iife', platform: 'browser', jsx: 'automatic', write: false,
-    define: { 'process.env.NODE_ENV': '"test"' }, loader: { '.css': 'empty' }, tsconfig: path.join(frontend, 'tsconfig.json'),
+    define: { 'process.env.NODE_ENV': '"test"', 'process.env.KEYVO_RECAST_FULL_UI': JSON.stringify(process.env.KEYVO_RECAST_FULL_UI ?? '') }, // a test that sets KEYVO_RECAST_FULL_UI reopens Recast in the browser bundle too loader: { '.css': 'empty' }, tsconfig: path.join(frontend, 'tsconfig.json'),
     plugins: [{ name: 'test-boundaries', setup(b) {
       b.onResolve({ filter: /.*/ }, a => a.path in stubs ? { path: a.path, namespace: 'stub' } : undefined);
       b.onLoad({ filter: /.*/, namespace: 'stub' }, a => ({ contents: stubs[a.path], loader: 'js', resolveDir: frontend }));

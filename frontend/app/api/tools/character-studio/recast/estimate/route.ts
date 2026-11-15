@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { isKeyvoRecastHidden } from '@/config/keyvo-disabled-features';
 import { FEATURES } from '@/content/feature-flags';
 import { readRecastPublicPrice } from '@/server/character-studio/recast-public-price';
 import type { PublicModelQuoteInput } from '@/lib/pricing-public-model-contract';
@@ -12,7 +13,7 @@ const reply = (body: object, status = 200) =>
 
 /** Read-only estimate. The paid quote must measure owned source media again before reservation. */
 export async function POST(request: Request) {
-  if (!FEATURES.workflows.toolsSection) return reply(unavailable, 404);
+  if (isKeyvoRecastHidden() || !FEATURES.workflows.toolsSection) return reply(unavailable, 404);
   const data = await request.json().catch(() => null);
   if (
     !data ||

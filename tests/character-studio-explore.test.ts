@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { build } from 'esbuild';
 import { mountToolFixture } from './helpers/tool-selection-fixture';
+process.env.KEYVO_RECAST_FULL_UI = '1'; // Pins the Recast surfaces themselves: Keyvo hides Recast (KEYVO_RECAST_HIDDEN), see keyvo-recast-hidden.test.ts.
 
 const films = [
   { key: 'dixie', video: 'https://media.maxvideoai.com/marketing-media/dixie/video.mp4', poster: '/dixie.webp' },

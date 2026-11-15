@@ -395,6 +395,39 @@ Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorde
   Seedream 5.0 Flash 4-image presets (hub 24/8/8/24/80/4 vs total billing). Those rows are not changed here because the
   owner has not approved moving them (GPT Image 2.5/2.6 prices are pending).
 
+## Character Recast hidden (2026-11-15, `KEYVO_RECAST_HIDDEN`)
+
+- **Why:** Recast (Wan 3 Prime video-to-video character swap in Character Studio) cannot be bought in the CNY build. Its quote
+  is built in USD (`server/pricing/quote-recast.ts`, no customer-currency conversion) while the wallet is CNY
+  (`reserveWalletCharge` returns `currency_mismatch`), the estimate route, `CharacterStudioRecastTiming.client.tsx` and
+  `recast-submit.ts` require a USD quote, and `CHARACTER_STUDIO_RECAST_LIVE_ENABLED` is not set in production. A customer
+  would have seen a dollar price that can never be paid.
+- **Keyvo:** `KEYVO_RECAST_HIDDEN = true` in `frontend/config/keyvo-disabled-features.ts`; guarded code calls
+  `isKeyvoRecastHidden()` (the test-only `KEYVO_RECAST_FULL_UI=1` reopens it, never set in production). No Recast pricing,
+  DB rule or coefficient logic changed; all code, data and copy (en/fr/es) stay in place.
+- **Hidden:** the Character Studio Recast tab and `?mode=recast` (`CharacterStudioNavigation`, `CharacterBuilderWorkspace`),
+  the Explore "Recast" button and examples, the "Recast" buttons on result cards and in the saved-character library, the
+  Recast panel (not mounted), the Recast section and pricing pointer on the `/tools/character-builder` landing page plus
+  FAQ entries mentioning it (`character-builder-landing-recast.ts`), `CharacterStudioPublicFilms` (app, examples and blog
+  proof), the blog proof/"see Recast examples" link and next-step `mode=recast` links, the pricing hub "Keyvo Recast" row
+  (`PricingOtherSurfacesSection`; `buildCurrentOtherPricing` no longer reads any Recast quote), the llms.txt Recast phrase.
+- **Refused:** `app/api/tools/character-studio/recast/{estimate,prepare,confirm}` return 404 (`TOOLS_DISABLED`) before any
+  pricing, wallet or provider work; the MCP Recast tools stay listed (the reviewed tool-selection fingerprint is unchanged)
+  but `createAgentCharacterStudioService` refuses with `ENGINE_UNAVAILABLE`; the Studio conversation director no longer
+  offers `recast_prepare` and `prepareStudioConversationRecast` refuses.
+- **Not touched (not customer-facing or a different feature):** admin Recast pricing pages, the `h3-recast` MiniMax H3-Max
+  "Replace characters" video operation, `HomeCharacterStudio` (not rendered by the Keyvo home), the MCP instruction text and
+  the recast audio-reference upload branch of the multipart video upload routes.
+- **No pricing baseline moved:** no governed public baseline or approved change covers `character-recast` (the hub Recast
+  examples were live reads), so `pricing:public-baseline` and `pricing:audit` are unchanged.
+- **Tests:** `tests/keyvo-recast-hidden.test.ts` (constant, navigation, workspace wiring, landing/blog, pricing hub, routes
+  with trapped collaborators, MCP/Studio refusal, llms.txt, and that reopening restores each surface); tests that pin
+  Recast itself (`character-studio-explore`, `character-studio-marketing`, `studio-character-recast-contract`,
+  `mcp-character-studio`, `recast-pricing-page`) reopen it explicitly.
+- **How to reopen:** (1) convert the Recast quote to the customer currency in `quote-recast.ts`; (2) relax the USD-only checks
+  in the estimate route, `CharacterStudioRecastTiming.client.tsx`, `recast-submit.ts` and the MCP `confirm_recast` currency
+  literal; (3) set `CHARACTER_STUDIO_RECAST_LIVE_ENABLED=1`; (4) flip `KEYVO_RECAST_HIDDEN` to `false`.
+
 ## Subtitles creator tool hidden (2026-11-14)
 
 `subtitles` has `publicReleased: false` in `frontend/src/lib/toolbox/creator-availability.ts`, so the tools index, menus, library/media handoff destinations, marketing pages and sitemap omit it. Its only speech-to-text route is ElevenLabs Scribe v2 on Fal (`frontend/src/server/subtitles/scribe.ts`); Keyvo has no `FAL_KEY` and no mainland ASR adapter exists. Restoring it needs a mainland ASR adapter (Bailian or Volcengine speech) plus a pricing decision. Guard: `tests/keyvo-subtitles-hidden.test.ts`.

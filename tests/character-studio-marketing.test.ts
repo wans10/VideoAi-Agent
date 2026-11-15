@@ -6,6 +6,7 @@ import { mountToolFixture } from './helpers/tool-selection-fixture';
 import { buildSeoMetadata } from '../frontend/lib/seo/metadata';
 import { buildFAQJsonLd } from '../frontend/components/seo/FAQSchema';
 import { buildToolHowToJsonLd } from '../frontend/src/components/tools/landing/tool-marketing-json-ld';
+process.env.KEYVO_RECAST_FULL_UI = '1'; // Pins the Recast surfaces themselves: Keyvo hides Recast (KEYVO_RECAST_HIDDEN), see keyvo-recast-hidden.test.ts.
 
 const files = ['en', 'fr', 'es'] as const;
 const root = 'frontend/src/components/tools/';

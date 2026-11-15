@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import Image from 'next/image';
 import type { AppLocale } from '@/i18n/locales';
 import { Link } from '@/i18n/navigation';
+import { isKeyvoRecastHidden } from '@/config/keyvo-disabled-features';
 import { CHARACTER_STUDIO_ARTICLE_SLUGS } from '@/lib/character-studio-marketing';
 import { CharacterStudioPublicFilms } from '@/components/tools/character-builder/landing/CharacterStudioPublicFilms';
 import { CharacterStudioRecastExamples } from '@/components/tools/character-builder/landing/CharacterStudioRecastExamples.client';
@@ -34,13 +35,13 @@ export function BlogCharacterStudioActions({ canonicalSlug, locale }: { canonica
   return <div className="flex flex-wrap items-center gap-3 pt-2">
     <Link href="/app/tools/character-builder" prefetch={false} className="inline-flex min-h-11 items-center rounded-full bg-text-primary px-5 py-3 text-sm font-semibold text-bg hover:opacity-90"
       data-analytics-event="tool_cta_click" data-analytics-cta-location="blog_character_studio_intro" data-analytics-tool-name="character_builder" data-analytics-tool-surface="public">{copy.create}<span aria-hidden="true" className="ml-2">↗</span></Link>
-    <a href="#character-studio-in-motion" className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-link hover:underline">{copy.watch}<span aria-hidden="true" className="ml-2">↓</span></a>
+    {isKeyvoRecastHidden() ? null : <a href="#character-studio-in-motion" className="inline-flex min-h-11 items-center px-2 text-sm font-semibold text-link hover:underline">{copy.watch}<span aria-hidden="true" className="ml-2">↓</span></a>}
   </div>;
 }
 
 /** Preserve the article's first poster and text stream; public playback is optional and keeps the still geometry. */
 export function BlogCharacterStudioProof({ canonicalSlug, locale }: { canonicalSlug: string; locale: AppLocale }) {
-  if (!CHARACTER_ARTICLES.has(canonicalSlug)) return null;
+  if (isKeyvoRecastHidden() || !CHARACTER_ARTICLES.has(canonicalSlug)) return null;
   return <div id="character-studio-in-motion" className="scroll-mt-24 border-b border-hairline px-6 py-6 sm:px-10" data-blog-character-studio-proof>
     <Suspense fallback={<CharacterStudioRecastExamples films={[]} locale={locale} showLink showStills ctaLocation="blog_character_studio" />}>
       <CharacterStudioPublicFilms locale={locale} showLink showStills ctaLocation="blog_character_studio" />

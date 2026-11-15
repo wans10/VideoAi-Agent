@@ -29,7 +29,7 @@ export function CharacterStudioLibrary({
   userId: string | null;
   onSignIn: () => void;
   onNewLook: (id: string, sheet?: boolean) => void;
-  onRecast: (image: ImageSource, name: string, characterId: string) => void;
+  onRecast?: (image: ImageSource, name: string, characterId: string) => void;
 }) {
   const { selected } = library;
   const [name, setName] = useState(''),
@@ -118,6 +118,7 @@ export function CharacterStudioLibrary({
                 <button type="button" className={buttonClass} onClick={() => onNewLook(selected.id, true)}>
                   {copy.sheet}
                 </button>
+                {onRecast ? (
                 <button
                   type="button"
                   onClick={() => onRecast(selected.identity, selected.name, selected.id)}
@@ -125,7 +126,7 @@ export function CharacterStudioLibrary({
                 >
                   <Clapperboard size={14} />
                   {copy.recast}
-                </button>
+                </button>) : null}
               </div>
             </div>
           </div>
@@ -148,6 +149,7 @@ export function CharacterStudioLibrary({
                   {look.settingsSnapshot.builder.outputMode === 'character-sheet' && (
                     <CharacterStudioSheet character={selected} look={look} locale={locale} />
                   )}
+                  {onRecast ? (
                   <button
                     type="button"
                     onClick={() => onRecast(look, `${selected.name} · ${look.name}`, selected.id)}
@@ -155,7 +157,7 @@ export function CharacterStudioLibrary({
                   >
                     <Clapperboard size={14} />
                     {copy.recast}
-                  </button>
+                  </button>) : null}
                 </div>
               </article>
             ))}
@@ -201,6 +203,7 @@ export function CharacterStudioLibrary({
                     <Shirt size={14} />
                     {copy.newLook}
                   </button>
+                  {onRecast ? (
                   <button
                     type="button"
                     onClick={() => onRecast(character.identity, character.name, character.id)}
@@ -208,7 +211,7 @@ export function CharacterStudioLibrary({
                   >
                     <Clapperboard size={14} />
                     {copy.recast}
-                  </button>
+                  </button>) : null}
                 </div>
               </article>
             ))}
