@@ -1,9 +1,10 @@
-type Locale='en'|'fr'|'es';
+type Locale='en'|'fr'|'es'|'zh';
 
 /** Resolve server-authored replies from authored client messages, never assistant/tool text. */
-/** Keyvo publishes zh sessions, but Studio reply copy ships only en/fr/es, so a zh fallback replies in English. */
+/** A Chinese message, or an otherwise undetermined zh session, gets server-authored replies in Simplified Chinese; an explicit reply-language request or clear en/fr/es message still wins. */
 export function studioConversationLanguage(message:string,history:readonly {message:string}[],fallback:Locale|'zh'='en'):Locale {
   for(const value of [message,...history.slice(-12).reverse().map(turn=>turn.message)]) {
+    if(/[\u4e00-\u9fff]/.test(value)&&!/(?:^|[.!?]\s*)(?:please\s+)?(?:reply|respond|answer)\s+in\s+(?:english|french|spanish)\b/i.test(value))return 'zh';
     const text=value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
     // A narration/subtitle language is not an instruction to change our replies.
     if(/(?:^|[.!?]\s*)no me (?:hables|respondas) en ingles\b/.test(text))return 'es';
@@ -19,5 +20,5 @@ export function studioConversationLanguage(message:string,history:readonly {mess
     ] as const).map(([locale,markers])=>({locale,score:markers.filter(word=>words.has(word)).length})).sort((a,b)=>b.score-a.score);
     if(scores[0].score>=2&&scores[0].score>scores[1].score)return scores[0].locale;
   }
-  return fallback==='zh'?'en':fallback;
+  return fallback;
 }

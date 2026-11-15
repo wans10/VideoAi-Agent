@@ -6,10 +6,11 @@ import type {ImageDraft} from '@/lib/studio/image-conversation-contract';
 import {isStudioComparisonMismatch} from './conversation-comparison-recovery';
 import {studioComparisonFailureGuidance} from './conversation-comparison-failure';
 
-type Locale='en'|'fr'|'es';
+type Locale='en'|'fr'|'es'|'zh';
 const copy={
   en:{heading:'Current scenario estimates',scope:'Each video price is for one clip, not the whole film.',confirmation:'No quote or generation was created. Creation requires a fresh exact quote and your confirmation.',failed:'I could not verify compatible current prices.',constraints:'Requested requirements remain unchanged',duration:'No current option supports that duration as one clip. A supported clip plan still needs current pricing.',sound:'sound on',silent:'sound off',defaults:'default settings',baseline:'Current baseline',different:'settings differ from the baseline',saving:'lower than the baseline',missing:'Some requested options could not be priced.'},
   fr:{heading:'Estimations actuelles du scénario',scope:'Chaque prix vidéo concerne un clip, pas le film entier.',confirmation:'Aucun devis ni génération créé. La création exige un nouveau devis exact et votre confirmation.',failed:'Je ne peux pas vérifier les prix actuels compatibles.',constraints:'Les exigences demandées restent inchangées',duration:'Aucune option actuelle ne prend en charge cette durée en un seul clip. Un découpage compatible doit encore être chiffré.',sound:'son activé',silent:'son désactivé',defaults:'réglages par défaut',baseline:'Référence tarifaire actuelle',different:'réglages différents de la référence',saving:'de moins que la référence',missing:'Certaines options demandées ne peuvent pas être chiffrées.'},
+  zh:{heading:'当前方案估价',scope:'每个视频价格仅对应一个片段，而非整部成片。',confirmation:'尚未创建任何报价或生成。创建前需要新的准确报价和你的确认。',failed:'我无法核实当前兼容的价格。',constraints:'所要求的条件保持不变',duration:'当前没有任何选项支持以单个片段生成该时长。兼容的分段方案仍需重新计价。',sound:'含声音',silent:'不含声音',defaults:'默认设置',baseline:'当前基准',different:'设置与基准不同',saving:'低于基准',missing:'部分所选选项无法计价。'},
   es:{heading:'Estimaciones actuales del escenario',scope:'Cada precio de vídeo corresponde a un clip, no a toda la película.',confirmation:'No se ha creado ningún presupuesto ni generación. La creación requiere un nuevo presupuesto exacto y tu confirmación.',failed:'No puedo verificar precios actuales compatibles.',constraints:'Los requisitos solicitados siguen intactos',duration:'Ninguna opción actual admite esa duración en un solo clip. Un plan de clips compatible todavía necesita precios actuales.',sound:'sonido activado',silent:'sonido desactivado',defaults:'ajustes predeterminados',baseline:'Referencia de precio actual',different:'ajustes diferentes de la referencia',saving:'menos que la referencia',missing:'No se pueden verificar los precios de algunas opciones solicitadas.'},
 } as const;
 const bounded=(value:string,length:number)=>value.length>length?value.slice(0,length-1)+'…':value;
@@ -30,7 +31,7 @@ function settingSummary(settings:Readonly<Record<string,string|number|boolean|nu
 /** A terminal read exposes its canonical result without purchasing a follow-up Response. */
 export function studioCurrentComparisonReply(request:Extract<StudioActionRequest,{action:'pricing.compare'}>,result:StudioActionResult,completedEdits:number,locale:Locale='en'):ImageDraft {
   const words=copy[locale];
-  const saved=completedEdits?locale==='fr'?`${completedEdits} modification(s) de montage enregistrée(s). `
+  const saved=completedEdits?locale==='zh'?`已保存 ${completedEdits} 项时间线修改。`:locale==='fr'?`${completedEdits} modification(s) de montage enregistrée(s). `
     :locale==='es'?`${completedEdits} cambio(s) guardado(s) en la línea de tiempo. `:`Saved ${completedEdits} timeline edit${completedEdits===1?'':'s'}. `:'';
   if(!result.ok){
     const constraints=settingSummary(Object.fromEntries(request.settings.map(({name,value})=>[name,value])),locale);

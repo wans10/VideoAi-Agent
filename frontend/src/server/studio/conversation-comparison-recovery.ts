@@ -41,25 +41,29 @@ export function studioComparisonFingerprint(value:unknown):string|null {
 }
 
 /** Stop a known repeated failure without another continuation/credit loop; useful montage tools stay available otherwise. */
-export function studioRepeatedComparisonReply(failure:ComparisonFailure,completedEdits:number,locale?:'en'|'fr'|'es') {
-  const saved=completedEdits?(locale==='fr'?`${completedEdits} modification(s) de la timeline enregistrée(s). `:locale==='es'?`${completedEdits} cambio(s) guardado(s) en la línea de tiempo. `:`Saved ${completedEdits} timeline edit${completedEdits===1?'':'s'}. `):'';
-  const guidance=locale==='fr'
+export function studioRepeatedComparisonReply(failure:ComparisonFailure,completedEdits:number,locale?:'en'|'fr'|'es'|'zh') {
+  const saved=completedEdits?(locale==='zh'?`已保存 ${completedEdits} 项时间线修改。`:locale==='fr'?`${completedEdits} modification(s) de la timeline enregistrée(s). `:locale==='es'?`${completedEdits} cambio(s) guardado(s) en la línea de tiempo. `:`Saved ${completedEdits} timeline edit${completedEdits===1?'':'s'}. `):'';
+  const guidance=locale==='zh'
+    ? '此次比价已在相同条件下失败过，我不会重复。成片仍未完成：请准备兼容的分段片段和旁白，再合成已就绪的素材。每次创建仍需确认其报价。'
+    :locale==='fr'
     ? 'Cette comparaison a déjà échoué avec les mêmes contraintes. Je ne la relance pas. Le film reste à terminer : il faut préparer des clips compatibles et la voix off, puis assembler les médias prêts. Chaque création conserve sa confirmation de devis.'
     :locale==='es'
       ? 'Esta comparación ya falló con las mismas restricciones. No la repetiré. La película sigue pendiente: prepara clips compatibles y la narración, y monta los medios listos. Cada creación requiere confirmar su presupuesto.'
       : 'This comparison already failed with the same constraints, so I am not repeating it. The film remains unfinished: use supported component clips and scripted narration, then assemble the ready media. Each creation still needs its quote confirmation.';
   const duration=failure.error.nextAction?.requestedDurationSec;
-  const facts=locale==='fr'?`La durée de ${duration} secondes ne convient pas à un clip unique. `:locale==='es'?`La duración de ${duration} segundos no es compatible con un solo clip. `:failure.error.message.slice(0,800)+' ';
+  const facts=locale==='zh'?`${duration} 秒的时长不适合用单个片段生成。`:locale==='fr'?`La durée de ${duration} secondes ne convient pas à un clip unique. `:locale==='es'?`La duración de ${duration} segundos no es compatible con un solo clip. `:failure.error.message.slice(0,800)+' ';
   return {reply:projectStudioReply(saved+facts+guidance),image:null};
 }
 
 /** A recovered unprocessed read can refresh facts, but cannot purchase another Response. */
-export function studioRecoveredComparisonReply(result:StudioActionResult,completedEdits:number,locale?:'en'|'fr'|'es') {
-  const saved=completedEdits?(locale==='fr'?`${completedEdits} modification(s) de la timeline enregistrée(s). `:locale==='es'?`${completedEdits} cambio(s) guardado(s) en la línea de tiempo. `:`Saved ${completedEdits} timeline edit${completedEdits===1?'':'s'}. `):'';
+export function studioRecoveredComparisonReply(result:StudioActionResult,completedEdits:number,locale?:'en'|'fr'|'es'|'zh') {
+  const saved=completedEdits?(locale==='zh'?`已保存 ${completedEdits} 项时间线修改。`:locale==='fr'?`${completedEdits} modification(s) de la timeline enregistrée(s). `:locale==='es'?`${completedEdits} cambio(s) guardado(s) en la línea de tiempo. `:`Saved ${completedEdits} timeline edit${completedEdits===1?'':'s'}. `):'';
   const facts=result.ok&&result.action==='pricing.compare'
     ? result.data.options.map(option=>`${option.modelLabel}: ${option.price.formattedAmount}${option.outputDurationSec?` (${option.outputDurationSec}s)`:''}`).join('; ')
-    :locale==='fr'?'Aucun prix compatible n’a pu être vérifié.':locale==='es'?'No se ha podido verificar un precio compatible.':!result.ok?`${result.error.code}: ${result.error.message.slice(0,800)}`:'No compatible price was recovered.';
-  const guidance=locale==='fr'
+    :locale==='zh'?'未能核实任何兼容的价格。':locale==='fr'?'Aucun prix compatible n’a pu être vérifié.':locale==='es'?'No se ha podido verificar un precio compatible.':!result.ok?`${result.error.code}: ${result.error.message.slice(0,800)}`:'No compatible price was recovered.';
+  const guidance=locale==='zh'
+    ? '已找回比价结果，无需再次调用助手。此结果仅针对所比较的选择。创建仍需准确报价及你的确认。'
+    :locale==='fr'
     ? 'Comparaison récupérée sans nouvel appel d’assistance. Ce résultat concerne uniquement la sélection comparée. La création nécessite encore un devis exact et sa confirmation.'
     :locale==='es'?'Comparación recuperada sin otra llamada de asistencia. Este resultado corresponde únicamente a la selección comparada. Cada creación requiere un presupuesto exacto confirmado.'
     :'Recovered the comparison without another assistance call. This result concerns only the compared selection. Creation still requires an exact quote and its confirmation.';
