@@ -3,6 +3,7 @@ import type { CharacterStudioMarketingFilm } from './character-studio-marketing-
 import Image from 'next/image';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
+import { isKeyvoRecastHidden } from '@/config/keyvo-disabled-features';
 import type { CharacterBuilderLandingContent } from './character-builder-landing-assets';
 import { CHARACTER_STUDIO_ART as art } from './character-studio-marketing-assets';
 import styles from './CharacterStudioLanding.module.css';
@@ -25,7 +26,7 @@ export function CharacterBuilderOutputsWorkflowSection({ content, films = [], lo
         <figure><div className={styles.sheetOutput}><Image src={art.sheet} alt={c.sheetAlt} fill sizes="(max-width: 700px) 90vw, 62vw" className={styles.contain} loading="lazy" /></div><figcaption><h3>{c.sheet}</h3><p>{c.sheetBody}</p></figcaption></figure>
       </div>
     </div></section>
-    <section className={styles.recastSection} id="recast"><div className={styles.container}>
+    {isKeyvoRecastHidden() ? null : <><section className={styles.recastSection} id="recast"><div className={styles.container}>
       <header className={styles.sectionHeading}><p className={styles.eyebrow}>{c.recastEyebrow}</p><h2>{c.recastTitle}</h2><p>{c.recastBody}</p></header>
       <div className={styles.recastLayout}>
         <div className={styles.recastFrames}>{[art.dixieRecast, art.vesperRecast].map((src, i) => { const film = films.find(item => item.key === (i === 0 ? 'dixie' : 'vesper')); return <figure key={src}>
@@ -39,6 +40,6 @@ export function CharacterBuilderOutputsWorkflowSection({ content, films = [], lo
         </div>
       </div>
     </div></section>
-    <section className={styles.priceSection}><div className={`${styles.container} ${styles.priceLayout}`}><div><p className={styles.eyebrow}>Character Studio / Recast</p><h2>{c.priceTitle}</h2></div><div><p>{c.priceBody}</p><Link href="/pay-as-you-go-ai-video-generator" className={styles.textLink}>{c.priceLink}<ArrowUpRight size={17} aria-hidden="true" /></Link></div></div></section>
+    <section className={styles.priceSection}><div className={`${styles.container} ${styles.priceLayout}`}><div><p className={styles.eyebrow}>Character Studio / Recast</p><h2>{c.priceTitle}</h2></div><div><p>{c.priceBody}</p><Link href="/pay-as-you-go-ai-video-generator" className={styles.textLink}>{c.priceLink}<ArrowUpRight size={17} aria-hidden="true" /></Link></div></div></section></>}
   </>;
 }

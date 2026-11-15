@@ -1,4 +1,5 @@
 import { getCharacterStudioMarketingVideos } from '@/server/character-studio/marketing-demos';
+import { isKeyvoRecastHidden } from '@/config/keyvo-disabled-features';
 import { CharacterStudioRecastExamples } from './CharacterStudioRecastExamples.client';
 
 /** Optional streamed proof; gallery identities and pricing remain with their existing owners. */
@@ -9,6 +10,7 @@ export async function CharacterStudioPublicFilms({ locale, excludedVideoUrls = [
   showStills?: boolean;
   ctaLocation?: string;
 }) {
+  if (isKeyvoRecastHidden()) return null;
   const excluded = new Set(excludedVideoUrls);
   const films = (await getCharacterStudioMarketingVideos()).filter(film => !excluded.has(film.video));
   return films.length || showStills ? <CharacterStudioRecastExamples films={films} locale={locale} showLink={showLink} showStills={showStills} ctaLocation={ctaLocation} /> : null;

@@ -34,6 +34,28 @@ export const KEYVO_WORKSPACE_VARIANT_HIDDEN: boolean = true;
  */
 export const KEYVO_GOOGLE_LOGIN_HIDDEN: boolean = true;
 
+/**
+ * Character Recast (Wan 3 Prime video-to-video character swap, "Recast" in Character Studio) cannot be bought on
+ * the Keyvo CNY build yet: its quote is built in USD while the wallet is CNY (reserveWalletCharge refuses with
+ * currency_mismatch), its estimate/submit paths require a USD quote, and CHARACTER_STUDIO_RECAST_LIVE_ENABLED is
+ * not set in production. Until fixed, every customer-facing entry point (Character Studio tab/buttons, landing
+ * and home links, pricing hub row, Recast APIs, MCP Recast tools, llms.txt line) is hidden or refused. All code and
+ * data stay in place. To reopen: convert the Recast quote to the customer currency in quote-recast.ts, relax the
+ * USD-only checks in the estimate route / CharacterStudioRecastTiming / recast-submit, set
+ * CHARACTER_STUDIO_RECAST_LIVE_ENABLED=1, then flip this to false.
+ */
+export const KEYVO_RECAST_HIDDEN: boolean = true;
+
+/** Rule used by guarded code. KEYVO_RECAST_FULL_UI=1 is for tests that exercise Recast itself; it is never set in production. */
+export function isKeyvoRecastHidden(): boolean {
+  try {
+    if (process.env.KEYVO_RECAST_FULL_UI === '1') return false;
+  } catch {
+    // A plain browser bundle has no `process`; the constant applies.
+  }
+  return KEYVO_RECAST_HIDDEN;
+}
+
 export function isKeyvoAudioDisabled(): boolean {
   return KEYVO_FAL_FEATURES_HIDDEN;
 }

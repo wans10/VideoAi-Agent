@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { isKeyvoRecastHidden } from '@/config/keyvo-disabled-features';
 import { FEATURES } from '@/content/feature-flags';
 import { readCreatorJson, runCreatorHttp } from '@/server/tools/creator-http';
 import { confirmRecast } from '@/server/character-studio/recast';
@@ -10,7 +11,7 @@ export const runtime = 'nodejs';
 export const maxDuration = 300;
 
 export function POST(request: NextRequest) {
-  if (!FEATURES.workflows.toolsSection) return new NextResponse(null, { status: 404 });
+  if (isKeyvoRecastHidden() || !FEATURES.workflows.toolsSection) return new NextResponse(null, { status: 404 });
   if (localRecastRehearsalEnabled() || !liveRecastEnabled())
     return NextResponse.json(
       { ok: false, error: { code: 'RENDER_DEFERRED' } },

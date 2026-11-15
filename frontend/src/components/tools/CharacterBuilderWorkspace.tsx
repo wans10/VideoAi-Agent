@@ -32,6 +32,7 @@ import {
   CharacterStudioNavigation,
   type CharacterStudioMode,
 } from './character-builder/_components/CharacterStudioNavigation.client';
+import { isKeyvoRecastHidden } from '@/config/keyvo-disabled-features';
 import { CharacterStudioRecast } from './character-builder/_components/CharacterStudioRecast.client';
 import { CharacterStudioComposer } from './character-builder/_components/CharacterStudioComposer.client';
 import { CharacterStudioExplore } from './character-builder/_components/CharacterStudioExplore.client';
@@ -105,7 +106,7 @@ function CharacterBuilderAccountWorkspace({
   const studioLocale: StudioLocale = locale === 'fr' || locale === 'es' || locale === 'zh' ? locale : 'en';
   const searchParams = useSearchParams();
   const [studioMode, setStudioMode] = useState<CharacterStudioMode>(() =>
-    searchParams?.get('mode') === 'recast' ? 'recast' : 'character',
+    !isKeyvoRecastHidden() && searchParams?.get('mode') === 'recast' ? 'recast' : 'character',
   );
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -299,7 +300,7 @@ function CharacterBuilderAccountWorkspace({
           if (user) void library.openSave(source);
           else openAuthGate();
         }}
-        onRecastResult={handoffRecast}
+        onRecastResult={isKeyvoRecastHidden() ? undefined : handoffRecast}
         flattenedResults={flattenedResults}
         historicalHasMore={historicalHasMore}
         historicalIsFetchingMore={historicalIsFetchingMore}
@@ -470,7 +471,7 @@ function CharacterBuilderAccountWorkspace({
           />
         }
         explore={
-          <CharacterStudioExplore copy={studioCopy} onNew={newCharacter} onChoose={chooseInspiration} recastExamples={recastExamples} onRecast={() => changeMode('recast')} />
+          <CharacterStudioExplore copy={studioCopy} onNew={newCharacter} onChoose={chooseInspiration} recastExamples={isKeyvoRecastHidden() ? undefined : recastExamples} onRecast={isKeyvoRecastHidden() ? undefined : () => changeMode('recast')} />
         }
         characters={
           <CharacterStudioLibrary
@@ -481,11 +482,11 @@ function CharacterBuilderAccountWorkspace({
             userId={user?.id ?? null}
             onSignIn={openAuthGate}
             onNewLook={(id, sheet) => void newLook(id, sheet)}
-            onRecast={handoffRecast}
+            onRecast={isKeyvoRecastHidden() ? undefined : handoffRecast}
           />
         }
         results={renderResultsGallery('grid')}
-        recast={
+        recast={isKeyvoRecastHidden() ? null : (
           <CharacterStudioRecast
             accountId={user?.id ?? null}
             active={studioMode === 'recast'}
@@ -494,7 +495,7 @@ function CharacterBuilderAccountWorkspace({
             selection={recastSelection}
             characterLibrary={{ userId: user?.id ?? null, captureAccountRequest, onSignIn: openAuthGate }}
           />
-        }
+        )}
       />
       <CharacterStudioReferenceInputs
         identityRef={identityFileRef}

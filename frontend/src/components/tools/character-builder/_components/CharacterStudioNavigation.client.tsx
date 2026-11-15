@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { Images, Plus, ScanFace, Clapperboard, Film } from 'lucide-react';
+import { isKeyvoRecastHidden } from '@/config/keyvo-disabled-features';
 import type { StudioCopy } from '../_lib/character-studio-copy';
 export type CharacterStudioMode = 'character' | 'recast';
 export function CharacterStudioNavigation({
@@ -20,7 +21,7 @@ export function CharacterStudioNavigation({
   return (
     <div className="flex shrink-0 items-center gap-2 p-3">
       <h1 className="sr-only">{studioName}</h1>
-      <div
+      {isKeyvoRecastHidden() ? <div className="flex-1" /> : <div
         className="flex min-w-0 flex-1 rounded-xl border border-border bg-bg p-1"
         role="group"
         aria-label={studioName}
@@ -45,7 +46,7 @@ export function CharacterStudioNavigation({
             </button>
           );
         })}
-      </div>
+      </div>}
       {mode === 'recast' && (
         <Link
           href="/app"

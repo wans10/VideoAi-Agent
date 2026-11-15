@@ -9,9 +9,11 @@ import {
   serializeJsonLd,
 } from '@/components/tools/landing/tool-marketing-json-ld';
 import type { CharacterBuilderLandingContent } from './character-builder-landing-assets';
+import { withoutRecastFaq } from './character-builder-landing-recast';
 import { CharacterBuilderLandingSections } from './CharacterBuilderLandingSections';
 
-export async function CharacterBuilderLandingView({ content }: { content: CharacterBuilderLandingContent }) {
+export async function CharacterBuilderLandingView({ content: fullContent }: { content: CharacterBuilderLandingContent }) {
+  const content = withoutRecastFaq(fullContent);
   const locale = await resolveLocale();
   const { dictionary } = await resolveDictionary();
   const films = await getCharacterStudioMarketingVideos();

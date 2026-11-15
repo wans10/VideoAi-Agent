@@ -31,7 +31,7 @@ async function mountWorkspace(options: { userId?: string | null; loading?: boole
     './character-builder/_components/character-builder-page-shell': `import React from 'react';export const CharacterBuilderAuthGateModal=()=>null;export const CharacterBuilderDisabledState=()=>null;export const CharacterBuilderLoadingSkeleton=()=> <p id="loading">Loading</p>;export const CharacterBuilderPageFrame=({children,overlays})=><>{children}{overlays}</>;`,
   };
   const bundle = await build({ absWorkingDir: frontend, bundle: true, format: 'iife', platform: 'browser', jsx: 'automatic', write: false,
-    define: { 'process.env.NODE_ENV': '"test"', 'process.env.NEXT_PUBLIC_ASSET_MAX_IMAGE_MB': '"25"' },
+    define: { 'process.env.NODE_ENV': '"test"', 'process.env.NEXT_PUBLIC_ASSET_MAX_IMAGE_MB': '"25"', 'process.env.KEYVO_RECAST_FULL_UI': '"1"' }, // pins the Recast mode itself; Keyvo hides it by default (keyvo-recast-hidden.test.ts)
     tsconfig: path.join(frontend, 'tsconfig.json'),
     plugins: [{ name: 'character-workspace-host', setup(builder) {
       builder.onResolve({ filter: /.*/ }, (args) => args.path in stubs ? { path: args.path, namespace: 'fixture' } : undefined);

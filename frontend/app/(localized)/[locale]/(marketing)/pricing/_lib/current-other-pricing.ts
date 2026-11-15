@@ -1,3 +1,4 @@
+import { isKeyvoRecastHidden } from '@/config/keyvo-disabled-features';
 import { AUDIO_CINEMATIC_MAX_DURATION_SEC, getAudioPackConfig, type AudioPricingInput } from '@/lib/audio-generation';
 import { CHARACTER_BUILDER_RESOLUTION, CHARACTER_DRAFT_ENGINE_ID, CHARACTER_FINAL_ENGINE_ID } from '@/lib/character-builder';
 import { estimateWebImageGeneration } from '@/server/images/estimate-image-generation';
@@ -16,6 +17,8 @@ export type CurrentOtherPricingDependencies = {
   audio: (input: AudioPricingInput) => Promise<Amount>;
   product: (input: { productKey: string; quantity: number }) => Promise<Amount>;
   recast?: (input: PublicModelQuoteInput) => Promise<PublicModelQuote>;
+  /** Test seam; defaults to isKeyvoRecastHidden(). When hidden no Recast quote is read at all. */
+  recastHidden?: boolean;
 };
 /** The hub reserves eight workers for models; standalone callers retain twelve. */
 type CurrentOtherPricingSchedule = { modelWorkersSettled: Promise<void> };
@@ -97,7 +100,7 @@ export async function buildCurrentOtherPricing(
       proOutput: values[1] === null ? row.proOutput : display(row.proOutput, values[1]),
     };
   }));
-  const recastExamples = Promise.all([{ outputSeconds: 6, sourceSeconds: 0 }, { outputSeconds: 15, sourceSeconds: 15 }].map(async (scenario) => {
+  const recastExamples = (dependencies.recastHidden ?? isKeyvoRecastHidden()) ? Promise.resolve(undefined) : Promise.all([{ outputSeconds: 6, sourceSeconds: 0 }, { outputSeconds: 15, sourceSeconds: 15 }].map(async (scenario) => {
     const values = await Promise.all(['720p', '1080p'].map(resolution => format(async () => {
       const quote = await recastQuote({ modelId: 'wan-3-prime', mode: scenario.sourceSeconds ? 'v2v' : 'i2v',
         durationSec: scenario.outputSeconds, resolution, aspectRatio: '9:16', audio: false,

@@ -12,6 +12,7 @@ test('pricing page examples use the same current scoped Recast quote for each du
     const calls: PublicModelQuoteInput[] = [];
     const data = await buildCurrentOtherPricing({ imageRows: [], audioRows: [], toolRows: [] }, 'en', {
       audio: async () => { throw new Error('not used'); }, product: async () => { throw new Error('not used'); },
+      recastHidden: false, // Keyvo hides Recast by default (keyvo-recast-hidden.test.ts); these tests pin the reopened behaviour.
       recast: async input => {
         calls.push(input);
         return readRecastPublicPrice(input, { pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [{
@@ -32,6 +33,7 @@ test('pricing page never keeps fabricated Recast amounts after unavailable or fa
     const data = await buildCurrentOtherPricing({ imageRows: [], audioRows: [], toolRows: [],
       recastExamples: [{ outputSeconds: 6, sourceSeconds: 0, price720: '$0.01', price1080: '$0.02' }] }, locale, {
       audio: async () => { throw new Error('not used'); }, product: async () => { throw new Error('not used'); },
+      recastHidden: false,
       recast: async input => { if (input.resolution === '720p') throw new Error('DB unavailable'); return { status: 'unavailable' }; },
     });
     assert.ok(data.recastExamples?.every(row => row.price720 === getPricingHubCopy(locale).liveQuote

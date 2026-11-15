@@ -22,7 +22,7 @@ import { CharacterStudioHistoryFeedback } from './CharacterStudioHistoryFeedback
 
 interface CharacterBuilderResultsGalleryProps {
   onKeepCharacter: (source: { jobId: string; imageUrl: string }) => void;
-  onRecastResult: (source: { jobId: string; imageUrl: string }, name: string) => void;
+  onRecastResult?: (source: { jobId: string; imageUrl: string }, name: string) => void;
   copy: CharacterCopy;
   flattenedResults: CharacterBuilderResult[];
   historicalHasMore: boolean;
@@ -159,7 +159,7 @@ export function CharacterBuilderResultsGallery({
               }
               onSave={() => onSaveResult(result)}
               onKeepCharacter={() => onKeepCharacter({ jobId: result.jobId, imageUrl: result.url })}
-              onRecast={() => onRecastResult({ jobId: result.jobId, imageUrl: result.url }, title)}
+              onRecast={onRecastResult ? () => onRecastResult({ jobId: result.jobId, imageUrl: result.url }, title) : undefined}
               onDuplicateSettings={() => {
                 if (run?.settingsSnapshot) {
                   onDuplicateSettings(run.settingsSnapshot, result.id);
@@ -220,12 +220,11 @@ export function CharacterBuilderResultsGallery({
               }
               onSave={() => onSaveHistoricalResult(item)}
               onKeepCharacter={() => onKeepCharacter({ jobId: item.jobId, imageUrl: item.imageUrl })}
-              onRecast={() =>
+              onRecast={onRecastResult ? () =>
                 onRecastResult(
                   { jobId: item.jobId, imageUrl: item.imageUrl },
                   copy.resultCard.referenceOutput,
-                )
-              }
+                ) : undefined}
               onDuplicateSettings={() => onDuplicateHistoricalSettings(item)}
               copy={copy}
             />

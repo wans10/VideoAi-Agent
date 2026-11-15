@@ -12,6 +12,7 @@ import { createImageConversationService } from '../frontend/src/server/studio/im
 import type { StudioResponseCreator } from '../frontend/src/server/studio/conversation-director';
 import { readStudioProjectMedia } from '../frontend/src/server/studio/conversation-media-generation';
 import { LIVE_PRICING_POLICY_REVISION, PRICING_POLICY_HEADER } from '../frontend/src/lib/membership-policy';
+process.env.KEYVO_RECAST_FULL_UI = '1'; // Pins the Recast service paths themselves: Keyvo hides Recast (KEYVO_RECAST_HIDDEN), see keyvo-recast-hidden.test.ts.
 
 test('Studio Recast journals a dedicated quote, requires displayed cents, and reopens the same ready video', async t => {
   const owner='00000000-0000-4000-8000-000000000141';
