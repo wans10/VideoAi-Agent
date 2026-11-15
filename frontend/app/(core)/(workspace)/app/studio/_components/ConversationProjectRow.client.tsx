@@ -7,11 +7,12 @@ import type {StudioProjectSummary} from '@/lib/studio/conversation-projects';
 import {studioProjectNameSchema} from '@/lib/studio/conversation-project-title';
 import {authFetch} from '@/lib/authFetch';
 import {studioProjectEntryUrl} from '../_lib/studio-conversation-entry';
+import {conversationCopy} from '@/lib/studio/conversation-copy';
 import styles from './conversation-projects.module.css';
 
 type Saved={projectId:string;name:string;updatedAt:string};
 export function ConversationProjectRow({project,current,locale,onOpen,onSaved}:{project:StudioProjectSummary;current:boolean;locale:string;onOpen:()=>void;onSaved:(result:Saved)=>void}){
-  const t=(en:string,fr:string)=>locale==='fr'?fr:en;
+  const t=(en:string,fr:string,zh?:string)=>conversationCopy(locale==='zh'?'zh':locale==='fr'?'fr':'en',en,fr,en,zh);
   const [editing,setEditing]=useState(false),[value,setValue]=useState(project.name),[busy,setBusy]=useState(false),[error,setError]=useState(false);
   const opener=useRef<HTMLButtonElement>(null),wasEditing=useRef(false),field=useRef<HTMLInputElement>(null),mounted=useRef(true),active=useRef<AbortController|null>(null),attempt=useRef<{name:string;idempotencyKey:string}|null>(null);
   useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;active.current?.abort();active.current=null;};},[]);
@@ -41,7 +42,7 @@ export function ConversationProjectRow({project,current,locale,onOpen,onSaved}:{
       <Link data-project-row href={studioProjectEntryUrl(project)} prefetch={false} aria-current={current?'page':undefined} onClick={onOpen}>
         <MessageSquare size={16} strokeWidth={1.4}/><span><strong>{project.name}</strong><small>{t('Conversation','Conversation')} · {new Intl.DateTimeFormat(locale,{month:'short',day:'numeric'}).format(new Date(project.updatedAt))}</small></span>{current?<Check size={14}/>:<ArrowUpRight size={14}/>}
       </Link>
-      <button ref={opener} className={styles.renameButton} aria-label={t('Rename '+project.name,'Renommer '+project.name)} onClick={()=>{setValue(project.name);setEditing(true);setError(false);}}><Pencil size={14} strokeWidth={1.5}/></button>
+      <button ref={opener} className={styles.renameButton} aria-label={t('Rename '+project.name,'Renommer '+project.name,'重命名 '+project.name)} onClick={()=>{setValue(project.name);setEditing(true);setError(false);}}><Pencil size={14} strokeWidth={1.5}/></button>
     </>}
   </div>;
 }

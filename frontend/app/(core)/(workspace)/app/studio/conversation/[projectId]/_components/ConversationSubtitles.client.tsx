@@ -8,12 +8,13 @@ import type {SubtitleDocument} from '@/lib/subtitles/document';
 import type {ConversationTimelineView} from '../_hooks/useConversationTimeline';
 import {TimelineSubtitleOverlay} from '@/lib/subtitles/TimelineSubtitleOverlay';
 
+const SUBTITLES_ZH:Record<string,string>={"Subtitles":"字幕","Caption document":"字幕文档","None":"无","Attached revision":"已附加的版本","captions":"条字幕","Create subtitles for this source":"为此素材创建字幕","Pinned revision; source captions follow trims.":"已固定版本；素材字幕会跟随裁剪。","Could not load subtitles. Retry.":"无法加载字幕，请重试。","Subtitle the film mix":"为成片混音添加字幕","Film subtitles":"成片字幕","Film caption document":"成片字幕文档","The audio mix changed. Create new subtitles or remove the attachment to export.":"音频混音已更改。请创建新字幕，或移除附加字幕后再导出。"};
 type Summary={id:string;revision:number;language:string;segmentCount:number};
 export function ConversationSubtitlePicker({clip,busy,edit,locale}:{clip:WorkspaceTimelineItem;busy:boolean;edit:(edit:ConversationTimelineCommand['edit'])=>Promise<void>;locale:string}){
   const [documents,setDocuments]=useState<Summary[]|null>(null),[loading,setLoading]=useState(false),[error,setError]=useState(false);
   const current=useRef(clip.id);current.current=clip.id;
   useEffect(()=>{setDocuments(null);setError(false);setLoading(false);},[clip.id]);
-  const t=(en:string,fr:string,es:string)=>locale==='fr'?fr:locale==='es'?es:en;
+  const t=(en:string,fr:string,es:string)=>locale==='zh'?SUBTITLES_ZH[en]??en:locale==='fr'?fr:locale==='es'?es:en;
   if(!clip.ref||clip.mediaKind==='image')return null;
   async function open(){
     const id=clip.id;setLoading(true);setError(false);
@@ -42,7 +43,7 @@ export function ConversationSequenceSubtitles({projectId,sequenceId,revision,bus
   const [documents,setDocuments]=useState<Summary[]|null>(null),[loading,setLoading]=useState(false),[error,setError]=useState(false);
   const current=useRef(sequenceId);current.current=sequenceId;
   useEffect(()=>{setDocuments(null);setError(false);setLoading(false);},[sequenceId]);
-  const t=(en:string,fr:string,es:string)=>locale==='fr'?fr:locale==='es'?es:en;
+  const t=(en:string,fr:string,es:string)=>locale==='zh'?SUBTITLES_ZH[en]??en:locale==='fr'?fr:locale==='es'?es:en;
   async function open(){
     const id=sequenceId;setLoading(true);setError(false);
     try{const response=await fetch('/api/tools/subtitles/documents?sequence='+encodeURIComponent(id),{cache:'no-store'});const data=await response.json();if(!response.ok||!data.ok)throw new Error('READ_FAILED');if(current.current===id)setDocuments(data.documents);}

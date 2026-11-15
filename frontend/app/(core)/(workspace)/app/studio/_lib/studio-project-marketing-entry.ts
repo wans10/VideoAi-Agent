@@ -8,7 +8,11 @@ export function resolveStudioMarketingStarter(value: unknown): StudioMarketingSt
 export function studioMarketingStarterMessage(starter: unknown,locale: string): string {
   const key = resolveStudioMarketingStarter(starter);
   if (!key) return '';
-  const messages = locale === 'fr' ? {
+  const messages = locale === 'zh' ? {
+    'product-ad': '水边一个安静的产品场景。请帮我调整光线，并准备一段短片。先向我展示模型、参数和准确报价；未经我同意，请勿开始生成。',
+    'storyboard-to-video': '请帮我把分镜脚本做成视频。',
+    'cinematic-scene': '请帮我创作一个电影感场景。',
+  } : locale === 'fr' ? {
     'product-ad': 'Une scène produit calme au bord de l’eau. Aide-moi à affiner la lumière et à préparer un clip court. Présente le modèle, les réglages et le devis exact ; ne génère rien sans mon accord.',
     'storyboard-to-video': 'Aide-moi à transformer mon storyboard en vidéo.',
     'cinematic-scene': 'Aide-moi à créer une scène cinématographique.',

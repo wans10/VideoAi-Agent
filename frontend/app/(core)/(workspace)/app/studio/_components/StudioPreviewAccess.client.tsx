@@ -136,9 +136,9 @@ export default function StudioPreviewAccess({ visitor = false, available = false
           </div>
           <div className={styles.previewBody}>
             <div className={styles.canvasPane}>
-              <span className={`${styles.node} ${styles.nodePrompt}`}><Sparkles />Prompt</span>
-              <span className={`${styles.node} ${styles.nodeImage}`}><Film />Shot 01</span>
-              <span className={`${styles.node} ${styles.nodeVideo}`}><Film />Shot 02</span>
+              <span className={`${styles.node} ${styles.nodePrompt}`}><Sparkles />{locale.startsWith('zh') ? '提示词' : 'Prompt'}</span>
+              <span className={`${styles.node} ${styles.nodeImage}`}><Film />{locale.startsWith('zh') ? '镜头 01' : 'Shot 01'}</span>
+              <span className={`${styles.node} ${styles.nodeVideo}`}><Film />{locale.startsWith('zh') ? '镜头 02' : 'Shot 02'}</span>
               <span className={styles.connectorOne} />
               <span className={styles.connectorTwo} />
             </div>
