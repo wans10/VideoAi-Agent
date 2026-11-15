@@ -24,7 +24,7 @@ export function StudioAssistanceCreditsDialog({tasksEnabled,initialView,status,b
   const t=(en: string, fr: string) => conversationCopy(locale, en, fr);
   const quantity=(value:number)=>new Intl.NumberFormat(locale==='fr'?'fr-FR':'en-US').format(value);
   const price=(cents:number)=>CUSTOMER_CURRENCY==='CNY'?formatWalletBalance(cents*USD_TO_CNY_CUSTOMER_RATE/100,'CNY'):'$'+cents/100;
-  const mcpHref=(pathname:string,hash='')=>'https://maxvideoai.com'+buildMarketingLocaleSwitchHref({pathname,targetLocale:locale,hash});
+  const mcpHref=(pathname:string,hash='')=>buildMarketingLocaleSwitchHref({pathname,targetLocale:locale,hash});
   useEffect(()=>{const element=dialog.current,opener=trigger.current,fallback=fallbackTrigger?.current;element?.showModal();return()=>{element?.close();(opener?.isConnected?opener:fallback)?.focus();};},[trigger,fallbackTrigger]);
   useEffect(()=>{dialog.current?.scrollTo?.({top:0});if(review)back.current?.focus();},[view,review]);
   const selected=MILO_LEVELS[view],viewTariff=studioCreditTariffForModel(selected.model);

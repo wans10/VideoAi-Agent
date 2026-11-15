@@ -1,6 +1,7 @@
 /* Authenticated media must bypass the public Next image optimizer. */
 /* eslint-disable @next/next/no-img-element */
 import React from 'react';
+import { SITE_ORIGIN } from '@/lib/siteOrigin';
 import { EditorialVisual } from './EditorialVisual';
 import type { EditorialBlock, EditorialDraft } from '@/lib/editorial/schema';
 
@@ -21,7 +22,7 @@ function renderBlock(block: EditorialBlock, draft: EditorialReaderContent, local
     <h2>{block.heading}</h2>{block.paragraphs.map((p, i) => <p key={i}>
       {p.spans ? p.spans.map((s, j) => {
         const content = s.bold ? <strong>{s.text}</strong> : s.text;
-        return s.href ? <a key={j} href={s.href.startsWith('/') ? `https://maxvideoai.com${s.href}` : s.href} rel="noopener noreferrer">{content}</a> : <React.Fragment key={j}>{content}</React.Fragment>;
+        return s.href ? <a key={j} href={s.href.startsWith('/') ? `${SITE_ORIGIN}${s.href}` : s.href} rel="noopener noreferrer">{content}</a> : <React.Fragment key={j}>{content}</React.Fragment>;
       }) : p.text}
       {p.sourceIds.map(id => <sup key={id}> <a href={`#source-${id}`} aria-label={draft.sources.find(s => s.id === id)?.title}>[{draft.sources.findIndex(s => s.id === id) + 1}]</a></sup>)}
     </p>)}

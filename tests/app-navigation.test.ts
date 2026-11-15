@@ -156,14 +156,14 @@ test('an isolated QA wallet cannot be mistaken for the signed-in account balance
       assert.match(trigger.textContent ?? '', /QA local/);
       assert.match(trigger.getAttribute('aria-label') ?? '', /QA local/);
       assert.doesNotMatch(trigger.textContent ?? '', /\$\d/);
-      assert.equal(trigger.getAttribute('href'), 'https://maxvideoai.com/billing');
+      assert.equal(trigger.getAttribute('href'), '/billing');// Keyvo: even the QA wallet links to the site itself, never the upstream host
       assert.equal(trigger.getAttribute('target'), '_blank');
       assert.match(trigger.getAttribute('rel') ?? '', /noopener/);
       const prompt = dom.window.document.querySelector('[role="status"]')!;
       assert.match(prompt.textContent ?? '', /données de test/);
       assert.doesNotMatch(prompt.textContent ?? '', /Top up|Documents/);
       assert.equal(prompt.querySelectorAll('a').length, 1);
-      assert.equal(prompt.querySelector('a')?.getAttribute('href'), 'https://maxvideoai.com/billing');
+      assert.equal(prompt.querySelector('a')?.getAttribute('href'), '/billing');// Keyvo: even the QA wallet links to the site itself, never the upstream host
       assert.equal(prompt.querySelector('a')?.getAttribute('target'), '_blank');
     } finally {
       dom.window.close();

@@ -118,6 +118,10 @@ test('Studio, Milo and tool marketing carry no MCP section or FAQ entry', async 
   assert.match(source('app/tools/video-background-changer/_components/VideoBackgroundChangerPage.tsx'), /\{!isKeyvoMcpUiHidden\(\)&&<Link href="\/mcp"/);
 });
 
+test('the login MCP staging notice offers no connector guide link', () => {
+  assert.match(source('app/(core)/login/_components/LoginAuthSurface.tsx'), /\{!isKeyvoMcpUiHidden\(\) \? <a href=\{`\$\{SITE_ORIGIN\}\/mcp`\}/);
+});
+
 test('reopening through the test-only switch restores the publication and settings tab at load time', () => {
   const out = execFileSync(process.execPath, ['--import', 'tsx', 'tests/helpers/keyvo-mcp-reopen-probe.ts'], {
     env: { ...process.env, KEYVO_MCP_FULL_UI: '1', TSX_TSCONFIG_PATH: 'frontend/tsconfig.json' }, encoding: 'utf8',

@@ -478,3 +478,23 @@ Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorde
   discloses external assistants. The page and component code stays in place for reopening.
 - **Tests:** `tests/keyvo-mcp-ui-hidden.test.ts`; tests that pin MCP surfaces visible import the helper or follow the hidden reality.
 - **How to reopen:** flip `KEYVO_MCP_UI_HIDDEN` to `false` and set `publicMarketing`/`publicIndexing` in `config/mcp-publication.json`.
+
+## No customer link to the upstream site (2026-11-15)
+
+- **Rule:** no customer-facing source links to `maxvideoai.com` / `www.maxvideoai.com`; use `SITE_ORIGIN` (`frontend/lib/siteOrigin.ts`,
+  `https://app.keyvo.cn` unless `NEXT_PUBLIC_SITE_URL`/`SITE_URL` say otherwise) or a relative path. `media.maxvideoai.com` example
+  media stays until the owner self-hosts it. `tests/keyvo-no-upstream-links.test.ts` scans `frontend/{app,components,src,lib,server,hooks}`
+  and holds a short allowlist with reasons (MCP protocol layer, internal fetch origins, admin editorial, snapshot identity).
+- **Fixed:** the Studio Milo dialog MCP helper (it opened `https://maxvideoai.com/zh/mcp`; the row is also hidden), the MCP staging
+  notice on the login page (hidden, relative link), the wallet header and image quote card billing links in QA mode, the editorial
+  reader's relative links, the Milo guide and Studio director instructions that gave users the upstream contact page and
+  `support@maxvideoai.com` (now `${SITE_ORIGIN}/contact` and `contact@llmhub.com.cn`), the IndexNow API route (host now derived from
+  `SITE_ORIGIN`), `scripts/indexnow-submit-changed.mjs` and `.github/workflows/indexnow.yml` (default site `https://app.keyvo.cn`).
+- **IndexNow owner action:** the route needs `INDEXNOW_KEY` and serves nothing without it; the key file `frontend/public/<key>.txt` is
+  upstream's, so either set `INDEXNOW_KEY` to that file's name or add a key file of your own and set the variable to match, then it
+  is verified at `https://app.keyvo.cn/<key>.txt`.
+- **Left deliberately:** the MCP/agent-api account and destination URLs and trusted-origin allowlists (protocol layer, MCP hidden),
+  internal fetch origins, the admin editorial pipeline, the `blog.maxvideoai.com` host redirect (applies only on that host),
+  `scripts/email/auth-templates.mjs` (upstream-branded Supabase email templates with `support@maxvideoai.com`; Supabase templates are
+  configured outside this repo, so they need a Keyvo zh rewrite before use), and the unused `PartnerBadges`/`HomeStartupFameLink`
+  upstream promotion badges.

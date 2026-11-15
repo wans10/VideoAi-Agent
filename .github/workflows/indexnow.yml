@@ -27,7 +27,7 @@ jobs:
 
       - name: Submit changed URLs + sitemaps to IndexNow proxy
         env:
-          SITE: https://maxvideoai.com
+          SITE: https://app.keyvo.cn
           GITHUB_EVENT_BEFORE: ${{ github.event.before }}
           GITHUB_SHA: ${{ github.sha }}
         run: |

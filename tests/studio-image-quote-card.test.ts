@@ -491,7 +491,7 @@ test("local QA identifies its test balance and links separately to the real wall
     assert.match(text, /QA local|solde de test|wallet de test/i);
     assert.match(text, /solde.*test|test.*solde/i);
     const realWallet = doc.querySelector<HTMLAnchorElement>(
-      'a[href="https://maxvideoai.com/billing"]',
+      'a[href="/billing"]' /* Keyvo: the site's own billing page, never the upstream host */,
     );
     assert.ok(realWallet, "local QA should link to the real account wallet");
     assert.match(realWallet.textContent ?? "", /vrai wallet|wallet réel|compte réel/i);
@@ -507,7 +507,7 @@ test("local QA with sufficient test funds labels the balance without implying a 
     const doc = view.dom.window.document;
     assert.match(doc.body.textContent ?? "", /Solde de test/i);
     assert.equal(
-      doc.querySelector('a[href="https://maxvideoai.com/billing"]'),
+      doc.querySelector('a[href="/billing"]' /* Keyvo: the site's own billing page, never the upstream host */),
       null,
       "a real-wallet top-up link is only relevant when test funds are insufficient",
     );
