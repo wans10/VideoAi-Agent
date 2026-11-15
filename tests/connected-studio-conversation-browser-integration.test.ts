@@ -437,13 +437,29 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     await page.getByRole('button',{name: copy('Select clip')+' Pattern A',exact: true}).click();
     await expect.poll(() => page.locator('video[data-playback-item-id="montage-clip-02"]').evaluate(element => (element as HTMLVideoElement).readyState)).toBeGreaterThanOrEqual(2);
     await expect(page.locator('[data-timeline-item="montage-clip-02"]')).toHaveAttribute('data-timeline-start','0');
-    const clipBounds = await page.getByRole('button',{name: copy('Select clip')+' Pattern A',exact: true}).boundingBox();
+    // The timeline ignores a pointer-down while a save is pending (the clip button is disabled while busy)
+    // and sizes the clip only once the revision-3 projection has replaced the removed clip. Start the
+    // drag from a settled, enabled clip: a drag that is silently ignored never issues the move edit.
+    const patternA=page.getByRole('button',{name: copy('Select clip')+' Pattern A',exact: true});
+    await expect(patternA).toBeEnabled();
+    let clipBounds=await patternA.boundingBox();
+    await expect.poll(async()=>{
+      const next=await patternA.boundingBox();
+      const settled=!!next&&!!clipBounds&&next.x===clipBounds.x&&next.y===clipBounds.y&&next.width===clipBounds.width&&next.height===clipBounds.height;
+      clipBounds=next;
+      if(!settled||!next) return false;
+      // Raw mouse input is not actionability-checked: the pointer-down must land on the clip itself, not on an overlay.
+      return page.evaluate(({x,y,label})=>document.elementFromPoint(x,y)?.closest('button')?.getAttribute('aria-label')===label,{x:next.x+next.width/2,y:next.y+next.height/2,label:copy('Select clip')+' Pattern A'});
+    },{message:'The remaining clip is stable and hit-testable before it is dragged.'}).toBe(true);
     assert.ok(clipBounds);
     const grip = {x: clipBounds.x+clipBounds.width/2,y: clipBounds.y+clipBounds.height/2};
+    // Register the save acknowledgement before the gesture so a fast response cannot be missed.
+    const moveAck=page.waitForResponse(response=>response.url()===deletedEndpoint.replace('?preview=1','') && response.request().method()==='POST',{timeout:30_000});
     await page.mouse.move(grip.x,grip.y);
     await page.mouse.down();
     await page.mouse.move(grip.x+68,grip.y,{steps: 4});
     await page.mouse.up();
+    assert.equal((await moveAck).status(),200,'The drag saved a move edit.');
     await expect(page.getByLabel(copy('Film timeline'),{exact: true})).toHaveAttribute('data-revision','4');
     await expect(page.locator('[data-timeline-item="montage-clip-02"]')).toHaveAttribute('data-timeline-start','2');
     // Persistence is checked after the new document's owned reads finish.

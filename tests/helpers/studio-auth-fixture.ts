@@ -174,6 +174,12 @@ export async function startStudioAuthFixture(options: { appOrigin?: string; port
     reply(404, { code: 'not_found', message: 'No fixture route.' });
   });
   if (options.port === 3026) throw new Error('Port 3026 belongs to the app coordinator.');
+  // The Next server's undici pool keeps idle sockets for longer than Node's default 5 s server
+  // keep-alive. A request that reuses a socket the fixture just closed fails with
+  // "fetch failed / other side closed" and renders the page's server error. Keep sockets open far
+  // longer than any idle gap in a test.
+  server.keepAliveTimeout = 300_000;
+  server.headersTimeout = 305_000;
   await new Promise<void>((resolve, reject) => {
     server.once('error', reject);
     server.listen(options.port ?? 0, '127.0.0.1', resolve);
