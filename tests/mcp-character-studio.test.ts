@@ -20,6 +20,7 @@ import {
   type MaxVideoAiMcpServerOptions,
   type MaxVideoAiMcpServices,
 } from '../frontend/src/server/mcp/server';
+process.env.KEYVO_RECAST_FULL_UI = '1'; // Pins the Recast surfaces themselves: Keyvo hides Recast (KEYVO_RECAST_HIDDEN), see keyvo-recast-hidden.test.ts.
 
 const principal = { userId: 'character-owner', clientId: 'character-client', emailVerified: true, authMethod: 'oauth' } as const;
 const quoteId = '00000000-0000-4000-8000-000000000001';

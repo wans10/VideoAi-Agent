@@ -1,3 +1,4 @@
+import { isKeyvoRecastHidden } from '@/config/keyvo-disabled-features';
 import type { z } from 'zod';
 
 import { createCharacterStudioIntegration } from '@/server/character-studio/integration';
@@ -17,6 +18,11 @@ import { AgentApiError } from './errors';
 import { requireOAuthGenerationActor } from './generation-actor';
 import { buildAgentGenerationRecovery, buildGenerationResourceLinks } from './generation-status';
 import type { AgentPrincipal } from './principal';
+
+/** Character Recast is hidden on Keyvo (see KEYVO_RECAST_HIDDEN): the MCP tools stay listed but refuse before any quote, wallet or provider work. */
+function refuseHiddenRecast() {
+  if (isKeyvoRecastHidden()) throw new AgentApiError('ENGINE_UNAVAILABLE', 'Character Recast is currently unavailable.');
+}
 
 function recastRecovery(status: AgentGenerationStatus | null, quoteId: string, accountUrl: string) {
   if (!status) return { quoteId, jobId: null, status: 'no_job' as const, retry: null };
@@ -56,13 +62,18 @@ export function createAgentCharacterStudioService(
     get: (input: z.input<typeof characterGetInput>) => service.get(input),
     select: (input: z.input<typeof characterSelectionInput>) => service.select(input),
     save: (input: z.input<typeof characterSaveInput>) => service.save(input),
-    prepareRecast: (input: CharacterStudioRecastInput) => service.prepareRecast(input),
+    prepareRecast: (input: CharacterStudioRecastInput) => {
+      refuseHiddenRecast();
+      return service.prepareRecast(input);
+    },
     async confirmRecast(input: z.input<typeof recastConfirmationInput>) {
+      refuseHiddenRecast();
       const status = await service.confirmRecast(input);
       if (!status) throw new AgentApiError('INTERNAL_ERROR', 'The submitted Recast status is unavailable. Recover it using the same quoteId.');
       return recastRecovery(status, input.quoteId, options.accountUrl);
     },
     async getRecastQuote(input: z.input<typeof recastQuoteInput>) {
+      refuseHiddenRecast();
       const quote = await service.getRecastQuote(input);
       if (!quote) throw new AgentApiError('QUOTE_EXPIRED', 'This Recast quote is not available in this context.');
       return {
@@ -78,6 +89,7 @@ export function createAgentCharacterStudioService(
       };
     },
     async recoverRecast(input: z.input<typeof recastQuoteInput>) {
+      refuseHiddenRecast();
       return recastRecovery(await service.recoverRecast(input), input.quoteId, options.accountUrl);
     },
   };

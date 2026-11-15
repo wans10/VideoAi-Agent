@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { isKeyvoRecastHidden } from '@/config/keyvo-disabled-features';
 import { FEATURES } from '@/content/feature-flags';
 import { readCreatorJson, runCreatorHttp } from '@/server/tools/creator-http';
 import { prepareRecast } from '@/server/character-studio/recast';
@@ -17,7 +18,7 @@ const failure = (code: string, status: number) =>
   );
 
 export function GET(request: NextRequest) {
-  if (!FEATURES.workflows.toolsSection) return failure('TOOLS_DISABLED', 404);
+  if (isKeyvoRecastHidden() || !FEATURES.workflows.toolsSection) return failure('TOOLS_DISABLED', 404);
   return runCreatorHttp(request, async () => {
     const mode = request.nextUrl.searchParams.get('mode');
     if (mode !== 'i2v' && mode !== 'ref2v' && mode !== 'v2v') return failure('PARAMETER_INVALID', 400);
@@ -27,7 +28,7 @@ export function GET(request: NextRequest) {
 }
 
 export function POST(request: NextRequest) {
-  if (!FEATURES.workflows.toolsSection) return failure('TOOLS_DISABLED', 404);
+  if (isKeyvoRecastHidden() || !FEATURES.workflows.toolsSection) return failure('TOOLS_DISABLED', 404);
   return runCreatorHttp(request, async (actor) => {
     if (await getActiveAccountRestriction(actor.userId))
       throw new AgentApiError('ACCOUNT_RESTRICTED', 'Account restricted.');

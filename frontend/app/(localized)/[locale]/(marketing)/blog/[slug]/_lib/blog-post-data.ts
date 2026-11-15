@@ -2,6 +2,7 @@ import { getContentEntries, getEntryBySlug, type ContentEntry } from '@/lib/cont
 import { buildSlugMap } from '@/lib/i18nSlugs';
 import type { AppLocale } from '@/i18n/locales';
 import { localePathnames, locales } from '@/i18n/locales';
+import { isKeyvoRecastHidden } from '@/config/keyvo-disabled-features';
 
 export type BlogPostParams = {
   locale: AppLocale;
@@ -263,7 +264,10 @@ export function getBlogLinkProps(locale: AppLocale, post: Pick<ContentEntry, 'sl
 }
 
 export function getNextStepCopy(locale: AppLocale, canonicalSlug: string): ArticleNextStep | null {
-  return BLOG_NEXT_STEPS[canonicalSlug]?.[locale] ?? null;
+  const step = BLOG_NEXT_STEPS[canonicalSlug]?.[locale] ?? null;
+  if (!step || !isKeyvoRecastHidden()) return step;
+  // Recast is hidden on Keyvo: keep the other next-step links.
+  return { ...step, links: step.links.filter(link => !link.href.includes('mode=recast')) };
 }
 
 export function toIsoDate(value?: string | null): string | undefined {

@@ -1,5 +1,5 @@
 import type { AppLocale } from '@/i18n/locales';
-import { isKeyvoAudioDisabled, isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
+import { isKeyvoAudioDisabled, isKeyvoToolDisabled, isKeyvoRecastHidden } from '@/config/keyvo-disabled-features';
 import { Link, type LocalizedLinkHref } from '@/i18n/navigation';
 import type { ImagePricingRow, OtherSurfacePricingData } from '../_lib/pricingHubData';
 import { getPricingHubCopy } from '../_lib/pricingHubCopy';
@@ -38,7 +38,7 @@ const TOOL_ROW_TOOL_ID: Record<string, string> = {
   'video-upscale': 'upscale',
 };
 
-export function PricingOtherSurfacesSection({ data, locale }: { data: OtherSurfacePricingData; locale: AppLocale }) {
+export function PricingOtherSurfacesSection({ data, locale, recastHidden = isKeyvoRecastHidden() }: { data: OtherSurfacePricingData; locale: AppLocale; recastHidden?: boolean }) {
   const copy = getPricingHubCopy(locale);
   return (
     <section className="space-y-5" aria-labelledby="other-pricing-title">
@@ -151,7 +151,7 @@ export function PricingOtherSurfacesSection({ data, locale }: { data: OtherSurfa
                   </td>
                 </tr>
               ))}
-              <tr id="character-recast-pricing" className="scroll-mt-24 border-b border-hairline last:border-0">
+              {recastHidden ? null : <tr id="character-recast-pricing" className="scroll-mt-24 border-b border-hairline last:border-0">
                 <th scope="row" className="py-3 pr-4 font-semibold text-text-primary">{copy.tools.characterRecast}
                   <p className="mt-1 max-w-[240px] text-xs font-normal leading-5 text-text-secondary">{copy.otherSurfaces.recastPricingNote}</p>
                 </th>
@@ -169,7 +169,7 @@ export function PricingOtherSurfacesSection({ data, locale }: { data: OtherSurfa
                     { label: copy.links.livePrice, href: '/app/tools/character-builder?mode=recast' },
                   ]} />
                 </td>
-              </tr>
+              </tr>}
             </tbody>
           </table>
         </PricingTableScrollRegion>
