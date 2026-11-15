@@ -140,6 +140,8 @@ export async function startStudioIntegrationRuntime(options: {
       PATH: `${dirname(process.execPath)}:${process.env.PATH ?? '/usr/bin:/bin'}`,
       ...(process.env.HOME ? { HOME: process.env.HOME } : {}),
       ...(process.env.TMPDIR ? { TMPDIR: process.env.TMPDIR } : {}),
+      // Memory-constrained hosts: Next dev restarts itself at 80% of the V8 heap limit, which resets live sockets.
+      ...(process.env.STUDIO_INTEGRATION_NEXT_NODE_OPTIONS ? { NODE_OPTIONS: process.env.STUDIO_INTEGRATION_NEXT_NODE_OPTIONS } : {}),
       NODE_ENV: 'development', NEXT_TELEMETRY_DISABLED: '1', STUDIO_INTEGRATION_RUNTIME: '1',
       NEXT_PUBLIC_SUPABASE_URL: auth.origin, NEXT_PUBLIC_SUPABASE_ANON_KEY: auth.anonKey,
       NEXT_PUBLIC_SITE_URL: browserOrigin, SITE_URL: browserOrigin,
