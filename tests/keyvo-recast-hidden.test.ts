@@ -72,6 +72,23 @@ test('Recast examples, landing section, blog proof and next-step links are hidde
   }
 });
 
+test('the Character Studio landing page has no Recast section, price pointer or link', async () => {
+  const f = await mountToolFixture(`import {CharacterBuilderLandingSections} from './src/components/tools/character-builder/landing/CharacterBuilderLandingSections';import {withoutRecastFaq} from './src/components/tools/character-builder/landing/character-builder-landing-recast';import dictionary from './messages/zh.json';function App(){return <CharacterBuilderLandingSections content={withoutRecastFaq(dictionary.toolMarketing.characterBuilder)} locale="zh" journey={dictionary.toolMarketing.journey}/>}`, {
+    'next/image': `import React from 'react';export default function Image({fill,priority,sizes,...p}){return React.createElement('img',{...p,sizes})}`,
+    '@/i18n/navigation': `import React from 'react';export const Link=({prefetch,...p})=>React.createElement('a',p)`,
+    './CharacterStudioLanding.module.css': `export default new Proxy({},{get:(_,key)=>key})`,
+    '../../production/ProductionDepartments.module.css': `export default new Proxy({},{get:(_,key)=>key})`,
+    './ProductionDepartments.module.css': `export default new Proxy({},{get:(_,key)=>key})`,
+  });
+  try {
+    const doc = f.w.document;
+    assert.ok(doc.getElementById('outputs'), 'the rest of the page still renders');
+    assert.equal(doc.getElementById('recast'), null);
+    assert.equal(doc.querySelector('a[href*="mode=recast"]'), null);
+    assert.doesNotMatch(doc.body.textContent ?? '', /Recast/);
+  } finally { await f.close(); }
+});
+
 test('the pricing hub has no Recast row and never reads a Recast quote while hidden', async () => {
   const reads: unknown[] = [];
   const dependencies = {
