@@ -229,7 +229,7 @@ test('homepage FAQ targets search-intent questions and shares the same items wit
     expectedQuestions
   );
   assert.equal(faqItems.length, 8);
-  assert.match(homeSource, /const faqSchema = buildFaqSchema\(content\.faq\.items\)/);
+  assert.match(homeSource, /const faqSchema = showFaq \? buildFaqSchema\(content\.faq\.items\) : null/);
   assert.match(homeSource, /<HomeFaq copy={content\.faq} items={content\.faq\.items} \/>/);
   assert.match(homeSource, /home-faq-jsonld/);
   assert.match(homeSource, /<script id="home-faq-jsonld" type="application\/ld\+json" dangerouslySetInnerHTML=/);
