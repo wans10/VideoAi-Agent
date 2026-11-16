@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { isKeyvoToolDisabled } from '../frontend/config/keyvo-disabled-features';
+import { getReleasedCreatorToolIds } from '../frontend/src/lib/toolbox/creator-availability';
 import { mountToolFixture } from './helpers/tool-selection-fixture';
 const assetId=`ma_${'1'.repeat(32)}`;
 const stubs={
@@ -19,7 +20,8 @@ test('creator result actions expose the real Studio picker first and group trans
  const f=await mount('creator');try{
   const root=f.w.document.querySelector('.creator-media-destinations');assert.ok(root);assert.equal(root.firstElementChild.className,'creator-studio-action');
   const studio=root.querySelector('.creator-studio-action details');assert.ok(studio);assert.equal(studio.querySelector('summary').textContent,'Use in Studio');assert.equal(studio.open,false);
-  const others=root.querySelector('.creator-other-tools');assert.equal(others.open,false);assert.equal(others.querySelector('summary').textContent,'Other tools');assert.ok(others.querySelectorAll('button').length>=3);assert.equal(others.querySelector('details'),null);
+  const others=root.querySelector('.creator-other-tools');assert.equal(others.open,false);assert.equal(others.querySelector('summary').textContent,'Other tools');// Keyvo 2026-11-16: creator tools are hidden, so an image offers only the two primary transforms (animate, create with image) plus any released image creator tool.
+  assert.ok(others.querySelectorAll('button').length>=2+getReleasedCreatorToolIds().filter(id=>id!=='subtitles').length);assert.equal(others.querySelector('details'),null);
   assert.equal(f.w.requests.length,0);assert.equal(f.w.navigations.length,0);
   await f.act(async()=>{studio.open=true;await new Promise(resolve=>setTimeout(resolve,0));});
   assert.equal(f.w.requests.length,2);assert.equal(f.w.requests[0].url,'/api/studio/conversation-projects');assert.equal(f.w.requests[1].url,'/api/studio/media/resolve');

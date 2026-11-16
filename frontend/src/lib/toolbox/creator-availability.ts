@@ -4,10 +4,11 @@ export { CREATOR_TOOL_IDS, type CreatorToolId } from './catalogue';
 export const CREATOR_TOOL_AVAILABILITY: Readonly<Record<CreatorToolId, { publicReleased: boolean }>> = {
   // Keyvo 2026-11-14: hidden. The only speech-to-text route is ElevenLabs Scribe v2 on Fal (no FAL_KEY, no mainland ASR adapter).
   subtitles: { publicReleased: false },
-  'lip-sync': { publicReleased: true },
-  'product-photo-editor': { publicReleased: true },
-  'product-video-editor': { publicReleased: true },
-  'motion-transfer': { publicReleased: true },
+  // Keyvo 2026-11-16: the four remaining creator tools are hidden too (USD quotes vs CNY wallet, CREATOR_TOOLS_ENABLED unset => 404). See keyvo-upstream-deviations.md.
+  'lip-sync': { publicReleased: false },
+  'product-photo-editor': { publicReleased: false },
+  'product-video-editor': { publicReleased: false },
+  'motion-transfer': { publicReleased: false },
 };
 export function isCreatorToolPublic(id: string): id is CreatorToolId {
   return Object.prototype.hasOwnProperty.call(CREATOR_TOOL_AVAILABILITY, id)
