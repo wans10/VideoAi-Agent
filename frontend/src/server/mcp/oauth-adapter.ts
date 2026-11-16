@@ -1,6 +1,7 @@
 import { AgentApiError } from '@/server/agent-api/errors';
 import type { AgentPrincipal } from '@/server/agent-api/principal';
 import { readRequestBearerAccessToken } from '@/lib/request-auth';
+import { readDeletionScheduledAt } from '@/lib/account-deletion-flag';
 import { createSupabaseRouteClient } from '@/lib/supabase-ssr';
 import {
   createDirectMcpAcquisition,
@@ -20,6 +21,7 @@ export type OAuthUser = {
   phone_confirmed_at?: string | null;
   identities?: Array<{ provider?: string | null }> | null;
   user_metadata?: Record<string, unknown> | null;
+  app_metadata?: Record<string, unknown> | null;
 };
 
 type OAuthAuthClient = {
@@ -107,6 +109,7 @@ const defaultOAuthAdapterDeps: OAuthAdapterDeps = {
                   email_confirmed_at: user.email_confirmed_at,
                   phone_confirmed_at: user.phone_confirmed_at,
                   identities: user.identities?.map((identity) => ({ provider: identity.provider })) ?? null,
+                  app_metadata: user.app_metadata,
                 }
               : null,
           },
@@ -166,6 +169,10 @@ async function resolveOAuthPrincipal(
   ]);
   const user = userResult.data.user;
   if (userResult.error || !user || user.id !== subject) {
+    throw authenticationRequired();
+  }
+  // An account in its deletion cooling-off cannot use MCP or API clients.
+  if (readDeletionScheduledAt(user)) {
     throw authenticationRequired();
   }
   if (!hasActiveGrant) {

@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import { resolve } from 'node:path';
 import test from 'node:test';
 import { loadWithMocks } from './helpers/route-bundle';
 import { ACCOUNT_DELETION_METADATA_KEY, isPurgeDue, purgeDateFor, readDeletionScheduledAt } from '../frontend/lib/account-deletion-flag';
@@ -162,4 +164,22 @@ test('the export payload and route: phone-only accounts, bounded lists, no provi
   assert.equal((await missing.json()).code, 'storage_unavailable');
   g.__priv.storage = true; g.__priv.userId = null;
   assert.equal((await route.POST(req())).status, 401);
+});
+
+test('middleware sends cooling-off accounts to the scheduled-deletion screen and nobody else', async () => {
+  const { NextRequest, NextResponse } = createRequire(resolve('frontend/package.json'))('next/server');
+  const { accountDeletionRedirect } = await loadWithMocks<{ accountDeletionRedirect: (...args: unknown[]) => Response | null }>(
+    'frontend/lib/middleware/routing-response.ts', {},
+  );
+  const at = (path: string) => new NextRequest(`https://keyvo.test${path}?x=1`);
+  const base = NextResponse.next();
+  const flagged = '2026-12-01T00:00:00.000Z';
+  const redirect = accountDeletionRedirect(at('/app'), base, 'u1', flagged) as Response;
+  assert.equal(redirect.status, 307);
+  assert.equal(new URL(redirect.headers.get('location')!).pathname, '/account/deletion');
+  assert.equal(new URL(redirect.headers.get('location')!).search, '');
+  assert.match(redirect.headers.get('cache-control')!, /no-store/);
+  assert.equal(accountDeletionRedirect(at('/account/deletion'), base, 'u1', flagged), null, 'no redirect loop');
+  assert.equal(accountDeletionRedirect(at('/app'), base, 'u1', null), null, 'ordinary accounts are untouched');
+  assert.equal(accountDeletionRedirect(at('/app'), base, null, flagged), null, 'signed-out visitors follow the login flow');
 });

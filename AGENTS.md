@@ -48,6 +48,7 @@ Use these guides as context before changing the related areas:
 - `docs/engineering/minimax-speech-provider.md`: audio workspace reduced to MiniMax voice over, its switch, routing and gate.
 - `docs/engineering/mcp-mode-coverage.md`: public MCP mode projection, intentional exclusions, and parity guard.
 - `docs/engineering/mcp-reference-imports.md`: private host attachments, MCP App uploads, and local helper trust boundaries.
+- `docs/engineering/account-deletion.md`: Keyvo account export/deletion policy, 15-day cooling-off guard, data inventory, purge job and scheduling.
 - `docs/engineering/stripe-webhook.md`: Stripe webhook security, idempotency, handler ownership, and validation gates.
 - `frontend/app/(core)/(workspace)/app/AGENTS.md`: authenticated video workspace boundaries.
 - `frontend/app/(core)/(workspace)/app/image/AGENTS.md`: image workspace boundaries.
