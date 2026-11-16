@@ -428,9 +428,15 @@ Upstream records only Terms and Privacy at sign-up; the Cookie Policy is recorde
   in the estimate route, `CharacterStudioRecastTiming.client.tsx`, `recast-submit.ts` and the MCP `confirm_recast` currency
   literal; (3) set `CHARACTER_STUDIO_RECAST_LIVE_ENABLED=1`; (4) flip `KEYVO_RECAST_HIDDEN` to `false`.
 
-## Subtitles creator tool hidden (2026-11-14)
+## Creator tools hidden (Subtitles 2026-11-14; Lip Sync, Product Photo Editor, Product Video Editor, Motion Transfer 2026-11-16)
 
-`subtitles` has `publicReleased: false` in `frontend/src/lib/toolbox/creator-availability.ts`, so the tools index, menus, library/media handoff destinations, marketing pages and sitemap omit it. Its only speech-to-text route is ElevenLabs Scribe v2 on Fal (`frontend/src/server/subtitles/scribe.ts`); Keyvo has no `FAL_KEY` and no mainland ASR adapter exists. Restoring it needs a mainland ASR adapter (Bailian or Volcengine speech) plus a pricing decision. Guard: `tests/keyvo-subtitles-hidden.test.ts`.
+All five creator tools have `publicReleased: false` in `frontend/src/lib/toolbox/creator-availability.ts`, so the `/app/tools` catalogue (the whole "Create and edit" group disappears when empty), menus and navigation, library/media hand-off destinations, the public marketing landing pages (404), the sitemap/route discovery and IndexNow selection omit them.
+
+- **Subtitles:** its only speech-to-text route is ElevenLabs Scribe v2 on Fal (`frontend/src/server/subtitles/scribe.ts`); Keyvo has no `FAL_KEY` and no mainland ASR adapter exists.
+- **Lip Sync, Product Photo Editor, Product Video Editor, Motion Transfer:** production returned 404 for `/app/tools/<id>` because `CREATOR_TOOLS_ENABLED` is unset, while the cards and public landing pages still showed (dead links). Creator quotes are also USD (`quote-creator.ts`, provider cost plus margin, no `customerSnapshot`) while the Keyvo wallet is CNY, so a reservation would end in `CURRENCY_MISMATCH` (see the creator tools audit).
+- **Kept on purpose:** all code, routes, APIs, MCP creator tools (already hidden), pricing and the execution gate `CREATOR_TOOLS_ENABLED`. Nothing was deleted or repriced; the flags are the only switch.
+- **How to reopen:** (1) fix the USD quote versus CNY wallet mismatch in `quote-creator.ts` (wrap the snapshot in the customer-currency conversion), and for Subtitles add a mainland ASR adapter plus a pricing decision; (2) set `CREATOR_TOOLS_ENABLED=1` (and the Alibaba public-routing flags the Wan 3 profiles need); (3) flip the five flags to `publicReleased: true`; (4) revert the hidden pins in `tests/keyvo-subtitles-hidden.test.ts`, `tests/creator-marketing.test.ts` (`KEYVO_HIDDEN_CREATORS`) and `tests/library-reference-identity-dom.test.ts`.
+- **Guard:** `tests/keyvo-subtitles-hidden.test.ts` (flags, paths, catalogue DOM render, media hand-off, navigation).
 
 ### MCP included trial closed (`KEYVO_MCP_TRIAL_DISABLED`)
 
