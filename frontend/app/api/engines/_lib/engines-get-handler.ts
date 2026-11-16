@@ -140,7 +140,7 @@ export function createEnginesGetHandler(
     } catch (error) {
       console.error('[api/engines] failed to load configured engines, falling back to base registry', error);
       const fallbackEnvironment = dependencies.getGenerationEnvironment();
-      const fallbackAvailability = filterExecutableWorkspaceEngines(getBaseEnginesByCategory(category), {
+      const fallbackAvailability = filterExecutableWorkspaceEngines(getBaseEnginesByCategory(category, { isAdmin }), {
         environment: fallbackEnvironment,
         resolve: dependencies.resolveModeExecutability,
         isAdmin,
