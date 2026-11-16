@@ -531,6 +531,25 @@ the MCP `AUTH_REQUIRED` text in `agent-api/character-studio.ts`; non-zh locale m
 - **Receipts:** the zh Stripe wording is removed. `useBillingReceipts` opens the wallet activity tab when the documents list loads empty and the user has not picked a tab yet (Keyvo has no Stripe documents; 聚合易支付 top-ups appear only in the activity ledger).
 - **Currency:** Keyvo settles in CNY only, so `WalletTopupPanel` shows "支付币种：人民币（CNY）" as fixed text (`data-testid="billing-currency-fixed"`) instead of a select; `useBillingCurrencyState` and the quote logic are unchanged, and the workspace top-up modal has no currency control. `.currencyField` and `.reviewHeading` wrap inside the card. `tests/billing-copy-currency-keyvo.test.ts` and `tests/billing-wallet-presentation.test.ts` pin this.
 
+## Home pricing teaser and FAQ hidden (2026-11-16)
+
+The zh home page no longer shows the pricing teaser (kicker "制作预算 / 按镜头核算", the Wan 3 price demo) or the FAQ section
+("关于 AI 视频创作的常见问题", 8 questions). Controlled by `KEYVO_HOME_PRICING_TEASER_HIDDEN` and `KEYVO_HOME_FAQ_HIDDEN` in
+`frontend/config/keyvo-disabled-features.ts`, consumed only where `(home)/page.tsx` composes its sections.
+
+- Hidden means absent from the server HTML. While the teaser is hidden `prepareHomePricingData` is not called (no price read, no
+  timing record), and the interactive `HomePriceDemo` client chunk is never referenced. The FAQ and the pricing section components
+  (`HomeFaq`, `HomePricingSection`, `HomeDeferredPricing`) and the `home.redesign.faq` / `pricingTrust` messages stay in place.
+- The `home-faq-jsonld` FAQPage script is emitted only with the visible FAQ (structured data must match visible content). The
+  WebApplication and provider ItemList JSON-LD are unchanged.
+- No in-page anchor or link targeted either section (`#your-price` was only the section id). The header "制作预算" item links to
+  `/pricing`, which is untouched, as are the neighbouring sections, their order and the hero poster/media rules. The workflow summary
+  now follows the works wall directly and ends the page.
+- Test-only reopen: `KEYVO_HOME_SECTIONS_FULL_UI=1` (never set in production) restores both sections for `home-streaming` and
+  `home-data-loading`. `tests/keyvo-home-sections-hidden.test.ts` pins the flags; the rendered-HTML proof is the second test in
+  `tests/home-streaming.test.ts`.
+- To reopen: flip the constants to false. Pages are ISR (`revalidate = 60`), so a rebuild is not needed beyond one revalidation.
+
 ## Supabase auth emails (2026-11-16)
 
 Production Supabase is self-hosted and has no SMTP yet. Keyvo zh templates (reset password, email verification, email change,

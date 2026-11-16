@@ -148,3 +148,30 @@ export function isKeyvoMcpUiHidden(): boolean {
   }
   return KEYVO_MCP_UI_HIDDEN;
 }
+
+/**
+ * The zh home page does not show the pricing teaser (kicker "制作预算 / 按镜头核算", the Wan 3 price demo) or the FAQ
+ * section ("关于 AI 视频创作的常见问题"). Hidden means absent from the server HTML: no price read starts, the interactive
+ * demo is not rendered (so its client chunk is not requested) and the FAQPage JSON-LD is dropped with its visible
+ * questions. The /pricing route, the header nav item and all section components stay in place; flip the constants to
+ * false to restore either section. Home sections are composed in `app/(localized)/[locale]/(marketing)/(home)/page.tsx`.
+ */
+export const KEYVO_HOME_PRICING_TEASER_HIDDEN: boolean = true;
+export const KEYVO_HOME_FAQ_HIDDEN: boolean = true;
+
+/** KEYVO_HOME_SECTIONS_FULL_UI=1 is for tests that exercise the two home sections; it is never set in production. */
+function homeSectionsFullUi(): boolean {
+  try {
+    return process.env.KEYVO_HOME_SECTIONS_FULL_UI === '1';
+  } catch {
+    return false;
+  }
+}
+
+export function isKeyvoHomePricingTeaserHidden(): boolean {
+  return KEYVO_HOME_PRICING_TEASER_HIDDEN && !homeSectionsFullUi();
+}
+
+export function isKeyvoHomeFaqHidden(): boolean {
+  return KEYVO_HOME_FAQ_HIDDEN && !homeSectionsFullUi();
+}

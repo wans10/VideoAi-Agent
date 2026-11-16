@@ -67,6 +67,9 @@ test('real homepage streams the prompt first screen and works wall before pendin
   Module._resolveFilename = function(request: string, ...args: unknown[]) { return priorResolve.call(this, aliases[request] ?? request, ...args); };
   let directory: string | undefined;
   const previousReact = Object.getOwnPropertyDescriptor(globalThis, 'React');
+  // This test exercises the pricing demo and FAQ, which Keyvo hides on its home page (keyvo-home-sections-hidden.test.ts).
+  const previousFullUi = process.env.KEYVO_HOME_SECTIONS_FULL_UI;
+  process.env.KEYVO_HOME_SECTIONS_FULL_UI = '1';
   try {
     const bundled = await bundle(); directory = bundled.directory;
     const fixture = requireFrontend(bundled.output);
@@ -150,6 +153,51 @@ test('real homepage streams the prompt first screen and works wall before pendin
       }
     });
   } finally {
+    if (previousFullUi === undefined) delete process.env.KEYVO_HOME_SECTIONS_FULL_UI; else process.env.KEYVO_HOME_SECTIONS_FULL_UI = previousFullUi;
+    Module._resolveFilename = priorResolve;
+    previousReact ? Object.defineProperty(globalThis, 'React', previousReact) : Reflect.deleteProperty(globalThis, 'React');
+    if (directory) await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test('the Keyvo zh home renders neither the pricing teaser nor the FAQ, and emits no FAQPage JSON-LD', async () => {
+  const Module = requireFrontend('node:module');
+  const priorResolve = Module._resolveFilename;
+  const aliases = Object.fromEntries(['react', 'react/jsx-runtime', 'react/jsx-dev-runtime', 'react-dom', 'react-dom/server', 'react-dom/client'].map(name => [name, requireFrontend.resolve(`next/dist/compiled/${name}`)]));
+  Module._resolveFilename = function(request: string, ...args: unknown[]) { return priorResolve.call(this, aliases[request] ?? request, ...args); };
+  let directory: string | undefined;
+  const previousReact = Object.getOwnPropertyDescriptor(globalThis, 'React');
+  const previousFullUi = process.env.KEYVO_HOME_SECTIONS_FULL_UI;
+  delete process.env.KEYVO_HOME_SECTIONS_FULL_UI;
+  try {
+    const bundled = await bundle(); directory = bundled.directory;
+    const fixture = requireFrontend(bundled.output);
+    const React = requireFrontend('next/dist/compiled/react');
+    Object.defineProperty(globalThis, 'React', { configurable: true, value: React });
+    const { renderToReadableStream } = requireFrontend('next/dist/compiled/react-dom/server');
+    const { ImageConfigContext } = requireFrontend('next/dist/shared/lib/image-config-context.shared-runtime');
+    const { imageConfigDefault } = requireFrontend('next/dist/shared/lib/image-config');
+    const imageConfig = { ...imageConfigDefault, ...requireFrontend('./next.config.js').images };
+    const en = JSON.parse(await readFile('frontend/messages/en.json', 'utf8'));
+    const locale = 'zh';
+    fixture.reset();
+    const dictionary = JSON.parse(await readFile('frontend/messages/zh.json', 'utf8'));
+    const page = await fixture.HomePage({ params: Promise.resolve({ locale }) });
+    const stream = await renderToReadableStream(React.createElement(ImageConfigContext.Provider, { value: imageConfig },
+      React.createElement(fixture.I18nProvider, { locale, dictionary, fallback: en }, page)));
+    const html = await new Response(stream).text();
+    assert.match(html, /home-webapp-jsonld/);
+    assert.match(html, /home-provider-itemlist-jsonld/);
+    assert.match(html, /data-home-prompt-form/);
+    assert.match(html, /data-home-showcase/);
+    assert.match(html, /你的创作从何开始/, 'the neighbouring workflow summary stays');
+    for (const hidden of ['制作预算', '按镜头核算', '每次试拍，都有清楚的成本', '延长镜头时长', '提升细节质量', '查看全部价格', '关于 AI 视频创作的常见问题', 'home-faq-jsonld', 'FAQPage', 'id="your-price"', 'home-price-lab', 'home-faq-chapter', 'studio-faq-item']) {
+      assert.ok(!html.includes(hidden), `the hidden home sections must not leave "${hidden}" in the server HTML`);
+    }
+    assert.ok(!dictionary.home.redesign.faq.items.some((item: { question: string }) => html.includes(item.question)), 'no FAQ question is rendered');
+    assert.deepEqual(fixture.calls, [], 'no price read starts for the hidden pricing teaser');
+  } finally {
+    if (previousFullUi === undefined) delete process.env.KEYVO_HOME_SECTIONS_FULL_UI; else process.env.KEYVO_HOME_SECTIONS_FULL_UI = previousFullUi;
     Module._resolveFilename = priorResolve;
     previousReact ? Object.defineProperty(globalThis, 'React', previousReact) : Reflect.deleteProperty(globalThis, 'React');
     if (directory) await rm(directory, { recursive: true, force: true });

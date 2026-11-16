@@ -3,11 +3,16 @@ import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
-import test from 'node:test';
+import test, { after, before } from 'node:test';
 import { pathToFileURL } from 'node:url';
 import { build } from 'esbuild';
 
 const requireFrontend = createRequire(resolve('frontend/package.json'));
+
+// This suite exercises the price read and FAQ schema that Keyvo hides on its home page (see keyvo-home-sections-hidden.test.ts).
+const previousFullUi = process.env.KEYVO_HOME_SECTIONS_FULL_UI;
+before(() => { process.env.KEYVO_HOME_SECTIONS_FULL_UI = '1'; });
+after(() => { if (previousFullUi === undefined) delete process.env.KEYVO_HOME_SECTIONS_FULL_UI; else process.env.KEYVO_HOME_SECTIONS_FULL_UI = previousFullUi; });
 
 test('homepage starts retained reads together, drops unused proof reads and records one bounded load', async (t) => {
   const directory = await mkdtemp(join(tmpdir(), 'home-data-loading-'));

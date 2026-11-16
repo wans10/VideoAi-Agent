@@ -19,6 +19,7 @@ import {
   type WorkflowSeoSummaryCopy,
 } from '@/components/marketing/home/HomeRedesignSections';
 import { filterProviderItems, type RedesignContent } from './_lib/home-route-data';
+import { isKeyvoHomeFaqHidden, isKeyvoHomePricingTeaserHidden } from '@/config/keyvo-disabled-features';
 import { getMcpInternalLink } from '@/lib/mcp-internal-links';
 import { buildFaqSchema, buildItemListSchema, buildSoftwareSchema, serializeJsonLd } from './_lib/home-jsonld';
 
@@ -45,14 +46,16 @@ export default async function HomePage(props: { params: Promise<{ locale: string
   const { dictionary } = await resolveDictionary({ locale });
   const content = dictionary.home.redesign as RedesignContent;
   const workflowSeoCopy = dictionary.home.seoContent as WorkflowSeoSummaryCopy | undefined;
-  const pricing = prepareHomePricingData(locale);
+  const showPricing = !isKeyvoHomePricingTeaserHidden();
+  const showFaq = !isKeyvoHomeFaqHidden();
+  const pricing = showPricing ? prepareHomePricingData(locale) : null;
   const showcaseCopy = getHomeShowcaseCopy(locale);
   const showcase = listShowcaseCards(0, HOME_SHOWCASE_FIRST_BATCH);
   const scenePosters = getShowcaseScenePosters();
   const mcpLink = getMcpInternalLink(locale, 'home');
   const providers = filterProviderItems(content);
   const softwareSchema = buildSoftwareSchema(content, locale);
-  const faqSchema = buildFaqSchema(content.faq.items);
+  const faqSchema = showFaq ? buildFaqSchema(content.faq.items) : null;
   const itemListSchema = buildItemListSchema(content, providers);
 
   return (
@@ -62,17 +65,19 @@ export default async function HomePage(props: { params: Promise<{ locale: string
         scenePosters={showcaseCopy.scenes.map((scene) => ({ id: scene.id, posterUrl: scenePosters[scene.id].posterUrl }))}
       />
       <HomeShowcaseWall initialCards={showcase.cards} hasMore={showcase.hasMore} copy={showcaseCopy} locale={locale} assistant={mcpLink} />
-      <DeferredMarketingContent>
-        <Suspense fallback={<HomePricingSection locale={locale} copy={content.pricingTrust} pending />}>
-          <HomeDeferredPricing locale={locale} models={pricing.priceModels} copy={content.pricingTrust} />
-        </Suspense>
-      </DeferredMarketingContent>
+      {pricing ? (
+        <DeferredMarketingContent>
+          <Suspense fallback={<HomePricingSection locale={locale} copy={content.pricingTrust} pending />}>
+            <HomeDeferredPricing locale={locale} models={pricing.priceModels} copy={content.pricingTrust} />
+          </Suspense>
+        </DeferredMarketingContent>
+      ) : null}
       <DeferredMarketingContent>
         {workflowSeoCopy ? <WorkflowSeoSummary copy={workflowSeoCopy} locale={locale} /> : null}
-        <HomeFaq copy={content.faq} items={content.faq.items} />
+        {showFaq ? <HomeFaq copy={content.faq} items={content.faq.items} /> : null}
       </DeferredMarketingContent>
       <script id="home-webapp-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(softwareSchema) }} />
-      <script id="home-faq-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqSchema) }} />
+      {faqSchema ? <script id="home-faq-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqSchema) }} /> : null}
       <script id="home-provider-itemlist-jsonld" type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(itemListSchema) }} />
     </div>
   );
