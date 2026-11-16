@@ -6,7 +6,7 @@ import { getEngineAliases, listFalEngines } from '@/config/falEngines';
 import type { ImageGenerationMode } from '@/types/image-generation';
 import ImageWorkspaceSession from './_components/ImageWorkspaceSession.client';
 import type { ImageEngineOption } from './ImageWorkspace';
-import { sortImageWorkspaceEngineOptions } from './_lib/image-workspace-engine-options';
+import { filterImageWorkspaceEntriesForViewer, sortImageWorkspaceEngineOptions } from './_lib/image-workspace-engine-options';
 import {
   filterExecutableWorkspaceEngines,
   reportHiddenWorkspaceEngines,
@@ -40,12 +40,16 @@ export default async function ImageGeneratePage({ searchParams }: ImageGenerateP
     redirect('/app/tools/storyboard');
   }
 
-  const registryImageEntries = listFalEngines().filter((engine) => (engine.category ?? 'video') === 'image' && engine.surfaces.app.enabled);
+  // Server-verified viewer first: the Keyvo allowlist (admin tier included) is viewer-aware, like /api/engines.
+  const isAdmin = await resolveWorkspaceViewerIsAdmin();
+  const registryImageEntries = filterImageWorkspaceEntriesForViewer(
+    listFalEngines().filter((engine) => (engine.category ?? 'video') === 'image' && engine.surfaces.app.enabled),
+    { isAdmin },
+  );
   if (!registryImageEntries.length) {
     notFound();
   }
   // Same rule as the video picker (/api/engines): list only what this deployment can run. Fails open.
-  const isAdmin = await resolveWorkspaceViewerIsAdmin();
   const availability = filterExecutableWorkspaceEngines(registryImageEntries.map((entry) => entry.engine), { isAdmin });
   reportHiddenWorkspaceEngines('image', availability, Date.now(), isAdmin ? 'admin' : 'member');
   const executableById = new Map(availability.engines.map((engine) => [engine.id, engine]));
