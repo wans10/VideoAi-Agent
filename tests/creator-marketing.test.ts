@@ -8,8 +8,9 @@ import { localizePathFromEnglish, englishPathFromLocale } from '../frontend/lib/
 import { routing } from '../frontend/i18n/routing';
 import { isKeyvoToolDisabled } from '../frontend/config/keyvo-disabled-features';
 
-// Keyvo 2026-11-14: Subtitles is hidden (no mainland speech-to-text route); the other four stay released.
-const KEYVO_HIDDEN_CREATORS = ['subtitles'] as const;
+// Keyvo 2026-11-14/16: all five creator tools are hidden (Subtitles: no mainland speech-to-text route; the others: USD quotes vs CNY wallet, execution gate off).
+// RELEASED_CREATORS is therefore empty; the released-path assertions below stay for the day the flags are flipped back.
+const KEYVO_HIDDEN_CREATORS = ['subtitles', 'lip-sync', 'product-photo-editor', 'product-video-editor', 'motion-transfer'] as const;
 const RELEASED_CREATORS = CREATOR_TOOL_IDS.filter(id => !(KEYVO_HIDDEN_CREATORS as readonly string[]).includes(id));
 
 test('the four released creators are discoverable without publishing unknown or hidden identities', () => {
@@ -90,7 +91,8 @@ test('unreleased route rendering and metadata stop at the same not-found gate', 
 test('released creators appear in the public hub and marketing navigation', async () => {
   const { CreatorToolsCollection } = await import('../frontend/src/components/tools/creator-marketing/CreatorToolsCollection');
   const { MARKETING_NAV_TOOLS } = await import('../frontend/config/navigation');
-  assert.ok(CreatorToolsCollection({ locale: 'en' }));
+  // Keyvo 2026-11-16: with every creator hidden the public hub collection renders nothing (no empty heading); released ones render it.
+  assert.equal(RELEASED_CREATORS.length ? Boolean(CreatorToolsCollection({ locale: 'en' })) : CreatorToolsCollection({ locale: 'en' }) === null, true);
   for (const id of RELEASED_CREATORS) assert.ok(MARKETING_NAV_TOOLS.some(item => item.key === id));
   for (const id of KEYVO_HIDDEN_CREATORS) assert.equal(MARKETING_NAV_TOOLS.some(item => item.key === id), false);
 });
