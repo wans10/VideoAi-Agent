@@ -15,7 +15,7 @@ import { MiddlewareAuthTimeoutError } from '@/lib/middleware/auth-deadline';
 import {
   LOGIN_PATH,
   LOCALE_STRIPPABLE_PREFIXES,
-  PROTECTED_PREFIXES,
+  PROTECTED_PREFIXES, accountDeletionRedirect,
   applyMarketingEdgeCacheHeaders,
   containsLocalePlaceholder,
   canUseLocalAdminBypassForProtectedPath,
@@ -242,9 +242,9 @@ export async function middleware(req: NextRequest) {
   }
 
   const { updateSession } = await import('@/lib/supabase-ssr');
-  let userId: string | null;
+  let userId: string | null, deletionScheduledAt: string | null = null;
   try {
-    ({ userId } = await updateSession(req, response));
+    ({ userId, deletionScheduledAt } = await updateSession(req, response));
   } catch (error) {
     if (!(error instanceof MiddlewareAuthTimeoutError)) throw error;
     console.warn('[middleware] auth deadline exceeded');
@@ -258,9 +258,9 @@ export async function middleware(req: NextRequest) {
     response.headers.append('Vary', 'Cookie');
   }
 
-  if (userId) {
-    return finalizeResponse(response, hasLogoutIntentCookie, trackingNoindex, appNoindex);
-  }
+  const deletionRedirect = accountDeletionRedirect(req, response, userId, deletionScheduledAt);
+  if (deletionRedirect) return finalizeResponse(deletionRedirect, hasLogoutIntentCookie, trackingNoindex, appNoindex);
+  if (userId) return finalizeResponse(response, hasLogoutIntentCookie, trackingNoindex, appNoindex);
 
   if (canUseLocalAdminBypassForProtectedPath(req, pathname, FEATURES.studio.adminOnly)) {
     return finalizeResponse(response, hasLogoutIntentCookie, trackingNoindex, appNoindex);

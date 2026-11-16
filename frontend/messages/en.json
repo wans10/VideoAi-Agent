@@ -4523,7 +4523,49 @@
         "allowIndexDescription": "New videos can appear in the gallery, sitemap, and search previews. You can still uncheck individual renders from their detail view.",
         "saving": "Saving preference…",
         "disableHint": "Disable this toggle if you prefer every render to stay private by default. Published videos will keep their current visibility until you change them individually.",
-        "preferenceError": "Failed to update preference"
+        "preferenceError": "Failed to update preference",
+        "dataExport": {
+          "title": "Export my data",
+          "description": "Generate a copy of your account profile, phone/email, generation history and prompts, media list, wallet ledger and consent records (compressed JSON). The download link is valid for 48 hours.",
+          "action": "Export my data",
+          "working": "Generating…",
+          "ready": "Your export is ready",
+          "download": "Download file",
+          "expiresPrefix": "Link valid until: ",
+          "rateLimited": "Too many exports. Try again in {minutes} minutes.",
+          "unavailable": "Data export is not available yet. Contact support for a copy of your data.",
+          "error": "Export failed. Try again later."
+        },
+        "deletion": {
+          "title": "Delete account",
+          "description": "After you request deletion you are signed out immediately and cannot use Keyvo. You have a 15-day cooling-off period and can cancel by signing in again; afterwards your personal data, generations and media are permanently deleted.",
+          "action": "Delete account…",
+          "dialogTitle": "Confirm account deletion",
+          "consequences": [
+            "You are signed out of every device and can no longer use Keyvo.",
+            "Sign in again within 15 days to cancel on the scheduled-deletion page.",
+            "After the cooling-off your account, phone/email, history, prompts and media are permanently deleted.",
+            "As required by law, orders, payments and ledger entries are kept without personal identifiers.",
+            "Deletion is refused while your balance is above zero: use it or contact support for a refund first."
+          ],
+          "confirmLabel": "Type “注销” to confirm",
+          "confirmWord": "注销",
+          "passwordLabel": "Password",
+          "passwordHelp": "Re-enter your password to protect the account. Forgot it? Sign out, sign in with an SMS code and reset it first.",
+          "submit": "Delete my account",
+          "submitting": "Submitting…",
+          "cancel": "Cancel",
+          "successTitle": "Deletion requested",
+          "successBody": "You are signed out. Sign in again before {date} to cancel; after that the account is permanently deleted.",
+          "successAction": "Got it",
+          "errors": {
+            "confirmation_required": "Type the confirmation word.",
+            "password_required": "Enter your password.",
+            "invalid_password": "Wrong password.",
+            "wallet_not_empty": "Your balance is above zero. Use it or contact support for a refund before deleting.",
+            "generic": "Could not submit the request. Try again later."
+          }
+        }
       },
       "notifications": {
         "title": "Notifications",
@@ -6853,6 +6895,19 @@
         "sourceAngle": "Angle",
         "sourceUpscale": "Upscale"
       }
+    },
+    "accountDeletion": {
+      "title": "Account scheduled for deletion",
+      "body": "Your account is in its deletion cooling-off and cannot be used. After {purge} your personal data, generations and media will be permanently deleted.",
+      "purgeLabel": "Scheduled deletion: ",
+      "cancelHint": "Changed your mind? Cancelling restores the account immediately.",
+      "cancel": "Cancel deletion",
+      "cancelling": "Cancelling…",
+      "signOut": "Sign out",
+      "export": "Export my data first",
+      "cancelled": "Deletion cancelled. Your account is restored.",
+      "error": "Something went wrong. Try again later.",
+      "loading": "Loading…"
     }
   },
   "cookieBanner": {

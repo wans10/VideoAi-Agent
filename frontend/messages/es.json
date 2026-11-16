@@ -4525,7 +4525,49 @@
         "allowIndexDescription": "Los nuevos videos pueden aparecer en la galería, sitemap y búsquedas. Cada render puede ajustarse de forma individual.",
         "saving": "Guardando preferencia…",
         "disableHint": "Desactiva esta opción si prefieres que todo quede privado. Los videos publicados mantienen su estado actual.",
-        "preferenceError": "No se pudo actualizar la preferencia"
+        "preferenceError": "No se pudo actualizar la preferencia",
+        "dataExport": {
+          "title": "Exportar mis datos",
+          "description": "Genera una copia de tu perfil, teléfono/correo, historial de generaciones y prompts, lista de medios, movimientos del monedero y consentimientos (JSON comprimido). El enlace es válido 48 horas.",
+          "action": "Exportar mis datos",
+          "working": "Generando…",
+          "ready": "Tu exportación está lista",
+          "download": "Descargar archivo",
+          "expiresPrefix": "Enlace válido hasta: ",
+          "rateLimited": "Demasiadas exportaciones. Inténtalo de nuevo en {minutes} minutos.",
+          "unavailable": "La exportación aún no está disponible. Contacta con soporte para obtener una copia.",
+          "error": "Error al exportar. Inténtalo más tarde."
+        },
+        "deletion": {
+          "title": "Eliminar cuenta",
+          "description": "Tras la solicitud se cierra tu sesión y no podrás usar Keyvo. Hay 15 días de reflexión para cancelar iniciando sesión de nuevo; después tus datos se eliminan de forma permanente.",
+          "action": "Eliminar cuenta…",
+          "dialogTitle": "Confirmar eliminación de la cuenta",
+          "consequences": [
+            "Se cierra la sesión en todos los dispositivos.",
+            "Inicia sesión en 15 días para cancelar.",
+            "Tras el plazo se eliminan cuenta, teléfono/correo, historial, prompts y medios.",
+            "Pedidos, pagos y asientos se conservan sin identificadores personales, según exige la ley.",
+            "Se rechaza la eliminación mientras el saldo sea mayor que cero."
+          ],
+          "confirmLabel": "Escribe «注销» para confirmar",
+          "confirmWord": "注销",
+          "passwordLabel": "Contraseña",
+          "passwordHelp": "Vuelve a introducir tu contraseña. ¿La olvidaste? Cierra sesión, entra con un SMS y restablécela.",
+          "submit": "Eliminar mi cuenta",
+          "submitting": "Enviando…",
+          "cancel": "Cancelar",
+          "successTitle": "Eliminación solicitada",
+          "successBody": "Has cerrado sesión. Inicia sesión antes del {date} para cancelar.",
+          "successAction": "Entendido",
+          "errors": {
+            "confirmation_required": "Escribe la palabra de confirmación.",
+            "password_required": "Introduce tu contraseña.",
+            "invalid_password": "Contraseña incorrecta.",
+            "wallet_not_empty": "Tu saldo es mayor que cero. Úsalo o contacta con soporte para un reembolso.",
+            "generic": "No se pudo enviar la solicitud. Inténtalo más tarde."
+          }
+        }
       },
       "notifications": {
         "title": "Notificaciones",
@@ -6863,6 +6905,19 @@
         "sourceAngle": "Ángulo",
         "sourceUpscale": "Upscale"
       }
+    },
+    "accountDeletion": {
+      "title": "Cuenta programada para eliminación",
+      "body": "Tu cuenta está en periodo de reflexión y no se puede usar. Después del {purge} tus datos se eliminarán de forma permanente.",
+      "purgeLabel": "Eliminación prevista: ",
+      "cancelHint": "¿Has cambiado de opinión? Cancelar restaura la cuenta de inmediato.",
+      "cancel": "Cancelar eliminación",
+      "cancelling": "Cancelando…",
+      "signOut": "Cerrar sesión",
+      "export": "Exportar mis datos primero",
+      "cancelled": "Eliminación cancelada. Cuenta restaurada.",
+      "error": "Algo salió mal. Inténtalo más tarde.",
+      "loading": "Cargando…"
     }
   },
   "cookieBanner": {

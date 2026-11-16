@@ -3,6 +3,7 @@ import type { NextRequest, NextResponse } from 'next/server';
 import { createServerClient, type CookieOptionsWithName } from '@supabase/ssr';
 import { readBearerAccessToken } from '@/lib/request-auth';
 import { withMiddlewareAuthDeadline } from '@/lib/middleware/auth-deadline';
+import { readDeletionScheduledAt } from '@/lib/account-deletion-flag';
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -140,27 +141,47 @@ export async function updateSession(req: NextRequest, res: NextResponse) {
     }
     const accessToken = sessionData.session?.access_token ?? null;
     if (!accessToken || sessionError) {
-      return { supabase, userId: null, error: sessionError };
+      return { supabase, userId: null, error: sessionError, deletionScheduledAt: null };
     }
     // A signed JWT can outlive its revoked session. Validate the active session
     // with Auth before allowing a protected page to render.
     const { data, error } = await supabase.auth.getUser(accessToken);
     signal.throwIfAborted();
     const userId = error ? null : data.user?.id ?? null;
-    return { supabase, userId, error };
+    // Same Auth response: the scheduled-deletion flag costs no extra round trip.
+    const deletionScheduledAt = error ? null : readDeletionScheduledAt(data.user);
+    return { supabase, userId, error, deletionScheduledAt };
   });
 }
 
-export async function getRouteAuthContext(req?: NextRequest) {
+export type RouteAuthOptions = {
+  /**
+   * Accounts inside the account-deletion cooling-off are treated as signed out
+   * (fail closed for every API, including paid actions) unless the route is one
+   * of the few that must keep working for them: status, cancel, export, sign-out.
+   */
+  allowScheduledDeletion?: boolean;
+};
+
+export async function getRouteAuthContext(req?: NextRequest, options: RouteAuthOptions = {}) {
+  const context = await resolveRouteAuthContext(req);
+  const { deletionScheduledAt, ...rest } = context;
+  if (deletionScheduledAt && !options.allowScheduledDeletion) {
+    return { ...rest, userId: null as string | null, deletionScheduledAt };
+  }
+  return { ...rest, deletionScheduledAt };
+}
+
+async function resolveRouteAuthContext(req?: NextRequest) {
   const supabase = await createSupabaseRouteClient();
   const accessToken = readBearerAccessToken(req?.headers);
 
   // Owned browser operations carry deployment cookies only to pass the hosting
   // boundary. An invalid explicit bearer must never fall back to those cookies.
   if (req?.headers.get('x-maxvideoai-auth-mode') === 'bearer') {
-    if (!accessToken) return { supabase, session: null, userId: null };
+    if (!accessToken) return { supabase, session: null, userId: null, deletionScheduledAt: null as string | null };
     const { data, error } = await supabase.auth.getUser(accessToken);
-    return { supabase, session: null, userId: error ? null : data.user?.id ?? null };
+    return { supabase, session: null, userId: error ? null : data.user?.id ?? null, deletionScheduledAt: error ? null : readDeletionScheduledAt(data.user) };
   }
 
   if (accessToken) {
@@ -171,7 +192,7 @@ export async function getRouteAuthContext(req?: NextRequest) {
       if (isInvalidRefreshTokenError(sessionError)) {
         await supabase.auth.signOut({ scope: 'local' }).catch(() => undefined);
       }
-      return { supabase, session: sessionData.session ?? null, userId: tokenUserId };
+      return { supabase, session: sessionData.session ?? null, userId: tokenUserId, deletionScheduledAt: readDeletionScheduledAt(userData.user) };
     }
   }
 
@@ -181,10 +202,10 @@ export async function getRouteAuthContext(req?: NextRequest) {
   }
   const session = sessionData.session ?? null;
   if (!session?.access_token) {
-    return { supabase, session, userId: null };
+    return { supabase, session, userId: null, deletionScheduledAt: null as string | null };
   }
   // Cookie authentication must enforce the same session revocation as Bearer.
   const { data: userData, error: userError } = await supabase.auth.getUser(session.access_token);
   const sessionUserId = userError ? null : userData.user?.id ?? null;
-  return { supabase, session, userId: sessionUserId };
+  return { supabase, session, userId: sessionUserId, deletionScheduledAt: userError ? null : readDeletionScheduledAt(userData.user) };
 }

@@ -525,6 +525,28 @@ allowlists (`media.maxvideoai.com`); the `MaxVideoAI Recast` billing label (feat
 the MCP `AUTH_REQUIRED` text in `agent-api/character-studio.ts`; non-zh locale marketing copy and the `User-Agent`
 `MaxVideoAI-MCP/1.0` of the MCP media fetcher.
 
+## Account deletion with a 15-day cooling-off and data export (2026-11-16)
+
+China PIPL requires a usable deletion path, so Keyvo diverges from upstream (whose `POST /api/account/delete` only
+set `profiles.marked_for_deletion_at` and promised a 30-day purge that never existed). Full guide:
+`docs/engineering/account-deletion.md`.
+
+- **Routes**: `POST /api/account/delete` now needs the typed word and the password, refuses a positive wallet
+  balance, mirrors the flag into Supabase `app_metadata`, revokes sessions and returns the 15-day purge date
+  (`deletionCompleted: false`). New `POST /api/account/delete/cancel`, `GET /api/account/delete/status` and
+  `POST /api/cron/account-purge` (needs `CRON_SECRET`, erases only with `ACCOUNT_PURGE_ENABLED=true`).
+  `POST /api/account/export` is rate limited (10 minutes) and its payload now includes jobs/prompts, media list,
+  wallet balances and consents, and no longer includes vendor or pricing internals.
+- **Guard**: `getRouteAuthContext(req, { allowScheduledDeletion })` in `src/lib/supabase-ssr.ts` returns a flagged
+  account as signed out unless the route opts in; `middleware.ts` redirects protected pages to `/account/deletion`.
+  After an upstream sync, keep both changes and the `updateSession` return shape (`deletionScheduledAt`).
+- **UI**: settings privacy tab (`DataExportPanel`, `AccountDeletionPanel`) and the `/account/deletion` screen;
+  copy under `workspace.settings.privacy.{dataExport,deletion}` and `workspace.accountDeletion` in all four
+  message files. The old zh `dangerZone.deleteWarning` text (permanent immediate wallet loss) was corrected.
+- **Database**: migration `98_account_privacy_events.sql` (additive; code is guarded until applied).
+- **Tests**: `account-deletion-request`, `account-privacy-routes`, `account-privacy-ui-dom`,
+  `account-purge-postgres` (full-schema inventory guard). The old test pinning the 30-day text was replaced.
+
 ### Billing page copy and layout (`/billing`)
 
 - **Pending hosted payment:** `LlmhubPayCheckout.client.tsx` labels the remembered-payment button with `checkoutReturn.pendingConfirmAction` (the banner and toast keep `pendingTitle`), explains it with `pendingHint`, and offers `pendingCancelAction`, which only runs `clearRequest()` (client sessionStorage). The next click mints a new request id; server idempotency and payment logic are unchanged, and a late notification for the cancelled order still credits through the existing notify route.

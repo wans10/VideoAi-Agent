@@ -4,8 +4,10 @@ import { AdminSection } from '@/components/admin-system/shell/AdminSection';
 import { AdminSectionMeta } from '@/components/admin-system/shell/AdminSectionMeta';
 import type { AdminUserProfile } from '../_lib/admin-user-detail-types';
 import { formatDateTime, formatShortDate } from '../_lib/admin-user-detail-format';
+import { purgeDateFor, readDeletionScheduledAt } from '@/lib/account-deletion-flag';
 
 export function AdminUserIdentitySection({ profile }: { profile: AdminUserProfile | null }) {
+  const deletionScheduledAt = readDeletionScheduledAt({ app_metadata: profile?.appMetadata });
   return (
     <AdminSection
       title="Identity & Access"
@@ -30,6 +32,11 @@ export function AdminUserIdentitySection({ profile }: { profile: AdminUserProfil
             <ProfileField label="Created">{formatDateTime(profile.createdAt)}</ProfileField>
             <ProfileField label="Last sign-in">{formatDateTime(profile.lastSignInAt)}</ProfileField>
             <ProfileField label="Role">{profile.isAdmin ? 'Admin' : 'Member'}</ProfileField>
+            {deletionScheduledAt ? (
+              <ProfileField label="Account deletion">
+                Scheduled {formatDateTime(deletionScheduledAt)} · purge due {formatDateTime(purgeDateFor(deletionScheduledAt).toISOString())} (read-only)
+              </ProfileField>
+            ) : null}
             <ProfileField label="App metadata">{profile.appMetadata ? `${Object.keys(profile.appMetadata).length} keys` : 'None'}</ProfileField>
           </dl>
           <div className="grid gap-3 sm:grid-cols-2">

@@ -16,6 +16,8 @@ import { ObfuscatedEmailLink } from '@/components/marketing/ObfuscatedEmailLink'
 import { Button } from '@/components/ui/Button';
 import { resolveSettingsContentTab } from '@/lib/settings-navigation';
 import { AccountSettingsPanel } from './_components/AccountSettingsPanel';
+import { AccountDeletionPanel } from './_components/AccountDeletionPanel';
+import { DataExportPanel } from './_components/DataExportPanel';
 
 const DEFAULT_SETTINGS_COPY = {
   title: 'Settings',
@@ -67,6 +69,48 @@ const DEFAULT_SETTINGS_COPY = {
     supportPrefix: 'If you need a public render delisted or removed, contact ',
     supportEmail: 'contact@llmhub.com.cn',
     supportSuffix: ' and the team will review the request.',
+    dataExport: {
+      "title": "Export my data",
+      "description": "Generate a copy of your account profile, phone/email, generation history and prompts, media list, wallet ledger and consent records (compressed JSON). The download link is valid for 48 hours.",
+      "action": "Export my data",
+      "working": "Generating…",
+      "ready": "Your export is ready",
+      "download": "Download file",
+      "expiresPrefix": "Link valid until: ",
+      "rateLimited": "Too many exports. Try again in {minutes} minutes.",
+      "unavailable": "Data export is not available yet. Contact support for a copy of your data.",
+      "error": "Export failed. Try again later."
+    },
+    deletion: {
+      "title": "Delete account",
+      "description": "After you request deletion you are signed out immediately and cannot use Keyvo. You have a 15-day cooling-off period and can cancel by signing in again; afterwards your personal data, generations and media are permanently deleted.",
+      "action": "Delete account…",
+      "dialogTitle": "Confirm account deletion",
+      "consequences": [
+        "You are signed out of every device and can no longer use Keyvo.",
+        "Sign in again within 15 days to cancel on the scheduled-deletion page.",
+        "After the cooling-off your account, phone/email, history, prompts and media are permanently deleted.",
+        "As required by law, orders, payments and ledger entries are kept without personal identifiers.",
+        "Deletion is refused while your balance is above zero: use it or contact support for a refund first."
+      ],
+      "confirmLabel": "Type “注销” to confirm",
+      "confirmWord": "注销",
+      "passwordLabel": "Password",
+      "passwordHelp": "Re-enter your password to protect the account. Forgot it? Sign out, sign in with an SMS code and reset it first.",
+      "submit": "Delete my account",
+      "submitting": "Submitting…",
+      "cancel": "Cancel",
+      "successTitle": "Deletion requested",
+      "successBody": "You are signed out. Sign in again before {date} to cancel; after that the account is permanently deleted.",
+      "successAction": "Got it",
+      "errors": {
+        "confirmation_required": "Type the confirmation word.",
+        "password_required": "Enter your password.",
+        "invalid_password": "Wrong password.",
+        "wallet_not_empty": "Your balance is above zero. Use it or contact support for a refund before deleting.",
+        "generic": "Could not submit the request. Try again later."
+      }
+    },
   },
   notifications: {
     title: 'Notifications',
@@ -135,7 +179,7 @@ export default function SettingsPage() {
           />
 
           {tab === 'account' && <AccountSettingsPanel user={user} copy={copy.account} />}
-          {tab === 'privacy' && <PrivacyTab guest={isGuest} copy={copy.privacy} />}
+          {tab === 'privacy' && <PrivacyTab guest={isGuest} copy={copy.privacy} locale={locale} />}
           {tab === 'notifications' && <NotificationsTab live={notificationsLive} copy={copy.notifications} guest={isGuest} />}
           </div>
         </main>
@@ -147,9 +191,11 @@ export default function SettingsPage() {
 function PrivacyTab({
   guest,
   copy,
+  locale,
 }: {
   guest: boolean;
   copy: SettingsCopy['privacy'];
+  locale?: string;
 }) {
   return (
     <section className="rounded-card border border-border bg-surface p-4 shadow-card">
@@ -164,6 +210,12 @@ function PrivacyTab({
             </p>
           ) : null}
         </div>
+        {guest ? null : (
+          <>
+            <DataExportPanel copy={copy.dataExport} locale={locale} />
+            <AccountDeletionPanel copy={copy.deletion} locale={locale} />
+          </>
+        )}
         <p className="text-xs text-text-muted">
           {copy.supportPrefix}
           <ObfuscatedEmailLink

@@ -2,6 +2,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { LOGOUT_INTENT_COOKIE } from '@/lib/logout-intent-cookie';
 import { LOCALE_COOKIE } from '@/lib/i18n/constants';
+import { ACCOUNT_DELETION_PAGE_PATH, isAccountDeletionPagePath } from '@/lib/account-deletion-flag';
 
 export function middlewareAuthUnavailableResponse(req: NextRequest, sessionResponse?: NextResponse): NextResponse {
   const locale = req.cookies.get(LOCALE_COOKIE)?.value ?? req.cookies.get('NEXT_LOCALE')?.value ?? 'en';
@@ -95,4 +96,21 @@ export function mergeResponseCookies(target: NextResponse, source: NextResponse)
   source.cookies.getAll().forEach((cookie) => {
     target.cookies.set(cookie);
   });
+}
+
+/** Cooling-off accounts may only reach the scheduled-deletion screen (docs/engineering/account-deletion.md). */
+export function accountDeletionRedirect(
+  req: NextRequest,
+  response: NextResponse,
+  userId: string | null,
+  deletionScheduledAt: string | null,
+): NextResponse | null {
+  if (!userId || !deletionScheduledAt || isAccountDeletionPagePath(req.nextUrl.pathname)) return null;
+  const url = req.nextUrl.clone();
+  url.pathname = ACCOUNT_DELETION_PAGE_PATH;
+  url.search = '';
+  const redirect = NextResponse.redirect(url);
+  mergeResponseCookies(redirect, response);
+  redirect.headers.set('Cache-Control', 'private, no-store, max-age=0');
+  return redirect;
 }
