@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark"><title>Keyvo — 验证您的邮箱</title>
+<style>
+@media (prefers-color-scheme: dark){
+.kv-body,.kv-outer{background:#0b0f17 !important}
+.kv-card{background:#151b26 !important;border-color:#2a3342 !important}
+.kv-text,.kv-h{color:#eef1f6 !important}
+.kv-muted{color:#a3afc0 !important}
+.kv-link{color:#8ab4ff !important}
+.kv-code{background:#232c3b !important;color:#eef1f6 !important}
+.kv-btn{background:#eef1f6 !important;color:#111827 !important}
+}
+</style></head>
+<body class="kv-body" style="margin:0;padding:0;background:#f4f5f7;color:#17212e;font-family:-apple-system,'PingFang SC','Microsoft YaHei',Arial,sans-serif">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0">验证您的邮箱 · Keyvo</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" class="kv-outer" style="background:#f4f5f7"><tr><td align="center" style="padding:32px 16px">
+<table role="presentation" width="560" cellpadding="0" cellspacing="0" class="kv-card" style="width:100%;max-width:560px;background:#ffffff;border:1px solid #e2e5ea;border-radius:16px">
+<tr><td style="padding:28px 28px 20px;border-bottom:1px solid #e2e5ea" class="kv-card"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td><span class="kv-h" style="font-size:22px;font-weight:700;color:#17212e">Keyvo</span></td></tr></table></td></tr>
+<tr><td class="kv-text" style="padding:28px;color:#17212e"><h1 class="kv-h" style="margin:0 0 18px;font-size:24px;line-height:1.35;font-weight:700;color:#17212e">验证您的邮箱</h1>
+<p style="margin:0 0 24px;font-size:16px;line-height:1.7">欢迎使用 Keyvo。请点击下方按钮验证邮箱 {{ .Email }}。</p>
+<table role="presentation" cellpadding="0" cellspacing="0"><tr><td bgcolor="#111827" style="border-radius:8px;text-align:center"><a class="kv-btn" href="{{ .ConfirmationURL }}" style="display:inline-block;padding:15px 26px;border-radius:8px;background:#111827;color:#ffffff;font-size:16px;font-weight:700;text-decoration:none;line-height:1.4">验证邮箱</a></td></tr></table>
+<p class="kv-muted" style="margin:20px 0 0;font-size:13px;line-height:1.6;color:#526071">如果按钮无法点击，请复制下面的链接到浏览器打开：<br><a class="kv-link" href="{{ .ConfirmationURL }}" style="color:#2563eb;word-break:break-all">{{ .ConfirmationURL }}</a></p>
+<p class="kv-muted" style="margin:24px 0 0;font-size:14px;line-height:1.7;color:#526071">此链接仅限本人使用，且只能使用一次。</p>
+<p class="kv-muted" style="margin:12px 0 0;font-size:14px;line-height:1.7;color:#526071">如果这不是您本人的操作，请忽略此邮件，您的账户不会有任何变化。</p></td></tr>
+<tr><td class="kv-muted" style="padding:18px 28px;border-top:1px solid #e2e5ea;font-size:13px;line-height:1.7;color:#526071">需要帮助？请联系 <a class="kv-link" href="mailto:contact@llmhub.com.cn" style="color:#2563eb">contact@llmhub.com.cn</a><br>Keyvo · <a class="kv-link" href="https://app.keyvo.cn" style="color:#2563eb;text-decoration:none">app.keyvo.cn</a><br>这是系统自动发送的邮件，请勿直接回复。</td></tr>
+</table></td></tr></table></body></html>
