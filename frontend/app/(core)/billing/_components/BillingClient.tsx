@@ -117,10 +117,8 @@ export function BillingClient({
   const {
     applyDetectedCurrency,
     currencyLoading,
-    currencyOptions,
     currencyStatus,
     currencyStatusClass,
-    handleCurrencyChange,
     normalizedChargeCurrency,
   } = useBillingCurrencyState({
     authLoading,
@@ -342,7 +340,6 @@ export function BillingClient({
                 takeCheckoutCaptchaToken={hostedCheckout.takeCaptchaToken}
                 copy={copy}
                 currencyLoading={currencyLoading}
-                currencyOptions={currencyOptions}
                 currencyStatus={currencyStatus}
                 currencyStatusClass={currencyStatusClass}
                 customAmountCents={customAmountCents}
@@ -355,7 +352,6 @@ export function BillingClient({
                 handleCheckoutCaptchaError={hostedCheckout.handleCaptchaError}
                 handleCheckoutCaptchaRequired={hostedCheckout.requireCaptcha}
                 handleCheckoutCaptchaToken={hostedCheckout.handleCaptchaToken}
-                handleCurrencyChange={handleCurrencyChange}
                 handleExpressTopupFailed={handleExpressTopupFailed}
                 handleExpressTopupStarted={handleExpressTopupStarted}
                 handleTopUp={handleTopUp}

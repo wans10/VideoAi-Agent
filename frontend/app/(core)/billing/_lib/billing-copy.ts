@@ -128,6 +128,9 @@ export const DEFAULT_BILLING_COPY = {
   checkoutReturn: {
     successTitle: 'Payment returned',
     pendingTitle: 'Payment confirmation pending',
+    pendingConfirmAction: 'I have paid — confirm my credits',
+    pendingHint: 'If you have already paid, click the button above to confirm. If not, you can cancel this payment to choose again.',
+    pendingCancelAction: 'Cancel this payment',
     pendingDetail: 'Your payment is being checked. Refresh your balance shortly; credits are added only after confirmation.',
     cancelledTitle: 'Checkout cancelled',
     refreshingDetail: 'Refreshing your balance and payment history…',

@@ -1,6 +1,6 @@
 'use client';
 
-import type { ChangeEvent, Ref } from 'react';
+import type { Ref } from 'react';
 import type { Stripe } from '@stripe/stripe-js';
 import { TurnstileChallenge } from './TurnstileChallenge';
 import { WalletAmountPicker } from './WalletAmountPicker';
@@ -20,7 +20,6 @@ type WalletTopupPanelProps = {
   takeCheckoutCaptchaToken: () => string | null;
   copy: BillingCopy;
   currencyLoading: boolean;
-  currencyOptions: string[];
   currencyStatus: string;
   currencyStatusClass: string;
   customAmountCents: number | null;
@@ -33,7 +32,6 @@ type WalletTopupPanelProps = {
   handleCheckoutCaptchaError: () => void;
   handleCheckoutCaptchaRequired: () => void;
   handleCheckoutCaptchaToken: (token: string | null) => void;
-  handleCurrencyChange: (event: ChangeEvent<HTMLSelectElement>) => void;
   handleExpressTopupFailed: (amountCents: number, reason?: string) => void;
   handleExpressTopupStarted: (amountCents: number) => void;
   handleTopUp: () => void;
@@ -69,7 +67,6 @@ export function WalletTopupPanel(props: WalletTopupPanelProps) {
     takeCheckoutCaptchaToken,
     copy,
     currencyLoading,
-    currencyOptions,
     currencyStatus,
     currencyStatusClass,
     customAmountCents,
@@ -82,7 +79,6 @@ export function WalletTopupPanel(props: WalletTopupPanelProps) {
     handleCheckoutCaptchaError,
     handleCheckoutCaptchaRequired,
     handleCheckoutCaptchaToken,
-    handleCurrencyChange,
     handleExpressTopupFailed,
     handleExpressTopupStarted,
     handleTopUp,
@@ -160,12 +156,9 @@ export function WalletTopupPanel(props: WalletTopupPanelProps) {
             </div>
             <CurrencySelect
               copy={copy}
-              currencyLoading={currencyLoading || isTopupStarting}
-              currencyOptions={currencyOptions}
               currencyStatus={currencyStatus}
               currencyStatusClass={currencyStatusClass}
               normalizedChargeCurrency={normalizedChargeCurrency}
-              onChange={handleCurrencyChange}
             />
           </div>
 
@@ -242,36 +235,24 @@ function currencyName(copy: BillingCopy, code: string): string {
 
 function CurrencySelect({
   copy,
-  currencyLoading,
-  currencyOptions,
   currencyStatus,
   currencyStatusClass,
   normalizedChargeCurrency,
-  onChange,
 }: {
   copy: BillingCopy;
-  currencyLoading: boolean;
-  currencyOptions: string[];
   currencyStatus: string;
   currencyStatusClass: string;
   normalizedChargeCurrency: string;
-  onChange: (event: ChangeEvent<HTMLSelectElement>) => void;
 }) {
+  // Keyvo settles in CNY only, so the currency is shown as fixed text rather than a select.
+  const separator = /[\u4e00-\u9fff]$/.test(copy.wallet.currencyLabel) ? '：' : ': ';
+  const isWarning = currencyStatusClass.includes('warning');
   return (
     <div className={styles.currencyField}>
-      <label htmlFor="billing-currency-select">{copy.wallet.currencyLabel}</label>
-      <select
-        id="billing-currency-select"
-        value={normalizedChargeCurrency}
-        onChange={onChange}
-        disabled={currencyLoading}
-      >
-        {!currencyOptions.includes(normalizedChargeCurrency) ? (
-          <option value={normalizedChargeCurrency} disabled>{currencyName(copy, normalizedChargeCurrency)}</option>
-        ) : null}
-        {currencyOptions.map((option) => <option key={option} value={option}>{currencyName(copy, option)}</option>)}
-      </select>
-      <p className={`${currencyStatusClass} ${!currencyLoading && !currencyStatusClass.includes('warning') ? 'sr-only' : ''}`} data-error={currencyStatusClass.includes('warning')}>{currencyStatus}</p>
+      <p className={styles.currencyFixed} data-testid="billing-currency-fixed">
+        {copy.wallet.currencyLabel}{separator}{currencyName(copy, normalizedChargeCurrency)}
+      </p>
+      {isWarning ? <p className={currencyStatusClass} data-error="true">{currencyStatus}</p> : null}
     </div>
   );
 }

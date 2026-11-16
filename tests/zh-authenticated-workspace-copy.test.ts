@@ -226,7 +226,7 @@ test('Studio conversation entry, render card and timeline issue copy have Chines
   assert.match(englishManifest.issues.find(issue => issue.code === 'orphan_linked_audio')!.message, /without a matching video clip\.$/);
 });
 
-test('billing currency options show the Chinese currency name alongside the code', () => {
+test('billing payment currency is a fixed label showing the Chinese currency name alongside the code', () => {
   const zhNames = (zhDictionary.workspace as any).billing.wallet.currencyNames as Record<string, string>;
   assert.equal(zhNames.CNY, '人民币（CNY）');
   assert.ok(hasChinese(zhNames.USD));
@@ -234,7 +234,8 @@ test('billing currency options show the Chinese currency name alongside the code
 
   const panel = readFileSync('frontend/app/(core)/billing/_components/WalletTopupPanel.tsx', 'utf8');
   assert.match(panel, /copy\.wallet\.currencyNames\?\.\[code\] \?\? code/);
-  assert.match(panel, /\{currencyName\(copy, option\)\}/);
+  assert.match(panel, /\{currencyName\(copy, normalizedChargeCurrency\)\}/);
+  assert.doesNotMatch(panel, /<select/);
 });
 
 test('header account trigger has a Chinese label instead of the English fallback', () => {
