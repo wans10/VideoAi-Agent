@@ -179,17 +179,17 @@ test('billing local styles preserve touch targets and reduced-motion behavior', 
 });
 
 
-test('currency selector displays the quoted currency while enabled options are still loading', async () => {
+test('payment currency is a fixed label, not a select, and still shows the quoted amount', async () => {
   const { WalletTopupPanel } = await loadBillingPresentation();
   const noop = () => {};
   const markup = renderToStaticMarkup(React.createElement(WalletTopupPanel, {
     applyCustomAmount: noop, checkoutCaptchaError: null, checkoutCaptchaRequired: false,
     checkoutCaptchaResetGeneration: 0, checkoutCaptchaToken: null, takeCheckoutCaptchaToken: () => null, copy: DEFAULT_BILLING_COPY,
-    currencyLoading: true, currencyOptions: ['USD'], currencyStatus: 'Detecting currencies…',
+    currencyLoading: true, currencyStatus: 'Detecting currencies…',
     currencyStatusClass: '', customAmountCents: null, customAmountError: null, customAmountInput: '',
     customAmountInputRef: null, customAmountValid: false, customCardActive: false,
     formatUsdAmount: (cents) => `$${cents / 100}`, handleCheckoutCaptchaError: noop,
-    handleCheckoutCaptchaRequired: noop, handleCheckoutCaptchaToken: noop, handleCurrencyChange: noop,
+    handleCheckoutCaptchaRequired: noop, handleCheckoutCaptchaToken: noop,
     handleExpressTopupFailed: noop, handleExpressTopupStarted: noop, handleTopUp: noop,
     isTopupStarting: false, hostedCheckoutStarting: false, locale: 'en', normalizedChargeCurrency: 'EUR', onCustomAmountInputChange: noop,
     onOpenCustomAmountEditor: noop, onPresetSelected: noop,
@@ -198,10 +198,8 @@ test('currency selector displays the quoted currency while enabled options are s
     stripePromise: null, turnstileSiteKey: '', wallet: null,
   }));
   const document = new JSDOM(markup).window.document;
-  const select = document.querySelector('select')!;
-  assert.equal(select.value, 'EUR');
-  assert.equal(select.disabled, true);
-  assert.equal(select.selectedOptions[0].textContent, 'EUR');
+  assert.equal(document.querySelector('select'), null);
+  assert.equal(document.querySelector('[data-testid="billing-currency-fixed"]')?.textContent, `${DEFAULT_BILLING_COPY.wallet.currencyLabel}: EUR`);
   assert.match(document.body.textContent ?? '', /€8.60/);
 });
 
@@ -211,11 +209,11 @@ test('CNY payment shows only Alipay and WeChat Pay with USD wallet credits', asy
   const markup = renderToStaticMarkup(React.createElement(WalletTopupPanel, {
     applyCustomAmount: noop, checkoutCaptchaError: null, checkoutCaptchaRequired: true,
     checkoutCaptchaResetGeneration: 0, checkoutCaptchaToken: null, copy: DEFAULT_BILLING_COPY,
-    currencyLoading: false, currencyOptions: ['EUR', 'USD', 'CNY'], currencyStatus: 'Charging in CNY',
+    currencyLoading: false, currencyStatus: 'Charging in CNY',
     currencyStatusClass: '', customAmountCents: null, customAmountError: null, customAmountInput: '',
     customAmountInputRef: null, customAmountValid: false, customCardActive: false,
     formatUsdAmount: (cents) => `$${cents / 100}`, handleCheckoutCaptchaError: noop,
-    handleCheckoutCaptchaRequired: noop, handleCheckoutCaptchaToken: noop, handleCurrencyChange: noop,
+    handleCheckoutCaptchaRequired: noop, handleCheckoutCaptchaToken: noop,
     handleExpressTopupFailed: noop, handleExpressTopupStarted: noop, handleTopUp: noop,
     isTopupStarting: false, hostedCheckoutStarting: false, llmhubPayEnabled: true, locale: 'zh',
     normalizedChargeCurrency: 'CNY', onCustomAmountInputChange: noop,
@@ -226,7 +224,8 @@ test('CNY payment shows only Alipay and WeChat Pay with USD wallet credits', asy
     stripePromise: null, turnstileSiteKey: '', wallet: null,
   }));
   const document = new JSDOM(markup).window.document;
-  assert.equal(document.querySelector('select')?.value, 'CNY');
+  assert.equal(document.querySelector('select'), null);
+  assert.match(document.querySelector('[data-testid="billing-currency-fixed"]')?.textContent ?? '', /CNY|Chinese|Renminbi/i);
   assert.match(document.body.textContent ?? '', /Alipay/);
   assert.match(document.body.textContent ?? '', /WeChat Pay/);
   assert.match(document.body.textContent ?? '', /Credits received:\s*\$10/);

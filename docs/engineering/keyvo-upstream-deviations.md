@@ -518,3 +518,9 @@ tags, remotion composition ids, `source: 'maxvideoai-editor'`, billing `product`
 allowlists (`media.maxvideoai.com`); the `MaxVideoAI Recast` billing label (feature hidden by `KEYVO_RECAST_HIDDEN`);
 the MCP `AUTH_REQUIRED` text in `agent-api/character-studio.ts`; non-zh locale marketing copy and the `User-Agent`
 `MaxVideoAI-MCP/1.0` of the MCP media fetcher.
+
+### Billing page copy and layout (`/billing`)
+
+- **Pending hosted payment:** `LlmhubPayCheckout.client.tsx` labels the remembered-payment button with `checkoutReturn.pendingConfirmAction` (the banner and toast keep `pendingTitle`), explains it with `pendingHint`, and offers `pendingCancelAction`, which only runs `clearRequest()` (client sessionStorage). The next click mints a new request id; server idempotency and payment logic are unchanged, and a late notification for the cancelled order still credits through the existing notify route.
+- **Receipts:** the zh Stripe wording is removed. `useBillingReceipts` opens the wallet activity tab when the documents list loads empty and the user has not picked a tab yet (Keyvo has no Stripe documents; 聚合易支付 top-ups appear only in the activity ledger).
+- **Currency:** Keyvo settles in CNY only, so `WalletTopupPanel` shows "支付币种：人民币（CNY）" as fixed text (`data-testid="billing-currency-fixed"`) instead of a select; `useBillingCurrencyState` and the quote logic are unchanged, and the workspace top-up modal has no currency control. `.currencyField` and `.reviewHeading` wrap inside the card. `tests/billing-copy-currency-keyvo.test.ts` and `tests/billing-wallet-presentation.test.ts` pin this.

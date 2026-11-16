@@ -118,10 +118,16 @@ export function LlmhubPayCheckout({
       <div className={styles.llmhubAmount}>{copy.wallet.llmhubPaymentAmount}: <strong>{amountLabel}</strong></div>
       <div className={styles.llmhubAmount}>{copy.wallet.creditsReceived}: <strong>{creditsLabel}</strong></div>
       <div className={styles.llmhubButtons}>
-        {pending ? <button type="button" disabled={paying} onClick={() => void start(request.current?.type ?? 'alipay')}>{copy.checkoutReturn.pendingTitle}</button> : null}
+        {pending ? <button type="button" className={styles.llmhubConfirmPaid} disabled={paying} onClick={() => void start(request.current?.type ?? 'alipay')}>{copy.checkoutReturn.pendingConfirmAction}</button> : null}
         <button type="button" disabled={pending || !enabled || (Boolean(accessToken) && (!quote || loading)) || paying} onClick={() => void start('alipay')}>{copy.wallet.llmhubAlipay}</button>
         <button type="button" disabled={pending || !enabled || (Boolean(accessToken) && (!quote || loading)) || paying} onClick={() => void start('wxpay')}>{copy.wallet.llmhubWxpay}</button>
       </div>
+      {pending ? (
+        <div className={styles.llmhubPendingHelp}>
+          <p>{copy.checkoutReturn.pendingHint}</p>
+          <button type="button" className={styles.llmhubCancelPending} disabled={paying} onClick={() => { clearRequest(); setError(null); }}>{copy.checkoutReturn.pendingCancelAction}</button>
+        </div>
+      ) : null}
       {error ? <p role="alert" className={styles.llmhubError}>{error}</p> : null}
     </section>
   );

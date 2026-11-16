@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type {
   BillingReceiptsView,
   BillingSession,
@@ -44,6 +44,8 @@ export function useBillingReceipts({
   const receipts = accountId && state.owner === owner
     ? state.views[receiptsView]
     : { ...EMPTY_RECEIPTS, loading: Boolean(accountId) };
+  const userPickedViewRef = useRef(false);
+  const documentsEmptyRef = useRef(false);
   const [receiptsCollapsed, setReceiptsCollapsed] = useState(true);
   const toggleReceipts = useCallback(() => setReceiptsCollapsed((previous) => !previous), []);
 
@@ -81,6 +83,7 @@ export function useBillingReceipts({
         loading: false,
         error: null,
       });
+      if (view === 'documents') documentsEmptyRef.current = data.receipts.length === 0;
       return true;
     } catch {
       if (!isActive() || !requestScope.isCurrent(requestToken)) return false;
@@ -95,10 +98,19 @@ export function useBillingReceipts({
   );
 
   useEffect(() => {
-    if (accountId) void refreshReceiptScope('documents');
+    if (!accountId) return;
+    void refreshReceiptScope('documents').then((loaded) => {
+      // Keyvo has no Stripe documents: when none exist, open the wallet activity ledger
+      // (where hosted top-ups appear) unless the user already chose a tab.
+      if (loaded && documentsEmptyRef.current && !userPickedViewRef.current) {
+        setReceiptsView('activity');
+        void refreshReceiptScope('activity');
+      }
+    });
   }, [accountId, refreshReceiptScope]);
 
   const selectReceiptsView = useCallback((view: BillingReceiptsView) => {
+    userPickedViewRef.current = true;
     setReceiptsView(view);
     void refreshReceiptScope(view);
   }, [refreshReceiptScope]);
