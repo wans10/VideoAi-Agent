@@ -47,12 +47,16 @@ test('saved Media carries public identity, measured audio facts and separate ori
     await settle(f.w,()=>f.w.data.currentAssets.length===1);
     const projected=JSON.parse(JSON.stringify(f.w.data.currentAssets[0]));
     for(const key of ['id','assetId','ref','durationSec','mediaFacts','url','accessUrl','thumbnailAccessUrl','previewAccessUrl','playbackAccessUrl','source'] as const) assert.deepEqual(projected[key],asset[key],key);
-    // Keyvo 2026-11-14: Subtitles is hidden (no mainland speech-to-text route), so the released audio destination is Lip Sync.
+    // Keyvo 2026-11-14/16: every creator tool is hidden (Subtitles, then Lip Sync, Product Photo/Video Editor, Motion Transfer),
+    // so a saved audio asset has no hand-off destination at all: assert that honestly instead of clicking a creator button.
     const buttons=Array.from(f.w.document.querySelectorAll('button')) as HTMLButtonElement[];
-    assert.equal(buttons.some((b:any)=>b.textContent==='Subtitles'),false,'hidden Subtitles is not offered');
-    const target=buttons.find((b:any)=>b.textContent==='Lip Sync') as HTMLButtonElement;
-    assert.ok(target,'released audio creator destination');await f.w.fx.act(async()=>target.click());
-    const handoff=JSON.parse(f.w.sessionStorage.getItem('maxvideoai:media-handoff:v1'));
+    for(const label of ['Subtitles','Lip Sync','Product Photo Editor','Product Video Editor','Motion Transfer']) assert.equal(buttons.some((b:any)=>b.textContent===label),false,`hidden ${label} is not offered`);
+    assert.equal(f.w.sessionStorage.getItem('maxvideoai:media-handoff:v1'),null,'nothing is staged without a destination');
+    // The staging contract itself (identity, facts and grants carried into a hand-off) stays covered at the pure function.
+    const {stageMediaHandoff}=await import('../frontend/lib/media-handoff');
+    const store=new Map<string,string>();
+    stageMediaHandoff({getItem:k=>store.get(k)??null,setItem:(k,v)=>{store.set(k,v);},removeItem:k=>{store.delete(k);}} as never,'owner',asset as never,'lip-sync','token');
+    const handoff=JSON.parse(store.get('maxvideoai:media-handoff:v1') as string);
     assert.equal(handoff.destination,'lip-sync');assert.equal(handoff.account,'owner');
     assert.deepEqual(handoff.asset.ref,{type:'asset',assetId,kind:'audio'});
     assert.equal(handoff.asset.id,'url:internal-row');assert.equal(handoff.asset.url,asset.url);
