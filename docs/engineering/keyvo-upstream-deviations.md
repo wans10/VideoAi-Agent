@@ -540,3 +540,7 @@ set `profiles.marked_for_deletion_at` and promised a 30-day purge that never exi
 - **Database**: migration `98_account_privacy_events.sql` (additive; code is guarded until applied).
 - **Tests**: `account-deletion-request`, `account-privacy-routes`, `account-privacy-ui-dom`,
   `account-purge-postgres` (full-schema inventory guard). The old test pinning the 30-day text was replaced.
+
+## Operations monitoring (2026-11)
+
+Keyvo-only (no upstream equivalent; keep on syncs): `GET /api/cron/ops-health` (`frontend/app/api/cron/ops-health/route.ts`, `frontend/src/server/ops-health.ts`) returns read-only, PII-free health signals and fails closed (503) when `CRON_SECRET` is unset, unlike other cron routes. `scripts/ops/ops-monitor.mjs` (Node 22, no dependencies) runs from the Aliyun relay host and alerts a DingTalk robot (`DINGTALK_WEBHOOK_URL`, `DINGTALK_SECRET`). Operator and owner guide: `docs/operations/monitoring.md`; vendor consoles that cannot be automated: `docs/operations/monitoring-manual-checks.md`. Tests: `tests/ops-monitor-script.test.ts`, `tests/ops-health-route.test.ts`, `tests/ops-health-postgres.test.ts` (auto-placed in the PostgreSQL lane by its `-postgres.test.ts` name; no new CI lane).
