@@ -1,0 +1,5 @@
+# Alternative to the systemd timer: /etc/cron.d/keyvo-ops  (needs Node 22 on PATH; adjust the node path)
+KEYVO_OPS_ENV=/etc/keyvo-ops.env
+*/5 * * * * root /usr/bin/node /opt/keyvo-ops/ops-monitor.mjs >> /var/log/keyvo-ops.log 2>&1
+# daily heartbeat at 09:00 Beijing time (set the host TZ to Asia/Shanghai, or use OPS_HEARTBEAT=1 instead)
+# 0 9 * * * root /usr/bin/node /opt/keyvo-ops/ops-monitor.mjs --heartbeat >> /var/log/keyvo-ops.log 2>&1

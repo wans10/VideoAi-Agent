@@ -1,0 +1,13 @@
+[Unit]
+Description=Keyvo external monitor (one run)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+Environment=KEYVO_OPS_ENV=/etc/keyvo-ops.env
+ExecStart=/usr/bin/node /opt/keyvo-ops/ops-monitor.mjs
+# exit 1 (a check is bad) and 3 (delivery failed) are expected states, not unit failures
+SuccessExitStatus=1 3
+StateDirectory=keyvo-ops
+TimeoutStartSec=120
