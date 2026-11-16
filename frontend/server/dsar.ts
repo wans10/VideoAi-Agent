@@ -1,4 +1,5 @@
 import { query } from '@/lib/db';
+import { getWalletBalancesByCurrency } from '@/lib/wallet';
 import { getProfileSnapshot, type ProfileSnapshot } from '@/server/profile';
 import { getUserIdentity } from '@/server/supabase-admin';
 
@@ -9,20 +10,42 @@ type PreferenceRow = {
   updated_at: Date | null;
 };
 
+/** Customer-facing ledger fields only: no vendor accounts, fee splits or pricing internals. */
 type ReceiptRow = {
   id: string;
   type: string;
   amount_cents: number;
   currency: string;
   description: string | null;
-  metadata: unknown;
   job_id: string | null;
-  pricing_snapshot: unknown;
-  application_fee_cents: number | null;
-  vendor_account_id: string | null;
-  stripe_payment_intent_id: string | null;
-  stripe_charge_id: string | null;
-  stripe_refund_id: string | null;
+  created_at: Date;
+};
+
+type JobRow = {
+  job_id: string;
+  surface: string | null;
+  engine_label: string | null;
+  duration_sec: number | null;
+  aspect_ratio: string | null;
+  prompt: string | null;
+  status: string | null;
+  final_price_cents: number | null;
+  currency: string | null;
+  thumb_url: string | null;
+  video_url: string | null;
+  audio_url: string | null;
+  created_at: Date;
+};
+
+type MediaAssetRow = {
+  id: string;
+  kind: string | null;
+  url: string | null;
+  thumb_url: string | null;
+  mime_type: string | null;
+  size_bytes: string | number | null;
+  source: string | null;
+  metadata_name: string | null;
   created_at: Date;
 };
 
@@ -50,7 +73,17 @@ export type DsraExportPayload = {
   };
   receipts: ReceiptRow[];
   consents: ConsentRow[];
+  wallet: {
+    balances: Array<{ currency: string | null; balanceCents: number }>;
+    receiptCount: number;
+  };
+  jobs: JobRow[];
+  mediaAssets: MediaAssetRow[];
+  /** Lists are capped; `truncated` names any list that has more rows than were exported. */
+  limits: { maxRows: number; truncated: string[] };
 };
+
+export const DSAR_MAX_ROWS = 2000;
 
 function mapProfile(profile: ProfileSnapshot | null): {
   marketingOptIn: boolean | null;
@@ -84,7 +117,8 @@ function mapProfile(profile: ProfileSnapshot | null): {
 }
 
 export async function buildDsarPayload(userId: string): Promise<DsraExportPayload> {
-  const [profile, preferencesRows, receipts, consents, identity] = await Promise.all([
+  const cap = DSAR_MAX_ROWS + 1;
+  const [profile, preferencesRows, receipts, consents, identity, balances, jobs, mediaAssets] = await Promise.all([
     getProfileSnapshot(userId),
     query<PreferenceRow>(
       `SELECT default_share_public, default_allow_index, onboarding_done, updated_at
@@ -94,23 +128,52 @@ export async function buildDsarPayload(userId: string): Promise<DsraExportPayloa
       [userId]
     ),
     query<ReceiptRow>(
-      `SELECT id, type, amount_cents, currency, description, metadata, job_id, pricing_snapshot,
-              application_fee_cents, vendor_account_id, stripe_payment_intent_id, stripe_charge_id,
-              stripe_refund_id, created_at
+      `SELECT id, type, amount_cents, currency, description, job_id, created_at
        FROM app_receipts
        WHERE user_id = $1
-       ORDER BY created_at DESC`,
+       ORDER BY created_at DESC
+       LIMIT ${cap}`,
       [userId]
     ),
     query<ConsentRow>(
       `SELECT doc_key, doc_version, accepted, accepted_at, ip::text, user_agent, locale, source
        FROM user_consents
        WHERE user_id = $1
-       ORDER BY accepted_at DESC`,
+       ORDER BY accepted_at DESC
+       LIMIT ${cap}`,
       [userId]
     ),
     getUserIdentity(userId),
+    getWalletBalancesByCurrency(userId).catch(() => []),
+    query<JobRow>(
+      `SELECT job_id, surface, engine_label, duration_sec, aspect_ratio, prompt, status, final_price_cents,
+              currency, thumb_url, video_url, audio_url, created_at
+       FROM app_jobs
+       WHERE user_id = $1
+       ORDER BY created_at DESC
+       LIMIT ${cap}`,
+      [userId]
+    ).catch(() => [] as JobRow[]),
+    query<MediaAssetRow>(
+      `SELECT id, kind, url, thumb_url, mime_type, size_bytes, source,
+              COALESCE(metadata->>'name', metadata->>'fileName', metadata->>'filename') AS metadata_name, created_at
+       FROM media_assets
+       WHERE user_id = $1 AND deleted_at IS NULL
+       ORDER BY created_at DESC
+       LIMIT ${cap}`,
+      [userId]
+    ).catch(() => [] as MediaAssetRow[]),
   ]);
+
+  const truncated: string[] = [];
+  const bound = <T,>(name: string, rows: T[]): T[] => {
+    if (rows.length > DSAR_MAX_ROWS) {
+      truncated.push(name);
+      return rows.slice(0, DSAR_MAX_ROWS);
+    }
+    return rows;
+  };
+  const boundedReceipts = bound('receipts', receipts);
 
   return {
     generatedAt: new Date().toISOString(),
@@ -122,7 +185,14 @@ export async function buildDsarPayload(userId: string): Promise<DsraExportPayloa
       profile: mapProfile(profile),
       preferences: preferencesRows[0] ?? null,
     },
-    receipts,
-    consents,
+    receipts: boundedReceipts,
+    consents: bound('consents', consents),
+    wallet: {
+      balances: balances.map((entry) => ({ currency: entry.currency, balanceCents: entry.balanceCents })),
+      receiptCount: boundedReceipts.length,
+    },
+    jobs: bound('jobs', jobs),
+    mediaAssets: bound('mediaAssets', mediaAssets),
+    limits: { maxRows: DSAR_MAX_ROWS, truncated },
   };
 }

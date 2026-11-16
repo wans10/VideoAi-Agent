@@ -4518,7 +4518,7 @@
           "title": "危险区域",
           "signOut": "退出登录",
           "deleteAccount": "删除账户",
-          "deleteWarning": "删除账户将永久移除您的钱包余额、生成历史与已保存素材，此操作不可逆。"
+          "deleteWarning": "申请注销后将立即退出登录；15 天冷静期内重新登录可撤销，期满后个人信息、生成内容与素材将被永久删除。账户余额大于 0 时无法注销。"
         },
         "fields": {
           "name": {
@@ -4585,7 +4585,49 @@
         "allowIndexLabel": "默认允许公开索引",
         "allowIndexDescription": "新生成的视频可能会出现在画廊、站点地图和搜索预览中。您仍可随时设为私有。",
         "saving": "正在保存偏好设置…",
-        "disableHint": "如果您希望每次生成默认保持私有，请关闭此开关。公开视频会包含模型参数。"
+        "disableHint": "如果您希望每次生成默认保持私有，请关闭此开关。公开视频会包含模型参数。",
+        "dataExport": {
+          "title": "导出我的数据",
+          "description": "生成一份包含您的账号资料、手机号/邮箱、生成记录与提示词、素材清单、钱包流水与协议同意记录的数据副本（JSON 压缩包）。下载链接 48 小时内有效，请妥善保管。",
+          "action": "导出我的数据",
+          "working": "正在生成…",
+          "ready": "导出文件已生成",
+          "download": "下载文件",
+          "expiresPrefix": "链接有效期至：",
+          "rateLimited": "导出过于频繁，请 {minutes} 分钟后再试。",
+          "unavailable": "数据导出服务暂未开通，请联系客服获取您的数据副本。",
+          "error": "导出失败，请稍后再试。"
+        },
+        "deletion": {
+          "title": "注销账号",
+          "description": "申请注销后，您将立即退出登录并无法使用 Keyvo。自申请起 15 天内为冷静期，期间重新登录即可撤销；冷静期结束后，我们会永久删除您的个人信息、生成内容与素材，且无法恢复。",
+          "action": "注销账号…",
+          "dialogTitle": "确认注销账号",
+          "consequences": [
+            "立即退出所有设备，并无法继续使用 Keyvo。",
+            "15 天冷静期内重新登录，可在“账号已申请注销”页面撤销注销。",
+            "冷静期结束后，账号、手机号/邮箱、生成记录、提示词与素材将被永久删除，无法恢复。",
+            "按法律要求，订单、支付与账户流水将在去除个人身份信息后保留。",
+            "账户余额大于 0 时无法注销，请先用完余额，或联系客服办理退款。"
+          ],
+          "confirmLabel": "请输入“注销”以确认",
+          "confirmWord": "注销",
+          "passwordLabel": "登录密码",
+          "passwordHelp": "为保护账号安全，需要再次验证密码。忘记密码？请先退出，在登录页用短信验证码登录并重设密码。",
+          "submit": "确认注销",
+          "submitting": "正在提交…",
+          "cancel": "取消",
+          "successTitle": "注销申请已提交",
+          "successBody": "您已退出登录。{date} 之前重新登录可撤销注销，之后账号将被永久删除。",
+          "successAction": "知道了",
+          "errors": {
+            "confirmation_required": "请输入“注销”以确认。",
+            "password_required": "请输入登录密码。",
+            "invalid_password": "密码不正确。",
+            "wallet_not_empty": "账户余额大于 0，无法注销。请先用完余额，或联系客服办理退款后再申请注销。",
+            "generic": "暂时无法提交注销申请，请稍后再试。"
+          }
+        }
       },
       "notifications": {
         "title": "通知设置",
@@ -7098,6 +7140,19 @@
         "sourceAngle": "多视角",
         "sourceUpscale": "超分放大"
       }
+    },
+    "accountDeletion": {
+      "title": "账号已申请注销",
+      "body": "您的账号已于 {date} 前进入注销冷静期，期间无法使用 Keyvo。{purge} 之后，您的个人信息、生成内容与素材将被永久删除，且无法恢复。",
+      "purgeLabel": "计划删除时间：",
+      "cancelHint": "改变主意了？撤销后账号立即恢复正常使用。",
+      "cancel": "撤销注销",
+      "cancelling": "正在撤销…",
+      "signOut": "退出登录",
+      "export": "先导出我的数据",
+      "cancelled": "已撤销注销，账号已恢复。",
+      "error": "操作失败，请稍后再试。",
+      "loading": "加载中…"
     }
   },
   "cookieBanner": {

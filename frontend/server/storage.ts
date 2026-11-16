@@ -746,3 +746,15 @@ export async function uploadFilePath(params: {
 
   return { key, url: buildPublicUrl(key) };
 }
+
+/** Deletes the private data-export archives stored under one user's `exports/` prefix. */
+export async function deleteUserExportObjects(userId: string, limit = 200): Promise<number> {
+  if (!userId) return 0;
+  const marker = buildObjectKey({ prefix: 'exports', userId, leafName: '__marker__' });
+  const prefix = marker.slice(0, marker.lastIndexOf('/') + 1);
+  if (!prefix.includes(userId)) return 0;
+  const keys = (await listStorageObjectKeys(prefix, limit)).filter((key) => key.startsWith(prefix));
+  const results = await Promise.allSettled(keys.map((key) => deleteStorageObjectKey(key)));
+  if (results.some((result) => result.status === 'rejected')) throw new Error('export object deletion incomplete');
+  return keys.length;
+}

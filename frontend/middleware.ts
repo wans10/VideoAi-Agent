@@ -12,6 +12,7 @@ import { isMcpPublicSourcePath } from '@/lib/mcp-publication';
 import { canVisitorBrowseWorkspacePath } from '@/lib/visitor-access';
 import { editorialSignInRedirect } from '@/lib/editorial/login';
 import { MiddlewareAuthTimeoutError } from '@/lib/middleware/auth-deadline';
+import { ACCOUNT_DELETION_PAGE_PATH, isAccountDeletionPagePath } from '@/lib/account-deletion-flag';
 import {
   LOGIN_PATH,
   LOCALE_STRIPPABLE_PREFIXES,
@@ -243,8 +244,9 @@ export async function middleware(req: NextRequest) {
 
   const { updateSession } = await import('@/lib/supabase-ssr');
   let userId: string | null;
+  let deletionScheduledAt: string | null = null;
   try {
-    ({ userId } = await updateSession(req, response));
+    ({ userId, deletionScheduledAt } = await updateSession(req, response));
   } catch (error) {
     if (!(error instanceof MiddlewareAuthTimeoutError)) throw error;
     console.warn('[middleware] auth deadline exceeded');
@@ -256,6 +258,17 @@ export async function middleware(req: NextRequest) {
     response.headers.set('Cache-Control', 'private, no-store, max-age=0');
     response.headers.set('Pragma', 'no-cache');
     response.headers.append('Vary', 'Cookie');
+  }
+
+  if (userId && deletionScheduledAt && !isAccountDeletionPagePath(pathname)) {
+    // Cooling-off: the only reachable app page is the scheduled-deletion screen.
+    const deletionUrl = req.nextUrl.clone();
+    deletionUrl.pathname = ACCOUNT_DELETION_PAGE_PATH;
+    deletionUrl.search = '';
+    const deletionResponse = NextResponse.redirect(deletionUrl);
+    mergeResponseCookies(deletionResponse, response);
+    deletionResponse.headers.set('Cache-Control', 'private, no-store, max-age=0');
+    return finalizeResponse(deletionResponse, hasLogoutIntentCookie, trackingNoindex, appNoindex);
   }
 
   if (userId) {

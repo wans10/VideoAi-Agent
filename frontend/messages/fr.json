@@ -4530,7 +4530,49 @@
         "allowIndexDescription": "Les nouvelles vidéos peuvent apparaître dans la galerie, le sitemap et la recherche. Chaque rendu reste modifiable individuellement.",
         "saving": "Enregistrement de la préférence…",
         "disableHint": "Désactivez cette option si vous voulez que tout reste privé par défaut. Les vidéos publiées garderont leur visibilité actuelle.",
-        "preferenceError": "Impossible de mettre à jour la préférence"
+        "preferenceError": "Impossible de mettre à jour la préférence",
+        "dataExport": {
+          "title": "Exporter mes données",
+          "description": "Générez une copie de votre profil, téléphone/e-mail, historique de générations et prompts, liste de médias, mouvements du portefeuille et consentements (JSON compressé). Le lien est valable 48 heures.",
+          "action": "Exporter mes données",
+          "working": "Génération…",
+          "ready": "Votre export est prêt",
+          "download": "Télécharger",
+          "expiresPrefix": "Lien valable jusqu’au : ",
+          "rateLimited": "Trop d’exports. Réessayez dans {minutes} minutes.",
+          "unavailable": "L’export n’est pas encore disponible. Contactez le support pour obtenir une copie.",
+          "error": "Échec de l’export. Réessayez plus tard."
+        },
+        "deletion": {
+          "title": "Supprimer le compte",
+          "description": "Après la demande, vous êtes déconnecté et ne pouvez plus utiliser Keyvo. Un délai de réflexion de 15 jours permet d’annuler en vous reconnectant ; ensuite vos données sont supprimées définitivement.",
+          "action": "Supprimer le compte…",
+          "dialogTitle": "Confirmer la suppression du compte",
+          "consequences": [
+            "Vous êtes déconnecté de tous les appareils.",
+            "Reconnectez-vous dans les 15 jours pour annuler.",
+            "Après le délai, compte, téléphone/e-mail, historique, prompts et médias sont supprimés définitivement.",
+            "Commandes, paiements et écritures sont conservés sans identifiants personnels, comme la loi l’exige.",
+            "La suppression est refusée tant que le solde est supérieur à zéro."
+          ],
+          "confirmLabel": "Saisissez « 注销 » pour confirmer",
+          "confirmWord": "注销",
+          "passwordLabel": "Mot de passe",
+          "passwordHelp": "Saisissez à nouveau votre mot de passe. Oublié ? Déconnectez-vous, connectez-vous par SMS et réinitialisez-le.",
+          "submit": "Supprimer mon compte",
+          "submitting": "Envoi…",
+          "cancel": "Annuler",
+          "successTitle": "Suppression demandée",
+          "successBody": "Vous êtes déconnecté. Reconnectez-vous avant le {date} pour annuler.",
+          "successAction": "Compris",
+          "errors": {
+            "confirmation_required": "Saisissez le mot de confirmation.",
+            "password_required": "Saisissez votre mot de passe.",
+            "invalid_password": "Mot de passe incorrect.",
+            "wallet_not_empty": "Votre solde est supérieur à zéro. Utilisez-le ou contactez le support pour un remboursement.",
+            "generic": "Impossible d’envoyer la demande. Réessayez plus tard."
+          }
+        }
       },
       "notifications": {
         "title": "Notifications",
@@ -6868,6 +6910,19 @@
         "sourceAngle": "Angle",
         "sourceUpscale": "Upscale"
       }
+    },
+    "accountDeletion": {
+      "title": "Compte en cours de suppression",
+      "body": "Votre compte est en délai de réflexion et ne peut pas être utilisé. Après le {purge}, vos données seront supprimées définitivement.",
+      "purgeLabel": "Suppression prévue : ",
+      "cancelHint": "Vous avez changé d’avis ? L’annulation rétablit le compte immédiatement.",
+      "cancel": "Annuler la suppression",
+      "cancelling": "Annulation…",
+      "signOut": "Se déconnecter",
+      "export": "Exporter d’abord mes données",
+      "cancelled": "Suppression annulée. Compte rétabli.",
+      "error": "Une erreur est survenue. Réessayez plus tard.",
+      "loading": "Chargement…"
     }
   },
   "cookieBanner": {
