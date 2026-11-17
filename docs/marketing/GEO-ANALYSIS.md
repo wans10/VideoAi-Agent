@@ -73,7 +73,7 @@ retain their existing directives.
 The public robots policy intentionally separates search/retrieval from training:
 
 - Allowed on public marketing while private paths remain blocked: OAI-SearchBot, ChatGPT-User, PerplexityBot, Perplexity-User, Claude-User, Claude-SearchBot, and Google-Extended.
-- Blocked from public content as training-only crawlers: GPTBot, ClaudeBot, anthropic-ai, Claude-Web, CCBot, Bytespider, and cohere-ai.
+- Blocked from public content as training-only crawlers: GPTBot, ClaudeBot, anthropic-ai, Claude-Web, CCBot, and cohere-ai (Keyvo allows Bytespider on public pages, see the deviations guide).
 - The protocol host returns Disallow: / for every crawler.
 - Authenticated account, billing, app, jobs, API, OAuth, uploads, admin, and other private surfaces remain disallowed.
 

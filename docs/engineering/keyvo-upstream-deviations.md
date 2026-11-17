@@ -606,3 +606,14 @@ Keyvo-only; keep on upstream syncs (resolve conflicts by keeping both sides).
 - **WeChat Pay hidden.** `KEYVO_WECHAT_PAY_HIDDEN` / `isKeyvoWechatPayHidden()` (`config/keyvo-disabled-features.ts`; test-only reopen `KEYVO_WECHAT_PAY_FULL_UI=1`). `LlmhubPayCheckout.client.tsx` omits the button, uses the `llmhubTitleAlipayOnly` title and a single-column grid (`llmhubButtonsSingle`). The checkout API, orders and callbacks still accept `wxpay`. Reopen: flip the constant. Pinned by `tests/keyvo-wechat-pay-hidden.test.ts`.
 - **Notifications settings tab hidden.** `KEYVO_NOTIFICATIONS_TAB_HIDDEN` / `isKeyvoNotificationsTabHidden()` (reopen `KEYVO_NOTIFICATIONS_FULL_UI=1`), applied in `lib/settings-navigation.ts`; `?tab=notifications` opens Account.
 - **zh leftovers.** `workspace.settings.privacy.{summary,reviewNote,guestNote,supportPrefix,supportEmail,supportSuffix}` added to zh; receipts `collapsedLabel/expandedLabel` (展开/收起) added to all four locales; ledger rows use `localizeReceiptDescriptionZh` and zh surface chips in `billing/_lib/billing-utils.ts` (display only, stored descriptions untouched). Left in English on purpose: brand and model names (Keyvo, MiniMax H3, Seedance...). Pinned by `tests/keyvo-age18-settings-zh.test.ts`.
+
+## Bytespider allowed and Baidu site verification (2026-11-17)
+
+`frontend/lib/seo/robots-text.ts` no longer blocks Bytespider with the training-only crawlers: it has its own group
+with the same rules as the AI-search crawlers (public pages and rendering assets allowed, every private path
+disallowed), because Bytespider feeds Toutiao and Douyin search. Tradeoff accepted by the owner: ByteDance may also use
+public pages for training. `tests/ai-training-robots.test.ts` and `tests/mcp-seo-signals.test.ts` pin the new group.
+`frontend/public/baidu_verify_codeva-1ZJVd4BM5I.html` is the Baidu Search Resource Platform file verification token for
+`app.keyvo.cn` (do not edit or delete it while the site stays verified). `frontend/public/BingSiteAuth.xml` is the Bing Webmaster Tools
+file verification for `app.keyvo.cn` (same rule). Keep these on upstream syncs.
+
