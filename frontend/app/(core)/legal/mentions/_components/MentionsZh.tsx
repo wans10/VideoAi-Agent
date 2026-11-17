@@ -1,7 +1,12 @@
 import Link from 'next/link';
 import { LegalContactEmail, LegalFact } from '@/components/legal/LegalFact';
 import { localizePathFromEnglish } from '@/lib/i18n/paths';
-import { ICP_FILING_NUMBER, ICP_FILING_URL } from '@/lib/product-brand';
+import {
+  ICP_FILING_NUMBER,
+  ICP_FILING_URL,
+  PUBLIC_SECURITY_FILING_NUMBER,
+  PUBLIC_SECURITY_FILING_URL,
+} from '@/lib/product-brand';
 
 /** 运营者信息（中文）。只显示运营者提供的事实，见 config/legal-entity.json。 */
 export function MentionsZh() {
@@ -37,6 +42,12 @@ export function MentionsZh() {
             <strong>网站备案号：</strong>{' '}
             <a href={ICP_FILING_URL} target="_blank" rel="noopener noreferrer" className={linkClass}>
               {ICP_FILING_NUMBER}
+            </a>
+          </p>
+          <p>
+            <strong>公安联网备案号：</strong>{' '}
+            <a href={PUBLIC_SECURITY_FILING_URL} target="_blank" rel="noreferrer" className={linkClass}>
+              {PUBLIC_SECURITY_FILING_NUMBER}
             </a>
           </p>
         </section>

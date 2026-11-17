@@ -1,7 +1,12 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
-import { ICP_FILING_NUMBER, ICP_FILING_URL } from '../frontend/lib/product-brand';
+import {
+  ICP_FILING_NUMBER,
+  ICP_FILING_URL,
+  PUBLIC_SECURITY_FILING_NUMBER,
+  PUBLIC_SECURITY_FILING_URL,
+} from '../frontend/lib/product-brand';
 
 const read = (path: string) => readFileSync(path, 'utf8');
 
@@ -22,4 +27,14 @@ test('every public page shell shows the filing', () => {
     'frontend/app/(core)/login/_components/LoginAuthSurface.tsx',
     'frontend/components/app/AppSiteMenu.client.tsx',
   ]) assert.match(read(path), /<IcpFiling/, path);
+});
+
+test('the Public Security Bureau filing renders right after the ICP number in the same shared component', () => {
+  assert.equal(PUBLIC_SECURITY_FILING_NUMBER, '浙公网安备33010902005389号');
+  assert.equal(PUBLIC_SECURITY_FILING_URL, 'https://beian.mps.gov.cn/#/query/webSearch?code=33010902005389');
+  const component = read('frontend/components/marketing/IcpFiling.tsx');
+  assert.ok(component.indexOf('data-icp-filing') < component.indexOf('data-public-security-filing'), 'ICP first, then the Public Security filing');
+  assert.match(component, /rel="noreferrer"/);
+  assert.doesNotMatch(component, /'use client'/);
+  assert.match(read('frontend/app/(core)/legal/mentions/_components/MentionsZh.tsx'), /PUBLIC_SECURITY_FILING_NUMBER/);
 });
