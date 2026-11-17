@@ -88,7 +88,7 @@ test('marketing MCP pages and integration pages answer 404', () => {
 });
 
 test('settings offers no connected-apps entry and the account page answers 404', () => {
-  assert.deepEqual(SETTINGS_TAB_ITEMS.map((item) => item.id), ['account', 'privacy', 'notifications']);
+  assert.deepEqual(SETTINGS_TAB_ITEMS.map((item) => item.id), ['account', 'privacy']);
   const page = source('app/(core)/account/connections/page.tsx');
   assert.match(page, /if \(isKeyvoMcpUiHidden\(\)\) notFound\(\);/);
 });
@@ -126,7 +126,7 @@ test('reopening through the test-only switch restores the publication and settin
   const out = execFileSync(process.execPath, ['--import', 'tsx', 'tests/helpers/keyvo-mcp-reopen-probe.ts'], {
     env: { ...process.env, KEYVO_MCP_FULL_UI: '1', TSX_TSCONFIG_PATH: 'frontend/tsconfig.json' }, encoding: 'utf8',
   });
-  assert.deepEqual(JSON.parse(out.trim().split('\n').pop() ?? '{}'), { same: true, tabs: ['account', 'connections', 'privacy', 'notifications'] });
+  assert.deepEqual(JSON.parse(out.trim().split('\n').pop() ?? '{}'), { same: true, tabs: ['account', 'connections', 'privacy'] });
 });
 
 test('the MCP server, protocol endpoints and publication data are untouched', async () => {

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { BillingCopy } from '../_lib/billing-copy';
+import { isKeyvoWechatPayHidden } from '@/config/keyvo-disabled-features';
 import styles from './billing-topup.module.css';
 
 type Quote = { amountFen: number; amountCents: number; currency: 'CNY' };
@@ -111,16 +112,21 @@ export function LlmhubPayCheckout({
     ? new Intl.NumberFormat('zh-CN', { style: 'currency', currency: 'CNY' }).format(quote.amountFen / 100)
     : loading ? copy.wallet.llmhubQuoteLoading : copy.wallet.llmhubQuoteUnavailable;
 
+  const wechatHidden = isKeyvoWechatPayHidden();
+  const title = wechatHidden ? copy.wallet.llmhubTitleAlipayOnly : copy.wallet.llmhubTitle;
+
   return (
-    <section className={styles.llmhubCheckout} aria-label={copy.wallet.llmhubTitle}>
-      <strong>{copy.wallet.llmhubTitle}</strong>
+    <section className={styles.llmhubCheckout} aria-label={title}>
+      <strong>{title}</strong>
       <p>{copy.wallet.llmhubDescription}</p>
       <div className={styles.llmhubAmount}>{copy.wallet.llmhubPaymentAmount}: <strong>{amountLabel}</strong></div>
       <div className={styles.llmhubAmount}>{copy.wallet.creditsReceived}: <strong>{creditsLabel}</strong></div>
-      <div className={styles.llmhubButtons}>
+      <div className={wechatHidden ? `${styles.llmhubButtons} ${styles.llmhubButtonsSingle}` : styles.llmhubButtons}>
         {pending ? <button type="button" className={styles.llmhubConfirmPaid} disabled={paying} onClick={() => void start(request.current?.type ?? 'alipay')}>{copy.checkoutReturn.pendingConfirmAction}</button> : null}
         <button type="button" disabled={pending || !enabled || (Boolean(accessToken) && (!quote || loading)) || paying} onClick={() => void start('alipay')}>{copy.wallet.llmhubAlipay}</button>
-        <button type="button" disabled={pending || !enabled || (Boolean(accessToken) && (!quote || loading)) || paying} onClick={() => void start('wxpay')}>{copy.wallet.llmhubWxpay}</button>
+        {wechatHidden ? null : (
+          <button type="button" disabled={pending || !enabled || (Boolean(accessToken) && (!quote || loading)) || paying} onClick={() => void start('wxpay')}>{copy.wallet.llmhubWxpay}</button>
+        )}
       </div>
       {pending ? (
         <div className={styles.llmhubPendingHelp}>

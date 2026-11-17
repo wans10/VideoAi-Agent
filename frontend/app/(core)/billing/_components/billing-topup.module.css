@@ -284,6 +284,8 @@
   margin-top: 14px;
 }
 
+.llmhubButtonsSingle { grid-template-columns: minmax(0, 1fr); }
+
 .llmhubButtons button {
   min-height: 44px;
   border: 1px solid var(--border);
