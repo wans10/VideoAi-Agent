@@ -645,3 +645,17 @@ file verification for `app.keyvo.cn` (same rule). Keep these on upstream syncs.
   refusals are unchanged.
 - **Guard:** `tests/keyvo-admin-tier-preflight.test.ts` lists every file that runs the video price check; a new owner
   fails the test until it applies the viewer rule and is added to the reviewed list.
+
+## Keyvo K mark everywhere (2026-11-17)
+
+The product mark is the red rounded square with a white K and a small dot that `components/brand/BrandLockup.tsx` draws
+in code. The canonical vector is `frontend/public/assets/branding/keyvo-mark.svg`; every static asset is generated from
+it: `favicon.svg`, `favicon.ico` (16/32/48 px PNG entries), `favicon-16x16.png`, `favicon-32x32.png`, `favicon.png`
+(64), `favicon-512.png`, `apple-touch-icon.png` (180, opaque full-bleed square), `android-chrome-192x192.png`,
+`android-chrome-512x512.png`, `assets/branding/{app-icon-512,maskable-512}.png`, `assets/branding/logo-mark.svg`
+(blog publisher logo in structured data), and the Keyvo share cards (`assets/branding/og-image.png`, `og-default.jpg`
+and the five `og/*-2026-09-25.png` cards that page metadata references: mark, wordmark and the Chinese tagline on
+`#f7f5f0`). `site.webmanifest` also lists the maskable icon. Regenerate with
+`node scripts/brand/render-keyvo-icons.mjs` from the repository root inside the test container (Chromium renders the
+SVG; a CJK font is required for the tagline). `tests/keyvo-brand-icons.test.ts` pins file dimensions and the K path.
+Upstream syncs must not bring back the old two-slash mark or the MaxVideoAI share images: keep our versions.
