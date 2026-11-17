@@ -88,9 +88,14 @@ export function buildRobotsText(surface: RobotsSurface): string {
     [
       '# Other training-only crawlers remain blocked.',
       group(
-        ['anthropic-ai', 'Claude-Web', 'CCBot', 'Bytespider', 'cohere-ai'],
+        ['anthropic-ai', 'Claude-Web', 'CCBot', 'cohere-ai'],
         ['Disallow: /'],
       ),
+    ].join('\n'),
+    [
+      '# Keyvo (mainland China): Bytespider feeds Toutiao and Douyin search, so public pages are allowed.',
+      '# Deliberate tradeoff: ByteDance may also use public pages for model training; every private path stays disallowed.',
+      group(['Bytespider'], ['Allow: /', ...PUBLIC_ASSET_RULES, ...PRIVATE_PATH_RULES]),
     ].join('\n'),
     [
       '# AI search and user-requested retrieval may read public marketing and documentation.',

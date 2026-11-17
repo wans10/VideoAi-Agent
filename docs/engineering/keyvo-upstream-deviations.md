@@ -589,6 +589,15 @@ not to `{{ .SiteURL }}`, because the Supabase site URL is the auth host.
 
 Keyvo-only (no upstream equivalent; keep on syncs): `GET /api/cron/ops-health` (`frontend/app/api/cron/ops-health/route.ts`, `frontend/src/server/ops-health.ts`) returns read-only, PII-free health signals and fails closed (503) when `CRON_SECRET` is unset, unlike other cron routes. `scripts/ops/ops-monitor.mjs` (Node 22, no dependencies) runs from the Aliyun relay host and alerts a DingTalk robot (`DINGTALK_WEBHOOK_URL`, `DINGTALK_SECRET`). Operator and owner guide: `docs/operations/monitoring.md`; vendor consoles that cannot be automated: `docs/operations/monitoring-manual-checks.md`. Tests: `tests/ops-monitor-script.test.ts`, `tests/ops-health-route.test.ts`, `tests/ops-health-postgres.test.ts` (auto-placed in the PostgreSQL lane by its `-postgres.test.ts` name; no new CI lane).
 
+## Public Security Bureau filing in the footer (2026-11-17)
+
+`frontend/components/marketing/IcpFiling.tsx` now renders the ICP number followed by the 公安联网备案 number
+(`PUBLIC_SECURITY_FILING_NUMBER` / `_URL` in `frontend/lib/product-brand.ts`), so every public shell that already
+mounts `<IcpFiling />` (marketing footer, legal layout, return policy, login, app site menu) shows both; the 法律声明
+page lists it too. The official badge (`frontend/public/assets/branding/beian.png`, downloaded by the owner from the filing platform,
+36x40) is rendered before the number, unscaled in ratio. Keep this on upstream syncs.
+
+
 ## Age 18, WeChat Pay hidden, settings zh leftovers (2026-11)
 
 Keyvo-only; keep on upstream syncs (resolve conflicts by keeping both sides).
@@ -609,3 +618,14 @@ Keyvo-only changes for Baidu and the other domestic engines (white-label customi
 - **Verification and device meta:** the root layout uses `generateMetadata` to emit `BAIDU_/BING_/SO360_/SOGOU_/SHENMA_SITE_VERIFICATION` meta tags only when set (`lib/seo/site-verification.ts`) and a static `applicable-device` meta. Verification files go into `frontend/public` (the middleware matcher skips dotted paths).
 - **Baidu push:** `scripts/baidu-push-urls.mjs` (dry run by default, token from `BAIDU_PUSH_TOKEN`, per-run and per-day caps) reuses `isSlugOfferedToCustomers` from `scripts/indexnow-url-selection.mjs`, which is now exported.
 - **Not changed:** robots.txt AI-bot rules (including Bytespider) await an owner decision; `Cache-Control: no-transform` is not set because Next owns each page's cache header (add it at the reverse proxy if wanted).
+
+## Bytespider allowed and Baidu site verification (2026-11-17)
+
+`frontend/lib/seo/robots-text.ts` no longer blocks Bytespider with the training-only crawlers: it has its own group
+with the same rules as the AI-search crawlers (public pages and rendering assets allowed, every private path
+disallowed), because Bytespider feeds Toutiao and Douyin search. Tradeoff accepted by the owner: ByteDance may also use
+public pages for training. `tests/ai-training-robots.test.ts` and `tests/mcp-seo-signals.test.ts` pin the new group.
+`frontend/public/baidu_verify_codeva-1ZJVd4BM5I.html` is the Baidu Search Resource Platform file verification token for
+`app.keyvo.cn` (do not edit or delete it while the site stays verified). `frontend/public/BingSiteAuth.xml` is the Bing Webmaster Tools
+file verification for `app.keyvo.cn` (same rule). Keep these on upstream syncs.
+

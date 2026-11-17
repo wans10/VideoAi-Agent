@@ -114,6 +114,7 @@ jobs:
             NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=${{ vars.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || '' }}
             NEXT_PUBLIC_CUSTOMER_CURRENCY=CNY
             NEXT_PUBLIC_PHONE_LOGIN_ENABLED=${{ vars.NEXT_PUBLIC_PHONE_LOGIN_ENABLED || 'false' }}
+            NEXT_IMAGE_EXTRA_HOSTS=${{ vars.NEXT_IMAGE_EXTRA_HOSTS || '' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

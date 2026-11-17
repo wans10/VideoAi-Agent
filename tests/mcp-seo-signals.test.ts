@@ -290,7 +290,7 @@ test('AI search and explicitly qualified training access stay separate from priv
     assert.equal(group.rules.includes('Allow: /'), false);
     for (const rule of privateRules) assert.ok(group.rules.includes(rule));
   }
-  for (const agent of ['anthropic-ai', 'Claude-Web', 'CCBot', 'Bytespider', 'cohere-ai']) {
+  for (const agent of ['anthropic-ai', 'Claude-Web', 'CCBot', 'cohere-ai']) {
     const group = groupFor(agent);
     assert.ok(group, `${agent} should have an explicit training-crawler policy`);
     assert.ok(group.rules.includes('Disallow: /'), `${agent} should be blocked from training crawl`);
