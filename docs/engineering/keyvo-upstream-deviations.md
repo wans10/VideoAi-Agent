@@ -605,5 +605,6 @@ with the same rules as the AI-search crawlers (public pages and rendering assets
 disallowed), because Bytespider feeds Toutiao and Douyin search. Tradeoff accepted by the owner: ByteDance may also use
 public pages for training. `tests/ai-training-robots.test.ts` and `tests/mcp-seo-signals.test.ts` pin the new group.
 `frontend/public/baidu_verify_codeva-1ZJVd4BM5I.html` is the Baidu Search Resource Platform file verification token for
-`app.keyvo.cn` (do not edit or delete it while the site stays verified). Keep both on upstream syncs.
+`app.keyvo.cn` (do not edit or delete it while the site stays verified). `frontend/public/BingSiteAuth.xml` is the Bing Webmaster Tools
+file verification for `app.keyvo.cn` (same rule). Keep these on upstream syncs.
 
