@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Baidu active push ("主动推送") for Keyvo. Submits new or changed public Chinese URLs to
-// https://data.zz.baidu.com/urls. Dry run is the default: nothing leaves this machine unless --submit is given.
+// http://data.zz.baidu.com/urls. Dry run is the default: nothing leaves this machine unless --submit is given.
 //
 //   node scripts/baidu-push-urls.mjs                       # dry run, reads the live sitemaps
 //   node scripts/baidu-push-urls.mjs --sitemap ./a.xml     # dry run from local sitemap files (repeatable)
@@ -15,7 +15,10 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { isSlugOfferedToCustomers } from './indexnow-url-selection.mjs';
 
-export const BAIDU_PUSH_ENDPOINT = 'https://data.zz.baidu.com/urls';
+// Baidu documents the plain-HTTP endpoint only: its TLS certificate (CN=baidu.com) does not cover the data.zz.baidu.com host, so
+// HTTPS requests fail certificate verification. The token travels in the query string; it only authorises URL pushes for the
+// registered site and can be reset in the Baidu Search Resource Platform.
+export const BAIDU_PUSH_ENDPOINT = 'http://data.zz.baidu.com/urls';
 export const DEFAULT_SITE = 'https://app.keyvo.cn';
 export const DEFAULT_MAX_PER_RUN = 10;
 export const DEFAULT_MAX_PER_DAY = 10;

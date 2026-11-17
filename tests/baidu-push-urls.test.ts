@@ -69,7 +69,7 @@ test('daily quota guard shrinks the run and resets on a new UTC day', () => {
 
 test('push request is a plain-text body, one URL per line, to the registered host', () => {
   const request = baidu.buildPushRequest({ site, token: 'T0KEN', urls: [`${site}/zh`, `${site}/zh/pricing`] });
-  assert.equal(request.url, 'https://data.zz.baidu.com/urls?site=app.keyvo.cn&token=T0KEN');
+  assert.equal(request.url, 'http://data.zz.baidu.com/urls?site=app.keyvo.cn&token=T0KEN');
   assert.equal(request.init.method, 'POST');
   assert.equal(request.init.headers['Content-Type'], 'text/plain');
   assert.equal(request.init.body, `${site}/zh\n${site}/zh/pricing`);

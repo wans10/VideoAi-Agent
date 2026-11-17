@@ -660,3 +660,10 @@ and the five `og/*-2026-09-25.png` cards that page metadata references: mark, wo
 `node scripts/brand/render-keyvo-icons.mjs` from the repository root inside the test container (Chromium renders the
 SVG; a CJK font is required for the tagline). `tests/keyvo-brand-icons.test.ts` pins file dimensions and the K path.
 Upstream syncs must not bring back the old two-slash mark or the MaxVideoAI share images: keep our versions.
+
+## Baidu push endpoint is HTTP (2026-11-18)
+
+`scripts/baidu-push-urls.mjs` posts to `http://data.zz.baidu.com/urls`. The HTTPS endpoint cannot be used: Baidu's certificate
+for that host is issued to `baidu.com` and fails hostname verification. Verified live: the HTTP endpoint accepts the token and the
+site `app.keyvo.cn`; the daily quota for the new site was 8 URLs. Keep this on upstream syncs.
+
