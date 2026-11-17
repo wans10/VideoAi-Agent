@@ -1035,6 +1035,9 @@ operation requires one, because OSS rejects the CRC32 checksum recent SDK versio
   `<bucket>.<endpoint host>` (`frontend/lib/storage-host.ts` owns that rule for every reader).
 - `NEXT_IMAGE_EXTRA_HOSTS` is a build argument (Dockerfile and compose) listing extra `next/image` hosts, because
   `next.config.js` runs at build time and cannot read `.env.production`. Put the CDN domain there and rebuild.
+  Production images are built by GitHub Actions (`.github/workflows/docker-build-push.yml`), which forwards the
+  repository variable `NEXT_IMAGE_EXTRA_HOSTS` (Settings > Secrets and variables > Actions > Variables), so set the
+  variable there (for example `media.keyvo.cn`) and re-run the image build before switching `S3_PUBLIC_BASE_URL`.
 - The bucket needs CORS for browser uploads (`PUT`, `GET`, `HEAD`; allowed origin `https://app.keyvo.cn`; allowed
   headers `*`; expose `ETag`).
 - Only new uploads and new generations use the configured bucket. Assets already stored on S3/CloudFront keep their
