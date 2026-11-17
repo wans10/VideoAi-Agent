@@ -377,7 +377,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
     video: {
       metaTitle: 'AI 视频模型：规格、限制与定价 | Keyvo',
       metaDescription:
-        'AI 视频生成模型目录，涵盖 Kling、Haiper、Luma 等。在生成前比较动作控制、时长限制和定价。',
+        'Keyvo 上的 AI 视频生成模型目录，涵盖 Kling 可灵、Wan、Seedance、MiniMax 海螺、Happy Horse。生成前核对时长、分辨率与价格。',
       heroTitle: 'AI 视频模型（规格、限制与定价）',
       heroSubhead: '在启动生成前，检查动态控制、时长上限以及每秒计费成本。',
       heroBullets: [
@@ -409,7 +409,7 @@ const MODELS_SCOPE_DEFAULTS: Record<AppLocale, Record<ModelsPageScope, ScopePage
     image: {
       metaTitle: 'AI 图像模型：规格、限制与定价 | Keyvo',
       metaDescription:
-        'AI 图像生成模型目录，包含 Nano Banana、Midjourney 等。在生成前核对参考图限制、分辨率与定价。',
+        'Keyvo 上的 AI 图像生成模型目录。生成前核对参考图限制、分辨率与价格，再决定使用哪个模型。',
       heroTitle: 'AI 图像模型（规格、限制与定价）',
       heroSubhead: '在生成前全面审查静态图像模型能力、编辑约束以及每张图像计费。',
       heroBullets: [

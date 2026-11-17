@@ -20,6 +20,7 @@ async function makeLayoutHarness() {
     export function buildThemeTokensStyle(value){if(value!==tokens)throw new Error('token identity changed');return ':root{--fixture:stable}';}
     export const THEME_BOOTSTRAP='fixture bootstrap';
     export function GtmLazyLoader(){return null;}
+    export function buildSiteVerificationMetadata(){return undefined;}
     export function SupabaseHashSessionHandler(){return null;}
     export default function Script(){return null;}
   `;

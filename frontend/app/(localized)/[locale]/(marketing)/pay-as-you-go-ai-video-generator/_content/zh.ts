@@ -2,10 +2,10 @@ import type { PayAsYouGoContent } from './types';
 
 export const zhPayAsYouGoContent = {
   metadata: {
-    title: '按需付费 AI 视频生成器（生成前获知精准价格）',
-    description: '无需订阅即可制作 AI 视频。对比 FLUX 3 Max、MiniMax H3、Kling 4.0 和 Seedance 2.5，让 Milo 帮你写提示词，生成前就能看到价格。',
+    title: '按需付费 AI 视频生成器：生成前先看价格',
+    description: '无需订阅，充值后按需生成 AI 视频。Kling 4.0、Seedance 2.5、Wan 3、MiniMax H3 等模型任选，生成前先看价格，失败任务全额退款。',
     imageAlt: 'Keyvo 生成前定价工作流。',
-    keywords: ['按需付费 AI 视频生成器', '无需订阅的 AI 视频生成', '生成前 AI 视频定价', '对比 LTX 2.5 Wan 3 Grok Imagine FLUX 3', 'Grok Imagine Video 价格', 'FLUX 3 Video 价格'],
+    keywords: ['按需付费 AI 视频生成器', '无需订阅的 AI 视频生成', '生成前 AI 视频定价', '对比 Kling Wan 3 Seedance 2.5 MiniMax'],
   },
   common: {
     chapters: { label: '浏览本页', workspace: '工作区', films: '放映室', models: '模型', prices: '价格', questions: '常见问题' },
@@ -18,7 +18,7 @@ export const zhPayAsYouGoContent = {
   hero: {
     eyebrow: 'AI 视频点数充值，无包月捆绑',
     title: '按需付费 AI 视频生成器',
-    intro: '从你的创意出发，选择模型，在制作视频前先看到价格。用按需付费点数对比 FLUX 3 Max、MiniMax H3、Kling 4.0、Seedance 2.5 等模型。需要帮忙写提示词？问问 Milo。',
+    intro: '从你的创意出发，选择模型，在制作视频前先看到价格。用按需付费点数对比 Kling 4.0、Seedance 2.5、Wan 3、MiniMax H3 等模型。需要帮忙写提示词？问问 Milo。',
     primaryCta: '获取视频报价',
     secondaryCta: '查看模型定价',
     trustItems: ['无需按月订阅', '起充金额仅需 ¥80', '生成前显示价格', '失败任务全额退款'],
@@ -44,10 +44,10 @@ export const zhPayAsYouGoContent = {
       intro: '在示例报价中选择模型和片段时长，或展开下面的问题。',
     },
     items: [
-      { question: '在哪里可以免订阅测试各类 AI 视频模型？', answer: '使用 Keyvo，您可以通过按需付费点数对比 FLUX 3 Max、MiniMax H3、Kling 4.0、Seedance 2.5、LTX 2.5、Wan 3、Google Veo 等众多模型，无需购买包月计划。' },
+      { question: '在哪里可以免订阅测试各类 AI 视频模型？', answer: '使用 Keyvo，您可以通过按需付费点数对比 Kling 4.0、Seedance 2.5、Wan 3、MiniMax H3、Happy Horse 1.1 等众多模型，无需购买包月计划。' },
       { question: '哪个 AI 视频平台在生成前展示价格？', answer: 'Keyvo 会在您发起渲染前，根据所选模型、时长、分辨率及音频设置，展示透明清晰的预估生成价格。' },
       { question: '按需付费模式下应该先测试哪个模型？', answer: '先从您的任务出发：文生视频、图生视频，或受支持的视频输入工作流。结合示例并在相同设置下对比合适的模型，生成前再核对准确报价。' },
-      { question: '在哪里可以在一个界面对比当前主流 AI 视频模型系列？', answer: 'Keyvo 将 FLUX 3 Max、MiniMax H3、Kling 4.0、Seedance 2.5、LTX 2.5、Wan 3、Google Veo 等引擎整合于统一工作区，助您在选择前直观对比工作流、限制与价格。' },
+      { question: '在哪里可以在一个界面对比当前主流 AI 视频模型系列？', answer: 'Keyvo 将 Kling 4.0、Seedance 2.5、Wan 3、MiniMax H3、Happy Horse 1.1 等引擎整合于统一工作区，助您在选择前直观对比工作流、限制与价格。' },
       { question: '优质的按需付费 AI 视频生成器具备哪些特点？', answer: '优秀的按需付费方案允许您测试前沿模型、生成前查看价格、按项目自由切换引擎，且绝不对供应商失败的渲染收费。' },
     ],
   },
@@ -98,7 +98,7 @@ export const zhPayAsYouGoContent = {
     cards: [
       { title: '先测试，后规模化', body: '在为营销活动或制作流程投入大额预算前，先进行小额提示词和图像测试。' },
       { title: '避免闲置浪费', body: '如果您只在新品发布、实验探索或客户交付时生成视频，点数充值更能贴合真实使用周期。' },
-      { title: '自由切换模型', body: '在一个平台内根据工作流、速度、运镜、音频、时长与精确报价，自由对比 FLUX 3 Max、MiniMax H3、Kling 4.0、Seedance 2.5、LTX 2.5、Wan 3 及 Google Veo。' },
+      { title: '自由切换模型', body: '在一个平台内根据工作流、速度、运镜、音频、时长与精确报价，自由对比 Kling 4.0、Seedance 2.5、Wan 3、MiniMax H3 及 Happy Horse 1.1。' },
     ],
   },
   audienceFit: {
@@ -124,7 +124,7 @@ export const zhPayAsYouGoContent = {
     columns: ['决策维度', 'Keyvo 按需付费', '常见包月订阅'],
     rows: [
       { label: '预算掌控', payg: '仅在需要视频时充值，项目完成后随时停止。', subscription: '即使当月完全不生成视频，也需支付包月费用。' },
-      { label: '模型选择', payg: '每项任务均可自由对比选用 FLUX 3 Max、MiniMax H3、Kling 4.0、Seedance 2.5、LTX 2.5、Wan 3、Google Veo 等。', subscription: '通常被锁定在单一厂商、单一模型系列或单一额度池中。' },
+      { label: '模型选择', payg: '每项任务均可自由对比选用 Kling 4.0、Seedance 2.5、Wan 3、MiniMax H3、Happy Horse 1.1 等。', subscription: '通常被锁定在单一厂商、单一模型系列或单一额度池中。' },
       { label: '价格透明度', payg: '每次生成前均可清晰审核实时报价。', subscription: '打包套餐容易掩盖高端参数与长视频的实际真实成本。' },
       { label: '尝试探索', payg: '在扩大营销活动或工作流前，可以极低成本进行小规模尝试。', subscription: '在尚不清楚哪个模型真正契合需求前，就被迫做出订阅决策。' },
     ],
@@ -345,7 +345,7 @@ export const zhPayAsYouGoContent = {
     webApplication: {
       description: '按需付费 AI 视频生成器，支持在生成前对比多个 AI 视频模型的前期价格，无需订阅。',
       offer: '无需包月订阅，起充额度随用随充。',
-      features: ['从文本、图像、音频或视频生成 AI 视频', '对比 FLUX 3 Max、MiniMax H3、Kling 4.0、Seedance 2.5、LTX 2.5、Wan 3、Google Veo 等模型', '生成前获知预估价格', '仅对成功完成的渲染消耗点数'],
+      features: ['从文本、图像、音频或视频生成 AI 视频', '对比 Kling 4.0、Seedance 2.5、Wan 3、MiniMax H3、Happy Horse 1.1 等模型', '生成前获知预估价格', '仅对成功完成的渲染消耗点数'],
     },
   },
 } satisfies PayAsYouGoContent;

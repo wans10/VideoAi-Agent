@@ -441,8 +441,11 @@ test('site Organization schema keeps one canonical complete entity', () => {
   // Prebuild also runs on preview deployments; origin policy is covered separately.
   assert.equal(organization['@id'], `${SITE_ORIGIN}/#organization`);
   assert.equal(organization.name, 'Keyvo');
-  assert.match(organization.description, /pay-as-you-go/);
-  assert.match(organization.description, /web workspace for creative production/);
+  // Keyvo is zh-first: the entity description is Chinese and names the studio brand shown on the site.
+  assert.match(organization.description, /按需付费/);
+  assert.match(organization.description, /网页创作工作台/);
+  assert.equal(organization.alternateName, 'Keyvo 影像工作室');
+  assert.equal(organization.logo, `${SITE_ORIGIN}/assets/branding/app-icon-512.png`);
   assert.doesNotMatch(organization.description, /MCP integrations/);
   assert.doesNotMatch(organization.description, /Sora|Pika|Seedance|Kling|Veo/);
   assert.ok(!('sameAs' in organization), 'custom brand does not claim upstream social accounts');  const reference = buildSiteOrganizationReference();

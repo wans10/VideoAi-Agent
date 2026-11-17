@@ -3,17 +3,24 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import modelRoster from '@/config/model-roster.json';
 import { SITEMAP_MANUAL_TIMESTAMPS } from '@/config/sitemap-timestamps';
+import { KEYVO_SITEMAP_ROUTE_TIMESTAMPS } from '@/config/keyvo-sitemap-timestamps';
 import { listEligibleSeoWatchVideos } from '@/server/video-seo';
 import { resolveVideoSitemapDates } from '@/server/sitemaps/video-dates';
 import { MODEL_CONTENT_ROOT } from './model-locales';
 
-const MANUAL_ROUTE_DATES = new Map<string, string>(Object.entries(SITEMAP_MANUAL_TIMESTAMPS.routes ?? {}));
+const MANUAL_ROUTE_DATES = new Map<string, string>(
+  Object.entries({ ...(SITEMAP_MANUAL_TIMESTAMPS.routes ?? {}), ...KEYVO_SITEMAP_ROUTE_TIMESTAMPS }),
+);
 const MANUAL_SITEMAP_DATES = new Map<string, string>(Object.entries(SITEMAP_MANUAL_TIMESTAMPS.sitemaps ?? {}));
 const GIT_LASTMOD_CACHE = new Map<string, string | null>();
 const USE_MTIME_FALLBACK =
   process.env.SITEMAP_USE_MTIME_FALLBACK === 'true' ||
   (process.env.SITEMAP_USE_MTIME_FALLBACK !== 'false' && process.env.NODE_ENV !== 'production');
 const FALLBACK_LASTMOD = formatLastModified(process.env.SITEMAP_FALLBACK_LASTMOD);
+// Date of the build that produced this server bundle (inlined by next.config.js). The production image has
+// no Git history, so routes without a recorded date report the deployment date instead of no lastmod. It is a
+// build constant, never the request time.
+const BUILD_LASTMOD = formatLastModified(process.env.SITEMAP_BUILD_DATE);
 
 export function formatLastModified(value?: string): string | undefined {
   if (!value) {
@@ -58,9 +65,10 @@ export function getGitLastModified(sourceFile?: string): string | undefined {
     GIT_LASTMOD_CACHE.set(sourceFile, formatted ?? null);
     return formatted;
   }
-  if (FALLBACK_LASTMOD) {
-    GIT_LASTMOD_CACHE.set(sourceFile, FALLBACK_LASTMOD);
-    return FALLBACK_LASTMOD;
+  const fallbackDate = FALLBACK_LASTMOD ?? BUILD_LASTMOD;
+  if (fallbackDate) {
+    GIT_LASTMOD_CACHE.set(sourceFile, fallbackDate);
+    return fallbackDate;
   }
   if (!USE_MTIME_FALLBACK) {
     GIT_LASTMOD_CACHE.set(sourceFile, null);
@@ -122,10 +130,12 @@ async function getVideoWatchSitemapLastModified(sitemapPath: string): Promise<st
   }
 
   const watchVideos = await listEligibleSeoWatchVideos();
-  return getLatestEntryDate(
-    watchVideos.map(({ entry, video }) => ({
-      lastModified: resolveVideoSitemapDates(entry, video).lastModified ?? undefined,
-    }))
+  return (
+    getLatestEntryDate(
+      watchVideos.map(({ entry, video }) => ({
+        lastModified: resolveVideoSitemapDates(entry, video).lastModified ?? undefined,
+      }))
+    ) ?? FALLBACK_LASTMOD ?? BUILD_LASTMOD
   );
 }
 

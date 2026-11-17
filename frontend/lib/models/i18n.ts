@@ -3,6 +3,7 @@ import 'server-only';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import type { AppLocale } from '@/i18n/locales';
+import { normalizeLegacyBrandDeep } from '@/lib/seo/brand-text';
 import {
   mergeEngineLocalizedContent,
   type EngineLocalizedContent,
@@ -50,5 +51,7 @@ async function readOverlay(slug: string, locale: AppLocale): Promise<EngineOverl
 export async function getEngineLocalized(slug: string, locale: AppLocale): Promise<EngineLocalizedContent> {
   const base = await readOverlay(slug, 'en');
   const overlay = locale === 'en' ? base : await readOverlay(slug, locale);
-  return mergeEngineLocalizedContent(base, overlay);
+  const merged = mergeEngineLocalizedContent(base, overlay);
+  // Chinese overlays inherit the upstream "VideoAI" name; Keyvo pages show only the Keyvo brand.
+  return locale === 'zh' ? normalizeLegacyBrandDeep(merged) : merged;
 }
