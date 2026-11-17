@@ -14,8 +14,7 @@ import {
   type ClientMessageNamespace,
 } from '@/lib/i18n/client-message-namespaces';
 import { deserializeMessages } from '@/lib/i18n/server';
-import { buildSiteOrganizationSchema } from '@/lib/seo/site-organization-schema';
-import { SITE_ORIGIN } from '@/lib/siteOrigin';
+import { buildSiteOrganizationSchema, buildSiteWebSiteSchema } from '@/lib/seo/site-organization-schema';
 
 type LocaleRuntimeProps = {
   children: ReactNode;
@@ -29,16 +28,9 @@ export async function LocaleRuntime({ children, locale, clientMessageNamespaces 
   const fullMessages = deserializeMessages(await getMessages({ locale }));
   const messages = pickClientMessageNamespaces(fullMessages, clientMessageNamespaces);
   const fallbackMessages = messages;
-  const homeUrl = `${SITE_ORIGIN}/`;
   const orgSchema = buildSiteOrganizationSchema();
 
-  const websiteSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    url: homeUrl,
-    name: 'Keyvo',
-    inLanguage: localeRegions[locale],
-  };
+  const websiteSchema = buildSiteWebSiteSchema(localeRegions[locale]);
 
   return (
     <>

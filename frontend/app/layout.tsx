@@ -10,6 +10,7 @@ import { resolveLocale } from '@/lib/i18n/server';
 import { buildThemeTokensStyle } from '@/lib/theme-tokens';
 import { getThemeTokensSettingCached } from '@/server/app-settings';
 import { withPublicPageTiming } from '@/server/public-page-timing';
+import { buildSiteVerificationMetadata } from '@/lib/seo/site-verification';
 
 type RootLayoutProps = {
   children: ReactNode;
@@ -17,7 +18,7 @@ type RootLayoutProps = {
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID ?? process.env.GTM_ID ?? '';
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   applicationName: 'Keyvo',
   manifest: '/site.webmanifest',
   icons: {
@@ -31,6 +32,12 @@ export const metadata: Metadata = {
   },
 };
 
+// Verification tags come from the environment each time the layout renders; nothing is emitted when unset.
+export function generateMetadata(): Metadata {
+  const verification = buildSiteVerificationMetadata();
+  return verification ? { ...baseMetadata, verification } : baseMetadata;
+}
+
 export default async function RootLayout({ children }: RootLayoutProps) {
   const locale = await resolveLocale();
   const themeTokens = await withPublicPageTiming({ route: 'root-layout', locale }, (measure) =>
@@ -42,6 +49,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
     <html lang={locale} suppressHydrationWarning>
       <head>
         <script id="theme-bootstrap" dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }} />
+        <meta name="applicable-device" content="pc,mobile" />
         <link rel="preconnect" href="https://media.maxvideoai.com" crossOrigin="anonymous" />
         {themeStyle ? <style id="theme-tokens" dangerouslySetInnerHTML={{ __html: themeStyle }} /> : null}
         {GTM_ID ? (

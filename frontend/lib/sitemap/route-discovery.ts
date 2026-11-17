@@ -40,6 +40,8 @@ const IGNORED_ROUTE_TEMPLATES = new Set([
   '/video/[videoId]',
   '/v/[videoId]',
   '/legal/cookies',
+  // Account flow shown after a legal update; it has no public content and is noindex.
+  '/legal/reconsent',
 ]);
 const HIDDEN_ROUTE_PREFIXES = [
   '/ai-video-engines',

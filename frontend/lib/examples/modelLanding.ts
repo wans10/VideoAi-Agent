@@ -99,7 +99,11 @@ export function getExampleModelLanding(locale: AppLocale, slug: string): Example
         : locale === 'es'
           ? `Ejemplos de video con IA de ${label} con prompts, ajustes y precios actuales estimados en las fichas disponibles. ${variantsSentence}`
           : locale === 'zh'
-            ? `${label} 案例：提示词、参数设置与当前生成价格估算，可打开对应详情页查看。${variantsSentence}`
+            ? `${label} AI 视频案例合集：查看提示词、参数设置与价格参考，点开案例即可复刻。${
+                variants.length > 0
+                  ? `涵盖 ${variants.slice(0, 3).join('、')}${variants.length > 3 ? ' 等' : ''}。`
+                  : ''
+              }`
           : `${label} examples with prompts, settings, and current price estimates on available detail pages. ${variantsSentence}`),
     heroTitle:
       localized.heroTitle ??

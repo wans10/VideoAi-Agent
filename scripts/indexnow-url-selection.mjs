@@ -21,7 +21,7 @@ const modelAllowlist = JSON.parse(
 const OFFERED_ENGINE_IDS = new Set(modelAllowlist.offeredEngineIds.map((id) => String(id).trim().toLowerCase()));
 const ADMIN_TIER_OPEN = ['1', 'true'].includes(String(process.env.KEYVO_ADMIN_TIER_OPEN ?? '').trim().toLowerCase());
 const SLUG_TO_ENGINE_ID = new Map(runtimeModels.map((model) => [model.slug, String(model.id).trim().toLowerCase()]));
-function isSlugOfferedToCustomers(slug) {
+export function isSlugOfferedToCustomers(slug) {
   if (process.env.KEYVO_MODEL_VISIBILITY === 'off') return true;
   const id = SLUG_TO_ENGINE_ID.get(slug);
   if (!id || !OFFERED_ENGINE_IDS.has(id)) return false;

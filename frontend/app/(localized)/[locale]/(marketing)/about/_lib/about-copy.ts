@@ -172,8 +172,8 @@ const COPY: Record<AppLocale, AboutCopy> = {
   },
   zh: {
     meta: {
-      title: '关于 Keyvo',
-      description: '了解 Keyvo 的制作工作台、模型比较，以及所引用内容的项目来源。',
+      title: '关于 Keyvo | AI 视频生成平台',
+      description: '了解 Keyvo 按需付费的 AI 视频生成工作台，以及我们的编辑原则和所引用内容的项目来源。',
     },
     hero: {
       eyebrow: '关于 Keyvo',

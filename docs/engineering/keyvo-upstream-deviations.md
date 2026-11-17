@@ -607,6 +607,18 @@ Keyvo-only; keep on upstream syncs (resolve conflicts by keeping both sides).
 - **Notifications settings tab hidden.** `KEYVO_NOTIFICATIONS_TAB_HIDDEN` / `isKeyvoNotificationsTabHidden()` (reopen `KEYVO_NOTIFICATIONS_FULL_UI=1`), applied in `lib/settings-navigation.ts`; `?tab=notifications` opens Account.
 - **zh leftovers.** `workspace.settings.privacy.{summary,reviewNote,guestNote,supportPrefix,supportEmail,supportSuffix}` added to zh; receipts `collapsedLabel/expandedLabel` (展开/收起) added to all four locales; ledger rows use `localizeReceiptDescriptionZh` and zh surface chips in `billing/_lib/billing-utils.ts` (display only, stored descriptions untouched). Left in English on purpose: brand and model names (Keyvo, MiniMax H3, Seedance...). Pinned by `tests/keyvo-age18-settings-zh.test.ts`.
 
+## China search engine SEO (2026-11)
+
+Keyvo-only changes for Baidu and the other domestic engines (white-label customization 7 and zh content). Audit and owner guides: `docs/seo/keyvo-cn-seo-audit.md`, `keyvo-cn-submission-guide.md`, `keyvo-cn-content-plan.md`.
+
+- **Brand text:** `lib/seo/brand-text.ts` rewrites the legacy "VideoAI"/"MaxVideoAI" names to Keyvo in `buildSeoMetadata` (title, description, share-card alt) and in `getEngineLocalized` for zh, so upstream model copy cannot reintroduce them in search snippets. Pinned by `tests/keyvo-cn-seo.test.ts`.
+- **Snippets:** zh home, pricing, about, models/video, models/image, pay-as-you-go, tools hub and the examples family description were rewritten to name only offered models; the pay-as-you-go zh content no longer lists FLUX, LTX or Veo in its description, FAQ or WebApplication features.
+- **Structured data:** Organization/WebSite come from `lib/seo/site-organization-schema.ts` (Chinese description, `alternateName` "Keyvo 影像工作室", logo `/assets/branding/app-icon-512.png`, no `sameAs`). `tests/marketing-jsonld-schema-audit.test.ts` was updated for the Chinese description.
+- **Sitemap:** `/legal/reconsent` is noindex and not listed. `config/keyvo-sitemap-timestamps.ts` holds Keyvo-owned lastmod dates (they win over `sitemap-timestamps.ts`); routes without a date fall back to `SITEMAP_BUILD_DATE`, a build constant written by `next.config.js` (the production image has no Git history). Update the date in the same commit that changes a page.
+- **Verification and device meta:** the root layout uses `generateMetadata` to emit `BAIDU_/BING_/SO360_/SOGOU_/SHENMA_SITE_VERIFICATION` meta tags only when set (`lib/seo/site-verification.ts`) and a static `applicable-device` meta. Verification files go into `frontend/public` (the middleware matcher skips dotted paths).
+- **Baidu push:** `scripts/baidu-push-urls.mjs` (dry run by default, token from `BAIDU_PUSH_TOKEN`, per-run and per-day caps) reuses `isSlugOfferedToCustomers` from `scripts/indexnow-url-selection.mjs`, which is now exported.
+- **Not changed:** robots.txt AI-bot rules (including Bytespider) await an owner decision; `Cache-Control: no-transform` is not set because Next owns each page's cache header (add it at the reverse proxy if wanted).
+
 ## Bytespider allowed and Baidu site verification (2026-11-17)
 
 `frontend/lib/seo/robots-text.ts` no longer blocks Bytespider with the training-only crawlers: it has its own group

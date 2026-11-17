@@ -3,6 +3,7 @@ import type { AppLocale } from '@/i18n/locales';
 import { buildMetadataUrls, SITE_BASE_URL, type LocaleSlugMap } from '@/lib/metadataUrls';
 import { getHreflangEnglishPath, type HreflangGroupKey } from '@/lib/seo/hreflang';
 import { buildMetaDescription, buildMetaTitle } from '@/lib/seo/meta';
+import { normalizeLegacyBrandText } from '@/lib/seo/brand-text';
 
 const DEFAULT_OG_IMAGE = '/og/brand-2026-09-25.png';
 const DEFAULT_OG_WIDTH = 1200;
@@ -69,10 +70,10 @@ function resolveImageUrl(image?: string) {
 
 export function buildSeoMetadata({
   locale,
-  title,
-  description,
+  title: rawTitle,
+  description: rawDescription,
   image,
-  imageAlt,
+  imageAlt: rawImageAlt,
   imageDimensions,
   ogType = 'website',
   slugMap,
@@ -87,6 +88,9 @@ export function buildSeoMetadata({
   twitter: twitterOverrides,
   titleBranding = 'auto',
 }: BuildSeoMetadataOptions): Metadata {
+  const title = normalizeLegacyBrandText(rawTitle);
+  const description = normalizeLegacyBrandText(rawDescription);
+  const imageAlt = rawImageAlt === undefined ? undefined : normalizeLegacyBrandText(rawImageAlt);
   const safeTitle = buildMetaTitle(buildSeoTitle(title, titleBranding));
   const safeDescription = buildMetaDescription(description);
   const resolvedEnglishPath = englishPath ?? (hreflangGroup ? getHreflangEnglishPath(hreflangGroup) : undefined);

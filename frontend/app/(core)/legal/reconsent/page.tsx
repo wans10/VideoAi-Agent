@@ -15,6 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
     englishPath: '/legal/reconsent',
     availableLocales: ['en', 'fr', 'es', 'zh'] as AppLocale[],
     ogType: 'article',
+    robots: { index: false, follow: false },
     imageAlt: locale === 'zh' ? '法律更新确认' : 'Legal re-consent',
   });
 }

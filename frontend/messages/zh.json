@@ -1520,8 +1520,8 @@
     },
     "priceChipSuffix": "生成前清晰可见。",
     "meta": {
-      "title": "按需付费 AI 视频生成平台 | Keyvo",
-      "description": "按需付费的 AI 视频生成平台：Seedance、Kling、Wan、Happy Horse、MiniMax 等模型，先看真实成片，生成前明晰价格，按需充值积分随心创作。"
+      "title": "Keyvo｜按需付费 AI 视频生成平台，文生视频与图生视频",
+      "description": "Keyvo 是按需付费的 AI 视频生成平台，支持文生视频、图生视频，Kling 可灵、Seedance、Wan、MiniMax 海螺等模型任选，生成前先看价格，无需订阅。"
     },
     "compare": {
       "title": "AI 视频模型横评一览",
@@ -1870,8 +1870,8 @@
     "priceChipSuffix": "生成前确切价格。",
     "priceChipPrefix": "本次渲染预估",
     "meta": {
-      "title": "AI 视频生成计费与模型价格对比 | Keyvo",
-      "description": "按模型、时长、分辨率与音频对比 AI 视频价格。查看 720p、1080p 与 4K 预设价格，进入工作区查看实时透明报价。"
+      "title": "AI 视频价格表：按模型、时长与分辨率计费 | Keyvo",
+      "description": "Keyvo 按需付费 AI 视频价格：按模型、时长、分辨率与音频对比 720p、1080p、4K 预设价格，生成前先看实时报价，无需订阅。"
     }
   },
   "workflows": {
@@ -7730,7 +7730,7 @@
     "hub": {
       "meta": {
         "title": "AI 前期制作工具箱：图像与视频工作流 | Keyvo",
-        "description": "在生成视频前构建可复用的角色参考素材与更具表现力的起始首帧。探索用于一致性角色创作和 AI 镜头视角控制的 Keyvo 专业工具。",
+        "description": "在生成视频前构建可复用的角色参考素材与更具表现力的起始首帧。探索用于一致性角色创作的 Keyvo 专业工具。",
         "keywords": [
           "AI 前期制作工具",
           "图生视频工作流工具",

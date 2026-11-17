@@ -20,10 +20,8 @@ import { LOCALE_COOKIE } from '@/lib/i18n/constants';
 import { resolveDictionary } from '@/lib/i18n/server';
 import { pickClientMessageNamespaces, type ClientMessageNamespace } from '@/lib/i18n/client-message-namespaces';
 import { LocaleSync } from '@/components/i18n/LocaleSync';
-import { SITE_ORIGIN } from '@/lib/siteOrigin';
-import { buildSiteOrganizationSchema } from '@/lib/seo/site-organization-schema';
+import { buildSiteOrganizationSchema, buildSiteWebSiteSchema } from '@/lib/seo/site-organization-schema';
 const appFont = localFont({ src: '../(core)/_fonts/GeistLatin.woff2', variable: '--font-app', display: 'swap', weight: '100 900', preload: false });
-const NORMALIZED_SITE_URL = SITE_ORIGIN;
 
 type AppRuntimeProps = {
   children: ReactNode;
@@ -43,15 +41,9 @@ export async function AppRuntime({ children, clientMessageNamespaces }: AppRunti
     ? dictionary
     : pickClientMessageNamespaces(fullFallback, clientMessageNamespaces);
 
-  const homeUrl = `${NORMALIZED_SITE_URL}/`;
   const orgSchema = buildSiteOrganizationSchema();
 
-  const websiteSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    url: homeUrl,
-    name: 'Keyvo',
-  };
+  const websiteSchema = buildSiteWebSiteSchema();
 
   return (
     <>

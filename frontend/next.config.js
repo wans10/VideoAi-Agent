@@ -96,6 +96,9 @@ const SHARP_ALL_BINARIES = [
   'frontend/node_modules/sharp/**/*',
 ];
 
+// Build date inlined into the server bundle for sitemap lastmod fallbacks (see lib/sitemap/lastmod.ts).
+const SITEMAP_BUILD_DATE = process.env.SITEMAP_BUILD_DATE || new Date().toISOString().slice(0, 10);
+
 const withNextIntl = require('next-intl/plugin')('./i18n/request.ts');
 const imageOptimizer = require('./config/image-optimizer.json');
 
@@ -105,6 +108,7 @@ const nextConfig = {
   // Other hosts retain the existing Next.js output behavior.
   output: process.env.NEXT_OUTPUT_STANDALONE === 'true' ? 'standalone' : undefined,
   reactStrictMode: true,
+  env: { SITEMAP_BUILD_DATE },
   // Keep loopback auth redirects on the browser's cookie origin in local dev.
   // Production retains Next.js URL normalization and its public routing policy.
   skipMiddlewareUrlNormalize: process.env.NODE_ENV === 'development',
