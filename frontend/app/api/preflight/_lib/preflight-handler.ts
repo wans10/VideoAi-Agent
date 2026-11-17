@@ -6,12 +6,15 @@ import { readPreflightRequest } from './preflight-request';
 import { isPrivateRuntimeEngineId } from '@/server/video-generation/private-engine-registry';
 import { resolveLaunchCanaryRequestContext } from '@/server/model-launch-canary-request';
 import { seedanceWorkflowEnabled, resolveSeedanceWorkflowRequest, SeedanceWorkflowRequestError } from '@/server/seedance-workflow-request';
+import { keyvoEngineTier } from '@/config/keyvo-model-visibility';
+import { resolveWorkspaceViewerIsAdmin } from '@/server/workspace-engine-availability';
 import type { PreflightRequest } from '@/types/engines';
 
 type PreflightPostDependencies = {
   resolveMediaAwarePreflightFn?: typeof resolveMediaAwarePreflight;
   getRouteAuthContextFn?: typeof getRouteAuthContext;
   resolveLaunchCanaryRequestContextFn?: typeof resolveLaunchCanaryRequestContext;
+  resolveViewerIsAdminFn?: (request: NextRequest) => Promise<boolean>;
   mediaAwarePreflightDependencies?: Parameters<typeof resolveMediaAwarePreflight>[1];
 };
 
@@ -21,6 +24,8 @@ export function createPreflightPostHandler(dependencies: PreflightPostDependenci
   const getRouteAuthContextFn = dependencies.getRouteAuthContextFn ?? getRouteAuthContext;
   const resolveLaunchCanaryRequestContextFn =
     dependencies.resolveLaunchCanaryRequestContextFn ?? resolveLaunchCanaryRequestContext;
+
+  const resolveViewerIsAdminFn = dependencies.resolveViewerIsAdminFn ?? resolveWorkspaceViewerIsAdmin;
 
   return async function preflightPost(req: NextRequest) {
     const parsed = await readPreflightRequest(req);
@@ -53,8 +58,13 @@ export function createPreflightPostHandler(dependencies: PreflightPostDependenci
     const launchCanaryContext = isPrivateRuntimeEngineId(parsed.request.engine)
       ? await resolveLaunchCanaryRequestContextFn(req)
       : null;
+    // Same rule as the generate route: the session is read only for admin-tier ids, and any failure means non-admin.
+    const viewerIsAdmin = keyvoEngineTier(parsed.request.engine) === 'admin'
+      ? await resolveViewerIsAdminFn(req).catch(() => false)
+      : false;
     const response = await resolveMediaAwarePreflightFn({
       request,
+      viewerIsAdmin,
       trustedSeedanceWorkflow: trustedSeedanceWorkflow ?? undefined,
       launchCanaryContext,
       resolveUserId: async () => launchCanaryContext?.principal.userId

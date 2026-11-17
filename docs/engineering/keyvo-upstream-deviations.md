@@ -629,3 +629,19 @@ public pages for training. `tests/ai-training-robots.test.ts` and `tests/mcp-seo
 `app.keyvo.cn` (do not edit or delete it while the site stays verified). `frontend/public/BingSiteAuth.xml` is the Bing Webmaster Tools
 file verification for `app.keyvo.cn` (same rule). Keep these on upstream syncs.
 
+
+## Admin-tier video price check (2026-11-17)
+
+- **Bug:** an admin selecting an admin-tier video engine (`gemini-omni-flash`, `veo-3-1*`) saw "Unknown engine" and
+  "price unavailable" in `/app`. The picker was viewer-aware, but `POST /api/preflight` resolved the engine from the
+  public catalogue only (`getReadOnlyConfiguredEngine` in `media-aware-preflight.ts`, then `computeConfiguredPreflight`
+  answered `ENGINE_NOT_FOUND`), so the admin could not generate even though `/api/generate` would have accepted them.
+- **Rule:** the preflight handler follows the generate route. `preflight-handler.ts` reads the admin session only when
+  `keyvoEngineTier(id) === 'admin'` (ordinary requests add no session lookup; any auth error means non-admin) and passes
+  `viewerIsAdmin` to `resolveMediaAwarePreflight`, which then resolves the engine through
+  `getConfiguredEngineIncludingHiddenFn`, only for engines Keyvo offers. Non-admin and logged-out callers keep
+  `ENGINE_NOT_FOUND`; `KEYVO_ADMIN_TIER_OPEN` opens the engines for everyone through `keyvoEngineTier` as before.
+  MCP and agent pricing (`generation-pricing.ts`) stay non-admin. Generate, image estimate and `/api/pricing/quote`
+  refusals are unchanged.
+- **Guard:** `tests/keyvo-admin-tier-preflight.test.ts` lists every file that runs the video price check; a new owner
+  fails the test until it applies the viewer rule and is added to the reviewed list.

@@ -1,3 +1,4 @@
+import { isKeyvoHiddenModelForViewer } from '@/config/keyvo-model-visibility';
 import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
 import { isFluxLtxSourceOperation, validateFluxLtxSource } from '@/lib/flux-ltx-operations';
 import { resolveOwnedFluxDraftSource } from '@/server/flux-draft-cache-store';
@@ -125,6 +126,12 @@ type MediaAwarePreflightInput = {
     userId?: string | null;
     resolveUserId?: () => Promise<string | null>;
     launchCanaryContext?: LaunchCanaryRequestContext | null;
+    /**
+     * Verified admin flag for the signed-in viewer. Only the HTTP handler sets it, and only for admin-tier ids. It lets
+     * the price check resolve a Keyvo admin-tier engine the public catalogue does not list; absent or false keeps
+     * ENGINE_NOT_FOUND exactly as for any hidden engine.
+     */
+    viewerIsAdmin?: boolean;
 };
 
 export async function resolveMediaAwarePreflight(
@@ -178,10 +185,15 @@ export async function resolveAdmittedMediaAwarePreflight(
     dependencies.computeConfiguredPreflightFn ?? computeConfiguredPreflight;
   const publicEngine = await getConfiguredEngineFn(request.engine);
   const canAccessPrivate = input.launchCanaryContext?.access.allowedModelIds.has(request.engine) === true;
-  const privateEngine = !publicEngine && canAccessPrivate
+  // Keyvo admin-tier engines are absent from the public catalogue; a verified admin resolves them the way the generate route does.
+  const adminTierEngine = !publicEngine && input.viewerIsAdmin === true
+    && !isKeyvoHiddenModelForViewer(request.engine, { isAdmin: true })
     ? await getConfiguredEngineIncludingHiddenFn(request.engine)
     : undefined;
-  let engine = publicEngine ?? privateEngine;
+  const privateEngine = !publicEngine && !adminTierEngine && canAccessPrivate
+    ? await getConfiguredEngineIncludingHiddenFn(request.engine)
+    : undefined;
+  let engine = publicEngine ?? adminTierEngine ?? privateEngine;
   if (!engine) return computeConfiguredPreflightFn(request, { bootstrap: false });
   try {
     request.operation = normalizeVideoOperation(engine.id, request.mode, request.operation);
