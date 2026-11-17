@@ -4032,6 +4032,7 @@
         "checkoutSecure": "Paiement sécurisé par",
         "checkoutNote": "Crédits ajoutés après confirmation ; votre reçu est conservé ici.",
         "llmhubTitle": "Alipay ou WeChat Pay",
+        "llmhubTitleAlipayOnly": "Alipay",
         "llmhubDescription": "Payez en CNY. Le montant sélectionné est crédité en CNY après confirmation.",
         "llmhubPaymentAmount": "Montant en CNY",
         "llmhubQuoteLoading": "Calcul en cours…",
@@ -4113,6 +4114,8 @@
         "loading": "Chargement…",
         "loadMore": "Charger plus",
         "exportCsv": "Exporter en CSV",
+        "collapsedLabel": "Afficher",
+        "expandedLabel": "Masquer",
         "typeLabels": {
           "charge": "Débit",
           "refund": "Remboursement",

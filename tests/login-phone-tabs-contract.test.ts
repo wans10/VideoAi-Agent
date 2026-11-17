@@ -20,7 +20,7 @@ function renderFlagOff(locale: keyof typeof AUTH_COPY, mode: 'signin' | 'signup'
     email: '', password: '', confirm: '', status: null, statusTone: 'info', error: null,
     fieldErrors: {}, formAttention: false, signupSuggestion: null, unconfirmedEmail: null,
     isConfirmationResending: false, isGoogleOAuthStarting: false, isResetSending: false,
-    acceptTerms: false, ageConfirmed: false, marketingOptIn: false, legalMinAge: 15,
+    acceptTerms: false, ageConfirmed: false, marketingOptIn: false, legalMinAge: 18,
     emailRef: null, passwordRef: null, confirmRef: null, termsRef: null, ageRef: null,
     onBack: noop, onModeChange: noop, onGoogleSignIn: noop, onSignInSubmit: noop, onResendConfirmation: noop,
     onSignUpSubmit: noop, onResetSubmit: noop, onEmailChange: noop, onPasswordChange: noop,
