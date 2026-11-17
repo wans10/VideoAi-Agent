@@ -30,6 +30,7 @@ export function TermsArticleZh({ subprocessorsHref }: TermsArticleZhProps) {
             <>1.1 本协议是您与 <LegalFact k="operatorName" />（以下称“我们”）之间，关于您访问和使用 <LegalFact k="productName" /> 网站及相关服务（<LegalFact k="siteUrl" />，以下称“本服务”）的约定。</>,
             <>1.2 您注册账号、充值、提交生成任务，或以其他方式使用本服务，即表示您已阅读并同意本协议、<Link href={privacyHref} className={linkClass}>《隐私政策》</Link>、<Link href={aupHref} className={linkClass}>《可接受使用政策》</Link>和<Link href={refundHref} className={linkClass}>《退款与退换政策》</Link>。</>,
             <>1.3 如您不同意，请不要使用本服务。我们更新本协议时的处理方式见第十五条。</>,
+            <>1.4 本服务面向年满十八周岁的用户。注册账号时，您需要确认已年满十八周岁；未满十八周岁的，请不要注册或使用本服务。</>,
           ]}
         />
       </LegalZhSection>

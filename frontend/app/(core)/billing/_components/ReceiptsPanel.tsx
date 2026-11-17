@@ -2,7 +2,7 @@ import { ChevronDown, Download, FileText, WalletCards } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import type { BillingCopy } from '../_lib/billing-copy';
 import type { BillingReceiptsView, ReceiptItem, ReceiptsState } from '../_lib/billing-types';
-import { formatReceiptSurfaceLabel } from '../_lib/billing-utils';
+import { formatReceiptSurfaceLabel, localizeReceiptDescriptionZh } from '../_lib/billing-utils';
 import styles from './billing-receipts.module.css';
 import { localizeGenerationRefundDescription } from '@/lib/generation-failure-messages';
 
@@ -155,13 +155,13 @@ function ReceiptRow({
           {dateFormatter.format(new Date(receipt.created_at))}
         </span>
         <span className={styles.receiptIdentity}>
-          <strong>{(receipt.type === 'refund'
+          <strong>{localizeReceiptDescriptionZh(receipt.type === 'refund'
             ? localizeGenerationRefundDescription(receipt.description, dateFormatter.resolvedOptions().locale)
             : receipt.description) || typeLabel}</strong>
           <small>
             <span data-receipt-type={typeKey}>{typeLabel}</span>
             {surfaceLabel ? <span>{surfaceLabel}</span> : null}
-            {receipt.job_id ? <span>Job {receipt.job_id}</span> : null}
+            {receipt.job_id ? <span>任务 {receipt.job_id}</span> : null}
           </small>
         </span>
         <span className={styles.receiptAmount} data-positive={signedCents > 0}>{amountDisplay}</span>

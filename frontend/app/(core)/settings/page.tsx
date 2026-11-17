@@ -69,6 +69,7 @@ const DEFAULT_SETTINGS_COPY = {
     supportPrefix: 'If you need a public render delisted or removed, contact ',
     supportEmail: 'contact@llmhub.com.cn',
     supportSuffix: ' and the team will review the request.',
+    guestNote: 'Sign in to manage your workspace and request visibility changes for existing renders.',
     dataExport: {
       "title": "Export my data",
       "description": "Generate a copy of your account profile, phone/email, generation history and prompts, media list, wallet ledger and consent records (compressed JSON). The download link is valid for 48 hours.",
@@ -206,7 +207,7 @@ function PrivacyTab({
           <p className="mt-2 text-xs text-text-muted">{copy.reviewNote}</p>
           {guest ? (
             <p className="mt-2 text-xs text-text-muted">
-              Sign in to manage your workspace and request visibility changes for existing renders.
+              {copy.guestNote}
             </p>
           ) : null}
         </div>

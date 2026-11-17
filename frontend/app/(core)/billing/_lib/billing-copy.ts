@@ -34,6 +34,7 @@ export const DEFAULT_BILLING_COPY = {
     checkoutSecure: 'Secure payment by',
     checkoutNote: "Credits are added after confirmation; your receipt is saved here.",
     llmhubTitle: 'Alipay or WeChat Pay',
+    llmhubTitleAlipayOnly: 'Alipay',
     llmhubDescription: 'Pay in CNY. The selected CNY amount is credited after payment confirmation.',
     llmhubPaymentAmount: 'CNY payment',
     llmhubQuoteLoading: 'Calculating…',

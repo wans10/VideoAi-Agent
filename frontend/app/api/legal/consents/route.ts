@@ -58,8 +58,9 @@ export async function POST(req: NextRequest) {
     }
 
     const marketingVersion = versions.privacy ?? versions.terms ?? versions.cookies ?? LEGAL_FALLBACK_VERSIONS.privacy;
-    const minAge = Number.parseInt(process.env.LEGAL_MIN_AGE ?? '15', 10);
-    const ageVersion = Number.isNaN(minAge) ? 'age_gate' : `min_age:${minAge}`;
+    // Keyvo product rule: 18. An older env value (15) never lowers the floor; the recorded version is min_age:18.
+    const minAge = Number.parseInt(process.env.LEGAL_MIN_AGE ?? '18', 10);
+    const ageVersion = Number.isNaN(minAge) ? 'min_age:18' : `min_age:${Math.max(18, minAge)}`;
 
     const entries: ConsentEntry[] = [
       { docKey: 'terms' as const, docVersion: versions.terms ?? LEGAL_FALLBACK_VERSIONS.terms, accepted: true, source: body.source ?? 'signup' },

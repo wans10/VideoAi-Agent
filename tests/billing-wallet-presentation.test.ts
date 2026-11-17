@@ -203,7 +203,7 @@ test('payment currency is a fixed label, not a select, and still shows the quote
   assert.match(document.body.textContent ?? '', /€8.60/);
 });
 
-test('CNY payment shows only Alipay and WeChat Pay with USD wallet credits', async () => {
+test('CNY payment shows only Alipay (WeChat Pay is hidden, see keyvo-wechat-pay-hidden.test.ts) with USD wallet credits', async () => {
   const { WalletTopupPanel } = await loadBillingPresentation();
   const noop = () => {};
   const markup = renderToStaticMarkup(React.createElement(WalletTopupPanel, {
@@ -227,7 +227,7 @@ test('CNY payment shows only Alipay and WeChat Pay with USD wallet credits', asy
   assert.equal(document.querySelector('select'), null);
   assert.match(document.querySelector('[data-testid="billing-currency-fixed"]')?.textContent ?? '', /CNY|Chinese|Renminbi/i);
   assert.match(document.body.textContent ?? '', /Alipay/);
-  assert.match(document.body.textContent ?? '', /WeChat Pay/);
+  assert.doesNotMatch(document.body.textContent ?? '', /WeChat Pay/);
   assert.match(document.body.textContent ?? '', /Credits received:\s*\$10/);
   assert.match(document.body.textContent ?? '', /Security check required/);
   assert.equal(document.querySelector('[aria-label="Stripe"]'), null);

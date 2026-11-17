@@ -129,7 +129,7 @@ export function PrivacyArticleEn({
 
       <section className="stack-gap-sm">
         <h3 className="text-lg font-semibold text-text-primary">10. Children</h3>
-        <p>The Service is not directed to children under 15/16. If you believe a child provided data without appropriate consent, contact us so we can delete the data.</p>
+        <p>The Service is not directed to children under 18. If you believe a child provided data without appropriate consent, contact us so we can delete the data.</p>
       </section>
 
       <section className="stack-gap-sm">

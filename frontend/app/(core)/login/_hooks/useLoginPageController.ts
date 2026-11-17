@@ -34,8 +34,9 @@ import { useLoginOAuthCodeExchange } from './useLoginOAuthCodeExchange';
 import { useLoginPhoneAuth } from './useLoginPhoneAuth';
 import { isPhoneLoginEnabled } from '../_lib/login-phone';
 
-const MIN_AGE_ENV = Number.parseInt(process.env.NEXT_PUBLIC_LEGAL_MIN_AGE ?? '15', 10);
-const LEGAL_MIN_AGE = Number.isNaN(MIN_AGE_ENV) ? 15 : MIN_AGE_ENV;
+// Keyvo product rule: 18. An older env value (15) never lowers the floor.
+const MIN_AGE_ENV = Number.parseInt(process.env.NEXT_PUBLIC_LEGAL_MIN_AGE ?? '18', 10);
+const LEGAL_MIN_AGE = Number.isNaN(MIN_AGE_ENV) ? 18 : Math.max(18, MIN_AGE_ENV);
 // Build-time flag (NEXT_PUBLIC_PHONE_LOGIN_ENABLED); off until the GoTrue SMS hook is live.
 const PHONE_LOGIN_ENABLED = isPhoneLoginEnabled();
 // With phone login on, new accounts are created only by phone + SMS code: the email form is

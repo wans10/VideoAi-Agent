@@ -29,7 +29,7 @@ This reference records the environment variables and operational ownership previ
 
 | Variable | Scope | Purpose |
 | --- | --- | --- |
-| `LEGAL_MIN_AGE` | Server | Minimum age required during signup consent. Defaults to 15 when unset. |
+| `LEGAL_MIN_AGE` | Server | Minimum age required during signup consent. Defaults to 18 when unset; Keyvo never accepts a value below 18. |
 | `NEXT_PUBLIC_LEGAL_MIN_AGE` | Public | Mirrors `LEGAL_MIN_AGE` so the interface can display the current requirement. |
 | `LEGAL_RECONSENT_MODE` | Server | `soft` by default or `hard`; controls re-consent enforcement. |
 | `LEGAL_RECONSENT_GRACE_DAYS` | Server | Grace period in days when `LEGAL_RECONSENT_MODE=soft`. |

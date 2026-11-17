@@ -56,6 +56,39 @@ export function isKeyvoRecastHidden(): boolean {
   return KEYVO_RECAST_HIDDEN;
 }
 
+/**
+ * WeChat Pay is not offered yet: the 聚合易支付 panel on /billing (and every top-up surface that renders it) shows only
+ * 支付宝. Only the UI offering is hidden: the checkout API, orders, callbacks and the `wxpay` payment type are unchanged.
+ * To reopen, flip this to false; KEYVO_WECHAT_PAY_FULL_UI=1 is for tests that render the WeChat Pay button and is never
+ * set in production.
+ */
+export const KEYVO_WECHAT_PAY_HIDDEN: boolean = true;
+
+export function isKeyvoWechatPayHidden(): boolean {
+  try {
+    if (process.env.KEYVO_WECHAT_PAY_FULL_UI === '1') return false;
+  } catch {
+    // A plain browser bundle has no `process`; the constant applies.
+  }
+  return KEYVO_WECHAT_PAY_HIDDEN;
+}
+
+/**
+ * The Notifications settings tab has nothing to configure yet (email digests and web push are not available), so the
+ * tab is not listed and /settings?tab=notifications opens Account. The panel code stays in place. Flip to false to show
+ * it again; KEYVO_NOTIFICATIONS_FULL_UI=1 is for tests that exercise it and is never set in production.
+ */
+export const KEYVO_NOTIFICATIONS_TAB_HIDDEN: boolean = true;
+
+export function isKeyvoNotificationsTabHidden(): boolean {
+  try {
+    if (process.env.KEYVO_NOTIFICATIONS_FULL_UI === '1') return false;
+  } catch {
+    // A plain browser bundle has no `process`; the constant applies.
+  }
+  return KEYVO_NOTIFICATIONS_TAB_HIDDEN;
+}
+
 export function isKeyvoAudioDisabled(): boolean {
   return KEYVO_FAL_FEATURES_HIDDEN;
 }
