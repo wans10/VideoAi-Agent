@@ -37,4 +37,7 @@ test('the Public Security Bureau filing renders right after the ICP number in th
   assert.match(component, /rel="noreferrer"/);
   assert.doesNotMatch(component, /'use client'/);
   assert.match(read('frontend/app/(core)/legal/mentions/_components/MentionsZh.tsx'), /PUBLIC_SECURITY_FILING_NUMBER/);
+  assert.match(component, /src="\/assets\/branding\/beian\.png"/, 'the official badge precedes the number');
+  assert.ok(component.indexOf('beian.png') < component.indexOf('{PUBLIC_SECURITY_FILING_NUMBER}'), 'badge first, number after');
+  assert.ok(readFileSync('frontend/public/assets/branding/beian.png').length > 0, 'the badge file is shipped');
 });

@@ -594,8 +594,8 @@ Keyvo-only (no upstream equivalent; keep on syncs): `GET /api/cron/ops-health` (
 `frontend/components/marketing/IcpFiling.tsx` now renders the ICP number followed by the 公安联网备案 number
 (`PUBLIC_SECURITY_FILING_NUMBER` / `_URL` in `frontend/lib/product-brand.ts`), so every public shell that already
 mounts `<IcpFiling />` (marketing footer, legal layout, return policy, login, app site menu) shows both; the 法律声明
-page lists it too. The official format also asks for the filing icon before the number; it is not shipped yet because the
-icon is downloaded from the filing platform by the owner. Keep this on upstream syncs.
+page lists it too. The official badge (`frontend/public/assets/branding/beian.png`, downloaded by the owner from the filing platform,
+36x40) is rendered before the number, unscaled in ratio. Keep this on upstream syncs.
 
 
 ## Age 18, WeChat Pay hidden, settings zh leftovers (2026-11)
