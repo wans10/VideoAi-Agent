@@ -627,6 +627,7 @@ disallowed), because Bytespider feeds Toutiao and Douyin search. Tradeoff accept
 public pages for training. `tests/ai-training-robots.test.ts` and `tests/mcp-seo-signals.test.ts` pin the new group.
 `frontend/public/baidu_verify_codeva-VFv04gArar.html` is the Baidu Search Resource Platform file verification token for
 `app.keyvo.cn` (it replaced an earlier file issued for a mistyped site URL) (do not edit or delete it while the site stays verified). `frontend/public/BingSiteAuth.xml` is the Bing Webmaster Tools
+file verification for `app.keyvo.cn` (same rule). `frontend/public/07e9487e0d4016fa6d7befb95c73e0a6.txt` is the 360 Webmaster Platform
 file verification for `app.keyvo.cn` (same rule). Keep these on upstream syncs.
 
 
