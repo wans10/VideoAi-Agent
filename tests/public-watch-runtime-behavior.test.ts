@@ -122,7 +122,7 @@ test('Core keeps full messages while direct watch serializes only navigation and
         assert.deepEqual(fontOptions, { variable: '--font-app', display: 'swap', weight: '100 900', preload: false });
         const schemas = nodes.filter(node => node.type === 'JsonLd').map(node => node.props.json!);
         assert.equal(schemas[0]['@id'], `${SITE_ORIGIN}/#organization`);
-        assert.deepEqual(schemas[1], { '@context': 'https://schema.org', '@type': 'WebSite', url: `${SITE_ORIGIN}/`, name: PRODUCT_BRAND_NAME });
+        assert.deepEqual(schemas[1], { '@context': 'https://schema.org', '@type': 'WebSite', '@id': `${SITE_ORIGIN}/#website`, url: `${SITE_ORIGIN}/`, name: PRODUCT_BRAND_NAME, alternateName: `${PRODUCT_BRAND_NAME} 影像工作室`, publisher: { '@id': `${SITE_ORIGIN}/#organization` } });
         assert.equal(layout.metadata.title.template, `%s — ${PRODUCT_BRAND_NAME}`);
         assert.deepEqual(layout.viewport, { themeColor: '#4F5D75' });
       });

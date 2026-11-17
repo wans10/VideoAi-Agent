@@ -12,7 +12,6 @@ export const KEYVO_SITEMAP_ROUTE_TIMESTAMPS: NonNullable<SitemapTimestampConfig[
     '/about': '2026-11-17',
     '/ai-video-prompt-generator': '2026-11-10',
     '/changelog': '2026-10-06',
-    '/company': '2026-09-18',
     '/contact': '2026-10-06',
     '/docs': '2026-11-10',
     '/docs/brand-safety': '2026-09-21',
