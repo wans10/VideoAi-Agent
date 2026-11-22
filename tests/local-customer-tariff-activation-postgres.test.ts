@@ -20,11 +20,25 @@ import { previewPricingPolicyChange } from '../frontend/server/pricing-admin/pol
 import { ENV } from '../frontend/src/lib/env';
 import { computeCustomerTariffInitializationBaseline } from '../frontend/server/pricing/customer-tariff-initialization-baseline';
 import { collectCustomerTariffCutoverCheckpoints } from '../frontend/server/pricing/customer-tariff-cutover-evidence';
+import { getRuntimeModelById } from '../frontend/config/model-runtime';
 
 const actor = '11111111-1111-4111-8111-111111111111';
 const hash = (value: string) => createHash('sha256').update(value).digest('hex');
+// Seedance 2.5 Flash (offered 2026-11-22) has 324 v2v video-input cells with no historical quote to seed from, so a local
+// release that must be gap-free keeps Flash unpublished in this disposable fixture only. The reviewed-seed refusal for those
+// cells is pinned in customer-tariff-initial-cutover-postgres.test.ts; no Flash price is cut over here.
+async function withFlashClosedForLocalRelease<T>(run: () => T | Promise<T>): Promise<T> {
+  const flash = getRuntimeModelById('seedance-2-5-flash')!;
+  const original = flash.publication.app.published;
+  try {
+    flash.publication.app.published = false;
+    return await run();
+  } finally {
+    flash.publication.app.published = original;
+  }
+}
 
-test('atomic local cutover rejects stale certificates, preserves staged evidence and removes every model margin fallback', async () => withHistoricalCustomerTariffCatalogue(async () => {
+test('atomic local cutover rejects stale certificates, preserves staged evidence and removes every model margin fallback', async () => withHistoricalCustomerTariffCatalogue(async () => withFlashClosedForLocalRelease(async () => {
   // Replay the historical catalogue; Kling V4 and Nano21 have separate native tariffs.
   const db = await startDisposablePostgres('tariff-cutover');
   const before = { DATABASE_URL: process.env.DATABASE_URL, NODE_ENV: process.env.NODE_ENV, PRICING_SANDBOX: process.env.PRICING_SANDBOX };
@@ -96,9 +110,9 @@ test('atomic local cutover rejects stale certificates, preserves staged evidence
     // plus H3-Max's 3564 exact cells on MiniMax's own API (2026-11-12).
     // -84 (2026-11-13): Wan 2.6 / Kling 2.5 Turbo / Kling 2.6 Pro offline, Kling 3 voice-control variants merged, Hailuo 02
     // 512P text-to-video unsold (customer-tariff-cutover-evidence.test.ts).
-    // Keyvo's published Seedream 5.0 Flash keeps its two official-list 1K checkpoints in the historical replay (only Seedream 5.5 and
-    // Seedance 2.5 Flash are closed by the fixture); they are inside this pin, which equals the pre-merge Keyvo count.
-    assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length, 26982 + 8 - 555 + 3564 - 84);
+    // Keyvo's published Seedream 5.0 Flash keeps its two official-list 1K checkpoints in the historical replay, and the offered
+    // Seedream 5.5 adds its 33 ordinary cells (2026-11-22); Seedance 2.5 Flash is closed for this fixture (see withFlashClosedForLocalRelease).
+    assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length, 26982 + 8 - 555 + 3564 - 84 + 33);
     const run = (candidate = release, fingerprint = release.report.fingerprint, bindings = release.report.bindings) => withDbTransaction(e =>
       activateLocalCustomerTariffs(e, { release: candidate, fingerprint, currentBindings: bindings, actorId: actor }));
     await assert.rejects(run(release, 'old-browser'), /stale/i);
@@ -153,4 +167,4 @@ test('atomic local cutover rejects stale certificates, preserves staged evidence
     for (const [key,value] of Object.entries(before)) { if (value === undefined) delete process.env[key]; else process.env[key] = value; }
     Object.assign(ENV,routing);
   }
-}));
+})));
