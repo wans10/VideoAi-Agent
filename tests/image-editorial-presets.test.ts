@@ -6,14 +6,20 @@ import { createRoot } from 'react-dom/client';
 import { JSDOM } from 'jsdom';
 import { getImageEditorialPreset, imageEditorialPresetHref } from '../frontend/lib/image/editorial-presets';
 import { listSeedreamEditorialImages } from '../frontend/lib/seedream-editorial-images';
+import { getRuntimeModelById } from '../frontend/config/model-runtime';
 import {isMiloRefineEntry,miloRefineWelcome} from '../frontend/src/lib/prompt-assistance/marketing-entry';
 import frames from '../frontend/config/model-cinematic-start-frames.json';
 import { SITE_ORIGIN } from '../frontend/lib/siteOrigin';
 import { useImageEditorialPreset } from '../frontend/app/(core)/(workspace)/app/image/_hooks/useImageEditorialPreset';
 
+// Keyvo keeps the Seedream 5.5 model page unpublished (owner offer 2026-11-22, no zh content), and editorial examples
+// follow the model-page publication, so the 5.5 examples are withheld until that page is published.
+const SEEDREAM_55_PAGE_PUBLISHED = Boolean(getRuntimeModelById('seedream-5-5')?.publication.model.published);
+
 test('approved examples retain exact prompts, native settings and successive original references', () => {
   const images = listSeedreamEditorialImages('seedream-5-5');
-  for (const image of images) {
+  if (!SEEDREAM_55_PAGE_PUBLISHED) assert.deepEqual(images, []);
+  for (const image of SEEDREAM_55_PAGE_PUBLISHED ? images : []) {
     const preset = getImageEditorialPreset(image.engineId, image.id)!;
     assert.equal(preset.snapshot.prompt, image.prompt);
     assert.equal(preset.snapshot.inputMode, image.settings.mode);
@@ -36,10 +42,15 @@ test('approved examples retain exact prompts, native settings and successive ori
     assert.equal(getImageEditorialPreset('seedance-2-5-flash', frame.id), null);
   }
   assert.equal(getImageEditorialPreset('seedream-5-5', 'https://attacker.example/image.jpg'), null);
-  assert.equal(getImageEditorialPreset('unknown', images[0].id), null);
+  assert.equal(getImageEditorialPreset('unknown', images[0]?.id ?? 'any-example'), null);
 });
 
 test('example handoff waits for the draft, applies once, clears consumed intent and respects restoration priority', async () => {
+  if (!SEEDREAM_55_PAGE_PUBLISHED) {
+    // No Seedream 5.5 example exists to hand off while its page is unpublished on Keyvo.
+    assert.equal(getImageEditorialPreset('seedream-5-5', 'any-example'), null);
+    return;
+  }
   const image = listSeedreamEditorialImages('seedream-5-5')[0];
   const href = imageEditorialPresetHref(image.engineId, image.id, 'en');
   const dom = new JSDOM('<div id="root"></div>', {url: `http://localhost:3116${href}`});

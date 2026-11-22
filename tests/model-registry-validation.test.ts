@@ -223,13 +223,17 @@ test('canonical registry validates the committed document', () => {
   // (frontend/config/keyvo-model-allowlist.json), so unoffered models such as Seedream 5.0 Flash and 5.5 stay in the registry.
   const document = validateModelRegistryDocument(valid);
   assert.equal(document.models.length, valid.models.length);
-  // Keyvo keeps its pre-merge publication for Seedream 5.0 Flash (model page unpublished, app offer via the allowlist),
-  // while upstream publishes the Seedream 5.5 model page; neither is offered on the Keyvo sitemap.
-  for (const [id, modelPublished] of [['seedream-5-0-flash', false], ['seedream-5-5', true]] as const) {
+  // Keyvo keeps the model pages of Seedream 5.0 Flash, Seedream 5.5 and Seedance 2.5 Flash unpublished (offered in the app
+  // via the allowlist, no zh content, not in the sitemap; 2026-11-22 owner decision), where upstream publishes the 5.5 page.
+  for (const [id, category, modelPublished] of [
+    ['seedream-5-0-flash', 'image', false],
+    ['seedream-5-5', 'image', false],
+    ['seedance-2-5-flash', 'video', false],
+  ] as const) {
     const model = document.models.find((candidate) => candidate.id === id);
     assert.ok(model, `${id} keeps an authored canonical identity`);
     assert.equal(model.slug, id);
-    assert.equal(model.category, 'image');
+    assert.equal(model.category, category);
     assert.equal(model.publication.model.published, modelPublished, `${id} model page publication`);
   }
 });

@@ -33,8 +33,9 @@ const P0_IDS: string[] = ALL_P0_IDS.filter(isVisibleP0);
 const DEEP_LEGACY_IDS = ['ltx-2', 'ltx-2-fast', 'wan-2-5'] as const;
 const P0_REPRESENTATIVE_IDS = (['ltx-2-5-pro', 'wan-3-prime', 'grok-imagine-video-1-5'] as const).filter(isVisibleP0);
 // The PAYG example strip keeps the first seven preferred examples that have a visible row (upstream slice(0, 7)).
-// On Keyvo the LTX row is hidden, so the only P0 example in the strip is the visible Wan 3 Prime.
-const P0_VISIBLE_EXAMPLE_IDS = (['wan-3-prime'] as const).filter(isVisibleP0);
+// On Keyvo the LTX row is hidden. Seedance 2.5 Flash is offered from 2026-11-22 and takes the fourth preferred slot, so Wan 3
+// Prime falls outside the first seven and no P0 example remains in the strip; its canonical quote still feeds the other surfaces.
+const P0_VISIBLE_EXAMPLE_IDS: string[] = [];
 const P0_PAYG_PRESETS = {
   'ltx-2-5-pro': '10s-720p',
   'ltx-2-5-fast': '10s-720p',
@@ -377,9 +378,10 @@ test('PAYG copies a P0 canonical quote instead of an authored amount', () => {
   assert.deepEqual(p0IdsIn(data.exampleCosts.items), P0_VISIBLE_EXAMPLE_IDS);
   // The strip is the first seven preferred examples that have a row, among customer-visible models. Gemini Omni Flash is
   // admin-tier on the owner allowlist (2026-11-14), so customers never see its pricing row; the LTX rows are hidden on
-  // Keyvo, so Wan 3 Prime fills the seventh slot. Placement of the strip is an owner question.
+  // Keyvo. Seedance 2.5 Flash is now offered, so it takes the fourth slot and pushes Wan 3 Prime out. Placement of the strip
+  // is an owner question.
   assert.deepEqual(data.exampleCosts.items.map((item) => item.id), [
-    'kling-v4', 'minimax-h3', 'seedance-2-5', 'kling-3-turbo-pro', 'kling-3-turbo-standard', 'minimax-h3-max', 'wan-3-prime',
+    'kling-v4', 'minimax-h3', 'seedance-2-5', 'seedance-2-5-flash', 'kling-3-turbo-pro', 'kling-3-turbo-standard', 'minimax-h3-max',
   ]);
   assert.equal(
     data.hero.quote.previewRows.find((row) => row.id === 'wan-3-prime')?.quoteLabel,
