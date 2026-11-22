@@ -280,7 +280,7 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
       assert.deepEqual(checked.request().postDataJSON(),{candidates:[{reference:{type:'asset',assetId:referenceIds[index],kind:'image'},originalUrl:referenceUrls[index]}]});
       assert.equal(body.results[0].error,undefined);assert.ok(body.results[0].sourceRevision);
       // The validation response precedes the picker callback that saves the selection.
-      await expect(page.getByRole('button',{name:`Remove Image ${index+1}`,exact:true})).toBeVisible();
+      await expect(page.getByRole('button',{name:`${copy('Remove ')}Image ${index+1}`,exact:true})).toBeVisible();
     }
     await page.unroute(libraryEndpoint);
     // Session selection restores only after the new document's owned history loads.

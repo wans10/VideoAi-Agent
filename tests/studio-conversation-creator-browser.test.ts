@@ -14,18 +14,20 @@ test('creator approval fits the mobile chat and a lost reply reopens the exact s
   const requestId='00000000-0000-4000-8000-000000000002';
   const quote={operationId,toolId:'subtitles',kind:'transcribe',price:{amountCents:37,currency:'USD'},
     expiresAt:'2099-01-01T00:00:00.000Z',confirmationRequired:true};
+  // Keyvo renders the zh card; the creator price stays USD in its contract and is formatted by the same Intl call as the card.
+  const confirmAmount=new Intl.NumberFormat('zh',{style:'currency',currency:'USD'}).format(0.37);
   const prepared={operationId,toolId:'subtitles',state:'prepared',confirmationEnabled:true,jobId:null,retry:{afterSeconds:null},result:null};
   const turn={requestId,message:'Caption the selected video',references:[],state:'ready',retryable:false,reply:'Review this exact quote.',
     quote:null,generation:null,createdAt:'2026-11-12T12:00:00.000Z',creatorQuote:quote,creatorOperation:prepared};
   const bundled=await build({absWorkingDir:frontend,bundle:true,format:'iife',platform:'browser',jsx:'automatic',write:false,minify:true,
     outfile:join(frontend,'creator-fixture.js'),tsconfig:join(frontend,'tsconfig.json'),loader:{'.module.css':'local-css'},
-    define:{'process.env.NODE_ENV':'"production"'},stdin:{loader:'tsx',resolveDir:frontend,contents:`
+    define:{'process.env.NODE_ENV':'"production"','process.env.NEXT_PUBLIC_CUSTOMER_CURRENCY':'"CNY"'},stdin:{loader:'tsx',resolveDir:frontend,contents:`
       import React,{useCallback,useEffect,useState} from 'react';import{createRoot}from'react-dom/client';
       import{ConversationCreatorOperation}from'./app/(core)/(workspace)/app/studio/conversation/[projectId]/_components/ConversationCreatorOperation.client';
       import styles from './app/(core)/(workspace)/app/studio/conversation/[projectId]/image-conversation.module.css';
       function Fixture(){const[turn,setTurn]=useState(null);const refresh=useCallback(async()=>{const response=await fetch('/journal');setTurn((await response.json()).turn);},[]);
         useEffect(()=>{void refresh();},[refresh]);return <main className={styles.studio}><section style={{width:'100%',maxWidth:700,padding:12,boxSizing:'border-box'}}>
-        {turn&&<ConversationCreatorOperation turn={turn} projectId="project-A" accountKey="account-A" locale="en" busy={false} onChange={refresh} onRenew={()=>{}}/>}</section></main>}
+        {turn&&<ConversationCreatorOperation turn={turn} projectId="project-A" accountKey="account-A" locale="zh" busy={false} onChange={refresh} onRenew={()=>{}}/>}</section></main>}
       createRoot(document.getElementById('root')).render(<Fixture/>);`}});
   const script=bundled.outputFiles.find(file=>file.path.endsWith('.js'))!.text;
   const css=bundled.outputFiles.find(file=>file.path.endsWith('.css'))!.text;
@@ -64,19 +66,19 @@ test('creator approval fits the mobile chat and a lost reply reopens the exact s
     page.on('pageerror',error=>errors.push(error.message));
     await page.route('**/*',route=>new URL(route.request().url()).origin===origin?route.continue():route.abort('blockedbyclient'));
     await page.goto(origin);
-    const card=page.getByLabel('Subtitles quote and result',{exact:true});
-    await expect(card).toBeVisible();await expect(card.getByRole('button',{name:'Confirm · $0.37',exact:true})).toBeEnabled();
+    const card=page.getByLabel('字幕 报价与结果',{exact:true});
+    await expect(card).toBeVisible();await expect(card.getByRole('button',{name:`确认 · ${confirmAmount}`,exact:true})).toBeEnabled();
     assert.equal(approvals.length,0);
     await page.setViewportSize({width:390,height:844});
     const box=await card.boundingBox();assert.ok(box&&box.x>=0&&box.x+box.width<=390,'The exact-price approval must fit the mobile chat.');
     const proof=process.env.MILO_CREATOR_PROOF_DIR;
     if(proof){await mkdir(proof,{recursive:true});await card.screenshot({path:join(proof,'creator-mobile-quote.png')});}
-    await card.getByRole('button',{name:'Confirm · $0.37',exact:true}).click();
-    await expect(card.getByRole('button',{name:'Recover this attempt',exact:true})).toBeVisible();
+    await card.getByRole('button',{name:`确认 · ${confirmAmount}`,exact:true}).click();
+    await expect(card.getByRole('button',{name:'找回此次尝试',exact:true})).toBeVisible();
     assert.equal(approvals.length,1);
     await page.reload();
-    await expect(card.getByRole('link',{name:'Edit subtitles',exact:true})).toHaveAttribute('href','/app/tools/subtitles?document=saved-document&revision=2');
-    await expect(card.getByRole('link',{name:'Download SRT',exact:true})).toHaveAttribute('href','/srt?revision=2');
+    await expect(card.getByRole('link',{name:'编辑字幕',exact:true})).toHaveAttribute('href','/app/tools/subtitles?document=saved-document&revision=2');
+    await expect(card.getByRole('link',{name:'下载 SRT',exact:true})).toHaveAttribute('href','/srt?revision=2');
     assert.equal(approvals.length,1,'Reload and result recovery cannot repeat the paid POST.');
     assert.deepEqual(approvals[0],{requestId,confirmed:true,creator:{toolId:'subtitles',operationId,amountCents:37,currency:'USD'}});
     assert.deepEqual(errors,[]);
