@@ -60,12 +60,10 @@ test('coverage captures priced image references, image batches and the exact bil
     assert.deepEqual(scenario.selector, buildManualTariffScenario(scenario.context, facts).selector);
   }
   assert.ok(scenarios.some(row => row.modelId === 'nano-banana' && row.context.durationSec === 8));
-  // Seedream 5.0 Lite (and its 15-image batch) is retired; Seedream 5.0 Flash sells one image per request.
+  // Seedream 5.0 Lite (and its 15-image batch) is retired; Seedream 5.0 Flash sells one image per request on Keyvo's
+  // official-list CNY rule (not the upstream USD single-image branch, which is 5.5 only), so it keeps its two generic rows.
   assert.ok(!scenarios.some(row => row.modelId === 'seedream'));
-  // Keyvo offers Seedream 5.0 Flash (allowlisted): t2i and i2i each across 1K, 1.5K and 2K, one image per request.
-  const flashRows = scenarios.filter(row => row.modelId === 'seedream-5-0-flash');
-  assert.equal(flashRows.length, 6);
-  assert.deepEqual(flashRows.map(row => row.context.durationSec), [1, 1, 1, 1, 1, 1]);
+  assert.deepEqual(scenarios.filter(row => row.modelId === 'seedream-5-0-flash').map(row => row.context.durationSec), [1, 1]);
   assert.ok(!scenarios.some(row => row.modelId === 'luma-uni-1' && row.context.durationSec !== 1));
   assert.ok(!scenarios.some(row => row.modelId === 'gpt-image-2-5-flare' && (row.context.referenceImageCount ?? 0) > 16));
 });

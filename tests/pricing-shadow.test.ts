@@ -26,10 +26,10 @@ const LAUNCHED_IMAGE_MODEL_IDS = [
   'gpt-image-2-5-flare',
   'gpt-image-2-5-sunburst',
 ] as const;
-// Keyvo's 2026-11-11 provider work publishes Seedream 5.0 Flash pricing (PROVISIONAL Volcengine list cost). New
-// Seedream engines have native customer tariffs with no supplier-cost baseline, so the historical audit excludes them
-// (canonical-collectors.ts, as upstream); their shadow rows are therefore not frozen here.
-const KEYVO_UNAUDITED_NEW_SEEDREAM_ENGINE_IDS = ['seedream-5-0-flash'] as const;
+// Keyvo's 2026-11-11 provider work publishes Seedream 5.0 Flash pricing (PROVISIONAL Volcengine list cost). Flash is
+// Volcengine-direct and priced by the official-list x0.8 CNY rule, so it keeps a supplier-cost baseline and stays in the
+// historical audit; only Seedream 5.5 (upstream USD single-image branch) is excluded by canonical-collectors.ts.
+const KEYVO_LAUNCHED_IMAGE_MODEL_IDS = ['seedream-5-0-flash'] as const;
 
 function readFixtureRows<T>(path: string): T[] {
   return (JSON.parse(readFileSync(path, 'utf8')) as { rows: T[] }).rows;
@@ -89,6 +89,7 @@ test('committed pre-canonical pricing baseline is immutable after legacy deletio
   assert.equal(
     additions.rows.length,
     LAUNCHED_IMAGE_MODEL_IDS.length * 4
+      + KEYVO_LAUNCHED_IMAGE_MODEL_IDS.length * 4
       + P0_VIDEO_PRICING_SCENARIOS.length
       + P0_VIDEO_MODEL_IDS.length * 4
       + P1_PUBLIC_VIDEO_MODEL_IDS.length * 4,
@@ -117,11 +118,11 @@ test('committed pre-canonical pricing baseline is immutable after legacy deletio
       engineId,
     );
   }
-  for (const engineId of KEYVO_UNAUDITED_NEW_SEEDREAM_ENGINE_IDS) {
+  for (const engineId of KEYVO_LAUNCHED_IMAGE_MODEL_IDS) {
     assert.equal(
-      additions.rows.some((row) => row.scenarioId.includes(`:${engineId}:`)),
-      false,
-      `${engineId} has no supplier-cost baseline and is excluded from the historical audit`,
+      additions.rows.filter((row) => row.scenarioId.startsWith(`billing:${engineId}:`) || row.scenarioId.startsWith(`estimator:${engineId}:`)).length,
+      4,
+      engineId,
     );
   }
   for (const engineId of P1_PUBLIC_VIDEO_MODEL_IDS) {
@@ -163,7 +164,8 @@ test('the real offline audit CLI replays every frozen Pika row while current adm
   type Matrix = Awaited<ReturnType<typeof import('../frontend/src/lib/pricing-audit/matrix').buildPricingAuditMatrix>>;
   const frozen = [...readFixtureRows<AuditRow>(fixturePath), ...readFixtureRows<AuditRow>(launchAdditionsFixturePath)];
   const historicalPika = frozen.filter(row => row.scenarioId.includes(':pika-text-to-video:'));
-  assert.equal(frozen.length, 270);
+  // 274 = 270 upstream rows + the 4 Keyvo Seedream 5.0 Flash rows (official-list CNY, historical scope).
+  assert.equal(frozen.length, 274);
   assert.equal(historicalPika.length, 14);
   const assertClosed = () => {
     const model = getRuntimeModelById('pika-text-to-video')!;
@@ -187,7 +189,7 @@ test('the real offline audit CLI replays every frozen Pika row while current adm
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
   const matrix = JSON.parse(result.stdout) as Matrix;
   // Keyvo's 72 reviewed official-list changes (48 + 8 + 16, see the canonical-shadow test below) are approved changes, not matches.
-  assert.deepEqual(matrix.summary, { scenarios: 270, matches: 198, approvedChanges: 72, mismatches: 0, compatibilityProfiles: 4 });
+  assert.deepEqual(matrix.summary, { scenarios: 274, matches: 202, approvedChanges: 72, mismatches: 0, compatibilityProfiles: 4 });
   assert.deepEqual(new Set(matrix.rows.map(row => row.scenarioId)), new Set(frozen.map(row => row.scenarioId)));
   for (const expected of historicalPika) {
     const actual = matrix.rows.find(row => row.scenarioId === expected.scenarioId)!;

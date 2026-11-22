@@ -53,8 +53,8 @@ test('all historical checkpoints and independently enumerated additive operation
   // variants share the audio-on identity, Hailuo 02 512P text-to-video unsold (customer-tariff-cutover-evidence.test.ts).
   const keyvoProviderDelta = -104 - 90 - 132 + 3564 - (528 - 288) + 6 + 3 + 2 - 84;
   // Upstream 3827da0 checkpoint additions, measured per model against the pre-merge Keyvo inventory (23219 ordinary):
-  // Seedance 2.5 Flash +1944, Seedance 2.5 +810, Seedream 5.5 +33, Seedream 5.0 Flash +4.
-  const upstreamMergeDelta = 1944 + 810 + 33 + 4;
+  // Seedance 2.5 Flash +1944, Seedance 2.5 +810, Seedream 5.5 +33; Seedream 5.0 Flash stays at its Keyvo official-list cells.
+  const upstreamMergeDelta = 1944 + 810 + 33;
   // Seedance 2.5 (the upstream 4K tariff path) also gained +162 local-workflow and +648 input-stress checkpoints.
   const upstreamSeedance25LocalDelta = 162;
   const upstreamSeedance25InputStressDelta = 648 + 1944;

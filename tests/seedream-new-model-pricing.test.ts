@@ -108,7 +108,8 @@ test('versioned new-offer cells cover every supported Seedream size, ratio and s
   const cells = document.cells as ManualTariffCell[];
   assert.equal(cells.filter(cell => ['seedream-5-5', 'seedream-5-0-flash'].includes(cell.selector.engineId)).length, 39);
   for (const id of ['seedream-5-5', 'seedream-5-0-flash'] as const) {
-    for (const resolution of ['1K', '1.5K', '2K']) for (const aspectRatio of ['auto', '1:1', '16:9', '3:4', '21:9']) {
+    // Keyvo's Flash engine outputs 2K only (fal-engines/seedream-5-0-flash.ts); the 1K/1.5K Flash cells are upstream-only.
+    for (const resolution of id === 'seedream-5-5' ? ['1K', '1.5K', '2K'] : ['2K']) for (const aspectRatio of ['auto', '1:1', '16:9', '3:4', '21:9']) {
       for (const inputImageCount of Array.from({ length: 11 }, (_, index) => index)) {
         const selected = context(id, { mode: inputImageCount ? 'i2i' : 't2i', resolution, aspectRatio, inputImageCount });
         const quote = await computeCanonicalBillingSnapshot(selected, {
@@ -116,10 +117,14 @@ test('versioned new-offer cells cover every supported Seedream size, ratio and s
           loadCustomerTariffState: async () => ({ status: 'loaded', active: true, revision: 4,
             versionedCells: cells, databaseCells: [] }),
         });
-        assert.ok(quote.totalCents >= Math.ceil(Number(quote.meta?.providerCostListUsd) * 100));
         assert.equal(quote.meta?.pricingMode, 'manual_tariff');
-        assert.equal(quote.meta?.providerCostKind, 'published_list_estimate');
-        assert.equal(quote.meta?.providerCostContract, undefined);
+        // Keyvo's Flash 'auto' ratio has no factual supplier-cost meta on the legacy image branch (pre-existing since
+        // 1fafcedd8; only 5.5 and explicit ratios carry it), so the list-cost invariant is checked where it is produced.
+        if (id === 'seedream-5-5' || aspectRatio !== 'auto') {
+          assert.ok(quote.totalCents >= Math.ceil(Number(quote.meta?.providerCostListUsd) * 100));
+          assert.equal(quote.meta?.providerCostKind, 'published_list_estimate');
+          assert.equal(quote.meta?.providerCostContract, undefined);
+        }
         if (id === 'seedream-5-0-flash') assert.equal(quote.totalCents, 3);
       }
     }
@@ -131,12 +136,15 @@ test('new Seedream public scenarios retain the exact additional-source count and
   for (const id of ['seedream-5-5', 'seedream-5-0-flash'] as const) {
     const coverage = collectSellableManualTariffCoverage({ modelId: id });
     assert.deepEqual(coverage.gaps, []);
-    assert.equal(coverage.scenarios.length, id === 'seedream-5-5' ? 33 : 6);
-    for (const resolution of ['1K', '1.5K', '2K']) for (let references = 0; references < 10; references += 1) {
+    // Flash keeps its generic one-image rows (t2i and i2i at 2K), as before the upstream sync.
+    assert.equal(coverage.scenarios.length, id === 'seedream-5-5' ? 33 : 2);
+    // Flash's generic coverage has one i2i source selector (its i2i requires one source), so only 1 reference is offered.
+    for (const resolution of id === 'seedream-5-5' ? ['1K', '1.5K', '2K'] : ['2K']) for (let references = id === 'seedream-5-5' ? 0 : 1; references < (id === 'seedream-5-5' ? 10 : 2); references += 1) {
       const scenario = resolvePublicModelScenario({ modelId: id, mode: 'i2i', durationSec: 1, resolution,
         aspectRatio: '16:9', referenceImageCount: references });
       assert.ok(scenario, `${id}:${resolution}:${references}`);
-      assert.equal(scenario.context.inputImageCount, 1);
+      // The generic Flash scenario carries no separate source count; only 5.5 uses the exact 1-source i2i selector.
+      if (id === 'seedream-5-5') assert.equal(scenario.context.inputImageCount, 1);
       assert.equal(scenario.context.referenceImageCount, references);
       assert.ok(coverage.scenarios.some(row => JSON.stringify(row.selector) === JSON.stringify(scenario.selector)));
       if (id === 'seedream-5-5') assert.equal(scenario.selector.inputImageCount, String(references + 1));
@@ -156,8 +164,8 @@ test('new Seedream estimator options use fixed customer rates per image across a
     assert.ok(option);
     assert.equal(PER_IMAGE_ENGINE_IDS.has(id), true);
     assert.equal(option.rateUnit, '/image');
-    assert.deepEqual(option.resolutions.map(row => [row.value, row.rate]), [
-      ['1K', 0.03], ['1.5K', 0.03], ['2K', id === 'seedream-5-5' ? 0.06 : 0.03],
-    ]);
+    // Flash is Keyvo official-list priced (0.015 USD list x 0.8, shown at cent precision) and 2K-only.
+    assert.deepEqual(option.resolutions.map(row => [row.value, row.rate]), id === 'seedream-5-5'
+      ? [['1K', 0.03], ['1.5K', 0.03], ['2K', 0.06]] : [['2K', 0.01]]);
   }
 });

@@ -76,9 +76,10 @@ const PER_IMAGE_ENGINE_CONFIG = new Map<
     rate: calculateNano21ListImageComponents({ resolution: value, mode: 't2i', durationSec: 1 }, 'USD').partialListUsd,
   })) }],
   ...(['seedream-5-5', 'seedream-5-0-flash'] as const).map(id => [id, { rates:
-    (['1K', '1.5K', '2K'] as const).map((value, index) => ({ value, label: value,
+    // Keyvo's Seedream 5.0 Flash outputs 2K only (fal-engines/seedream-5-0-flash.ts); the 1K/1.5K tiers are 5.5-only.
+    (id === 'seedream-5-5' ? ['1K', '1.5K', '2K'] as const : ['2K'] as const).map(value => ({ value, label: value,
       rate: quoteNewSeedreamListCost({ model: id === 'seedream-5-5' ? '5.5' : 'flash', inputImages: 0,
-        outputPixels: [[1_048_576, 2_359_296, 4_194_304][index]!] }).totalUsd })) }] as const),
+        outputPixels: [({ '1K': 1_048_576, '1.5K': 2_359_296, '2K': 4_194_304 } as const)[value]] }).totalUsd })) }] as const),
   ['gpt-image-2-5-flare', { rates: GPT_IMAGE_25_ESTIMATOR_RATES }],
   ['gpt-image-2-5-sunburst', { rates: GPT_IMAGE_25_ESTIMATOR_RATES }],
   [

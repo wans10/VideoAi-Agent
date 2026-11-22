@@ -17,8 +17,8 @@ test('cutover derives all ordinary, workflow and real input duration checkpoints
   // reference tokens) become 3564 official cells: t2v 22 + i2v 22 (5-15 s x 480P/768P) + ref2v 3520 (x 0-9 reference
   // images x 0-15 billed reference-video seconds). Its 6 Recast/Relight new-offer cells stay unsold (Fal-only).
   const h3MaxOfficialCells = 22 + 22 + 11 * 2 * 10 * 16;
-  // Upstream 2026-11-22 added the 1.5K and 2K t2i/i2i tariffs of Seedream 5.0 Flash (4 cells beyond the 1K pair): 6 in total.
-  const keyvoProviderDelta = -104 - 90 - 132 + h3MaxOfficialCells - (528 - 288) + 6 + 3 + 6;
+  // Seedream 5.0 Flash keeps its two Keyvo official-list tariff cells (1K pair); the upstream USD 1.5K/2K cells are 5.5-only.
+  const keyvoProviderDelta = -104 - 90 - 132 + h3MaxOfficialCells - (528 - 288) + 6 + 3 + 2;
     // This suite runs on the unfiltered catalogue (the allowlist hides Hailuo and other fixtures), where H3-Max's Fal-only
   // Recast/Relight cells are inventoried again, so the Keyvo-world removal of those 6 new-offer cells does not apply.
   const keyvoProviderNewOfferDelta = 0;
@@ -28,13 +28,15 @@ test('cutover derives all ordinary, workflow and real input duration checkpoints
   const keyvoOfficialListDelta = -16 - 6 - 8 - 2 * 26 - 2;
   assert.equal(keyvoOfficialListDelta, -84);
   assert.equal(h3MaxOfficialCells, 3564);
-  assert.equal(keyvoProviderDelta, 3013);
+  assert.equal(keyvoProviderDelta, 3009);
+  // Upstream 3827da0 checkpoint additions (Seedance 2.5 Flash +1944, Seedance 2.5 +810, Seedream 5.5 +33), as in the inventory suite.
+  const upstreamMergeDelta = 1944 + 810 + 33;
   for (const [modelId, count] of [['happy-horse-1-0', 0], ['seedream', 0], ['minimax-h3-max', 3564 + 6], ['minimax-h3', 288],
-    ['minimax-hailuo-2-3', 6], ['minimax-hailuo-2-3-fast', 3], ['seedream-5-0-flash', 6], ['wan-2-6', 0], ['kling-2-5-turbo', 0],
+    ['minimax-hailuo-2-3', 6], ['minimax-hailuo-2-3-fast', 3], ['seedream-5-0-flash', 2], ['wan-2-6', 0], ['kling-2-5-turbo', 0],
     ['kling-2-6-pro', 0], ['kling-3-standard', 52], ['kling-3-pro', 52], ['minimax-hailuo-02-text', 6]] as const) {
     assert.equal(cases.filter(row => row.scenario.modelId === modelId).length, count, modelId);
   }
-  assert.equal(cases.filter(row => row.kind === 'ordinary' && !['flux-3-max','kling-v4','nano-banana-2-1',...novemberModels].includes(row.scenario.modelId)).length, 20166 + keyvoProviderDelta + keyvoOfficialListDelta);
+  assert.equal(cases.filter(row => row.kind === 'ordinary' && !['flux-3-max','kling-v4','nano-banana-2-1',...novemberModels].includes(row.scenario.modelId)).length, 20166 + keyvoProviderDelta + keyvoOfficialListDelta + upstreamMergeDelta);
   assert.deepEqual(novemberModels.map(id => cases.filter(row => row.scenario.modelId === id).length), [72, 1020, 1020]);
   assert.ok(cases.filter(row => novemberModels.includes(row.scenario.modelId)).every(row => row.kind === 'ordinary'));
   const novemberDelta = 72 + 1020 + 1020;
@@ -44,12 +46,14 @@ test('cutover derives all ordinary, workflow and real input duration checkpoints
   assert.equal(nano.length, 6, 'six new fixed-price cells are a genuine financial delta');
   assert.deepEqual(new Set(nano.map(row => row.scenario.selector.mode)), new Set(['t2i', 'i2i']));
   assert.deepEqual(new Set(nano.map(row => row.scenario.selector.resolution)), new Set(['1K', '2K', '4K']));
-  assert.equal(cases.filter(row => row.kind === 'ordinary').length, 20286 + 8 + 280 + 6 + novemberDelta + keyvoProviderDelta + keyvoOfficialListDelta);
-  assert.equal(cases.filter(row => row.kind === 'local_workflow').length, 324);
-  assert.equal(cases.filter(row => row.kind === 'input_stress').length, 6372);
+  assert.equal(cases.filter(row => row.kind === 'ordinary').length, 20286 + 8 + 280 + 6 + novemberDelta + keyvoProviderDelta + keyvoOfficialListDelta + upstreamMergeDelta);
+  // Upstream 3827da0 adds 162 Seedance 2.5 local-workflow checkpoints (as in the inventory suite).
+  assert.equal(cases.filter(row => row.kind === 'local_workflow').length, 324 + 162);
+  // Upstream 3827da0 adds 648 Seedance 2.5 and 1944 Seedance 2.5 Flash input-stress checkpoints (as in the inventory suite).
+  assert.equal(cases.filter(row => row.kind === 'input_stress').length, 6372 + 648 + 1944);
   assert.equal(cases.filter(row => row.kind === 'new_offer').length, 89 + keyvoProviderNewOfferDelta);
-  assert.equal(cases.filter(row => row.kind !== 'new_offer').length, 26982 + 8 + 280 + 6 + novemberDelta + keyvoProviderDelta + keyvoOfficialListDelta);
-  assert.equal(cases.length, 27071 + 8 + 280 + 6 + novemberDelta + keyvoProviderDelta + keyvoProviderNewOfferDelta + keyvoOfficialListDelta);
+  assert.equal(cases.filter(row => row.kind !== 'new_offer').length, 26982 + 8 + 280 + 6 + novemberDelta + keyvoProviderDelta + keyvoOfficialListDelta + upstreamMergeDelta + 162 + 648 + 1944);
+  assert.equal(cases.length, 27071 + 8 + 280 + 6 + novemberDelta + keyvoProviderDelta + keyvoProviderNewOfferDelta + keyvoOfficialListDelta + upstreamMergeDelta + 162 + 648 + 1944);
   assert.equal(new Set(cases.map(row => row.key)).size, cases.length);
   const lumaModify = cases.filter(row => row.kind === 'ordinary' && row.scenario.modelId === 'luma-ray-3-2' && row.scenario.context.mode === 'v2v');
   assert.deepEqual([...new Set(lumaModify.map(row => row.scenario.context.durationSec))].sort((a, b) => a - b),
