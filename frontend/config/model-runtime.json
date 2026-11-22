@@ -2342,8 +2342,8 @@
       },
       "publication": {
         "model": {
-          "published": true,
-          "indexable": true
+          "published": false,
+          "indexable": false
         },
         "examples": {
           "published": false,
@@ -2360,15 +2360,13 @@
           "published": true,
           "discoveryRank": 7,
           "variantGroup": "seedream",
-          "variantLabel": "5.0 Flash",
-          "launchBadge": "new"
+          "variantLabel": "5.0 Flash"
         },
         "pricing": {
-          "published": true,
-          "featuredScenario": "fast image generation and editing"
+          "published": true
         },
         "sitemap": {
-          "published": true
+          "published": false
         }
       },
       "lifecycle": "current",

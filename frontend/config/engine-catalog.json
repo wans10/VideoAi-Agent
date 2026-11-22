@@ -18132,7 +18132,7 @@
       "ttlSec": 600,
       "providerMeta": {
         "provider": "byteplus_modelark",
-        "modelSlug": "dreamina-seedance-2-5-flash-261115"
+        "modelSlug": "doubao-seedance-2-5-flash-261115"
       },
       "availability": "available",
       "brandId": "bytedance"
@@ -28058,8 +28058,8 @@
     "successorSlug": null,
     "surfaces": {
       "modelPage": {
-        "indexable": true,
-        "includeInSitemap": true
+        "indexable": false,
+        "includeInSitemap": false
       },
       "examples": {
         "includeInFamilyResolver": false,
@@ -28074,12 +28074,10 @@
         "enabled": true,
         "discoveryRank": 7,
         "variantGroup": "seedream",
-        "variantLabel": "5.0 Flash",
-        "launchBadge": "new"
+        "variantLabel": "5.0 Flash"
       },
       "pricing": {
-        "includeInEstimator": true,
-        "featuredScenario": "fast image generation and editing"
+        "includeInEstimator": true
       }
     },
     "surfacesSource": "registry",
