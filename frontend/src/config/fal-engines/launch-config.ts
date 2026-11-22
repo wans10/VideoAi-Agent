@@ -212,10 +212,17 @@ export const SEEDANCE_ARK_LIST_CNY_PER_MILLION_TOKENS = {
     '480p': { no_video_input: 23, video_input: 14 },
     '720p': { no_video_input: 23, video_input: 14 },
   },
+  // Seedance 2.5 4K: CNY 31 / 19 per million tokens (model-pricing.md, checked 2026-11-22).
   seedance25: {
     '480p': { no_video_input: 70, video_input: 42 },
     '720p': { no_video_input: 70, video_input: 42 },
     '1080p': { no_video_input: 77, video_input: 46 },
+    '4k': { no_video_input: 31, video_input: 19 },
+  },
+  // Seedance 2.5 flash: 480p and 720p only (the list has no 1080p or 4K row), same page and date.
+  seedance25Flash: {
+    '480p': { no_video_input: 46, video_input: 28 },
+    '720p': { no_video_input: 46, video_input: 28 },
   },
 } as const;
 export const SEEDANCE_ARK_LIST_PRICING_SOURCE = 'volcengine_ark_cn_beijing_list_2026_11_13';
@@ -272,20 +279,12 @@ export function buildSeedance25PricingDetails(): EnginePricingDetails {
   return buildSeedanceArkListPricingDetails('seedance25', SEEDANCE_2_5_TOKEN_DIMENSIONS);
 }
 
-/** Approved 2026-11-13: Flash retail = published BytePlus LIST × 1.6.
- * This authoring basis does not activate customer tariff cells or provider routing.
- */
+/** Keyvo: Flash is priced from the official Volcengine list like Seedance 2.5 (official-list x0.8 rule). */
 export function buildSeedance25FlashPricingDetails(): EnginePricingDetails {
-  const rate = (listRate: number) => listRate * 1.6 / SEEDANCE_2_DEFAULT_PRICING_MARGIN_FACTOR;
-  return { currency: 'USD', tokenPricing: {
-    model: 'byteplus_tokens', unitPriceUsdPer1kTokens: rate(0.007),
-    unitPriceUsdPer1kTokensByInputType: { no_video_input: rate(0.007), video_input: rate(0.0043) },
-    pricingSource: 'byteplus_seedance_2_5_flash_261115_approved_1_6x',
-    framesPerSecond: 24, defaultAspectRatio: '16:9', rounding: 'ceil_cent',
-    dimensions: Object.fromEntries(['480p', '720p'].map(resolution => [resolution,
-      Object.fromEntries(['21:9', '16:9', '4:3', '1:1', '3:4', '9:16'].map(aspect =>
-        [aspect, seedance25OutputDimensions(resolution, aspect)!]))])),
-  } };
+  const dimensions = Object.fromEntries(['480p', '720p'].map(resolution => [resolution,
+    Object.fromEntries(['21:9', '16:9', '4:3', '1:1', '3:4', '9:16'].map(aspect =>
+      [aspect, seedance25OutputDimensions(resolution, aspect)!]))])) as TokenVideoPricingDimensionsByResolution;
+  return buildSeedanceArkListPricingDetails('seedance25Flash', dimensions);
 }
 
 export const SEEDANCE_2_LAUNCH_CONFIG = {

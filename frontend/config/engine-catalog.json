@@ -17074,7 +17074,8 @@
           "unitPriceUsdPer1kTokensByResolution": {
             "480p": 0.00875,
             "720p": 0.00875,
-            "1080p": 0.009625
+            "1080p": 0.009625,
+            "4k": 0.003875
           },
           "unitPriceUsdPer1kTokensByResolutionAndInputType": {
             "480p": {
@@ -17088,6 +17089,10 @@
             "1080p": {
               "no_video_input": 0.009625,
               "video_input": 0.00575
+            },
+            "4k": {
+              "no_video_input": 0.003875,
+              "video_input": 0.002375
             }
           },
           "pricingSource": "volcengine_ark_cn_beijing_list_2026_11_13",
@@ -18046,15 +18051,29 @@
         "currency": "USD",
         "tokenPricing": {
           "model": "byteplus_tokens",
-          "unitPriceUsdPer1kTokens": 0.008615384615384617,
+          "unitPriceUsdPer1kTokens": 0.00575,
           "unitPriceUsdPer1kTokensByInputType": {
-            "no_video_input": 0.008615384615384617,
-            "video_input": 0.0052923076923076925
+            "no_video_input": 0.00575,
+            "video_input": 0.0035
           },
-          "pricingSource": "byteplus_seedance_2_5_flash_261115_approved_1_6x",
+          "unitPriceUsdPer1kTokensByResolution": {
+            "480p": 0.00575,
+            "720p": 0.00575
+          },
+          "unitPriceUsdPer1kTokensByResolutionAndInputType": {
+            "480p": {
+              "no_video_input": 0.00575,
+              "video_input": 0.0035
+            },
+            "720p": {
+              "no_video_input": 0.00575,
+              "video_input": 0.0035
+            }
+          },
+          "pricingSource": "volcengine_ark_cn_beijing_list_2026_11_13",
+          "inputVideoTokenBasis": "input_plus_output",
           "framesPerSecond": 24,
           "defaultAspectRatio": "16:9",
-          "rounding": "ceil_cent",
           "dimensions": {
             "480p": {
               "21:9": {
@@ -18120,7 +18139,8 @@
                 "aspectRatio": "9:16"
               }
             }
-          }
+          },
+          "rounding": "ceil_cent"
         }
       },
       "pricing": {
@@ -27383,7 +27403,7 @@
       "ttlSec": 600,
       "providerMeta": {
         "provider": "byteplus_modelark",
-        "modelSlug": "dola-seedream-5-5-261028"
+        "modelSlug": "doubao-seedream-5-5-261028"
       },
       "availability": "available",
       "brandId": "bytedance"
@@ -27391,7 +27411,7 @@
     "modes": [
       {
         "mode": "t2i",
-        "falModelId": "dola-seedream-5-5-261028",
+        "falModelId": "doubao-seedream-5-5-261028",
         "ui": {
           "modes": [
             "t2i"
@@ -27417,7 +27437,7 @@
       },
       {
         "mode": "i2i",
-        "falModelId": "dola-seedream-5-5-261028",
+        "falModelId": "doubao-seedream-5-5-261028",
         "ui": {
           "modes": [
             "i2i"
