@@ -25,8 +25,8 @@ const EDITORIAL_COMPARISONS = [
   { slug: 'seedance-2-0-vs-seedance-2-0-fast', label: 'Seedance 2.0 vs Fast' },
 ] as const;
 
+// Keyvo keeps the Seedance 2.5 Flash comparison unpublished (no pairs in the registry), so it is not a menu candidate.
 const CURRENT_EDITORIAL_COMPARISONS = [
-  { slug: 'seedance-2-5-vs-seedance-2-5-flash', label: 'Seedance 2.5 vs Flash' },
   { slug: 'kling-v4-vs-kling-v4-flash', label: 'Kling 4.0 vs Kling 4.0 Flash' },
   { slug: 'kling-v4-vs-seedance-2-5', label: 'Kling 4.0 vs Seedance 2.5' },
   { slug: 'kling-v4-vs-wan-3-prime', label: 'Kling 4.0 vs Wan 3 Prime' },
@@ -239,8 +239,8 @@ test('comparison menu bounds canonical comparison work to editorial candidates e
     const menu = countLocaleComparisons(() => buildMarketingCompareMenu(models));
     t.diagnostic(`${name}: full graph ${expanded.result.length} canonical pairs / ${expanded.calls} localeCompare calls; menu ${menu.result.length} entries / ${menu.calls} localeCompare calls.`);
     assert.deepEqual(menu.result, KEYVO_CURRENT_EDITORIAL_COMPARISONS);
-    // The prepared V4/Omni pair remains outside the live publication graph.
-    const candidateCount = CURRENT_EDITORIAL_COMPARISONS.length + 1;
+    // COMPARE_MENU still lists the unpublished Flash candidate and the prepared V4/Omni pair, which stays outside the live graph.
+    const candidateCount = CURRENT_EDITORIAL_COMPARISONS.length + 2;
     assert.ok(menu.calls <= candidateCount,
       `${name}: menu should canonicalize at most its ${candidateCount} candidates; observed ${menu.calls} localeCompare calls`);
     assert.ok(expanded.calls > menu.calls, `${name}: the bounded menu avoids full graph canonicalization and sorting`);

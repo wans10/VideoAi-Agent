@@ -38,7 +38,7 @@ function withFlashPagePublished(): ReturnType<typeof listRuntimeModels> {
 }
 const uses = ['fast-drafts', 'image-to-video', 'character-reference', 'reference-to-video', 'multi-shot-video', 'ads', 'ugc-ads', 'product-videos'];
 
-test('six complete Flash comparisons reach discovery, localized indexing and assistant paths', () => {
+test('six Flash comparison documents stay localized and out of discovery while the Flash compare is unpublished on Keyvo', () => {
   const published = getPublishedComparisonSlugs();
   const sitemap = getHubComparisonSlugsForSitemap();
   const assistant = buildLlmsModelDiscoveryProjection();
@@ -47,8 +47,9 @@ test('six complete Flash comparisons reach discovery, localized indexing and ass
   for (const pair of pairs) {
     const file = `content/comparisons/${pair}.json`;
     const document = parseComparePageContentDocument(readFileSync(file, 'utf8'), pair, file);
-    assert.ok(published.includes(pair));
-    assert.ok(sitemap.includes(pair));
+    // Keyvo unpublished the Flash compare (no registry pairs), so no pair is published or in the sitemap.
+    assert.equal(published.includes(pair), false, pair);
+    assert.equal(sitemap.includes(pair), false, pair);
     // Keyvo keeps comparison pages out of assistant discovery (compare hub hidden), so the pair is not a primary comparison.
     assert.equal(assistant.primaryComparisons.some(item => item.slug === pair), false);
     assert.ok(compareConfig.scoreboardOnlyComparisons.includes(pair));
@@ -69,17 +70,17 @@ test('six complete Flash comparisons reach discovery, localized indexing and ass
   }
 });
 
-test('menus, footer and PAYG make Flash reachable while retaining standard Seedance', () => {
+test('menus and footer omit the unpublished Flash comparisons while PAYG and standard Seedance stay intact', () => {
   const menu = buildMarketingModelMenu(listRuntimeModels());
-  // The marketing model menu lists published model pages only; Flash is reachable through the footer and PAYG surfaces.
+  // The marketing model menu lists published model pages only; Flash's page is unpublished on Keyvo.
   assert.equal(menu.some(item => item.slug === flash), false);
   assert.ok(menu.some(item => item.slug === 'seedance-2-5'));
-  assert.ok(buildMarketingCompareMenu(listRuntimeModels()).some(item => item.slug === pairs[0]));
+  assert.equal(buildMarketingCompareMenu(listRuntimeModels()).some(item => item.slug === pairs[0]), false);
   // The footer model list is selected from the marketing navigation, so the unpublished Flash page is absent there.
   assert.equal(FOOTER_MODELS.some(item => item.key === flash), false);
-  assert.ok(FOOTER_COMPARISONS.some(item => item.key === pairs[0]));
+  assert.equal(FOOTER_COMPARISONS.some(item => item.key === pairs[0]), false);
   for (const [name, group] of Object.entries(DEFAULT_PAYG_DISCOVERY_CONFIGS)) {
-    // Keyvo does not offer Flash, so it is omitted from the supported-model list only.
+    // Keyvo offers Flash but its PAYG supported-model list omits it while the model page is unpublished.
     assert.equal(group.some(item => item.id === flash), name !== 'supportedModels');
     assert.ok(group.some(item => item.id === 'seedance-2-5'));
   }
