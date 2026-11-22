@@ -49,11 +49,11 @@ export function comparisonSvg(copy: ComparisonCopy, canonical: string, social = 
   const parts: string[] = [];
   let y = 222;
   const rows = social ? copy.matrix.rows.slice(0, 2) : [...copy.matrix.rows, ...copy.matrix.assistantRows];
-  parts.push(text(['MaxVideoAI'], 48, 49, 22, '#805126', 600));
-  parts.push(text(['MaxVideoAI vs Higgsfield'], 48, 111, 48, '#232323', 600, 52));
+  parts.push(text(['Keyvo'], 48, 49, 22, '#805126', 600));
+  parts.push(text(['Keyvo vs Higgsfield'], 48, 111, 48, '#232323', 600, 52));
   parts.push(text([`${copy.matrix.scope} · ${copy.matrix.checked}`], 48, 151, 18, '#625e58'));
   parts.push(`<rect x="348" y="181" width="400" height="48" fill="#d6e5d6"/><rect x="748" y="181" width="404" height="48" fill="#e9e5de"/>`);
-  parts.push(text(['MaxVideoAI'], 366, 212, 23, '#205d43', 600));
+  parts.push(text(['Keyvo'], 366, 212, 23, '#205d43', 600));
   parts.push(text(['Higgsfield'], 766, 212, 23, '#232323', 600));
   y = 229;
   for (const row of rows) {
@@ -89,6 +89,6 @@ export function comparisonSvg(copy: ComparisonCopy, canonical: string, social = 
   y += 38 + notes.length * 25;
   parts.push(text([canonical.replace('https://', '') + '#comparison'], 48, y + 28, 20, '#805126', 600));
   const height = y + 70;
-  const accessibleTitle = `MaxVideoAI vs Higgsfield · ${copy.matrix.scope} + MCP · ${copy.matrix.checked}`;
+  const accessibleTitle = `Keyvo vs Higgsfield · ${copy.matrix.scope} + MCP · ${copy.matrix.checked}`;
   return { svg: `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${escape(accessibleTitle)}"><title>${escape(accessibleTitle)}</title><desc>${escape(copy.evidence.publisher + ' ' + copy.matrix.note + ' ' + copy.matrix.assistantNote)}</desc><rect width="${width}" height="${height}" fill="#f4f2ee"/>${parts.join('')}</svg>`, width, height };
 }

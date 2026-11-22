@@ -25,9 +25,10 @@ function readDocument(locale: (typeof LOCALES)[number], slug: string) {
   };
 }
 
-test('all thirteen published image models own localized decision content', () => {
-  // Fourteen upstream image model pages minus Seedream 5.0 Lite, which Keyvo retired (owner decision 2026-11-11).
-  assert.equal(IMAGE_SLUGS.length, 13);
+test('all fourteen published image models own localized decision content', () => {
+  // Upstream publishes its image model pages minus Seedream 5.0 Lite (retired by Keyvo, owner decision 2026-11-11) and
+  // minus Seedream 5.0 Flash, whose model page Keyvo keeps unpublished (app-only, 2026-11-22 merge decision): 14 remain.
+  assert.equal(IMAGE_SLUGS.length, 14);
   assert.equal(IMAGE_SLUGS.includes('seedream'), false);
 
   for (const slug of IMAGE_SLUGS) {

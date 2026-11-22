@@ -13,7 +13,7 @@ export const revalidate = 86400;
 
 type Props = { params: Promise<{ locale: string }> };
 
-// Keyvo does not publish this competitor comparison in zh (no zh copy; the copy names MaxVideoAI).
+// Keyvo does not publish this competitor comparison in zh (no zh copy; the copy names Keyvo).
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = normalizeAppLocale((await params).locale);
   if (locale === 'zh') notFound();

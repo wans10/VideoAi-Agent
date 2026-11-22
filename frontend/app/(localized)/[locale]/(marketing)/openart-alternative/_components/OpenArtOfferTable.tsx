@@ -4,7 +4,7 @@ import { OPENART_CHECKED, openArtCriteria, openArtSources, type OpenArtCriterion
 import styles from './openart.module.css';
 
 const criteria = Object.keys(openArtCriteria) as OpenArtCriterion[];
-const columns = [{ id: 'max', name: 'MaxVideoAI' }, { id: 'openart', name: 'OpenArt' }] as const;
+const columns = [{ id: 'max', name: 'Keyvo' }, { id: 'openart', name: 'OpenArt' }] as const;
 const sourceNumbers = new Map<OpenArtSourceId, number>(openArtSources.map(({ id }, index) => [id, index + 1]));
 
 export function OpenArtOfferTable({ copy, rows, labels, date }: {

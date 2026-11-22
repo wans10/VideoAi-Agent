@@ -2,23 +2,23 @@ import type { ComparisonCopy } from './types';
 
 export const fr: ComparisonCopy = {
   meta: {
-    title: 'Alternative à Higgsfield pour payer à l’usage | MaxVideoAI',
-    description: 'MaxVideoAI, l’alternative à Higgsfield sans abonnement : devis avant génération, crédits média conservés et Milo Lite gratuit. Comparez les conditions Web et MCP.',
+    title: 'Alternative à Higgsfield pour payer à l’usage | Keyvo',
+    description: 'Keyvo, l’alternative à Higgsfield sans abonnement : devis avant génération, crédits média conservés et Milo Lite gratuit. Comparez les conditions Web et MCP.',
   },
   hero: {
     title: 'Une alternative à Higgsfield.\nSans abonnement.',
-    description: 'Créez votre prochain clip avec MaxVideoAI. Consultez le prix avant de générer et gardez vos crédits média achetés inutilisés pour le prochain projet.',
+    description: 'Créez votre prochain clip avec Keyvo. Consultez le prix avant de générer et gardez vos crédits média achetés inutilisés pour le prochain projet.',
     action: 'Voir le prix de ma vidéo', compare: 'Comparer les conditions',
     note: 'Recharges média dès 10 USD. Devis accessible sans connexion.',
     film: 'The Uncrowned · FLUX 3 Max · 18 secondes', watch: 'Voir le film',
-    imageAlt: 'Une reine en armure traverse une salle de pierre éclairée par le soleil dans The Uncrowned, un film FLUX 3 Max publié sur MaxVideoAI.',
+    imageAlt: 'Une reine en armure traverse une salle de pierre éclairée par le soleil dans The Uncrowned, un film FLUX 3 Max publié sur Keyvo.',
   },
   pace: { title: 'Votre projet donne le rythme.', first: 'Choisissez un modèle.\nConsultez le prix.', second: 'Revenez quand vous avez une autre idée.' },
   matrix: {
     title: 'Abonnements\net crédits Web.',
     scope: 'Offres Web', checked: 'Vérifié le 10 nov. 2026', sources: 'Sources', task: 'Ce que vous voulez faire',
     scroll: 'Faites défiler pour comparer les deux services',
-    caption: 'MaxVideoAI et Higgsfield. Conditions standard des crédits Web, vérifiées le 10 novembre 2026.',
+    caption: 'Keyvo et Higgsfield. Conditions standard des crédits Web, vérifiées le 10 novembre 2026.',
     note: 'Comparaison des offres Web. L’API développeur de Higgsfield dispose de sa propre facturation à l’usage. Les essais, promotions et offres Unlimited ont leurs propres conditions.',
     rows: [
       { id: 'one-project', label: 'Acheter des crédits pour un projet', sources: ['max-pricing', 'higgs-packs'],
@@ -38,13 +38,13 @@ export const fr: ComparisonCopy = {
         higgsfield: { title: 'Crédits débités en mode Credit', detail: 'Un rendu terminé consomme des crédits, même si vous l’écartez. Les générations en échec sont généralement recréditées.', tone: 'shared' } },
     ],
     fairTitle: 'Financez un projet. Gardez votre liberté.',
-    fairText: 'Avec MaxVideoAI, vous rechargez quand vous en avez besoin et retrouvez votre solde au prochain projet. Pour une production intensive, comparez ce budget au quota réellement utilisé d’un forfait Higgsfield et aux modèles inclus dans ses offres Unlimited.',
-    fairLink: 'Chiffrer un projet avec MaxVideoAI',
+    fairText: 'Avec Keyvo, vous rechargez quand vous en avez besoin et retrouvez votre solde au prochain projet. Pour une production intensive, comparez ce budget au quota réellement utilisé d’un forfait Higgsfield et aux modèles inclus dans ses offres Unlimited.',
+    fairLink: 'Chiffrer un projet avec Keyvo',
     assistantTitle: 'Assistants IA\net accès MCP.',
     assistantNote: 'Les frais de l’assistant externe sont distincts. Chez Higgsfield, l’essai MCP pour les nouveaux utilisateurs de Claude suit ses propres conditions de modèles, de limites et de renouvellement.',
     assistantRows: [
       { id: 'mcp-access', label: 'Connecter un assistant compatible', sources: ['max-mcp', 'higgs-connect', 'higgs-trial'],
-        max: { title: 'Sans abonnement MaxVideoAI', detail: 'Connectez votre compte MaxVideoAI dans un assistant compatible. Les fonctions disponibles varient selon l’hôte.', tone: 'advantage' },
+        max: { title: 'Sans abonnement Keyvo', detail: 'Connectez votre compte Keyvo dans un assistant compatible. Les fonctions disponibles varient selon l’hôte.', tone: 'advantage' },
         higgsfield: { title: 'Abonnement dans la configuration standard', detail: 'Des essais peuvent s’appliquer aux nouveaux utilisateurs, dont une offre MCP distincte pour Claude.', tone: 'condition' } },
       { id: 'mcp-generation', label: 'Préparer, valider et générer', sources: ['max-mcp-docs', 'higgs-mcp', 'higgs-trial', 'higgs-connect'],
         max: { title: 'Préparation et devis gratuits', detail: 'Votre accord est obligatoire avant l’envoi de toute demande de génération payante. La génération débite votre portefeuille. Votre assistant peut facturer son propre service.', tone: 'advantage' },
@@ -57,7 +57,7 @@ export const fr: ComparisonCopy = {
     steps: ['Partagez votre idée', 'Consultez le devis', 'Validez la génération'],
     note: 'Milo Lite est gratuit dans les limites d’usage. L’assistance Standard et Max utilise des crédits distincts de ceux des générations média.',
     studio: 'Découvrir Studio', mcp: 'Connecter votre assistant',
-    imageAlt: 'Le Studio de MaxVideoAI avec Milo, une montre en référence et le champ où saisir le brief créatif.',
+    imageAlt: 'Le Studio de Keyvo avec Milo, une montre en référence et le champ où saisir le brief créatif.',
     imageCaption: 'Interface Studio · exemple avec une référence produit',
     product: 'Visuel produit · Luma Uni-1 Max', productAlt: 'Flacon blanc de soin LUMIÈRE, un visuel produit présenté sur la fiche Luma Uni-1 Max.',
     character: 'Personnage en mouvement · Recast', characterAlt: 'Vesper, une mante en veste rose, à côté d’une voiture de sport cyan.',
@@ -67,8 +67,8 @@ export const fr: ComparisonCopy = {
     download: 'Télécharger le comparatif', csv: 'Télécharger les données (CSV)', json: 'Consulter les données (JSON)',
     copy: 'Copier le lien de la source', copied: 'Lien de la source copié', copyFailed: 'La copie automatique a échoué. Sélectionnez et copiez le texte ci-dessous.',
     embed: 'Obtenir le code d’intégration', copyEmbed: 'Copier le code', embedCopied: 'Code d’intégration copié',
-    reuse: 'Vous pouvez reproduire le tableau comparatif en conservant sa date, son périmètre et le lien source MaxVideoAI. Les films, images produit et marques tierces restent hors de cette autorisation.',
-    attribution: 'Comparatif publié par MaxVideoAI · Sources et périmètre',
+    reuse: 'Vous pouvez reproduire le tableau comparatif en conservant sa date, son périmètre et le lien source Keyvo. Les films, images produit et marques tierces restent hors de cette autorisation.',
+    attribution: 'Comparatif publié par Keyvo · Sources et périmètre',
   },
   methodology: {
     title: 'Comparez le coût du projet.',
@@ -82,8 +82,8 @@ export const fr: ComparisonCopy = {
   faq: {
     title: 'Avant de choisir',
     items: [
-      { question: 'Comment comparer les prix de MaxVideoAI et Higgsfield ?', answer: 'MaxVideoAI affiche le prix de vos réglages avant génération et propose des recharges média dès 10 USD sans abonnement. Pour comparer avec Higgsfield, alignez le modèle, les réglages et le nombre d’essais, puis comptez l’abonnement éventuel et le quota réellement utilisé. Le total dépend de votre production et des offres applicables.' },
-      { question: 'Que puis-je faire gratuitement sur MaxVideoAI ?', answer: 'Consultez le prix d’une vidéo sans vous connecter. Après connexion, préparez vos briefs avec Milo Lite gratuitement dans les limites d’usage. Les générations média sont payées depuis votre portefeuille, rechargeable dès 10 USD. Milo Standard et Max utilisent des crédits d’assistance distincts.' },
+      { question: 'Comment comparer les prix de Keyvo et Higgsfield ?', answer: 'Keyvo affiche le prix de vos réglages avant génération et propose des recharges média dès 10 USD sans abonnement. Pour comparer avec Higgsfield, alignez le modèle, les réglages et le nombre d’essais, puis comptez l’abonnement éventuel et le quota réellement utilisé. Le total dépend de votre production et des offres applicables.' },
+      { question: 'Que puis-je faire gratuitement sur Keyvo ?', answer: 'Consultez le prix d’une vidéo sans vous connecter. Après connexion, préparez vos briefs avec Milo Lite gratuitement dans les limites d’usage. Les générations média sont payées depuis votre portefeuille, rechargeable dès 10 USD. Milo Standard et Max utilisent des crédits d’assistance distincts.' },
       { question: 'Higgsfield propose-t-il du paiement à l’usage ?', answer: 'Son API développeur propose une facturation distincte à l’usage, en dollars. Ce comparatif porte sur les packs de crédits de l’offre Web grand public, qui exigent un abonnement actif, et sur la configuration MCP standard. Les essais et offres Unlimited peuvent changer la comparaison pour les utilisateurs éligibles.' },
       { question: 'Que comparer pour une vidéo de 20 secondes ?', answer: 'Vérifiez d’abord que les deux services proposent la même version du modèle et prennent en charge une sortie de 20 secondes avec le même mode, la même résolution, le même ratio d’image, les mêmes réglages audio et les mêmes références, dont la durée des vidéos de référence. Comparez séparément le devis du rendu, la somme à verser au départ et le solde inutilisé. Deux clips plus courts peuvent donner un résultat différent d’une génération native de 20 secondes.' },
       {
@@ -94,7 +94,7 @@ export const fr: ComparisonCopy = {
     ],
   },
   evidence: {
-    title: 'Des sources vérifiables.', publisher: 'Comparatif réalisé par MaxVideoAI, éditeur de l’un des services comparés.',
+    title: 'Des sources vérifiables.', publisher: 'Comparatif réalisé par Keyvo, éditeur de l’un des services comparés.',
     scope: 'Comparatif des conditions Web et MCP documentées, distinct de l’API développeur. Les offres et les prix sont ceux du relevé daté ci-dessous.',
     date: 'Dernière vérification le 10 novembre 2026.', correction: 'Les conditions ont changé ?', contact: 'Signaler une correction',
   },

@@ -118,7 +118,11 @@ test('public pricing baseline exhaustively covers eligible catalog and public su
   const keyvoTransition = JSON.parse(
     readFileSync('tests/fixtures/keyvo-provider-transition-public-pricing-2026-11-11.json', 'utf8')
   ) as PublicProjectionFixture;
-  const rows = [...fixture.rows, ...launch.rows, ...fluxMaxLaunch.rows, ...nano21Launch.rows, ...klingPublicDiscovery.rows, ...klingPricingDiscovery.rows, ...novemberImages.rows, ...novemberMarketing.rows, ...keyvoTransition.rows];
+  // Keyvo's transition supersedes the upstream Seedream 5.0 Flash launch rows (same ids, Keyvo provider pricing);
+  // Seedream 5.5 and the unoffered Seedance 2.5 Flash rows remain registry-only baselines.
+  const rows = [...fixture.rows, ...launch.rows, ...fluxMaxLaunch.rows, ...nano21Launch.rows,
+    ...seedreamLaunch.rows.filter(row => row.engineId !== 'seedream-5-0-flash'), ...seedanceFlash.rows,
+    ...klingPublicDiscovery.rows, ...klingPricingDiscovery.rows, ...novemberImages.rows, ...novemberMarketing.rows, ...keyvoTransition.rows];
   const ids = rows.map((row) => row.id);
   assert.equal(new Set(ids).size, ids.length, 'public projection scenario ids must be unique');
 

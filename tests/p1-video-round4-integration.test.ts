@@ -148,12 +148,21 @@ test('generate rejects every explicitly invalid mode before database and billing
   }
 });
 
-test('archived Pika is retired before mode validation, database access or billing', async () => {
+test('archived Pika is refused before mode validation, database access or billing', async () => {
   const archived = getFalEngineById('pika-text-to-video')?.engine;
   assert.ok(archived);
   for (const input of [{ modePresent: false }, { modePresent: true, mode: 't2v' }, { modePresent: true, mode: 'bogus' }]) {
     const resolved = await resolveModeAtGenerateBoundary({ engine: archived, ...input });
-    assert.deepEqual(resolved.result, { ok: false, status: 410, body: { ok: false, error: 'ENGINE_RETIRED' } });
+    // Upstream answers 410 ENGINE_RETIRED. Keyvo's allowlist hides every non-allowlisted engine first (Unknown engine, 400),
+    // so the archived Pika is refused on Keyvo before the retirement check; either refusal precedes mode/DB/billing.
+    assert.equal(resolved.result.ok, false);
+    if (!resolved.result.ok) {
+      const { status, body } = resolved.result as { status: number; body: { error: string } };
+      assert.ok(
+        (status === 410 && body.error === 'ENGINE_RETIRED') || (status === 400 && body.error === 'Unknown engine'),
+        `${status} ${body.error}`,
+      );
+    }
     assert.equal(resolved.databaseChecks, 0);
     assert.equal(resolved.billingChecks, 0);
   }

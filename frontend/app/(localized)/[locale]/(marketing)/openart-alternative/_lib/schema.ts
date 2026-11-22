@@ -17,7 +17,7 @@ export function buildOpenArtSchema(copy: OpenArtCopy, locale: AppLocale, url: st
         dateModified: OPENART_CHECKED,
         lastReviewed: OPENART_CHECKED,
         publisher: buildSiteOrganizationReference(),
-        about: [{ '@type': 'Thing', name: 'MaxVideoAI' }, { '@type': 'Thing', name: 'OpenArt' }],
+        about: [{ '@type': 'Thing', name: 'Keyvo' }, { '@type': 'Thing', name: 'OpenArt' }],
         citation: openArtSources.map(({ url: sourceUrl }) => sourceUrl),
       },
       {

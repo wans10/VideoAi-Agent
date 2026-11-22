@@ -2,17 +2,17 @@ import type { OpenArtCopy } from './types';
 
 export const fr = {
   meta: {
-    title: 'Alternative à OpenArt sans abonnement — MaxVideoAI',
-    description: 'Créez vos plans vidéo sans abonnement avec MaxVideoAI. Prix avant le rendu, crédits conservés et comparaison avec OpenArt Director.',
+    title: 'Alternative à OpenArt sans abonnement — Keyvo',
+    description: 'Créez vos plans vidéo sans abonnement avec Keyvo. Prix avant le rendu, crédits conservés et comparaison avec OpenArt Director.',
   },
   hero: {
     title: 'Une alternative à OpenArt.\nPayez à l’usage.',
-    lead: 'Avec MaxVideoAI, choisissez le modèle, la durée et le son de votre clip. Le prix s’affiche avant chaque génération. Le solde de vos crédits média achetés reste disponible pour vos prochains projets.',
+    lead: 'Avec Keyvo, choisissez le modèle, la durée et le son de votre clip. Le prix s’affiche avant chaque génération. Le solde de vos crédits média achetés reste disponible pour vos prochains projets.',
     action: 'Chiffrer un plan',
     compare: 'Comparer les deux parcours',
-    note: 'Recharges média dès 10 USD, sans abonnement MaxVideoAI.',
+    note: 'Recharges média dès 10 USD, sans abonnement Keyvo.',
     imageAlt: 'Six cases de storyboard montrant une course dans une ville sous la pluie, de nuit',
-    imageCaption: 'Planche de storyboard issue de MaxVideoAI Studio',
+    imageCaption: 'Planche de storyboard issue de Keyvo Studio',
   },
   decision: {
     label: 'Partir du résultat attendu',
@@ -32,7 +32,7 @@ export const fr = {
   },
   matrix: {
     title: 'Comparer l’accès, les crédits et la livraison',
-    caption: 'Comparatif des offres MaxVideoAI et OpenArt',
+    caption: 'Comparatif des offres Keyvo et OpenArt',
     criterion: 'Critère',
     note: 'Au relevé, OpenArt affichait Starter à 14 USD par siège et par mois avant remise. Vérifiez la période facturée et le tarif applicable à votre compte.',
     sources: 'Consulter les sources officielles',
@@ -60,7 +60,7 @@ export const fr = {
     },
     mcp: {
       label: 'Assistants externes',
-      max: 'Planifiez sans frais MaxVideoAI via MCP avec un hôte compatible. Vérifiez et approuvez le devis média avant de payer depuis votre portefeuille. L’hôte peut avoir ses propres frais et limites.',
+      max: 'Planifiez sans frais Keyvo via MCP avec un hôte compatible. Vérifiez et approuvez le devis média avant de payer depuis votre portefeuille. L’hôte peut avoir ses propres frais et limites.',
       openart: 'Le MCP est inclus dès Starter sans supplément OpenArt. Le Web, le MCP et la CLI partagent les mêmes crédits. Les guides Claude et ChatGPT annoncent aussi l’essai pour les nouveaux comptes. L’accès dépend de l’hôte.',
     },
     delivery: {
@@ -70,7 +70,7 @@ export const fr = {
     },
   },
   workflow: {
-    label: 'Le parcours MaxVideoAI',
+    label: 'Le parcours Keyvo',
     title: 'Du brief au montage, un plan à la fois.',
     text: 'Préparez le plan avec Milo dans Studio, ou apportez le brief depuis un assistant compatible via MCP. Chiffrez votre idée avant de décider de la produire.',
     steps: [
@@ -99,34 +99,34 @@ export const fr = {
     guide: 'Comparer les plateformes vidéo IA',
   },
   faq: {
-    title: 'Questions sur MaxVideoAI et OpenArt',
+    title: 'Questions sur Keyvo et OpenArt',
     items: [
       {
         question: 'Puis-je acheter des crédits OpenArt sans abonnement ?',
-        answer: 'OpenArt propose des packs de crédits supplémentaires avec un abonnement Plus, Pro ou Wonder actif. Chaque pack se renouvelle automatiquement chaque mois jusqu’à sa résiliation. Les nouveaux comptes reçoivent 40 crédits d’essai pendant sept jours. MaxVideoAI propose des recharges média à partir de 10 USD sans abonnement.',
+        answer: 'OpenArt propose des packs de crédits supplémentaires avec un abonnement Plus, Pro ou Wonder actif. Chaque pack se renouvelle automatiquement chaque mois jusqu’à sa résiliation. Les nouveaux comptes reçoivent 40 crédits d’essai pendant sept jours. Keyvo propose des recharges média à partir de 10 USD sans abonnement.',
       },
       {
         question: 'Les crédits OpenArt non utilisés sont-ils reportés ?',
-        answer: 'Sur MaxVideoAI, vos crédits média achetés restent disponibles entre deux projets sans abonnement. Sur OpenArt, le quota mensuel se remet à zéro à chaque cycle. Les crédits supplémentaires non utilisés se reportent tant que l’abonnement est actif.',
+        answer: 'Sur Keyvo, vos crédits média achetés restent disponibles entre deux projets sans abonnement. Sur OpenArt, le quota mensuel se remet à zéro à chaque cycle. Les crédits supplémentaires non utilisés se reportent tant que l’abonnement est actif.',
       },
       {
         question: 'Chat Mode et le MCP d’OpenArt sont-ils gratuits ?',
         answer: 'La conversation dans Chat Mode est gratuite. Les générations et retouches consomment des crédits. Le MCP est inclus dès Starter sans supplément OpenArt. Les guides Claude et ChatGPT annoncent aussi l’essai pour les nouveaux comptes. L’assistant externe peut avoir ses propres conditions d’accès et tarifs.',
       },
       {
-        question: 'Quelle différence entre MaxVideoAI et OpenArt Director ?',
-        answer: 'MaxVideoAI vous aide à préparer un plan avec Milo, à le chiffrer et à générer le clip pour votre montage. OpenArt Director prépare un storyboard et assemble plusieurs scènes avec du son. OpenArt annonce des vidéos allant jusqu’à cinq minutes.',
+        question: 'Quelle différence entre Keyvo et OpenArt Director ?',
+        answer: 'Keyvo vous aide à préparer un plan avec Milo, à le chiffrer et à générer le clip pour votre montage. OpenArt Director prépare un storyboard et assemble plusieurs scènes avec du son. OpenArt annonce des vidéos allant jusqu’à cinq minutes.',
       },
       {
-        question: 'Comment comparer le coût d’un clip sur MaxVideoAI et OpenArt ?',
-        answer: 'Sur MaxVideoAI, les recharges média commencent à 10 USD sans abonnement et le prix s’affiche avant chaque rendu. À réglages identiques, comparez le paiement initial, les essais terminés, le solde restant et la part du quota utilisée si vous avez un forfait. Chiffrez séparément un clip et un film assemblé avec Director.',
+        question: 'Comment comparer le coût d’un clip sur Keyvo et OpenArt ?',
+        answer: 'Sur Keyvo, les recharges média commencent à 10 USD sans abonnement et le prix s’affiche avant chaque rendu. À réglages identiques, comparez le paiement initial, les essais terminés, le solde restant et la part du quota utilisée si vous avez un forfait. Chiffrez séparément un clip et un film assemblé avec Director.',
       },
     ],
   },
   evidence: {
     title: 'Sources et périmètre',
     date: '10 novembre 2026',
-    note: 'Comparatif publié par MaxVideoAI. Les sources publiques officielles documentent les fonctions et les conditions de crédits présentées.',
+    note: 'Comparatif publié par Keyvo. Les sources publiques officielles documentent les fonctions et les conditions de crédits présentées.',
   },
   sourceLabels: {
     'openart-pricing': 'Offres et quota Starter',

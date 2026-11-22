@@ -106,7 +106,7 @@ test('bounded discovery surfaces retain both H3 variants and Seedance 2.5 after 
   assert.deepEqual(
     MARKETING_NAV_MODELS.slice(0, 5).map(({ key, badge }) => ({ key, badge })),
     [
-      { key: 'seedance-2-5-flash', badge: 'new' },
+      // Keyvo does not offer seedance-2-5-flash (registry-only), so the menu starts at kling-v4-flash.
       { key: 'kling-v4-flash', badge: 'new' },
       { key: 'kling-v4', badge: 'new' },
       { key: 'minimax-h3', badge: 'new' },
@@ -123,7 +123,7 @@ test('bounded discovery surfaces retain both H3 variants and Seedance 2.5 after 
   assert.ok(MARKETING_NAV_COMPARE.some(({ key }) => key === 'minimax-h3-vs-seedance-2-5'));
 
   const popular = getPopularComparisons();
-  assert.equal(compareHubConfig.popularComparisons.length, 45, 'planned comparison inventory includes P0, P1, trend and Max scoreboards');
+  assert.equal(compareHubConfig.popularComparisons.length, 48, 'planned comparison inventory (upstream 2026-11-22 adds three popular pairs; Keyvo hides the pages, not the inventory)');
   assert.deepEqual(popular.slice(0, 1).map(({ slug }) => slug), ['minimax-h3-vs-seedance-2-5'], 'the FLUX 3 Max pair that leads upstream is hidden on Keyvo');
 
   const buckets = new Map(getUseCaseBuckets().map((bucket) => [bucket.id, bucket.pairs]));

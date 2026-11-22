@@ -8,7 +8,7 @@ type Evidence = { name: string; workflow: GuideSource[]; web: GuideSource[]; ass
 
 export const platformEvidence = {
   maxvideoai: {
-    name: 'MaxVideoAI',
+    name: 'Keyvo',
     workflow: [{ label: 'workflow', href: 'https://maxvideoai.com/pay-as-you-go-ai-video-generator' }],
     web: [{ label: 'credits', href: 'https://maxvideoai.com/pricing' }],
     assistant: [
@@ -130,7 +130,7 @@ type GuideCopy = {
 const platformGuideCopyByLocale: Record<Exclude<AppLocale, 'zh'>, GuideCopy> = {
   en: {
     checked: 'Public terms checked on',
-    publisher: 'Published by MaxVideoAI, one of the platforms compared.',
+    publisher: 'Published by Keyvo, one of the platforms compared.',
     contentsLabel: 'In this guide',
     labels: { workflow: 'Workflow', credits: 'Credit terms', packs: 'Credit packs', assistant: 'Assistant', mcp: 'MCP', offer: 'Offer', realtime: 'Realtime', nodes: 'Nodes' },
     jobs: {
@@ -144,7 +144,7 @@ const platformGuideCopyByLocale: Record<Exclude<AppLocale, 'zh'>, GuideCopy> = {
       ],
       sourceAlt: 'A woman in a rust jacket and a man in navy face each other across a table at dusk.',
       imageAlt: 'Over the man’s shoulder, a woman in a rust jacket faces him across the table.',
-      imageCaption: 'A reference frame alongside the reverse angle produced with MaxVideoAI Angle.',
+      imageCaption: 'A reference frame alongside the reverse angle produced with Keyvo Angle.',
       imageLink: 'See how Angle works',
     },
     matrix: {
@@ -152,7 +152,7 @@ const platformGuideCopyByLocale: Record<Exclude<AppLocale, 'zh'>, GuideCopy> = {
       intro: 'MCP connects a compatible AI assistant to a platform’s tools. The table separates Web credit terms from the rules inside an assistant.',
       columns: ['Platform and workflow', 'Web purchase and balance', 'Assistant and MCP'],
       rows: {
-        maxvideoai: { fit: 'Generate individual shots across models and check the price before rendering.', web: 'Media top-ups from US$10 without a MaxVideoAI subscription. Purchased media credits stay available between projects.', assistant: 'Milo Lite has free assistance within limits. MCP planning and quotes use no media credits. Paid renders require approval.' },
+        maxvideoai: { fit: 'Generate individual shots across models and check the price before rendering.', web: 'Media top-ups from US$10 without a Keyvo subscription. Purchased media credits stay available between projects.', assistant: 'Milo Lite has free assistance within limits. MCP planning and quotes use no media credits. Paid renders require approval.' },
         higgsfield: { fit: 'Cinema Studio for camera, lens and lighting controls.', web: 'An active plan is required to buy Web packs. Plan credits reset each cycle. Packs last 90 days and can still be used on eligible Free-plan models after cancellation.', assistant: 'Supercomputer Free mode uses zero credits for text when available. Media uses credits. Standard MCP requires a subscription. New Claude MCP users may qualify for unlimited eligible generations.' },
         openart: { fit: 'Director assembles multi-scene projects with audio.', web: 'Monthly plan credits reset. Plus, Pro and Wonder offer extra packs that renew automatically each month until canceled. Unused add-on credits roll over while subscribed. New accounts have a limited trial.', assistant: 'Chat Mode text is free. Renders use credits. MCP is included from Starter. Check trial eligibility for your host and model.' },
         krea: { fit: 'Realtime canvas and reusable Nodes graphs for visual iteration.', web: 'Paid plans can buy Web packs that expire after 90 days. Included units on individual paid plans reset each cycle.', assistant: 'Free-plan Agent text can use units. Media generation uses units. MCP can use workspace units or a separate API balance, depending on the connection.' },
@@ -172,7 +172,7 @@ const platformGuideCopyByLocale: Record<Exclude<AppLocale, 'zh'>, GuideCopy> = {
             { platform: 'openart', description: 'Director assembles multi-scene projects with voices and music.' },
             { platform: 'krea', description: 'Realtime and Nodes support live visual exploration and reusable processes with different inputs.' },
           ],
-          check: 'For individual clips without a monthly plan, MaxVideoAI offers another route: choose the model, review the quote and keep the unused media balance.',
+          check: 'For individual clips without a monthly plan, Keyvo offers another route: choose the model, review the quote and keep the unused media balance.',
         },
         {
           id: 'higgsfield-vs-openart',
@@ -181,7 +181,7 @@ const platformGuideCopyByLocale: Record<Exclude<AppLocale, 'zh'>, GuideCopy> = {
             { platform: 'higgsfield', description: 'Cinema Studio offers camera, lens and lighting controls for a shot.' },
             { platform: 'openart', description: 'Director brings several scenes, characters and audio together in an assembled project.' },
           ],
-          check: 'If your priority is the budget of each clip, MaxVideoAI shows its price before generation, with no platform subscription. Match the model and settings when comparing prices.',
+          check: 'If your priority is the budget of each clip, Keyvo shows its price before generation, with no platform subscription. Match the model and settings when comparing prices.',
         },
       ],
     },
@@ -190,16 +190,16 @@ const platformGuideCopyByLocale: Record<Exclude<AppLocale, 'zh'>, GuideCopy> = {
       scenario: 'LTX 2.5 Pro · text to video · 10 s · 720p · audio off · no references',
       checked: 'Price checked on',
       labels: ['Media top-up', 'One completed render', 'Media balance left'],
-      note: 'Example with an empty MaxVideoAI wallet and one completed render. Amounts in USD. Taxes or currency conversion may affect the payment.',
+      note: 'Example with an empty Keyvo wallet and one completed render. Amounts in USD. Taxes or currency conversion may affect the payment.',
       price: 'See the preset price',
-      action: 'Price my video on MaxVideoAI',
+      action: 'Price my video on Keyvo',
       details: 'Compare the cost of one, three or six attempts',
-      comparison: 'Compare MaxVideoAI and Higgsfield for an occasional project',
+      comparison: 'Compare Keyvo and Higgsfield for an occasional project',
     },
   },
   fr: {
     checked: 'Conditions publiques vérifiées le',
-    publisher: 'Guide publié par MaxVideoAI, qui figure parmi les plateformes comparées.',
+    publisher: 'Guide publié par Keyvo, qui figure parmi les plateformes comparées.',
     contentsLabel: 'Dans ce guide',
     labels: { workflow: 'Fonctions', credits: 'Crédits', packs: 'Packs', assistant: 'Assistant', mcp: 'MCP', offer: 'Offre', realtime: 'Realtime', nodes: 'Nodes' },
     jobs: {
@@ -213,7 +213,7 @@ const platformGuideCopyByLocale: Record<Exclude<AppLocale, 'zh'>, GuideCopy> = {
       ],
       sourceAlt: 'Une femme en veste rouille et un homme en bleu marine se font face à table, au crépuscule.',
       imageAlt: 'Par-dessus l’épaule de l’homme, une femme en veste rouille lui fait face à table.',
-      imageCaption: 'Image de référence et contrechamp réalisé avec Angle dans MaxVideoAI.',
+      imageCaption: 'Image de référence et contrechamp réalisé avec Angle dans Keyvo.',
       imageLink: 'Découvrir Angle',
     },
     matrix: {
@@ -221,7 +221,7 @@ const platformGuideCopyByLocale: Record<Exclude<AppLocale, 'zh'>, GuideCopy> = {
       intro: 'Le MCP relie un assistant IA compatible aux outils d’une plateforme. Le tableau sépare les conditions d’achat sur le Web des règles dans un assistant.',
       columns: ['Plateforme et fonctions', 'Achat et solde Web', 'Assistant et MCP'],
       rows: {
-        maxvideoai: { fit: 'Générez des plans avec plusieurs modèles et consultez le prix avant de lancer.', web: 'Recharge média dès 10 USD sans abonnement MaxVideoAI. Les crédits médias achetés restent disponibles entre les projets.', assistant: 'Milo Lite offre une aide gratuite dans certaines limites. La préparation et le devis MCP ne débitent pas de crédits média. Vous approuvez les rendus payants.' },
+        maxvideoai: { fit: 'Générez des plans avec plusieurs modèles et consultez le prix avant de lancer.', web: 'Recharge média dès 10 USD sans abonnement Keyvo. Les crédits médias achetés restent disponibles entre les projets.', assistant: 'Milo Lite offre une aide gratuite dans certaines limites. La préparation et le devis MCP ne débitent pas de crédits média. Vous approuvez les rendus payants.' },
         higgsfield: { fit: 'Cinema Studio pour régler la caméra, l’objectif et la lumière.', web: 'Abonnement actif pour acheter un pack Web. Les crédits du forfait expirent au cycle. Les packs durent 90 jours et restent utilisables après résiliation sur les modèles Free éligibles.', assistant: 'Le texte en mode Free de Supercomputer est sans débit quand ce mode est disponible. Les médias utilisent des crédits. Le MCP standard exige un abonnement. Une offre Claude MCP prévoit des générations illimitées éligibles pour de nouveaux utilisateurs.' },
         openart: { fit: 'Director assemble des projets multi-scènes avec de l’audio.', web: 'Les crédits du plan sont remis à zéro à chaque cycle. Avec Plus, Pro ou Wonder, les packs supplémentaires se renouvellent automatiquement chaque mois jusqu’à leur résiliation. Leur solde se reporte pendant l’abonnement. Essai limité pour les nouveaux comptes.', assistant: 'Le texte dans Chat Mode est gratuit. Les rendus utilisent des crédits. Le MCP est inclus dès Starter. Vérifiez les critères de l’essai selon l’hôte et le modèle.' },
         krea: { fit: 'Toile Realtime et graphes Nodes réutilisables pour explorer un visuel.', web: 'Les forfaits payants permettent d’acheter des packs Web valables 90 jours. Les unités incluses des forfaits individuels payants expirent au cycle.', assistant: 'Sur Free, le texte de l’agent peut consommer des unités. Les médias utilisent des unités. Selon la connexion, le MCP utilise le solde de l’espace ou celui de l’API.' },
@@ -241,7 +241,7 @@ const platformGuideCopyByLocale: Record<Exclude<AppLocale, 'zh'>, GuideCopy> = {
             { platform: 'openart', description: 'Director assemble un projet multi-scènes avec voix et musique.' },
             { platform: 'krea', description: 'Realtime et Nodes servent à explorer un style en direct ou à rejouer un processus visuel avec d’autres entrées.' },
           ],
-          check: 'Pour des clips sans forfait mensuel, MaxVideoAI offre une autre voie : choisissez le modèle, validez le devis et conservez le solde média inutilisé.',
+          check: 'Pour des clips sans forfait mensuel, Keyvo offre une autre voie : choisissez le modèle, validez le devis et conservez le solde média inutilisé.',
         },
         {
           id: 'higgsfield-vs-openart',
@@ -250,7 +250,7 @@ const platformGuideCopyByLocale: Record<Exclude<AppLocale, 'zh'>, GuideCopy> = {
             { platform: 'higgsfield', description: 'Cinema Studio propose des réglages de caméra, d’objectif et de lumière pour un plan.' },
             { platform: 'openart', description: 'Director réunit plusieurs scènes, personnages et éléments audio dans un projet assemblé.' },
           ],
-          check: 'Si votre priorité est le budget de chaque clip, MaxVideoAI affiche son prix avant génération, sans abonnement à la plateforme. Alignez le modèle et les réglages pour comparer les coûts.',
+          check: 'Si votre priorité est le budget de chaque clip, Keyvo affiche son prix avant génération, sans abonnement à la plateforme. Alignez le modèle et les réglages pour comparer les coûts.',
         },
       ],
     },
@@ -259,16 +259,16 @@ const platformGuideCopyByLocale: Record<Exclude<AppLocale, 'zh'>, GuideCopy> = {
       scenario: 'LTX 2.5 Pro · texte vers vidéo · 10 s · 720p · sans son · sans référence',
       checked: 'Tarif vérifié le',
       labels: ['Recharge média', 'Un rendu terminé', 'Solde média restant'],
-      note: 'Exemple avec un portefeuille MaxVideoAI vide et un rendu terminé. Montants en USD. Le paiement peut varier selon les taxes et la conversion.',
+      note: 'Exemple avec un portefeuille Keyvo vide et un rendu terminé. Montants en USD. Le paiement peut varier selon les taxes et la conversion.',
       price: 'Voir le tarif du réglage',
-      action: 'Chiffrer ma vidéo sur MaxVideoAI',
+      action: 'Chiffrer ma vidéo sur Keyvo',
       details: 'Comparer le coût d’un, de trois ou de six essais',
-      comparison: 'Comparer MaxVideoAI et Higgsfield pour un projet ponctuel',
+      comparison: 'Comparer Keyvo et Higgsfield pour un projet ponctuel',
     },
   },
   es: {
     checked: 'Condiciones públicas verificadas el',
-    publisher: 'Guía publicada por MaxVideoAI, una de las plataformas comparadas.',
+    publisher: 'Guía publicada por Keyvo, una de las plataformas comparadas.',
     contentsLabel: 'En esta guía',
     labels: { workflow: 'Funciones', credits: 'Créditos', packs: 'Packs', assistant: 'Asistente', mcp: 'MCP', offer: 'Oferta', realtime: 'Realtime', nodes: 'Nodes' },
     jobs: {
@@ -282,7 +282,7 @@ const platformGuideCopyByLocale: Record<Exclude<AppLocale, 'zh'>, GuideCopy> = {
       ],
       sourceAlt: 'Una mujer con chaqueta teja y un hombre vestido de azul marino se miran a ambos lados de la mesa al anochecer.',
       imageAlt: 'Vista sobre el hombro del hombre mientras una mujer con chaqueta teja lo mira desde el otro lado de la mesa.',
-      imageCaption: 'Imagen de referencia y contraplano creado con Angle en MaxVideoAI.',
+      imageCaption: 'Imagen de referencia y contraplano creado con Angle en Keyvo.',
       imageLink: 'Descubrir Angle',
     },
     matrix: {
@@ -290,7 +290,7 @@ const platformGuideCopyByLocale: Record<Exclude<AppLocale, 'zh'>, GuideCopy> = {
       intro: 'MCP conecta un asistente de IA compatible con las herramientas de una plataforma. La tabla separa las compras web de las reglas dentro de un asistente.',
       columns: ['Plataforma y funciones', 'Compra y saldo web', 'Asistente y MCP'],
       rows: {
-        maxvideoai: { fit: 'Genera planos con varios modelos y consulta el precio antes de lanzar el render.', web: 'Recarga desde 10 USD sin suscripción a MaxVideoAI. Los créditos de generación comprados se conservan entre proyectos.', assistant: 'Milo Lite ofrece ayuda gratuita con límites. La planificación y la cotización por MCP no consumen créditos de generación. Los renders de pago requieren aprobación.' },
+        maxvideoai: { fit: 'Genera planos con varios modelos y consulta el precio antes de lanzar el render.', web: 'Recarga desde 10 USD sin suscripción a Keyvo. Los créditos de generación comprados se conservan entre proyectos.', assistant: 'Milo Lite ofrece ayuda gratuita con límites. La planificación y la cotización por MCP no consumen créditos de generación. Los renders de pago requieren aprobación.' },
         higgsfield: { fit: 'Cinema Studio para controlar la cámara, el objetivo y la iluminación.', web: 'Hace falta una suscripción activa para comprar packs web. Los créditos del plan vencen en cada ciclo. Los packs duran 90 días y se pueden usar tras cancelar en modelos Free elegibles.', assistant: 'Cuando está disponible, el modo Free de Supercomputer permite texto sin gastar créditos. La generación multimedia usa créditos. El MCP estándar requiere suscripción. Los nuevos usuarios de Claude MCP pueden optar a generaciones ilimitadas elegibles.' },
         openart: { fit: 'Director ensambla proyectos con varias escenas y audio.', web: 'Los créditos del plan se reinician en cada ciclo. Con Plus, Pro o Wonder, los paquetes adicionales se renuevan automáticamente cada mes hasta que los canceles. Su saldo pasa al siguiente mes mientras siga activa la suscripción. Prueba limitada para cuentas nuevas.', assistant: 'El texto en Chat Mode es gratuito. Los renders usan créditos. MCP se incluye desde Starter. Consulta los requisitos de la prueba para el asistente y modelo elegidos.' },
         krea: { fit: 'Lienzo Realtime y grafos reutilizables en Nodes para explorar variantes.', web: 'Los planes de pago permiten comprar packs web que caducan a los 90 días. Las unidades incluidas en planes individuales de pago vencen en cada ciclo.', assistant: 'El texto del agente en Free puede consumir unidades. La generación multimedia consume unidades. Según la conexión, MCP usa el saldo del espacio o el de la API.' },
@@ -310,7 +310,7 @@ const platformGuideCopyByLocale: Record<Exclude<AppLocale, 'zh'>, GuideCopy> = {
             { platform: 'openart', description: 'Director ensambla proyectos con varias escenas, voces y música.' },
             { platform: 'krea', description: 'Realtime y Nodes permiten explorar estilos en directo y repetir procesos visuales con otras entradas.' },
           ],
-          check: 'Para clips sin plan mensual, MaxVideoAI ofrece otra vía: elige el modelo, aprueba el precio y conserva el saldo sin usar.',
+          check: 'Para clips sin plan mensual, Keyvo ofrece otra vía: elige el modelo, aprueba el precio y conserva el saldo sin usar.',
         },
         {
           id: 'higgsfield-vs-openart',
@@ -319,7 +319,7 @@ const platformGuideCopyByLocale: Record<Exclude<AppLocale, 'zh'>, GuideCopy> = {
             { platform: 'higgsfield', description: 'Cinema Studio ofrece controles de cámara, objetivo e iluminación para un plano.' },
             { platform: 'openart', description: 'Director reúne varias escenas, personajes y audio en un proyecto montado.' },
           ],
-          check: 'Si tu prioridad es el presupuesto de cada clip, MaxVideoAI muestra su precio antes de generar sin suscripción a la plataforma. Usa el mismo modelo y ajustes al comparar costes.',
+          check: 'Si tu prioridad es el presupuesto de cada clip, Keyvo muestra su precio antes de generar sin suscripción a la plataforma. Usa el mismo modelo y ajustes al comparar costes.',
         },
       ],
     },
@@ -328,11 +328,11 @@ const platformGuideCopyByLocale: Record<Exclude<AppLocale, 'zh'>, GuideCopy> = {
       scenario: 'LTX 2.5 Pro · texto a vídeo · 10 s · 720p · sin sonido · sin referencias',
       checked: 'Precio verificado el',
       labels: ['Recarga', 'Un render completado', 'Saldo restante'],
-      note: 'Ejemplo con un saldo MaxVideoAI inicial de cero y un render completado. Importes en USD. El pago puede variar con los impuestos y la conversión.',
+      note: 'Ejemplo con un saldo Keyvo inicial de cero y un render completado. Importes en USD. El pago puede variar con los impuestos y la conversión.',
       price: 'Ver el precio de estos ajustes',
-      action: 'Calcular mi vídeo en MaxVideoAI',
+      action: 'Calcular mi vídeo en Keyvo',
       details: 'Comparar el coste de uno, tres o seis intentos',
-      comparison: 'Comparar MaxVideoAI y Higgsfield para un proyecto puntual',
+      comparison: 'Comparar Keyvo y Higgsfield para un proyecto puntual',
     },
   },
 };

@@ -11,7 +11,7 @@ import { COMPARISON_PATH } from './_lib/evidence';
 
 export const revalidate = 86400;
 type Params = { params: Promise<{ locale: string }> };
-// Keyvo does not publish this competitor comparison in zh (its copy names MaxVideoAI and no zh copy exists).
+// Keyvo does not publish this competitor comparison in zh (its copy names Keyvo and no zh copy exists).
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const locale = normalizeAppLocale((await params).locale);
   if (locale === 'zh') notFound();

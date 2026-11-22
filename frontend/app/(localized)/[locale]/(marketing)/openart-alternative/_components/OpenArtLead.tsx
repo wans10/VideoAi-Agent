@@ -9,7 +9,7 @@ export function OpenArtHero({ copy }: { copy: OpenArtCopy['hero'] }) {
   return (
     <section className={styles.hero} aria-labelledby="openart-title">
       <div className={styles.heroCopy}>
-        <p className={styles.eyebrow}>MaxVideoAI <span aria-hidden="true">/</span> OpenArt</p>
+        <p className={styles.eyebrow}>Keyvo <span aria-hidden="true">/</span> OpenArt</p>
         <h1 id="openart-title">{copy.title}</h1>
         <p className={styles.lead}>{copy.lead}</p>
         <div className={styles.actions}>
@@ -36,7 +36,7 @@ export function OpenArtHero({ copy }: { copy: OpenArtCopy['hero'] }) {
 }
 
 const decisionBrands = [
-  { name: 'MaxVideoAI', Icon: Clapperboard },
+  { name: 'Keyvo', Icon: Clapperboard },
   { name: 'OpenArt Director', Icon: PanelsTopLeft },
 ] as const;
 

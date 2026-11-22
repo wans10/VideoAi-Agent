@@ -1,3 +1,5 @@
+// Upstream cinematic contracts for seedream-5-5 and seedance-2-5-flash, which Keyvo does not offer: run on the unfiltered catalog.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';

@@ -122,7 +122,7 @@ test('strict current public projection uses the captured effective database poli
       marginPercent: 1, marginFlatCents: 7, currency: 'USD' }] };
   } } });
   assert.equal(reads, 1);
-  assert.equal(pricing.totalCents, 119, 'five seconds at USD 0.112/s, plus 100% and seven cents');
+  assert.equal(pricing.totalCents, 107, 'five seconds at the Keyvo official-list USD 0.10/s (vendor 50 cents), plus 100% and seven cents');
   assert.equal((pricing.meta?.pricingPolicy as { sourceRuleId: string }).sourceRuleId, 'effective-kling');
 });
 

@@ -22,7 +22,7 @@ export function ComparisonTable({ rows, copy, caption }: { rows: ComparisonRow[]
     <div className={styles.tableWrap}>
       <table role="table" className={styles.table}>
         <caption className="sr-only">{caption}</caption>
-        <thead role="rowgroup"><tr role="row"><th role="columnheader" scope="col">{copy.task}</th><th role="columnheader" scope="col" id={`${tableId}-max`}>MaxVideoAI</th><th role="columnheader" scope="col" id={`${tableId}-higgs`}>Higgsfield</th></tr></thead>
+        <thead role="rowgroup"><tr role="row"><th role="columnheader" scope="col">{copy.task}</th><th role="columnheader" scope="col" id={`${tableId}-max`}>Keyvo</th><th role="columnheader" scope="col" id={`${tableId}-higgs`}>Higgsfield</th></tr></thead>
         <tbody role="rowgroup">{rows.map((row) => (
           <tr role="row" key={row.id} id={row.id}>
             <th role="rowheader" scope="row" id={`${row.id}-label`}>
@@ -31,7 +31,7 @@ export function ComparisonTable({ rows, copy, caption }: { rows: ComparisonRow[]
                 <a key={id} href={`#source-${id}`} aria-label={`${copy.sources} ${sourceNumber(id)}`}>[{sourceNumber(id)}]</a>
               ))}</span>
             </th>
-            <Cell cell={row.max} brand="MaxVideoAI" headers={`${row.id}-label ${tableId}-max`} /><Cell cell={row.higgsfield} brand="Higgsfield" headers={`${row.id}-label ${tableId}-higgs`} />
+            <Cell cell={row.max} brand="Keyvo" headers={`${row.id}-label ${tableId}-max`} /><Cell cell={row.higgsfield} brand="Higgsfield" headers={`${row.id}-label ${tableId}-higgs`} />
           </tr>
         ))}</tbody>
       </table>

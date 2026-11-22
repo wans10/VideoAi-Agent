@@ -11,7 +11,7 @@ export function ShareComparison({ copy, locale, canonical }: { copy: ComparisonC
   const [fallback, setFallback] = useState('');
   const download = `/higgsfield-alternative/comparison?format=png&locale=${locale}`;
   const source = `${canonical}#comparison`;
-  const embed = `<figure><a href="${source}"><img src="https://maxvideoai.com${download.replaceAll('&', '&amp;')}" alt="MaxVideoAI vs Higgsfield — 2026-11-10" width="1200" loading="lazy" style="max-width:100%;height:auto"></a><figcaption><a href="${source}">${copy.attribution}</a> · 2026-11-10</figcaption></figure>`;
+  const embed = `<figure><a href="${source}"><img src="https://maxvideoai.com${download.replaceAll('&', '&amp;')}" alt="Keyvo vs Higgsfield — 2026-11-10" width="1200" loading="lazy" style="max-width:100%;height:auto"></a><figcaption><a href="${source}">${copy.attribution}</a> · 2026-11-10</figcaption></figure>`;
   async function copyText(value: string, success: string) {
     try { await navigator.clipboard.writeText(value); setFallback(''); setStatus(success); }
     catch { setFallback(value); setStatus(copy.copyFailed); }

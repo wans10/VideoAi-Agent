@@ -22,7 +22,7 @@ export function ProductionPace({ locale }: { locale: AppLocale }) {
       </div>
       <div className={styles.commitments}>
         {[
-          { brand: 'MaxVideoAI', title: copy.maxTitle, text: copy.maxText, stages: copy.maxTimeline, kind: 'max', Icon: Check },
+          { brand: 'Keyvo', title: copy.maxTitle, text: copy.maxText, stages: copy.maxTimeline, kind: 'max', Icon: Check },
           { brand: 'Higgsfield', title: copy.higgsTitle, text: copy.higgsText, stages: copy.higgsTimeline, kind: 'higgs', Icon: Clock3 },
         ].map(({ brand, title, text, stages, kind, Icon }) => (
           <div key={brand} className={styles.commitment} data-brand={kind}>

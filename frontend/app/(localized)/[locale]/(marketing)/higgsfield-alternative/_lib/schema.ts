@@ -12,7 +12,7 @@ export function buildComparisonSchema(copy: ComparisonCopy, locale: AppLocale, u
         name: copy.meta.title, description: copy.meta.description, inLanguage: locale,
         dateModified: COMPARISON_CHECKED, lastReviewed: COMPARISON_CHECKED,
         publisher: buildSiteOrganizationReference(),
-        about: [{ '@type': 'Thing', name: 'MaxVideoAI' }, { '@type': 'Thing', name: 'Higgsfield' }],
+        about: [{ '@type': 'Thing', name: 'Keyvo' }, { '@type': 'Thing', name: 'Higgsfield' }],
         citation: comparisonSources.map(({ url: source }) => source),
       },
       {

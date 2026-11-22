@@ -2,17 +2,17 @@ import type { OpenArtCopy } from './types';
 
 export const en = {
   meta: {
-    title: 'OpenArt alternative with no subscription — MaxVideoAI',
-    description: 'Create video shots on MaxVideoAI without a subscription. See the price before rendering, keep unused purchased credits and compare with OpenArt Director.',
+    title: 'OpenArt alternative with no subscription — Keyvo',
+    description: 'Create video shots on Keyvo without a subscription. See the price before rendering, keep unused purchased credits and compare with OpenArt Director.',
   },
   hero: {
     title: 'An OpenArt alternative.\nPay as you go.',
-    lead: 'With MaxVideoAI, choose the model, duration and sound for your clip. See the price before each render. Unused media credits you buy stay in your wallet for future projects.',
+    lead: 'With Keyvo, choose the model, duration and sound for your clip. See the price before each render. Unused media credits you buy stay in your wallet for future projects.',
     action: 'Price a shot',
     compare: 'Compare both workflows',
-    note: 'Media top-ups start at US$10, with no MaxVideoAI subscription.',
+    note: 'Media top-ups start at US$10, with no Keyvo subscription.',
     imageAlt: 'Six storyboard panels of a runner crossing a rainy city at night',
-    imageCaption: 'Storyboard artwork from MaxVideoAI Studio',
+    imageCaption: 'Storyboard artwork from Keyvo Studio',
   },
   decision: {
     label: 'The deliverable comes first',
@@ -32,7 +32,7 @@ export const en = {
   },
   matrix: {
     title: 'Compare access, credits and delivery',
-    caption: 'MaxVideoAI and OpenArt offer comparison',
+    caption: 'Keyvo and OpenArt offer comparison',
     criterion: 'What matters',
     note: 'At the time of review, OpenArt listed Starter at US$14 per seat per month before discounts. Check the billing term and the price available to your account.',
     sources: 'Read the official sources',
@@ -60,7 +60,7 @@ export const en = {
     },
     mcp: {
       label: 'External assistants',
-      max: 'Plan at no MaxVideoAI charge over MCP with a compatible host. Review and approve the media quote before paying from your wallet. The host may have its own fees and limits.',
+      max: 'Plan at no Keyvo charge over MCP with a compatible host. Review and approve the media quote before paying from your wallet. The host may have its own fees and limits.',
       openart: 'MCP has no separate OpenArt fee and is included from Starter. Web, MCP and CLI share OpenArt credits. The Claude and ChatGPT guides also advertise the new-account trial. Access depends on the host.',
     },
     delivery: {
@@ -70,7 +70,7 @@ export const en = {
     },
   },
   workflow: {
-    label: 'The MaxVideoAI workflow',
+    label: 'The Keyvo workflow',
     title: 'Take one shot from brief to edit.',
     text: 'Plan in Studio with Milo, or bring a brief from a compatible assistant over MCP. Move from a shot idea to a decision with a real price attached.',
     steps: [
@@ -99,34 +99,34 @@ export const en = {
     guide: 'Compare AI video platforms',
   },
   faq: {
-    title: 'Questions about MaxVideoAI and OpenArt',
+    title: 'Questions about Keyvo and OpenArt',
     items: [
       {
         question: 'Can I buy extra OpenArt credits without a subscription?',
-        answer: 'OpenArt offers extra credit packs with an active Plus, Pro or Wonder subscription. The packs renew automatically each month until canceled. New accounts get 40 trial credits for seven days. MaxVideoAI sells media top-ups from US$10 without a subscription.',
+        answer: 'OpenArt offers extra credit packs with an active Plus, Pro or Wonder subscription. The packs renew automatically each month until canceled. New accounts get 40 trial credits for seven days. Keyvo sells media top-ups from US$10 without a subscription.',
       },
       {
         question: 'Do unused OpenArt credits carry over?',
-        answer: 'On MaxVideoAI, purchased media credits stay available between projects without a subscription. OpenArt’s monthly plan allowance resets each billing cycle. Unused add-on credits carry forward while the subscription is active.',
+        answer: 'On Keyvo, purchased media credits stay available between projects without a subscription. OpenArt’s monthly plan allowance resets each billing cycle. Unused add-on credits carry forward while the subscription is active.',
       },
       {
         question: 'Are OpenArt Chat Mode and MCP free?',
         answer: 'Chat Mode conversation is free. Media generations and edits spend credits. MCP has no extra OpenArt fee and is included from Starter. The Claude and ChatGPT guides also advertise the trial for new accounts. The assistant host may have its own access rules and fees.',
       },
       {
-        question: 'What’s the difference between MaxVideoAI and OpenArt Director?',
-        answer: 'MaxVideoAI helps you plan a shot with Milo, check its price and generate a clip for your edit. OpenArt Director builds a storyboard and assembles several scenes with sound. OpenArt advertises videos of up to five minutes.',
+        question: 'What’s the difference between Keyvo and OpenArt Director?',
+        answer: 'Keyvo helps you plan a shot with Milo, check its price and generate a clip for your edit. OpenArt Director builds a storyboard and assembles several scenes with sound. OpenArt advertises videos of up to five minutes.',
       },
       {
-        question: 'How do I compare clip costs on MaxVideoAI and OpenArt?',
-        answer: 'MaxVideoAI media top-ups start at US$10 without a subscription, and you see the price before each render. With matching settings, compare the first payment, completed attempts, remaining balance and how much of any plan allowance you use. Budget separately for an individual clip and a film assembled with Director.',
+        question: 'How do I compare clip costs on Keyvo and OpenArt?',
+        answer: 'Keyvo media top-ups start at US$10 without a subscription, and you see the price before each render. With matching settings, compare the first payment, completed attempts, remaining balance and how much of any plan allowance you use. Budget separately for an individual clip and a film assembled with Director.',
       },
     ],
   },
   evidence: {
     title: 'Sources and scope',
     date: 'November 10, 2026',
-    note: 'Published by MaxVideoAI. The official public sources document the features and credit terms shown here.',
+    note: 'Published by Keyvo. The official public sources document the features and credit terms shown here.',
   },
   sourceLabels: {
     'openart-pricing': 'Plans and Starter allowance',

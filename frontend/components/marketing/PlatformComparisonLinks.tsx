@@ -6,9 +6,9 @@ import styles from './platform-comparison-links.module.css';
 
 const paths = ['/higgsfield-alternative', '/openart-alternative', '/blog/compare-ai-video-platforms', '/blog/ai-video-project-cost'] as const;
 const copy = {
-  en: { title: 'Keep comparing what matters to your project.', labels: ['MaxVideoAI & Higgsfield', 'MaxVideoAI & OpenArt', 'Choose a video platform', 'Budget for your attempts'] },
-  fr: { title: 'Comparez ce qui compte pour votre projet.', labels: ['MaxVideoAI et Higgsfield', 'MaxVideoAI et OpenArt', 'Choisir une plateforme vidéo', 'Prévoir le budget des essais'] },
-  es: { title: 'Compara lo que importa para tu proyecto.', labels: ['MaxVideoAI e Higgsfield', 'MaxVideoAI y OpenArt', 'Elegir una plataforma de vídeo', 'Prever el coste de los intentos'] },
+  en: { title: 'Keep comparing what matters to your project.', labels: ['Keyvo & Higgsfield', 'Keyvo & OpenArt', 'Choose a video platform', 'Budget for your attempts'] },
+  fr: { title: 'Comparez ce qui compte pour votre projet.', labels: ['Keyvo et Higgsfield', 'Keyvo et OpenArt', 'Choisir une plateforme vidéo', 'Prévoir le budget des essais'] },
+  es: { title: 'Compara lo que importa para tu proyecto.', labels: ['Keyvo e Higgsfield', 'Keyvo y OpenArt', 'Elegir una plataforma de vídeo', 'Prever el coste de los intentos'] },
   zh: { title: '继续比较对你的项目真正重要的内容。', labels: ['Keyvo 与 Higgsfield', 'Keyvo 与 OpenArt', '选择视频平台', '规划尝试的预算'] },
 };
 

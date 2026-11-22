@@ -32,9 +32,9 @@ const isVisibleP0 = (id: string) => isKeyvoVisibleFamily(listFalEngines().find((
 const P0_IDS: string[] = ALL_P0_IDS.filter(isVisibleP0);
 const DEEP_LEGACY_IDS = ['ltx-2', 'ltx-2-fast', 'wan-2-5'] as const;
 const P0_REPRESENTATIVE_IDS = (['ltx-2-5-pro', 'wan-3-prime', 'grok-imagine-video-1-5'] as const).filter(isVisibleP0);
-// The PAYG example strip keeps the first six visible preferred examples. MiniMax-H3-Max is served on Keyvo again
-// (MiniMax's own API) and holds its upstream slot, so Wan 3 Prime is no longer among them (as upstream).
-const P0_VISIBLE_EXAMPLE_IDS = (['ltx-2-5-pro'] as const).filter(isVisibleP0);
+// The PAYG example strip keeps the first seven preferred examples that have a visible row (upstream slice(0, 7)).
+// On Keyvo the LTX row is hidden, so the only P0 example in the strip is the visible Wan 3 Prime.
+const P0_VISIBLE_EXAMPLE_IDS = (['wan-3-prime'] as const).filter(isVisibleP0);
 const P0_PAYG_PRESETS = {
   'ltx-2-5-pro': '10s-720p',
   'ltx-2-5-fast': '10s-720p',
@@ -374,14 +374,12 @@ test('PAYG copies a P0 canonical quote instead of an authored amount', () => {
     data.priceLookups.items.find((item) => item.id === 'wan-3-prime')?.price,
     '$432.10',
   );
-  // Upstream no longer lists Wan 3 Prime among the example costs (P0_VISIBLE_EXAMPLE_IDS); H3-Max holds that slot on
-  // Keyvo again, and the LTX row is hidden in Keyvo, so there is no example-cost projection of the quote to compare.
   assert.deepEqual(p0IdsIn(data.exampleCosts.items), P0_VISIBLE_EXAMPLE_IDS);
-  // The strip is the first six preferred examples that have a row, among customer-visible models. Gemini Omni Flash is
-  // admin-tier on the owner allowlist (2026-11-14), so customers never see its pricing row; MiniMax-H3-Max takes the
-  // sixth slot. Placement of the strip is an owner question.
+  // The strip is the first seven preferred examples that have a row, among customer-visible models. Gemini Omni Flash is
+  // admin-tier on the owner allowlist (2026-11-14), so customers never see its pricing row; the LTX rows are hidden on
+  // Keyvo, so Wan 3 Prime fills the seventh slot. Placement of the strip is an owner question.
   assert.deepEqual(data.exampleCosts.items.map((item) => item.id), [
-    'kling-v4', 'minimax-h3', 'seedance-2-5', 'kling-3-turbo-pro', 'kling-3-turbo-standard', 'minimax-h3-max',
+    'kling-v4', 'minimax-h3', 'seedance-2-5', 'kling-3-turbo-pro', 'kling-3-turbo-standard', 'minimax-h3-max', 'wan-3-prime',
   ]);
   assert.equal(
     data.hero.quote.previewRows.find((row) => row.id === 'wan-3-prime')?.quoteLabel,

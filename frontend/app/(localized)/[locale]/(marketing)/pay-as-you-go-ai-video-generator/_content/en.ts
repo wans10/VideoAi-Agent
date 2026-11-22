@@ -115,8 +115,8 @@ export const enPayAsYouGoContent = {
     ],
   },
   subscriptionComparison: {
-    higgsfieldLinkLabel: 'Compare MaxVideoAI and Higgsfield',
-    openartLinkLabel: 'Compare MaxVideoAI and OpenArt',
+    higgsfieldLinkLabel: 'Compare Keyvo and Higgsfield',
+    openartLinkLabel: 'Compare Keyvo and OpenArt',
     budgetLink: { label: 'Budget for completed attempts', slug: 'ai-video-project-cost' },
     header: {
       eyebrow: 'No subscription required',

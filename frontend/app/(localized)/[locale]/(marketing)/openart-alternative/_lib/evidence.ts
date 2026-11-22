@@ -17,10 +17,10 @@ export const openArtSources = [
   { id: 'openart-mcp', publisher: 'OpenArt', url: 'https://openart.ai/mcp/' },
   { id: 'openart-claude', publisher: 'OpenArt', url: 'https://openart.ai/mcp/claude-ai-video-generator/' },
   { id: 'openart-chatgpt', publisher: 'OpenArt', url: 'https://openart.ai/mcp/chatgpt-ai-video-generator/' },
-  { id: 'max-pricing', publisher: 'MaxVideoAI', url: 'https://maxvideoai.com/pricing' },
-  { id: 'max-wallet', publisher: 'MaxVideoAI', url: 'https://maxvideoai.com/pay-as-you-go-ai-video-generator' },
-  { id: 'max-studio', publisher: 'MaxVideoAI', url: 'https://maxvideoai.com/studio' },
-  { id: 'max-mcp', publisher: 'MaxVideoAI', url: 'https://maxvideoai.com/mcp' },
+  { id: 'max-pricing', publisher: 'Keyvo', url: 'https://maxvideoai.com/pricing' },
+  { id: 'max-wallet', publisher: 'Keyvo', url: 'https://maxvideoai.com/pay-as-you-go-ai-video-generator' },
+  { id: 'max-studio', publisher: 'Keyvo', url: 'https://maxvideoai.com/studio' },
+  { id: 'max-mcp', publisher: 'Keyvo', url: 'https://maxvideoai.com/mcp' },
 ] as const;
 
 export type OpenArtSourceId = (typeof openArtSources)[number]['id'];

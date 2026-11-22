@@ -24,7 +24,7 @@ const films = [
   {
     id: 'vesper',
     title: 'Vesper Recast',
-    model: 'MaxVideoAI Recast',
+    model: 'Keyvo Recast',
     duration: 14,
     src: 'https://media.maxvideoai.com/marketing-media/f45bb7e5-46e7-4e29-878f-49c84ec036f2/14fc9e43709951a0c5c2aad8f6eda7d78807bc463de525ce7e04d8e8c97e4114.mp4',
     href: '/video/b95c603e-2339-440e-b50e-7b7b2757da3c',
