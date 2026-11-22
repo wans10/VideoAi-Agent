@@ -38,7 +38,7 @@ test('native Builder normalizes the real request origin while preserving canonic
   const {trustedAccountUrlFromOrigin}=await import('../frontend/src/server/agent-api/account-destinations');
   assert.equal(trustedAccountUrlFromOrigin('https://maxvideoai.com'),'https://maxvideoai.com/account/connections');
   assert.equal(trustedAccountUrlFromOrigin('http://localhost:3217'),'http://localhost:3217/account/connections');
-  assert.throws(()=>trustedAccountUrlFromOrigin('https://maxvideoai.com.evil.example'),/trusted MaxVideoAI account URL/);
+  assert.throws(()=>trustedAccountUrlFromOrigin('https://maxvideoai.com.evil.example'),/trusted Keyvo account URL/);
 });
 
 test('native save and exact look selection contain no URLs or paid-confirmation authority',()=>{

@@ -7,10 +7,44 @@ type OAuthLookupDeps = {
   fetcher?: typeof fetch;
 };
 
+/** `email_verified` is the email claim; `phone_verified` is set only when a Keyvo phone is confirmed. */
+export type OAuthIdentity = { id: string; email_verified: boolean; phone_verified?: true };
+
+const isConfirmedAt = (value: unknown): boolean => typeof value === 'string' && value.trim().length > 0;
+
+function identity(id: string, emailVerified: boolean, phoneVerified: boolean): OAuthIdentity {
+  return phoneVerified ? { id, email_verified: emailVerified, phone_verified: true } : { id, email_verified: emailVerified };
+}
+
+/** Administrative record for the subject; any failure means "unavailable", never a thrown auth error. */
+async function readAdministrativeContact(
+  supabaseUrl: string,
+  serviceRoleKey: string,
+  sub: string,
+  fetcher: typeof fetch,
+): Promise<{ email: boolean; phone: boolean } | null> {
+  try {
+    const response = await fetcher(new URL(`/auth/v1/admin/users/${encodeURIComponent(sub)}`, supabaseUrl), {
+      headers: { accept: 'application/json', apikey: serviceRoleKey, authorization: `Bearer ${serviceRoleKey}` },
+      cache: 'no-store', redirect: 'error', signal: AbortSignal.timeout(10_000),
+    });
+    if (!response.ok) return null;
+    const user: unknown = await response.json();
+    if (!user || typeof user !== 'object' || Array.isArray(user)) return null;
+    const { id, email_confirmed_at, phone_confirmed_at } = user as {
+      id?: unknown; email_confirmed_at?: unknown; phone_confirmed_at?: unknown;
+    };
+    if (id !== sub) return null;
+    return { email: isConfirmedAt(email_confirmed_at), phone: isConfirmedAt(phone_confirmed_at) };
+  } catch {
+    return null;
+  }
+}
+
 export async function readOAuthUserInfo(
   accessToken: string,
   deps: OAuthLookupDeps = {},
-): Promise<{ id: string; email_verified: boolean } | null> {
+): Promise<OAuthIdentity | null> {
   const supabaseUrl = deps.supabaseUrl ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
   const anonKey = deps.anonKey ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!supabaseUrl?.trim() || !anonKey?.trim()) return null;
@@ -24,23 +58,20 @@ export async function readOAuthUserInfo(
     if (!info || typeof info !== 'object' || Array.isArray(info)) return null;
     const { sub, email_verified } = info as { sub?: unknown; email_verified?: unknown };
     if (typeof sub !== 'string' || !sub.trim()) return null;
-    // UserInfo omits this claim without the email scope (and for unconfirmed
-    // email). The resource server still owns verification gates for its users.
+    if (email_verified === true) return identity(sub, true, false);
+    // UserInfo omits this claim without the email scope. Phone-only Keyvo accounts have no email, so
+    // their confirmed phone (read from the administrative record) is the verified contact instead.
+    const serviceRoleKey = deps.serviceRoleKey ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const record = serviceRoleKey?.trim()
+      ? await readAdministrativeContact(supabaseUrl, serviceRoleKey, sub, deps.fetcher ?? fetch)
+      : null;
     if (email_verified === undefined) {
-      const serviceRoleKey = deps.serviceRoleKey ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
-      if (!serviceRoleKey?.trim()) return null;
-      const userResponse = await (deps.fetcher ?? fetch)(new URL(`/auth/v1/admin/users/${encodeURIComponent(sub)}`, supabaseUrl), {
-        headers: { accept: 'application/json', apikey: serviceRoleKey, authorization: `Bearer ${serviceRoleKey}` },
-        cache: 'no-store', redirect: 'error', signal: AbortSignal.timeout(10_000),
-      });
-      if (!userResponse.ok) return null;
-      const user: unknown = await userResponse.json();
-      if (!user || typeof user !== 'object' || Array.isArray(user)) return null;
-      const { id, email_confirmed_at } = user as { id?: unknown; email_confirmed_at?: unknown };
-      if (id !== sub) return null;
-      return { id: sub, email_verified: typeof email_confirmed_at === 'string' && email_confirmed_at.trim().length > 0 };
+      // Without the email claim the administrative record is the only source for email verification.
+      if (!record) return null;
+      return identity(sub, record.email, record.phone);
     }
-    return { id: sub, email_verified: email_verified === true };
+    // An explicit false is authoritative for email; only a confirmed phone can still verify the contact.
+    return identity(sub, false, record?.phone === true);
   } catch {
     return null;
   }

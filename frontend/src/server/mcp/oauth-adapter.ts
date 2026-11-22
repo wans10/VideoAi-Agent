@@ -28,7 +28,9 @@ export type OAuthUser = {
   /** Phone sign-up accounts have no email; a confirmed phone is their verified contact. */
   phone_confirmed_at?: string | null;
   email_verified?: boolean;
-  identities?: Array<{ provider?: string | null }> | null;
+  /** Set by the OAuth identity lookup when only the phone is confirmed (no email scope on the grant). */
+  phone_verified?: boolean;
+
   user_metadata?: Record<string, unknown> | null;
   app_metadata?: Record<string, unknown> | null;
 };
@@ -163,7 +165,7 @@ async function resolveOAuthPrincipal(
     clientId,
     // `emailVerified` means "verified contact": a confirmed email, or a confirmed phone for
     // Keyvo phone-only accounts (they have no email to verify).
-    emailVerified: user.email_verified === true || isConfirmedAt(user.email_confirmed_at) || isConfirmedAt(user.phone_confirmed_at),
+    emailVerified: user.email_verified === true || user.phone_verified === true || isConfirmedAt(user.email_confirmed_at) || isConfirmedAt(user.phone_confirmed_at),
     authMethod: 'oauth',
   };
 }

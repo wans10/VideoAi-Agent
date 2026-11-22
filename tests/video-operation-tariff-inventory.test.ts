@@ -52,16 +52,23 @@ test('all historical checkpoints and independently enumerated additive operation
   // Keyvo official list prices (2026-11-13): Wan 2.6 / Kling 2.5 Turbo / Kling 2.6 Pro offline, Kling 3 voice-control
   // variants share the audio-on identity, Hailuo 02 512P text-to-video unsold (customer-tariff-cutover-evidence.test.ts).
   const keyvoProviderDelta = -104 - 90 - 132 + 3564 - (528 - 288) + 6 + 3 + 2 - 84;
-  assert.equal(cases.filter(row => row.kind === 'ordinary' && !['kling-v4', 'nano-banana-2-1', ...novemberModels].includes(row.scenario.modelId)).length, 20286 + 8 + keyvoProviderDelta,
+  // Upstream 3827da0 checkpoint additions, measured per model against the pre-merge Keyvo inventory (23219 ordinary):
+  // Seedance 2.5 Flash +1944, Seedance 2.5 +810, Seedream 5.5 +33, Seedream 5.0 Flash +4.
+  const upstreamMergeDelta = 1944 + 810 + 33 + 4;
+  // Seedance 2.5 (the upstream 4K tariff path) also gained +162 local-workflow and +648 input-stress checkpoints.
+  const upstreamSeedance25LocalDelta = 162;
+  const upstreamSeedance25InputStressDelta = 648 + 1944;
+  assert.equal(cases.filter(row => row.kind === 'ordinary' && !['kling-v4', 'nano-banana-2-1', ...novemberModels].includes(row.scenario.modelId)).length, 20286 + 8 + keyvoProviderDelta + upstreamMergeDelta,
     'Keyvo adds 8 ordinary Qwen image cutover checkpoints to the upstream inventory');
   assert.deepEqual(novemberModels.map(id => cases.filter(row => row.scenario.modelId === id).length), [72, 1020, 1020]);
   assert.equal(cases.filter(row => row.scenario.modelId === 'kling-v4').length, 280);
   assert.equal(cases.filter(row => row.scenario.modelId === 'nano-banana-2-1').length, 6,
     'new native fixed image cells remain separate from the old video inventory');
-  assert.equal(cases.filter(row => row.kind === 'local_workflow').length, 324);
-  assert.equal(cases.filter(row => row.kind === 'input_stress').length, 6372);
+  assert.equal(cases.filter(row => row.kind === 'local_workflow').length, 324 + upstreamSeedance25LocalDelta);
+  assert.equal(cases.filter(row => row.kind === 'input_stress').length, 6372 + upstreamSeedance25InputStressDelta);
   assert.equal(cases.filter(row => String(row.kind) === 'new_offer').length, 89 - 6, 'H3-Max Recast/Relight offers are not sold');
-  assert.equal(cases.length, 27071 + 8 + 280 + 6 + 72 + 1020 + 1020 + keyvoProviderDelta - 6);
+  assert.equal(cases.length, 27071 + 8 + 280 + 6 + 72 + 1020 + 1020 + keyvoProviderDelta - 6
+    + upstreamMergeDelta + upstreamSeedance25LocalDelta + upstreamSeedance25InputStressDelta);
   assert.equal(new Set(cases.map(row => row.key)).size, cases.length);
   const veo = coverage.scenarios.filter(row => row.modelId === 'veo-3-1' && row.selector.mode === 'i2v');
   assert.equal(veo.length, 18);

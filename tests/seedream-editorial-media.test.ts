@@ -1,3 +1,4 @@
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
@@ -5,6 +6,7 @@ import path from 'node:path';
 import test from 'node:test';
 import records from '../frontend/config/seedream-editorial-images.json';
 import {listSeedreamEditorialImages,parseSeedreamEditorialImages} from '../frontend/lib/seedream-editorial-images';
+import {getRuntimeModelById} from '../frontend/config/model-runtime';
 import {getFalEngineById} from '../frontend/src/config/falEngines';
 import {listModelEditorialImages} from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-editorial-images';
 
@@ -39,6 +41,8 @@ test('Seedream media cannot misattribute a sibling model or publish mutable/priv
 
 test('Seedream heroes and localized galleries use only accepted outputs from the selected model',()=>{
  for(const engineId of [...new Set(records.map(image=>image.engineId))]){
+  // Keyvo keeps registry-only models unpublished (seedream-5-5); their editorial images stay off every surface.
+  if(!getRuntimeModelById(engineId)?.publication.model.published){assert.deepEqual(listSeedreamEditorialImages(engineId),[]);continue;}
   const images=listSeedreamEditorialImages(engineId);
   const hero=images.find(image=>image.role==='hero');assert.ok(hero);
   const engine=getFalEngineById(engineId);assert.equal(engine?.media?.imagePath,hero.display.url);

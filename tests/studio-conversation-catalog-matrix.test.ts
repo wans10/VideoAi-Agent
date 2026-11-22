@@ -36,9 +36,9 @@ const currentCertified=[
   'veo-3-1','veo-3-1-fast','veo-3-1-lite','wan-3','wan-3-prime',
   'kling-3-turbo-pro','kling-3-turbo-standard','minimax-h3-max','ltx-2-5-fast','ltx-2-5-pro','grok-imagine-video-1-5','flux-3','flux-3-draft','flux-3-max',
 ];
-const uncertified=[
-  'gpt-image-2-5-sunburst',
-];
+// gpt-image-2-5-sunburst is certified upstream and admin-tier on Keyvo (keyvo-model-allowlist.json), so the unfiltered
+// catalogue carries it; the public customer catalogue hides it through the allowlist tier, not through absence.
+const uncertified=[];
 // HappyHorse 1.0 was taken offline on every surface (owner decision 2026-11-11; legacy, app unpublished).
 // MiniMax-H3-Max left this list on 2026-11-12 (served on MiniMax's own API).
 // Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro were taken offline on 2026-11-13 (no mainland route; legacy, app unpublished).

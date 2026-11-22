@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility';
 import path from 'node:path';
 import test from 'node:test';
 
@@ -237,8 +238,9 @@ test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter mark
   assert.deepEqual(MARKETING_NAV_EXAMPLES.map((item) => item.key), ['kling', 'seedance', 'wan', 'hailuo', 'happy-horse']);
   assert.deepEqual(MARKETING_FOOTER_EXAMPLES.map((item) => item.key).sort(), expectedExampleFamilies.slice().sort());
   assert.equal(getExampleNavFamilyIds().includes('pika'), false);
-  assert.equal(getExampleFamilyIds().includes('pika'), true, 'historical family routes remain published');
-  assert.equal(resolveExampleFamilyId('pika-image-to-video'), 'pika');
+  // Keyvo publishes a historical family route only where its visible-family list keeps it (keyvo-model-visibility.ts).
+  assert.equal(getExampleFamilyIds().includes('pika'), isKeyvoVisibleFamily('pika'), 'historical family routes follow the Keyvo visible-family list');
+  assert.equal(resolveExampleFamilyId('pika-image-to-video'), isKeyvoVisibleFamily('pika') ? 'pika' : null);
 });
 
 test('Seedance 1.5 Pro is retired while Seedance 2.0 keeps the primary alias and promoted slots', () => {

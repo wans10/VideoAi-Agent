@@ -120,6 +120,7 @@ export async function startStudioAuthFixture(options: { appOrigin?: string; port
       }
       const users = STUDIO_FIXTURE_USERS.map(id => ({
         id, aud: 'authenticated', role: 'authenticated', email: `studio-${id.slice(-1)}@example.invalid`,
+        email_confirmed_at: '2026-07-11T12:00:00.000Z',
         created_at: '2026-10-01T00:00:00Z', updated_at: '2026-10-01T00:00:00Z',
         app_metadata: { provider: 'email', providers: ['email'] }, user_metadata: {}, identities: [], factors: [],
       }));
@@ -166,14 +167,6 @@ export async function startStudioAuthFixture(options: { appOrigin?: string; port
       if (!claims) { reply(401, { code: 'bad_jwt' }); return; }
       const session = [...sessions.values()].find(session => session.sessionId === claims.session_id);
       reply(200, { sub: claims.sub, ...(session?.scopes.includes('email') ? { email_verified: true } : {}) }); return;
-    }
-    if (request.method === 'GET' && url.pathname.startsWith('/auth/v1/admin/users/')) {
-      if (request.headers.authorization !== `Bearer ${serviceRoleKey}` || request.headers.apikey !== serviceRoleKey) {
-        reply(403, {}); return;
-      }
-      const id = decodeURIComponent(url.pathname.slice('/auth/v1/admin/users/'.length));
-      if (!STUDIO_FIXTURE_USERS.includes(id)) { reply(404, {}); return; }
-      reply(200, { id, email_confirmed_at: '2026-07-11T12:00:00.000Z' }); return;
     }
     if (request.method === 'POST' && url.pathname === '/rest/v1/rpc/mcp_oauth_grant_is_active') {
       if (request.headers.authorization !== `Bearer ${serviceRoleKey}` || request.headers.apikey !== serviceRoleKey) {

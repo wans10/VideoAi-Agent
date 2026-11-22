@@ -6,6 +6,8 @@ import { build } from 'esbuild';
 
 async function route(path: string, extra: Record<string, string>) {
   const stubs: Record<string, string> = {
+    // Keyvo hides the toolbox (404) by deviation; these routes' error mapping is tested with it visible.
+    '@/config/keyvo-disabled-features': 'export const KEYVO_FAL_FEATURES_HIDDEN=false;',
     '@/content/feature-flags': 'export const FEATURES={workflows:{toolsSection:true}};',
     '@/lib/supabase-ssr': "export const getRouteAuthContext=async()=>({userId:'owner'});",
     '@/server/fraud-cleanup': 'export const getActiveAccountRestriction=async()=>null;',

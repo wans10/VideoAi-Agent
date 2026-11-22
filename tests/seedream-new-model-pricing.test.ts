@@ -1,3 +1,4 @@
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import type { ManualTariffCell } from '@maxvideoai/pricing';
@@ -33,12 +34,13 @@ test('Seedream 5.5 LIST charges every input and uses its exact published pixel b
   assert.equal(quoteSeedreamListCost({ model: '5.5', outputPixels: [], inputImages: 3 }).totalUsd, 0);
 });
 
+// Keyvo converts the Volcengine list price (0.12 CNY per image) at 8 CNY/USD: 0.015 USD (fal-engines/seedream-5-0-flash.ts).
 test('Seedream Flash LIST stays flat across the supported pixels and free input references', () => {
   for (const pixels of [1_048_576, 2_359_296, 4_194_304]) {
     const quote = quoteSeedreamListCost({ model: 'flash', outputPixels: [pixels], inputImages: 10 });
-    assert.equal(quote.outputUsd, 0.018);
+    assert.equal(quote.outputUsd, 0.015);
     assert.equal(quote.inputUsd, 0);
-    assert.equal(quote.totalUsd, 0.018);
+    assert.equal(quote.totalUsd, 0.015);
   }
 });
 
@@ -82,7 +84,8 @@ test('new Seedream scenarios reject unsupported batch, resolution, mode and sour
 
 test('new Seedream models fail closed without an active reviewed customer tariff', async t => {
   t.mock.timers.enable({ apis: ['Date'], now: Date.parse(at) });
-  for (const id of ['seedream-5-5', 'seedream-5-0-flash'] as const) {
+  // Keyvo prices Seedream 5.0 Flash on the official list (official-list-pricing.ts), so only the 5.5 engine needs a reviewed tariff.
+  for (const id of ['seedream-5-5'] as const) {
     await assert.rejects(computeCanonicalBillingSnapshot(context(id), {
       pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [] }) },
       loadCustomerTariffState: async () => ({ status: 'loaded', active: false, revision: 0,

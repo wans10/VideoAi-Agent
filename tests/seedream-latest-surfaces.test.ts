@@ -1,3 +1,4 @@
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
@@ -18,6 +19,10 @@ import { IMAGE_COMPOSER_STORAGE_VERSION } from '../frontend/app/(core)/(workspac
 
 const modelIds = ['seedream-5-5', 'seedream-5-0-flash'] as const;
 const tiers = ['1K', '1.5K', '2K'];
+// Keyvo's own Seedream 5.0 Flash engine (seedream-5-0-flash.ts, Volcengine Flash per-2K pricing) outputs 2K only;
+// the 1K and 1.5K tiers are Seedream 5.5 facts.
+const tiersFor = (modelId: string): string[] => (modelId === 'seedream-5-0-flash' ? ['2K'] : tiers);
+const resolutionFor = (modelId: string): string => (modelId === 'seedream-5-0-flash' ? '2K' : '1.5K');
 
 function candidate(modelId: string): AgentPublicGenerationEngine {
   const entry = listFalEngines().find(entry => entry.id === modelId);
@@ -66,7 +71,7 @@ test('MCP and Studio discover exact latest Seedream facts without inheriting a f
     for (const details of [mcp, studio]) {
       assert.deepEqual(details.modes.map(mode => mode.mode), ['t2i', 'i2i']);
       for (const mode of details.modes) {
-        assert.deepEqual(mode.resolutions, tiers);
+        assert.deepEqual(mode.resolutions, tiersFor(modelId));
         assert.deepEqual(mode.outputCount, { min: 1, max: 1, default: 1 });
         assert.equal(mode.settings.find(setting => setting.key === 'resolution')?.default, null, 'Canonical base-control defaults remain owned by the caller.');
         if (mode.mode === 'i2i') assert.equal(mode.references.find(ref => ref.type === 'image')?.max, 10);
@@ -82,7 +87,8 @@ test('canonical latest Seedream requests enforce one output, ten sources and sup
   for (const modelId of modelIds) {
     const capability = candidate(modelId);
     const base = request(modelId);
-    for (const resolution of tiers) validateCanonicalGenerationCapabilities({ ...base, settings: { ...base.settings, resolution } }, capability);
+    for (const resolution of tiersFor(modelId)) validateCanonicalGenerationCapabilities({ ...base, settings: { ...base.settings, resolution } }, capability);
+    for (const resolution of tiers.filter(tier => !tiersFor(modelId).includes(tier))) assert.throws(() => validateCanonicalGenerationCapabilities({ ...base, settings: { ...base.settings, resolution } }, capability), GenerationCapabilityError);
     for (const resolution of ['3K', '4K']) assert.throws(() => validateCanonicalGenerationCapabilities({ ...base, settings: { ...base.settings, resolution } }, capability), GenerationCapabilityError);
     assert.throws(() => validateCanonicalGenerationCapabilities({ ...base, outputCount: 2 }, capability), GenerationCapabilityError);
     assert.throws(() => validateCanonicalGenerationCapabilities({ ...base, mode: 'i2i' }, capability), GenerationCapabilityError);
@@ -116,7 +122,7 @@ test('Studio preserves ten exact selected sources and Seedream output options th
   const sourceIds = Array.from({ length: 10 }, (_, index) => `ma_${(9 - index).toString(16).padStart(32, 'a')}`);
   for (const modelId of modelIds) {
     const image = { modelId, mode: 'i2i', prompt: 'Keep these product identities, replace only the background.', aspectRatio: '16:9', outputCount: 1,
-      settings: [{ name: 'resolution', value: '1.5K' }, { name: 'outputFormat', value: 'png' },
+      settings: [{ name: 'resolution', value: resolutionFor(modelId) }, { name: 'outputFormat', value: 'png' },
         ...(modelId === 'seedream-5-5' ? [{ name: 'background', value: 'transparent' }] : [])],
       references: sourceIds.map((assetId, index) => ({ ref: { type: 'asset', assetId, kind: 'image' }, role: 'reference', slot: index })) };
     const selection = imageSelectionSchema.parse(image);
@@ -125,7 +131,7 @@ test('Studio preserves ten exact selected sources and Seedream output options th
     const canonical = imageRequestFromDraft({ reply: 'Review this exact image quote.', image: selection },
       { requestId: '123e4567-e89b-42d3-a456-426614174000', message: 'Make the edit.', references: sourceIds }, [candidate(modelId)]);
     assert.equal(canonical.engineId, modelId);
-    assert.deepEqual(canonical.settings, { aspectRatio: '16:9', resolution: '1.5K', outputFormat: 'png', ...(modelId === 'seedream-5-5' ? { background: 'transparent' } : {}) });
+    assert.deepEqual(canonical.settings, { aspectRatio: '16:9', resolution: resolutionFor(modelId), outputFormat: 'png', ...(modelId === 'seedream-5-5' ? { background: 'transparent' } : {}) });
     assert.deepEqual(canonical.references.map(ref => ref.kind === 'asset' ? ref.assetId : null), sourceIds);
     assert.deepEqual(normalizeGenerationRequest(canonical), canonical);
     validateCanonicalGenerationCapabilities(canonical, candidate(modelId));
@@ -142,11 +148,11 @@ test('app model review clamps latest Seedream output count and preserves backgro
     }, 'fr');
     assert.equal(disabledReason, undefined);
     assert.equal(settings.numImages, 1);
-    assert.equal(settings.resolution, '1.5K');
+    assert.equal(settings.resolution, resolutionFor(modelId));
     assert.equal(settings.background, modelId === 'seedream-5-5' ? 'transparent' : null);
     const snapshot = parsePersistedImageComposerState(JSON.stringify({ version: IMAGE_COMPOSER_STORAGE_VERSION, engineId: modelId, mode: 'i2i', ...settings }));
     assert.equal(snapshot?.engineId, modelId);
-    assert.equal(snapshot?.resolution, '1.5K');
+    assert.equal(snapshot?.resolution, resolutionFor(modelId));
     assert.equal(snapshot?.background, settings.background);
   }
 });

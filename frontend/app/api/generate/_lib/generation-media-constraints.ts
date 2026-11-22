@@ -545,7 +545,7 @@ export async function validateGenerationMediaConstraints(params: {
       }
       // Pricing consumes these references, including facts measured above.
       trustedReference.durationSec = durationSec;
-      const minDurationSec = params.engineId === 'seedance-2-5' && params.mode === 'v2v' && field.type === 'video' ? 4 : field.minDurationSec;
+      const minDurationSec = params.engineId === 'seedance-2-5' && params.mode === 'v2v' && field.type === 'video' ? 4 : resolveMediaFieldMinDuration(field, params.mode);
       const maxDurationSec = params.engineId === 'seedance-2-5' && field.type === 'video' ? 30 : field.maxDurationSec;
       const belowMinimum =
         typeof minDurationSec === 'number' && durationSec < minDurationSec;

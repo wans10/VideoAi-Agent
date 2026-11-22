@@ -60,10 +60,13 @@ test('4K direct and Final use separate canonical ×2 tariffs and missing Final n
   }
   const direct = rows.find(row => !row.context.workflowStep)!;
   const final = rows.find(row => row.context.workflowStep === 'final')!;
-  await assert.rejects(computeCanonicalBillingSnapshot(direct.context, {
+  // Keyvo prices seedance-2-5 on the official list (official-list-pricing.ts), so a direct 4K request needs no reviewed tariff;
+  // it must still be quoted by that rule rather than rejected. The Final workflow step keeps its own tariff requirement below.
+  const directWithoutTariff = await computeCanonicalBillingSnapshot(direct.context, {
     pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [] }) },
     loadCustomerTariffState: async () => ({ status: 'loaded', active: false, revision: 1, databaseCells: [], versionedCells: [] }),
-  }), /tariff/i, 'new 4K requests cannot fall back to legacy percentage pricing');
+  });
+  assert.ok(directWithoutTariff.totalCents > 0, 'direct 4K is quoted on the Keyvo official list');
   await assert.rejects(computeCanonicalBillingSnapshot(final.context, {
     pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [] }) },
     loadCustomerTariffState: async () => ({ status: 'loaded', active: true, revision: 1, databaseCells: [direct.cell], versionedCells: [] }),

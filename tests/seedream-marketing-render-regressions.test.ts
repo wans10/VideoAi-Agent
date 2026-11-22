@@ -1,3 +1,4 @@
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -31,7 +32,8 @@ test('Seedream image detail resolution options include every tier while benchmar
     const keySpecs = specs.get(modelId)?.keySpecs;
     assert.equal(keySpecs?.maxResolution, '2K');
     const result = buildModelPageSpecProjection({ engine, locale, isImageEngine: true, showPriceInSpecs: false, keySpecs });
-    assert.equal(result.keySpecRows.find(row => row.key === 'maxResolution')?.value, '1K / 1.5K / 2K', `${modelId}/${locale}`);
+    // Keyvo's Seedream 5.0 Flash engine outputs 2K only; the 1K and 1.5K tiers belong to Seedream 5.5.
+    assert.equal(result.keySpecRows.find(row => row.key === 'maxResolution')?.value, modelId === 'seedream-5-0-flash' ? '2K' : '1K / 1.5K / 2K', `${modelId}/${locale}`);
     assert.equal(result.keySpecValues.maxResolution, '2K', 'Benchmark/hero maximum retains its separate meaning.');
   }
   const raster = getFalEngineById('gpt-image-2-6-flare')!;

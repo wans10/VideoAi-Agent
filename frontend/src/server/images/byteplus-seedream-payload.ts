@@ -124,8 +124,10 @@ export function buildBytePlusSeedreamPayload(params: {
     });
   }
   const outputImageCount = Math.max(1, Math.round(params.numImages));
-  if (isSeedreamSingleImageModel(model) && outputImageCount > 1) {
-    throw new BytePlusSeedreamError(`${seedreamSingleImageLabel(model)} supports one generated image per request.`, {
+  // The engine, not a configured endpoint ID, owns the one-image constraint.
+  const singleImageIdentity = isSeedreamSingleImageModel(engineId) ? engineId : model;
+  if ((isSeedreamSingleImageModel(engineId) || isSeedreamSingleImageModel(model)) && outputImageCount > 1) {
+    throw new BytePlusSeedreamError(`${seedreamSingleImageLabel(singleImageIdentity)} supports one generated image per request.`, {
       code: 'IMAGE_COUNT_LIMIT',
       status: 400,
       detail: { max: 1 },
