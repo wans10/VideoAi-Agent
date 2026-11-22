@@ -29,17 +29,22 @@ test('Flash stays selectable in the estimator without a fabricated percentage-ba
   assert.equal(option.baseEngineId, slug);
 });
 
-test('Flash launches through the existing publication and canonical pricing owners', () => {
+test('Flash is offered through the owner allowlist while its model page stays unpublished on Keyvo', () => {
   const model = getRuntimeModelById(slug)!;
   const template = getModelPageTemplateConfig(slug)!;
   assert.ok(model);
   assert.ok(template);
-  assert.equal(listPublishedRuntimeModels().some((entry) => entry.id === slug), true);
-  for (const [surface, policy] of Object.entries(model.publication)) {
-    assert.equal(policy.published, true, `${surface} is prepared for launch`);
-  }
-  assert.equal(model.publication.model.indexable, true);
-  assert.equal(model.publication.examples.includeInFamilyCopy, true);
+  // Keyvo keeps the Flash model page, examples and sitemap entry unpublished (no zh content); the Flash comparisons,
+  // app and pricing surfaces are published. Seedream 5.0 Flash and 5.5 follow the same pattern.
+  assert.equal(listPublishedRuntimeModels().some((entry) => entry.id === slug), false);
+  assert.equal(model.publication.model.published, false);
+  assert.equal(model.publication.model.indexable, false);
+  assert.equal(model.publication.examples.published, false);
+  assert.equal(model.publication.examples.includeInFamilyCopy, false);
+  assert.equal(model.publication.sitemap.published, false);
+  assert.equal(model.publication.app.published, true);
+  assert.equal(model.publication.pricing.published, true);
+  assert.equal(model.publication.compare.published, true);
   assert.equal(template.pricing.enabled, true);
   assert.deepEqual(template.pricing.presets.map(preset => preset.id), ['4s-480p', '8s-720p-audio', '30s-720p']);
   assert.equal(template.sections.examples, true);

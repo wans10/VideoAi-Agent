@@ -95,7 +95,11 @@ test('Seedream versions keep independent canonical URLs and reciprocal localized
   const flash = getRuntimeModelByCanonicalSlug('seedream-5-0-flash');
   assert.equal(flash?.publication.model.published, false);
   assert.equal(flash?.publication.sitemap.published, false);
-  for (const slug of ['seedream-5-0-pro', 'seedream-5-5']) {
+  // Keyvo offers Seedream 5.5 (owner allowlist) but its model page stays unpublished with no zh content, like Flash.
+  const seedream55 = getRuntimeModelByCanonicalSlug('seedream-5-5');
+  assert.equal(seedream55?.publication.model.published, false);
+  assert.equal(seedream55?.publication.sitemap.published, false);
+  for (const slug of ['seedream-5-0-pro']) {
     const model = getRuntimeModelByCanonicalSlug(slug);
     assert.ok(model, slug);
     assert.equal(resolveRuntimePublicSlug(slug)?.id, slug);

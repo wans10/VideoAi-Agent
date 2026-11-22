@@ -98,9 +98,13 @@ test('Seedance 2.5 is the public flagship across every product surface', () => {
 });
 
 test('Seedance publication ranks and reciprocal flagship comparison pairs stay exact', () => {
+  // Keyvo offers Seedance 2.5 Flash (owner allowlist, public tier) but keeps its model page unpublished, so it has no
+  // family example rank; the rank contract applies to the published example pages only.
+  const flashExamples = getRuntimeModelById('seedance-2-5-flash')?.publication.examples;
+  assert.equal(flashExamples?.published, false);
+  assert.equal(flashExamples?.familyRank, undefined);
   const expectedRanks = new Map([
     ['seedance-2-5', 0],
-    ['seedance-2-5-flash', 1],
     ['seedance-2-0', 2],
     ['seedance-2-0-fast', 3],
     ['seedance-2-0-mini', 4],

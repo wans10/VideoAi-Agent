@@ -211,8 +211,10 @@ test('Public marketing media fetchers stay visibility-safe for pinned and prompt
 test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter marketing navigation', () => {
   const appEngineIds = getBaseEnginesByCategory('video').map((engine) => engine.id);
   assert.equal(appEngineIds[0], 'seedance-2-5');
-  // Seedance 2.0 and Fast are not offered under the owner allowlist; MiniMax H3 follows Seedance 2.5.
-  assert.equal(appEngineIds[1], 'minimax-h3');
+  // Seedance 2.0 and Fast are not offered under the owner allowlist; Seedance 2.5 Flash (offered, discovery rank -2.5)
+  // follows the flagship, then MiniMax H3.
+  assert.equal(appEngineIds[1], 'seedance-2-5-flash');
+  assert.equal(appEngineIds[2], 'minimax-h3');
   assert.ok(!appEngineIds.includes('seedance-2-0'));
   assert.ok(!appEngineIds.includes('seedance-2-0-fast'));
   assert.ok(!appEngineIds.includes('sora-2'));
@@ -225,9 +227,10 @@ test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter mark
   );
   assert.deepEqual(
     MARKETING_NAV_COMPARE.map((item) => item.key),
-    ['kling-v4-vs-kling-v4-flash', 'kling-v4-vs-seedance-2-5', 'kling-v4-vs-wan-3-prime', 'minimax-h3-vs-seedance-2-5', 'minimax-h3-vs-minimax-h3-max', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'wan-3-vs-wan-3-prime'],
+    ['seedance-2-5-vs-seedance-2-5-flash', 'kling-v4-vs-kling-v4-flash', 'kling-v4-vs-seedance-2-5', 'kling-v4-vs-wan-3-prime', 'minimax-h3-vs-seedance-2-5', 'minimax-h3-vs-minimax-h3-max', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'wan-3-vs-wan-3-prime'],
   );
-  assert.equal(MARKETING_NAV_COMPARE.length, 8);
+  // The offered Seedance 2.5 Flash comparison (published compare surface) leads the compare menu.
+  assert.equal(MARKETING_NAV_COMPARE.length, 9);
   const expectedExampleFamilies = [
     'seedance',
     'kling',

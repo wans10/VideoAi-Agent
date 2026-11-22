@@ -48,7 +48,7 @@ test('every open source tariff preserves its minimum plateau and exact fractiona
   }
 });
 
-test('canonical billing uses the prepared cell and fails closed without an active Flash tariff', async () => {
+test('canonical billing uses the prepared cell and prices Flash on the official list without a USD tariff', async () => {
   const saved = ENV.SEEDANCE_2_5_EDIT_TRANSPORT;
   ENV.SEEDANCE_2_5_EDIT_TRANSPORT = 'modelark';
   try {
@@ -60,8 +60,16 @@ test('canonical billing uses the prepared cell and fails closed without an activ
       const snapshot = await computeCanonicalBillingSnapshot(context, dependencies);
       assert.equal(snapshot.totalCents, cents(row, 4.25));
       assert.equal(snapshot.meta?.customerTariffRevision, 4732);
-      if (plan === flash) await assert.rejects(computeCanonicalBillingSnapshot(context, { ...dependencies,
-        loadCustomerTariffState: async () => ({ status: 'loaded', revision: 4732, active: false, versionedCells: [], databaseCells: [] }) }), /active reviewed|tariff/i);
+      // Keyvo prices Seedance 2.5 Flash generation on the Volcengine CNY list at 80% (official-list-pricing.ts), so the
+      // reviewed USD tariff is not a precondition there. Its Edit (v2v) still fails closed without an Edit tariff.
+      if (plan === flash && mode === 't2v') {
+        const official = await computeCanonicalBillingSnapshot(context, { ...dependencies,
+          loadCustomerTariffState: async () => ({ status: 'loaded', revision: 4732, active: false, versionedCells: [], databaseCells: [] }) });
+        assert.ok(official.totalCents > 0);
+        assert.notEqual(official.meta?.pricingMode, 'manual_tariff');
+      }
+      if (plan === flash && mode === 'v2v') await assert.rejects(computeCanonicalBillingSnapshot(context, { ...dependencies,
+        loadCustomerTariffState: async () => ({ status: 'loaded', revision: 4732, active: false, versionedCells: [], databaseCells: [] }) }), /Edit customer tariff/i);
     }
   } finally { ENV.SEEDANCE_2_5_EDIT_TRANSPORT = saved; }
 });
