@@ -9,15 +9,17 @@ export const SEEDREAM_NOVEMBER_LIST_SOURCE = {
 } as const;
 
 export type SeedreamListModel = 'lite' | 'pro' | 'flash' | '5.5';
-export type NewSeedreamEngineId = 'seedream-5-5' | 'seedream-5-0-flash';
+// Keyvo: Seedream 5.0 Flash is Volcengine-direct and priced by the official-list x0.8 rule in CNY, so only
+// 5.5 follows upstream's USD single-image pricing branch (docs/engineering/keyvo-upstream-deviations.md).
+export type NewSeedreamEngineId = 'seedream-5-5';
 
 export function isNewSeedreamEngineId(id: string): id is NewSeedreamEngineId {
-  return id === 'seedream-5-5' || id === 'seedream-5-0-flash';
+  return id === 'seedream-5-5';
 }
 
 export function seedreamListModelForEngine(id: string): SeedreamListModel | null {
   return ({ seedream: 'lite', 'seedream-5-0-pro': 'pro', 'seedream-5-0-flash': 'flash',
-    'seedream-5-5': '5.5' } as const)[id as 'seedream' | 'seedream-5-0-pro' | NewSeedreamEngineId] ?? null;
+    'seedream-5-5': '5.5' } as const)[id as 'seedream' | 'seedream-5-0-pro' | 'seedream-5-0-flash' | NewSeedreamEngineId] ?? null;
 }
 
 /** The 5.5 tier boundary is 1536² × 1.05²; it is distinct from Pro's 2.61M boundary. */
