@@ -51,8 +51,10 @@ test('canonical admin preview and save prepare Max membership without exposing i
   const published=await reader.listCatalogPage({familyId:'flux',sort:'playlist',limit:24,offset:0});
   assert.deepEqual(published.items.map((item:any)=>item.id),['standard']);
   await t.test('saved public family clips survive launch additions without admitting new legacy clips',async()=>{
+    // Keyvo retires Seedance 1.5 Pro (docs/engineering/keyvo-upstream-deviations.md), so the retained clip is a family-published Seedance
+    // engine and the non-admitted clip is a Seedance engine outside the published family roster.
     await pg.pool.query(`INSERT INTO playlists(slug) VALUES ('family-seedance');
-      INSERT INTO app_jobs(job_id,engine_id) VALUES ('retained-legacy','seedance-1-5-pro'),('new-legacy','seedance-1-5-pro'),
+      INSERT INTO app_jobs(job_id,engine_id) VALUES ('retained-legacy','seedance-2-0'),('new-legacy','seedance-2-0-fast-byteplus'),
         ('flash','seedance-2-5-flash'),('opening-1','seedance-2-5'),('opening-2','seedance-2-5'),('opening-3','seedance-2-5'),('opening-4','seedance-2-5');
       UPDATE app_jobs SET aspect_ratio='9:16' WHERE job_id='opening-2';`);
     const family=(await pg.pool.query("SELECT id FROM playlists WHERE slug='family-seedance'")).rows[0].id;

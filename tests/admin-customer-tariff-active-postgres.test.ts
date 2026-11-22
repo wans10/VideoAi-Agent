@@ -38,39 +38,39 @@ test('first override of a versioned-only active tariff rolls back to its origina
       row.selector.mode === 't2v' && row.selector.durationSec === '5' && row.selector.resolution === '720p')!;
     assert.ok(scenario);
     cells.push({ id: 'authored-mini-cell', selector: scenario.selector, source: 'versioned', version: 1,
-      currency: 'USD', effectiveFrom: '2026-09-28T00:00:00.000Z', price: { kind: 'fixed', customerCents: 26 } });
+      currency: 'USD', effectiveFrom: '2026-09-28T00:00:00.000Z', price: { kind: 'fixed', customerCents: 60 } });
     await db.pool.query('UPDATE app_customer_tariff_state SET active = TRUE');
     const before = await loadCustomerTariffScenarioDetail(scenario.modelId, scenario.selector);
-    assert.equal(before.currentCents, 26);
+    assert.equal(before.currentCents, 60);
     assert.equal(before.stagedCents, null);
-    const proposal = { operation: 'create' as const, scenarioId: scenario.id, customerCents: 31 };
+    const proposal = { operation: 'create' as const, scenarioId: scenario.id, customerCents: 75 };
     const preview = await previewCustomerTariffChange(proposal);
     assert.equal(preview.previousCell?.source, 'versioned');
     assert.equal(preview.previousCell?.id, 'authored-mini-cell');
     const changed = await confirmCustomerTariffChange(proposal, preview.fingerprint, actor, () => {});
-    assert.equal((await loadCustomerTariffScenarioDetail(scenario.modelId, scenario.selector)).currentCents, 31);
+    assert.equal((await loadCustomerTariffScenarioDetail(scenario.modelId, scenario.selector)).currentCents, 75);
     const rollback = { operation: 'rollback' as const, scenarioId: scenario.id, eventId: changed.event.id };
     const restore = await previewCustomerTariffChange(rollback);
-    assert.equal(restore.proposedCents, 26);
+    assert.equal(restore.proposedCents, 60);
     const restored = await confirmCustomerTariffChange(rollback, restore.fingerprint, actor, () => {});
-    assert.equal(restored.preview.currentCents, 31);
-    assert.equal((await loadCustomerTariffScenarioDetail(scenario.modelId, scenario.selector)).currentCents, 26);
+    assert.equal(restored.preview.currentCents, 75);
+    assert.equal((await loadCustomerTariffScenarioDetail(scenario.modelId, scenario.selector)).currentCents, 60);
     const stored = (await db.pool.query('SELECT price_json FROM app_customer_tariff_cells')).rows;
-    assert.deepEqual(stored.map((row) => row.price_json), [{ kind: 'fixed', customerCents: 26 }]);
+    assert.deepEqual(stored.map((row) => row.price_json), [{ kind: 'fixed', customerCents: 60 }]);
     assert.equal((await db.pool.query('SELECT count(*) FROM app_customer_tariff_cell_versions')).rows[0].count, '1');
     assert.equal((await db.pool.query('SELECT previous_state FROM app_pricing_change_events WHERE operation = $1', ['create'])).rows[0].previous_state.source, 'versioned');
     const state = await loadCustomerTariffQuoteState(scenario.selector);
     assert.equal(state.status, 'loaded');
     if (state.status !== 'loaded') throw new Error('Historical quote state unavailable');
-    const override = state.databaseCells.find(cell => cell.price.kind === 'fixed' && cell.price.customerCents === 31)!;
+    const override = state.databaseCells.find(cell => cell.price.kind === 'fixed' && cell.price.customerCents === 75)!;
     const returned = state.databaseCells.find(cell => !cell.effectiveUntil)!;
     assert.equal(override.effectiveUntil, returned.effectiveFrom);
     const facts = buildBillingPricingFacts(scenario.context, scenario.context.engine.pricingDetails, 'USD').facts;
     for (const [at, expected, source] of [
-      [new Date(Date.parse(override.effectiveFrom) - 1).toISOString(), 26, 'versioned'],
-      [override.effectiveFrom, 31, 'database'],
-      [new Date(Date.parse(returned.effectiveFrom) - 1).toISOString(), 31, 'database'],
-      [returned.effectiveFrom, 26, 'database'],
+      [new Date(Date.parse(override.effectiveFrom) - 1).toISOString(), 60, 'versioned'],
+      [override.effectiveFrom, 75, 'database'],
+      [new Date(Date.parse(returned.effectiveFrom) - 1).toISOString(), 75, 'database'],
+      [returned.effectiveFrom, 60, 'database'],
     ] as const) {
       const selected = resolveManualTariffCell({ selector: scenario.selector, at,
         databaseCells: state.databaseCells, versionedCells: state.versionedCells });
@@ -108,23 +108,23 @@ test('live admin edits, stale preview rejection and rollback keep append-only ta
     const scenario = collectSellableManualTariffCoverage().scenarios.find((row) => row.modelId === 'seedance-2-0-mini' &&
       row.selector.mode === 't2v' && row.selector.durationSec === '5' && row.selector.resolution === '720p')!;
     assert.ok(scenario);
-    const seed = { operation: 'create' as const, scenarioId: scenario.id, customerCents: 26 };
+    const seed = { operation: 'create' as const, scenarioId: scenario.id, customerCents: 60 };
     await confirmCustomerTariffChange(seed, (await previewCustomerTariffChange(seed)).fingerprint, actor);
     await db.pool.query('UPDATE app_customer_tariff_state SET active = TRUE');
-    const update = { operation: 'update' as const, scenarioId: scenario.id, customerCents: 31 };
+    const update = { operation: 'update' as const, scenarioId: scenario.id, customerCents: 75 };
     const preview = await previewCustomerTariffChange(update);
     assert.equal(preview.active, true);
-    assert.equal(preview.currentCents, 26);
+    assert.equal(preview.currentCents, 60);
     const result = await confirmCustomerTariffChange(update, preview.fingerprint, actor);
     const current = await loadCustomerTariffScenarioDetail(scenario.modelId, { ...scenario.selector });
-    assert.equal(current.currentCents, 31);
-    assert.equal(current.stagedCents, 31);
+    assert.equal(current.currentCents, 75);
+    assert.equal(current.stagedCents, 75);
     await assert.rejects(confirmCustomerTariffChange(update, preview.fingerprint, actor), /preview changed/i);
     const rollback = { operation: 'rollback' as const, scenarioId: scenario.id, eventId: result.event.id };
     const restore = await previewCustomerTariffChange(rollback);
-    assert.equal(restore.proposedCents, 26);
+    assert.equal(restore.proposedCents, 60);
     await confirmCustomerTariffChange(rollback, restore.fingerprint, actor);
-    assert.equal((await loadCustomerTariffScenarioDetail(scenario.modelId, { ...scenario.selector })).currentCents, 26);
+    assert.equal((await loadCustomerTariffScenarioDetail(scenario.modelId, { ...scenario.selector })).currentCents, 60);
     assert.equal((await db.pool.query('SELECT count(*) FROM app_customer_tariff_cell_versions')).rows[0].count, '2');
     await assert.rejects(db.pool.query('DELETE FROM app_customer_tariff_cell_versions'), /immutable/i);
     await assert.rejects(previewCustomerTariffChange({ operation: 'delete', scenarioId: scenario.id }), /cannot be deleted/i);
