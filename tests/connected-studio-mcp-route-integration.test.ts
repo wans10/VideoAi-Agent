@@ -48,7 +48,14 @@ test('real loopback MCP authenticates signed bearer, discovers gated tools and w
       { event_type: 'tool_discovery', user_id: STUDIO_FIXTURE_OWNERS[0], oauth_client_id: 'studio-mcp-local-fixture', client_family: null },
     ]);
     assert.equal((await runtime.database.pool.query('SELECT count(*)::int AS count FROM studio_projects')).rows[0].count, 0);
+    // Keyvo: seedream-5-5 and seedance-2-5-flash are registry-only (not offered), so MCP must not list them.
     for (const id of ['seedream-5-5', 'seedance-2-5-flash']) {
+      const hidden = await readStudioMcpResponse(await request({ jsonrpc: '2.0', id: 5, method: 'tools/call', params: {
+        name: 'list_models', arguments: { id },
+      } }, session.access_token));
+      assert.equal(hidden.result.structuredContent?.models?.[0]?.id, undefined, `${id} must stay hidden`);
+    }
+    for (const id of ['seedance-2-5', 'kling-3-pro']) {
       const listed = await readStudioMcpResponse(await request({ jsonrpc: '2.0', id: 3, method: 'tools/call', params: {
         name: 'list_models', arguments: { id },
       } }, session.access_token));
