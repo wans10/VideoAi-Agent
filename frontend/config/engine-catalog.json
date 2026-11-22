@@ -879,8 +879,7 @@
         "suggestOpponents": [
           "ltx-2-fast",
           "ltx-2-3-fast",
-          "veo-3-1",
-          "seedance-2-5-flash"
+          "veo-3-1"
         ],
         "publishedPairs": [
           "kling-3-4k",
@@ -898,8 +897,7 @@
           "sora-2",
           "sora-2-pro",
           "veo-3-1",
-          "veo-3-1-lite",
-          "seedance-2-5-flash"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -14679,8 +14677,7 @@
         "suggestOpponents": [
           "veo-3-1-fast",
           "ltx-2-3-fast",
-          "sora-2",
-          "seedance-2-5-flash"
+          "sora-2"
         ],
         "publishedPairs": [
           "kling-3-4k",
@@ -14699,8 +14696,7 @@
           "sora-2-pro",
           "veo-3-1",
           "veo-3-1-fast",
-          "veo-3-1-lite",
-          "seedance-2-5-flash"
+          "veo-3-1-lite"
         ],
         "includeInHub": true
       },
@@ -16634,8 +16630,7 @@
           "seedance-2-0",
           "kling-3-pro",
           "veo-3-1",
-          "kling-v4",
-          "seedance-2-5-flash"
+          "kling-v4"
         ],
         "publishedPairs": [
           "seedance-2-0",
@@ -16644,8 +16639,7 @@
           "minimax-h3-max",
           "veo-3-1",
           "wan-3",
-          "kling-v4",
-          "seedance-2-5-flash"
+          "kling-v4"
         ],
         "includeInHub": true
       },
@@ -17607,23 +17601,9 @@
         "includeInFamilyCopy": false
       },
       "compare": {
-        "suggestOpponents": [
-          "seedance-2-5",
-          "seedance-2-0-fast",
-          "kling-v4-flash",
-          "veo-3-1-fast",
-          "ltx-2-5-fast",
-          "minimax-h3"
-        ],
-        "publishedPairs": [
-          "seedance-2-5",
-          "seedance-2-0-fast",
-          "kling-v4-flash",
-          "veo-3-1-fast",
-          "ltx-2-5-fast",
-          "minimax-h3"
-        ],
-        "includeInHub": true
+        "suggestOpponents": [],
+        "publishedPairs": [],
+        "includeInHub": false
       },
       "app": {
         "enabled": true,
@@ -20834,14 +20814,12 @@
         "suggestOpponents": [
           "seedance-2-5",
           "kling-o3-pro",
-          "veo-3-1",
-          "seedance-2-5-flash"
+          "veo-3-1"
         ],
         "publishedPairs": [
           "seedance-2-5",
           "kling-o3-pro",
-          "veo-3-1",
-          "seedance-2-5-flash"
+          "veo-3-1"
         ],
         "includeInHub": true
       },
@@ -26679,12 +26657,10 @@
       },
       "compare": {
         "suggestOpponents": [
-          "kling-v4",
-          "seedance-2-5-flash"
+          "kling-v4"
         ],
         "publishedPairs": [
-          "kling-v4",
-          "seedance-2-5-flash"
+          "kling-v4"
         ],
         "includeInHub": true
       },
@@ -30372,13 +30348,11 @@
       "compare": {
         "suggestOpponents": [
           "ltx-2-5-pro",
-          "ltx-2-3-fast",
-          "seedance-2-5-flash"
+          "ltx-2-3-fast"
         ],
         "publishedPairs": [
           "ltx-2-3-fast",
-          "ltx-2-5-pro",
-          "seedance-2-5-flash"
+          "ltx-2-5-pro"
         ],
         "includeInHub": true
       },

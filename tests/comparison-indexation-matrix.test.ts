@@ -243,7 +243,7 @@ test('a noindex candidate with observed low demand gets an accurate rationale', 
   assert.deepEqual(english?.rationale, ['low_demand_outside_top_10']);
 });
 
-test('the generated inventory covers all 651 localized published comparison URLs', () => {
+test('the generated inventory covers all 633 localized published comparison URLs', () => {
   const artifacts = generateComparisonIndexationArtifacts() as {
     document: {
       summary: {
@@ -269,23 +269,23 @@ test('the generated inventory covers all 651 localized published comparison URLs
   // Kling 2.6 Pro (no mainland route) took 58 more slugs offline (21 + 20 + 20 minus 3 pairs among themselves):
   // 269 -> 211 slugs, 807 -> 633 URLs, and 112 more GSC rows (22 with clicks) became legacy rows.
   // 2026-11-22 upstream 3827da0 adds six Seedance 2.5 Flash comparison slugs (18 URLs, none with GSC rows; the audit is
-  // unfiltered): 217 slugs, 651 URLs. GSC-backed counts are unchanged (237 legacy rows, 53 with clicks).
-  assert.equal(artifacts.document.summary.publishedSlugs, 217);
-  assert.equal(artifacts.document.summary.totalUrls, 651);
+  // unfiltered): 211 slugs, 633 URLs. GSC-backed counts are unchanged (237 legacy rows, 53 with clicks).
+  assert.equal(artifacts.document.summary.publishedSlugs, 211);
+  assert.equal(artifacts.document.summary.totalUrls, 633);
   assert.equal(artifacts.document.summary.gscRowsOutsidePublishedSet, 237);
   assert.equal(artifacts.document.summary.gscRowsOutsidePublishedSetWithClicks, 53);
   assert.equal(artifacts.document.legacyGscRows.length, 237);
-  assert.equal(artifacts.document.rows.length, 651);
+  assert.equal(artifacts.document.rows.length, 633);
   assert.equal(
     new Set(artifacts.document.rows.map((row) => `${row.locale}:${row.slug}`)).size,
-    651,
+    633,
   );
   assert.equal(
     Object.values(artifacts.document.summary.byClassification).reduce(
       (sum, count) => sum + count,
       0,
     ),
-    651,
+    633,
   );
   assert.ok(
     artifacts.document.rows
@@ -321,5 +321,5 @@ test('the generator CLI writes the JSON and Markdown audit artifacts', () => {
   assert.equal(result.status, 0, result.stderr);
   assert.ok(existsSync('docs/seo/comparison-indexation-matrix-2026-07-08.json'));
   assert.ok(existsSync('docs/seo/comparison-indexation-matrix-2026-07-08.md'));
-  assert.match(result.stdout, /"totalUrls": 651/);
+  assert.match(result.stdout, /"totalUrls": 633/);
 });

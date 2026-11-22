@@ -227,10 +227,10 @@ test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter mark
   );
   assert.deepEqual(
     MARKETING_NAV_COMPARE.map((item) => item.key),
-    ['seedance-2-5-vs-seedance-2-5-flash', 'kling-v4-vs-kling-v4-flash', 'kling-v4-vs-seedance-2-5', 'kling-v4-vs-wan-3-prime', 'minimax-h3-vs-seedance-2-5', 'minimax-h3-vs-minimax-h3-max', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'wan-3-vs-wan-3-prime'],
+    ['kling-v4-vs-kling-v4-flash', 'kling-v4-vs-seedance-2-5', 'kling-v4-vs-wan-3-prime', 'minimax-h3-vs-seedance-2-5', 'minimax-h3-vs-minimax-h3-max', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'wan-3-vs-wan-3-prime'],
   );
-  // The offered Seedance 2.5 Flash comparison (published compare surface) leads the compare menu.
-  assert.equal(MARKETING_NAV_COMPARE.length, 9);
+  // The Seedance 2.5 Flash comparison stays unpublished while its Keyvo model page is unpublished.
+  assert.equal(MARKETING_NAV_COMPARE.length, 8);
   const expectedExampleFamilies = [
     'seedance',
     'kling',
