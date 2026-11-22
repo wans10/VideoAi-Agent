@@ -45,8 +45,8 @@ test('copy binds the first same-prompt example to a public anchor and the two or
   for (const fact of [
     'Même prompt, deux rendus', '2026-10-20', '1280 × 720 px', '480p demandé',
     '> A presenter opens the box.\n> Use a slow push in.',
-    'https://maxvideoai.com/fr/comparatif/model-a-vs-model-b#same-prompt-424242424242',
-    'https://maxvideoai.com/video/first', 'https://maxvideoai.com/video/second',
+    `${SITE_ORIGIN}/fr/comparatif/model-a-vs-model-b#same-prompt-424242424242`,
+    `${SITE_ORIGIN}/video/first`, `${SITE_ORIGIN}/video/second`,
   ]) assert.ok(output.includes(fact), fact);
   assert.doesNotMatch(output, /localhost|\.mp4|Sans audio/);
 });

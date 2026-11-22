@@ -17,7 +17,8 @@ test('cutover derives all ordinary, workflow and real input duration checkpoints
   // reference tokens) become 3564 official cells: t2v 22 + i2v 22 (5-15 s x 480P/768P) + ref2v 3520 (x 0-9 reference
   // images x 0-15 billed reference-video seconds). Its 6 Recast/Relight new-offer cells stay unsold (Fal-only).
   const h3MaxOfficialCells = 22 + 22 + 11 * 2 * 10 * 16;
-  const keyvoProviderDelta = -104 - 90 - 132 + h3MaxOfficialCells - (528 - 288) + 6 + 3 + 2;
+  // Upstream 2026-11-22 added the 1.5K and 2K t2i/i2i tariffs of Seedream 5.0 Flash (4 cells beyond the 1K pair): 6 in total.
+  const keyvoProviderDelta = -104 - 90 - 132 + h3MaxOfficialCells - (528 - 288) + 6 + 3 + 6;
     // This suite runs on the unfiltered catalogue (the allowlist hides Hailuo and other fixtures), where H3-Max's Fal-only
   // Recast/Relight cells are inventoried again, so the Keyvo-world removal of those 6 new-offer cells does not apply.
   const keyvoProviderNewOfferDelta = 0;
@@ -27,9 +28,9 @@ test('cutover derives all ordinary, workflow and real input duration checkpoints
   const keyvoOfficialListDelta = -16 - 6 - 8 - 2 * 26 - 2;
   assert.equal(keyvoOfficialListDelta, -84);
   assert.equal(h3MaxOfficialCells, 3564);
-  assert.equal(keyvoProviderDelta, 3009);
+  assert.equal(keyvoProviderDelta, 3013);
   for (const [modelId, count] of [['happy-horse-1-0', 0], ['seedream', 0], ['minimax-h3-max', 3564 + 6], ['minimax-h3', 288],
-    ['minimax-hailuo-2-3', 6], ['minimax-hailuo-2-3-fast', 3], ['seedream-5-0-flash', 2], ['wan-2-6', 0], ['kling-2-5-turbo', 0],
+    ['minimax-hailuo-2-3', 6], ['minimax-hailuo-2-3-fast', 3], ['seedream-5-0-flash', 6], ['wan-2-6', 0], ['kling-2-5-turbo', 0],
     ['kling-2-6-pro', 0], ['kling-3-standard', 52], ['kling-3-pro', 52], ['minimax-hailuo-02-text', 6]] as const) {
     assert.equal(cases.filter(row => row.scenario.modelId === modelId).length, count, modelId);
   }

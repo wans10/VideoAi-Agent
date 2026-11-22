@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createDefaultCharacterBuilderState } from '../frontend/src/lib/character-builder';
+import { createDefaultCharacterBuilderState, getCharacterEngineAspectRatio, getCharacterFormatResolution } from '../frontend/src/lib/character-builder';
 import { buildPrompt } from '../frontend/src/server/tools/character-builder/prompt';
 import { buildSettingsSnapshot } from '../frontend/src/server/tools/character-builder/snapshot';
 import { sanitizeRequest } from '../frontend/src/server/tools/character-builder/sanitize';
@@ -16,12 +16,14 @@ test('the shared Builder preparation keeps its authored recipe, one image and ex
   const sanitized = sanitizeRequest(input);
   const prompt = buildPrompt(sanitized);
   assert.equal(prepared.prompt, prompt);
-  assert.equal(prepared.engineId, 'nano-banana-2-1');
-  assert.equal(prepared.resolution, '4k');
-  assert.equal(prepared.aspectRatio, '4:5');
+  // Keyvo runs the Character Builder on Seedream 5.0 (final = Pro, draft = Flash), which renders one 2K size only,
+  // so the requested 4k format resolves to the builder's single size and the aspect ratio uses the Seedream map.
+  assert.equal(prepared.engineId, 'seedream-5-0-pro');
+  assert.equal(prepared.resolution, getCharacterFormatResolution());
+  assert.equal(prepared.aspectRatio, getCharacterEngineAspectRatio('seedream-5-0-pro', '4:5'));
   assert.equal(prepared.inputMode, 't2i');
   assert.deepEqual(prepared.settingsSnapshot,
-    buildSettingsSnapshot(sanitized, prompt, 'nano-banana-2-1', 'Nano Banana 2.1', 't2i'));
+    buildSettingsSnapshot(sanitized, prompt, 'seedream-5-0-pro', 'Seedream 5.0 Pro', 't2i'));
   assert.throws(() => module.prepareCharacterBuilderRequest({ ...input, generateCount: 4 }), /one character image/);
 });
 

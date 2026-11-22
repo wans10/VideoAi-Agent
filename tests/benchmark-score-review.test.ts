@@ -1,3 +1,5 @@
+// Keyvo does not offer FLUX 3 Max, so this upstream editorial-score contract runs on the unfiltered catalog.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import * as React from 'react';

@@ -10,6 +10,7 @@ process.env.S3_PUBLIC_BASE_URL = 'https://character-quote-private-fixture.s3.eu-
 process.env.S3_ACCESS_KEY_ID = 'offline-fixture-key';
 process.env.S3_SECRET_ACCESS_KEY = 'offline-fixture-secret';
 process.env.MCP_ACQUISITION_SIGNING_SECRET = 'offline-character-quote-media-secret-over-32-bytes';
+process.env.KEYVO_RECAST_FULL_UI = '1'; // Pins the Recast service paths themselves: Keyvo hides Recast (KEYVO_RECAST_HIDDEN), see keyvo-recast-hidden.test.ts.
 
 const base = process.env.S3_PUBLIC_BASE_URL;
 const principal = { userId: 'owner', clientId: 'quote-client', emailVerified: true, authMethod: 'oauth' as const };

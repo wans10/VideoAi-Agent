@@ -54,7 +54,7 @@ test('the worked budget separates funding, consumed attempts and unused balance'
   assert.throws(() => projectAttemptBudget(7 as 1), RangeError);
 });
 
-test('sitemaps expose each new canonical URL once with reciprocal languages', async () => {
+test('sitemaps omit the Keyvo-hidden competitor and blog canonical URLs in every locale', async () => {
   const require = createRequire(new URL('../frontend/package.json', import.meta.url));
   const react = require('react') as { cache?: (fn: unknown) => unknown };
   react.cache ??= fn => fn;
@@ -62,12 +62,14 @@ test('sitemaps expose each new canonical URL once with reciprocal languages', as
   process.env.NODE_ENV = 'development';
   try {
     const { buildLocaleSitemapXml } = await import('../frontend/lib/sitemapData');
-    for (const [index, locale] of locales.entries()) {
+    // Keyvo hides the competitor alternatives and the blog (KEYVO_BLOG_HIDDEN, the Keyvo catalogue), so none of these
+    // canonical URLs is listed in any locale sitemap. Upstream's reciprocal-hreflang expectation applies to the
+    // unfiltered catalogue only.
+    for (const locale of locales) {
       const xml = await buildLocaleSitemapXml(locale);
-      for (const row of pages) {
-        const entries = [...xml.matchAll(/<url>[\s\S]*?<\/url>/g)].filter(([entry]) => entry.includes(`<loc>${origin}${row[index]}</loc>`));
-        assert.equal(entries.length, 1, row[index]);
-        locales.forEach((other, otherIndex) => assert.ok(entries[0][0].includes(`hreflang="${other}" href="${origin}${row[otherIndex]}"`), `${row[index]} → ${other}`));
+      for (const url of pages.flat()) {
+        const entries = [...xml.matchAll(/<url>[\s\S]*?<\/url>/g)].filter(([entry]) => entry.includes(`<loc>${origin}${url}</loc>`));
+        assert.equal(entries.length, 0, `${url} is hidden on Keyvo`);
       }
     }
   } finally {
