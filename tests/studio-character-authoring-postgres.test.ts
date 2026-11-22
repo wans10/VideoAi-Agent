@@ -7,6 +7,7 @@ import {createImageConversationService} from '../frontend/src/server/studio/imag
 import {createCharacterBuilderAuthoringService} from '../frontend/server/character-studio/authoring';
 import {createCreatorGenerationService} from '../frontend/src/server/tools/creator-generation-service';
 import {getFalEngineById} from '../frontend/src/config/falEngines';
+import {CHARACTER_DRAFT_ENGINE_ID,CHARACTER_FINAL_ENGINE_ID} from '../frontend/src/lib/character-builder';
 
 test('native Milo authors one real Builder identity and saved look with atomic quote recovery and exact client approval',async t=>{
   const owner='00000000-0000-4000-8000-000000000091';
@@ -17,12 +18,16 @@ test('native Milo authors one real Builder identity and saved look with atomic q
   await f.pg.pool.query('INSERT INTO profiles VALUES($1)',[owner]);
   for(const name of ['93_character_studio.sql','94_character_studio_presentation.sql'])await f.pg.pool.query(readFileSync('neon/migrations/'+name,'utf8'));
   await f.pg.pool.query('ALTER TABLE job_outputs ADD COLUMN storage_url text;ALTER TABLE job_outputs ADD COLUMN thumb_url text');
+// Keyvo keeps the customer tariff inactive; the Builder prices Seedream on the official-list rule without it.
+await f.pg.pool.query('UPDATE app_customer_tariff_state SET active = FALSE');
   await f.pg.pool.query(`INSERT INTO studio_projects(id,user_id,name,canvas_template_id,settings,workspace_state,persistence_mode)
     VALUES('film',$1,'Film','minimal-start','{}','{}','connected'),('other',$1,'Other','minimal-start','{}','{}','connected')`,[owner]);
   const actor={authMethod:'studio-session' as const,userId:owner,projectId:'film',clientId:null};
-  const entry=getFalEngineById('nano-banana-2-1')!;
-  const runtime={listPublicEngines:async()=>[{engine:entry.engine,surface:'image' as const,publicModes:['t2i','i2i'] as const,
-    modeCaps:Object.fromEntries(entry.modes.map(mode=>[mode.mode,mode.ui]))}],resolveRequestExecutability:()=>({executable:true,reason:'available' as const})};
+  const entry=getFalEngineById(CHARACTER_FINAL_ENGINE_ID)!;
+  // Standard (draft) and Pro (final) both run on Seedream; the look path prepares the default Standard quality.
+  const publicEngines=[entry,getFalEngineById(CHARACTER_DRAFT_ENGINE_ID)!];
+  const runtime={listPublicEngines:async()=>publicEngines.map(item=>({engine:item.engine,surface:'image' as const,publicModes:['t2i','i2i'] as const,
+    modeCaps:Object.fromEntries(item.modes.map(mode=>[mode.mode,mode.ui]))})),resolveRequestExecutability:()=>({executable:true,reason:'available' as const})};
   const generation:typeof createCreatorGenerationService=(current,options)=>createCreatorGenerationService(current,{
     ...options,prepareDependencies:{...options.prepareDependencies,...runtime},confirmDependencies:{...options.confirmDependencies,...runtime,submitPaidGeneration:f.provider.submit},
   });
@@ -38,7 +43,7 @@ test('native Milo authors one real Builder identity and saved look with atomic q
       modelCalls++;
       const terminal=mode!=='prepare'&&Array.isArray(params.input)&&params.input.at(-1)?.type==='function_call_output';
       const args=mode==='save'?{quoteId:targetQuoteId,name:saveName}:mode==='select'?{characterId:savedCharacterId,lookId:selectedLookId}:
-        {reply:'Review this exact Character Builder quote.',recipe:recipeOverride??(savedCharacterId?{characterId:savedCharacterId,traits:{customOutfitDescription:'A blue velvet jacket'}}:{traits:{customDetailsDescription:'One small cheek freckle'},qualityMode:'final',formatMode:'4k'})};
+        {reply:'Review this exact Character Builder quote.',recipe:recipeOverride??(savedCharacterId?{characterId:savedCharacterId,traits:{customOutfitDescription:'A blue velvet jacket'}}:{traits:{customDetailsDescription:'One small cheek freckle'},qualityMode:'final',formatMode:'2k'})};
       return{id:'character-response-'+modelCalls,model:'gpt-6.1-sol',status:'completed' as const,service_tier:'default' as const,usage:null,
         output_text:terminal?JSON.stringify({reply:'The requested character library action is saved.'}):'',output:terminal?[]:[{type:'function_call' as const,
           name:mode==='save'?'character_save':mode==='select'?'character_select':'character_prepare',call_id:'character-'+modelCalls,arguments:JSON.stringify(args)}]};

@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 import { recastHarness } from './helpers/character-recast-harness';
 import { getFalEngineById } from '../frontend/src/config/falEngines';
+import { CHARACTER_DRAFT_ENGINE_ID, CHARACTER_FINAL_ENGINE_ID } from '../frontend/src/lib/character-builder';
 import { createCreatorGenerationService } from '../frontend/src/server/tools/creator-generation-service';
 import { estimateImageGeneration } from '../frontend/src/server/images/estimate-image-generation';
 import { saveStudioCharacterOutput } from '../frontend/server/character-studio/store';
@@ -25,10 +26,14 @@ test('Character authoring charges once, preserves the Builder recipe and forbids
   for (const file of ['93_character_studio.sql', '94_character_studio_presentation.sql'])
     await f.pg.pool.query(readFileSync('neon/migrations/' + file, 'utf8'));
   await f.pg.pool.query('ALTER TABLE job_outputs ADD COLUMN storage_url text; ALTER TABLE job_outputs ADD COLUMN thumb_url text');
-  const entry = getFalEngineById('nano-banana-2-1')!;
+  // Keyvo keeps the customer tariff inactive; the Builder prices Seedream on the official-list rule without it.
+  await f.pg.pool.query('UPDATE app_customer_tariff_state SET active = FALSE');
+  const entry = getFalEngineById(CHARACTER_FINAL_ENGINE_ID)!;
   const engine = entry.engine;
+  // Standard (draft) and Pro (final) both run on Seedream; the look path prepares the default Standard quality.
+  const publicEngines = [entry, getFalEngineById(CHARACTER_DRAFT_ENGINE_ID)!];
   const runtime = {
-    listPublicEngines: async () => [{engine,surface:'image' as const,publicModes:['t2i','i2i'] as const,modeCaps:Object.fromEntries(entry.modes.map(mode=>[mode.mode,mode.ui]))}],
+    listPublicEngines: async () => publicEngines.map(item => ({engine:item.engine,surface:'image' as const,publicModes:['t2i','i2i'] as const,modeCaps:Object.fromEntries(item.modes.map(mode=>[mode.mode,mode.ui]))})),
     resolveRequestExecutability: () => ({ executable:true, reason:'available' as const }),
   };
   const generation: typeof createCreatorGenerationService = (actor, options) => createCreatorGenerationService(actor, {
@@ -40,11 +45,11 @@ test('Character authoring charges once, preserves the Builder recipe and forbids
   const make = (identity: GenerationActor = actor, enabled = true) => module.createCharacterBuilderAuthoringService(identity, {
     executionEnabled:enabled, generation,
   });
-  const input = {traits:{customDetailsDescription:'One small cheek freckle'},qualityMode:'final',formatMode:'4k'} as const;
+  const input = {traits:{customDetailsDescription:'One small cheek freckle'},qualityMode:'final',formatMode:'2k'} as const;
   const prepared = await make().prepare(input);
   const quoteId = prepared.quoteId;
   const approval = {quoteId,confirmed:true as const,amountCents:prepared.amountCents,currency:prepared.currency};
-  const price = await estimateImageGeneration({engineId:engine.id,mode:'t2i',resolution:'4k',aspectRatio:'4:5',numImages:1,referenceImageCount:0});
+  const price = await estimateImageGeneration({engineId:engine.id,mode:'t2i',resolution:'2k',aspectRatio:'3:4',numImages:1,referenceImageCount:0});
   assert.equal(prepared.amountCents,price.pricing.totalCents);
   assert.equal(prepared.recipe.surface,'character-builder');
   assert.equal(prepared.recipe.builder.traits.customDetailsDescription,'One small cheek freckle');
@@ -69,7 +74,7 @@ test('Character authoring charges once, preserves the Builder recipe and forbids
   const [job] = (await f.pg.pool.query('SELECT surface,settings_snapshot,render_ids FROM app_jobs WHERE job_id=$1',[quoteId])).rows;
   assert.equal(job.surface,'character');
   assert.equal(job.settings_snapshot.surface,'character-builder');
-  assert.equal(job.settings_snapshot.builder.formatMode,'4k');
+  assert.equal(job.settings_snapshot.builder.formatMode,'2k');
   assert.equal(job.settings_snapshot.builder.traits.customDetailsDescription,'One small cheek freckle');
   const capture = f.provider.captures.find(capture=>capture.quoteId===quoteId)!;
   assert.equal(capture.options.jobSurface,'character');
@@ -170,10 +175,12 @@ test('Character authoring charges once, preserves the Builder recipe and forbids
     await assert.rejects(make().prepare(input),{code:'ACCOUNT_RESTRICTED'});
     await assert.rejects(make().confirm(approval),{code:'ACCOUNT_RESTRICTED'});
     await f.pg.pool.query('DELETE FROM user_account_restrictions WHERE user_id=$1',[owner]);
+    // Keyvo keeps the tariff inactive and Seedream is an official-list (non-manual) quote, so a tariff revision cannot
+    // stale it; the revision guard applies only to manual tariff snapshots. The approved quote confirms exactly once.
     await f.pg.pool.query('UPDATE app_customer_tariff_state SET revision=revision+1');
-    await assert.rejects(make().confirm(approval));
-    assert.equal((await f.receipts(prepared.quoteId)).length,0);
-    assert.equal(f.provider.calls(prepared.quoteId),0);
+    assert.equal((await make().confirm(approval)).jobId,prepared.quoteId);
+    assert.equal(f.provider.calls(prepared.quoteId),1);
+    assert.equal((await f.receipts(prepared.quoteId)).filter(row=>row.type==='charge').length,1);
   });
 
 });

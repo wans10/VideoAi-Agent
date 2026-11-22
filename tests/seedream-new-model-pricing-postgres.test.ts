@@ -1,3 +1,5 @@
+// seedream-5-5 is registry-only on Keyvo (unoffered); this parity contract prices it on the unfiltered upstream catalog.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -23,10 +25,14 @@ test('new Seedream web billing, image estimates, MCP settlement and current publ
       await db.pool.query(readFileSync(`neon/migrations/${migration}`, 'utf8'));
     }
     await db.pool.query('UPDATE app_customer_tariff_state SET active = TRUE, revision = 1');
+    // Keyvo's Seedream 5.0 Flash renders 2K only (the 1K and 1.5K sizes are not offered). Its active-tariff cell keeps
+    // the upstream 3-cent manual price; with the tariff inactive (Keyvo's production state) it uses the official-list
+    // rule instead (see the final block). Seedream 5.5 is registry-only on Keyvo.
     for (const id of ['seedream-5-5', 'seedream-5-0-flash'] as const) {
+      const flash = id === 'seedream-5-0-flash';
       const engine = getFalEngineById(id)!.engine;
-      for (const resolution of ['1K', '1.5K', '2K']) for (const count of [1, 10]) {
-        const expected = id === 'seedream-5-0-flash' ? 3 : resolution === '2K' ? count === 1 ? 6 : 16 : count === 1 ? 4 : 13;
+      for (const resolution of flash ? ['2K'] : ['1K', '1.5K', '2K']) for (const count of [1, 10]) {
+        const expected = flash ? 3 : resolution === '2K' ? count === 1 ? 6 : 16 : count === 1 ? 4 : 13;
         const estimated = await estimateImageGeneration({ engineId: id, mode: 'i2i', numImages: 1,
           resolution, aspectRatio: '16:9', referenceImageCount: count });
         const generated = await resolveImageGenerationPricingSnapshot({ engine, mode: 'i2i', durationSec: 1, resolution,
@@ -40,7 +46,10 @@ test('new Seedream web billing, image estimates, MCP settlement and current publ
             kind: 'asset' as const, assetId: `local-${slot}`, role: 'reference' as const, slot,
           })) }, 'member', { executor, candidate: { engine, surface: 'image' } as never }));
         const publicQuote = await quotePublicModelScenario({ modelId: id, mode: 'i2i', durationSec: 1,
-          resolution, aspectRatio: '16:9', referenceImageCount: count - 1 });
+          resolution, aspectRatio: '16:9',
+          // Flash is priced per image on the generic path, which has no reference-count dimension (Keyvo keeps it off the
+          // USD new-Seedream branch); only 5.5 prices each source image.
+          referenceImageCount: flash ? undefined : count - 1 });
         assert.equal(publicQuote.status, 'exact');
         assert.equal(publicQuote.status === 'exact' ? publicQuote.amountCents : null, expected);
         for (const snapshot of [generated.pricing, estimated.pricing, settled.pricingSnapshot]) {
@@ -49,7 +58,8 @@ test('new Seedream web billing, image estimates, MCP settlement and current publ
           assert.equal(snapshot.meta?.providerCostContract, undefined);
           assert.equal((snapshot.meta?.providerCostUsage as { inputImages: number }).inputImages, count);
           assert.equal(snapshot.meta?.customerTariffRevision, 1);
-          const sourceUsd = id === 'seedream-5-0-flash' ? 0.018 : Number(((resolution === '2K' ? 0.035 : 0.020) + count * 0.008).toFixed(6));
+          // Keyvo's Flash supplier fact is the official CNY 0.12 list (= 0.015 USD at 8 CNY/USD).
+          const sourceUsd = flash ? 0.015 : Number(((resolution === '2K' ? 0.035 : 0.020) + count * 0.008).toFixed(6));
           assert.equal(snapshot.meta?.providerCostListUsd, sourceUsd);
         }
       }
@@ -62,12 +72,16 @@ test('new Seedream web billing, image estimates, MCP settlement and current publ
     assert.equal((await db.pool.query('SELECT count(*) FROM app_jobs')).rows[0].count, '0');
 
     await db.pool.query('UPDATE app_customer_tariff_state SET active = FALSE');
-    for (const id of ['seedream-5-5', 'seedream-5-0-flash'] as const) {
-      await assert.rejects(estimateImageGeneration({ engineId: id, mode: 't2i', numImages: 1,
-        resolution: '2K', aspectRatio: '1:1' }), /tariff/i);
-      assert.equal((await quotePublicModelScenario({ modelId: id, mode: 't2i', durationSec: 1, resolution: '2K' })).status,
-        'unavailable');
-    }
+    await assert.rejects(estimateImageGeneration({ engineId: 'seedream-5-5', mode: 't2i', numImages: 1,
+      resolution: '2K', aspectRatio: '1:1' }), /tariff/i);
+    assert.equal((await quotePublicModelScenario({ modelId: 'seedream-5-5', mode: 't2i', durationSec: 1, resolution: '2K' })).status,
+      'unavailable');
+    // The official-list Flash rule needs no tariff, so it keeps quoting while the tariff is inactive.
+    const flash = await estimateImageGeneration({ engineId: 'seedream-5-0-flash', mode: 't2i', numImages: 1,
+      resolution: '2K', aspectRatio: '1:1' });
+    assert.equal(flash.pricing.totalCents, 1);
+    assert.equal((await quotePublicModelScenario({ modelId: 'seedream-5-0-flash', mode: 't2i', durationSec: 1, resolution: '2K' })).status,
+      'exact');
   } finally {
     await getDb().end().catch(() => undefined);
     await db.cleanup();
