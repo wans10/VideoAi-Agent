@@ -1491,7 +1491,7 @@ transitions above (the upstream Seedream 5.5 and Seedance 2.5 Flash launch rows 
 Seedream 5.0 Flash launch rows are superseded by the 2026-11-11 Keyvo rows).
 
 - `tests/fixtures/keyvo-seedance-25-4k-public-pricing-2026-11-22.json`: the Seedance 2.5 4K pricing-hub route is exact
-  at the Keyvo price path (1361 cents), not upstream's USD x2 list (1828 cents). Owner confirmation that 4K is sold on Keyvo is pending.
+  at the Keyvo price path (603 cents harness units = CNY 48.21 for 10 s; official list CNY 31/M tokens x 0.8), not upstream's USD x2 list (1828 cents). Owner confirmed 2026-11-22 that 4K is sold on Keyvo.
 - `tests/fixtures/keyvo-seedream-flash-unit-public-pricing-2026-11-22.json`: the three Seedream 5.0 Flash estimator rows
   change unit from `sec` to `image` (per-image engine); amounts are unchanged.
 - Seedream 5.5 and Seedance 2.5 Flash are unoffered by Keyvo's allowlist and unpublished at runtime (no model page, pricing or

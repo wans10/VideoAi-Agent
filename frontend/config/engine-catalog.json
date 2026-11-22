@@ -13423,14 +13423,12 @@
       "showInNav": true,
       "publishedModelSlugs": [
         "seedance-2-5",
-        "seedance-2-5-flash",
         "seedance-2-0",
         "seedance-2-0-fast",
         "dreamina-seedance-2-0-mini"
       ],
       "currentModelSlugs": [
         "seedance-2-5",
-        "seedance-2-5-flash",
         "seedance-2-0",
         "seedance-2-0-fast",
         "dreamina-seedance-2-0-mini"
@@ -13783,14 +13781,12 @@
       "showInNav": true,
       "publishedModelSlugs": [
         "seedance-2-5",
-        "seedance-2-5-flash",
         "seedance-2-0",
         "seedance-2-0-fast",
         "dreamina-seedance-2-0-mini"
       ],
       "currentModelSlugs": [
         "seedance-2-5",
-        "seedance-2-5-flash",
         "seedance-2-0",
         "seedance-2-0-fast",
         "dreamina-seedance-2-0-mini"
@@ -14653,14 +14649,12 @@
       "showInNav": true,
       "publishedModelSlugs": [
         "seedance-2-5",
-        "seedance-2-5-flash",
         "seedance-2-0",
         "seedance-2-0-fast",
         "dreamina-seedance-2-0-mini"
       ],
       "currentModelSlugs": [
         "seedance-2-5",
-        "seedance-2-5-flash",
         "seedance-2-0",
         "seedance-2-0-fast",
         "dreamina-seedance-2-0-mini"
@@ -15501,14 +15495,12 @@
       "showInNav": true,
       "publishedModelSlugs": [
         "seedance-2-5",
-        "seedance-2-5-flash",
         "seedance-2-0",
         "seedance-2-0-fast",
         "dreamina-seedance-2-0-mini"
       ],
       "currentModelSlugs": [
         "seedance-2-5",
-        "seedance-2-5-flash",
         "seedance-2-0",
         "seedance-2-0-fast",
         "dreamina-seedance-2-0-mini"
@@ -16272,14 +16264,12 @@
       "showInNav": true,
       "publishedModelSlugs": [
         "seedance-2-5",
-        "seedance-2-5-flash",
         "seedance-2-0",
         "seedance-2-0-fast",
         "dreamina-seedance-2-0-mini"
       ],
       "currentModelSlugs": [
         "seedance-2-5",
-        "seedance-2-5-flash",
         "seedance-2-0",
         "seedance-2-0-fast",
         "dreamina-seedance-2-0-mini"
@@ -16611,14 +16601,12 @@
       "showInNav": true,
       "publishedModelSlugs": [
         "seedance-2-5",
-        "seedance-2-5-flash",
         "seedance-2-0",
         "seedance-2-0-fast",
         "dreamina-seedance-2-0-mini"
       ],
       "currentModelSlugs": [
         "seedance-2-5",
-        "seedance-2-5-flash",
         "seedance-2-0",
         "seedance-2-0-fast",
         "dreamina-seedance-2-0-mini"
@@ -17592,14 +17580,12 @@
       "showInNav": true,
       "publishedModelSlugs": [
         "seedance-2-5",
-        "seedance-2-5-flash",
         "seedance-2-0",
         "seedance-2-0-fast",
         "dreamina-seedance-2-0-mini"
       ],
       "currentModelSlugs": [
         "seedance-2-5",
-        "seedance-2-5-flash",
         "seedance-2-0",
         "seedance-2-0-fast",
         "dreamina-seedance-2-0-mini"
@@ -17613,12 +17599,12 @@
     "successorSlug": null,
     "surfaces": {
       "modelPage": {
-        "indexable": true,
-        "includeInSitemap": true
+        "indexable": false,
+        "includeInSitemap": false
       },
       "examples": {
-        "includeInFamilyResolver": true,
-        "includeInFamilyCopy": true
+        "includeInFamilyResolver": false,
+        "includeInFamilyCopy": false
       },
       "compare": {
         "suggestOpponents": [
@@ -17643,12 +17629,10 @@
         "enabled": true,
         "discoveryRank": -2.5,
         "variantGroup": "seedance-2-0",
-        "variantLabel": "2.5 Flash",
-        "launchBadge": "new"
+        "variantLabel": "2.5 Flash"
       },
       "pricing": {
-        "includeInEstimator": true,
-        "featuredScenario": "seedance-2-family"
+        "includeInEstimator": true
       }
     },
     "surfacesSource": "registry",
@@ -27213,8 +27197,8 @@
     "successorSlug": null,
     "surfaces": {
       "modelPage": {
-        "indexable": true,
-        "includeInSitemap": true
+        "indexable": false,
+        "includeInSitemap": false
       },
       "examples": {
         "includeInFamilyResolver": false,
@@ -27229,12 +27213,10 @@
         "enabled": true,
         "discoveryRank": 6,
         "variantGroup": "seedream",
-        "variantLabel": "5.5",
-        "launchBadge": "new"
+        "variantLabel": "5.5"
       },
       "pricing": {
-        "includeInEstimator": true,
-        "featuredScenario": "precise image editing and transparent assets"
+        "includeInEstimator": true
       }
     },
     "surfacesSource": "registry",

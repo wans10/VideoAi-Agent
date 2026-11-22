@@ -20,6 +20,8 @@
     "qwen-image-3-0",
     "qwen-image-3-0-pro",
     "seedance-2-5",
+    "seedance-2-5-flash",
+    "seedream-5-5",
     "seedream-5-0-pro",
     "seedream-5-0-flash",
     "nano-banana-2-1",
@@ -85,6 +87,12 @@
     "seedance-2-5": [
       "doubao-seedance-2.5 (Volcengine official)"
     ],
+    "seedance-2-5-flash": [
+      "doubao-seedance-2-5-flash (Volcengine official)"
+    ],
+    "seedream-5-5": [
+      "doubao-seedream-5-5 (Volcengine official)"
+    ],
     "seedream-5-0-pro": [
       "doubao-seedream-5-0-pro (Volcengine official)"
     ],
@@ -148,6 +156,8 @@
     "qwen-image-3-0": "public",
     "qwen-image-3-0-pro": "public",
     "seedance-2-5": "public",
+    "seedance-2-5-flash": "public",
+    "seedream-5-5": "public",
     "seedream-5-0-pro": "public",
     "seedream-5-0-flash": "public",
     "nano-banana-2-1": "admin",

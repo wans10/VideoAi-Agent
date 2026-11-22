@@ -2297,8 +2297,8 @@
       },
       "publication": {
         "model": {
-          "published": true,
-          "indexable": true
+          "published": false,
+          "indexable": false
         },
         "examples": {
           "published": false,
@@ -2315,15 +2315,13 @@
           "published": true,
           "discoveryRank": 6,
           "variantGroup": "seedream",
-          "variantLabel": "5.5",
-          "launchBadge": "new"
+          "variantLabel": "5.5"
         },
         "pricing": {
-          "published": true,
-          "featuredScenario": "precise image editing and transparent assets"
+          "published": true
         },
         "sitemap": {
-          "published": true
+          "published": false
         }
       },
       "replacement": null,
@@ -3528,14 +3526,13 @@
       },
       "publication": {
         "model": {
-          "published": true,
-          "indexable": true
+          "published": false,
+          "indexable": false
         },
         "examples": {
-          "published": true,
-          "includeInFamilyCopy": true,
-          "current": true,
-          "familyRank": 1
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
         },
         "compare": {
           "published": true,
@@ -3561,15 +3558,13 @@
           "published": true,
           "variantGroup": "seedance-2-0",
           "variantLabel": "2.5 Flash",
-          "discoveryRank": -2.5,
-          "launchBadge": "new"
+          "discoveryRank": -2.5
         },
         "pricing": {
-          "published": true,
-          "featuredScenario": "seedance-2-family"
+          "published": true
         },
         "sitemap": {
-          "published": true
+          "published": false
         }
       },
       "replacement": null,

@@ -450,7 +450,7 @@ export function ReconsentPrompt({ enabled = true }: ReconsentPromptProps) {
             }}
             className="mt-1"
           />
-          <span>I confirm I am at least {status.minimumAge} years old and have reached the age of legal majority in my country.</span>
+          <span>{isChinesePage() ? `我确认已年满 ${status.minimumAge} 周岁，并已达到所在国家或地区的法定成年年龄。` : `I confirm I am at least ${status.minimumAge} years old and have reached the age of legal majority in my country.`}</span>
         </label>
       ) : null}
 
@@ -463,7 +463,7 @@ export function ReconsentPrompt({ enabled = true }: ReconsentPromptProps) {
               marketingPreferenceRef.current = event.target.checked;
               setMarketingPreference(event.target.checked);
             }} />
-          <span>Send me occasional product emails. I can unsubscribe anytime.</span>
+          <span>{isChinesePage() ? '我愿意不定期接收产品邮件，可随时退订。' : 'Send me occasional product emails. I can unsubscribe anytime.'}</span>
         </label>
       ) : null}
 
