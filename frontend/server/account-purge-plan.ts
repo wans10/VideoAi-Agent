@@ -40,11 +40,15 @@ export const ACCOUNT_PURGE_STEPS: PurgeStep[] = [
   del('library_selection_snapshot_items'),
   del('library_selection_snapshots'),
   del('library_collections'),
+  del('library_purge_objects'),
+  del('library_purge_tokens'),
+  del('library_purge_requests'),
   del('library_organization'),
   // Characters.
   del('character_studio_looks'),
   del('character_studio_characters'),
   del('character_studio_recast_quotes'),
+  del('character_builder_quotes'),
   // Studio projects and conversations.
   del('studio_task_approvals'),
   del('studio_task_segments'),
@@ -75,6 +79,8 @@ export const ACCOUNT_PURGE_STEPS: PurgeStep[] = [
   del('mcp_funnel_events'),
   del('mcp_trial_risk_events'),
   del('mcp_audit_events'),
+  del('audio_generation_dispatch'),
+  del('openai_conversion_outbox'),
   // Behavioural and analytics records.
   del('app_generate_metrics'),
   del('ga4_payment_outbox'),
