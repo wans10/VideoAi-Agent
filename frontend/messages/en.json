@@ -159,6 +159,16 @@
         }
       },
       "compare": {
+        "sections": {
+          "platforms": {
+            "title": "Compare platforms",
+            "items": {
+              "platform-guide": "AI video platform guide",
+              "higgsfield-alternative": "MaxVideoAI vs Higgsfield",
+              "openart-alternative": "MaxVideoAI vs OpenArt"
+            }
+          }
+        },
         "items": {
           "ltx-2-3-pro-vs-ltx-2-5-pro": "LTX 2.3 Pro vs LTX 2.5 Pro",
           "wan-2-6-vs-wan-3": "Wan 2.6 vs Wan 3",
@@ -3871,7 +3881,7 @@
     "jobs": {
       "activity": {
         "title": "Activity",
-        "description": "Your generations, in order. Open a result to keep creating.",
+        "description": "Follow your generations and pick up where you left off.",
         "source": "Source",
         "sources": {
           "all": "All sources",
@@ -3894,7 +3904,22 @@
         },
         "statusHint": "Status filters apply to loaded activity. Load more to check older generations.",
         "filteredEmpty": "No matching generations in the loaded activity.",
-        "refresh": "Refresh"
+        "refresh": "Refresh",
+        "mediaLibrary": "Media library",
+        "cost": "Generation cost",
+        "openIn": "Open {tool}",
+        "destinations": {
+          "create": "Create",
+          "image": "Image",
+          "audio": "Audio",
+          "studio": "Studio",
+          "storyboard": "Storyboard",
+          "character": "Characters",
+          "angle": "Angle",
+          "upscale": "Upscale",
+          "background-removal": "Background removal",
+          "tools": "Tools"
+        }
       },
       "title": "History",
       "sections": {
@@ -3928,7 +3953,7 @@
       "actions": {
         "addToLibrary": "Add to Media",
         "removeFromLibrary": "Remove from Media",
-        "recreate": "Generate same settings",
+        "recreate": "Reuse settings",
         "openDetails": "View details",
         "actions": "Actions",
         "expandSection": "Show",
@@ -6856,7 +6881,7 @@
       "privacyLabel": "Privacy Policy",
       "suffix": ".",
       "error": "You must accept the Terms of Service and Privacy Policy to continue.",
-      "age": "I confirm I am at least {age} years old.",
+      "age": "I confirm I am at least {age} years old and have reached the age of legal majority in my country.",
       "marketing": "Yes, send me occasional product emails. I can unsubscribe anytime."
     },
     "signupSuggestion": {
@@ -8313,7 +8338,8 @@
         "looksBody": "Start from a saved character, then change the wardrobe or setting. Use a style preset, describe your own outfit or add a clothing reference.",
         "identity": "Saved identity",
         "newLook": "New look",
-        "looksNote": "Dixie Trouble · two actual generations. Check the face and details before saving a look.",
+        "looksNote": "Dixie Trouble’s saved portrait and the Dixie Pop look are two Character Studio generations. Review the face and outfit before reusing a look.",
+        "looksRecastCta": "See Dixie in motion",
         "outputsTitle": "The right reference for the next shot.",
         "outputsBody": "Choose Portrait or Character sheet, then the format and resolution. The generation price updates before you confirm.",
         "portrait": "Portrait",

@@ -1,13 +1,15 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { JSDOM } from 'jsdom';
-import { prepareBrowserAnalyticsEvents } from '../frontend/lib/analytics/journey-browser';
+import { prepareBrowserAnalyticsEvents, readWalletAnalyticsJourney } from '../frontend/lib/analytics/journey-browser';
+import { ANALYTICS_JOURNEY_STORAGE_KEY } from '../frontend/lib/analytics/journey-contract';
 import { sendPreparedAnalyticsEvents } from '../frontend/lib/analytics/ordered-events';
+import { buildTopupAttributionGa4Params, buildWalletAttributionMetadata, normalizeWalletAttribution } from '../frontend/server/wallet-attribution';
 
-function withPage(href: string, run: (window: Window) => void) {
+function withPage(href: string, run: (window: Window) => void, referrer = 'https://smithery.ai/server/maxvideoai?token=private-referrer') {
   const dom = new JSDOM('<html lang="fr"><title>Private customer project</title></html>', {
     url: href,
-    referrer: 'https://smithery.ai/server/maxvideoai?token=private-referrer',
+    ...(referrer ? { referrer } : {}),
   });
   const descriptors = ['window', 'document'].map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)] as const);
   Object.defineProperty(globalThis, 'window', { configurable: true, value: dom.window });
@@ -63,6 +65,83 @@ test('excluded routes cannot prepare or send queued GA events', () => {
     const calls: unknown[][] = [];
     sendPreparedAnalyticsEvents((...args) => calls.push(args), [{ event: 'page_view', payload: {} }]);
     assert.deepEqual(calls, []);
+  });
+});
+
+const comparisonCampaign = 'utm_source=reddit&utm_medium=organic_social&utm_campaign=community_pilot&utm_content=mcp_quote';
+
+test('Higgsfield comparison page views and CTAs retain only bounded attribution across locales', () => {
+  const comparisonCtas = [
+    ['higgsfield_price_project', 'comparison_hero'],
+    ['higgsfield_price_project', 'comparison_footer'],
+    ['higgsfield_download_comparison', 'comparison_share'],
+    ['higgsfield_character_studio', 'comparison_character_proof'],
+  ] as const;
+  for (const locale of ['en', 'fr', 'es']) {
+    const pagePath = `${locale === 'en' ? '' : `/${locale}`}/higgsfield-alternative`;
+    const pageUrl = `https://maxvideoai.com${pagePath}`;
+    withPage(`${pageUrl}?${comparisonCampaign}&token=private-query#private-hash`, window => {
+      window.document.documentElement.lang = locale;
+      const events = [
+        ...prepareBrowserAnalyticsEvents('page_view', { route_family: 'marketing' }),
+        ...comparisonCtas.flatMap(([cta_name, cta_location]) => prepareBrowserAnalyticsEvents('cta_click', {
+          route_family: 'marketing', cta_name, cta_location,
+        })),
+      ];
+      const calls: { event: string; payload: Record<string, unknown> }[] = [];
+      sendPreparedAnalyticsEvents((_command, event, payload) => calls.push({ event, payload: payload as Record<string, unknown> }), events);
+      const view = calls.find(call => call.event === 'page_view')?.payload;
+      assert.equal(view?.page_location, pageUrl);
+      assert.equal(view?.page_path, pagePath);
+      assert.equal(view?.landing_surface, '/higgsfield-alternative');
+      assert.equal(view?.journey_locale, locale);
+      assert.equal(view?.campaign_source, 'reddit');
+      assert.equal(view?.campaign_medium, 'organic_social');
+      assert.equal(view?.campaign_name, 'community_pilot');
+      assert.equal(view?.campaign_content, 'mcp_quote');
+      const ctas = calls.filter(call => call.event === 'cta_click').map(call => call.payload);
+      assert.deepEqual(ctas.map(payload => [payload.cta_name, payload.cta_location]), comparisonCtas);
+      assert.ok(ctas.every(payload => payload.page_location === pageUrl && payload.landing_surface === '/higgsfield-alternative'));
+      const stored = window.localStorage.getItem(ANALYTICS_JOURNEY_STORAGE_KEY);
+      assert.ok(stored);
+      assert.doesNotMatch(JSON.stringify(calls) + stored, /private-query|private-hash|private-referrer/);
+    });
+  }
+});
+
+test('OpenArt and project-budget CTAs retain their bounded names and public landing owner', () => {
+  const entries = [
+    ['/openart-alternative', 'openart_price_shot', 'openart_hero', '/openart-alternative'],
+    ['/fr/openart-alternative', 'openart_price_shot', 'openart_footer', '/openart-alternative'],
+    ['/es/blog/coste-proyecto-video-ia', 'project_cost_configure', 'project_cost_article', '/blog'],
+    ['/fr/blog/cout-projet-video-ia', 'project_cost_configure', 'project_cost_scenario', '/blog'],
+    ['/fr/blog/comparer-plateformes-video-ia', 'platform_guide_configure', 'platform_guide_budget', '/blog'],
+  ] as const;
+  for (const [path, name, location, surface] of entries) {
+    withPage(`https://maxvideoai.com${path}?${comparisonCampaign}&prompt=private-query`, () => {
+      const events = prepareBrowserAnalyticsEvents('cta_click', { route_family: 'marketing', cta_name: name, cta_location: location });
+      const calls: Record<string, unknown>[] = [];
+      sendPreparedAnalyticsEvents((_command, event, payload) => {
+        if (event === 'cta_click') calls.push(payload as Record<string, unknown>);
+      }, events);
+      assert.equal(calls.length, 1);
+      assert.equal(calls[0].cta_name, name);
+      assert.equal(calls[0].cta_location, location);
+      assert.equal(calls[0].landing_surface, surface);
+      assert.equal(calls[0].campaign_source, 'reddit');
+      assert.doesNotMatch(JSON.stringify(calls), /private-query/);
+    });
+  }
+});
+
+test('the comparison campaign and its CTA do not create GA events or storage without consent', () => {
+  withPage(`https://maxvideoai.com/higgsfield-alternative?${comparisonCampaign}`, window => {
+    window.localStorage.removeItem('mv-consent-analytics');
+    window.document.cookie = 'mv-consent=; Max-Age=0; path=/';
+    assert.deepEqual(prepareBrowserAnalyticsEvents('cta_click', {
+      route_family: 'marketing', cta_name: 'higgsfield_price_project', cta_location: 'comparison_hero',
+    }), []);
+    assert.equal(window.localStorage.getItem(ANALYTICS_JOURNEY_STORAGE_KEY), null);
   });
 });
 
@@ -123,4 +202,52 @@ test('the source-only ChatGPT tag survives URL cleaning without inventing a medi
     assert.equal(calls.at(-1)?.page_location, 'https://maxvideoai.com/');
     assert.doesNotMatch(JSON.stringify(calls), /private-query/);
   });
+});
+
+const chatgptCampaign = 'utm_source=chatgpt&utm_medium=cpc&utm_campaign=chatgpt_ads_pilot_202611&utm_content=no_subscription_v1';
+
+test('ChatGPT paid acquisition survives an absent referrer, URL cleaning, navigation, and checkout attribution', () => {
+  withPage(`https://maxvideoai.com/pricing?${chatgptCampaign}&token=private-query#private-hash`, window => {
+    const calls: Record<string, unknown>[] = [];
+    sendPreparedAnalyticsEvents((_command, _name, payload) => calls.push(payload as Record<string, unknown>),
+      prepareBrowserAnalyticsEvents('page_view', { route_family: 'marketing' }));
+    const view = calls.at(-1)!;
+    assert.equal(view.page_location, 'https://maxvideoai.com/pricing');
+    assert.equal(view.page_referrer, '');
+    assert.deepEqual(
+      [view.campaign_source, view.campaign_medium, view.campaign_name, view.campaign_content],
+      ['chatgpt', 'cpc', 'chatgpt_ads_pilot_202611', 'no_subscription_v1'],
+    );
+    window.history.pushState(null, '', '/billing');
+    prepareBrowserAnalyticsEvents('topup_started', { route_family: 'billing' });
+    const checkout = readWalletAnalyticsJourney();
+    assert.ok(checkout);
+    const metadata = buildWalletAttributionMetadata(normalizeWalletAttribution(checkout, true));
+    const purchaseParams = buildTopupAttributionGa4Params(metadata);
+    for (const touch of ['first', 'last']) {
+      assert.deepEqual([
+        purchaseParams[`${touch}_touch_source`], purchaseParams[`${touch}_touch_medium`],
+        purchaseParams[`${touch}_touch_campaign`], purchaseParams[`${touch}_touch_content`],
+      ], ['chatgpt', 'cpc', 'chatgpt_ads_pilot_202611', 'no_subscription_v1']);
+    }
+    assert.doesNotMatch(JSON.stringify({ calls, checkout, metadata, purchaseParams }), /private-query|private-hash/);
+    assert.equal(normalizeWalletAttribution(checkout, false), null);
+  }, '');
+});
+
+test('unapproved ChatGPT campaign or creative values cannot enter GA or stored attribution', () => {
+  for (const campaign of [
+    chatgptCampaign.replace('chatgpt_ads_pilot_202611', 'private-campaign'),
+    chatgptCampaign.replace('no_subscription_v1', 'private-creative'),
+    chatgptCampaign.replace('utm_medium=cpc', 'utm_medium=email'),
+  ]) {
+    withPage(`https://maxvideoai.com/pricing?${campaign}`, () => {
+      const events = prepareBrowserAnalyticsEvents('page_view', { route_family: 'marketing' });
+      const calls: Record<string, unknown>[] = [];
+      sendPreparedAnalyticsEvents((_command, _name, payload) => calls.push(payload as Record<string, unknown>), events);
+      assert.equal(calls.at(-1)?.campaign_source, undefined);
+      assert.equal(readWalletAnalyticsJourney()?.firstSource, 'direct');
+      assert.doesNotMatch(JSON.stringify(calls), /private-campaign|private-creative/);
+    }, '');
+  }
 });

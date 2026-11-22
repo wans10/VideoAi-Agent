@@ -67,13 +67,20 @@ test('runtime model projection matches every baseline identity and surface', () 
     assert.equal(actual.slug, expected.slug);
     assert.equal(actual.family, expected.family);
     assert.equal(actual.category, expected.category);
-    const archived = ['sora-2', 'sora-2-pro', 'seedance-1-5-pro'].includes(expected.id);
+    const archived = ['sora-2', 'sora-2-pro', 'seedance-1-5-pro', 'pika-text-to-video'].includes(expected.id);
     assert.equal(actual.lifecycle, archived ? 'deep_legacy' : expected.id === 'gpt-image-2' ? 'legacy' : expected.lifecycle);
     assert.equal(
       actual.successorId,
       APPROVED_SUCCESSORS[expected.id as keyof typeof APPROVED_SUCCESSORS] ?? expected.successorId,
     );
     const actualPublication = toLegacyModelSurfaces(actual);
+    if (['seedance-2-5', 'seedance-2-0-fast', 'kling-v4-flash', 'veo-3-1-fast', 'ltx-2-5-fast', 'minimax-h3'].includes(expected.id)) {
+      for (const key of ['suggestOpponents', 'publishedPairs'] as const) {
+        assert.equal(actualPublication.compare[key].filter(slug => slug === 'seedance-2-5-flash').length, 1, expected.id);
+        actualPublication.compare[key] = actualPublication.compare[key].filter(slug => slug !== 'seedance-2-5-flash');
+      }
+    }
+
     if (reciprocalSeedance25PairOwners.has(expected.id)) {
       assert.equal(
         actualPublication.compare.publishedPairs.filter((slug) => slug === 'seedance-2-5').length,
@@ -141,7 +148,7 @@ test('runtime model projection matches every baseline identity and surface', () 
     }
     assert.deepEqual(actualPublication, archived ? {
       ...expected.publication, app: { enabled: false }, pricing: { includeInEstimator: false },
-      examples: { ...expected.publication.examples, ...(expected.id === 'seedance-1-5-pro' ? { includeInFamilyCopy: false } : {}) },
+      examples: { ...expected.publication.examples, ...(['seedance-1-5-pro', 'pika-text-to-video'].includes(expected.id) ? { includeInFamilyCopy: false } : {}) },
     } : expected.publication);
   }
 });
@@ -231,6 +238,7 @@ test('canonical lifecycle classifies every approved non-current model and author
     lumaRay2: 'legacy',
     lumaRay2_flash: 'legacy',
     'nano-banana': 'legacy',
+    'pika-text-to-video': 'deep_legacy',
     'seedance-1-5-pro': 'deep_legacy',
     'sora-2': 'deep_legacy',
     'sora-2-pro': 'deep_legacy',
@@ -343,7 +351,7 @@ test('family membership and current variants preserve baseline with explicit lif
           : expected.routeAliases;
     assert.deepEqual(actual.routeAliases, expectedRouteAliases);
     const expectedPublishedModelSlugs = expected.id === 'seedance'
-      ? ['seedance-2-5', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
+      ? ['seedance-2-5', 'seedance-2-5-flash', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
       : expected.id === 'kling'
         ? ['kling-v4', 'kling-v4-flash', 'kling-3-turbo-pro', 'kling-3-turbo-standard', ...(expected.examplesPage?.publishedModelSlugs ?? [])]
       : expected.id === 'hailuo'
@@ -359,7 +367,7 @@ test('family membership and current variants preserve baseline with explicit lif
       ? expected.examplesPage.currentModelSlugs
       : expected.examplesPage?.publishedModelSlugs ?? [];
     const expectedCurrentModelSlugs = expected.id === 'seedance'
-      ? ['seedance-2-5', ...baselineCurrentModelSlugs]
+      ? ['seedance-2-5', 'seedance-2-5-flash', ...baselineCurrentModelSlugs]
       : expected.id === 'kling'
         ? ['kling-v4', 'kling-v4-flash', 'kling-3-turbo-pro', 'kling-3-turbo-standard', ...baselineCurrentModelSlugs]
       : expected.id === 'hailuo'
@@ -370,7 +378,7 @@ test('family membership and current variants preserve baseline with explicit lif
           ? ['ltx-2-5-pro', 'ltx-2-5-fast']
           : expected.id === 'wan'
             ? ['wan-3-prime', 'wan-3']
-          : expected.id === 'sora'
+          : ['sora', 'pika'].includes(expected.id)
             ? []
         : baselineCurrentModelSlugs;
     assert.deepEqual(

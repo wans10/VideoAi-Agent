@@ -441,7 +441,7 @@ test('library cards use icon actions and put source navigation on the visual', (
   assert.match(clientSource, /getAssetHref=\{\(asset\)\s*=>[\s\S]*getAssetJobHref\(asset\)/);
   assert.match(helpersSource, /export function\s+isMaxVideoGeneratedAsset/);
   assert.doesNotMatch(clientSource, /\?\?\s*asset\.url/);
-  assert.match(clientSource, /getAssetHrefLabel=\{\(\)\s*=>[\s\S]*copy\.assets\.openAssetButton/);
+  assert.match(clientSource, /getAssetHrefLabel=\{\(asset\)\s*=>[\s\S]*copy\.assets\.openAssetButton/);
   assert.doesNotMatch(clientSource, />\s*\{copy\.assets\.useSettingsButton\}\s*</);
   const panelSource = fs.readFileSync(path.join(process.cwd(), 'frontend/components/library/MediaActionPanel.client.tsx'), 'utf8');
   assert.match(browserSource, /<MediaActionPanel/);
@@ -562,8 +562,8 @@ test('history cards use thumbnails and explicit card actions', () => {
   assert.match(cardSource, /openLabel\?:\s*string/);
   assert.match(cardSource, /actionMenuLabel\?:\s*string/);
   assert.match(cardSource, /aria-label=\{actionMenuLabel\}/);
-  assert.match(jobsShellSource, /openLabel=\{copy\.actions\.openDetails\}/);
-  assert.match(jobsShellSource, /actionMenuLabel=\{copy\.actions\.actions\}/);
+  assert.match(fs.readFileSync(path.join(process.cwd(), 'frontend/app/(core)/jobs/_components/ActivityRow.client.tsx'), 'utf8'), /openLabel=\{copy\.actions\.openDetails\}/);
+  assert.match(fs.readFileSync(path.join(process.cwd(), 'frontend/app/(core)/jobs/_components/ActivityRow.client.tsx'), 'utf8'), /aria-label=\{`\$\{copy\.actions\.actions\}/);
   assert.match(jobsShellSource, /<select value=\{source\}/);
   assert.match(jobsShellSource, /JOBS_SOURCES\.map/);
   assert.doesNotMatch(jobsShellSource, /expandSection|collapseSection|CollapsedGroupRail/);
@@ -603,7 +603,7 @@ test('history can save renders to library from cards and job details', () => {
   assert.match(jobsSource, /saveAssetToLibrary/);
   assert.match(jobsHelpersSource, /function\s+resolveGroupLibrarySavePayload/);
   assert.match(jobsHelpersSource, /function\s+resolveEntryLibrarySavePayload/);
-  assert.match(jobsShellSource, /menuVariant="activity"/);
+  assert.match(fs.readFileSync(path.join(process.cwd(), 'frontend/app/(core)/jobs/_components/ActivityRow.client.tsx'), 'utf8'), /menuVariant="activity"/);
   const activityMenuSource = fs.readFileSync(path.join(process.cwd(), 'frontend/components/GroupedJobCardMenu.tsx'), 'utf8');
   assert.match(activityMenuSource, /showActivityActions && assets.length/);
   assert.match(activityMenuSource, /onSave=\{\(\) => handleAction\('save-to-library'\)\}/);

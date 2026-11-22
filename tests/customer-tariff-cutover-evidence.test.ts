@@ -4,26 +4,43 @@ import { collectCustomerTariffCutoverCheckpoints, cutoverDigest, assertCustomerT
   projectInitialCustomerTariffCutoverCells,type CustomerTariffCutoverRelease } from '../frontend/server/pricing/customer-tariff-cutover-evidence';
 import { collectSellableManualTariffCoverage } from '../frontend/lib/pricing-audit/manual-tariff-coverage';
 import { ENV } from '../frontend/src/lib/env';
+import { withArchivedPikaPricingCatalogue } from './helpers/historical-customer-tariff-catalogue';
 
-test('cutover derives all ordinary, workflow and real input duration checkpoints with unique identities', () => {
+test('cutover derives all ordinary, workflow and real input duration checkpoints with unique identities', async () => withArchivedPikaPricingCatalogue(() => {
   const cases = collectCustomerTariffCutoverCheckpoints();
-  const novemberModels = ['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst'];
-  assert.equal(cases.filter(row => row.kind === 'ordinary' && !['flux-3-max','kling-v4','nano-banana-2-1',...novemberModels].includes(row.scenario.modelId)).length, 20158);
-  assert.deepEqual(novemberModels.map(id => cases.filter(row => row.scenario.modelId === id).length), [72, 1020, 1020]);
-  assert.ok(cases.filter(row => novemberModels.includes(row.scenario.modelId)).every(row => row.kind === 'ordinary'));
-  const novemberDelta = 72 + 1020 + 1020;
+  const fourK = cases.filter(row => row.scenario.modelId === 'seedance-2-5' && row.scenario.context.resolution === '4k');
+  assert.equal(fourK.filter(row => row.kind === 'ordinary').length, 810);
+  assert.equal(fourK.filter(row => row.kind === 'local_workflow').length, 162);
+  assert.equal(fourK.filter(row => row.kind === 'input_stress').length, 648);
+  assert.equal(cases.filter(row => row.scenario.modelId === 'pika-text-to-video').length, 8,
+    'retirement cannot erase Pika from the historical cutover replay');
+  const novemberModels = ['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst', 'seedance-2-5-flash'];
+  const seedreamModels = ['seedream-5-5', 'seedream-5-0-flash'];
+  assert.equal(cases.filter(row => row.kind === 'ordinary' && !['flux-3-max','kling-v4','nano-banana-2-1',...novemberModels,...seedreamModels].includes(row.scenario.modelId)).length, 20158 + 810);
+  assert.deepEqual(novemberModels.map(id => cases.filter(row => row.scenario.modelId === id).length), [72, 1020, 1020, 3888]);
+  assert.ok(cases.filter(row => novemberModels.includes(row.scenario.modelId) && row.scenario.modelId !== 'seedance-2-5-flash').every(row => row.kind === 'ordinary'));
+  const novemberDelta = 72 + 1020 + 1020 + 1944;
+  const seedream = cases.filter(row => seedreamModels.includes(row.scenario.modelId));
+  assert.deepEqual(seedreamModels.map(id => seedream.filter(row => row.scenario.modelId === id).length), [33, 6]);
+  assert.ok(seedream.every(row => row.kind === 'ordinary' && row.currentStatus === 'quoted'));
+  assert.deepEqual(new Set(seedream.map(row => row.scenario.selector.resolution)), new Set(['1K', '1.5K', '2K']));
+  assert.deepEqual(new Set(seedream.map(row => row.scenario.selector.mode)), new Set(['t2i', 'i2i']));
+  const seedreamDelta = 33 + 6;
+
+  const flashStress = cases.filter(row => row.scenario.modelId === 'seedance-2-5-flash' && row.kind === 'input_stress');
+  assert.deepEqual(new Set(flashStress.map(row => row.scenario.context.inputVideoDurationSec)), new Set([2, 30]));
   assert.equal(cases.filter(row => row.scenario.modelId === 'flux-3-max').length, 128);
   assert.equal(cases.filter(row => row.scenario.modelId === 'kling-v4').length, 280);
   const nano = cases.filter(row => row.scenario.modelId === 'nano-banana-2-1');
   assert.equal(nano.length, 6, 'six new fixed-price cells are a genuine financial delta');
   assert.deepEqual(new Set(nano.map(row => row.scenario.selector.mode)), new Set(['t2i', 'i2i']));
   assert.deepEqual(new Set(nano.map(row => row.scenario.selector.resolution)), new Set(['1K', '2K', '4K']));
-  assert.equal(cases.filter(row => row.kind === 'ordinary').length, 20286 + 280 + 6 + novemberDelta);
-  assert.equal(cases.filter(row => row.kind === 'local_workflow').length, 324);
-  assert.equal(cases.filter(row => row.kind === 'input_stress').length, 6372);
+  assert.equal(cases.filter(row => row.kind === 'ordinary').length, 20286 + 280 + 6 + novemberDelta + seedreamDelta + 810);
+  assert.equal(cases.filter(row => row.kind === 'local_workflow').length, 324 + 162);
+  assert.equal(cases.filter(row => row.kind === 'input_stress').length, 6372 + 1944 + 648);
   assert.equal(cases.filter(row => row.kind === 'new_offer').length, 89);
-  assert.equal(cases.filter(row => row.kind !== 'new_offer').length, 26982 + 280 + 6 + novemberDelta);
-  assert.equal(cases.length, 27071 + 280 + 6 + novemberDelta);
+  assert.equal(cases.filter(row => row.kind !== 'new_offer').length, 26982 + 280 + 6 + novemberDelta + seedreamDelta + 1944 + 1620);
+  assert.equal(cases.length, 27071 + 280 + 6 + novemberDelta + seedreamDelta + 1944 + 1620);
   assert.equal(new Set(cases.map(row => row.key)).size, cases.length);
   const lumaModify = cases.filter(row => row.kind === 'ordinary' && row.scenario.modelId === 'luma-ray-3-2' && row.scenario.context.mode === 'v2v');
   assert.deepEqual([...new Set(lumaModify.map(row => row.scenario.context.durationSec))].sort((a, b) => a - b),
@@ -32,29 +49,32 @@ test('cutover derives all ordinary, workflow and real input duration checkpoints
   assert.ok(cases.filter(row => row.currentStatus === 'unavailable').every(row => row.scenario.selector.engineId === 'seedance-2-5'
     && row.scenario.selector.mode === 'v2v' && row.scenario.selector.resolution === '1080p'));
   assert.ok(cases.some(row => row.kind === 'input_stress' && row.scenario.context.inputVideoDurationSec === 30));
-});
+}));
 
-test('transport coverage keeps every historical checkpoint and admits 1080p only for ModelArk normal Edit', () => {
+test('transport coverage keeps every historical checkpoint and admits 1080p/4K only for ModelArk normal Edit', async () => withArchivedPikaPricingCatalogue(() => {
   const previous = ENV.SEEDANCE_2_5_EDIT_TRANSPORT;
   try {
     ENV.SEEDANCE_2_5_EDIT_TRANSPORT = 'las';
     const las = collectCustomerTariffCutoverCheckpoints();
     assert.ok(collectSellableManualTariffCoverage({ modelId: 'seedance-2-5', mode: 'v2v' }).scenarios
-      .every(s => s.context.resolution !== '1080p'));
+      .every(s => !['1080p', '4k'].includes(s.context.resolution)));
     ENV.SEEDANCE_2_5_EDIT_TRANSPORT = 'modelark';
     const modelark = collectCustomerTariffCutoverCheckpoints();
-    assert.deepEqual(modelark.map(row => row.key).sort(), las.map(row => row.key).sort());
+    const fourKEdit = (row: typeof modelark[number]) => row.scenario.modelId === 'seedance-2-5'
+      && row.scenario.context.mode === 'v2v' && row.scenario.context.resolution === '4k';
+    assert.equal(modelark.filter(fourKEdit).length, 486, '162 new normal Edit cells plus two input-duration checks per cell');
+    assert.deepEqual(modelark.filter(row => !fourKEdit(row)).map(row => row.key).sort(), las.map(row => row.key).sort());
     assert.equal(modelark.filter(row => row.currentStatus === 'unavailable').length, 0);
     assert.ok(collectSellableManualTariffCoverage({ modelId: 'seedance-2-5', mode: 'v2v' }).scenarios
-      .some(s => s.context.resolution === '1080p'));
+      .some(s => s.context.resolution === '4k'));
     assert.ok(modelark.filter(row => row.kind === 'local_workflow').every(row => row.scenario.context.mode === 't2v'),
       'The historical initializer must not author independent multimodal stage prices.');
   } finally {
     ENV.SEEDANCE_2_5_EDIT_TRANSPORT = previous;
   }
-});
+}));
 
-test('initial projection archives obsolete no-duration Seedance staging and refuses unrelated unused prices', () => {
+test('initial projection archives obsolete no-duration Seedance staging and refuses unrelated unused prices', async () => withArchivedPikaPricingCatalogue(() => {
   const cases = collectCustomerTariffCutoverCheckpoints();
   const pika = cases.find(row => row.scenario.modelId === 'pika-text-to-video')!.scenario.selector;
   const video = cases.find(row => row.scenario.modelId === 'seedance-2-0-mini' && row.scenario.selector.billingInputType === 'video_input')!.scenario.selector;
@@ -68,9 +88,9 @@ test('initial projection archives obsolete no-duration Seedance staging and refu
   assert.deepEqual(result.archivedLegacyCells,[rows[1]]);
   assert.deepEqual(rows.map(row => row.id),['current','obsolete']);
   assert.throws(() => projectInitialCustomerTariffCutoverCells([{ ...rows[0],selector: { engineId: 'unknown' } }]), /unknown unused/i);
-});
+}));
 
-test('a fingerprint of a reduced inventory, expired capture or local provenance cannot certify production', t => {
+test('a fingerprint of a reduced inventory, expired capture or local provenance cannot certify production', async t => withArchivedPikaPricingCatalogue(() => {
   const capturedAt = Date.now();
   t.mock.timers.enable({ apis: ['Date'], now: capturedAt });
   const cases = collectCustomerTariffCutoverCheckpoints();
@@ -87,4 +107,4 @@ test('a fingerprint of a reduced inventory, expired capture or local provenance 
   t.mock.timers.setTime(capturedAt);
   assert.throws(() => assertCustomerTariffCutoverRelease(release, release.fingerprint, 'rehearsal'), /complete.*coverage/i);
   assert.throws(() => assertCustomerTariffCutoverRelease(release, release.fingerprint, 'production'), /production.*provenance/i);
-});
+}));
