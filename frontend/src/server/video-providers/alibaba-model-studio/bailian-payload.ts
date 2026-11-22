@@ -1,9 +1,12 @@
+import { isKlingV4PromptWithinOfficialLimit } from '@/lib/kling-v4-official-limits';
 import { normalizeKlingOmniPromptReferences } from '@/lib/kling-provider-limits';
 import { AlibabaModelStudioError } from './errors';
 import {
   BAILIAN_KLING_OMNI_MODEL,
   BAILIAN_KLING_TURBO_MODEL,
+  BAILIAN_KLING_V4_MODEL,
   BAILIAN_MINIMAX_H3_MODEL,
+  type BailianKlingMode,
 } from './bailian-models';
 import { isAlibabaThirdPartyRoute, resolveAlibabaModelRoute, type AlibabaModelRoute } from './model-map';
 import { buildAlibabaVideoPayload, type AlibabaVideoPayloadInput } from './payload';
@@ -29,6 +32,9 @@ export type BailianHostedPayloadInput = AlibabaVideoPayloadInput & {
 };
 
 export const BAILIAN_KLING_ASPECT_RATIOS = ['16:9', '9:16', '1:1'] as const;
+/** Kling 4.0 on Bailian (docs checked 2026-11-22): adds 21:9, 3-30 s, std 720P / pro 1080P, audio always on. */
+export const BAILIAN_KLING_V4_ASPECT_RATIOS = ['16:9', '9:16', '1:1', '21:9'] as const;
+export const BAILIAN_KLING_V4_DURATION = { min: 3, max: 30 } as const;
 export const BAILIAN_KLING_PROMPT_MAX_CHARS = 2_500;
 export const BAILIAN_KLING_SHOT_PROMPT_MAX_CHARS = 512;
 export const BAILIAN_KLING_DURATION = { min: 3, max: 15, featureMax: 10 } as const;
@@ -82,11 +88,12 @@ function integerInRange(value: number, min: number, max: number, label: string):
   return value;
 }
 
-function klingRatio(value: string | null | undefined): string {
+function klingRatio(value: string | null | undefined, v4 = false): string {
   const ratio = clean(value);
   if (!ratio || ratio === 'auto' || ratio === 'adaptive') return '16:9';
-  if ((BAILIAN_KLING_ASPECT_RATIOS as readonly string[]).includes(ratio)) return ratio;
-  invalid('Kling on Bailian supports 16:9, 9:16 and 1:1.', 'BAILIAN_ASPECT_RATIO_UNSUPPORTED');
+  if (((v4 ? BAILIAN_KLING_V4_ASPECT_RATIOS : BAILIAN_KLING_ASPECT_RATIOS) as readonly string[]).includes(ratio)) return ratio;
+  invalid(v4 ? 'Kling 4.0 on Bailian supports 16:9, 9:16, 1:1 and 21:9.' : 'Kling on Bailian supports 16:9, 9:16 and 1:1.',
+    'BAILIAN_ASPECT_RATIO_UNSUPPORTED');
 }
 
 function klingShots(input: BailianHostedPayloadInput, durationSec: number) {
@@ -105,6 +112,59 @@ function klingShots(input: BailianHostedPayloadInput, durationSec: number) {
   }
   const shotType = input.shotType === 'intelligent' || input.shotType === 'intelligence' ? 'intelligence' as const : 'customize' as const;
   return { shotType, shots };
+}
+
+/** Kling 4.0 tier follows the request resolution, like the official route (720p std, 1080p pro). */
+function klingV4Mode(resolution: string | null | undefined): BailianKlingMode {
+  const value = clean(resolution)?.toLowerCase();
+  if (value === '720p') return 'std';
+  if (value === '1080p') return 'pro';
+  invalid('Kling 4.0 on Bailian supports 720p and 1080p only.', 'BAILIAN_RESOLUTION_UNSUPPORTED');
+}
+
+/**
+ * kling/kling-v4-video-generation: text-to-video and keyframe-to-video. No negative prompt, multi-shot,
+ * subjects, voices or `audio` field (4.0 always renders audio; the official route drops them as well). A shot
+ * plan is refused here (the official route expresses shots in the prompt), so such a request uses Kling official.
+ */
+function buildKlingV4Payload(input: BailianHostedPayloadInput): BailianKlingVideoPayload {
+  const mode = klingV4Mode(input.resolution);
+  const first = asset(input.startImageUrl, 'start image', KLING_IMAGE_TYPES);
+  const last = asset(input.endImageUrl, 'end image', KLING_IMAGE_TYPES);
+  if ((input.referenceAudioUrls ?? []).length || input.fileUrl || input.webUrl
+    || (input.referenceImageUrls ?? []).length || (input.referenceVideoUrls ?? []).length) {
+    invalid('Kling 4.0 on Bailian takes text or keyframes only.', 'BAILIAN_INPUT_UNSUPPORTED');
+  }
+  if ((input.multiPrompt ?? []).some((entry) => clean(entry.prompt))) {
+    invalid('Kling 4.0 on Bailian does not take a custom shot plan.', 'BAILIAN_MULTI_SHOT_UNSUPPORTED');
+  }
+  const media: BailianHostedMedia[] = [];
+  if (input.mode === 't2v') {
+    if (first || last) invalid('Text-to-video takes no media.', 'BAILIAN_INPUT_UNSUPPORTED');
+  } else if (input.mode === 'i2v') {
+    if (!first) invalid('Image-to-video requires a first frame.', 'ALIBABA_FIRST_FRAME_REQUIRED');
+    media.push({ type: 'first_frame', url: first.url });
+    if (last) media.push({ type: 'last_frame', url: last.url });
+  } else {
+    invalid(`${input.engineId}/${input.mode} is not supported on Bailian.`, 'ALIBABA_MODEL_MODE_UNSUPPORTED');
+  }
+  const duration = integerInRange(input.durationSec, BAILIAN_KLING_V4_DURATION.min, BAILIAN_KLING_V4_DURATION.max, 'Kling 4.0 duration');
+  const prompt = clean(input.prompt);
+  if (!prompt) invalid('Kling requires a prompt.', 'ALIBABA_PROMPT_REQUIRED');
+  if (!isKlingV4PromptWithinOfficialLimit(prompt)) {
+    invalid('Kling 4.0 prompts allow 26,000 English or 11,000 non-English characters.', 'BAILIAN_PROMPT_TOO_LONG');
+  }
+  return {
+    model: BAILIAN_KLING_V4_MODEL,
+    input: { prompt, ...(media.length ? { media } : {}) },
+    parameters: {
+      mode,
+      // Image-to-video follows the frames; only text-to-video takes a ratio.
+      ...(input.mode === 't2v' ? { aspect_ratio: klingRatio(input.aspectRatio, true) } : {}),
+      duration,
+      watermark: false,
+    },
+  };
 }
 
 function buildKlingPayload(input: BailianHostedPayloadInput, route: AlibabaModelRoute): BailianKlingVideoPayload {
@@ -286,7 +346,8 @@ export function buildBailianHostedPayload(input: BailianHostedPayloadInput) {
   if (!route || !isAlibabaThirdPartyRoute(route)) {
     invalid(`${input.engineId}/${input.mode} is not hosted on Bailian.`, 'ALIBABA_MODEL_MODE_UNSUPPORTED');
   }
-  return route.family === 'minimax_h3' ? buildMinimaxPayload(input) : buildKlingPayload(input, route);
+  if (route.family === 'minimax_h3') return buildMinimaxPayload(input);
+  return route.family === 'kling_v4' ? buildKlingV4Payload(input) : buildKlingPayload(input, route);
 }
 
 /** One entry point for the shared video-synthesis endpoint: Wan/HappyHorse or a Bailian-hosted model. */

@@ -87,7 +87,13 @@ test('hosted engines map to Bailian models without becoming first-party Alibaba 
   assert.equal(resolveAlibabaModelRoute('kling-o3-standard', 'v2v')?.model, 'kling/kling-v3-omni-video-generation');
   assert.equal(resolveAlibabaModelRoute('minimax-h3', 'ref2v')?.model, 'MiniMax/MiniMax-H3');
   assert.equal(resolveAlibabaModelRoute('kling-3-turbo-standard', 'ref2v'), null);
-  assert.equal(resolveAlibabaModelRoute('kling-v4', 't2v'), null);
+  assert.deepEqual(resolveAlibabaModelRoute('kling-v4', 'i2v'), {
+    model: 'kling/kling-v4-video-generation', family: 'kling_v4', mode: 'i2v', fallbackCompatible: false,
+  });
+  // Bailian's Kling 4.0 model has no reference/edit modes and no Flash id: those stay on Kling official.
+  assert.equal(resolveAlibabaModelRoute('kling-v4', 'ref2v'), null);
+  assert.equal(resolveAlibabaModelRoute('kling-v4', 'v2v'), null);
+  assert.equal(resolveAlibabaModelRoute('kling-v4-flash', 't2v'), null);
   assert.equal(resolveAlibabaModelRoute('minimax-h3-max', 't2v'), null);
   for (const engineId of ['kling-3-pro', 'kling-o3-pro', 'minimax-h3']) assert.equal(isAlibabaDirectEngine(engineId), false);
 });
@@ -128,8 +134,16 @@ test('single-leg orders and unavailable legs drop the fallback', () => {
   assert.deepEqual(plan('kling-3-pro', 't2v', { ALIBABA_MODEL_STUDIO_PUBLIC_ROUTING_ENABLED: 'false' }), klingDirect);
   // Neither leg usable: the vendor's unavailable/Fal answer stays as before.
   assert.equal(plan('kling-3-pro', 't2v', { ALIBABA_MODEL_STUDIO_ENABLED: 'false', KLING_DIRECT_ENABLED: 'false' }).kind, 'fal_only');
-  // Kling 4.0 is not hosted on Bailian.
-  assert.equal(plan('kling-v4', 't2v').kind, 'kling_direct_primary');
+  // Kling 4.0 t2v / i2v are Bailian-first; Flash and the reference / edit modes stay on Kling official.
+  const v4 = plan('kling-v4', 't2v');
+  assert.equal(v4.kind, 'alibaba_model_studio_primary');
+  assert.deepEqual(v4.kind === 'alibaba_model_studio_primary' && v4.directFallback, { ...klingDirect, apiDesign: 'v2' });
+  assert.deepEqual(plan('kling-v4', 'i2v', { KLING_ROUTE_ORDER: 'direct,bailian' }), { ...klingDirect, apiDesign: 'v2', bailianFallback: true });
+  assert.deepEqual(plan('kling-v4', 't2v', { ALIBABA_MODEL_STUDIO_ENABLED: 'false' }), { ...klingDirect, apiDesign: 'v2' });
+  assert.equal(plan('kling-v4', 'ref2v').kind, 'kling_direct_primary');
+  assert.equal(plan('kling-v4', 'v2v').kind, 'kling_direct_primary');
+  assert.equal(plan('kling-v4-flash', 't2v').kind, 'kling_direct_primary');
+  assert.equal(plan('kling-v4', 't2v', {}, { multiPrompt: [{ prompt: 'a', duration: 3 }] }).kind, 'kling_direct_primary');
 });
 
 test('requests Bailian cannot serve stay on the vendor route alone', () => {
@@ -213,6 +227,32 @@ test('Kling 3.0 Turbo payloads: t2v + first-frame i2v only, std/pro, ratio, audi
   }
 });
 
+test('Kling 4.0 payloads: tier from resolution, 3-30 s, 21:9, no audio flag, keyframes only', () => {
+  const t2v = buildBailianHostedPayload({ ...base, engineId: 'kling-v4', mode: 't2v', resolution: '720p', aspectRatio: '21:9', durationSec: 30, negativePrompt: 'blur' });
+  assert.deepEqual(t2v, {
+    model: 'kling/kling-v4-video-generation',
+    input: { prompt: 'A red fox in snow' },
+    parameters: { mode: 'std', aspect_ratio: '21:9', duration: 30, watermark: false },
+  });
+  const i2v = buildBailianHostedPayload({ ...base, engineId: 'kling-v4', mode: 'i2v', resolution: '1080p', startImageUrl: IMG, endImageUrl: IMG2 });
+  assert.deepEqual(i2v.input, { prompt: 'A red fox in snow', media: [{ type: 'first_frame', url: IMG }, { type: 'last_frame', url: IMG2 }] });
+  assert.deepEqual(i2v.parameters, { mode: 'pro', duration: 5, watermark: false });
+  for (const bad of [
+    { mode: 't2v', resolution: '4k' },
+    { mode: 't2v', resolution: '1080p', durationSec: 31 },
+    { mode: 't2v', resolution: '1080p', durationSec: 2 },
+    { mode: 't2v', resolution: '1080p', aspectRatio: '4:3' },
+    { mode: 'i2v', resolution: '1080p' },
+    { mode: 'ref2v', resolution: '1080p', referenceImageUrls: [IMG] },
+    { mode: 'v2v', resolution: '1080p', referenceVideoUrls: [VID] },
+    { mode: 't2v', resolution: '1080p', referenceImageUrls: [IMG] },
+    { mode: 't2v', resolution: '1080p', multiPrompt: [{ prompt: 'Wide', duration: 3 }] },
+  ]) {
+    assert.throws(() => buildBailianHostedPayload({ ...base, engineId: 'kling-v4', ...bad }), (error: unknown) =>
+      error instanceof AlibabaModelStudioError && error.errorClass === 'invalid_request');
+  }
+});
+
 test('Kling 3.0 and Omni payloads: frames, references, feature video, multi-shot', () => {
   const fl = buildBailianHostedPayload({ ...base, engineId: 'kling-3-4k', mode: 'i2v', startImageUrl: IMG, endImageUrl: IMG2, negativePrompt: 'blur' });
   assert.deepEqual(fl, {
@@ -273,6 +313,8 @@ test('PROVISIONAL Bailian CNY list cost in USD at 8 CNY/USD', () => {
   assert.equal(usd({ engineId: 'kling-o3-standard', mode: 'v2v', durationSec: 5, audioEnabled: false }), 0.5625); // video input 0.9
   assert.equal(usd({ engineId: 'minimax-h3', mode: 'ref2v', durationSec: 10, resolution: '2K', referenceImageCount: 7 }), 1.05); // 8 + 0.4
   assert.equal(usd({ engineId: 'minimax-h3', mode: 'ref2v', durationSec: 5, resolution: '768P', inputVideoDurationSec: 3 }), 0.5); // 0.5 x 8
+  assert.equal(usd({ engineId: 'kling-v4', mode: 't2v', durationSec: 5, resolution: '720p' }), 0.625); // 1.0
+  assert.equal(usd({ engineId: 'kling-v4', mode: 'i2v', durationSec: 10, resolution: '1080p', audioEnabled: false }), 1.875); // 1.5, audio always on
   assert.equal(estimateAlibabaProviderCost({ engineId: 'kling-3-pro', mode: 't2v', durationSec: 5 }).source,
     'bailian_cn_beijing_list_price_2026_11_11_provisional');
 
@@ -291,6 +333,9 @@ test('Bailian hosted models get the documented 300 RPM window', () => {
   for (let index = 0; index < 300; index += 1) assert.equal(tryTakeAlibabaRateSlot('MiniMax/MiniMax-H3', now).ok, true);
   assert.equal(tryTakeAlibabaRateSlot('MiniMax/MiniMax-H3', now).ok, false);
   assert.equal(tryTakeAlibabaRateSlot('kling/kling-v3-video-generation', now).ok, true);
+  for (let index = 0; index < 5; index += 1) assert.equal(tryTakeAlibabaRateSlot('kling/kling-v4-video-generation', now).ok, true);
+  assert.equal(tryTakeAlibabaRateSlot('kling/kling-v4-video-generation', now).ok, false, 'Kling 4.0: 5 RPS');
+  assert.equal(tryTakeAlibabaRateSlot('kling/kling-v4-video-generation', now + 1_001).ok, true);
   assert.equal(tryTakeAlibabaRateSlot('MiniMax/MiniMax-H3', now + 60_001).ok, true);
   resetAlibabaCapacityStateForTests();
 });

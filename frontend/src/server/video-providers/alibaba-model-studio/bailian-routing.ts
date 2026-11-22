@@ -54,6 +54,10 @@ export function isBailianHostedRequestCompatible(engineId: string, mode: string,
   if (!request) return true;
   if (engine.routeFamily === 'kling') {
     const extra = extraValues(request);
+    // Kling 4.0 on Bailian has no custom shot plan (the official route writes shots into the prompt).
+    if (engine.family === 'kling_v4' && (present(request.multiPrompt) || present(request.multi_prompt) || present(extra.multi_prompt))) {
+      return false;
+    }
     return !['elements', 'voiceIds', 'voiceControl'].some((field) => present(request[field]))
       && !['camera_control', 'static_mask', 'dynamic_masks', 'element_list', 'voice_ids'].some((field) => present(extra[field]));
   }

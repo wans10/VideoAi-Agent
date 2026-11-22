@@ -79,7 +79,7 @@ export function resolveAlibabaModelRoute(engineId: string, mode: string): Alibab
 /** Bailian-hosted third-party route (Kling / MiniMax on Model Studio); not a Wan/HappyHorse engine. */
 export function isAlibabaThirdPartyRoute(route: Pick<AlibabaModelRoute, 'family'> | null | undefined): boolean {
   return route?.family === 'kling_turbo' || route?.family === 'kling_v3' || route?.family === 'kling_omni'
-    || route?.family === 'minimax_h3';
+    || route?.family === 'kling_v4' || route?.family === 'minimax_h3';
 }
 
 /** First-party Alibaba engines (Wan 3, HappyHorse 1.1). Bailian-hosted Kling/MiniMax are routed by bailian-routing. */

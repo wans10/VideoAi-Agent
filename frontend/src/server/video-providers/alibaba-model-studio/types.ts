@@ -2,6 +2,7 @@ import type { AlibabaModelRoute } from './model-map';
 import type {
   BAILIAN_KLING_OMNI_MODEL,
   BAILIAN_KLING_TURBO_MODEL,
+  BAILIAN_KLING_V4_MODEL,
   BAILIAN_KLING_V3_MODEL,
   BAILIAN_MINIMAX_H3_MODEL,
   BailianHostedModel,
@@ -59,7 +60,8 @@ export type BailianHostedMedia = {
 };
 
 export type BailianKlingVideoPayload = {
-  model: typeof BAILIAN_KLING_TURBO_MODEL | typeof BAILIAN_KLING_V3_MODEL | typeof BAILIAN_KLING_OMNI_MODEL;
+  model: typeof BAILIAN_KLING_TURBO_MODEL | typeof BAILIAN_KLING_V3_MODEL | typeof BAILIAN_KLING_OMNI_MODEL
+    | typeof BAILIAN_KLING_V4_MODEL;
   input: {
     prompt?: string;
     negative_prompt?: string;
