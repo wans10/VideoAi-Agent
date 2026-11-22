@@ -1,3 +1,6 @@
+// Keyvo projects Pika as unpublished; these archive/closure contracts are upstream's and run on the unfiltered catalog.
+// The helper stays first so the visibility flag is read before runtime modules load.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -14,6 +17,7 @@ import { calculateAgentProjectBudget, createAgentProjectBudgetDependencies } fro
 import { compareGenerationPrices } from '../frontend/src/server/agent-api/generation-price-comparison';
 import { parseModelArchiveContent } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-archive-content';
 import { buildModelArchiveMetadata } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-archive-metadata';
+import { SITE_ORIGIN } from '../frontend/lib/siteOrigin';
 
 const id = 'pika-text-to-video';
 const principal = { userId: 'pika-audit-owner', clientId: 'pika-audit-client', authMethod: 'oauth' as const, emailVerified: true };
@@ -86,7 +90,8 @@ for (const locale of ['en', 'fr', 'es'] as const) test(`Pika ${locale} archive r
   assert.ok(archive.alternatives.every(alternative => getRuntimeModelById(alternative.modelId)?.publication.app.published));
   const metadata = buildModelArchiveMetadata(getRuntimeModelById(id)!, archive, locale);
   const path = { en: '/models/', fr: '/fr/modeles/', es: '/es/modelos/' }[locale];
-  assert.equal(metadata.alternates?.canonical, `https://maxvideoai.com${path}${id}`);
-  assert.equal(Object.keys(metadata.alternates?.languages ?? {}).length, 4);
+  assert.equal(metadata.alternates?.canonical, `${SITE_ORIGIN}${path}${id}`);
+  // Keyvo is zh-only: hreflang carries only the published zh-CN alternate plus x-default (upstream lists four).
+  assert.equal(Object.keys(metadata.alternates?.languages ?? {}).length, 2);
   assert.deepEqual(metadata.robots, { index: true, follow: true });
 });

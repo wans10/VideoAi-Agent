@@ -395,7 +395,7 @@ export function buildBytePlusSeedancePayload(params: {
       : isSeedance25Extension
       ? { ratio: 'adaptive' as const, omni_reference_task_type: 'extend' as const }
       : inheritsSourceAspectRatio
-        ? { ratio: 'adaptive' as const }
+        ? {}
         : { ratio: requestedRatio === 'auto' ? 'adaptive' : requestedRatio as BytePlusSeedancePayload['ratio'] }),
     duration: isSeedance25ModelArkEdit || params.durationOption === 'auto' ? -1 : duration,
     ...(seedance25 && mode === 'ref2v' ? { omni_reference_task_type: 'reference' as const } : {}),

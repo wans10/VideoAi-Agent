@@ -1,3 +1,6 @@
+// Keyvo does not offer Seedance 2.5 Flash; these upstream launch contracts run on the unfiltered catalog.
+// Keep this import first so the visibility flag is read before runtime modules load.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';

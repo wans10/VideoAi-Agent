@@ -21,7 +21,8 @@ test('Seedance 2.5 Draft is one 480p provider task with the original creative in
   assert.equal(draft.draft, true);
   assert.equal(draft.resolution, '480p');
   assert.equal(draft.generate_audio, false);
-  assert.equal(draft.ratio, 'adaptive');
+  // Upstream omits ratio so BytePlus inherits the source image ratio (Keyvo's merged 'adaptive' was superseded).
+  assert.equal('ratio' in draft, false);
   assert.deepEqual(draft.content.map((item) => item.type), ['text', 'image_url', 'image_url']);
 });
 

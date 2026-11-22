@@ -638,13 +638,13 @@ test('BytePlus image-to-video uses first and last frame roles without rewriting 
     },
   ]);
   assert.equal(
-    startOnly.ratio,
-    'adaptive',
+    Object.hasOwn(startOnly, 'ratio'),
+    false,
     'first-frame generation must let BytePlus inherit the source image ratio'
   );
   assert.equal(
-    startAndEnd.ratio,
-    'adaptive',
+    Object.hasOwn(startAndEnd, 'ratio'),
+    false,
     'first/last-frame generation must let BytePlus inherit the source image ratio'
   );
 

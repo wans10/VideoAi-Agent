@@ -40,7 +40,7 @@ export const BYTEPLUS_SEEDANCE_2_5_ENDPOINTS = {
   extend: 'byteplus/dreamina-seedance-2.5/extend',
 } as const;
 
-export const BYTEPLUS_SEEDANCE_2_5_FLASH_MODEL_ID = 'dreamina-seedance-2-5-flash-261115';
+export const BYTEPLUS_SEEDANCE_2_5_FLASH_MODEL_ID = 'doubao-seedance-2-5-flash-261115';
 export const BYTEPLUS_SEEDANCE_2_5_FLASH_ENDPOINTS = {
   t2v: 'byteplus/dreamina-seedance-2.5-flash/text-to-video',
   i2v: 'byteplus/dreamina-seedance-2.5-flash/image-to-video',

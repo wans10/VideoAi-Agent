@@ -1,3 +1,6 @@
+// Keyvo does not offer Seedance 2.5 Flash (not in keyvo-model-allowlist.json); the upstream catalog contract runs unfiltered.
+// This helper must stay the first import so the visibility flag is read before config modules load.
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { getFalEngineById } from '../frontend/src/config/falEngines';
@@ -18,7 +21,8 @@ import { getPromptAssistanceProfile } from '../frontend/src/server/prompt-assist
 import { isStudioConversationVideoModeCertified } from '../frontend/app/(core)/(workspace)/app/studio/_shared/_lib/models/workspace-model-certification';
 
 const id = 'seedance-2-5-flash';
-const modelId = 'dreamina-seedance-2-5-flash-261115';
+// Keyvo mainland Ark id (env default and constants); upstream's BytePlus international id is dreamina-*.
+const modelId = 'doubao-seedance-2-5-flash-261115';
 const engine = getBaseEngineIncludingHidden(id)!;
 const profile = getBytePlusSeedanceProfile(id)!;
 const urls = (n: number, extension: string) => Array.from({ length: n }, (_, i) => `https://example.com/${i}.${extension}`);
