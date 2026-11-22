@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { collectSellableManualTariffCoverage } from '../frontend/lib/pricing-audit/manual-tariff-coverage';
 import { collectCustomerTariffCutoverCheckpoints } from '../frontend/server/pricing/customer-tariff-cutover-evidence';
+import { withArchivedPikaPricingCatalogue } from './helpers/historical-customer-tariff-catalogue';
 import { videoOperationTariffContexts } from '../frontend/lib/pricing-audit/video-operation-tariff-inventory';
 
 test('operation inventory distinguishes omitted scope from explicit empty model or mode', () => {
@@ -22,30 +23,36 @@ test('operation inventory distinguishes omitted scope from explicit empty model 
   }
 });
 
-test('all historical checkpoints and independently enumerated additive operation families are disjoint', () => {
+test('all historical checkpoints and independently enumerated additive operation families are disjoint', async () => withArchivedPikaPricingCatalogue(() => {
   const coverage = collectSellableManualTariffCoverage();
   const counts: Record<string, number> = {};
   for (const row of coverage.scenarios) if (row.selector.operation) counts[row.selector.operation] = (counts[row.selector.operation] ?? 0) + 1;
   assert.deepEqual(counts, { 'kling-reference': 13, 'kling-edit': 3, 'h3-recast': 2, 'h3-relight': 4,
     'luma-extend': 3, 'flux-keyframes': 48, 'flux-fast-edit': 1, 'flux-draft-enhance': 1, 'ltx23-reframe': 2 });
   const cases = collectCustomerTariffCutoverCheckpoints();
-  const novemberModels = ['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst'];
-  assert.equal(cases.filter(row => row.kind === 'ordinary' && !['kling-v4', 'nano-banana-2-1', ...novemberModels].includes(row.scenario.modelId)).length, 20286);
-  assert.deepEqual(novemberModels.map(id => cases.filter(row => row.scenario.modelId === id).length), [72, 1020, 1020]);
+  assert.equal(cases.filter(row => row.scenario.modelId === 'pika-text-to-video').length, 8);
+  const novemberModels = ['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst', 'seedance-2-5-flash'];
+  const seedreamModels = ['seedream-5-5', 'seedream-5-0-flash'];
+  assert.equal(cases.filter(row => row.kind === 'ordinary' && !['kling-v4', 'nano-banana-2-1', ...novemberModels, ...seedreamModels].includes(row.scenario.modelId)).length, 20286 + 810);
+  assert.deepEqual(novemberModels.map(id => cases.filter(row => row.scenario.modelId === id).length), [72, 1020, 1020, 3888]);
+  assert.deepEqual(seedreamModels.map(id => cases.filter(row => row.scenario.modelId === id).length), [33, 6]);
+  assert.ok(cases.filter(row => seedreamModels.includes(row.scenario.modelId)).every(row => row.kind === 'ordinary'
+    && row.currentStatus === 'quoted' && !row.scenario.selector.operation));
+
   assert.equal(cases.filter(row => row.scenario.modelId === 'kling-v4').length, 280);
   assert.equal(cases.filter(row => row.scenario.modelId === 'nano-banana-2-1').length, 6,
     'new native fixed image cells remain separate from the old video inventory');
-  assert.equal(cases.filter(row => row.kind === 'local_workflow').length, 324);
-  assert.equal(cases.filter(row => row.kind === 'input_stress').length, 6372);
+  assert.equal(cases.filter(row => row.kind === 'local_workflow').length, 324 + 162);
+  assert.equal(cases.filter(row => row.kind === 'input_stress').length, 6372 + 1944 + 648);
   assert.equal(cases.filter(row => String(row.kind) === 'new_offer').length, 89);
-  assert.equal(cases.length, 27071 + 280 + 6 + 72 + 1020 + 1020);
+  assert.equal(cases.length, 27071 + 280 + 6 + 72 + 1020 + 1020 + 33 + 6 + 3888 + 1620);
   assert.equal(new Set(cases.map(row => row.key)).size, cases.length);
   const veo = coverage.scenarios.filter(row => row.modelId === 'veo-3-1' && row.selector.mode === 'i2v');
   assert.equal(veo.length, 18);
   assert.deepEqual(new Set(veo.map(row => `${row.selector.durationSec}:${row.selector.resolution}:${row.selector.audio}`)),
     new Set([4,6,8].flatMap(s => ['720p','1080p','4k'].flatMap(r => ['false','true'].map(a => `${s}:${r}:${a}`)))));
   assert.ok(!coverage.scenarios.some(row => ['h3-extend','h3-insert','h3-reframe'].includes(row.selector.operation)));
-});
+}));
 
 test('exact additive selectors and default identities match the separately enumerated commercial inventory', async () => {
   const { videoOperationInitializationScenarios } = await import('../frontend/server/pricing/video-operation-tariffs');

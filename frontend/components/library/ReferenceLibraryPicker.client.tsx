@@ -2,18 +2,21 @@
 import { ImmediateReferenceGrid } from './ImmediateReferenceGrid.client';
 import { CompactMediaGrid } from './CompactMediaGrid.client';
 import { CompactLibraryCollections } from './CompactLibraryCollections.client';
+import { compactLibraryCopy } from './compact-library-copy';
+import { libraryMediaCaption } from './library-media-caption';
+import { useLibraryScrollPagination } from './useLibraryScrollPagination';
 import { useReferencePickerBrowse } from './useReferencePickerBrowse';
 import type { LibraryBrowseScope } from '@/lib/library-browse';
 import { ReferenceLibraryManage } from './ReferenceLibraryManage.client';
 import { ReferencePickerFooter } from './ReferencePickerFooter.client';
 import { useReferencePickerSelection } from './useReferencePickerSelection';
-import { ChevronDown, ExternalLink } from 'lucide-react';
+import { Upload } from 'lucide-react';
+import { ReferencePickerToolbar } from './ReferencePickerToolbar.client';
 import { LibraryImportQueue } from './LibraryImportQueue.client';
 import type { LibraryImportQueueController } from '@/lib/library-import-queue';
 
-import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { MediaActionContent } from './MediaActionPanel.client';
-import { compactMediaSource } from './media-action-copy';
 import { workspaceReferenceCopy } from '@/components/composer/workspace-reference-copy';
 import type { AssetBrowserAsset, AssetLibraryBrowserProps } from './AssetLibraryBrowser';
 import type { MediaInputEligibility } from '@/lib/media-input-eligibility';
@@ -27,6 +30,7 @@ export type ReferencePickerSelection = {
   browseLibrary?: boolean;
   sourceProof?: 'audio-generated-video' | 'generated-video';
   importQueue?: LibraryImportQueueController;
+  directImport?: { label: string; open: () => void };
   busy?: boolean;
   onBusyChange?: (busy: boolean) => void;
   onConfirmMany?: (
@@ -77,7 +81,6 @@ function OwnedReferenceLibraryPicker(props: AssetLibraryBrowserProps & { selecti
   const [localQuery, setLocalQuery] = useState('');
   const query = props.searchQuery ?? localQuery;
   const setQuery = props.onSearchQueryChange ?? setLocalQuery;
-  const [collectionsOpen, setCollectionsOpen] = useState(false);
   const [organizationScope, setOrganizationScope] = useState<Partial<LibraryBrowseScope>>({});
   const { assets, organized, usingServerBrowse, browseScope } = useReferencePickerBrowse(props, query, organizationScope);
   const picker = useReferencePickerSelection({ selection, assets, locale });
@@ -111,15 +114,22 @@ function OwnedReferenceLibraryPicker(props: AssetLibraryBrowserProps & { selecti
     () => emptyImports,
   );
   const [preview, setPreview] = useState<AssetBrowserAsset | null>(null);
+  const scrollRoot = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (props.active === false) { setPreview(null); setManaging(false); }
   }, [props.active]);
-  const searchId = useId();
-  const sourceId = useId();
-  const compatibilityId = useId();
   const eligibility = new Map(assets.map((asset) => [asset, selection.getEligibility?.(asset)]));
-  const displayName = (asset: AssetBrowserAsset, index: number) =>
-    asset.name?.trim() || `${workspaceReferenceCopy(locale).kinds[asset.kind]} ${index + 1}`;
+  const displayName = (asset: AssetBrowserAsset, index: number) => {
+    // Keep authored import and Character names; only known generated media use
+    // the same technical-filename fallback as the management library.
+    const generated = !immediate && asset.source !== 'upload' && (
+      asset.jobId || asset.sourceOutputId || asset.libraryRef?.type === 'job-output' ||
+      ['generated', 'recent', 'saved_job_output', 'storyboard', 'character', 'angle', 'upscale', 'background-removal'].includes(asset.source ?? '')
+    );
+    return generated
+      ? libraryMediaCaption(asset, locale)
+      : asset.name?.trim() || `${workspaceReferenceCopy(locale).kinds[asset.kind]} ${index + 1}`;
+  };
   const indexedNames = new Map(assets.map((asset, index) => [asset, displayName(asset, index)]));
   const filtered = assets.filter(
     (asset, index) =>
@@ -141,21 +151,37 @@ function OwnedReferenceLibraryPicker(props: AssetLibraryBrowserProps & { selecti
   const more = usingServerBrowse ? organized.loadMore : onLoadMore;
   const loadingMore = usingServerBrowse ? organized.isLoadingMore : isLoadingMore;
   const loading = usingServerBrowse ? organized.isLoading : isLoading;
+  const hasNextPage = usingServerBrowse ? organized.hasMore : hasMore;
+  const libraryCopy = compactLibraryCopy(locale);
+  const pagination = useLibraryScrollPagination({
+    scrollRef: scrollRoot,
+    scopeKey: JSON.stringify([owner, selection.scope, usingServerBrowse, browseScope, compatibility]),
+    // A page hidden by compatibility/local search must not drain the library.
+    // Another automatic page requires progress in the actual visible collection.
+    progress: JSON.stringify([filtered.length, filtered.length ? picker.keyFor(filtered[filtered.length - 1]) : null]),
+    layoutKey: props.assetType,
+    enabled: Boolean(!immediate && props.active !== false && !preview && !importing && hasNextPage && more),
+    busy: Boolean(busy || loading || loadingMore),
+    failed: Boolean(browseError),
+    onLoadMore: more,
+  });
   const loadMoreControl =
-    (usingServerBrowse ? organized.hasMore : hasMore) && more ? (
-      <div className="flex flex-col items-center gap-2 pt-4">
+    hasNextPage && more ? (
+      <div className="app-picker-load-more">
         {query.trim() && !usingServerBrowse ? (
           <p role="status" className="text-center text-xs text-text-secondary">
             {copy.searchMore}
           </p>
         ) : null}
+        {loadingMore ? <span role="status" className="text-xs text-text-secondary">{libraryCopy.loading}</span> : null}
         <button
           type="button"
-          className="rounded-full border border-border bg-surface px-4 py-2 text-sm text-text-secondary hover:bg-surface-2 hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-60"
-          disabled={busy || loadingMore}
-          onClick={more}
+          className={`rounded-full border border-border bg-surface px-4 py-2 text-sm text-text-secondary hover:bg-surface-2 hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-60 ${!immediate && !pagination.manualRequired ? 'sr-only focus:not-sr-only' : ''}`}
+          data-auto-load={!immediate && !pagination.manualRequired || undefined}
+          disabled={busy || loading || loadingMore}
+          onClick={browseError ? usingServerBrowse ? () => void organized.revalidate() : props.onRetry ?? more : more}
         >
-          {loadingMore ? copy.busy : loadMoreLabel}
+          {browseError ? props.retryLabel ?? libraryCopy.retry : loadMoreLabel}
         </button>
       </div>
     ) : null;
@@ -258,7 +284,10 @@ function OwnedReferenceLibraryPicker(props: AssetLibraryBrowserProps & { selecti
         <header className="app-picker-heading">
           <div>
             <h2 id={props.headingId}>{title}</h2>
-            {subtitle ? <p>{subtitle}</p> : null}
+            {subtitle || usingServerBrowse ? <p className="app-picker-summary">
+              {subtitle ? <span>{subtitle}</span> : null}
+              {usingServerBrowse && !loading && !browseError ? <span role="status">{organized.totalCount} {locale.startsWith('fr') ? 'médias' : locale.startsWith('es') ? 'medios' : 'media'}</span> : null}
+            </p> : null}
           </div>
           <button
             type="button"
@@ -270,67 +299,19 @@ function OwnedReferenceLibraryPicker(props: AssetLibraryBrowserProps & { selecti
             <span aria-hidden>×</span>
           </button>
         </header>
-        <fieldset className="app-picker-filters" disabled={busy}>
-          <div className="app-picker-field app-picker-search-field">
-            <label htmlFor={searchId}>{copy.search}</label>
-            <input
-            id={searchId}
-            type="search"
-            value={query}
-            onChange={(event) => setQuery(event.target.value.slice(0, 200))}
-            placeholder={copy.search}
-          />
-          </div>
-          <div className="app-picker-field">
-            <label htmlFor={sourceId}>{copy.source}</label>
-            <div className="app-picker-select">
-              <select
-            id={sourceId}
-            value={source}
-            onChange={(event) => onSourceChange(event.target.value as typeof source)}
-          >
-            {availableSources.map((option) => (
-              <option key={option} value={option}>
-                {compactMediaSource(option, locale, sourceLabels[option] ?? option)}
-              </option>
-            ))}
-              </select>
-              <ChevronDown size={16} aria-hidden />
-            </div>
-          </div>
-          {selection.getEligibility ? (
-            <div className="app-picker-field">
-              <label htmlFor={compatibilityId}>
-                {copy.compatibility}
-              </label>
-              <div className="app-picker-select">
-                <select
-                id={compatibilityId}
-                data-compatibility-filter
-                value={compatibility}
-                onChange={(event) => setCompatibility(event.target.value)}
-              >
-                <option value="compatible">{copy.compatible}</option>
-                <option value="all">{copy.allMedia}</option>
-                </select>
-                <ChevronDown size={16} aria-hidden />
-              </div>
-            </div>
-          ) : null}
-          <div className="app-picker-import">
-            {owner && !selection.onToggle && selection.allowOrganizationBrowse !== false ? (
-              <button type="button" onClick={() => setCollectionsOpen((value) => !value)}>
-                {locale.startsWith('fr') ? 'Collections' : locale.startsWith('es') ? 'Colecciones' : 'Collections'}
-              </button>
-            ) : null}
-            {headerActions}
-            {!immediate && availableSources.includes('character') ? (
-              <a className="app-picker-character-link" href="/app/tools/character-builder" target="_blank" rel="noopener noreferrer">
-                Character Studio <ExternalLink size={14} aria-hidden />
-              </a>
-            ) : null}
+        <ReferencePickerToolbar
+          locale={locale} busy={busy} query={query} onQueryChange={setQuery}
+          source={source} sourceLabels={sourceLabels} availableSources={availableSources} onSourceChange={onSourceChange}
+          compatibility={selection.getEligibility ? compatibility : undefined} onCompatibilityChange={setCompatibility}
+          collections={owner && !selection.onToggle && selection.allowOrganizationBrowse !== false ? <CompactLibraryCollections
+            key={owner} userId={owner} locale={locale} scope={browseScope} picker
+            onScopeChange={(patch) => setOrganizationScope((previous) => ({ ...previous, ...patch }))}
+          /> : undefined}
+          headerActions={headerActions} showCharacterStudio={!immediate && availableSources.includes('character')}
+          selectionGuidance={props.selectionGuidance} hint={!immediate ? (selection.onConfirmMany ? copy.multipleHint : copy.clickHint) : undefined}
+        >
             {selection.importQueue ? (
-              <>
+              <div className="app-picker-import">
                 <input
                   ref={importInput}
                   tabIndex={-1}
@@ -349,11 +330,11 @@ function OwnedReferenceLibraryPicker(props: AssetLibraryBrowserProps & { selecti
                     }
                   }}
                 />
-                <button type="button" onClick={(event) => {
+                <button type="button" aria-label={locale.startsWith('fr') ? 'Importer' : locale.startsWith('es') ? 'Importar' : 'Import'} onClick={(event) => {
                   returnFocus.current = event.currentTarget;
                   importInput.current?.click();
                 }}>
-                  {locale.startsWith('fr') ? 'Importer' : locale.startsWith('es') ? 'Importar' : 'Import'}
+                  <Upload size={16} aria-hidden /><span className="app-picker-import-label">{locale.startsWith('fr') ? 'Importer' : locale.startsWith('es') ? 'Importar' : 'Import'}</span>
                 </button>
                 {imports.files.length ? (
                   <button type="button" onClick={(event) => {
@@ -363,31 +344,16 @@ function OwnedReferenceLibraryPicker(props: AssetLibraryBrowserProps & { selecti
                     {imports.files.length} · {copy.source}
                   </button>
                 ) : null}
-              </>
+              </div>
+            ) : selection.directImport ? (
+              <div className="app-picker-import">
+                <button type="button" aria-label={selection.directImport.label} onClick={selection.directImport.open}>
+                  <Upload size={16} aria-hidden /><span className="app-picker-import-label">{selection.directImport.label}</span>
+                </button>
+              </div>
             ) : null}
-          </div>
-        </fieldset>
-        {!immediate ? (
-          <p className="app-picker-instructions">
-            {selection.onConfirmMany ? copy.multipleHint : copy.clickHint}
-            {usingServerBrowse && !loading && !browseError ? <span role="status">{organized.totalCount} {locale.startsWith('fr') ? 'médias' : locale.startsWith('es') ? 'medios' : 'media'}</span> : null}
-          </p>
-        ) : null}
-        {collectionsOpen && owner ? (
-          <CompactLibraryCollections
-            userId={owner}
-            locale={locale}
-            scope={browseScope}
-            onScopeChange={(patch) => setOrganizationScope((previous) => ({ ...previous, ...patch }))}
-          />
-        ) : null}
+        </ReferencePickerToolbar>
         <div className={`app-picker-body app-scroll-surface ${immediate ? '' : 'app-picker-collection-body'}`}>
-          {props.selectionGuidance ? (
-            <details className="app-picker-guidance">
-              <summary>{workspaceReferenceCopy(locale).details}</summary>
-              <p>{props.selectionGuidance}</p>
-            </details>
-          ) : null}
           {browseError || failure ? (
             <p role="alert" className="app-picker-error">
               {failure ?? browseError}
@@ -413,6 +379,7 @@ function OwnedReferenceLibraryPicker(props: AssetLibraryBrowserProps & { selecti
               ) : null}
               {!immediate ? (
                 <CompactMediaGrid
+                  scrollRef={scrollRoot}
                   loading={loading}
                   assets={filtered}
                   userId={owner ?? ''}

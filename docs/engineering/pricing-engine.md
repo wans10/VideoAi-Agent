@@ -1,5 +1,33 @@
 # Pricing Engine
 
+## Seedance 2.5 / Flash commercial candidate (2026-11-13)
+
+The approved authoring inputs are public BytePlus LIST ×2 for every standard 2.5
+class (normal, Draft and final), and ×1.6 for Flash. The offline
+`prepare-seedance25-commercial-tariffs.ts` command freezes those amounts into
+31 bounded JSON imports for the existing Admin Pricing batch workflow. There is
+no runtime multiplier and no separate mutation route. The Seedance batch adapter
+retains exact aspect/stage selectors, the source-video minimum and proportional
+rate, and validates the whole fractional-second range against LIST. Standard
+editing must use the reviewed ModelArk transport; Flash has no Draft or 1080p.
+
+Native preview/confirm, version history, receipts, reconciliation, rollback and
+post-commit surface revalidation remain authoritative. The complete PG17 test
+checks all 6,804 proposed classes, paid-snapshot immutability, current public
+quotes and retrying a failed page refresh without repricing. Code and prepared
+imports do not activate production tariffs. See the
+[integration and release record](../model-launch/seedance-2-5-flash.md).
+
+Public Flash discovery also excludes the legacy percentage-policy fallback:
+static public quotes and admin margin/surcharge previews cannot create a Flash
+price. The estimator keeps its resolution and duration controls, leaves the old
+unit-rate hint empty, and displays only `/api/pricing/quote` results. Model cards,
+comparisons and Product offers retain their current native quote owners. The
+additive offline projection matrix has twelve unavailable Flash rows without an
+active tariff; historical fixtures remain frozen. The exhaustive initial-cutover
+replay excludes later native-tariff launches, while the dedicated Seedance test
+qualifies all 6,804 current proposed classes.
+
 ## GPT Image 2.6 raster tariffs (2026-11-07 candidate)
 
 The 2,040 exact launch cells retain their original identities and precedence.
@@ -95,8 +123,8 @@ configuration has an unavailable baseline, never a fabricated zero price.
 Deletion or rollback to a missing rule is refused. Public EN/FR/ES pricing
 examples use the same owner and fail to a live-quote label if unavailable.
 No product rule is installed by code or schema bootstrap; activation is an
-explicit environment-specific admin action. Image tariffs and the five creator
-tools' ×2.2 policy are separate. Financial and admin regression coverage lives in
+explicit environment-specific admin action. Image tariffs and creator-tool commercial policies are separate; the later
+subtitle-only 200% policy is documented below, while the other four retain ×2.2. Financial and admin regression coverage lives in
 `character-studio-recast-*.test.ts`, `admin-recast-pricing*.test.ts` and
 `recast-pricing-page.test.ts`.
 
@@ -306,6 +334,14 @@ estimates, MCP settlement and provider comparison. `lib/image/seedream.ts` inclu
 the main edit source and every additional reference; Pro's ten allowed totals
 have distinct guarded tariff selectors while retaining the original one-source
 identity and customer amount. Admin labels the count **Total source images**.
+
+Seedream 5.5 and 5.0 Flash use separate versioned new-offer cells, never the
+legacy percentage fallback or the older signed account discount. The 5.5
+supplier table charges every input image, including the first; Flash inputs are
+free. `lib/image/seedream-pricing.ts` owns their dated exact LIST facts and
+supported domain. Their fixed customer selectors, public adapters and 39-cell
+launch table are documented in [the November 13 pricing note](seedream-55-flash-pricing-2026-11-13.md).
+An active customer tariff database state is still required.
 
 Both media-aware and media-free preflight paths must forward the server-resolved
 `seedanceWorkflowStep` into the canonical quote. Ordinary 480p/1080p never implies
@@ -713,6 +749,17 @@ pnpm --silent pricing:audit -- --json
 ```
 
 The 178-row pre-canonical billing baseline and public baseline are immutable historical evidence. The legacy `pricing:public-baseline:generate` entry point now refuses to write; changing either fixture requires a separately designed migration rather than an operating command. The commands above do not mutate pricing policy or application state.
+
+The historical canonical collector selects `buildPricingAuditScenarios({ scope: 'historical' })`.
+Its frozen public representatives are Pika for video and Luma Uni 1 for image;
+current catalogue order and publication retirement cannot replace those identities.
+The 270-row billing replay (178 original plus 92 reviewed additions) keeps all
+14 Pika checkpoints without changing publication flags or live admin selection.
+The actual audit and shadow-addition CLI commands run against this scope without
+mutating test helpers. Public projection checks apply the reviewed archive sunset:
+Pika leaves estimator, hub and workspace preflight and has no Product offer;
+its 13-row original public evidence stays frozen. The remaining model-page row
+is historical offline evidence, not a current purchasable quote.
 
 Reviewed post-baseline price changes are recorded as exact scenario and field deltas in `frontend/src/lib/pricing-audit/approved-changes.ts`. The audit reports those rows separately as approved changes and still fails for any unlisted or altered delta. Gemini Omni 1.1's exact token price is the first such change: the historical 10-second 720p projection remains $1.30 while the reviewed canonical price is $1.32.
 
@@ -1340,7 +1387,45 @@ retain full-surface limits, failure observation and next-request freshness. No
 cross-request quote cache or tariff arithmetic is introduced.
 
 
+## Subtitle-only commercial policy (2026-11-12 candidate)
+
+`server/pricing/quote-creator.ts` now selects
+`creator-subtitles:provider-plus-200:v1` only for `toolId=subtitles`. It passes the
+existing exact supplier LIST facts directly to `quoteCanonicalPricing` with
+`marginPercent=2` (200% markup, cost × 3 before existing standard rounding).
+It does not multiply a 120%-marked-up customer quote. Lip Sync, Product Photo
+Editor, Product Video Editor and Motion Transfer retain the original
+`creator-tools:provider-plus-120:v1`, margin 1.2 and cost multiplier 2.2.
+The standard fractional-cent, margin and customer rounding owners are unchanged.
+
+The immutable subtitle snapshot records the new policy/rule ID and multiplier.
+Standalone and saved-sequence transcription share that owner. Locked confirmation
+rebuilds the complete current snapshot, so an old unaccepted 120% quote is rejected
+even if its customer cents happen to match. There is no silent repricing. Already
+accepted work skips fresh preparation/repricing; its jobs, ledger entries and
+failure refunds retain the exact stored old policy and amount.
+
+Corrections, SRT/VTT, sequence mix preparation and revision-bound MP4 burn-in remain
+included in the paid transcription price. Included renders still require explicit
+confirmation and platform-funded durable jobs, without another wallet charge or
+refund. The recorded supplier reference remains USD 0.008/minute, plus 30% for
+keyterms; it is not a verified account invoice or a full infrastructure-cost
+model. No CPU/storage cost is inserted into tariff arithmetic. See
+[creator tools](creator-tools.md#subtitles) for exact native-quote examples.
+
+`creator-commercial-pricing.test.ts` and `creator-subtitle-pricing.test.ts` cover
+all five products, fractional rounding and the duration/keyterms matrix.
+`subtitles-commercial-policy-postgres.test.ts` uses real disposable PostgreSQL to
+exercise stale standalone/mix quotes, equal-cent policy changes, accepted-history
+replay/refunds, new paid/mix quotes and included exports. Existing billing coverage
+retains account restrictions, locked repricing, concurrent aggregate limits and
+exact refunds. This local source change performs no remote price write/migration
+and enables no gate.
+
 ## Five creator tools commercial policy (2026-10-19)
+
+This dated section records the former policy. The current subtitle exception is
+specified in the 2026-11-12 section above; its original values remain historical.
 
 The server-only `server/pricing/quote-creator.ts` owner selects
 `creator-tools:provider-plus-120:v1` for Subtitles, Lip Sync, Product Photo Editor,

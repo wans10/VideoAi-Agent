@@ -1,7 +1,12 @@
 // Provider cost facts only. The historical customer-pricing basis is independent.
 // Source: https://docs.byteplus.com/zh-TW/docs/modelark/seedance-2-5
-// Checked 2026-10-01; the completed 4s square canary confirms 640/1440 rasters.
+// 4K checked 2026-11-17 at https://docs.byteplus.com/en/docs/ModelArk/seedance-2-5.
+// Other rasters checked 2026-10-01; the completed 4s square canary confirms 640/1440 rasters.
 const SEEDANCE_25_DIMENSIONS = {
+  '4k': {
+    '16:9': [3840, 2160], '4:3': [3326, 2494], '1:1': [2880, 2880],
+    '3:4': [2494, 3326], '9:16': [2160, 3840], '21:9': [4398, 1886],
+  },
   '480p': {
     '16:9': [854, 480], '4:3': [752, 560], '1:1': [640, 640],
     '3:4': [560, 752], '9:16': [480, 854], '21:9': [992, 432],
@@ -66,6 +71,7 @@ const SEEDANCE_1_5_AND_2_0_DIMENSIONS: typeof SEEDANCE_2_0_4K_DIMENSIONS = {
 };
 
 export function seedanceOutputDimensions(engineId: string, resolution: string, aspectRatio: string) {
+  if (engineId === 'seedance-2-5-flash') return ['480p', '720p'].includes(resolution) ? seedance25OutputDimensions(resolution, aspectRatio) : null;
   if (engineId === 'seedance-2-5') return seedance25OutputDimensions(resolution, aspectRatio);
   return (resolution === '4k' ? SEEDANCE_2_0_4K_DIMENSIONS : SEEDANCE_1_5_AND_2_0_DIMENSIONS)[resolution]?.[aspectRatio];
 }

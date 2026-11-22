@@ -76,7 +76,8 @@ jobs:
     if: ${{ needs.plan.outputs.integration == 'true' }}
     # Match the validated PostgreSQL/FFmpeg image; 26.04 package downloads timed out before tests.
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    # Allow the complete database/media suite and subsequent isolated Studio routes to finish.
+    timeout-minutes: 35
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -113,8 +114,8 @@ jobs:
     if: ${{ needs.plan.outputs.browser == 'true' }}
     # Playwright 1.59.1 supports Ubuntu 24.04; ubuntu-latest can resolve to 26.04.
     runs-on: ubuntu-24.04
-    # Each independent VM keeps sequential files and the existing setup/test budget.
-    timeout-minutes: 40
+    # Cold hosted setup can take 25 minutes before the browser suite and admin smoke.
+    timeout-minutes: 50
     strategy:
       fail-fast: false
       matrix:

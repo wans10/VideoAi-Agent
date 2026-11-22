@@ -527,7 +527,12 @@ controls. Focused coverage lives in `video-continuation`,
 ### Seedance output artifacts — 14 October 2026
 
 BytePlus completion preserves requested MOV and Seedance 2.5 1080p MP4 originals
-byte-for-byte in durable storage. MOV and documented HEVC outputs receive a separate
+byte-for-byte in durable storage. The MOV path includes Seedance 2.5 Flash, even
+without a last-frame request or an Edit workflow. The recorded engine and output
+format select original copying, compatible playback and durable recovery;
+`byteplus-output-recovery-postgres.test.ts` exercises both variants through a
+projection outage while preserving the original and single charge.
+MOV and documented HEVC outputs receive a separate
 full-duration H264/yuv420p/AAC `playbackVideoUrl`; the existing four-second silent
 `previewVideoUrl` remains an incidental gallery preview. Downloads, reuse, editing
 and original links always retain the original URL. Encoding uses the packaged
@@ -547,6 +552,18 @@ BytePlus uses a bounded ten-minute poll lease for this preparation and releases 
 other providers retain the shared two-minute default. Local FFprobe fixtures verify
 MOV/PCM and ten-bit HEVC conversion; physical Safari/iOS remains separate browser
 qualification and is not established by these checks.
+
+## Finishing output verification
+
+`src/server/tools/toolbox-video-metadata.ts` owns bounded local-file FFprobe reads for tool sources and already downloaded finishing outputs. Source URL reads retain the configured upload limit (50 MiB by default), pinned transport, account-scoped cache and concurrency guard. Provider output downloads remain bounded at 500 MiB; `finishing-output.ts` probes their existing bytes before uploading or publishing, so a larger valid result is never fetched again through the source-import limit. Temporary local probe files are removed on success and failure.
+
+`lib/video-display-dimensions.ts` resolves display axes from the FFprobe display matrix, with legacy rotate tags as a fallback. Quoting and output integrity compare displayed dimensions; do not accept arbitrary swapped dimensions without rotation evidence. Duration, cadence, audio and requested resolution checks remain enforced.
+
+Video target-mode upscale eligibility is checked by `resolveUpscalePricingContext` before pricing reads or wallet reservation, shared by the quote and execution paths. The source short edge must be below the target. Factor-mode processing and recovery of an already accepted job retain their existing semantics.
+
+Finishing failures store a safe `toolFailureCode` in the existing settings snapshot and an English customer message in `app_jobs.message`. Public reads expose the allowlisted cause and a separate settled-refund boolean. EN/FR/ES clients translate the cause and announce a refund only when payment state is `refunded_wallet`. Never expose raw provider diagnostics or signed media URLs. Historical refunded jobs are not resubmitted or rewritten by these fixes.
+
+Coverage: `toolbox-finishing-output`, `toolbox-video-metadata`, `upscale-preflight`, `toolbox-finishing-terminal-postgres` and `toolbox-failure-messages-dom`.
 
 ## Playback and Core Web Vitals
 
@@ -580,6 +597,8 @@ Shared public playback chooses one profile when an attempt begins and keeps it f
 Homepage mobile loading remains lazy, and the critical poster and fixed geometry remain present before hydration. Model, examples and homepage readers share rendition/fallback mechanics while retaining their surface-specific controls, autoplay eligibility, visibility rules and posters. Do not add per-model playback branches.
 
 Watch pages use Auto by default; prepared sources expose Auto/Original. Comparisons default to Original, including under Save-Data, so judging model fidelity does not silently use a smaller rendition. Auto is offered only for a source present in the active projection. Unknown and signed videos keep their exact URL and have no misleading quality selector. Profile omissions can make Auto and Original resolve to the same URL; changing the label then must not reload or restart playback.
+
+The same-prompt section uses the audited ID pairs in `frontend/config/compare-same-prompt.json`. One public watch-source read retrieves the clips, then the comparison verifies their model IDs and exact prompt fingerprints. A withdrawn clip removes its pair. One verified pair is sufficient. The section follows the scorecard and uses the same manual player with deferred posters. Prompts, recorded settings, source links and direct example anchors are part of the server-rendered page.
 
 `usePublicVideoControls` owns manual play intent, visibility pauses, native/custom events, quality changes and original fallback. It changes only the live video source, synchronously before a requested play, while the original remains in SSR/React props and in separate schema/download/edit data. Quality changes and fallback retain the same native video element, time, mute and volume; a different original remounts it. Guard stale events/promises, seek after metadata, and never resume a manually paused or hidden reader automatically. All manual readers use `preload="none"`.
 
@@ -714,6 +733,25 @@ External examples have editorial IDs, not fabricated application jobs. Registry
 publication gates the page/gallery selection. Nano21 retains its existing
 records and destinations through the same adapter.
 
+Seedream's accepted examples live in `frontend/config/seedream-editorial-images.json`,
+validated by `frontend/lib/seedream-editorial-images.ts` and selected through the
+same adapter. Each entry preserves its exact prompt, requested settings, original
+JPEG and hash-addressed WebP display derivative. Direct BytePlus examples record
+the returned provider model and response hash. Examples recovered through a
+completed MaxVideoAI MCP generation record a receipt hash and request hash instead;
+do not invent a raw provider model response that MCP did not expose. Account/job
+identifiers, signed URLs and private receipts stay outside public content.
+The selected manifest hero supplies the catalog display image, while the viewer
+opens the original. Independent text-to-image scenes must never be presented as
+reference-consistency or editing demonstrations.
+
+Gallery cards show their localized editorial title beside the factual model and
+settings label. Preserve lazy display loading, original deferral, fixed geometry
+and the existing image optimizer policy. Image-example anchor spacing must clear
+both the site header and the sticky section navigation. Seedream's media and
+content tests cover accepted provenance, hashes, original/display lineage,
+localized ownership and unchanged historical SEO fields.
+
 `tests/model-editorial-gallery-browser.test.ts` checks original deferral, source
 identity, narrow layouts and modal focus with the real components. Its standalone
 route context and image optimizer redirect are fixtures, not evidence of complete
@@ -815,6 +853,14 @@ Remove obsolete code/configuration in the lot that replaces it. Keep compatibili
 - Documentation describes shipped code without treating incomplete browser, device or field-performance validation as finished.
 
 ### Model editorial hero framing (redesign D81)
+
+The cinematic model-page pilots opt in through exact-locale `cinematic` content and return through `ModelCinematicPage` before the legacy section assembly. This renderer owns its hero, section navigation, examples, prompting, specifications, pricing and FAQ composition; it shares commercial promises, capability projections, localized content and schema builders, not the old visual sections. Header adaptation is scoped through `:has(.model-cinematic-page)` and must disappear when navigating to an older model. They use a single priority image hero with fixed geometry; its original remains a separate link. Their scoped stylesheet is imported synchronously by the model route. Below-fold proofs use lazy responsive images and native prompt disclosures. Only the edit comparator, alpha-background inspector and existing copy button require client state.
+
+`model-cinematic-hero-displays.json` records a reviewed AVIF display profile for the two pilot heroes. Its ten hash-named files are generated from the exact original hashes with `node frontend/scripts/prepare-cinematic-hero-images.mjs --write --source=first-light=/absolute/original.jpg --source=midnight-run=/absolute/original.png`. The default command is read-only and validates geometry, hashes and bytes. The image-page mobile hero uses an authored portrait crop; the video-page mobile hero keeps its landscape scene beneath the title so the driver and car remain visible. These are display derivatives, never generation/editing references. The source originals and existing WebP fallback stay unchanged. The server emits mutually exclusive desktop/mobile AVIF preloads matching `<picture>` sources; do not add Next `priority` to the fallback and download a second hero. This profile does not change the global image optimizer. Check actual network selection, visible quality and before/after loading on both viewport sizes after preparing new derivatives.
+
+Seedream cinematic proofs extend `seedream-editorial-images.json` to exact i2i reference IDs/hashes, portrait geometry and native transparent PNG. Both original and display alpha are verified. The second edit refers to the wardrobe result, never silently to the first source. `reviewed_byteplus_output` provenance identifies the reviewed generation manifest; it does not invent a raw provider receipt.
+
+`model-cinematic-start-frames.json` is a separate illustration manifest. Its Sunburst images do not enter the public video registry or become Flash videos/VideoObjects. Original image URLs and display WebPs remain separate. Each visual has one page placement; comparison reuse is confined to the source-dependent edit control. Text-only Prompt Lab recipes may share the exact prompt with a proof; render that photograph only once and expose its original/prompt in that placement. `tests/model-page-cinematic.test.ts` validates the source lineage, alpha, geometry, locale isolation and placement rule. Before replacing a start frame with a real video, use the existing public-video ownership and playback contracts and retain the actual generating model's provenance.
 
 `ModelDecisionMediaCard` declares `data-media-kind` from the resolved playable source. Model heroes use a 16:9 frame at desktop and mobile widths; video and poster use `object-fit: cover`, while image-only heroes use `contain` to preserve typography and composition. For galleries without admin curation, prefer a reviewed landscape video; preserve the order of admin-curated galleries. Video hero badges describe the selected render's audio, duration and aspect ratio; capability claims belong in the specs section. The full-render link preserves access to the original. Keep `ModelHeroMedia` priority and public playback policy unchanged. Compare equivalent production builds before claiming initial-loading gains.
 
@@ -1483,3 +1529,77 @@ quality gains. Comparable connected-browser qualification remains separate.
 empty-body CRC32. An explicitly supplied CRC32 stays signed. Ordinary bodyful
 storage clients retain SDK integrity defaults; no global checksum setting or
 upload transport changes. The installed SDK's offline request test checks both.
+
+## Agent private generation results
+
+`src/server/generations/generation-media-access.ts` owns temporary presentation
+grants shared by Studio and the authenticated agent API. Status/recent reads
+first retain their existing account-scoped records and bounded result projection.
+Configured storage originals are signed for five minutes only after the storage
+key matches that account. Preserve original URLs in jobs, quotes and timeline
+records. Playback and last-frame fields receive the same ownership checks as
+original image/video/audio and thumbnails. The Studio module re-exports the
+shared owner for compatibility. `tests/agent-private-generation-delivery.test.ts`
+and `tests/studio-generation-media-access.test.ts` exercise these contracts.
+
+Quote-scoped Character Builder and Recast recovery compose these same owners in
+`src/server/agent-api/quote-generation-recovery.ts`. The caller supplies the
+already verified owned status; presentation adds no database or trial read.
+Retain the original quote ID and status tool for polling, including `no_job` and
+`needsAttention` with a null retry. Completed Builder images return `saveSource`
+with the canonical job ID and original image URL required by `save_character`;
+temporary signed presentation URLs must not replace that stored identity.
+`tests/character-quote-private-media.test.ts` checks signing, immutable originals,
+foreign-key rejection and first-party handoff behavior without provider calls.
+
+### MCP Markdown handoff — 12 November 2026
+
+Model-visible generation, Studio export and Creator media responses may also carry
+`openUrl`. Use that first-party link for Markdown; keep the original signed
+`videoUrl`, `outputUrl`, `readUrl` and widget download descriptor for native media.
+Hosts can append UTM parameters to Markdown links, which invalidates an S3
+signature if exposed directly. `src/server/mcp/media-link.ts` creates a separate
+read capability using domain-separated HMAC with the existing
+`MCP_ACQUISITION_SIGNING_SECRET`. No new secret, table or persistent token is used.
+An absent/invalid secret omits `openUrl` and preserves the existing native result.
+
+The capability binds audience origin, owner, issuing OAuth client, exact source
+reference, storage-key hash and an expiry of at most five minutes, capped by the
+existing read grant. `GET/HEAD /api/mcp/media` needs no web-session cookie. It
+re-reads the owned available asset/completed job/export, rejects changed storage
+identity, and redirects with a method-specific 307 and private/no-store headers.
+Only bounded outer `utm_*` parameters are ignored; no incoming query or arbitrary
+target URL reaches S3. A fixed signing date and remaining TTL prevent redemption
+from extending the capability deadline. Original bytes and stored URLs are unchanged.
+
+This is a short-lived bearer capability, like the S3 URL already issued: possession
+authorizes the exact read until expiry. The issuing client is integrity-bound;
+the route does not claim immediate OAuth-client revocation or authenticate the
+browser as that client. Renewal requires another authenticated MCP read. Tests
+cover UTM, tampering, expiry, foreign/removed/replaced media, the actual route with
+an offline database boundary, and all three additive projections. Local tests do
+not establish deployed host delivery.
+
+### Audio website handoff — 14 November 2026
+
+`GET /api/audio/media/[jobId]?kind=video|audio|source` is the authenticated,
+read-only browser handoff for Audio results. The thin route delegates to
+`src/server/audio/audio-web-media-access.ts`, reads the exact owned Audio job,
+and grants a five-minute read through `createOwnedMediaReadUrl`. It accepts no
+caller-supplied URL. Results must be completed; a stored source may be restored
+while a job is pending. Legacy source job lookup is also account-scoped. Both
+redirects and errors are private/no-store. Native players and File links resolve
+fresh access on navigation rather than retaining an expiring S3 URL.
+
+`lib/audio-job-media.ts` constructs display links only. Canonical result URLs,
+source input URLs, snapshots, quotes and receipts remain unchanged. Restored
+sources keep their original `url` and a separate account-bound `accessUrl`.
+Audio restoration depends on the account ID rather than a volatile session
+object, reuses its first job read, and publishes completed output before awaiting
+source metadata. Retired effects/manual edits cannot restore a late source.
+
+`tests/audio-web-handoff.test.ts`, `tests/audio-web-media-access.test.ts` and
+`tests/audio-web-media-route.test.ts` cover session refresh, account retirement,
+private signing, exact public fallback, legacy source ownership, authentication,
+uncached renewal and rejected arbitrary targets. The real workspace DOM test
+checks that completed history and results use this authenticated display route.

@@ -1,3 +1,4 @@
+import { isSeedance25EngineId } from '@/lib/seedance-model-variants';
 import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
 import { getWorkspaceKlingV4ActiveAssets, getWorkspaceKlingV4MediaError } from './workspace-kling-v4-media';
 import { getWorkspaceMultiPromptState } from './workspace-multi-prompt-state';
@@ -126,21 +127,20 @@ function buildAttachmentPayload(
   };
 }
 
+type KlingElementsMode = Pick<PrepareGenerationInputsOptions, 'selectedEngineId' | 'supportsKlingV3Controls' | 'submissionMode'>;
+
+export function workspaceKlingSubjectsActive({ selectedEngineId, supportsKlingV3Controls, submissionMode }: KlingElementsMode) {
+  const referenceOrEdit = submissionMode === 'ref2v' || submissionMode === 'v2v';
+  if (isKlingV4FalQueueEngineId(selectedEngineId)) return referenceOrEdit;
+  if (!supportsKlingV3Controls) return false;
+  return selectedEngineId.startsWith('kling-o3-') ? referenceOrEdit : submissionMode === 'i2v' || submissionMode === 'ref2v';
+}
+
 export function buildKlingElementsPayload(
-  options: Pick<
-    PrepareGenerationInputsOptions,
-    'selectedEngineId' | 'supportsKlingV3Controls' | 'submissionMode' | 'klingElements'
-  >
+  options: KlingElementsMode & Pick<PrepareGenerationInputsOptions, 'klingElements'>,
 ): GenerationInputPreparationResult {
   const isKlingV4 = isKlingV4FalQueueEngineId(options.selectedEngineId);
-  const supportsKlingV4Elements = isKlingV4 && (options.submissionMode === 'ref2v' || options.submissionMode === 'v2v');
-  const supportsKlingO3Elements =
-    options.selectedEngineId.startsWith('kling-o3-') &&
-    (options.submissionMode === 'ref2v' || options.submissionMode === 'v2v');
-  const supportsKling3Elements =
-    !options.selectedEngineId.startsWith('kling-o3-') &&
-    (options.submissionMode === 'i2v' || options.submissionMode === 'ref2v');
-  if (!supportsKlingV4Elements && (!options.supportsKlingV3Controls || (!supportsKlingO3Elements && !supportsKling3Elements))) {
+  if (!workspaceKlingSubjectsActive(options)) {
     return {
       ok: true,
       primaryAttachment: null,
@@ -243,7 +243,7 @@ export function prepareGenerationInputs(options: PrepareGenerationInputsOptions)
   }
   const schemaFields = [...(options.inputSchema?.required ?? []), ...(options.inputSchema?.optional ?? [])];
   if (((!isUnifiedSeedanceEngineId(options.selectedEngineId) && hasMultimodalReferenceFields(schemaFields))
-      || (options.selectedEngineId === 'seedance-2-5' && options.submissionMode === 'v2v'))
+      || (isSeedance25EngineId(options.selectedEngineId) && options.submissionMode === 'v2v'))
     && !workspaceAssetsSupportMode(schemaFields, options.inputAssets, options.submissionMode)) {
     return { ok: false, message: 'Remove incompatible media before running this mode.' };
   }

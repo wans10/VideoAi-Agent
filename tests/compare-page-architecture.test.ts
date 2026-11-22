@@ -419,6 +419,12 @@ test('Seedance family comparisons use video showdowns while Mini and Gemini page
     ...p0ScoreboardOnlyComparisons,
     ...p1ScoreboardOnlyComparisons,
     ...trendingScoreboardOnlyComparisons,
+    'seedance-2-5-vs-seedance-2-5-flash',
+    'seedance-2-0-fast-vs-seedance-2-5-flash',
+    'kling-v4-flash-vs-seedance-2-5-flash',
+    'seedance-2-5-flash-vs-veo-3-1-fast',
+    'ltx-2-5-fast-vs-seedance-2-5-flash',
+    'minimax-h3-vs-seedance-2-5-flash',
   ]);
   assert.match(configSource, /export const SCOREBOARD_ONLY_COMPARISONS/);
   assert.match(configSource, /compareConfig as \{ scoreboardOnlyComparisons\?: string\[\] \}/);
@@ -586,7 +592,7 @@ test('comparison detail page delegates copy, data, schema, and media responsibil
   assert.ok(pageSource.includes("from './_lib/compare-page-schema'"));
   assert.ok(pageSource.includes("from './_lib/compare-page-scorecard'"));
   assert.ok(pageSource.includes("from './_lib/compare-page-spec-rows'"));
-  assert.match(pageSource, /await loadComparePageData\(\{ activeLocale, left, right \}\)/);
+  assert.match(pageSource, /await loadComparePageData\(\{ activeLocale, left, right, canonicalSlug \}\)/);
   assert.ok(routeDataSource.includes("from './compare-gallery-loader'"));
   assert.doesNotMatch(pageSource, /await loadCompareGallery/);
   assert.ok(pageSource.includes("from './_components/CompareDetailContent'"));
@@ -689,6 +695,7 @@ test('comparison detail split helpers own FAQ, scorecard, and generate card resp
   assert.match(detailContentSource, /CompareDetailHero/);
   assert.match(detailContentSource, /CompareEngineHeroCards/);
   assert.match(detailContentSource, /CompareScorecardSection/);
+  assert.match(detailContentSource, /<CompareScorecardSection[\s\S]*?<CompareSamePromptSection[\s\S]*?<ComparePricingQuickSection/);
   assert.match(detailContentSource, /CompareSpecsSection/);
   assert.match(detailContentSource, /CompareModelGalleries/);
   assert.match(detailContentSource, /CompareFaqSection/);

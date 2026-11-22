@@ -1,3 +1,4 @@
+import { seedance25OutputDimensions } from '../../../lib/seedance-output-dimensions';
 import type { EngineAvailability, EnginePricingDetails } from '../../../types/engines';
 
 // single confirmation pass when Fal publishes the final stable IDs.
@@ -35,6 +36,15 @@ export const BYTEPLUS_SEEDANCE_2_5_ENDPOINTS = {
   ref2v: 'byteplus/dreamina-seedance-2.5/reference-to-video',
   v2v: 'byteplus/dreamina-seedance-2.5/video-to-video',
   extend: 'byteplus/dreamina-seedance-2.5/extend',
+} as const;
+
+export const BYTEPLUS_SEEDANCE_2_5_FLASH_MODEL_ID = 'dreamina-seedance-2-5-flash-261115';
+export const BYTEPLUS_SEEDANCE_2_5_FLASH_ENDPOINTS = {
+  t2v: 'byteplus/dreamina-seedance-2.5-flash/text-to-video',
+  i2v: 'byteplus/dreamina-seedance-2.5-flash/image-to-video',
+  ref2v: 'byteplus/dreamina-seedance-2.5-flash/reference-to-video',
+  v2v: 'byteplus/dreamina-seedance-2.5-flash/video-to-video',
+  extend: 'byteplus/dreamina-seedance-2.5-flash/extend',
 } as const;
 
 export const HAPPY_HORSE_ENDPOINTS = {
@@ -108,6 +118,7 @@ export const SEEDANCE_2_MINI_TOKEN_DIMENSIONS = {
   '720p': SEEDANCE_2_TOKEN_DIMENSIONS['720p'],
 } as const;
 export const SEEDANCE_2_5_TOKEN_DIMENSIONS = {
+  '4k': SEEDANCE_2_TOKEN_DIMENSIONS['4k'],
   '480p': {
     '21:9': SEEDANCE_2_TOKEN_DIMENSIONS['480p']['21:9'],
     '16:9': SEEDANCE_2_TOKEN_DIMENSIONS['480p']['16:9'],
@@ -194,6 +205,7 @@ export function buildSeedance2MiniPricingDetails(): EnginePricingDetails {
 }
 
 export function buildSeedance25PricingDetails(): EnginePricingDetails {
+  const fourKRate = (listRate: number) => listRate * 2 / SEEDANCE_2_DEFAULT_PRICING_MARGIN_FACTOR;
   return {
     currency: 'USD',
     tokenPricing: {
@@ -206,6 +218,11 @@ export function buildSeedance25PricingDetails(): EnginePricingDetails {
         video_input:
           SEEDANCE_2_NORMALIZED_UNIT_PRICE_USD_PER_1K_TOKENS.seedance25Video,
       },
+      // Approved 2026-11-17: 4K display basis ×2; billing still requires active manual cells.
+      unitPriceUsdPer1kTokensByResolution: { '4k': fourKRate(0.0047) },
+      unitPriceUsdPer1kTokensByResolutionAndInputType: {
+        '4k': { no_video_input: fourKRate(0.0047), video_input: fourKRate(0.0029) },
+      },
       pricingSource: 'byteplus_seedance_2_5_260628_approved_2_5x',
       framesPerSecond: 24,
       defaultAspectRatio: '16:9',
@@ -213,6 +230,22 @@ export function buildSeedance25PricingDetails(): EnginePricingDetails {
       rounding: 'ceil_cent',
     },
   };
+}
+
+/** Approved 2026-11-13: Flash retail = published BytePlus LIST × 1.6.
+ * This authoring basis does not activate customer tariff cells or provider routing.
+ */
+export function buildSeedance25FlashPricingDetails(): EnginePricingDetails {
+  const rate = (listRate: number) => listRate * 1.6 / SEEDANCE_2_DEFAULT_PRICING_MARGIN_FACTOR;
+  return { currency: 'USD', tokenPricing: {
+    model: 'byteplus_tokens', unitPriceUsdPer1kTokens: rate(0.007),
+    unitPriceUsdPer1kTokensByInputType: { no_video_input: rate(0.007), video_input: rate(0.0043) },
+    pricingSource: 'byteplus_seedance_2_5_flash_261115_approved_1_6x',
+    framesPerSecond: 24, defaultAspectRatio: '16:9', rounding: 'ceil_cent',
+    dimensions: Object.fromEntries(['480p', '720p'].map(resolution => [resolution,
+      Object.fromEntries(['21:9', '16:9', '4:3', '1:1', '3:4', '9:16'].map(aspect =>
+        [aspect, seedance25OutputDimensions(resolution, aspect)!]))])),
+  } };
 }
 
 export const SEEDANCE_2_LAUNCH_CONFIG = {
