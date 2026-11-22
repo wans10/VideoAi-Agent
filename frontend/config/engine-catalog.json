@@ -27377,7 +27377,7 @@
         "unit": "image",
         "base": 0.035,
         "currency": "USD",
-        "notes": "Supplier output and every source image are billed separately. A current MaxVideoAI quote determines the customer total."
+        "notes": "Supplier output and every source image are billed separately. A current Keyvo quote determines the customer total."
       },
       "updatedAt": "2026-11-13T00:00:00Z",
       "ttlSec": 600,
@@ -27412,7 +27412,7 @@
             "2:3",
             "21:9"
           ],
-          "notes": "Create and edit images with ByteDance Seedream 5.5 in MaxVideoAI: up to ten references, 1K to 2K output and native transparent PNG assets."
+          "notes": "Create and edit images with ByteDance Seedream 5.5 in Keyvo: up to ten references, 1K to 2K output and native transparent PNG assets."
         }
       },
       {
@@ -27448,7 +27448,7 @@
             "gif"
           ],
           "maxUploadMB": 10,
-          "notes": "Create and edit images with ByteDance Seedream 5.5 in MaxVideoAI: up to ten references, 1K to 2K output and native transparent PNG assets."
+          "notes": "Create and edit images with ByteDance Seedream 5.5 in Keyvo: up to ten references, 1K to 2K output and native transparent PNG assets."
         }
       }
     ],
