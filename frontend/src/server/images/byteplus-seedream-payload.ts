@@ -84,8 +84,10 @@ export function buildBytePlusSeedreamPayload(params: {
   const outputFormat =
     requestedFormat === 'png' || requestedFormat === 'jpeg' ? requestedFormat
       : engineId === 'seedream-5-5' ? 'png' : undefined;
-  const size = resolveSeedreamProviderSize(params.size, params.aspectRatio, engineId);
-  if (engineId === 'seedream-5-5' || engineId === 'seedream-5-0-flash') validateLatestSeedreamSize(size);
+  // Keyvo's Seedream 5.0 Flash is the Volcengine model: it takes the classic size table, not the latest BytePlus tier
+  // table (pricing keeps the latest-tier domain through seedream-pricing.ts).
+  const size = resolveSeedreamProviderSize(params.size, params.aspectRatio, engineId === 'seedream-5-0-flash' ? undefined : engineId);
+  if (engineId === 'seedream-5-5') validateLatestSeedreamSize(size);
   if (seedreamOutputSettingsError(engineId, { background: params.background, outputFormat: params.outputFormat })) {
     throw new BytePlusSeedreamError('A transparent Seedream background requires PNG output.', {
       code: 'IMAGE_OUTPUT_FORMAT_INVALID', status: 400,

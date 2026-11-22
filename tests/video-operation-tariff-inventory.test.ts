@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import test, { afterEach, beforeEach } from 'node:test';
 import { collectSellableManualTariffCoverage } from '../frontend/lib/pricing-audit/manual-tariff-coverage';
 import { collectCustomerTariffCutoverCheckpoints } from '../frontend/server/pricing/customer-tariff-cutover-evidence';
+import { withArchivedPikaPricingCatalogue } from './helpers/historical-customer-tariff-catalogue';
 import { KEYVO_UNSERVED_VIDEO_OPERATIONS, videoOperationTariffContexts } from '../frontend/lib/pricing-audit/video-operation-tariff-inventory';
 
 // The catalogue projection is frozen unfiltered at import (fixture engines such as Veo, Luma and Flux are hidden by the

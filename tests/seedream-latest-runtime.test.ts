@@ -6,10 +6,12 @@ import { buildBytePlusSeedreamPayload } from '../frontend/src/server/images/byte
 import { resolveBytePlusSeedreamReadiness } from '../frontend/src/server/images/byteplus-seedream-policy.ts';
 import * as seedream from '../frontend/lib/image/seedream.ts';
 
+// Keyvo sells Seedream 5.0 Flash as its own Volcengine engine (tests/seedream-flash-volcengine.test.ts), not as the
+// upstream BytePlus "latest" tier, so only Seedream 5.5 runs the latest contract here.
 const MODELS = [
   { id: 'seedream-5-5', modelId: 'dola-seedream-5-5-261028', format: 'png' },
-  { id: 'seedream-5-0-flash', modelId: 'dola-seedream-5-0-flash-260915', format: 'jpeg' },
 ] as const;
+
 
 for (const model of MODELS) {
   test(`${model.id} is an executable BytePlus image model with its own limits`, () => {

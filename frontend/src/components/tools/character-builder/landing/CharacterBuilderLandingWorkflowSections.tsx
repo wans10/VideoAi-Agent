@@ -21,7 +21,7 @@ export function CharacterBuilderOutputsWorkflowSection({ content, films = [], lo
         <figcaption className={styles.note}>
           {c.looksNote}
           <br />
-          <a className={styles.textLink} href="#recast">{c.looksRecastCta}<ArrowRight size={17} aria-hidden="true" /></a>
+          {isKeyvoRecastHidden() ? null : <a className={styles.textLink} href="#recast">{c.looksRecastCta}<ArrowRight size={17} aria-hidden="true" /></a>}
         </figcaption>
       </figure>
     </div></section>

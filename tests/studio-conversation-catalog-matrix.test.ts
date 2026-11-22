@@ -31,7 +31,7 @@ const currentCertified=[
   'gemini-omni-flash','gpt-image-2-5-flare','gpt-image-2-5-sunburst','happy-horse-1-1',
   'kling-3-4k','kling-3-pro','kling-3-standard','kling-o3-4k','kling-o3-pro','kling-o3-standard','kling-v4',
   'luma-ray-3-2','luma-uni-1','luma-uni-1-max','minimax-h3','minimax-hailuo-02-text',
-  'nano-banana-2','nano-banana-2-1','nano-banana-lite','nano-banana-pro','pika-text-to-video',
+  'nano-banana-2','nano-banana-2-1','nano-banana-lite','nano-banana-pro',
   'seedance-2-0','seedance-2-0-fast','seedance-2-0-mini','seedance-2-5','seedance-2-5-flash','seedream-5-0-flash','seedream-5-0-pro','seedream-5-5',
   'veo-3-1','veo-3-1-fast','veo-3-1-lite','wan-3','wan-3-prime',
   'kling-3-turbo-pro','kling-3-turbo-standard','minimax-h3-max','ltx-2-5-fast','ltx-2-5-pro','grok-imagine-video-1-5','flux-3','flux-3-draft','flux-3-max',
@@ -183,9 +183,10 @@ test('action-specific recommendations preserve exact compatible choices and excl
   assert.ok(open.recommendations.length>0&&open.recommendations.length<=3);
   assert.equal(open.recommendations[0].editorialGuidance?.level,'reference');
   assert.notEqual(open.recommendations[0].model.id,'pika-text-to-video');
-  // Pika is outside the owner allowlist, so an exact request must not resolve to it on Keyvo.
+  // Pika is deep_legacy upstream and not app-published (2026-11), so an exact request resolves to no recommendation on
+  // any surface; this holds regardless of the Keyvo owner allowlist (the unfiltered test catalogue offers every id).
   const pika=await recommendAgentModels({id:'pika-text-to-video',surface:'video',mode:'i2v'},deps);
-  assert.deepEqual(pika.recommendations.map(item=>item.model.id),isKeyvoOfferedEngine('pika-text-to-video')?['pika-text-to-video']:[]);
+  assert.deepEqual(pika.recommendations.map(item=>item.model.id),[]);
   const fourK=await recommendAgentModels({surface:'video',mode:'t2v',resolution:'4k',preferredModelIds:['seedance-2-5']},deps);
   assert.ok(fourK.recommendations.length>0);
   assert.equal(fourK.recommendations[0].model.id,'seedance-2-5', 'Milo preserves the explicitly preferred model now that it supports 4K.');

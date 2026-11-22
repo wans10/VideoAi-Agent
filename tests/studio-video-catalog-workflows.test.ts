@@ -50,7 +50,8 @@ test('Studio video discovery retains every executable public transport-neutral t
   for(const id of studioUncertified){assert.ok(canonical.some(e=>e.engine.id===id),id);assert.equal(studio.some(e=>e.engine.id===id),false,id);}
   assert.deepEqual(studio.map(e=>[e.engine.id,e.publicModes]),canonical.filter(e=>!studioUncertified.includes(e.engine.id)).map(e=>[e.engine.id,e.publicModes]));
   // -8: Keyvo took Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro offline (no mainland route, 2026-11-13).
-  assert.equal(studio.reduce((count,entry)=>count+entry.publicModes.length,0),138+6+4+3-4-8,'Conversation qualification preserves every proven public tuple.');
+  // Upstream 154 = every published tuple after Pika retirement and Flash addition; the Keyvo base is the 154 minus the -4 and -8 below.
+  assert.equal(studio.reduce((count,entry)=>count+entry.publicModes.length,0),154-4-8,'Conversation qualification preserves every proven public tuple.');
   for(const id of ['wan-2-6','kling-2-5-turbo','kling-2-6-pro'])assert.equal(studio.some(e=>e.engine.id===id),false,id);
   // -4: Keyvo retired HappyHorse 1.0 (t2v/i2v/ref2v/v2v) from the app. MiniMax-H3-Max is published again (MiniMax's own
   // API); this catalogue treats every mode as executable, while Keyvo's runtime executes its v2v Recast/Relight only on Fal.
