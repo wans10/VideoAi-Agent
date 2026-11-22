@@ -24,3 +24,32 @@ test('historical tariff rehearsal cannot consume or hide the six new Nano21 fixe
   assert.equal(current().length, 6, 'ordinary current financial coverage must still include the new delta');
   assert.deepEqual(tariffDocument.cells.filter(cell => cell.selector.engineId === nano.id), cells);
 });
+
+
+test('historical financial replay restores archived Pika only within the fixture and always closes it afterward', async () => {
+  const pika = getRuntimeModelById('pika-text-to-video')!;
+  const before = structuredClone(pika);
+  const scenarios = () => collectSellableManualTariffCoverage({modelId: pika.id}).scenarios;
+  assert.equal(pika.lifecycle, 'deep_legacy');
+  assert.equal(scenarios().length, 0);
+  await assert.rejects(withHistoricalCustomerTariffCatalogue(async () => {
+    assert.ok(scenarios().length > 0, 'The complete historical money replay retains Pika checkpoints.');
+    assert.equal(pika.lifecycle, 'deep_legacy', 'A historical financial fixture must not rewrite lifecycle.');
+    assert.equal(pika.publication.pricing.published, false, 'Public pricing remains archived.');
+    throw new Error('historical replay interrupted');
+  }), /historical replay interrupted/);
+  assert.deepEqual(pika, before);
+  assert.equal(scenarios().length, 0, 'Normal maintenance and current selection must still omit archived Pika.');
+});
+
+test('historical tariff rehearsal keeps the 39 new Seedream offers outside the pre-launch catalogue', async () => {
+  const models = ['seedream-5-5', 'seedream-5-0-flash'].map(id => getRuntimeModelById(id)!);
+  const before = models.map(model => model.publication.app.published);
+  const cells = structuredClone(tariffDocument.cells.filter(cell => models.some(model => model.id === cell.selector.engineId)));
+  assert.equal(cells.length, 39);
+  await withHistoricalCustomerTariffCatalogue(async () => {
+    assert.deepEqual(models.map(model => model.publication.app.published), [false, false]);
+  });
+  assert.deepEqual(models.map(model => model.publication.app.published), before);
+  assert.deepEqual(tariffDocument.cells.filter(cell => models.some(model => model.id === cell.selector.engineId)), cells);
+});

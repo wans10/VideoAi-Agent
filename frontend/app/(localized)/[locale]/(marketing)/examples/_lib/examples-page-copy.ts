@@ -204,6 +204,7 @@ export function buildExamplesNextStepLinks({
       ['kling-3-pro-vs-veo-3-1', 'Kling 3 Pro vs Veo 3.1'],
     ],
     seedance: [
+      ['seedance-2-5-vs-seedance-2-5-flash', 'Seedance 2.5 vs Flash'],
       ['kling-v4-vs-seedance-2-5', 'Kling 4.0 vs Seedance 2.5'],
       ['seedance-2-5-vs-minimax-h3', 'Seedance 2.5 vs MiniMax H3'],
       ['seedance-2-5-vs-kling-3-pro', 'Seedance 2.5 vs Kling 3 Pro'],
@@ -211,12 +212,14 @@ export function buildExamplesNextStepLinks({
       ['seedance-2-5-vs-veo-3-1', 'Seedance 2.5 vs Veo 3.1'],
     ],
     veo: [
+      ['seedance-2-5-flash-vs-veo-3-1-fast', 'Seedance 2.5 Flash vs Veo 3.1 Fast'],
       ['gemini-omni-flash-vs-veo-3-1', 'Gemini Omni Flash 1.2 vs Veo 3.1'],
       ['veo-3-1-vs-seedance-2-5', 'Veo 3.1 vs Seedance 2.5'],
       ['veo-3-1-vs-minimax-h3', 'Veo 3.1 vs MiniMax H3'],
       ['veo-3-1-vs-veo-3-1-fast', 'Veo 3.1 vs Fast'],
     ],
     hailuo: [
+      ['minimax-h3-vs-seedance-2-5-flash', 'MiniMax H3 vs Seedance 2.5 Flash'],
       ['minimax-h3-vs-minimax-h3-max', 'MiniMax H3 vs H3 Max'],
       ['minimax-h3-vs-veo-3-1', 'MiniMax H3 vs Veo 3.1'],
       ['minimax-h3-max-vs-seedance-2-5', 'MiniMax H3 Max vs Seedance 2.5'],
@@ -233,7 +236,7 @@ export function buildExamplesNextStepLinks({
   const links = selected
     ? selected
         .filter(([slug]) => isPublishedComparisonSlug(slug))
-        .slice(0, 4)
+    .slice(0, 4 + Number(selected.some(([slug]) => slug.includes('seedance-2-5-flash') && isPublishedComparisonSlug(slug))))
         .map(([slug, label]) => comparisonLink(slug, label))
     : buildDefaultLinks();
   // Keyvo hides comparison pages, so their links must not be offered.

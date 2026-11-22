@@ -54,8 +54,8 @@ const EXPECTED_GENERIC_METADATA_FALLBACK_SLUGS = [
 ] as const;
 const SUPPORTED_HREF_BY_LOCALE = {
   en: /^\/(?:(?:models|examples|ai-video-engines)\/|pricing(?:#|$)|app\?engine=)/,
-  fr: /^\/(?:(?:models|examples|ai-video-engines)\/|pricing(?:#|$)|app\?engine=|fr\/(?:modeles|exemples|comparatif)\/|fr\/tarifs(?:#|$))/,
-  es: /^\/(?:(?:models|examples|ai-video-engines)\/|pricing(?:#|$)|app\?engine=|es\/(?:modelos|ejemplos|comparativa)\/|es\/precios(?:#|$))/,
+  fr: /^\/(?:(?:models|examples|ai-video-engines)\/|pricing(?:#|$)|app\?engine=|fr\/(?:modeles|galerie|exemples|comparatif)\/|fr\/tarifs(?:#|$))/,
+  es: /^\/(?:(?:models|examples|ai-video-engines)\/|pricing(?:#|$)|app\?engine=|es\/(?:modelos|galeria|ejemplos|comparativa)\/|es\/precios(?:#|$))/,
 } as const;
 const FORBIDDEN_LOCALE_PREFIX_BY_LOCALE = {
   en: /^\/(?:fr|es)(?:\/|$)/,
@@ -78,6 +78,7 @@ const SUPPORTED_HREF_FIXTURES_BY_LOCALE = {
     '/app?engine=fixture',
     '/fr/modeles/fixture',
     '/fr/exemples/fixture',
+    '/fr/galerie/fixture',
     '/fr/comparatif/fixture',
     '/fr/tarifs',
     '/fr/tarifs#fixture',
@@ -91,6 +92,7 @@ const SUPPORTED_HREF_FIXTURES_BY_LOCALE = {
     '/app?engine=fixture',
     '/es/modelos/fixture',
     '/es/ejemplos/fixture',
+    '/es/galeria/fixture',
     '/es/comparativa/fixture',
     '/es/precios',
     '/es/precios#fixture',
@@ -126,7 +128,7 @@ function loadGenericMetadataFallbacks(locale: (typeof LOCALES)[number]): Record<
 
 test('comparison documents are dynamically discovered with unique identities and required locales', () => {
   const files = contentFiles();
-  assert.equal(files.length, 73); // Includes the unpublished, prepared Flash comparison.
+  assert.equal(files.length, 79); // Includes six fully localized Seedance 2.5 Flash comparisons.
   const identities = new Set<string>();
 
   for (const fileName of files) {

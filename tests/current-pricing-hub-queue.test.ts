@@ -36,6 +36,7 @@ test('a hub quotes each authored exact input once through at most eight distinct
   const entries = new Map(listFalEngines().map((entry) => [entry.id, entry]));
   for (const locale of ['en', 'fr', 'es'] as const) {
     const base = buildPricingHubData(locale);
+    assert.ok(base.video.rows.every(row => row.id !== 'pika-text-to-video'), 'archived Pika has no current public matrix row');
     const authored = [
       ...base.video.rows.flatMap((row) => VIDEO_PRICE_PRESETS.flatMap((preset) => {
         const entry = entries.get(row.id);
@@ -72,6 +73,7 @@ test('a hub quotes each authored exact input once through at most eight distinct
     const data = await pending;
     assert.deepEqual(new Set(requests.map(key)), new Set(authored.map(key)), 'every exact authored input remains quoted');
     assert.equal(requests.length, new Set(requests.map(key)).size, 'identical matrix inputs share one quote');
+    assert.ok(requests.every(input => input.modelId !== 'pika-text-to-video'), 'archived Pika never enters the current quote queue');
     assert.equal(requests.filter((input) => input.mode !== 't2i').length, VIDEO_QUOTES);
     assert.equal(MODEL_QUOTES, 51);
     for (const retired of ['happy-horse-1-0', 'seedream']) {

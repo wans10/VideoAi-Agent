@@ -1,6 +1,7 @@
 import Stripe from 'stripe';
 import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import { buildTopupAttributionGa4Params } from '@/server/wallet-attribution';
+import { projectOpenAIMetadata } from '@/lib/analytics/openai-contract';
 import {
   chargeReceiptUrl,
   invoiceDocumentFields,
@@ -85,6 +86,7 @@ export function buildCheckoutSessionTopupInput(
       ga_session_id: session.metadata.ga_session_id ?? null,
       first_wallet_topup: session.metadata.first_wallet_topup ?? null,
       ...buildTopupAttributionGa4Params(session.metadata),
+      ...projectOpenAIMetadata(session.metadata),
     },
     originalAmountCents: amountCents,
     originalCurrency: settlementCurrency,
@@ -155,6 +157,7 @@ export function buildPaymentIntentTopupInput(
       ga_session_id: intent.metadata.ga_session_id ?? null,
       first_wallet_topup: intent.metadata.first_wallet_topup ?? null,
       ...buildTopupAttributionGa4Params(intent.metadata),
+      ...projectOpenAIMetadata(intent.metadata),
     },
     originalAmountCents: amountCents,
     originalCurrency: intent.metadata.target_currency ?? settlementCurrency,

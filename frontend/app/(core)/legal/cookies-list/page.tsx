@@ -54,7 +54,7 @@ const PAGE_COPY: Record<
   en: {
     title: 'Cookie & SDK inventory',
     intro: 'We track the cookies and SDKs used on app.keyvo.cn. Non-essential technologies are only activated after consent.',
-    lastUpdated: 'Last updated: 26 October 2025',
+    lastUpdated: 'Last updated: 12 November 2026',
     categoryLabel: {
       essential: 'Essential',
       analytics: 'Analytics',
@@ -74,7 +74,7 @@ const PAGE_COPY: Record<
   fr: {
     title: 'Inventaire des cookies et SDK',
     intro: 'Nous référençons les cookies et SDK utilisés sur app.keyvo.cn. Les technologies non essentielles ne sont activées qu’après consentement.',
-    lastUpdated: 'Dernière mise à jour : 26 octobre 2025',
+    lastUpdated: 'Dernière mise à jour : 12 novembre 2026',
     categoryLabel: {
       essential: 'Essentiels',
       analytics: 'Mesure d’audience',
@@ -94,7 +94,7 @@ const PAGE_COPY: Record<
   es: {
     title: 'Inventario de cookies y SDK',
     intro: 'Mantenemos un inventario de los cookies y SDK utilizados en app.keyvo.cn. Las tecnologías no esenciales solo se activan tras el consentimiento.',
-    lastUpdated: 'Última actualización: 26 de octubre de 2025',
+    lastUpdated: 'Última actualización: 12 de noviembre de 2026',
     categoryLabel: {
       essential: 'Esenciales',
       analytics: 'Analítica',
@@ -135,6 +135,7 @@ const PAGE_COPY: Record<
 
 const COOKIE_ROWS: Record<AppLocale, CookieRow[]> = {
   en: [
+    {name:'mvai-openai-click',provider:'Keyvo / OpenAI Ads',purpose:'Remembers an OpenAI ad click to measure confirmed account registrations and paid wallet top-ups, after analytics and advertising consent.',duration:'Up to 30 days; removed when consent is withdrawn.',category:'advertising'},
     {
       name: 'sb-access-token',
       provider: 'Supabase',
@@ -158,6 +159,7 @@ const COOKIE_ROWS: Record<AppLocale, CookieRow[]> = {
     },
   ],
   fr: [
+    {name:'mvai-openai-click',provider:'Keyvo / OpenAI Ads',purpose:'Mémorise un clic sur une publicité OpenAI pour mesurer les inscriptions confirmées et les recharges de portefeuille payées, après consentement à la mesure et à la publicité.',duration:'30 jours au maximum ; supprimé au retrait du consentement.',category:'advertising'},
     {
       name: 'sb-access-token',
       provider: 'Supabase',
@@ -181,6 +183,7 @@ const COOKIE_ROWS: Record<AppLocale, CookieRow[]> = {
     },
   ],
   es: [
+    {name:'mvai-openai-click',provider:'Keyvo / OpenAI Ads',purpose:'Recuerda un clic en un anuncio de OpenAI para medir registros confirmados y recargas de saldo pagadas, con consentimiento de analítica y publicidad.',duration:'Hasta 30 días; se elimina al retirar el consentimiento.',category:'advertising'},
     {
       name: 'sb-access-token',
       provider: 'Supabase',

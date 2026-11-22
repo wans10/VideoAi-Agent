@@ -8,14 +8,14 @@ Source : Google Search Console, propriété `sc-domain:maxvideoai.com`, recherch
 
 | Mesure | Total |
 | --- | ---: |
-| Slugs publiés | 211 |
-| URLs localisées auditées | 633 |
+| Slugs publiés | 217 |
+| URLs localisées auditées | 651 |
 | URLs présentes dans l'export GSC | 423 |
-| URLs sans ligne GSC dans les 996 premières pages | 210 |
+| URLs sans ligne GSC dans les 996 premières pages | 228 |
 | URLs avec au moins un clic | 93 |
 | Lignes GSC hors du périmètre publié | 237 |
 | Lignes hors périmètre avec clics | 53 |
-| Keep | 264 |
+| Keep | 282 |
 | Enrich | 17 |
 | Review | 225 |
 | Noindex candidate | 127 |
@@ -178,7 +178,7 @@ Ce lot commence par les URLs absentes de l'export GSC, puis par celles avec le m
 
 ## URLs GSC hors du périmètre publié
 
-Ces anciennes URLs ou variantes ne font pas partie des 211 slugs actuellement publiés. Celles qui ont des clics doivent être vérifiées en priorité pour décider entre republication, redirection 301 pertinente ou maintien temporaire.
+Ces anciennes URLs ou variantes ne font pas partie des 217 slugs actuellement publiés. Celles qui ont des clics doivent être vérifiées en priorité pour décider entre republication, redirection 301 pertinente ou maintien temporaire.
 
 - 19 anciennes variantes Veo `first-last` sont déjà normalisées par une redirection permanente vers les comparatifs Veo 3.1 canoniques.
 - Les 2 URLs localisées Happy Horse 1.0 vs Sora 2 Pro passent désormais par une redirection permanente vers le comparatif publié Happy Horse 1.1 vs Sora 2 Pro dans cette branche.
@@ -423,4 +423,4 @@ Ces anciennes URLs ou variantes ne font pas partie des 211 slugs actuellement pu
 | fr | [veo-3-1-fast-vs-wan-2-5](https://maxvideoai.com/fr/comparatif/veo-3-1-fast-vs-wan-2-5) | 0 | 1 | 1 |
 | fr | [veo-3-1-lite-vs-wan-2-6](https://maxvideoai.com/fr/comparatif/veo-3-1-lite-vs-wan-2-6) | 0 | 1 | 10 |
 
-L'inventaire exhaustif des 633 URLs se trouve dans `docs/seo/comparison-indexation-matrix-2026-07-08.json`.
+L'inventaire exhaustif des 651 URLs se trouve dans `docs/seo/comparison-indexation-matrix-2026-07-08.json`.

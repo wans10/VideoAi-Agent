@@ -142,7 +142,7 @@ export function providerComparisonInputFromScenario(input: {
       : (input.context.inputImageCount ?? (mode === 'i2i' ? 1 : 0)) + (input.context.referenceImageCount ?? 0)
     : typeof scenario.input.referenceImageCount === 'number' ? scenario.input.referenceImageCount
       : mode === 't2i' ? 0 : undefined;
-  const size = seedream ? resolveSeedreamProviderSize(scenario.resolution ?? '', aspectRatio) : '';
+  const size = seedream ? resolveSeedreamProviderSize(scenario.resolution ?? '', aspectRatio === 'auto' ? '1:1' : aspectRatio, scenario.engineId) : '';
   const dimensions = /^(\d+)x(\d+)$/.exec(size);
   const outputPixels = dimensions && Number.isSafeInteger(quantity) && quantity > 0 && quantity <= 15
     ? Array.from({ length: quantity }, () => Number(dimensions[1]) * Number(dimensions[2])) : undefined;
@@ -238,6 +238,7 @@ const VIDEO_PROFILES = {
   'seedance-2-0-fast': 'fast',
   'seedance-2-0-mini': 'mini',
   'seedance-2-5': 'seedance25',
+  'seedance-2-5-flash': 'seedance25Flash',
 } as const;
 
 function amountUsd(tokens: number, rateUsdPer1kTokens: number): number {
@@ -352,7 +353,7 @@ function listCost(input: ProviderCostComparisonInput, at: string): Pick<Provider
       return unavailable('unsupported_model_options');
     }
     const rate = input.engineId === 'seedance-2-5' && input.step !== 'normal'
-      ? getSeedance25StepListRate({ step: input.step, billingInputType: input.billingInputType })
+      ? getSeedance25StepListRate({ step: input.step, resolution: input.resolution, billingInputType: input.billingInputType })
       : getBytePlusVideoListRate({ profile, resolution: input.resolution, billingInputType: input.billingInputType });
     if ('resolution' in rate && rate.resolution !== input.resolution) return unavailable('unsupported_model_options');
     const promotion = getPublishedPromotionAt(rate, at);

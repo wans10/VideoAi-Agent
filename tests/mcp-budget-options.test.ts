@@ -276,10 +276,10 @@ test('lowest paid is the independently derived minimum across exact eligible rou
 });
 
 test('unavailable and disabled candidates are excluded and the minimum is recomputed', () => {
-  const unavailable = withMutatedEngine('pika-text-to-video', (entry) => {
+  const unavailable = withMutatedEngine('veo-3-1-lite', (entry) => {
     entry.availability = 'unavailable';
   });
-  const disabled = withMutatedEngine('pika-text-to-video', (entry) => {
+  const disabled = withMutatedEngine('veo-3-1-lite', (entry) => {
     entry.surfaces.app.enabled = false;
   });
 
@@ -290,26 +290,26 @@ test('unavailable and disabled candidates are excluded and the minimum is recomp
         buildMcpBudgetOptions('en', livePublication, dependencies),
         'lowest_paid',
       ).engineId,
-      'pika-text-to-video',
+      'veo-3-1-lite',
     );
   }
 });
 
 test('quote failures recompute the minimum or hide paid options when none remain', () => {
   const dependencies = defaultDependencies();
-  const withoutPika: McpBudgetOptionsDependencies = {
+  const withoutVeoLite: McpBudgetOptionsDependencies = {
     ...dependencies,
     quotePricing: (input) => {
-      if (input.scenario.engineId === 'pika-text-to-video') {
+      if (input.scenario.engineId === 'veo-3-1-lite') {
         throw new Error('injected quote failure');
       }
       return dependencies.quotePricing(input);
     },
   };
-  assertLowestMatchesAuthoritativeMinimum(withoutPika);
+  assertLowestMatchesAuthoritativeMinimum(withoutVeoLite);
   assert.notEqual(
-    option(buildMcpBudgetOptions('en', livePublication, withoutPika), 'lowest_paid').engineId,
-    'pika-text-to-video',
+    option(buildMcpBudgetOptions('en', livePublication, withoutVeoLite), 'lowest_paid').engineId,
+    'veo-3-1-lite',
   );
 
   const withoutPaidQuotes: McpBudgetOptionsDependencies = {
@@ -322,7 +322,7 @@ test('quote failures recompute the minimum or hide paid options when none remain
 });
 
 test('clamped canonical facts cannot be displayed as the requested duration', () => {
-  const dependencies = withMutatedEngine('pika-text-to-video', (entry) => {
+  const dependencies = withMutatedEngine('veo-3-1-lite', (entry) => {
     const t2v = entry.modes.find((mode) => mode.mode === 't2v');
     assert.ok(t2v);
     t2v.ui.duration = { options: [1], default: 1 };
@@ -332,7 +332,7 @@ test('clamped canonical facts cannot be displayed as the requested duration', ()
   assert.equal(
     options.some(
       (candidate) =>
-        candidate.engineId === 'pika-text-to-video' && candidate.durationSeconds === 1,
+        candidate.engineId === 'veo-3-1-lite' && candidate.durationSeconds === 1,
     ),
     false,
   );
@@ -340,7 +340,7 @@ test('clamped canonical facts cannot be displayed as the requested duration', ()
 });
 
 test('noninteger duration presets fail closed instead of being normalized', () => {
-  const dependencies = withMutatedEngine('pika-text-to-video', (entry) => {
+  const dependencies = withMutatedEngine('veo-3-1-lite', (entry) => {
     const t2v = entry.modes.find((mode) => mode.mode === 't2v');
     assert.ok(t2v);
     t2v.ui.duration = { options: [5.5], default: 5.5 };
@@ -368,7 +368,7 @@ test('canonical quote scenario mismatches fail closed for the displayed resoluti
     quotePricing: (input) => {
       const quote = dependencies.quotePricing(input);
       if (
-        input.scenario.engineId === 'pika-text-to-video' &&
+        input.scenario.engineId === 'veo-3-1-lite' &&
         input.scenario.resolution === '720p'
       ) {
         return { ...quote, scenarioId: `${input.scenario.id}:1080p` };
@@ -379,25 +379,25 @@ test('canonical quote scenario mismatches fail closed for the displayed resoluti
 
   assert.notEqual(
     option(buildMcpBudgetOptions('en', livePublication, mismatchedQuote), 'lowest_paid').engineId,
-    'pika-text-to-video',
+    'veo-3-1-lite',
   );
   assertLowestMatchesAuthoritativeMinimum(mismatchedQuote);
 });
 
 test('catalog audio mismatches fail closed for the displayed T2V scenario', () => {
-  const dependencies = withMutatedEngine('pika-text-to-video', (entry) => {
+  const dependencies = withMutatedEngine('veo-3-1-lite', (entry) => {
     entry.engine.audio = true;
   });
 
   assert.notEqual(
     option(buildMcpBudgetOptions('en', livePublication, dependencies), 'lowest_paid').engineId,
-    'pika-text-to-video',
+    'veo-3-1-lite',
   );
   assertLowestMatchesAuthoritativeMinimum(dependencies);
 });
 
 test('catalog resolution mismatches are excluded before pricing', () => {
-  const dependencies = withMutatedEngine('pika-text-to-video', (entry) => {
+  const dependencies = withMutatedEngine('veo-3-1-lite', (entry) => {
     entry.engine.resolutions = ['1080p'];
     const t2v = entry.modes.find((mode) => mode.mode === 't2v');
     assert.ok(t2v);
@@ -406,7 +406,7 @@ test('catalog resolution mismatches are excluded before pricing', () => {
 
   assert.notEqual(
     option(buildMcpBudgetOptions('en', livePublication, dependencies), 'lowest_paid').engineId,
-    'pika-text-to-video',
+    'veo-3-1-lite',
   );
   assertLowestMatchesAuthoritativeMinimum(dependencies);
 });

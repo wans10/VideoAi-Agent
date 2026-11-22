@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import test from 'node:test';
 
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
@@ -19,7 +20,7 @@ import {
   type MaxVideoAiMcpServices,
 } from '../frontend/src/server/mcp/server';
 
-const TEMPLATE_URI = 'ui://maxvideoai/generation-result-v6.html';
+const TEMPLATE_URI = 'ui://maxvideoai/generation-result-v7.html';
 const LEGACY_TEMPLATE_URIS = [
   'ui://maxvideoai/generation-result-v5.html',
   'ui://maxvideoai/generation-result-v1.html',
@@ -27,6 +28,7 @@ const LEGACY_TEMPLATE_URIS = [
   'ui://maxvideoai/generation-result-v3.html',
   'ui://maxvideoai/generation-result-v4.html',
   'ui://maxvideoai/generation-result-v5.html',
+  'ui://maxvideoai/generation-result-v6.html',
 ] as const;
 
 const principal: AgentPrincipal = {
@@ -245,7 +247,7 @@ test('generation presenter keeps previous resource versions readable for existin
     assert.equal(result.contents.length, 1);
     assert.equal(result.contents[0]?.uri, uri);
     assert.equal(result.contents[0]?.mimeType, 'text/html;profile=mcp-app');
-    assert.match(result.contents[0]?.text ?? '', /VideoAI generation result/);
+    assert.match(result.contents[0]?.text ?? '', /(MaxVideoAI|Keyvo) generation result/);
   }
 });
 
@@ -408,7 +410,7 @@ test('generation presenter opens the targeted render and hands a fresh attachmen
   dom.window.close();
 });
 
-test('v5 Audio fixture renders one manual player, measured duration, and keyboard buttons without loading failed media', async () => {
+test('current Audio fixture renders one manual player, measured duration, and keyboard buttons without loading failed media', async () => {
   const externalOpens: string[] = [];
   const createDom = (generationStatus: AgentGenerationStatus) => new JSDOM(buildGenerationResultAppHtml(), {
     runScripts: 'dangerously',
@@ -571,4 +573,41 @@ test('Audio soundtrack fallback keeps its durable MIME and filename extension', 
     filename: 'maxvideoai-cinematic-soundtrack-job.mp3',
     expiresAt: '2026-09-08T10:00:00.000Z',
   });
+});
+
+
+test('the actual result widget preserves Audio reuse on the exact dedicated application', async (t) => {
+  for (const origin of [
+    'https://openai-review.maxvideoai.com', 'https://maxvideoai.com',
+    'https://openai-review.maxvideoai.com.attacker.test',
+    'https://openai-review.maxvideoai.com:444', 'http://openai-review.maxvideoai.com',
+  ]) {
+    await t.test(origin, async () => {
+      const opens: string[] = [];
+      const dom = new JSDOM(buildGenerationResultAppHtml(), {
+        runScripts: 'dangerously', url: 'https://widget.example',
+        beforeParse(window) {
+          Object.defineProperty(window, 'openai', { configurable: true, value: {
+            toolOutput: {
+              ...buildAgentGenerationRecovery(audioStatus(), 'https://openai-review.maxvideoai.com/account/connections'),
+              library: { url: `${origin}/app/library` },
+              workspace: { url: `${origin}/app/audio` },
+              download: null,
+            },
+            async openExternal(input: { href: string }) { opens.push(input.href); },
+          } });
+          Object.defineProperty(window.HTMLMediaElement.prototype, 'pause', { configurable: true, value() {} });
+          Object.defineProperty(window.HTMLMediaElement.prototype, 'load', { configurable: true, value() {} });
+        },
+      });
+      try {
+        const reuse = dom.window.document.getElementById('reuse') as HTMLButtonElement;
+        const allowed = origin === 'https://openai-review.maxvideoai.com' || origin === 'https://maxvideoai.com';
+        assert.equal(reuse.disabled, !allowed);
+        reuse.click();
+        await new Promise((resolve) => setImmediate(resolve));
+        assert.deepEqual(opens, allowed ? [`${origin}/app/audio?job=completed-audio-job&reuse=1`] : []);
+      } finally { dom.window.close(); }
+    });
+  }
 });

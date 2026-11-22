@@ -106,6 +106,7 @@ test('bounded discovery surfaces retain both H3 variants and Seedance 2.5 after 
   assert.deepEqual(
     MARKETING_NAV_MODELS.slice(0, 5).map(({ key, badge }) => ({ key, badge })),
     [
+      { key: 'seedance-2-5-flash', badge: 'new' },
       { key: 'kling-v4-flash', badge: 'new' },
       { key: 'kling-v4', badge: 'new' },
       { key: 'minimax-h3', badge: 'new' },

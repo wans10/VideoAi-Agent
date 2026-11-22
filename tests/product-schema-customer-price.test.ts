@@ -20,7 +20,7 @@ test('repaired model Product offers match exact public customer quotes in all lo
     // The frozen repair matrix predates these retirements; archived models cannot sell an offer.
     // Keyvo retired HappyHorse 1.0 and Seedream 5.0 Lite on 2026-11-11.
     // Keyvo retired Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro on 2026-11-13 (no mainland route).
-    if (['sora-2', 'sora-2-pro', 'seedance-1-5-pro', 'happy-horse-1-0', 'seedream', ...KEYVO_OFFICIAL_LIST_RETIRED_ENGINE_IDS].includes(engine.id)) {
+    if (['sora-2', 'sora-2-pro', 'seedance-1-5-pro', 'pika-text-to-video', 'happy-horse-1-0', 'seedream', ...KEYVO_OFFICIAL_LIST_RETIRED_ENGINE_IDS].includes(engine.id)) {
       assert.equal(engine.surfaces.app.enabled, false);
       assert.equal(buildProductSchema({ engine, pricingEngine: engine.engine,
         canonical: `https://maxvideoai.com/models/${engine.modelSlug}`,

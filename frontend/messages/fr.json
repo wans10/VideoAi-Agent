@@ -203,6 +203,14 @@
           "seedance-2-0-vs-seedance-2-0-fast": "Seedance 2.0 vs Fast"
         },
         "sections": {
+          "platforms": {
+            "title": "Comparer les plateformes",
+            "items": {
+              "platform-guide": "Guide des plateformes vidéo IA",
+              "higgsfield-alternative": "MaxVideoAI et Higgsfield",
+              "openart-alternative": "MaxVideoAI et OpenArt"
+            }
+          },
           "useCaseGuides": {
             "items": {
               "best-for": "Meilleurs modèles par usage",
@@ -3809,7 +3817,7 @@
     "jobs": {
       "activity": {
         "title": "Activité",
-        "description": "Vos générations, dans l’ordre. Ouvrez un résultat pour continuer à créer.",
+        "description": "Suivez vos générations et reprenez votre création.",
         "source": "Source",
         "sources": {
           "all": "Toutes les sources",
@@ -3832,7 +3840,22 @@
         },
         "statusHint": "Les statuts filtrent l’activité chargée. Chargez la suite pour consulter les générations plus anciennes.",
         "filteredEmpty": "Aucune génération correspondante dans l’activité chargée.",
-        "refresh": "Actualiser"
+        "refresh": "Actualiser",
+        "mediaLibrary": "Médiathèque",
+        "cost": "Coût de génération",
+        "openIn": "Ouvrir {tool}",
+        "destinations": {
+          "create": "Create",
+          "image": "Image",
+          "audio": "Audio",
+          "studio": "Studio",
+          "storyboard": "Storyboard",
+          "character": "Personnages",
+          "angle": "Angle",
+          "upscale": "Upscale",
+          "background-removal": "Détourage",
+          "tools": "Outils"
+        }
       },
       "title": "Historique",
       "sections": {
@@ -3866,7 +3889,7 @@
       "actions": {
         "addToLibrary": "Ajouter à Médias",
         "removeFromLibrary": "Retirer de Médias",
-        "recreate": "Générer avec les mêmes réglages",
+        "recreate": "Reprendre les réglages",
         "openDetails": "Voir détails",
         "actions": "Actions",
         "expandSection": "Afficher",
@@ -7029,7 +7052,7 @@
       "cookiesLabel": "Politique relative aux cookies",
       "suffix": ".",
       "error": "Vous devez accepter les conditions et la politique de confidentialité pour continuer.",
-      "age": "Je confirme avoir au moins {age} ans.",
+      "age": "Je confirme avoir au moins {age} ans et avoir atteint l’âge de la majorité dans mon pays.",
       "marketing": "Oui, envoyez-moi ponctuellement des e-mails produit. Je peux me désabonner à tout moment."
     },
     "signupSuggestion": {
@@ -8574,7 +8597,8 @@
         "looksBody": "Partez d’un personnage sauvegardé pour changer sa tenue ou son décor. Choisissez un style, décrivez vos vêtements ou ajoutez une référence de tenue.",
         "identity": "Identité sauvegardée",
         "newLook": "Nouveau look",
-        "looksNote": "Dixie Trouble · deux vraies générations. Vérifiez le visage et les détails avant de sauvegarder un look.",
+        "looksNote": "Le portrait enregistré de Dixie Trouble et le look Dixie Pop sont deux générations de Character Studio. Vérifiez le visage et la tenue avant de réutiliser un look.",
+        "looksRecastCta": "Voir Dixie en mouvement",
         "outputsTitle": "La bonne référence pour le prochain plan.",
         "outputsBody": "Choisissez Portrait ou Planche personnage, puis le format et la résolution. Le prix de génération s’actualise avant votre confirmation.",
         "portrait": "Portrait",

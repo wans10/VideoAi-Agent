@@ -1,17 +1,20 @@
 import { SITE_ORIGIN } from '@/lib/siteOrigin';
 import type { AppLocale } from '@/i18n/locales';
 import type { BenchmarkScoreReview } from '@/lib/benchmark-score-review';
+import { buildVideoWatchPath } from '@/lib/video-seo-canonical';
 import type { CompareSpecRow } from './compare-page-spec-rows';
 import type { CompareMetric } from './compare-page-scorecard';
 import type { ComparePricingDisplay } from './compare-page-types';
 import { localizeSpecDetailValue } from './compare-page-spec-values';
 import { comparePriceLines } from './compare-pricing-copy';
 import { SCORE_TEXT } from './compare-score-copy';
+import { samePromptAnchor, samePromptClipFacts, samePromptExampleNote, samePromptText } from './compare-same-prompt-copy';
+import type { SamePromptCase } from './compare-same-prompt-data';
 import { describeCompareMetric, formatCompareScoreValue, labelCompareMetric, orderCompareMetrics } from '../_components/CompareScoreGrid';
 
-export function publicComparisonUrl(path: string): string {
+export function publicComparisonUrl(path: string, anchor = 'scores'): string {
   const url = new URL(path, SITE_ORIGIN);
-  return `${SITE_ORIGIN}${url.pathname}#scores`;
+  return `${SITE_ORIGIN}${url.pathname}#${anchor}`;
 }
 const escapeCell = (value: string) => value.replaceAll('|', '\\|').replaceAll('\n', ' ');
 export function buildComparisonExport(input: {
@@ -21,6 +24,7 @@ export function buildComparisonExport(input: {
   labels: { pending: string; supported: string; notSupported: string; na: string };
   sources: Array<{ name: string; urls: string[] }>; summary?: string;
   scoreReviews?: Array<{ name: string; review?: BenchmarkScoreReview | null }>;
+  samePromptCase?: SamePromptCase;
 }): string {
   const { locale, leftName, rightName, labels } = input;
   const text = SCORE_TEXT[locale];
@@ -31,6 +35,9 @@ export function buildComparisonExport(input: {
     zh: { scores: '编辑评分（0–10）', specs: 'Keyvo 中的能力', pricing: '预估价格 · 人民币', snapshot: '价格快照生成于', source: '能力来源', caveat: '这些是配置限制，并非输出质量保证。此处不记录服务商的验证日期；请参阅相关模型文档。', criterion: '评测指标' },
   }[locale];
   const specCell = (value: string, lines?: string[], line?: string | null) => escapeCell([localizeSpecDetailValue(value, locale, labels), ...(lines ?? (line ? [line] : []))].join('; '));
+  const example = input.samePromptCase;
+  const proof = samePromptText[locale];
+  const note = example && samePromptExampleNote(example, locale);
   return [
     `# ${leftName} vs ${rightName}`, input.summary ?? '', publicComparisonUrl(input.path), '',
     `## ${headings.scores}`, text.subtitle, text.formula,
@@ -39,6 +46,17 @@ export function buildComparisonExport(input: {
     `| ${headings.criterion} | ${leftName} | ${rightName} |`, '| --- | --- | --- |',
     ...orderCompareMetrics(input.metrics).map(metric => `| ${escapeCell(labelCompareMetric(metric, locale))} — ${escapeCell(describeCompareMetric(metric, locale))} | ${metric.leftEstimated && metric.leftValue != null ? '≈' : ''}${formatCompareScoreValue(metric.leftValue, labels.na)} | ${metric.rightEstimated && metric.rightValue != null ? '≈' : ''}${formatCompareScoreValue(metric.rightValue, labels.na)} |`),
     text.pricing, `${text.source} ${SITE_ORIGIN}/benchmarks`, '',
+    ...(example ? [
+      `## ${proof.heading}`, proof.intro, publicComparisonUrl(input.path, samePromptAnchor(example.promptHash)), '',
+      ...(note ? [`### ${note.title}`, note.observation, ''] : []),
+      ...example.clips.flatMap(clip => [
+        `### ${clip.model}`,
+        samePromptClipFacts(clip, locale).join(' · '),
+        clip.createdAt ? `${proof.generated} ${clip.createdAt.slice(0, 10)}` : '',
+        `${SITE_ORIGIN}${buildVideoWatchPath(clip.id)}`,
+      ]),
+      '', `### ${proof.prompt}`, ...example.prompt.split('\n').map(line => `> ${line}`), '',
+    ] : []),
     `## ${headings.specs}`, `| ${headings.criterion} | ${leftName} | ${rightName} |`, '| --- | --- | --- |',
     ...input.specRows.map(row => `| ${escapeCell(row.label)} | ${specCell(row.left, row.sublines, row.subline)} | ${specCell(row.right, row.rightSublines, row.rightSubline)} |`),
     headings.caveat, '', `## ${headings.pricing}`, `${headings.snapshot}: ${input.priceSnapshotAt}.`,

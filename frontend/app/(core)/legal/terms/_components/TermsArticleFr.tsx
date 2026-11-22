@@ -21,7 +21,7 @@ export function TermsArticleFr({
       <section className="stack-gap-sm">
         <h3 className="text-lg font-semibold text-text-primary">1. Éligibilité &amp; âge</h3>
         <p>
-          Vous devez avoir au minimum <strong>18 ans</strong> (ou l’âge du consentement numérique dans votre pays, si plus élevé) pour utiliser le Service. Si vous agissez
+          Vous devez avoir au minimum <strong>18 ans</strong> (ou l’âge de la majorité dans votre pays, si plus élevé) pour utiliser le Service. Si vous agissez
           au nom d’une entreprise ou organisation, vous garantissez avoir le pouvoir de l’engager juridiquement.
         </p>
       </section>

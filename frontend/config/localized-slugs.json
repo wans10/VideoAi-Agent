@@ -59,6 +59,18 @@
     "es": "acerca-de",
     "zh": "about"
   },
+  "higgsfieldAlternative": {
+    "en": "higgsfield-alternative",
+    "fr": "higgsfield-alternative",
+    "es": "higgsfield-alternative",
+    "zh": "higgsfield-alternative"
+  },
+  "openartAlternative": {
+    "en": "openart-alternative",
+    "fr": "openart-alternative",
+    "es": "openart-alternative",
+    "zh": "openart-alternative"
+  },
   "editorialStandards": {
     "en": "editorial-standards",
     "fr": "normes-editoriales",

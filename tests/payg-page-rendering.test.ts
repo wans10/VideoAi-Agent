@@ -353,6 +353,8 @@ for (const locale of locales) {
     // Keyvo hides comparison pages: the Veo comparison link must not be rendered.
     assert.ok(!semantic.links.some((link) => link.href === expected.comparisonHref));
     assert.ok(!semantic.links.some((link) => /ai-video-engines|comparatif|comparativa/.test(link.href)));
+    const higgsfieldHref = locale === 'en' ? '/higgsfield-alternative' : `/${locale}/higgsfield-alternative`;
+    assert.ok(semantic.links.some((link) => link.href === higgsfieldHref));
     assert.ok(semantic.links.some((link) => link.href === expected.lookupHref));
     assert.equal(semantic.showcasePresent, false);
     assert.ok(!semantic.headings.includes(expected.showcase.title));

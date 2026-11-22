@@ -5,7 +5,7 @@ import { memo, useEffect, useRef } from 'react';
 import { ArrowUpRight, ChevronDown, Boxes, Film, Scale, Wrench, Plug, WalletCards, BookOpen, Clapperboard, Camera, Projector, Workflow } from 'lucide-react';
 import { Link } from '@/i18n/navigation';
 import type { AppLocale } from '@/i18n/locales';
-import { localizeMarketingPathname } from '@/lib/i18n/marketing-locale-switch';
+import { localizeMarketingNavHref, localizeMarketingPathname } from '@/lib/i18n/marketing-locale-switch';
 import { MarketingNavEntryContent } from '@/components/marketing/MarketingNavEntryContent';
 import type { MarketingHeaderNavigation } from '@/config/public-marketing-navigation';
 
@@ -15,6 +15,7 @@ type Props = {
   dropdowns: MarketingHeaderNavigation['dropdowns'];
   desktopDropdownOpen: string | null;
   links: MarketingHeaderNavigation['links'];
+  locale: AppLocale;
   pathname: string | null;
   t: MarketingTranslate;
   onCloseDesktopDropdown: (delay?: number) => void;
@@ -42,7 +43,7 @@ export function MarketingDesktopSectionLinks({ links, dropdowns, pathname, local
 // Mobile/account state must not rebuild the unchanged, CSS-hidden desktop menus.
 // Keep all links server-rendered; actual desktop, route and locale changes still render.
 // Decorative DOM waits until the panel becomes visible.
-export const MarketingDesktopNav = memo(function MarketingDesktopNav({ desktopDropdownOpen, dropdowns, links, pathname, t, onCloseDesktopDropdown, onOpenDesktopDropdown }: Props) {
+export const MarketingDesktopNav = memo(function MarketingDesktopNav({ desktopDropdownOpen, dropdowns, links, locale, pathname, t, onCloseDesktopDropdown, onOpenDesktopDropdown }: Props) {
   const navRef = useRef<HTMLElement>(null);
   const closeRef = useRef(onCloseDesktopDropdown);
   closeRef.current = onCloseDesktopDropdown;

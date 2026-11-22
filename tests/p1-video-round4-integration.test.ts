@@ -148,6 +148,17 @@ test('generate rejects every explicitly invalid mode before database and billing
   }
 });
 
+test('archived Pika is retired before mode validation, database access or billing', async () => {
+  const archived = getFalEngineById('pika-text-to-video')?.engine;
+  assert.ok(archived);
+  for (const input of [{ modePresent: false }, { modePresent: true, mode: 't2v' }, { modePresent: true, mode: 'bogus' }]) {
+    const resolved = await resolveModeAtGenerateBoundary({ engine: archived, ...input });
+    assert.deepEqual(resolved.result, { ok: false, status: 410, body: { ok: false, error: 'ENGINE_RETIRED' } });
+    assert.equal(resolved.databaseChecks, 0);
+    assert.equal(resolved.billingChecks, 0);
+  }
+});
+
 function buildOmittedGenerateOptions(engine: EngineCaps, mode: Mode): GenerateRequestOptions {
   const result = buildGenerateRequestOptions({
     body: { prompt: 'A controlled omitted-resolution parity test.' },

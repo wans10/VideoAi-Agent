@@ -1,3 +1,4 @@
+import { isSeedance25EngineId } from '@/lib/seedance-model-variants';
 import type { PreparedSeedanceWorkflow } from '@/server/seedance-workflow-request';
 import { getPlatformFeeCents } from '@maxvideoai/pricing';
 
@@ -42,7 +43,13 @@ export type {
   IncludedTrialVideoContinuationOptions,
 } from './included-trial-generation-execution';
 
+export type TrustedImageJobMetadata = {
+  surface: 'character';
+  settingsSnapshot: import('@/types/character-builder').CharacterBuilderSettingsSnapshot;
+};
+
 export type PaidGenerationExecution = {
+  imageJob?: TrustedImageJobMetadata;
   timing?: ReservedVideoTiming;
   lumaSourceFingerprint?: string;
   fluxDraftFingerprint?: string;
@@ -94,7 +101,7 @@ export type PaidImageContinuationOptions = {
   preReservedInitialState: Extract<PaidGenerationExecution['trustedInitialState'], { recoveredCharge: true }>;
   trustedQuotedBilling: TrustedQuotedBilling;
   settingsSnapshot: unknown;
-  jobSurface: 'image';
+  jobSurface: 'image' | 'character';
   billingProductKey: null;
 };
 
@@ -121,6 +128,8 @@ export type PaidGenerationSubmissionDependencies = {
 };
 
 export type ReservePaidGenerationInput = {
+  /** Server-owned recipe metadata; never copied from generation input settings. */
+  imageJob?: TrustedImageJobMetadata;
   billingProduct?: 'character-recast';
   customerProductLabel?: 'MaxVideoAI Recast';
   quote: McpGenerationQuote;
@@ -193,7 +202,7 @@ function videoInitialParams(
   const vendorAccountId = vendorAccount(pricing);
   const pricingJson = JSON.stringify(pricing);
   let provider = quote.request.seedanceWorkflow ? 'byteplus_modelark' : candidate.engine.provider;
-  if (quote.request.engineId === 'seedance-2-5' && quote.request.mode === 'v2v' && !quote.request.seedanceWorkflow) {
+  if (isSeedance25EngineId(quote.request.engineId) && quote.request.mode === 'v2v' && !quote.request.seedanceWorkflow) {
     const context = resolveTrustedPaidGenerateRouteContext({
       body: { ...quote.request.settings, payment: { mode: 'wallet' } },
       engine: candidate.engine, jobId: quote.quoteId, mode: 'v2v',
@@ -271,7 +280,7 @@ function imageInitialParams(
     userId: quote.userId,
     mode: quote.request.mode === 'i2i' ? 'i2i' : 't2i',
     jobId: quote.quoteId,
-    surface: 'image',
+    surface: input.imageJob?.surface ?? 'image',
     billingProductKey: null,
     description: `${quote.authOrigin === 'studio-session' ? 'Studio' : 'MCP'} ${candidate.engine.label} image generation`,
     amountCents: quote.priceCents,
@@ -287,7 +296,7 @@ function imageInitialParams(
     canUpscale: Boolean(candidate.engine.upscale4k),
     finalPriceCents: quote.priceCents,
     costBreakdownJson: null,
-    settingsSnapshotJson: JSON.stringify(quote.request),
+    settingsSnapshotJson: JSON.stringify(input.imageJob?.settingsSnapshot ?? quote.request),
     visibility: 'private',
     indexable: false,
     preferredCurrency: preferredCurrency(quote.currency),
@@ -353,6 +362,7 @@ export async function reservePaidGenerationInitialJob(
     surface: 'image',
     execution: {
       surface: 'image',
+      imageJob: input.imageJob,
       quoteId: input.quote.quoteId,
       userId: input.quote.userId,
       request: input.quote.request,
@@ -507,8 +517,8 @@ export async function submitReservedPaidGeneration(
       walletReservation: 'already_reserved',
       preReservedInitialState: execution.trustedInitialState,
       trustedQuotedBilling,
-      settingsSnapshot: execution.request,
-      jobSurface: 'image',
+      settingsSnapshot: execution.imageJob?.settingsSnapshot ?? execution.request,
+      jobSurface: execution.imageJob?.surface ?? 'image',
       billingProductKey: null,
     });
     if (result.ok) {

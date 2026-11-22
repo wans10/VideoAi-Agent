@@ -71,6 +71,9 @@ test('public pricing baseline exhaustively covers eligible catalog and public su
   const nano21Launch = JSON.parse(
     readFileSync('tests/fixtures/nano21-fixed-public-pricing-launch-2026-10-27.json', 'utf8')
   ) as PublicProjectionFixture;
+  const seedreamLaunch = JSON.parse(
+    readFileSync('tests/fixtures/seedream-fixed-public-pricing-launch-2026-11-13.json', 'utf8')
+  ) as PublicProjectionFixture;
   const klingPublicDiscovery = JSON.parse(
     readFileSync('tests/fixtures/kling-v4-public-discovery-projections-2026-10-27.json', 'utf8')
   ) as PublicProjectionFixture;
@@ -83,6 +86,11 @@ test('public pricing baseline exhaustively covers eligible catalog and public su
   const novemberImages = JSON.parse(
     readFileSync('tests/fixtures/nov05-functional-image-public-projections-2026-11-06.json', 'utf8')
   ) as PublicProjectionFixture;
+  const seedanceFlash = JSON.parse(
+    readFileSync('tests/fixtures/seedance-25-flash-public-projections-2026-11-14.json', 'utf8')
+  ) as PublicProjectionFixture;
+  assert.equal(seedanceFlash.rows.length, 12);
+  assert.ok(seedanceFlash.rows.every(row => row.engineId === 'seedance-2-5-flash' && row.status === 'unavailable' && row.customerTotalCents === undefined));
   assert.equal(fixture.version, 1);
   assert.equal(fixture.generatedFrom, 'canonical-public-pricing-paths');
   assert.ok(fixture.rows.length >= 250, `expected at least 250 public projection rows, got ${fixture.rows.length}`);
@@ -93,6 +101,18 @@ test('public pricing baseline exhaustively covers eligible catalog and public su
   ]);
   assert.equal(klingPricingDiscovery.rows.length, 10);
   assert.ok(klingPricingDiscovery.rows.every((row) => row.engineId === 'kling-v4' && row.status === 'unavailable'));
+  assert.equal(seedreamLaunch.rows.length, 18);
+  assert.deepEqual([...new Set(seedreamLaunch.rows.map(row => row.engineId))].sort(), ['seedream-5-0-flash', 'seedream-5-5']);
+  for (const row of seedreamLaunch.rows) {
+    if (row.id.endsWith(':quantity-4')) {
+      assert.equal(row.status, 'unavailable', 'direct single-image models have no four-output fallback quote');
+    } else {
+      assert.equal(row.status, 'exact');
+      assert.equal(row.customerTotalCents, row.engineId === 'seedream-5-5'
+        && (row.surface === 'image-estimate' || row.surface === 'model-page' || row.id.endsWith(':high')) ? 6 : 3);
+      assert.equal(row.quantity, 1);
+    }
+  }
   assert.equal(novemberMarketing.rows.length, 28);
   assert.ok(novemberMarketing.rows.every(row => row.status === 'unavailable' && row.customerTotalCents === undefined));
   const keyvoTransition = JSON.parse(
@@ -160,13 +180,13 @@ test('public pricing baseline freezes the estimator per-image branch actually re
   assert.equal(nanoBanana?.customerTotalCents, 7);
 });
 
-test('Sora and Seedance 1.5 retirement removes purchasable projections without replacing the frozen workspace sample', async () => {
+test('Sora, Seedance 1.5 and Pika retirement removes purchasable projections without replacing the frozen workspace sample', async () => {
   const { collectPublicPricingProjectionRows } = await import('../frontend/scripts/pricing-public-baseline-collector');
   const rows = await collectPublicPricingProjectionRows();
   assert.deepEqual(rows.filter((row) => row.surface === 'workspace-preflight').map((row) => row.engineId).sort(), [
-    'gemini-omni-flash', 'luma-ray-3-2', 'pika-text-to-video', 'veo-3-1', 'veo-3-1-fast', 'veo-3-1-lite',
+    'gemini-omni-flash', 'luma-ray-3-2', 'veo-3-1', 'veo-3-1-fast', 'veo-3-1-lite',
   ]);
-  for (const engineId of ['sora-2', 'sora-2-pro', 'seedance-1-5-pro']) {
+  for (const engineId of ['sora-2', 'sora-2-pro', 'seedance-1-5-pro', 'pika-text-to-video']) {
     assert.equal(rows.some((row) => row.engineId === engineId
       && ['estimator', 'pricing-hub-video', 'workspace-preflight'].includes(row.surface)), false);
     // Keyvo retired Seedance 1.5 Pro entirely: no model page, so no Product offer row at all.
@@ -174,6 +194,27 @@ test('Sora and Seedance 1.5 retirement removes purchasable projections without r
       id: `json-ld:${engineId}:offer`, surface: 'json-ld', engineId, status: 'unavailable',
     });
   }
+});
+
+test('the frozen public Pika evidence survives current archive projection without repricing', async () => {
+  const frozen = JSON.parse(readFileSync('tests/fixtures/pricing-public-projections.v1.json', 'utf8')) as PublicProjectionFixture;
+  const historical = frozen.rows.filter(row => row.engineId === 'pika-text-to-video');
+  assert.equal(historical.length, 13);
+  assert.equal(historical.find(row => row.surface === 'json-ld')?.customerTotalCents, 30);
+  assert.equal(historical.find(row => row.surface === 'model-page')?.customerTotalCents, 26);
+  const repairs = JSON.parse(readFileSync('tests/fixtures/product-schema-customer-price-fix-2026-09-21.json', 'utf8')) as {
+    rows: Array<{ id: string; previousCents: number; totalCents: number }>;
+  };
+  const repair = repairs.rows.find(row => row.id === 'json-ld:pika-text-to-video:offer')!;
+  assert.equal(repair.previousCents, 30);
+  assert.equal(repair.totalCents, 26);
+  const { collectPublicPricingProjectionRows } = await import('../frontend/scripts/pricing-public-baseline-collector');
+  const current = (await collectPublicPricingProjectionRows()).filter(row => row.engineId === 'pika-text-to-video');
+  assert.deepEqual(current.map(row => row.surface).sort(), ['json-ld', 'model-page']);
+  assert.deepEqual(current.find(row => row.surface === 'json-ld'), {
+    id: 'json-ld:pika-text-to-video:offer', surface: 'json-ld', engineId: 'pika-text-to-video', status: 'unavailable',
+  });
+  assert.deepEqual(current.find(row => row.surface === 'model-page'), historical.find(row => row.surface === 'model-page'));
 });
 
 test('public pricing baseline ignores machine-specific pricing environment overrides', () => {

@@ -1,4 +1,6 @@
 import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
+import { MAXVIDEOAI_WIDGET_DOMAIN } from '@/server/mcp/widget-metadata';
+import type { McpDistributionProfile } from '@/server/mcp/distribution-profile';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
 import { buildLegacyReferenceUploadAppHtml } from '@/server/mcp/reference-upload-app-legacy';
@@ -11,6 +13,7 @@ export const LEGACY_REFERENCE_UPLOAD_APP_URIS = [
 
 const CONNECT_DOMAINS = [
   'https://maxvideoai.com',
+  'https://openai-review.maxvideoai.com',
   'https://api.maxvideoai.com',
   'https://maxvideoai-mcp-staging.vercel.app',
 ];
@@ -316,11 +319,16 @@ export function buildReferenceUploadAppHtml(): string {
   return buildReferenceUploadAppV2Html().replace(/\bMaxVideoAI\b/g, PRODUCT_BRAND_NAME);
 }
 
-export function registerReferenceUploadApp(server: McpServer): void {
-  const resourceUris = [REFERENCE_UPLOAD_APP_URI, ...LEGACY_REFERENCE_UPLOAD_APP_URIS];
-  for (const [index, resourceUri] of resourceUris.entries()) {
+export function registerReferenceUploadApp(server: McpServer, profile: McpDistributionProfile = 'direct'): void {
+  const domain = profile === 'openai-directory' ? MAXVIDEOAI_WIDGET_DOMAIN : undefined;
+  const resources = [
+    { uri: REFERENCE_UPLOAD_APP_URI, name: 'maxvideoai-reference-upload-3', html: buildReferenceUploadAppHtml, connectDomains: CONNECT_DOMAINS },
+    { uri: LEGACY_REFERENCE_UPLOAD_APP_URIS[0], name: 'maxvideoai-reference-upload-1', html: buildReferenceUploadAppV2Html, connectDomains: CONNECT_DOMAINS },
+    { uri: LEGACY_REFERENCE_UPLOAD_APP_URIS[1], name: 'maxvideoai-reference-upload-2', html: buildLegacyReferenceUploadAppHtml, connectDomains: CONNECT_DOMAINS },
+  ];
+  for (const { uri: resourceUri, name, html, connectDomains } of resources) {
     server.registerResource(
-      `maxvideoai-reference-upload-${index + 1}`,
+      name,
       resourceUri,
       {
         title: 'Keyvo private reference import',
@@ -328,8 +336,9 @@ export function registerReferenceUploadApp(server: McpServer): void {
         mimeType: 'text/html;profile=mcp-app',
         _meta: {
           ui: {
+            ...(domain ? { domain } : {}),
             prefersBorder: true,
-            csp: { connectDomains: CONNECT_DOMAINS, resourceDomains: [] },
+            csp: { connectDomains, resourceDomains: [] },
           },
         },
       },
@@ -337,20 +346,18 @@ export function registerReferenceUploadApp(server: McpServer): void {
         contents: [{
           uri: resourceUri,
           mimeType: 'text/html;profile=mcp-app',
-          text: resourceUri === REFERENCE_UPLOAD_APP_URI
-            ? buildReferenceUploadAppHtml()
-            : resourceUri === 'ui://maxvideoai/reference-upload-v2.html'
-              ? buildReferenceUploadAppV2Html()
-              : buildLegacyReferenceUploadAppHtml(),
+          text: html(),
           _meta: {
             ui: {
+              ...(domain ? { domain } : {}),
               prefersBorder: true,
-              csp: { connectDomains: CONNECT_DOMAINS, resourceDomains: [] },
+              csp: { connectDomains, resourceDomains: [] },
             },
+            ...(domain ? { 'openai/widgetDomain': domain } : {}),
             'openai/widgetDescription': 'Private multi-file reference import for the connected Keyvo account.',
             'openai/widgetPrefersBorder': true,
             'openai/widgetCSP': {
-              connect_domains: CONNECT_DOMAINS,
+              connect_domains: connectDomains,
               resource_domains: [],
             },
           },

@@ -21,7 +21,7 @@ export function TermsArticleEn({
       <section className="stack-gap-sm">
         <h3 className="text-lg font-semibold text-text-primary">1. Eligibility &amp; age</h3>
         <p>
-          You must be at least <strong>18 years old</strong> (or the age of digital consent in your country, whichever is higher) to use the Service. If you
+          You must be at least <strong>18 years old</strong> (or the age of legal majority in your country, whichever is higher) to use the Service. If you
           use the Service on behalf of a business or organisation, you confirm that you have authority to bind that entity.
         </p>
       </section>

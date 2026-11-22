@@ -1,3 +1,4 @@
+import { isSeedance25EngineId } from '@/lib/seedance-model-variants';
 import { inspectOwnedFluxLtxSource } from '@/server/video-excerpts/flux-ltx-source';
 import { AgentApiError } from '@/server/agent-api/errors';
 import { inspectOwnedH3Source } from '@/server/video-excerpts/h3-relight';
@@ -9,6 +10,7 @@ import { query } from '@/lib/db';
 import {
   hasFieldSpecificMediaConstraint,
   resolveEngineMediaFieldConstraint,
+  resolveMediaFieldMinDuration,
   validateMediaFileAgainstConstraint,
   validateImageAspectRatio,
 } from '@/lib/media-field-constraints';
@@ -204,7 +206,7 @@ export async function validateGenerationMediaConstraints(params: {
     ? (params.inputSchema?.required?.some(field=>field.id==='reference_image_url') ? 'h3-relight' : 'h3-recast') : undefined;
   const combinedModes = params.inputSchema?.constraints?.combinedDurationModes;
   const applyCombinedLimits = !Array.isArray(combinedModes) || combinedModes.includes(params.mode);
-  const requiresExactOwnedMedia = params.engineId === 'seedance-2-5' && params.mode === 'v2v';
+  const requiresExactOwnedMedia = isSeedance25EngineId(params.engineId) && params.mode === 'v2v';
   const requiresOwnedMedia = requiresExactOwnedMedia || params.inputSchema?.constraints?.ownedAssetModes?.includes(params.mode) === true;
 
   const constrainedFields = [
@@ -225,14 +227,14 @@ export async function validateGenerationMediaConstraints(params: {
         (field.type === 'image' && typeof params.inputSchema?.constraints?.minImageSidePx === 'number') ||
         (field.type === 'video' &&
           typeof params.inputSchema?.constraints?.minVideoPixelCount === 'number') ||
-        typeof field.minDurationSec === 'number' ||
+        typeof resolveMediaFieldMinDuration(field, params.mode) === 'number' ||
         typeof field.maxDurationSec === 'number')
   );
   if (!constrainedFields.length) return { ok: true };
 
   const fieldsById = new Map(constrainedFields.map((field) => [field.id, field]));
   // Extension payloads preserve repeated clips, so every occurrence consumes time.
-  const keepRepeatedVideos = params.engineId === 'seedance-2-5' && params.mode === 'extend';
+  const keepRepeatedVideos = isSeedance25EngineId(params.engineId) && params.mode === 'extend';
   const candidates = params.referenceMediaItems
     .filter((item) => fieldsById.has(item.fieldId) && item.url.trim().length > 0)
     .filter(
@@ -513,9 +515,10 @@ export async function validateGenerationMediaConstraints(params: {
         : field.type === 'audio'
           ? params.inputSchema?.constraints?.maxCombinedAudioDurationSec
           : undefined;
+    const minDurationSec = resolveMediaFieldMinDuration(field, params.mode);
     const requiresTrustedDuration =
       (field.type === 'video' || field.type === 'audio') &&
-      (typeof field.minDurationSec === 'number' ||
+      (typeof minDurationSec === 'number' ||
         typeof field.maxDurationSec === 'number' ||
         typeof combinedDurationLimit === 'number');
     if ((field.type === 'video' || field.type === 'audio') && requiresTrustedDuration) {
@@ -523,7 +526,7 @@ export async function validateGenerationMediaConstraints(params: {
       let durationSec = trustedReference.durationSec ?? null;
       // Older web uploads have no measured duration. Only probe an owned storage
       // original, never an arbitrary browser URL or a claimed client duration.
-      if (durationSec == null && params.engineId === 'seedance-2-5' && field.type === 'video') {
+      if (durationSec == null && isSeedance25EngineId(params.engineId) && field.type === 'video') {
         const probe = params.deps?.detectMediaDurationFn;
         // Ownership was established by the scoped metadata query above. Keep
         // this read-only path independent from storage upload/schema writers.
@@ -544,7 +547,8 @@ export async function validateGenerationMediaConstraints(params: {
       trustedReference.durationSec = durationSec;
       const minDurationSec = params.engineId === 'seedance-2-5' && params.mode === 'v2v' && field.type === 'video' ? 4 : field.minDurationSec;
       const maxDurationSec = params.engineId === 'seedance-2-5' && field.type === 'video' ? 30 : field.maxDurationSec;
-      const belowMinimum = typeof minDurationSec === 'number' && durationSec < minDurationSec;
+      const belowMinimum =
+        typeof minDurationSec === 'number' && durationSec < minDurationSec;
       const aboveMaximum =
         typeof maxDurationSec === 'number' && durationSec > maxDurationSec;
       if (belowMinimum || aboveMaximum) {

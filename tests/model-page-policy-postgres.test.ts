@@ -248,11 +248,11 @@ test('active model route and real server layout share policy while preserving in
       await confirmCustomerTariffChange(create, (await previewCustomerTariffChange(create)).fingerprint, actor, () => {});
       await database.pool.query('UPDATE app_customer_tariff_state SET active = TRUE');
       const scope = pricing.createScopedPublicPricingReaders();
-      reset(); const first = await scope.quoteModel(pikaInput);
+      reset(); const first = await scope.quoteModel(miniInput);
       assert.equal(first.status, 'exact'); if (first.status === 'exact') assert.equal(first.amountCents, 37);
       const update = { operation: 'update' as const, scenarioId: scenario.id, customerCents: 41 };
       await confirmCustomerTariffChange(update, (await previewCustomerTariffChange(update)).fingerprint, actor, () => {});
-      reset(); const second = await scope.quoteModel(pikaInput);
+      reset(); const second = await scope.quoteModel(miniInput);
       assert.equal(second.status, 'exact');
       if (first.status === 'exact' && second.status === 'exact') {
         assert.equal(second.amountCents, 41); assert.notEqual(second.revision, first.revision);

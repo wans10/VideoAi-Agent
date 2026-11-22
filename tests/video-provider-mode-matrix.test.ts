@@ -33,19 +33,26 @@ test('specialized exclusions never borrow a different model endpoint',()=>{
  for(const [engine,mode,operation]of [['flux-3-max','v2v','flux-fast-edit'],['ltx-2-5-pro','reframe','ltx23-reframe'],['ltx-2-3-fast','reframe','ltx23-reframe'],['flux-3','v2v','flux-draft-enhance']])assert.throws(()=>normalizeVideoOperation(engine,mode,operation));
 });
 
+import { normalizeEngineId } from '../frontend/src/lib/engine-alias';
 import { getRuntimeModelById } from '../frontend/config/model-runtime';
-test('30 current and eight exact-ID legacy models remain distinct discovery classes',()=>{
+test('29 current, eight legacy and one archived exact-ID model retain their distinct discovery classes',()=>{
  const legacy=['lumaRay2','lumaRay2_flash','kling-2-5-turbo','kling-2-6-pro','happy-horse-1-0','wan-2-6','ltx-2-3-fast','ltx-2-3'];
  // MiniMax-H3-Max left this list on 2026-11-12 (served on MiniMax's own API).
  // Keyvo 2026-11-13: Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro have no mainland route and left the app too (lifecycle
  // stays legacy, exact discovery retained for historical jobs).
  const keyvoOffline=['happy-horse-1-0','wan-2-6','kling-2-5-turbo','kling-2-6-pro'];
  for(const id of keyvoOffline)assert.ok(id in expected,id);
- assert.equal(Object.keys(expected).filter(id=>!legacy.includes(id)).length,30);
+ const archived=['pika-text-to-video'];
+ assert.equal(Object.keys(expected).filter(id=>!legacy.includes(id)&&!archived.includes(id)).length,29);
+ assert.equal(legacy.length,8);
+ assert.equal(archived.length,1);
  for(const id of Object.keys(expected)){
-  const model=getRuntimeModelById(id)!;assert.equal(model.lifecycle,legacy.includes(id)?'legacy':'current',id);
-  // Keyvo: HappyHorse 1.0 is offline (owner decision 2026-11-11) and leaves the app while its engine stays for
-  // historical jobs.
-  assert.equal(model.publication.app.published,!keyvoOffline.includes(id),id);assert.ok(getFalEngineById(id),`${id}: exact discovery retained`);
+ const model=getRuntimeModelById(id)!;
+ assert.equal(model.lifecycle,archived.includes(id)?'deep_legacy':legacy.includes(id)?'legacy':'current',id);
+ // Keyvo: HappyHorse 1.0, Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro are offline (owner decisions 2026-11-11 and 2026-11-13)
+ // and leave the app while their engines stay for historical jobs.
+ assert.equal(model.publication.app.published,!archived.includes(id)&&!keyvoOffline.includes(id),id);
+ assert.ok(getFalEngineById(id),`${id}: exact discovery retained`);
  }
+ for(const alias of ['pika-text-to-video','pika-image-to-video','pika22'])assert.equal(normalizeEngineId(alias),'pika-text-to-video');
 });

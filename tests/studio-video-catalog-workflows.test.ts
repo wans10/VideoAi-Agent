@@ -56,6 +56,7 @@ test('Studio video discovery retains every executable public transport-neutral t
   // API); this catalogue treats every mode as executable, while Keyvo's runtime executes its v2v Recast/Relight only on Fal.
   assert.equal(studio.some(e=>e.engine.id==='happy-horse-1-0'),false);
   assert.deepEqual(studio.find(e=>e.engine.id==='minimax-h3-max')?.publicModes,['t2v','i2v','ref2v','v2v']);
+  assert.equal(studio.some(entry=>entry.engine.id==='pika-text-to-video'),false,'Archived Pika cannot regain conversation execution.');
   assert.deepEqual(studio.find(e=>e.engine.id==='kling-v4-flash')!.publicModes,['t2v','i2v','ref2v']);
   assert.deepEqual(studio.find(e=>e.engine.id==='kling-v4')!.publicModes,['t2v','i2v','ref2v','v2v']);
   assert.equal(isWorkspaceModelCertifiedForBlock({modelId:'kling-v4',presetId:'generate-video',workflowType:'text_to_video'}),false,

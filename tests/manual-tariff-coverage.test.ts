@@ -124,6 +124,14 @@ test('coverage follows all 54 app-published models in 16 families, including the
   assert.ok(coverage.scenarios.some((scenario) => scenario.modelId === 'lumaRay2'));
   assert.ok(coverage.scenarios.some((scenario) => scenario.modelId === 'lumaRay2_flash'));
   assert.equal(new Set(coverage.scenarios.map((scenario) => scenario.id)).size, coverage.scenarios.length);
+  const pika = listRuntimeModels().find(model => model.id === 'pika-text-to-video');
+  assert.ok(pika);
+  assert.equal(pika.publication.model.published, true, 'the historical model page remains published');
+  assert.equal(pika.publication.app.published, false);
+  assert.equal(coverage.scenarios.some(scenario => scenario.modelId === pika.id), false);
+  assert.equal(coverage.gaps.some(gap => gap.modelId === pika.id), false, 'an archive is not an unresolved sellable tariff');
+  assert.deepEqual(collectSellableManualTariffCoverage({ modelId: pika.id }), { scenarios: [], gaps: [] });
+
 });
 
 test('published Kling4 coverage preserves every qualified source/output timing class', () => {

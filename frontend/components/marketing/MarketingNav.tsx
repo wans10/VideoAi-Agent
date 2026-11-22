@@ -269,7 +269,7 @@ export function MarketingNav({ navigation: { links, dropdowns }, initialEmail = 
             variant="ghost"
             className="marketing-menu-invoker min-h-0 h-9 w-9 shrink-0 rounded-full border border-hairline bg-surface p-2 text-text-primary hover:bg-surface-2 lg:hidden"
             aria-label={t('nav.mobileToggle', 'Open menu')}
-            {...{ popovertarget: mobileMenuId }}
+            popoverTarget={mobileMenuId}
             aria-haspopup="dialog"
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
@@ -289,6 +289,7 @@ export function MarketingNav({ navigation: { links, dropdowns }, initialEmail = 
           {/* Keep the SSR desktop links independent of a first touch on the mobile menu. */}
           <Suspense fallback={<MarketingDesktopSectionLinks links={links} dropdowns={dropdowns} pathname={pathname} locale={locale} t={t} />}>
             <MarketingDesktopNav
+              locale={locale}
               desktopDropdownOpen={desktopDropdownOpen}
               dropdowns={dropdowns}
               links={links}

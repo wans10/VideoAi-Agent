@@ -69,6 +69,7 @@ export const zhPayAsYouGoContent = {
       'kling-3-turbo-pro': { family: 'Kling 3.0 Turbo', title: 'Kling 3.0 Turbo Pro 用于细腻的 1080p 输出', body: '追求平滑自然的 1080p 动态、产品细节、图像引导及多镜头连贯序列时选择 Turbo Pro。' },
       'kling-3-turbo-standard': { family: 'Kling 3.0 Turbo', title: 'Kling 3.0 Turbo Standard 用于高效 720p 草稿', body: '需要更快速的 720p 迭代、连贯运动、图像引导及多镜头初测时选择 Turbo Standard。' },
       'minimax-h3-max': { family: 'MiniMax H3', title: 'MiniMax H3 Max 用于顶级视觉呈现', body: '在追求高品质视觉质感、提示词精确遵循、原生音频以及专注的文生/图生视频制作时选择 H3 Max。' },
+      'seedance-2-5-flash': { family: 'Seedance 2.5 Flash', title: 'Seedance 2.5 Flash 用于更长的创意变体', body: '可在 480p 或 720p 下生成 4–30 秒场景，支持可选音频与混合参考。具体输入请以当前报价为准；标准版 2.5 仍保留单独的 1080p 与原生 Draft 转正式渲染选项。' },
       'seedance-2-5': { family: 'Seedance 2.5', title: 'Seedance 2.5 用于长达 30 秒的电影级视频', body: '在电影感、图生视频、多参考引导、多镜头、商品展示及 UGC 工作流中可考虑 Seedance 2.5；若需 4K 交付，请将 Seedance 2.0 保留在候选名单中。' },
       'seedance-2-0': { family: 'Seedance 2', title: 'Seedance 2.0 用于 4K 级 Seedance 交付', body: '当最终 Seedance 输出必须达到 4K 分辨率，且用于较短的原生音频及参考工作流时，将 Seedance 2.0 作为备选。' },
       'kling-3-pro': { family: 'Kling', title: 'Kling 作为可靠的运镜控制之选', body: '无需预先购买订阅，即可借助 Kling 获取稳定可靠的镜头运镜、产品镜头、特定元素及图像引导视频生成。' },
@@ -197,6 +198,7 @@ export const zhPayAsYouGoContent = {
     items: {
       'flux-3-max': { query: 'flux 3 max price', title: 'FLUX 3 Max 价格', body: '先对比一次简短的文生视频测试，再查看你的关键帧、参考素材和最终设置对应的报价。' },
       'minimax-h3': { query: 'minimax h3 price', title: 'MiniMax H3 价格', body: '此示例使用受支持的原生分辨率。对比模型时，请保持时长、分辨率和参考输入一致。' },
+      'seedance-2-5-flash': { query: 'seedance 2.5 flash 价格', title: 'Seedance 2.5 Flash 价格', body: '请查看时长、分辨率、音频与参考输入对应的当前报价。视频输入会影响计费时长；Flash 生成与标准版 Seedance 原生 Draft 分开计价。' },
       'seedance-2-5': { query: 'seedance 2.5 price', title: 'Seedance 2.5 价格', body: '查看你的场景所需价格，包括时长、分辨率与参考素材。草稿与最终生成分别报价。' },
       'kling-v4': { query: 'kling 4.0 price', title: 'Kling 4.0 按工作流定价', body: '请查看所选工作流、输出时长与分辨率。参考与编辑工作流中，提供的视频时长也会影响报价；请在相同输入下对比。' },
       'gemini-omni-flash': { query: 'gemini omni flash 1.2 price', title: 'Gemini Omni Flash 1.2 价格速查', body: '查看 Google 直连通道下极速多模态视频、原生音频及多镜头工作流的价格。' },
@@ -242,6 +244,7 @@ export const zhPayAsYouGoContent = {
     labels: {
       'flux-3-max': 'FLUX 3 Max 短场景',
       'minimax-h3': 'MiniMax H3 原生分辨率测试',
+      'seedance-2-5-flash': 'Seedance 2.5 Flash 短场景',
       'seedance-2-5': 'Seedance 2.5 短场景',
       'kling-v4': 'Kling 4.0 文生视频场景',
       'gemini-omni-flash': 'Gemini Omni Flash 1.1 多模态测试',

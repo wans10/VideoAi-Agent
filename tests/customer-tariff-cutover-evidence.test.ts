@@ -6,8 +6,9 @@ import { collectCustomerTariffCutoverCheckpoints, cutoverDigest, assertCustomerT
   projectInitialCustomerTariffCutoverCells,type CustomerTariffCutoverRelease } from '../frontend/server/pricing/customer-tariff-cutover-evidence';
 import { collectSellableManualTariffCoverage } from '../frontend/lib/pricing-audit/manual-tariff-coverage';
 import { ENV } from '../frontend/src/lib/env';
+import { withArchivedPikaPricingCatalogue } from './helpers/historical-customer-tariff-catalogue';
 
-test('cutover derives all ordinary, workflow and real input duration checkpoints with unique identities', () => {
+test('cutover derives all ordinary, workflow and real input duration checkpoints with unique identities', async () => withArchivedPikaPricingCatalogue(() => {
   const cases = collectCustomerTariffCutoverCheckpoints();
   const novemberModels = ['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst'];
   // Keyvo provider work (2026-11-11): HappyHorse 1.0 (104) and Seedream 5.0 Lite (90) retired, H3 528 -> 288 cells
@@ -56,29 +57,32 @@ test('cutover derives all ordinary, workflow and real input duration checkpoints
   assert.ok(cases.filter(row => row.currentStatus === 'unavailable').every(row => row.scenario.selector.engineId === 'seedance-2-5'
     && row.scenario.selector.mode === 'v2v' && row.scenario.selector.resolution === '1080p'));
   assert.ok(cases.some(row => row.kind === 'input_stress' && row.scenario.context.inputVideoDurationSec === 30));
-});
+}));
 
-test('transport coverage keeps every historical checkpoint and admits 1080p only for ModelArk normal Edit', () => {
+test('transport coverage keeps every historical checkpoint and admits 1080p/4K only for ModelArk normal Edit', async () => withArchivedPikaPricingCatalogue(() => {
   const previous = ENV.SEEDANCE_2_5_EDIT_TRANSPORT;
   try {
     ENV.SEEDANCE_2_5_EDIT_TRANSPORT = 'las';
     const las = collectCustomerTariffCutoverCheckpoints();
     assert.ok(collectSellableManualTariffCoverage({ modelId: 'seedance-2-5', mode: 'v2v' }).scenarios
-      .every(s => s.context.resolution !== '1080p'));
+      .every(s => !['1080p', '4k'].includes(s.context.resolution)));
     ENV.SEEDANCE_2_5_EDIT_TRANSPORT = 'modelark';
     const modelark = collectCustomerTariffCutoverCheckpoints();
-    assert.deepEqual(modelark.map(row => row.key).sort(), las.map(row => row.key).sort());
+    const fourKEdit = (row: typeof modelark[number]) => row.scenario.modelId === 'seedance-2-5'
+      && row.scenario.context.mode === 'v2v' && row.scenario.context.resolution === '4k';
+    assert.equal(modelark.filter(fourKEdit).length, 486, '162 new normal Edit cells plus two input-duration checks per cell');
+    assert.deepEqual(modelark.filter(row => !fourKEdit(row)).map(row => row.key).sort(), las.map(row => row.key).sort());
     assert.equal(modelark.filter(row => row.currentStatus === 'unavailable').length, 0);
     assert.ok(collectSellableManualTariffCoverage({ modelId: 'seedance-2-5', mode: 'v2v' }).scenarios
-      .some(s => s.context.resolution === '1080p'));
+      .some(s => s.context.resolution === '4k'));
     assert.ok(modelark.filter(row => row.kind === 'local_workflow').every(row => row.scenario.context.mode === 't2v'),
       'The historical initializer must not author independent multimodal stage prices.');
   } finally {
     ENV.SEEDANCE_2_5_EDIT_TRANSPORT = previous;
   }
-});
+}));
 
-test('initial projection archives obsolete no-duration Seedance staging and refuses unrelated unused prices', () => {
+test('initial projection archives obsolete no-duration Seedance staging and refuses unrelated unused prices', async () => withArchivedPikaPricingCatalogue(() => {
   const cases = collectCustomerTariffCutoverCheckpoints();
   const pika = cases.find(row => row.scenario.modelId === 'pika-text-to-video')!.scenario.selector;
   const video = cases.find(row => row.scenario.modelId === 'seedance-2-0-mini' && row.scenario.selector.billingInputType === 'video_input')!.scenario.selector;
@@ -92,9 +96,9 @@ test('initial projection archives obsolete no-duration Seedance staging and refu
   assert.deepEqual(result.archivedLegacyCells,[rows[1]]);
   assert.deepEqual(rows.map(row => row.id),['current','obsolete']);
   assert.throws(() => projectInitialCustomerTariffCutoverCells([{ ...rows[0],selector: { engineId: 'unknown' } }]), /unknown unused/i);
-});
+}));
 
-test('a fingerprint of a reduced inventory, expired capture or local provenance cannot certify production', t => {
+test('a fingerprint of a reduced inventory, expired capture or local provenance cannot certify production', async t => withArchivedPikaPricingCatalogue(() => {
   const capturedAt = Date.now();
   t.mock.timers.enable({ apis: ['Date'], now: capturedAt });
   const cases = collectCustomerTariffCutoverCheckpoints();
@@ -111,4 +115,4 @@ test('a fingerprint of a reduced inventory, expired capture or local provenance 
   t.mock.timers.setTime(capturedAt);
   assert.throws(() => assertCustomerTariffCutoverRelease(release, release.fingerprint, 'rehearsal'), /complete.*coverage/i);
   assert.throws(() => assertCustomerTariffCutoverRelease(release, release.fingerprint, 'production'), /production.*provenance/i);
-});
+}));

@@ -144,6 +144,7 @@ export async function startStudioIntegrationRuntime(options: {
       ...(process.env.STUDIO_INTEGRATION_NEXT_NODE_OPTIONS ? { NODE_OPTIONS: process.env.STUDIO_INTEGRATION_NEXT_NODE_OPTIONS } : {}),
       NODE_ENV: 'development', NEXT_TELEMETRY_DISABLED: '1', STUDIO_INTEGRATION_RUNTIME: '1',
       NEXT_PUBLIC_SUPABASE_URL: auth.origin, NEXT_PUBLIC_SUPABASE_ANON_KEY: auth.anonKey,
+      SUPABASE_SERVICE_ROLE_KEY: auth.serviceRoleKey,
       NEXT_PUBLIC_SITE_URL: browserOrigin, SITE_URL: browserOrigin,
       NEXT_PUBLIC_VISITOR_WORKSPACE_ACCESS: 'false',
       NEXT_PUBLIC_ENV_LABEL: 'Disposable Studio integration',

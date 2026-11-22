@@ -57,8 +57,8 @@ const nano21Inputs: PublicModelQuoteInput[] = [
   { modelId: 'nano-banana-2-1', mode: 't2i', durationSec: 1, resolution: '4k', quantity: 1 },
 ];
 const actor = '11111111-1111-4111-8111-111111111111';
-const pikaAmount = (data: Awaited<ReturnType<typeof buildCurrentPricingHubData>>) =>
-  data.video.rows.find(row => row.id === pikaInput.modelId)!.quotes['5s-720p'].amountCents;
+const miniAmount = (data: Awaited<ReturnType<typeof buildCurrentPricingHubData>>) =>
+  data.video.rows.find(row => row.id === miniInput.modelId)!.quotes['5s-720p'].amountCents;
 
 async function fixture(run: (database: DisposablePostgres, observe: Observation) => Promise<void>) {
   const database = await startDisposablePostgres('pricing-hub-policy');
@@ -118,7 +118,7 @@ test('default Pricing shares one successful policy read while preserving every i
           || (input.modelId === 'minimax-h3' && input.resolution.toLowerCase() === '4k')) removedInputs.push(input);
         if (input.modelId === 'flux-3-max') maxInputs.push(input);
         if (input.modelId === 'nano-banana-2-1') nativeInputs.push(input);
-        if (['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst'].includes(input.modelId)) {
+        if (['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst', 'seedance-2-5-flash', 'seedream-5-5', 'seedream-5-0-flash'].includes(input.modelId)) {
           launchInputs.push(input);
         }
         return quotePublicModelScenario(input);
@@ -126,7 +126,7 @@ test('default Pricing shares one successful policy read while preserving every i
       assert.deepEqual(removedInputs, [], 'retired models and the removed H3 4K tier are no longer quoted');
       assert.deepEqual(maxInputs, flux3MaxInputs);
       assert.deepEqual(nativeInputs, nano21Inputs);
-      for (const modelId of ['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst']) {
+      for (const modelId of ['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst', 'seedance-2-5-flash', 'seedream-5-5', 'seedream-5-0-flash']) {
         const inputs = launchInputs.filter(input => input.modelId === modelId);
         assert.equal(inputs.length, 2, `${modelId} adds exactly two native quote transactions`);
         assert.ok(inputs.every(input => resolvePublicModelScenario(input)), 'every launch input has a canonical scenario');
@@ -176,13 +176,13 @@ test('custom public quote injection performs no default policy I/O and retains a
     // Keyvo 2026-11-14: Character Builder rows quote Seedream, so two fixed Character products are no longer quoted (12 -> 10).
     assert.deepEqual({ models, audio, products }, { models: MODEL_QUOTES, audio: 9, products: 10 });
     assert.deepEqual(observe.counts, freshCounts(), 'an injected reader must remain entirely in control');
-    assert.equal(pikaAmount(data), 333);
+    assert.equal(miniAmount(data), 333);
   });
 });
 
 test('active and missing tariff cells preserve complete EN/FR/ES hub output and the same selected transactions', async () => {
   await fixture(async (database, observe) => {
-    const scenario = resolvePublicModelScenario(pikaInput)!;
+    const scenario = resolvePublicModelScenario(miniInput)!;
     const create = { operation: 'create' as const, scenarioId: scenario.id, customerCents: 37 };
     await confirmCustomerTariffChange(create, (await previewCustomerTariffChange(create)).fingerprint, actor, () => {});
     await database.pool.query('UPDATE app_customer_tariff_state SET active = TRUE');
@@ -249,7 +249,7 @@ test('a rejected default policy read can recover during the same hub without poi
 test('overlapping default hubs keep their captured policies isolated and the next hub sees persisted policy updates', async () => {
   await fixture(async (database, observe) => {
     const baseline = await buildCurrentPricingHubData('en', undefined, unavailableOther);
-    assert.equal(pikaAmount(baseline), 26);
+    assert.equal(miniAmount(baseline), 95);
     observe.reset();
     let release!: () => void;
     let captured!: () => void;
@@ -263,7 +263,7 @@ test('overlapping default hubs keep their captured policies isolated and the nex
       await firstRead;
       await database.pool.query("UPDATE app_pricing_rules SET margin_percent = 0.8 WHERE id = 'default'");
       const second = await buildCurrentPricingHubData('en', undefined, unavailableOther);
-      assert.equal(pikaAmount(second), 36);
+      assert.equal(miniAmount(second), 131);
       release();
       assert.deepEqual(await first, baseline, 'the first hub must retain the complete successful result captured before the update');
       assert.deepEqual(observe.counts, { policy: 2, begin: 2 * TRANSACTIONS, state: 2 * TRANSACTIONS, selected: 2 * TRANSACTIONS,
@@ -281,13 +281,13 @@ test('overlapping default hubs keep their captured policies isolated and the nex
 
 test('a captured policy does not capture tariff state: later quotes see a confirmed admin tariff update', async () => {
   await fixture(async (database, observe) => {
-    const scenario = resolvePublicModelScenario(pikaInput)!;
+    const scenario = resolvePublicModelScenario(miniInput)!;
     const create = { operation: 'create' as const, scenarioId: scenario.id, customerCents: 37 };
     await confirmCustomerTariffChange(create, (await previewCustomerTariffChange(create)).fingerprint, actor, () => {});
     await database.pool.query('UPDATE app_customer_tariff_state SET active = TRUE');
     observe.reset();
     const quote = createScopedPublicModelQuoter();
-    const before = await quote(pikaInput);
+    const before = await quote(miniInput);
     assert.equal(before.status, 'exact');
     if (before.status === 'exact') assert.equal(before.amountCents, 37);
     assert.equal(observe.counts.policy, 1);
@@ -295,9 +295,9 @@ test('a captured policy does not capture tariff state: later quotes see a confir
     const refreshes: string[] = [];
     await confirmCustomerTariffChange(update, (await previewCustomerTariffChange(update)).fingerprint, actor,
       id => refreshes.push(id));
-    assert.deepEqual(refreshes, [pikaInput.modelId]);
+    assert.deepEqual(refreshes, [miniInput.modelId]);
     observe.reset();
-    const after = await quote(pikaInput);
+    const after = await quote(miniInput);
     assert.equal(after.status, 'exact');
     if (before.status === 'exact' && after.status === 'exact') {
       assert.equal(after.amountCents, 41);

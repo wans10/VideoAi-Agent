@@ -10,6 +10,9 @@ import { getExamplesHref } from '@/lib/examples-links';
 import type { ExampleGalleryVideo } from '@/components/examples/ExamplesGalleryGrid';
 import { ModelHeroSection } from './ModelHeroSection';
 import { ModelDecisionHeroSection } from './ModelDecisionHeroSection';
+import { ModelCinematicPage } from './ModelCinematicPage';
+import { parseModelCinematicContent } from '../_lib/model-page-cinematic-content';
+import { buildCinematicPresentation } from '../_lib/model-page-cinematic-data';
 import { ModelCurrentDetails } from './ModelCurrentDetails';
 import { ModelDetailsAnchorRestore } from './ModelDetailsAnchorRestore.client';
 import {
@@ -74,7 +77,6 @@ import { buildModelExamplePreviewAlts, resolveModelExamplesRuntimePolicy, resolv
 import { buildModelExamplesViewModel } from '../_lib/model-page-examples-view-model';
 import { buildModelKeyframeDemoViewModel } from '../_lib/model-page-keyframe-demo';
 import { loadModelKeyframeDemo } from '@/server/model-keyframe-demo';
-
 export async function MarketingModelPageLayout({
   engine,
   pricing,
@@ -344,7 +346,8 @@ export async function MarketingModelPageLayout({
     await loadModelKeyframeDemo(engine.modelSlug), examplesContent.keyframeDemo, locale, engine.surfaces.app.enabled,
   ) : null;
   const editorialImages = listModelEditorialImages(engine.id, locale, examplesContent.editorialImages);
-  const hasExamples = examplesViewModel.visible || Boolean(keyframeDemo) || editorialImages.length > 0;
+  const cinematic = buildCinematicPresentation(parseModelCinematicContent(localizedContent.cinematic, engine.modelSlug), examplesContent, editorialImages, locale);
+  const hasExamples = Boolean(cinematic) || examplesViewModel.visible || Boolean(keyframeDemo) || editorialImages.length > 0;
   const hasTextSection = true;
   const hasTipsSection =
     strengths.length > 0 || boundaries.length > 0 || troubleshootingItems.length > 0 || Boolean(copy.tipsTitle || copy.tipsIntro);
@@ -405,7 +408,7 @@ export async function MarketingModelPageLayout({
     canonical,
     description: templateData?.meta.description ?? pageDescription,
     engine,
-    heroPosterAbsolute,
+    heroPosterAbsolute: cinematic ? toAbsoluteUrl(cinematic.hero.original.url) : heroPosterAbsolute,
     heroTitle,
     inLanguage,
     localizedCanonical,
@@ -417,6 +420,10 @@ export async function MarketingModelPageLayout({
   const legacyPricingCallout = !templateData && pricingCallout ? pricingCallout : null;
   const legacyMicroCta = !templateData && isImageEngine ? copy.microCta : null;
 
+  if (cinematic && templateData) return <ModelCinematicPage presentation={cinematic} decision={templateData} keyframeDemo={keyframeDemo}
+    examples={examplesViewModel} hasRenderedVideos={galleryVideos.some(video => Boolean(video.videoUrl))} prompting={promptingViewModel}
+    details={{ pricing, commercial, schema, decision: templateData, locale, specTitle, specNote, specSections: specSectionsToShow,
+      safetyRules, safetyInterpretation, boundaries, troubleshootingItems, faqList, faqTitle, copy }} />;
   const details = (
     <ModelCurrentDetails pricing={pricing} commercial={commercial} schema={schema} pricingData={templateData?.pricing ?? null} locale={locale}
       contentProps={{
@@ -437,7 +444,6 @@ export async function MarketingModelPageLayout({
       }}
     />
   );
-
   return (
     <>
       <div className={['container-page model-page model-editorial overflow-x-clip pb-0 pt-5 sm:pt-7', templateData ? 'max-w-[1400px]' : 'max-w-6xl'].join(' ')}>

@@ -1,3 +1,4 @@
+import { isSeedance25EngineId } from '@/lib/seedance-model-variants';
 import {
   SEEDANCE_CONTENT_BLOCKED,
   SEEDANCE_OUTPUT_AUDIO_BLOCKED,
@@ -159,7 +160,7 @@ export function getSeedanceReferenceValidationMessage(params: {
   if (params.engineId === 'seedance-2-5' && params.error === SEEDANCE_EDIT_SOURCE_UNSUPPORTED) {
     return copy[localeKey(params.locale)].editSource;
   }
-  if (params.engineId !== 'seedance-2-5' || !['video_url', 'video_urls', 'extension_source_videos'].includes(String(params.field))) return null;
+  if (!isSeedance25EngineId(params.engineId) || !['video_url', 'video_urls', 'extension_source_videos'].includes(String(params.field))) return null;
   const locale = localeKey(params.locale);
   const text = copy[locale];
   if (params.error === 'MEDIA_DURATION_UNVERIFIED') return `${text.unverified} ${text.noCharge}`;

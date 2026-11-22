@@ -1,4 +1,5 @@
 import { isKeyvoHiddenModelForViewer } from '@/config/keyvo-model-visibility';
+import { isSeedance25EngineId } from '@/lib/seedance-model-variants';
 import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
 import { isFluxLtxSourceOperation, validateFluxLtxSource } from '@/lib/flux-ltx-operations';
 import { resolveOwnedFluxDraftSource } from '@/server/flux-draft-cache-store';
@@ -238,7 +239,7 @@ export async function resolveAdmittedMediaAwarePreflight(
       trustedMediaPricingFacts: { inputVideoDurationSec: finalFacts.inputVideoDurationSec,
         seedanceEditSource: finalFacts.seedanceEditSource, seedanceSourceAspectRatio: finalFacts.seedanceSourceAspectRatio } });
   }
-  if (engine.id === 'seedance-2-5' && request.mode === 'v2v') {
+  if (isSeedance25EngineId(engine.id) && request.mode === 'v2v') {
     if (!input.trustedSeedanceWorkflow && resolveSeedance25ModeAvailability(engine, request.mode)?.available === false) {
       return mediaPricingFailure('ENGINE_MODE_UNAVAILABLE', 'Video editing is temporarily unavailable for this model.');
     }
@@ -305,7 +306,7 @@ export async function resolveAdmittedMediaAwarePreflight(
     && ['ref2v', 'v2v', 'extend'].includes(request.mode)
     && request.inputs?.some((reference) => reference.kind === 'video') === true;
   const needsSeedanceSourceAspect = Boolean(seedanceAutomaticDurationBounds(engine.id)
-    && (isSeedanceAdaptiveAspect(request.aspectRatio) || (engine.id === 'seedance-2-5' && ['i2v', 'extend'].includes(request.mode)))
+    && (isSeedanceAdaptiveAspect(request.aspectRatio) || (isSeedance25EngineId(engine.id) && ['i2v', 'extend'].includes(request.mode)))
     && ['i2v', 'v2v', 'extend'].includes(request.mode));
   if (!needsLumaSourceTiming && !needsReferenceTokenBudget && !needsReferenceImageCount && !needsInputAudioDuration && !needsTrustedOwnedMedia && !needsWanVideoDuration && !needsSeedanceReferenceDuration && !needsSeedanceSourceAspect) {
   const priced = normalizeSeedancePricingContext({ ...request, engine, resolution: request.resolution ?? '480p' });

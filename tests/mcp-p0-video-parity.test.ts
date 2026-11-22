@@ -27,7 +27,7 @@ test('default discovery is current+published while exact legacy identities prese
   assert.ok(listed.every((model) => model.lifecycle === 'current'));
   // Owner allowlist (2026-11-14): Pika is not offered, so no listed model is outside the default recommendation set.
   assert.deepEqual(listed.filter((model) => !model.recommendedByDefault).map((model) => model.id), []);
-  assert.equal(listed.some((model) => ['ltx-2-3', 'ltx-2'].includes(model.id as never)), false);
+  assert.equal(listed.some((model) => ['ltx-2-3', 'ltx-2', 'pika-text-to-video'].includes(model.id as never)), false);
   // Only the allowlisted P0 models are listed on Keyvo; hidden P0 models are withheld from discovery.
   assert.deepEqual(listed.filter((model) => P0.includes(model.id as never)).map((model) => model.id).sort(), P0.filter((id) => !isKeyvoHiddenModel(id)).sort());
   assert.ok(listed.filter((model) => P0.includes(model.id as never)).every((model) => model.recommendedByDefault));
@@ -63,7 +63,7 @@ test('Alibaba-backed launch models keep their provider-neutral MCP mode contract
 });
 
 test('deep-legacy and retired spending selection fail before canonical pricing is called', async () => {
-  for (const engineId of ['ltx-2', 'retired-video-fixture']) {
+  for (const engineId of ['ltx-2', 'pika-text-to-video', 'retired-video-fixture']) {
     let pricingCalls = 0;
     await assert.rejects(calculateAgentProjectBudget({ proposals: [{
       name: 'Deprecated identity',

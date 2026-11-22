@@ -40,6 +40,8 @@ type AppSiteMenuController = {
   open: (trigger: HTMLElement) => void;
 };
 
+const titleId = 'app-header-site-menu-title';
+
 export function AppSiteMenuButton({ email, authResolved, isAdmin, signinHref, signupHref, onSignOut, controllerRef, onAppNavigate, studioVisible }: AppSiteMenuButtonProps) {
   const { locale, t } = useI18n();
   const dialogRef = useRef<HTMLDialogElement>(null);

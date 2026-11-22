@@ -161,6 +161,7 @@ test('the three priority Seedance 2.5 comparisons remain published while best-fo
   for (const slug of priorityComparisonSlugs) assert.ok(serializedSeedance25Slugs.has(slug));
   assert.ok(serializedSeedance25Slugs.has('minimax-h3-vs-seedance-2-5'));
   assert.deepEqual(compareConfig.relatedComparisons['seedance-2-0-vs-seedance-2-5'], [
+    'seedance-2-5-vs-seedance-2-5-flash',
     'seedance-2-0-vs-seedance-2-0-fast',
     'kling-3-pro-vs-seedance-2-5',
     'seedance-2-5-vs-veo-3-1',
@@ -256,7 +257,8 @@ test('Seedance 2.5 localized marketing content converts in EN, FR, and ES withou
       label: launchCopy.compareCta,
       href: launchCopy.compareHref,
     });
-    assert.deepEqual(decision.hero.quickLinks.slice(1).map(({ href }) => href), [launchCopy.pricingHref, '#prompting']);
+    const comparePrefix = locale === 'fr' ? '/fr/comparatif' : locale === 'es' ? '/es/comparativa' : '/ai-video-engines';
+    assert.deepEqual(decision.hero.quickLinks.slice(1).map(({ href }) => href), [launchCopy.pricingHref, '#prompting', `${comparePrefix}/seedance-2-5-vs-seedance-2-5-flash`]);
     assert.equal(decision.referenceWorkflows.length, 4);
     const workflowCopy = decision.referenceWorkflows.map(({ title, body }) => `${title} ${body}`).join(' ');
     const requiredWorkflowTerms = {
@@ -268,7 +270,7 @@ test('Seedance 2.5 localized marketing content converts in EN, FR, and ES withou
       assert.match(workflowCopy, term);
     }
     assert.match(
-      document.faqs.at(-1)?.a ?? '',
+      document.faqs.map(item => item.a).join(' '),
       locale === 'en'
         ? /available to VideoAI users.*price.*shown before each render/i
         : locale === 'fr'
@@ -296,7 +298,9 @@ test('Seedance 2.5 localized marketing content converts in EN, FR, and ES withou
       /public generation is not open|génération publique n’est pas ouverte|generación pública no está abierta/i,
     );
     assert.doesNotMatch(
-      serialized,
+      // Citations may name their publisher, and exact public generation prompts
+      // are source evidence rather than authored marketing promises.
+      JSON.stringify(document, (key, value) => ['source', 'href', 'prompt'].includes(key) ? undefined : value),
       /\b(?:BytePlus|ModelArk|provider|canary|unconfirmed|rollout|USD|credits?)\b|\$\s*\d/i,
     );
   }

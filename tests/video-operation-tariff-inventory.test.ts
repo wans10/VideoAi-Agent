@@ -36,7 +36,7 @@ test('operation inventory distinguishes omitted scope from explicit empty model 
   }
 });
 
-test('all historical checkpoints and independently enumerated additive operation families are disjoint', () => {
+test('all historical checkpoints and independently enumerated additive operation families are disjoint', async () => withArchivedPikaPricingCatalogue(() => {
   const coverage = collectSellableManualTariffCoverage();
   const counts: Record<string, number> = {};
   for (const row of coverage.scenarios) if (row.selector.operation) counts[row.selector.operation] = (counts[row.selector.operation] ?? 0) + 1;
@@ -67,7 +67,7 @@ test('all historical checkpoints and independently enumerated additive operation
   assert.deepEqual(new Set(veo.map(row => `${row.selector.durationSec}:${row.selector.resolution}:${row.selector.audio}`)),
     new Set([4,6,8].flatMap(s => ['720p','1080p','4k'].flatMap(r => ['false','true'].map(a => `${s}:${r}:${a}`)))));
   assert.ok(!coverage.scenarios.some(row => ['h3-extend','h3-insert','h3-reframe'].includes(row.selector.operation)));
-});
+}));
 
 test('exact additive selectors and default identities match the separately enumerated commercial inventory', async () => {
   const { videoOperationInitializationScenarios } = await import('../frontend/server/pricing/video-operation-tariffs');

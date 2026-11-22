@@ -37,6 +37,16 @@ async function main(): Promise<void> {
   const nano21Launch = JSON.parse(await readFile(
     new URL('../../tests/fixtures/nano21-fixed-public-pricing-launch-2026-10-27.json', import.meta.url), 'utf8',
   )) as { rows: typeof rows };
+  const seedreamLaunch = JSON.parse(await readFile(
+    new URL('../../tests/fixtures/seedream-fixed-public-pricing-launch-2026-11-13.json', import.meta.url), 'utf8',
+  )) as { rows: typeof rows };
+  if (seedreamLaunch.rows.length !== 18 || new Set(seedreamLaunch.rows.map(row => row.id)).size !== 18
+    || seedreamLaunch.rows.some(row => !['seedream-5-5', 'seedream-5-0-flash'].includes(row.engineId)
+      || (row.id.endsWith(':quantity-4') ? row.status !== 'unavailable'
+        : row.status !== 'exact' || row.customerTotalCents !== (row.engineId === 'seedream-5-5'
+          && (row.id.startsWith('image-estimate:') || row.id.startsWith('model-page:') || row.id.endsWith(':high')) ? 6 : 3)))) {
+    throw new Error('Invalid Seedream fixed customer-price launch matrix.');
+  }
   const novemberImageAdmission = JSON.parse(await readFile(
     new URL('../../tests/fixtures/nov05-functional-image-public-projections-2026-11-06.json', import.meta.url), 'utf8',
   )) as { rows: typeof rows };
@@ -59,6 +69,18 @@ async function main(): Promise<void> {
   if (!isDeepStrictEqual(novemberMarketing.rows, novemberMarketingIds.map(id => ({
     id, surface: id.split(':')[0], engineId: id.split(':')[1], status: 'unavailable',
   })))) throw new Error('November model discovery cannot introduce an offline fallback price.');
+  const seedanceFlash = JSON.parse(await readFile(
+    new URL('../../tests/fixtures/seedance-25-flash-public-projections-2026-11-14.json', import.meta.url), 'utf8',
+  )) as { rows: typeof rows };
+  const flashPublicIds = [
+    ...['member', 'plus', 'pro'].map(tier => `estimator:seedance-2-5-flash:${tier}:default`),
+    'json-ld:seedance-2-5-flash:offer', 'model-page:seedance-2-5-flash:default',
+    ...['10s-1080p', '10s-1080p-audio', '10s-720p', '4k-route', '5s-720p', '8s-1080p', 'entry-route']
+      .map(preset => `pricing-hub-video:seedance-2-5-flash:${preset}`),
+  ];
+  if (!isDeepStrictEqual(seedanceFlash.rows, flashPublicIds.map(id => ({
+    id, surface: id.split(':')[0], engineId: 'seedance-2-5-flash', status: 'unavailable',
+  })))) throw new Error('Flash publication requires an active customer tariff; no offline fallback price.');
   const klingPublicDiscovery = JSON.parse(await readFile(
     new URL('../../tests/fixtures/kling-v4-public-discovery-projections-2026-10-27.json', import.meta.url), 'utf8',
   )) as { rows: typeof rows };
@@ -293,9 +315,9 @@ async function main(): Promise<void> {
     }
     appliedCustomerOfferRepairs.add(row.id);
     return { ...row, customerTotalCents: repair.totalCents, structuredDataAmount: (repair.totalCents / 100).toFixed(2) };
-  }).filter((row) => !(['sora-2', 'sora-2-pro', 'seedance-1-5-pro'].includes(row.engineId)
+  }).filter((row) => !(['sora-2', 'sora-2-pro', 'seedance-1-5-pro', 'pika-text-to-video'].includes(row.engineId)
     && ['estimator', 'pricing-hub-video', 'workspace-preflight'].includes(row.surface)))
-    .map((row) => ['sora-2', 'sora-2-pro', 'seedance-1-5-pro'].includes(row.engineId) && row.surface === 'json-ld'
+    .map((row) => ['sora-2', 'sora-2-pro', 'seedance-1-5-pro', 'pika-text-to-video'].includes(row.engineId) && row.surface === 'json-ld'
       ? { id: row.id, surface: row.surface, engineId: row.engineId, status: 'unavailable' as const }
       : row)
     .map((row) => {

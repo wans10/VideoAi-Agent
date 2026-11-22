@@ -12,7 +12,7 @@ const REGISTRY = JSON.parse(
 ) as { models: Array<{ slug: string; category: string; publication: { model: { published: boolean } } }> };
 const LOCALES = ['en', 'fr', 'es'] as const;
 const CONTENT_ROOT = path.join(process.cwd(), 'content', 'models');
-const NEW_DECISION_SLUGS = ['nano-banana-lite', 'seedream-5-0-pro'] as const;
+const NEW_DECISION_SLUGS = ['nano-banana-lite', 'seedream-5-0-pro', 'seedream-5-0-flash', 'seedream-5-5'] as const;
 const IMAGE_SLUGS = REGISTRY.models
   .filter((model) => model.category === 'image' && model.publication.model.published)
   .map((model) => model.slug)

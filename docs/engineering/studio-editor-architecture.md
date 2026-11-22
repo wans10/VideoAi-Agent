@@ -190,6 +190,26 @@ When required model/source facts are known, prepare by Response 3; optional `pro
 
 The visible timeline edits canonical sequence state with revision and ownership checks. It reuses pure frame-aware operations for clipping, source bounds and linked audio. Library selection does not automatically insert every new generation into the timeline. Preview media uses transient stored grants; signed URLs and private originals must not leak into journal/tool projections or saved command payloads.
 
+Missing sources remain as neutral timeline slots. `MEDIA_DELETED` is reserved for
+positive owned deletion evidence; `MEDIA_NOT_AVAILABLE` covers an otherwise
+unavailable reference. Preview projections strip inaccessible URLs while retaining
+the clip identity, position and duration. Reference previews return these outcomes
+per asset so one missing reference does not hide readable ones; infrastructure and
+signing errors retain their operational failure meaning. Missing reference cards
+disable source reuse and keep detaching an existing attachment available.
+
+The missing clip's Replace action opens the existing owned library picker. Selection
+is staged until its explicit Replace confirmation and canonical library validation.
+It then submits the existing revisioned `replace` command with only the selected
+source identity and zero source-in frame. The command retains the exact clip ID,
+interval, track, transform, transition, audio mix and linked peers, checks source
+bounds and track locks, and detaches captions for the old source. It performs no
+generation or billing. A changed project revision requires reopening the selection;
+a measured source that is too short stays in the picker without a timeline edit.
+`studio-missing-media-dom`, `studio-conversation-preview`,
+`studio-conversation-reference-previews` and the replacement cases in
+`studio-conversation-edit-command-postgres` cover this boundary.
+
 `workspace-audio-provenance.ts` owns clip audio mixing support for both revisioned
 edits and read-only timeline facts. Probe `hasAudio` remains tri-state: missing
 evidence is unknown, never silence. An explicit zero gain can mute an unknown
@@ -203,6 +223,10 @@ Preview and MP4 rendering consume the same saved
 `canAdjustVolume`/`canRestoreOriginalVolume` facts; lock facts remain separate. Check/explain-only requests
 must use these reads rather than trial mutations. Pure edit, DOM playback, MCP
 schema and opt-in synthetic FFmpeg/Chromium rendering tests cover this contract.
+
+Private project-media renewal pins the S3 signing date and returned `expiresAt`
+to the same whole-second clock reading. Signing latency must not extend the
+signature beyond the advertised 300-second grant.
 
 `useConversationTimeline` owns periodic preview refresh. Its polling waits for all current-project reads to settle, including a forced replacement for a refused grant that still appears valid to the browser clock. Explicit refreshes, revisioned edits and lifecycle invalidations retain their epoch ordering. Pending grant replacements belong to the project path and survive superseded or failed reads until the winning successful canonical response replaces those grants. A late journal response must not lose that renewal intent; the obsolete response still cannot reset canonical revisions. Replacement sources and decoder retry keys commit atomically in the hook; completing an obsolete or failed request never retries the refused source. Grant retention and retry keys never cross project boundaries. Read counts belong to each project path and are released in `finally`, so failed or obsolete reads cannot release another project's polling gate. `tests/studio-conversation-timeline-refresh-dom.test.ts` exercises the real hook with deferred responses; the connected montage browser test deliberately delivers the initial journal while renewal is pending, tests both response orders with the old URL persistently refused, and retains separate preview/new-grant diagnostic flags without exposing signed URLs.
 
@@ -448,3 +472,38 @@ Mobile completed task receipts can expand from their summary; consumed credits
 remain in that summary. Tasks with errors, reserved credits or recovery actions
 retain the full presentation. Milo's compact mode trigger opens the existing
 settings/credits dialog without changing the selected model.
+
+## Native creator operations — 12 November 2026 candidate
+
+`src/lib/studio/conversation-creator-contract.ts` owns strict creator preparation,
+operation/document recovery, subtitle edits, saved quote and exact confirmation
+shapes. `src/server/studio/conversation-creator.ts` adapts Studio-session authority
+to the existing creator/subtitle owners. Sources are attached owned media or exact
+ready project outputs; canonical owners retain source measurement, pricing,
+reservation, dispatch, finalization and refunds. Native creator execution retains
+the existing creator runtime gate. Saved-sequence subtitle preparation also
+requires timeline editing; it does not open the independent Studio MP4 gate.
+
+A canonical preparation callback records the completed Studio action in the same
+transaction as its prepared operation. `creatorQuote` is then persisted as a
+ready-turn result alongside the existing export/analysis pattern, with no generic
+`quote_id`. Lost response recovery replays the saved action receipt, preserving
+one operation. The existing conversation confirmation endpoint validates the
+saved request/tool/operation and exact displayed price before delegating to the
+canonical service. Included zero-price operations still need an explicit client
+click. Models can prepare and read, but cannot confirm purchases.
+
+The creator card/hook own schema-checked acknowledgments, an attempted flag scoped
+to account/project/turn/operation, GET-only reload recovery and serialized polling
+following server retry/attention facts. Completed documents expose their exact
+revision and sidecar links; private originals retain manual native readers and
+read-only grant renewal. No source URL/grant enters the saved quote. Trusted
+request origins become same-instance `/account/connections` destinations before
+canonical account validation.
+
+Read-only discovery also returns web entry facts for older toolbox operations,
+with `mcpExecution:false`, explicit pilot labels and no implied media transfer or
+execution. It excludes Character Builder from that web-only classification so
+its dedicated authoring integration remains authoritative. See the dated
+[creator parity evidence](../operations/assistant-mcp-alignment-2026-11-12/creator-parity.md)
+for source/live distinctions, exact tests and remaining direct-tool seams.

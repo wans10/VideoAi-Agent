@@ -1,13 +1,16 @@
 import { PRODUCT_BRAND_NAME } from '@/lib/product-brand';
+import { MAXVIDEOAI_WIDGET_DOMAIN } from '@/server/mcp/widget-metadata';
+import type { McpDistributionProfile } from '@/server/mcp/distribution-profile';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
-export const GENERATION_RESULT_APP_URI = 'ui://maxvideoai/generation-result-v6.html';
+export const GENERATION_RESULT_APP_URI = 'ui://maxvideoai/generation-result-v7.html';
 export const LEGACY_GENERATION_RESULT_APP_URIS = [
   'ui://maxvideoai/generation-result-v1.html',
   'ui://maxvideoai/generation-result-v2.html',
   'ui://maxvideoai/generation-result-v3.html',
   'ui://maxvideoai/generation-result-v4.html',
   'ui://maxvideoai/generation-result-v5.html',
+  'ui://maxvideoai/generation-result-v6.html',
 ] as const;
 
 const FIXED_MEDIA_ORIGINS = [
@@ -686,7 +689,7 @@ function buildGenerationResultAppV5Html(): string {
 }
 
 /** v6 preserves the MOV download original and adds independent returned-frame actions. */
-export function buildGenerationResultAppHtml(): string {
+function buildGenerationResultAppV6Html(): string {
   return buildGenerationResultAppV5Html()
     .replace("safeUrl(media.videoUrl) : null", "(safeUrl(media.playbackVideoUrl) || safeUrl(media.videoUrl)) : null")
     .replace('<button class="secondary" type="button" id="download" disabled>Download</button>',
@@ -722,13 +725,24 @@ export function buildGenerationResultAppHtml(): string {
     .replace(/\bMaxVideoAI\b/g, PRODUCT_BRAND_NAME);
 }
 
-export function registerGenerationResultApp(server: McpServer): void {
+// Keep deployed v6 bytes frozen; v7 also supports Audio reuse on the review app.
+export function buildGenerationResultAppHtml(): string {
+  return buildGenerationResultAppV6Html().replace(
+    `destination.protocol === 'https:'
+            && (destination.hostname === 'maxvideoai.com'
+              || destination.hostname === 'maxvideoai-mcp-staging.vercel.app')`,
+    `['https://maxvideoai.com', 'https://maxvideoai-mcp-staging.vercel.app', 'https://openai-review.maxvideoai.com'].includes(destination.origin)`,
+  );
+}
+
+export function registerGenerationResultApp(server: McpServer, profile: McpDistributionProfile = 'direct'): void {
+  const domain = profile === 'openai-directory' ? MAXVIDEOAI_WIDGET_DOMAIN : undefined;
   const resourceDomains = generationResultAppResourceDomains();
   const redirectDomains = generationResultAppRedirectDomains();
   const resourceUris = [GENERATION_RESULT_APP_URI, ...LEGACY_GENERATION_RESULT_APP_URIS];
-  for (const [index, resourceUri] of resourceUris.entries()) {
+  for (const resourceUri of resourceUris) {
     server.registerResource(
-      `maxvideoai-generation-result-${index + 1}`,
+      `maxvideoai-generation-result-${resourceUri.match(/-v(\d+)\.html$/)![1]}`,
       resourceUri,
       {
         title: 'Keyvo generation result',
@@ -736,6 +750,7 @@ export function registerGenerationResultApp(server: McpServer): void {
         mimeType: 'text/html;profile=mcp-app',
         _meta: {
           ui: {
+            ...(domain ? { domain } : {}),
             prefersBorder: true,
             csp: { connectDomains: [], resourceDomains },
           },
@@ -747,14 +762,17 @@ export function registerGenerationResultApp(server: McpServer): void {
           mimeType: 'text/html;profile=mcp-app',
           text: resourceUri === GENERATION_RESULT_APP_URI
             ? buildGenerationResultAppHtml()
+            : resourceUri === 'ui://maxvideoai/generation-result-v6.html' ? buildGenerationResultAppV6Html()
             : resourceUri === 'ui://maxvideoai/generation-result-v5.html' ? buildGenerationResultAppV5Html()
             : buildGenerationResultAppV4Html(),
           _meta: {
             ui: {
+              ...(domain ? { domain } : {}),
               prefersBorder: true,
               csp: { connectDomains: [], resourceDomains },
             },
             'openai/widgetDescription': 'A playable Keyvo generation saved in the connected account.',
+            ...(domain ? { 'openai/widgetDomain': domain } : {}),
             'openai/widgetPrefersBorder': true,
             'openai/widgetCSP': {
               connect_domains: [],

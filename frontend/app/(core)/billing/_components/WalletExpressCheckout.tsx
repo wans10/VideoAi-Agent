@@ -173,6 +173,24 @@ export function WalletExpressCheckout({
       clearExpressCheckoutReadyTimeout();
       let activeCheckoutAttemptId: number | null = null;
       let activeSessionId: string | null = null;
+      const loadId = window.crypto.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      const startedAt = window.performance.now();
+      let loadPhase: 'session_preparation' | 'stripe_js' | 'element_init' | 'element_ready' = 'session_preparation';
+      let sessionPreparationMs: number | null = null;
+      let stripeJsWaitMs: number | null = null;
+      let mountedAt: number | null = null;
+
+      const loadTiming = () => {
+        const now = window.performance.now();
+        return {
+          loadId,
+          loadPhase,
+          elapsedMs: Math.round(now - startedAt),
+          sessionPreparationMs,
+          stripeJsWaitMs,
+          elementReadyMs: mountedAt === null ? null : Math.round(now - mountedAt),
+        };
+      };
       readyTimeoutId = window.setTimeout(() => {
         if (cancelled) return;
         readyTimedOut = true;
@@ -189,6 +207,7 @@ export function WalletExpressCheckout({
           metadata: {
             currency: normalizedChargeCurrency,
             reason: 'ready_timeout',
+            ...loadTiming(),
           },
         });
       }, EXPRESS_CHECKOUT_READY_TIMEOUT_MS);
@@ -208,6 +227,7 @@ export function WalletExpressCheckout({
       });
 
       try {
+        const preparationStartedAt = window.performance.now();
         const cachedCheckoutSession = checkoutSessionCacheRef.current.get(requestKey);
         const checkoutSessionResult =
           cachedCheckoutSession
@@ -240,6 +260,8 @@ export function WalletExpressCheckout({
         }
         activeCheckoutAttemptId = checkoutSessionResult.checkoutAttemptId;
         activeSessionId = checkoutSessionResult.sessionId;
+        sessionPreparationMs = Math.round(window.performance.now() - preparationStartedAt);
+        loadPhase = 'stripe_js';
         recordCheckoutInteractionEvent({
           amountCents,
           checkoutAttemptId: checkoutSessionResult.checkoutAttemptId,
@@ -249,15 +271,20 @@ export function WalletExpressCheckout({
           metadata: {
             currency: normalizedChargeCurrency,
             ga4LookupStatus,
+            readyTimeoutBeforePreparation: readyTimedOut,
+            ...loadTiming(),
           },
         });
 
+        const stripeWaitStartedAt = window.performance.now();
         const stripe = (await stripePromise) as StripeWithCheckoutElements | null;
+        stripeJsWaitMs = Math.round(window.performance.now() - stripeWaitStartedAt);
         const initCheckout = stripe?.initCheckout ?? stripe?.initCheckoutElementsSdk;
         if (!stripe || !initCheckout || !mountRef.current || cancelled) {
           throw new Error('stripe_checkout_elements_unavailable');
         }
 
+        loadPhase = 'element_init';
         const checkout = initCheckout.call(stripe, { clientSecret: checkoutSessionResult.clientSecret });
         const loadActionsPromise: Promise<StripeCheckoutLoadActionsResult> = checkout.loadActions();
         expressElement = checkout.createExpressCheckoutElement({
@@ -293,6 +320,7 @@ export function WalletExpressCheckout({
               currency: normalizedChargeCurrency,
               reason: hasAnyMethod ? 'ready' : 'no_available_methods',
               recoveredAfterTimeout: readyTimedOut,
+            ...loadTiming(),
             },
           });
         });
@@ -310,6 +338,7 @@ export function WalletExpressCheckout({
             stripeCheckoutSessionId: checkoutSessionResult.sessionId,
             metadata: {
               errorMessage: event.error?.message ?? null,
+              ...loadTiming(),
             },
           });
         });
@@ -403,6 +432,8 @@ export function WalletExpressCheckout({
           }
         });
 
+        loadPhase = 'element_ready';
+        mountedAt = window.performance.now();
         expressElement.mount(mountRef.current);
         const loadActionsResult = await loadActionsPromise;
         if (cancelled) return;
@@ -425,6 +456,7 @@ export function WalletExpressCheckout({
           stripeCheckoutSessionId: activeSessionId,
           metadata: {
             errorMessage: reason,
+            ...loadTiming(),
           },
         });
       }
