@@ -9,13 +9,19 @@ import { KEYVO_NOTIFICATIONS_TAB_HIDDEN } from '../frontend/config/keyvo-disable
 const read = (p: string) => readFileSync(p, 'utf8');
 const msg = (l: string) => JSON.parse(read(`frontend/messages/${l}.json`));
 
-test('age rule is 18 in the controller, the consent route and the env docs', () => {
+test('age rule is 18 in the shared policy, the controller, the consent route and the env docs', () => {
+  // Upstream moved the age floor into one shared module; Keyvo keeps the fixed floor of 18 there,
+  // so stale env values can neither lower the form minimum nor the recorded attestation version.
+  const policy = read('frontend/src/lib/legal-policy.ts');
+  assert.match(policy, /export const LEGAL_MIN_AGE = 18;/);
+  assert.match(policy, /export const AGE_ATTESTATION_VERSION = `min_age:\$\{LEGAL_MIN_AGE\}`;/);
   const controller = read('frontend/app/(core)/login/_hooks/useLoginPageController.ts');
-  assert.match(controller, /NEXT_PUBLIC_LEGAL_MIN_AGE \?\? '18'/);
-  assert.match(controller, /Math\.max\(18, MIN_AGE_ENV\)/);
+  assert.match(controller, /import \{ LEGAL_MIN_AGE \} from '@\/lib\/legal-policy';/);
+  assert.match(controller, /legalMinAge: LEGAL_MIN_AGE,/);
+  assert.doesNotMatch(controller, /NEXT_PUBLIC_LEGAL_MIN_AGE/);
   const route = read('frontend/app/api/legal/consents/route.ts');
-  assert.match(route, /LEGAL_MIN_AGE \?\? '18'/);
-  assert.match(route, /`min_age:\$\{Math\.max\(18, minAge\)\}`/);
+  assert.match(route, /import \{ AGE_ATTESTATION_VERSION \} from '@\/lib\/legal-policy';/);
+  assert.match(route, /docVersion: AGE_ATTESTATION_VERSION,/);
   assert.match(read('frontend/.env.local.example'), /^LEGAL_MIN_AGE=18$/m);
   assert.equal(msg("zh").auth.terms.age.replace('{age}', '18'), '我确认已年满 18 周岁。');
 });

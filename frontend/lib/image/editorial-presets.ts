@@ -1,9 +1,10 @@
 import startFrames from '../../config/model-cinematic-start-frames.json';
 import { listSeedreamEditorialImages } from '../seedream-editorial-images';
 import type { PublicModelQuoteInput } from '../pricing-public-model-contract';
+import { SITE_ORIGIN } from '@/lib/siteOrigin';
 
 /** Public examples are selected by ID, never by caller-supplied prompts or reference URLs. */
-export function getImageEditorialPreset(engineId: string, exampleId: string, origin = 'https://maxvideoai.com') {
+export function getImageEditorialPreset(engineId: string, exampleId: string, origin = SITE_ORIGIN) {
   const images = listSeedreamEditorialImages(engineId);
   const image = images.find(item => item.id === exampleId);
   if (image) {

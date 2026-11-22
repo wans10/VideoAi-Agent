@@ -62,7 +62,10 @@ test('coverage captures priced image references, image batches and the exact bil
   assert.ok(scenarios.some(row => row.modelId === 'nano-banana' && row.context.durationSec === 8));
   // Seedream 5.0 Lite (and its 15-image batch) is retired; Seedream 5.0 Flash sells one image per request.
   assert.ok(!scenarios.some(row => row.modelId === 'seedream'));
-  assert.deepEqual(scenarios.filter(row => row.modelId === 'seedream-5-0-flash').map(row => row.context.durationSec), [1, 1]);
+  // Keyvo offers Seedream 5.0 Flash (allowlisted): t2i and i2i each across 1K, 1.5K and 2K, one image per request.
+  const flashRows = scenarios.filter(row => row.modelId === 'seedream-5-0-flash');
+  assert.equal(flashRows.length, 6);
+  assert.deepEqual(flashRows.map(row => row.context.durationSec), [1, 1, 1, 1, 1, 1]);
   assert.ok(!scenarios.some(row => row.modelId === 'luma-uni-1' && row.context.durationSec !== 1));
   assert.ok(!scenarios.some(row => row.modelId === 'gpt-image-2-5-flare' && (row.context.referenceImageCount ?? 0) > 16));
 });
@@ -106,12 +109,14 @@ test('legacy Luma loop selectors are covered without inventing loop for edit mod
   }
 });
 
-test('coverage follows all 54 app-published models in 16 families, including the November launch, Keyvo qwen and pricing-hidden legacy variants', () => {
+test('coverage follows all 55 app-published models in 15 families, including the November launch, Keyvo qwen and pricing-hidden legacy variants', () => {
   const coverage = collectSellableManualTariffCoverage();
   const published = listRuntimeModels().filter((model) => model.publication.app.published);
   // 56 before 2026-11-12, plus MiniMax-H3-Max on MiniMax's own API, minus Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro
-  // (offline on Keyvo 2026-11-13, no mainland route).
-  assert.equal(published.length, 54);
+  // (offline on Keyvo 2026-11-13, no mainland route) = 54. The 2026-11-22 upstream sync registers the Seedance 2.5 Flash and
+  // Seedream 5.5 launches as app-published (registry-only on Keyvo: not in keyvo-model-allowlist.json, so not offered) and
+  // archives Pika's app publication (its model page stays published): 54 + 2 - 1 = 55.
+  assert.equal(published.length, 55);
   for (const id of ['wan-2-6', 'kling-2-5-turbo', 'kling-2-6-pro']) assert.ok(!published.some(model => model.id === id), id);
   assert.ok(published.some(model => model.id === 'minimax-h3-max'));
   for (const id of ['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst'])
@@ -119,7 +124,8 @@ test('coverage follows all 54 app-published models in 16 families, including the
   assert.ok(published.some(model => model.id === 'kling-v4'));
   assert.ok(published.some(model => model.id === 'nano-banana-2-1'));
   assert.equal(coverage.scenarios.filter((scenario) => scenario.modelId === 'flux-3-max').length, 128);
-  assert.equal(new Set(published.map((model) => model.family)).size, 16);
+  // Pika is no longer app-published upstream, so its family has no offered model left: 16 - 1 = 15.
+  assert.equal(new Set(published.map((model) => model.family)).size, 15);
   assert.deepEqual(new Set(coverage.scenarios.map((scenario) => scenario.modelId)), new Set(published.map((model) => model.id)));
   assert.ok(coverage.scenarios.some((scenario) => scenario.modelId === 'lumaRay2'));
   assert.ok(coverage.scenarios.some((scenario) => scenario.modelId === 'lumaRay2_flash'));

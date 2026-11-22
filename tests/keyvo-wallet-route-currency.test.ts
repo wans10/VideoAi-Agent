@@ -16,7 +16,7 @@ test('CNY customer checkout quotes CNY identity and freezes CNY wallet metadata 
  '@/lib/wallet':"export const applyMockWalletTopUp=()=>{throw Error('unexpected mock');};",
  '@/server/wallet-summary':"export const getWalletSummary=async()=>({hasCompletedTopUp:true});",
  '@/lib/env':"export const ENV={STRIPE_SECRET_KEY:'fixture'};",
- '@/lib/db':"export const query=async()=>[{topup_count:1}];",
+ '@/lib/db':"export const query=async()=>[{topup_count:1}];export const isDatabaseConfigured=()=>true;",
  '@/lib/schema':'export const ensureBillingSchema=async()=>{};',
  '@/lib/supabase-ssr':"export const getRouteAuthContext=async()=>({userId:'owner'});",
  '@/lib/currency':"export const getUserPreferredCurrency=async()=>null;export const normalizeCurrencyCode=v=>v;export const resolveCurrency=()=>({currency:'cny',source:'default'});export const resolveEnabledCurrencies=()=>['cny'];",

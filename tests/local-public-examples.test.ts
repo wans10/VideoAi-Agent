@@ -75,7 +75,9 @@ test('historical stored IDs retain their registry family but are not discoverabl
 test('Pika historical media remains readable through its family and model archive, outside the current feed', () => {
   const historical = { ...card, id: 'pika-archive', engineIconId: 'pika-image-to-video', engineLabel: 'Pika 2.2',
     videoUrl: 'https://media.maxvideoai.com/pika-original.mp4' };
-  const archived: PublicExamplesSnapshot = { ...snapshot, cards: { a: card, pika: historical },
+  // Keyvo hides the admin-tier Veo family from the public feed, so the current-feed fixture uses a publicly offered engine.
+  const visible = { ...card, engineIconId: 'kling-v4', engineLabel: 'Kling 4.0' };
+  const archived: PublicExamplesSnapshot = { ...snapshot, cards: { a: visible, pika: historical },
     feeds: { '': { playlist: ['a', 'pika'], 'date-desc': ['pika', 'a'] },
       pika: { playlist: ['pika'], 'date-desc': ['pika'] } } };
   assert.deepEqual(selectLocalPublicExamples(archived, '', 'playlist', 10, 0).items.map(video => video.id), ['public-a']);

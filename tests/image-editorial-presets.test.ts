@@ -1,3 +1,4 @@
+import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import * as React from 'react';
@@ -7,6 +8,7 @@ import { getImageEditorialPreset, imageEditorialPresetHref } from '../frontend/l
 import { listSeedreamEditorialImages } from '../frontend/lib/seedream-editorial-images';
 import {isMiloRefineEntry,miloRefineWelcome} from '../frontend/src/lib/prompt-assistance/marketing-entry';
 import frames from '../frontend/config/model-cinematic-start-frames.json';
+import { SITE_ORIGIN } from '../frontend/lib/siteOrigin';
 import { useImageEditorialPreset } from '../frontend/app/(core)/(workspace)/app/image/_hooks/useImageEditorialPreset';
 
 test('approved examples retain exact prompts, native settings and successive original references', () => {
@@ -17,7 +19,8 @@ test('approved examples retain exact prompts, native settings and successive ori
     assert.equal(preset.snapshot.inputMode, image.settings.mode);
     assert.deepEqual(preset.snapshot.core, image.settings);
     const source = images.find(item => item.id === image.sourceImageId);
-    assert.deepEqual(preset.snapshot.refs.imageUrls, source ? [`https://maxvideoai.com${source.original.url}`] : []);
+    // Default origin is the Keyvo site origin (no upstream host in customer-facing code).
+    assert.deepEqual(preset.snapshot.refs.imageUrls, source ? [`${SITE_ORIGIN}${source.original.url}`] : []);
     assert.equal(preset.quoteInput.referenceImageCount, source ? 1 : 0);
     assert.equal(preset.quoteInput.durationSec, 1);
     const href = new URL(imageEditorialPresetHref(image.engineId, image.id, 'fr'), 'https://maxvideoai.com');

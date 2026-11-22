@@ -10,6 +10,7 @@ import { normalizePublicQueryParams, shouldMarkTrackingNoindex } from '../fronte
 import { buildLlmsText } from '../frontend/lib/seo/llms-text';
 import { buildRobotsText } from '../frontend/lib/seo/robots-text';
 import { middleware } from '../frontend/middleware';
+import { SITE_ORIGIN } from '../frontend/lib/siteOrigin';
 
 const origin = 'https://maxvideoai.com';
 const path = '/higgsfield-alternative';
@@ -44,8 +45,10 @@ test('comparison downloads keep format and locale at the root handler', async ()
 });
 
 test('llms.txt lists the English Higgsfield comparison once', () => {
+  // Keyvo's llms entry is built on its own site origin (SITE_ORIGIN), not the upstream host.
   const text = buildLlmsText(mcpPublication);
-  assert.equal(text.split(`](${origin}${path})`).length - 1, 1);
+  assert.equal(text.split(`](${SITE_ORIGIN}${path})`).length - 1, 1);
+  assert.equal(text.includes(`](${origin}${path})`), false);
 });
 
 test('training crawlers can fetch the exact comparison paths without opening variants', () => {
@@ -59,7 +62,7 @@ test('training crawlers can fetch the exact comparison paths without opening var
   }
 });
 
-test('localized sitemaps expose one canonical Higgsfield comparison and reciprocal alternates', async () => {
+test('localized sitemaps expose no Higgsfield comparison on Keyvo, whose only published locale is zh and whose zh page is notFound', async () => {
   const frontendRequire = createRequire(new URL('../frontend/package.json', import.meta.url));
   const react = frontendRequire('react') as { cache?: (fn: unknown) => unknown };
   react.cache ??= (fn) => fn;
@@ -69,14 +72,9 @@ test('localized sitemaps expose one canonical Higgsfield comparison and reciproc
     const { buildLocaleSitemapXml } = await import('../frontend/lib/sitemapData');
     for (const locale of locales) {
       const xml = await buildLocaleSitemapXml(locale);
-      const loc = `<loc>${origin}${localizedPaths[locale]}</loc>`;
+      const loc = `<loc>${SITE_ORIGIN}${localizedPaths[locale]}</loc>`;
       const matching = [...xml.matchAll(/<url>[\s\S]*?<\/url>/g)].filter(([entry]) => entry.includes(loc));
-      assert.equal(matching.length, 1, locale);
-      const [entry] = matching[0];
-      for (const alternate of locales) {
-        assert.ok(entry.includes(`hreflang="${alternate}" href="${origin}${localizedPaths[alternate]}"`), alternate);
-      }
-      assert.ok(entry.includes(`hreflang="x-default" href="${origin}${path}"`));
+      assert.equal(matching.length, 0, locale);
     }
   } finally {
     if (previousEnvironment === undefined) delete process.env.NODE_ENV;

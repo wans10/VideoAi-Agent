@@ -56,7 +56,9 @@ test('published V4 gains exactly one New menu card while retaining the existing 
   const previous = buildMarketingModelMenu(models);
   models.find(model => model.id === 'kling-v4')!.publication.model.indexable = true;
   const menu = buildMarketingModelMenu(models);
-  assert.equal(menu[0]?.slug, 'seedance-2-5-flash', 'The current launch leads discovery without displacing older routes');
+  // seedance-2-5-flash is registry-only on Keyvo (unoffered), so the newly published V4 leads discovery here.
+  assert.equal(menu.some(item => item.slug === 'seedance-2-5-flash'), false);
+  assert.equal(menu[0]?.slug, 'kling-v4', 'The newly published V4 leads discovery without displacing older routes');
   assert.equal(menu.filter(item => item.slug === 'kling-v4').length, 1);
   assert.equal(menu.find(item => item.slug === 'kling-v4')?.badge, 'new');
   assert.equal(menu.find(item => item.slug === 'kling-v4')?.brandId, 'kling');

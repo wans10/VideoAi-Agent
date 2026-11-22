@@ -28,6 +28,17 @@ const ALLOWED: ReadonlyArray<readonly [string, string]> = [
   ['frontend/lib/password-recovery.ts', 'redirect allowlist; upstream stays accepted only as a legacy origin'],
   ['frontend/lib/seo/training-crawl-policy.ts', 'URL parsing base for crawl-policy targets, not emitted'],
   ['frontend/server/local-public-examples', 'identity of the captured example snapshot (owner will self-host the media later)'],
+  ['frontend/app/(localized)/[locale]/(marketing)/blog/', 'upstream blog content, hidden on Keyvo (KEYVO_BLOG_HIDDEN returns notFound)'],
+  ['frontend/app/(localized)/[locale]/(marketing)/higgsfield-alternative/', 'competitor comparison page, notFound() for zh (Keyvo is zh-only); its embed snippet is never served'],
+  ['frontend/app/(localized)/[locale]/(marketing)/openart-alternative/', 'competitor comparison page, notFound() for zh (Keyvo is zh-only)'],
+  ['frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-cinematic-data.ts', 'relative-URL parsing base; only pathname and search are emitted'],
+  ['frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-cinematic-gallery.ts', 'relative-URL parsing base; only pathname and search are emitted'],
+  ['frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-workflow-proofs.ts', 'relative-URL parsing base; only pathname and search are emitted'],
+  ['frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/ModelCinematicSpecialty.tsx', 'relative-URL parsing base; only pathname and search are emitted'],
+  ['frontend/app/api/analytics/openai-registration/', 'ChatGPT app registration origin check for inbound analytics; not a link (no ChatGPT app on Keyvo)'],
+  ['frontend/lib/analytics/openai-contract.ts', 'ChatGPT app registration analytics identity; not rendered and not a link'],
+  ['frontend/src/server/studio/conversation-actions.ts', 'default trusted account origin for the hidden agent-facing creator tools; the trusted-origin check only accepts the MaxVideoAI account host'],
+  ['frontend/src/server/studio/conversation-creator.ts', 'default trusted account origin for the hidden agent-facing creator tools; the trusted-origin check only accepts the MaxVideoAI account host'],
 ];
 
 function walk(dir: string, out: string[] = []): string[] {

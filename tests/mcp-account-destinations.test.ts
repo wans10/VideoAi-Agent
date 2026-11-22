@@ -149,7 +149,7 @@ test('dedicated account destinations and owned-job recovery stay on the exact re
     `${accountUrl}?next=outside`, `${accountUrl}#copied`,
     'https://user:password@openai-review.maxvideoai.com/account/connections',
   ]) {
-    assert.throws(() => buildAgentAccountDestinations(value), /trusted MaxVideoAI account URL/);
-    assert.throws(() => buildAgentGenerationDestination(value, 'video', 'owned-job'), /trusted MaxVideoAI account URL/);
+    assert.throws(() => buildAgentAccountDestinations(value), /trusted (?:Keyvo|MaxVideoAI) account URL/);
+    assert.throws(() => buildAgentGenerationDestination(value, 'video', 'owned-job'), /trusted (?:Keyvo|MaxVideoAI) account URL/);
   }
 });
