@@ -29,7 +29,7 @@ export function ReferencePickerToolbar({
   const panelId = useId();
   const sourceId = useId();
   const compatibilityId = useId();
-  const filtersLabel = locale.startsWith('fr') ? 'Filtres' : locale.startsWith('es') ? 'Filtros' : 'Filters';
+  const filtersLabel = locale.startsWith('zh') ? '筛选' : locale.startsWith('fr') ? 'Filtres' : locale.startsWith('es') ? 'Filtros' : 'Filters';
   const activeCount = Number(source !== 'all') + Number(compatibility === 'all');
   return (
     <fieldset className="app-picker-toolbar" disabled={busy}>
@@ -71,7 +71,7 @@ export function ReferencePickerToolbar({
         <div className="app-picker-secondary-actions">
           {headerActions}
           {showCharacterStudio ? <a className="app-picker-character-link" href="/app/tools/character-builder" target="_blank" rel="noopener noreferrer">
-            Character Studio <ExternalLink size={14} aria-hidden />
+            {locale.startsWith('zh') ? '角色工作室' : 'Character Studio'} <ExternalLink size={14} aria-hidden />
           </a> : null}
         </div>
         {hint ? <p className="app-picker-help">{hint}</p> : null}
