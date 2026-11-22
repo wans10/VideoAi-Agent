@@ -483,7 +483,7 @@ export function applyBytePlusSeedanceRuntimeOptions(
                   resolution: [...getBytePlusSeedanceModeResolutions(engine.id, mode, resolutions, transport)],
                   resolutionLocked: false,
                   aspectRatio:
-                    inheritsSourceVideo || (engine.id === 'seedance-2-5' && ['i2v', 'v2v', 'extend'].includes(mode))
+                    inheritsSourceVideo || (isSeedance25EngineId(engine.id) && mode === 'i2v')
                       ? undefined
                       : aspectRatios,
                   duration: {

@@ -67,8 +67,8 @@ function buildSeedreamLatestEntry(definition: SeedreamLatestDefinition): RawFalE
     pricingDetails: { currency: 'USD', flatCents: { default: definition.launchOutputCents },
       perSecondCents: { default: definition.launchOutputCents } },
     pricing: { unit: 'image', base: definition.supplierOutputUsd, currency: 'USD',
-      notes: transparent ? 'Supplier output and every source image are billed separately. A current MaxVideoAI quote determines the customer total.'
-        : 'Supplier inputs are free; customer pricing is determined by the current MaxVideoAI quote.' },
+      notes: transparent ? 'Supplier output and every source image are billed separately. A current Keyvo quote determines the customer total.'
+        : 'Supplier inputs are free; customer pricing is determined by the current Keyvo quote.' },
     updatedAt: '2026-11-13T00:00:00Z',
     ttlSec: 600,
     providerMeta: { provider: 'byteplus_modelark', modelSlug: definition.providerModel },
@@ -95,7 +95,7 @@ function buildSeedreamLatestEntry(definition: SeedreamLatestDefinition): RawFalE
         notes: definition.description },
     })),
     defaultFalModelId: definition.providerModel,
-    seo: { title: `${definition.label} AI Image Generator | MaxVideoAI`,
+    seo: { title: `${definition.label} AI Image Generator | Keyvo`,
       description: definition.description, canonicalPath: `/models/${definition.id}` },
     type: 'image',
     seoText: definition.description,
@@ -116,5 +116,5 @@ function buildSeedreamLatestEntry(definition: SeedreamLatestDefinition): RawFalE
 export const SEEDREAM_LATEST_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
   buildSeedreamLatestEntry({ id: 'seedream-5-5', label: 'Seedream 5.5', version: '5.5',
     providerModel: 'dola-seedream-5-5-261028', supplierOutputUsd: 0.035, launchOutputCents: 6,
-    description: 'Create and edit images with ByteDance Seedream 5.5 in MaxVideoAI: up to ten references, 1K to 2K output and native transparent PNG assets.' }),
+    description: 'Create and edit images with ByteDance Seedream 5.5 in Keyvo: up to ten references, 1K to 2K output and native transparent PNG assets.' }),
 ];

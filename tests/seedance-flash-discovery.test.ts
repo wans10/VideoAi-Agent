@@ -41,9 +41,12 @@ test('six complete Flash comparisons reach discovery, localized indexing and ass
     const document = parseComparePageContentDocument(readFileSync(file, 'utf8'), pair, file);
     assert.ok(published.includes(pair));
     assert.ok(sitemap.includes(pair));
-    assert.ok(assistant.primaryComparisons.some(item => item.slug === pair));
+    // Keyvo keeps comparison pages out of assistant discovery (compare hub hidden), so the pair is not a primary comparison.
+    assert.equal(assistant.primaryComparisons.some(item => item.slug === pair), false);
     assert.ok(compareConfig.scoreboardOnlyComparisons.includes(pair));
-    assert.deepEqual(getIndexableComparisonLocales(pair), ['en', 'fr', 'es']);
+    // Keyvo also indexes the Chinese comparison document, so require the upstream locales rather than an exact set.
+    const indexable = getIndexableComparisonLocales(pair);
+    for (const locale of ['en', 'fr', 'es']) assert.ok(indexable.includes(locale as 'en'), locale);
     for (const [locale, prefix] of [['en', '/ai-video-engines/'], ['fr', '/fr/comparatif/'], ['es', '/es/comparativa/']] as const) {
       const content = document[locale];
       assert.ok(content.meta?.title && content.meta.description && content.heroIntro && content.quickVerdict);
@@ -64,8 +67,9 @@ test('menus, footer and PAYG make Flash reachable while retaining standard Seeda
   assert.ok(buildMarketingCompareMenu(listRuntimeModels()).some(item => item.slug === pairs[0]));
   assert.ok(FOOTER_MODELS.some(item => item.key === flash));
   assert.ok(FOOTER_COMPARISONS.some(item => item.key === pairs[0]));
-  for (const group of Object.values(DEFAULT_PAYG_DISCOVERY_CONFIGS)) {
-    assert.ok(group.some(item => item.id === flash));
+  for (const [name, group] of Object.entries(DEFAULT_PAYG_DISCOVERY_CONFIGS)) {
+    // Keyvo does not offer Flash, so it is omitted from the supported-model list only.
+    assert.equal(group.some(item => item.id === flash), name !== 'supportedModels');
     assert.ok(group.some(item => item.id === 'seedance-2-5'));
   }
 });
@@ -90,7 +94,8 @@ test('Seedance family copy keeps canonical identity, earlier explanations and ex
   const closed = structuredClone(models);
   closed.find(model => model.id === flash)!.publication.examples.includeInFamilyCopy = false;
   const families = buildModelFamilyDefinitions(models);
-  assert.equal(families.find(family => family.id === 'seedance')!.defaultModelSlug, 'seedance-2-0');
+  // Keyvo's Seedance family default is its own mainland-first choice (config/model-families.ts), not upstream's 2.0.
+  assert.equal(families.find(family => family.id === 'seedance')!.defaultModelSlug, 'seedance-2-5');
   assert.equal(families.find(family => family.id === 'seedance')!.navLabel, 'Seedance');
   for (const locale of ['en', 'fr', 'es'] as const) {
     const baseline = getLocalizedModelData(locale, families, closed).seedance!;

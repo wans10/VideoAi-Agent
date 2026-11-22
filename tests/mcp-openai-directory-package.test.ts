@@ -4,13 +4,30 @@ import { createHash } from 'node:crypto';
 import { cpSync, existsSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
-import test from 'node:test';
+import test, { after } from 'node:test';
 import { parse } from 'yaml';
 
 const root = process.cwd();
-function build(out: string, source?: string) {
+// Keyvo keeps every plugin asset reference_only (MCP is hidden on Keyvo), so the real
+// manifest correctly refuses to export them. Packaging mechanics are exercised against a
+// temporary copy that marks the plugin assets publishable_proof; the real manifest is
+// asserted separately below and is never modified.
+const DEMO_ASSET_PATH = 'plugins/maxvideoai/assets/demos/brief-to-video-workflow.webp';
+const keyvoAssetManifest = resolve(root, 'docs/marketing/github-asset-manifest.json');
+const packagingFixtureDir = mkdtempSync(join(realpathSync(tmpdir()), 'maxvideoai-openai-manifest-'));
+const packagingAssetManifest = join(packagingFixtureDir, 'github-asset-manifest.json');
+{
+  const manifest = JSON.parse(readFileSync(keyvoAssetManifest, 'utf8'));
+  for (const asset of manifest.assets) {
+    if (asset.path.startsWith('plugins/maxvideoai/')) asset.state = 'publishable_proof';
+  }
+  writeFileSync(packagingAssetManifest, JSON.stringify(manifest));
+}
+after(() => rmSync(packagingFixtureDir, { recursive: true, force: true }));
+function build(out: string, source?: string, assetManifest = packagingAssetManifest) {
   return spawnSync(process.execPath, [
     resolve(root, 'scripts/build-maxvideoai-openai-directory.mjs'), '--out', out,
+    '--asset-manifest', assetManifest,
     ...(source ? ['--source', source] : []),
   ], { cwd: root, encoding: 'utf8' });
 }
@@ -115,7 +132,7 @@ test('directory builder produces a deterministic portable draft with review case
   assert.equal('releasedPackage' in readiness, false);
   assert.equal(readiness.projectEligibility.residency, 'global');
   assert.equal(readiness.projectEligibility.verified, false);
-  const generic = spawnSync(process.execPath, [resolve(root, 'scripts/build-maxvideoai-plugin-release.mjs'), '--out', join(temporary, 'generic')], { cwd: root, encoding: 'utf8' });
+  const generic = spawnSync(process.execPath, [resolve(root, 'scripts/build-maxvideoai-plugin-release.mjs'), '--asset-manifest', packagingAssetManifest, '--out', join(temporary, 'generic')], { cwd: root, encoding: 'utf8' });
   assert.equal(generic.status, 0, generic.stderr);
   assert.deepEqual(readFileSync(join(first, 'maxvideoai-plugin-0.3.9.zip')), readFileSync(join(temporary, 'generic', 'maxvideoai-plugin-0.3.9.zip')));
   const original = readFileSync(archive);
@@ -123,6 +140,19 @@ test('directory builder produces a deterministic portable draft with review case
   assert.deepEqual(readFileSync(archive), original);
   assert.match(extended, /list_audio_capabilities.*prepare_audio_generation/s);
   assert.match(extended, /create_studio_montage.*get_studio_timeline.*edit_studio_timeline.*prepare_studio_export/s);
+});
+
+test('Keyvo asset manifest keeps the demo reference_only, so the real directory build refuses to export it', (t) => {
+  const manifest = JSON.parse(readFileSync(keyvoAssetManifest, 'utf8'));
+  const demo = manifest.assets.find((asset: { path: string }) => asset.path === DEMO_ASSET_PATH);
+  assert.equal(demo.state, 'reference_only');
+  const temporary = mkdtempSync(join(realpathSync(tmpdir()), 'maxvideoai-openai-keyvo-asset-'));
+  t.after(() => rmSync(temporary, { recursive: true, force: true }));
+  const out = join(temporary, 'out');
+  const result = build(out, undefined, keyvoAssetManifest);
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /must be publishable_proof/);
+  assert.equal(existsSync(out), false);
 });
 
 test('directory builder preserves an unowned output folder instead of deleting it', (t) => {
