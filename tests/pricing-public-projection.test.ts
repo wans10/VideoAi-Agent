@@ -53,7 +53,12 @@ const officialListTransition = JSON.parse(readFileSync('tests/fixtures/keyvo-off
   changes: Array<{ previous: Record<string, unknown> & { id: string; engineId: string }; current: Record<string, unknown> & { id: string; engineId: string } }>;
   rows: unknown[];
 };
-const officialListCurrent = new Map(officialListTransition.changes.map((change) => [change.current.id, change.current]));
+// Keyvo's 2026-11-22 per-image unit correction for Seedream 5.0 Flash estimator rows (same amounts; sec -> image).
+const seedreamFlashUnitTransition = JSON.parse(readFileSync('tests/fixtures/keyvo-seedream-flash-unit-public-pricing-2026-11-22.json', 'utf8')) as {
+  changes: Array<{ previous: Record<string, unknown> & { id: string }; current: Record<string, unknown> & { id: string } }>;
+};
+const officialListCurrent = new Map([...officialListTransition.changes, ...seedreamFlashUnitTransition.changes]
+  .map((change) => [change.current.id, change.current]));
 function latestPublicRow<T extends { id: string }>(row: T): T {
   return (officialListCurrent.get(row.id) as T | undefined) ?? row;
 }
@@ -310,7 +315,7 @@ test('Keyvo official list transition sells every Keyvo model at 80% of its list 
   assert.equal(officialListTransition.changes.length, 201);
   for (const change of officialListTransition.changes) {
     assert.equal(change.previous.engineId, change.current.engineId);
-    assert.deepEqual(current.find(row => row.id === change.current.id), change.current, change.current.id);
+    assert.deepEqual(current.find(row => row.id === change.current.id), latestPublicRow(change.current), change.current.id);
     // Supplier-cost rows carry no margin component any more; customer totals never rise (Kling 4 rows open instead).
     if (change.current.status === 'exact' && typeof change.current.marginCents === 'number') assert.equal(change.current.marginCents, 0, change.current.id);
     if (change.previous.status === 'exact' && change.current.status === 'exact') {

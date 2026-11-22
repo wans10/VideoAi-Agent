@@ -1484,6 +1484,19 @@ stored funding; old prepared quotes must be prepared again. Migration 60 expands
 the database CHECK for historical/current tuples and migration 31 preserves that
 upgrade on replay. Do not substitute padded retail cents for this supplier budget.
 
+## Keyvo merged-tree public baseline — 2026-11-22
+
+After the upstream 3827da0 merge, `pnpm pricing:public-baseline` registers three Keyvo facts on top of the
+transitions above (the upstream Seedream 5.5 and Seedance 2.5 Flash launch rows are also expected; the upstream
+Seedream 5.0 Flash launch rows are superseded by the 2026-11-11 Keyvo rows).
+
+- `tests/fixtures/keyvo-seedance-25-4k-public-pricing-2026-11-22.json`: the Seedance 2.5 4K pricing-hub route is exact
+  at the Keyvo price path (1361 cents), not upstream's USD x2 list (1828 cents). Owner confirmation that 4K is sold on Keyvo is pending.
+- `tests/fixtures/keyvo-seedream-flash-unit-public-pricing-2026-11-22.json`: the three Seedream 5.0 Flash estimator rows
+  change unit from `sec` to `image` (per-image engine); amounts are unchanged.
+- Seedream 5.5 and Seedance 2.5 Flash are unoffered by Keyvo's allowlist and unpublished at runtime (no model page, pricing or
+  app surface, and the public quote route refuses them). Their baseline rows come from the unfiltered upstream catalogue only.
+
 ## Keyvo legacy assistance wallet currency
 
 Legacy Studio assistance budgets, cumulative tariff quotes, `reserved_cents` and

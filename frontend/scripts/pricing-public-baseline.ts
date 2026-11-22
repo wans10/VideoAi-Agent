@@ -242,6 +242,27 @@ async function main(): Promise<void> {
     throw new Error('Invalid Keyvo official list 100% admin engines public pricing transition.');
   }
   const appliedOfficial100bChanges = new Set<string>();
+  // Keyvo Seedance 2.5 4K (2026-11-22): the route is exact at the Keyvo price path, not upstream's USD x2 list (1828).
+  const keyvo4kChange = JSON.parse(await readFile(new URL('../../tests/fixtures/keyvo-seedance-25-4k-public-pricing-2026-11-22.json', import.meta.url), 'utf8')) as {
+    rows: Array<{ previous: typeof rows[number]; current: typeof rows[number] }>;
+  };
+  const seedance4kPrevious = { id: 'pricing-hub-video:seedance-2-5:4k-route', surface: 'pricing-hub-video', engineId: 'seedance-2-5', status: 'unavailable' };
+  if (!isDeepStrictEqual(keyvo4kChange.rows, [{ previous: seedance4kPrevious, current: {
+    ...seedance4kPrevious, status: 'exact', currency: 'USD', customerTotalCents: 1361,
+    unit: 'scenario', quantity: 1, displayedAmount: '$13.61', compatibilityProfile: 'standard',
+  } }])) throw new Error('Invalid Keyvo Seedance 2.5 4K public pricing change.');
+  let appliedKeyvo4kChange = false;
+  // Keyvo Seedream 5.0 Flash is per-image (2026-11-22): its estimator unit changes from sec to image, amounts unchanged.
+  const seedreamFlashUnit = JSON.parse(await readFile(new URL('../../tests/fixtures/keyvo-seedream-flash-unit-public-pricing-2026-11-22.json', import.meta.url), 'utf8')) as {
+    changes: Array<{ previous: typeof rows[number]; current: typeof rows[number] }>;
+  };
+  const seedreamFlashUnitChanges = new Map(seedreamFlashUnit.changes.map(row => [row.previous.id, row]));
+  if (seedreamFlashUnitChanges.size !== 3 || seedreamFlashUnit.changes.length !== 3
+    || seedreamFlashUnit.changes.some(({ previous, current }) => previous.id !== current.id || previous.engineId !== 'seedream-5-0-flash'
+      || current.engineId !== 'seedream-5-0-flash' || previous.unit !== 'sec' || current.unit !== 'image')) {
+    throw new Error('Invalid Keyvo Seedream Flash unit public pricing transition.');
+  }
+  const appliedSeedreamFlashUnit = new Set<string>();
   const byId = new Map(fixture.rows.map((row) => [row.id, row]));
   const expected = fixture.rows.map((row) => {
     const standardId = row.id.replace(/:(plus|pro):/u, ':member:');
@@ -307,7 +328,7 @@ async function main(): Promise<void> {
   }
   // Approved archive sunsets: remove purchasable surfaces and invalidate Product offers.
   // Keep the pre-archive fixtures intact as historical pricing evidence.
-  const expectedWithLaunch = [...expected, ...launchAdditions.rows, ...fluxMaxLaunch.rows, ...nano21Launch.rows, ...novemberImageAdmission.rows, ...novemberMarketing.rows, ...klingPublicDiscovery.rows, ...klingPricingDiscovery.rows, ...keyvoQwenLaunch.rows].map((row) => {
+  const expectedWithLaunch = [...expected, ...launchAdditions.rows, ...fluxMaxLaunch.rows, ...nano21Launch.rows, ...seedreamLaunch.rows.filter(row => row.engineId !== 'seedream-5-0-flash'), ...seedanceFlash.rows, ...novemberImageAdmission.rows, ...novemberMarketing.rows, ...klingPublicDiscovery.rows, ...klingPricingDiscovery.rows, ...keyvoQwenLaunch.rows].map((row) => {
     const repair = customerOfferRepairs.get(row.id);
     if (!repair) return row;
     if (row.surface !== 'json-ld' || row.status !== 'exact' || row.customerTotalCents !== repair.previousCents) {
@@ -405,7 +426,22 @@ async function main(): Promise<void> {
       return false;
     })
     .concat(officialList.rows)
+    .map(row => {
+      if (row.id !== keyvo4kChange.rows[0].previous.id) return row;
+      if (!isDeepStrictEqual(row, keyvo4kChange.rows[0].previous)) throw new Error('Keyvo Seedance 4K change does not match the previous row.');
+      appliedKeyvo4kChange = true;
+      return keyvo4kChange.rows[0].current;
+    })
+    .map(row => {
+      const change = seedreamFlashUnitChanges.get(row.id);
+      if (!change) return row;
+      if (!isDeepStrictEqual(row, change.previous)) throw new Error(`Keyvo Seedream Flash unit change does not match the previous row: ${row.id}`);
+      appliedSeedreamFlashUnit.add(row.id);
+      return change.current;
+    })
     .sort((left, right) => left.id.localeCompare(right.id));
+  if (!appliedKeyvo4kChange) throw new Error('Missing Keyvo Seedance 4K public pricing scenario.');
+  if (appliedSeedreamFlashUnit.size !== seedreamFlashUnitChanges.size) throw new Error('Missing Keyvo Seedream Flash unit pricing scenario.');
   if (appliedKeyvoChanges.size !== keyvoChanges.size) throw new Error('Missing Keyvo H3 transition scenario.');
   if (appliedOfficialChanges.size !== officialChanges.size) throw new Error('Missing Keyvo official list pricing scenario.');
   if (appliedOfficialRetirements.size !== officialRetiredRows.size) throw new Error('Missing Keyvo official list retired scenario.');
