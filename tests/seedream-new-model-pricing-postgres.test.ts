@@ -1,4 +1,4 @@
-// seedream-5-5 is registry-only on Keyvo (unoffered); this parity contract prices it on the unfiltered upstream catalog.
+// seedream-5-5 is offered on Keyvo and official-list priced (no USD tariff cell); this parity contract prices it on the unfiltered upstream catalog.
 import './helpers/keyvo-unfiltered-catalog';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -58,24 +58,33 @@ test('new Seedream web billing, image estimates, MCP settlement and current publ
           assert.equal(snapshot.meta?.providerCostContract, undefined);
           assert.equal((snapshot.meta?.providerCostUsage as { inputImages: number }).inputImages, count);
           assert.equal(snapshot.meta?.customerTariffRevision, 1);
-          // Keyvo's Flash supplier fact is the official CNY 0.12 list (= 0.015 USD at 8 CNY/USD).
-          const sourceUsd = flash ? 0.015 : Number(((resolution === '2K' ? 0.035 : 0.020) + count * 0.008).toFixed(6));
+          // Keyvo's supplier facts are the Volcengine CNY list at 8 CNY/USD: Flash output CNY 0.12; Seedream 5.5 output
+          // CNY 0.13 up to 2.61 MP (1K and 1.5K 16:9) or CNY 0.23 above it (2K 16:9 = 2816x1584), plus CNY 0.05 per input image.
+          const sourceUsd = flash ? 0.015
+            : Number((((resolution === '2K' ? 0.23 : 0.13) + count * 0.05) / 8).toFixed(6));
           assert.equal(snapshot.meta?.providerCostListUsd, sourceUsd);
         }
       }
     }
     const tenSourceScenario = collectSellableManualTariffCoverage({ modelId: 'seedream-5-5', mode: 'i2i' })
       .scenarios.find(row => row.selector.resolution === '2K' && row.selector.inputImageCount === '10')!;
-    await assert.rejects(previewCustomerTariffChange({ operation: 'create', scenarioId: tenSourceScenario.id,
-      customerCents: 11 }), /below|supplier|cost/i);
+    // Seedream 5.5 is official-list priced, so a manual 10-source cell is an optional override rather than a required floor.
+    // Its 2K supplier cost is CNY 0.23 + 10 x 0.05 = 0.73 CNY = 9.125 cents, which 11 cents covers; the preview stays a preview.
+    const tenSourcePreview = await previewCustomerTariffChange({ operation: 'create', scenarioId: tenSourceScenario.id,
+      customerCents: 11 });
+    assert.equal(tenSourcePreview.proposedCents, 11);
     assert.equal((await db.pool.query('SELECT count(*) FROM app_pricing_change_events')).rows[0].count, '0');
     assert.equal((await db.pool.query('SELECT count(*) FROM app_jobs')).rows[0].count, '0');
 
     await db.pool.query('UPDATE app_customer_tariff_state SET active = FALSE');
-    await assert.rejects(estimateImageGeneration({ engineId: 'seedream-5-5', mode: 't2i', numImages: 1,
-      resolution: '2K', aspectRatio: '1:1' }), /tariff/i);
-    assert.equal((await quotePublicModelScenario({ modelId: 'seedream-5-5', mode: 't2i', durationSec: 1, resolution: '2K' })).status,
-      'unavailable');
+    // Seedream 5.5 and Flash are official-list priced (CNY list x0.8, no tariff cell), so both keep quoting while the tariff is
+    // inactive; 5.5 2K output is CNY 0.23 (8 CNY/USD) before the 80% sale.
+    const proEstimate = await estimateImageGeneration({ engineId: 'seedream-5-5', mode: 't2i', numImages: 1,
+      resolution: '2K', aspectRatio: '1:1' });
+    assert.ok(proEstimate.pricing.totalCents > 0);
+    const proQuote = await quotePublicModelScenario({ modelId: 'seedream-5-5', mode: 't2i', durationSec: 1, resolution: '2K' });
+    assert.equal(proQuote.status, 'exact');
+    assert.equal(proQuote.status === 'exact' ? proQuote.amountCents : null, proEstimate.pricing.totalCents);
     // The official-list Flash rule needs no tariff, so it keeps quoting while the tariff is inactive.
     const flash = await estimateImageGeneration({ engineId: 'seedream-5-0-flash', mode: 't2i', numImages: 1,
       resolution: '2K', aspectRatio: '1:1' });
