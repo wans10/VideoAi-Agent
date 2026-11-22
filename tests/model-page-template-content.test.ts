@@ -14,6 +14,7 @@ import { getRuntimeModelById } from '../frontend/config/model-runtime';
 import { ModelArchivePage } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/ModelArchivePage';
 import { parseModelArchiveContent } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-archive-content';
 import { buildModelArchiveMetadata } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-archive-metadata';
+import { SITE_ORIGIN } from '../frontend/lib/siteOrigin';
 import { listFalEngines } from '../frontend/src/config/falEngines.ts';
 import { buildModelDecisionData } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-decision-data.ts';
 import { buildModelSchemaPayloads } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-schema-payloads.ts';
@@ -399,7 +400,8 @@ test('rendered Pika archives preserve localized URLs and history without generat
     const archive = parseModelArchiveContent(readModelContentJson(locale, model.slug).archive);
     const metadata = buildModelArchiveMetadata(model, archive, locale);
     const prefix = { en: '/models/', fr: '/fr/modeles/', es: '/es/modelos/' }[locale];
-    assert.equal(metadata.alternates?.canonical, `https://maxvideoai.com${prefix}pika-text-to-video`);
+    // Keyvo's canonical origin is the configured site origin (app.keyvo.cn), not the upstream MaxVideoAI host.
+    assert.equal(metadata.alternates?.canonical, `${SITE_ORIGIN}${prefix}pika-text-to-video`);
     assert.ok(archive.historyBody);
     assert.ok(archive.alternatives.every(alternative => getRuntimeModelById(alternative.modelId)?.publication.app.published));
     const previousReact = Object.getOwnPropertyDescriptor(globalThis, 'React');

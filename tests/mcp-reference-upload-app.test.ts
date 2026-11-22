@@ -19,6 +19,7 @@ import {
 } from '../frontend/src/server/mcp/server';
 
 const APP_URI = 'ui://maxvideoai/reference-upload-v3.html';
+const V2_APP_URI = 'ui://maxvideoai/reference-upload-v2.html';
 const LEGACY_APP_URI = 'ui://maxvideoai/reference-upload-v1.html';
 const token = `mru_${'U'.repeat(43)}`;
 const principal: AgentPrincipal = {
@@ -318,7 +319,8 @@ test('the directory advertises a new widget with exact review-origin CSP and kee
   assert.ok(ui.csp.connectDomains.every((origin) => !origin.includes('*')));
 
   const old = (await client.readResource({ uri: V2_APP_URI })).contents[0];
-  assert.equal(createHash('sha256').update(old.text ?? '').digest('hex'), '64bae6da32d126fa68ddcb2637e4d42fedbe18cf448604e880f05261656db050');
+  // Keyvo's frozen v2 bytes (Keyvo-branded, pre-merge document); upstream's 64bae6... pins its MaxVideoAI-branded v2.
+  assert.equal(createHash('sha256').update(old.text ?? '').digest('hex'), '3e05c8515c7c49b33c81af13d342165bc053c42a3a1a933518857426a5935692');
   assert.deepEqual((old._meta?.ui as { csp: { connectDomains: string[] } }).csp.connectDomains, [
     'https://maxvideoai.com', 'https://api.maxvideoai.com', 'https://maxvideoai-mcp-staging.vercel.app',
   ]);
@@ -408,7 +410,7 @@ test('the actual import widget uploads to the dedicated handoff and rejects fore
         if (allowed) {
           assert.deepEqual(requests.map((request) => request.url), ['start', 'part', 'complete'].map((stage) => `${origin}/api/mcp/reference-upload/${token}/${stage}`));
           assert.ok(requests.every((request) => request.authorization === `Bearer ${token}`));
-          assert.deepEqual(contexts, [`Private MaxVideoAI references imported and ready:\n- reference.png: ma_${'a'.repeat(32)} (image)`]);
+          assert.deepEqual(contexts, [`Private Keyvo references imported and ready:\n- reference.png: ma_${'a'.repeat(32)} (image)`]);
         } else {
           assert.deepEqual(requests, []);
           assert.deepEqual(contexts, []);

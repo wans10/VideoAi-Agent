@@ -22,7 +22,9 @@ const flush = () => new Promise<void>((resolve) => setImmediate(resolve));
 // 2026-11-13: Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro went offline (no mainland route) and leave the hub: -9.
 // 2026-11-14: the hub is customer-facing, so it follows the owner model allowlist (public tier only; admin-tier engines
 // are absent for ordinary viewers): 11 fewer video inputs than the pre-allowlist Keyvo catalogue.
-const VIDEO_QUOTES = 72 - 4 - 3 - 1 + 1 - 9 - 11;
+// 2026-11-22: upstream 3827da0 adds the Seedance 2.5 native 4K route (docs/engineering/seedance-25-4k.md): +1 video input
+// (seedance-2-5 t2v 10s 4k, audio off). Seedance 2.5 Flash and Seedream 5.5 stay unoffered and add no quote.
+const VIDEO_QUOTES = 72 - 4 - 3 - 1 + 1 - 9 - 11 + 1;
 const T2I_IMAGE_QUOTES = 7 - 2 + 1;
 const MODEL_QUOTES = VIDEO_QUOTES + T2I_IMAGE_QUOTES;
 // Keyvo 2026-11-14: the Character Builder rows quote the Seedream image price, so the two fixed Character products (draft/final) are no longer quoted: 12 -> 10 product quotes, 21 -> 19 other quotes.
@@ -75,7 +77,7 @@ test('a hub quotes each authored exact input once through at most eight distinct
     assert.equal(requests.length, new Set(requests.map(key)).size, 'identical matrix inputs share one quote');
     assert.ok(requests.every(input => input.modelId !== 'pika-text-to-video'), 'archived Pika never enters the current quote queue');
     assert.equal(requests.filter((input) => input.mode !== 't2i').length, VIDEO_QUOTES);
-    assert.equal(MODEL_QUOTES, 51);
+    assert.equal(MODEL_QUOTES, 52);
     for (const retired of ['happy-horse-1-0', 'seedream']) {
       assert.equal(requests.some((input) => input.modelId === retired), false, retired);
     }

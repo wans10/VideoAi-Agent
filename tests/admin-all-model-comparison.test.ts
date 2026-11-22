@@ -23,7 +23,9 @@ test('admin comparison includes published models and the closed launch tariff ca
   assert.deepEqual(new Set(rows.map(({ entry }) => entry.id)), new Set([...expected.map((model) => model.id), ...closedLaunchIds]));
   assert.equal(rows.filter(({entry})=>entry.id==='kling-v4').length,1);
   assert.equal(rows.filter(({entry})=>entry.id==='nano-banana-2-1').length,1);
-  for (const modelId of ['seedream-5-5', 'seedream-5-0-flash']) {
+  // Only seedream-5-5 is a new versioned upstream tariff. Keyvo keeps seedream-5-0-flash on its official-list CNY price
+  // (keyvo-owned engine), so it is quotable below rather than unsupported.
+  for (const modelId of ['seedream-5-5']) {
     assert.equal(rows.filter(({ entry }) => entry.id === modelId).length, 1);
     const outcomes = quoteCanonicalAdminScenarios({ databaseRules: [],
       scenarios: [rows.find(({ entry }) => entry.id === modelId)!.scenario] });
@@ -34,13 +36,17 @@ test('admin comparison includes published models and the closed launch tariff ca
     }
   }
 
+  const [seedreamFlash] = quoteCanonicalAdminScenarios({ databaseRules: [], scenarios: [rows.find(({ entry }) => entry.id === 'seedream-5-0-flash')!.scenario] });
+  assert.equal(seedreamFlash.status, 'quoted', 'Keyvo official-list CNY tariff for seedream-5-0-flash');
+
   assert.ok(rows.some(({ entry }) => entry.id === 'lumaRay2'));
   assert.ok(rows.some(({ entry }) => entry.id === 'lumaRay2_flash'));
   assert.equal(new Set(expected.map((model) => model.family)).size, 15);
   assert.ok(rows.every(({ scenario }) => scenario.durationSec && scenario.resolution && scenario.mode));
   const quotes = quoteCanonicalAdminScenarios({ databaseRules: [], scenarios: rows.filter(({entry})=>entry.id!=='kling-v4').map(({ scenario }) => scenario) });
   // Keyvo 2026-11-13: three offline models leave, Kling 4.0 now quotes on the official-list rule.
-  assert.equal(quotes.filter((quote) => quote.status === 'quoted').length, 47);
+  // 2026-11-22: seedream-5-0-flash quotes on Keyvo's official-list CNY tariff (+1); seedream-5-5 stays unsupported.
+  assert.equal(quotes.filter((quote) => quote.status === 'quoted').length, 48);
   const [v4] = quoteCanonicalAdminScenarios({databaseRules:[],scenarios:[rows.find(({entry})=>entry.id==='kling-v4')!.scenario]});
   assert.equal(v4.status,'unsupported','V4 cannot acquire an old percentage-policy price');
   if(v4.status==='unsupported') {

@@ -4,6 +4,7 @@ import type { McpDistributionProfile } from '@/server/mcp/distribution-profile';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 
 import { buildLegacyReferenceUploadAppHtml } from '@/server/mcp/reference-upload-app-legacy';
+import { REFERENCE_UPLOAD_V2_CONNECT_DOMAINS } from '@/server/mcp/reference-upload-app-v2';
 
 export const REFERENCE_UPLOAD_APP_URI = 'ui://maxvideoai/reference-upload-v3.html';
 export const LEGACY_REFERENCE_UPLOAD_APP_URIS = [
@@ -18,7 +19,7 @@ const CONNECT_DOMAINS = [
   'https://maxvideoai-mcp-staging.vercel.app',
 ];
 
-function buildReferenceUploadAppV2Html(): string {
+function buildReferenceUploadAppDocument(trustedOrigins: readonly string[]): string {
   return `<!doctype html>
 <html lang="en">
   <head>
@@ -69,7 +70,7 @@ function buildReferenceUploadAppV2Html(): string {
       let hasUploadedBatch = false;
       const importedAssets = new Map();
       const pendingRequests = new Map();
-      const trustedOrigins = new Set(${JSON.stringify(CONNECT_DOMAINS)});
+      const trustedOrigins = new Set(${JSON.stringify(trustedOrigins)});
 
       function record(value) {
         return value && typeof value === 'object' && !Array.isArray(value) ? value : null;
@@ -314,17 +315,22 @@ function buildReferenceUploadAppV2Html(): string {
 </html>`;
 }
 
+/** v2 keeps its original trusted origins (no review origin) so its existing document bytes stay frozen. */
+function buildReferenceUploadAppV2Html(): string {
+  return buildReferenceUploadAppDocument(REFERENCE_UPLOAD_V2_CONNECT_DOMAINS);
+}
+
 /** v3 updates display branding; v1/v2 conversations keep their original document bytes. */
 export function buildReferenceUploadAppHtml(): string {
-  return buildReferenceUploadAppV2Html().replace(/\bMaxVideoAI\b/g, PRODUCT_BRAND_NAME);
+  return buildReferenceUploadAppDocument(CONNECT_DOMAINS).replace(/\bMaxVideoAI\b/g, PRODUCT_BRAND_NAME);
 }
 
 export function registerReferenceUploadApp(server: McpServer, profile: McpDistributionProfile = 'direct'): void {
   const domain = profile === 'openai-directory' ? MAXVIDEOAI_WIDGET_DOMAIN : undefined;
   const resources = [
     { uri: REFERENCE_UPLOAD_APP_URI, name: 'maxvideoai-reference-upload-3', html: buildReferenceUploadAppHtml, connectDomains: CONNECT_DOMAINS },
-    { uri: LEGACY_REFERENCE_UPLOAD_APP_URIS[0], name: 'maxvideoai-reference-upload-1', html: buildReferenceUploadAppV2Html, connectDomains: CONNECT_DOMAINS },
-    { uri: LEGACY_REFERENCE_UPLOAD_APP_URIS[1], name: 'maxvideoai-reference-upload-2', html: buildLegacyReferenceUploadAppHtml, connectDomains: CONNECT_DOMAINS },
+    { uri: LEGACY_REFERENCE_UPLOAD_APP_URIS[0], name: 'maxvideoai-reference-upload-1', html: buildReferenceUploadAppV2Html, connectDomains: REFERENCE_UPLOAD_V2_CONNECT_DOMAINS },
+    { uri: LEGACY_REFERENCE_UPLOAD_APP_URIS[1], name: 'maxvideoai-reference-upload-2', html: buildLegacyReferenceUploadAppHtml, connectDomains: REFERENCE_UPLOAD_V2_CONNECT_DOMAINS },
   ];
   for (const { uri: resourceUri, name, html, connectDomains } of resources) {
     server.registerResource(
