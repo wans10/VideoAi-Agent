@@ -88,6 +88,9 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
     // 2026-11-13 (customer-tariff-cutover-evidence.test.ts): Wan 2.6, Kling 2.5 Turbo, Kling 2.6 Pro offline, Kling 3
     // voice-control variants share the audio-on identity and Hailuo 02 512P text-to-video is unsold: -84 checkpoints.
     const keyvoOfflineDelta = -84;
+    // Seedream 5.0 Flash is Keyvo's published engine and keeps its two official-list 1K checkpoints in this replay (the
+    // historical fixture closes only Seedream 5.5 and Seedance 2.5 Flash). Its two cells are part of the 26435 base, which
+    // equals the pre-merge Keyvo count; the merge changed nothing for this pin.
     assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length, 26435 + h3MaxOfficialCells + keyvoOfflineDelta);
     // -561: 555 ordinary checkpoints and 6 new-offer cells left with the provider-completeness sync (see the comment above).
     // The unfiltered catalog this suite runs on (Keyvo allowlist) also keeps MiniMax-H3-Max's six Recast/Relight new-offer

@@ -96,6 +96,8 @@ test('atomic local cutover rejects stale certificates, preserves staged evidence
     // plus H3-Max's 3564 exact cells on MiniMax's own API (2026-11-12).
     // -84 (2026-11-13): Wan 2.6 / Kling 2.5 Turbo / Kling 2.6 Pro offline, Kling 3 voice-control variants merged, Hailuo 02
     // 512P text-to-video unsold (customer-tariff-cutover-evidence.test.ts).
+    // Keyvo's published Seedream 5.0 Flash keeps its two official-list 1K checkpoints in the historical replay (only Seedream 5.5 and
+    // Seedance 2.5 Flash are closed by the fixture); they are inside this pin, which equals the pre-merge Keyvo count.
     assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length, 26982 + 8 - 555 + 3564 - 84);
     const run = (candidate = release, fingerprint = release.report.fingerprint, bindings = release.report.bindings) => withDbTransaction(e =>
       activateLocalCustomerTariffs(e, { release: candidate, fingerprint, currentBindings: bindings, actorId: actor }));

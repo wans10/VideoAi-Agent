@@ -16,8 +16,10 @@ export async function withArchivedPikaPricingCatalogue<T>(run: () => T | Promise
 }
 
 /** Replays the pre-launch catalogue, not the new models' financial approval.
- * Nano21, Flash, GPT Image 2.6 and the new Seedream variants have separate approved native prices and no
+ * Nano21, Flash, GPT Image 2.6 and the new Seedream 5.5 / Seedance 2.5 Flash have separate approved native prices and no
  * historical percentage baseline. Their added cells have dedicated price tests.
+ * Seedream 5.0 Flash is not closed here: Keyvo publishes it before this merge, so its two official-list 1K cells
+ * are real historical checkpoints of the Keyvo cutover inventory (the upstream 1.5K/2K cells are Seedream 5.5-only).
  * Seedance 2.5's later 4K cells likewise have no historical customer amount;
  * their separate create-missing ×2 import is covered by the commercial admin tests.
  * Archived Pika retains its historical money checkpoints only inside this fixture;
@@ -25,7 +27,7 @@ export async function withArchivedPikaPricingCatalogue<T>(run: () => T | Promise
 export async function withHistoricalCustomerTariffCatalogue<T>(run: () => T | Promise<T>): Promise<T> {
   return withClosedKlingV4Release(async () => {
     const models = ['nano-banana-2-1', 'kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst',
-      'seedance-2-5-flash', 'seedream-5-5', 'seedream-5-0-flash']
+      'seedance-2-5-flash', 'seedream-5-5']
       .map(id => getRuntimeModelById(id)!);
     const original = models.map(model => model.publication.app.published);
     const seedance = getFalEngineById('seedance-2-5')!;
