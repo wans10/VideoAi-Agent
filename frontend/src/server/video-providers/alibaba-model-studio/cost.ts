@@ -22,6 +22,7 @@ function roundUsd(value: number): number {
  * - kling-v3-turbo-video-generation: 720P 0.8, 1080P 1.0 CNY/s (audio always on).
  * - kling-v3-video-generation / kling-v3-omni-video-generation: 720P 0.9 (silent 0.6), 1080P 1.2 (silent 0.8),
  *   4K 3.0 CNY/s; with a reference video 0.9 / 1.2 / 3.0.
+ * - kling-v4-video-generation (checked 2026-11-22): 720P 1.0, 1080P 1.5 CNY/s, audio always on.
  * - MiniMax-H3: 768P 0.50, 2K 0.80 CNY/s over input video + output seconds; images beyond 5 cost 0.20 each;
  *   audio references are free.
  */
@@ -32,6 +33,8 @@ const KLING_V3_CNY = {
   audio: { std: 0.9, pro: 1.2, '4k': 3.0 } as Record<string, number>,
   silent: { std: 0.6, pro: 0.8, '4k': 3.0 } as Record<string, number>,
 };
+/** Kling 4.0 (kling-v4-video-generation), audio always on: 720P 1.0, 1080P 1.5 CNY/s. */
+const KLING_V4_CNY: Record<string, number> = { '720p': 1.0, '1080p': 1.5 };
 const MINIMAX_H3_CNY: Record<string, number> = { '768p': 0.5, '2k': 0.8 };
 const MINIMAX_H3_INCLUDED_IMAGES = 5;
 const MINIMAX_H3_EXTRA_IMAGE_CNY = 0.2;
@@ -61,6 +64,11 @@ export function estimateBailianHostedCost(route: AlibabaModelRoute, input: Baili
       providerCostUsd: rate === undefined ? null : cnyToUsd(seconds * rate + extraImages * MINIMAX_H3_EXTRA_IMAGE_CNY),
       source: BAILIAN_HOSTED_COST_SOURCE,
     };
+  }
+  if (route.family === 'kling_v4') {
+    const seconds = input.billedSeconds ?? output;
+    const rate = KLING_V4_CNY[(input.resolution ?? '').toLowerCase()];
+    return { providerCostUnits: seconds, providerCostUsd: rate === undefined ? null : cnyToUsd(seconds * rate), source: BAILIAN_HOSTED_COST_SOURCE };
   }
   const tier = route.klingMode ?? 'pro';
   const seconds = input.billedSeconds ?? output;

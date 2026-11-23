@@ -3,6 +3,7 @@ import {
   BAILIAN_KLING_OMNI_MODEL,
   BAILIAN_KLING_TURBO_MODEL,
   BAILIAN_KLING_V3_MODEL,
+  BAILIAN_KLING_V4_MODEL,
   BAILIAN_MINIMAX_H3_MODEL,
 } from './bailian-models';
 import { ALIBABA_MODEL_STUDIO_PROVIDER } from './model-map';
@@ -38,6 +39,8 @@ export const ALIBABA_SUBMIT_RATE_LIMITS: Readonly<Record<string, RateWindow>> = 
   [BAILIAN_KLING_TURBO_MODEL]: { limit: 300, windowMs: 60_000 },
   [BAILIAN_KLING_V3_MODEL]: { limit: 300, windowMs: 60_000 },
   [BAILIAN_KLING_OMNI_MODEL]: { limit: 300, windowMs: 60_000 },
+  // Kling 4.0 (docs checked 2026-11-22): 5 RPS per model; 10 concurrent tasks shared by the 7 Kling models.
+  [BAILIAN_KLING_V4_MODEL]: { limit: 5, windowMs: 1_000 },
   [BAILIAN_MINIMAX_H3_MODEL]: { limit: 300, windowMs: 60_000 },
 };
 
@@ -47,6 +50,7 @@ export const ALIBABA_VIDEO_CONCURRENCY_LIMITS: Readonly<Record<string, number>> 
   'happyhorse-1.1-t2v': 5,
   'happyhorse-1.1-i2v': 5,
   'happyhorse-1.1-r2v': 5,
+  [BAILIAN_KLING_V4_MODEL]: 10,
 };
 
 /** Provider-side states that still occupy an Alibaba task slot (output-copy retries do not). */

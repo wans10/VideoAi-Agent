@@ -282,7 +282,7 @@ function isBailianRouteReady(params: VideoProviderRoutingParams): boolean {
 }
 
 /**
- * Kling 3 / 3.0 Omni / 3.0 Turbo and MiniMax-H3 are hosted on Bailian as well as on the vendor's own API.
+ * Kling 3 / 3.0 Omni / 3.0 Turbo / 4.0 (t2v, i2v) and MiniMax-H3 are hosted on Bailian as well as on the vendor's own API.
  * KLING_ROUTE_ORDER / MINIMAX_H3_ROUTE_ORDER (default `bailian,direct`) pick the primary before any task exists;
  * the other leg is attached as a pre-acceptance fallback only. An unusable leg is skipped; when neither is
  * usable the vendor plan (including its unavailable/Fal result) is returned unchanged.
@@ -290,7 +290,7 @@ function isBailianRouteReady(params: VideoProviderRoutingParams): boolean {
 function applyBailianRouteOrder(params: VideoProviderRoutingParams, vendorPlan: VideoProviderRoutingPlan): VideoProviderRoutingPlan {
   const hosted = resolveBailianHostedEngine(params.engineId);
   if (!hosted || videoOperationEndpoint(params.engineId, params.mode, params.operation)) return vendorPlan;
-  // Kling 3.0 Turbo's direct leg is the new-design plan (`apiDesign: 'v2'`); Kling 4.0 is not Bailian-hosted.
+  // Kling 3.0 Turbo's direct leg is the new-design plan (`apiDesign: 'v2'`); Kling 4.0 (t2v/i2v) is Bailian-hosted too; Flash is not.
   const directPlan = (hosted.routeFamily === 'kling'
     ? vendorPlan.kind === 'kling_direct_primary'
     : vendorPlan.kind === 'llmhub_primary') ? vendorPlan as BailianDirectFallbackPlan : null;

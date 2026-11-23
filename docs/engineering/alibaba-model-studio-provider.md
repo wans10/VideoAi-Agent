@@ -148,6 +148,7 @@ Bailian (this Model Studio account, cn-beijing) also hosts third-party models on
 | --- | --- | --- | --- |
 | `kling-3-turbo-standard` / `-pro` | `kling/kling-v3-turbo-video-generation` | t2v, i2v (first frame only) | std 720P / pro 1080P, 16:9 9:16 1:1, 3–15 s, audio always on, no negative prompt, no subjects |
 | `kling-3-standard` / `-pro` / `-4k` | `kling/kling-v3-video-generation` | t2v, i2v (first or first+last) | std / pro / 4k, 16:9 9:16 1:1, 3–15 s, audio flag |
+| `kling-v4` | `kling/kling-v4-video-generation` | t2v, i2v (first, optional last frame; Bailian also takes middle frames, not exposed) | tier follows the request resolution: 720p std / 1080p pro, 16:9 9:16 1:1 21:9 (t2v only; i2v follows the frame), 3–30 s, audio always on (no `audio` field), no negative prompt, no custom shot plan (refused locally: Kling official), no subjects/voices; ref2v / v2v and `kling-v4-flash` stay on Kling official |
 | `kling-o3-standard` / `-pro` / `-4k` | `kling/kling-v3-omni-video-generation` | t2v, i2v, ref2v (`refer` ≤7, `feature` video + `refer` ≤4, `feature` + first frame), v2v (`feature` + `refer` ≤4, 3–10 s, audio off, `keep_original_sound`) | std / pro / 4k |
 | `minimax-h3` | `MiniMax/MiniMax-H3` | t2v (fixed ratio), i2v (first / last / both), ref2v (`image_url` ≤9, `feature` ≤3, `driving_audio` ≤3, 2–15 s each, ≤15 s total) | 768P / 2K, 4–15 s, prompt ≤7000 |
 
@@ -166,8 +167,8 @@ Media is sent as one-hour owner-checked read grants (`createWanMediaTransport`),
 admin-only/public routing; direct: the existing `kling_direct_primary` plan — legacy for Kling 3 / Omni, new design
 for 3.0 Turbo (`kling-official-provider.md`) — or the MiniMax `llmhub_primary` plan) and, for Bailian, when the request is portable (`isBailianHostedRequestCompatible`: no Kling subjects,
 voice IDs, camera control or motion brush — Bailian element IDs are a separate catalogue; H3 exactly the
-official V2 inputs). With neither leg usable, the vendor plan is returned unchanged. Kling 4.0 / 4.0 Flash and
-H3-Max are not hosted here. `cfg_scale` has no Bailian parameter and is dropped on that leg.
+official V2 inputs). With neither leg usable, the vendor plan is returned unchanged. Kling 4.0 Flash and
+H3-Max are not hosted here, and Kling 4.0 is hosted for t2v / i2v only (a request with a shot plan, or in ref2v / v2v mode, uses the official route alone). `cfg_scale` has no Bailian parameter and is dropped on that leg.
 
 The order is fixed before any provider task exists. The second leg is attempted only after a **definite
 pre-acceptance** rejection of the first:
@@ -187,11 +188,11 @@ linked by `fallback_to_attempt_id`; `request_snapshot.route` = `bailian` / `dire
 (`alibaba_model_studio`, `kling_direct` or `llmhub`), so the matching poller owns the job. A second leg never
 chains Fal or a third provider.
 
-Capacity: 300 RPM per hosted model (`capacity.ts`, per process); an exhausted window is a definite rejection.
+Capacity: 300 RPM per hosted model (`capacity.ts`, per process); an exhausted window is a definite rejection. `kling-v4-video-generation` documents 5 RPS and 10 concurrent tasks shared by the 7 Kling models of the API key (checked 2026-11-22); `capacity.ts` guards 5 RPS and 10 in-progress tasks for that model, and Bailian's 429 is the backstop for the shared cap.
 
 Vendor cost (PROVISIONAL, `bailian_cn_beijing_list_price_2026_11_11_provisional`, CNY list / 8 = USD; customer
 prices unchanged): Turbo 0.8 / 1.0 CNY/s; Kling 3.0 and Omni 0.9 / 1.2 / 3.0 with audio or a reference video,
-0.6 / 0.8 / 3.0 silent; H3 0.50 (768P) / 0.80 (2K) CNY/s over `usage.duration` (input video + output seconds),
+0.6 / 0.8 / 3.0 silent; Kling 4.0 1.0 / 1.5 CNY/s (720P / 1080P, audio always on; fetched 2026-11-22 from [model-pricing](https://docs.bailian.console.aliyun.com/zh/model-studio/model-pricing.md) — equal to the Kling official list, so the `official-list-80` customer price is unchanged and the Bailian cost is 1.25x the customer price); H3 0.50 (768P) / 0.80 (2K) CNY/s over `usage.duration` (input video + output seconds),
 images beyond 5 at 0.20 each, audio free. Completion uses `usage.duration` when Bailian reports it.
 
 The workspace engine guide shows Turbo's limits in zh (`workspace.generate.engineSelect.guides`).
@@ -307,3 +308,34 @@ Before any later deployment or routing change, require:
 The separate direct image adapter and Docker configuration are documented in
 [Qwen Image deployment](../deployment/qwen-image.md). It uses synchronous image
 generation; the video polling endpoint does not poll image requests.
+
+## Kling 4.0 Omni Reference on Bailian: analysis only (2026-11-22)
+
+`kling/kling-v4-omni-reference-video-generation` is **not mapped** and no public engine exists for it (the
+registry has `kling-v4`, `kling-v4-flash` and the Kling 3.0 Omni `kling-o3-*` engines only). Facts from the
+[model page](https://docs.bailian.console.aliyun.com/zh/model-studio/kling-v4-omni-reference-video-generation.md),
+the [API reference](https://docs.bailian.console.aliyun.com/zh/model-studio/kling-video-generation-api-reference.md) and
+[model-pricing](https://docs.bailian.console.aliyun.com/zh/model-studio/model-pricing.md) (fetched 2026-11-22): t2v,
+keyframes, reference-to-video and video editing; std 720P / pro 1080P; 3–30 s; 21:9 16:9 9:16 1:1; audio always on;
+media `first_frame` / `middle_frame` / `last_frame` / `refer` / `feature` / `base`; images ≤10, videos ≤5, subjects
+≤7 (≤3 video subjects), voices ≤3, all ≤15; images JPG/PNG ≥300 px, 2:5–5:2, ≤30 MB; videos MP4/MOV ≤300 MB,
+3–30 s, 700–4553 px, 24–60 fps; subjects and voices only by ID from Kling's official libraries (no creation API);
+prompt tags `<<<image_1>>>` `<<<video_1>>>` `<<<element_1>>>` `<<<voice_1>>>`; no multi_shot / customize /
+multi_prompt / `keep_original_sound: yes`; 5 RPS and 10 concurrent tasks shared with the other Kling models;
+`video_url` valid 30 days, `task_id` 24 h. Price CNY/s: 1.0 (720P) / 1.5 (1080P) without a reference video,
+0.6 / 0.9 with one; billed seconds with a video input = max(total input, output) + output.
+
+Options for the owner:
+1. **Serve `kling-v4` ref2v / v2v from this model (smallest, no new public model).** The official Kling 4.0 route
+   already sends those modes to `/omni-video/kling-4.0`. Needs per-mode model selection in
+   `BAILIAN_HOSTED_ENGINES` (model per mode), a `kling_v4_omni` family, a payload builder mapping `refer` / `feature`
+   / `base` / `first_frame`, cost with the with-video rate and the billed-seconds formula, a capacity entry, and tests.
+   Keyvo subjects/voices would have to stay on the official route (Bailian IDs are a separate catalogue). The with-video
+   Bailian price (0.6 / 0.9 CNY/s) equals the Kling official list at 1080p (0.9); check 720p and the billed-seconds
+   formula against `kling-v4-pricing.ts` before relying on it. Customer prices stay unchanged. Effort: about 1 day plus CI.
+2. **New public engine `kling-v4-omni`.** Needs a registry entry (identity, publication, replacement), allowlist
+   entry and tier, regenerated projections, engine config under `frontend/src/config/fal-engines/`, customer tariff
+   and pricing baseline/fixtures, zh content (model page, examples, compare, workspace guide), MCP mode projection and
+   reviewed-policy fingerprint, plus all architecture tests. Effort: 3–5 days; it duplicates Kling 4.0, whose
+   official Omni endpoint is the same model, so it is not recommended.
+3. Do nothing until Bailian publishes more detail (middle frames, subject catalogue).

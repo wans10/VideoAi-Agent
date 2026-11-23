@@ -40,7 +40,7 @@
   ],
   "providerIdsByEngine": {
     "kling-v4": [
-      "kling-4.0 (Kling official)"
+      "kling-4.0 (Bailian kling/kling-v4-video-generation for text-to-video and keyframe-to-video, then Kling official; reference and edit modes: Kling official only)"
     ],
     "kling-v4-flash": [
       "kling-4.0-flash (Kling official)"

@@ -11,15 +11,18 @@
 export const BAILIAN_KLING_TURBO_MODEL = 'kling/kling-v3-turbo-video-generation' as const;
 export const BAILIAN_KLING_V3_MODEL = 'kling/kling-v3-video-generation' as const;
 export const BAILIAN_KLING_OMNI_MODEL = 'kling/kling-v3-omni-video-generation' as const;
+/** Kling 4.0 (text-to-video and keyframe-to-video; the Omni Reference 4.0 model is not mapped, see the provider guide). */
+export const BAILIAN_KLING_V4_MODEL = 'kling/kling-v4-video-generation' as const;
 export const BAILIAN_MINIMAX_H3_MODEL = 'MiniMax/MiniMax-H3' as const;
 
 export type BailianHostedModel =
   | typeof BAILIAN_KLING_TURBO_MODEL
   | typeof BAILIAN_KLING_V3_MODEL
   | typeof BAILIAN_KLING_OMNI_MODEL
+  | typeof BAILIAN_KLING_V4_MODEL
   | typeof BAILIAN_MINIMAX_H3_MODEL;
 
-export type BailianHostedFamily = 'kling_turbo' | 'kling_v3' | 'kling_omni' | 'minimax_h3';
+export type BailianHostedFamily = 'kling_turbo' | 'kling_v3' | 'kling_omni' | 'kling_v4' | 'minimax_h3';
 /** Route-order family: one env switch per vendor (KLING_ROUTE_ORDER / MINIMAX_H3_ROUTE_ORDER). */
 export type BailianRouteFamily = 'kling' | 'minimax_h3';
 /** Bailian Kling `parameters.mode`: std = 720P, pro = 1080P, 4k = 4K (Turbo has no 4K). */
@@ -31,7 +34,10 @@ export type BailianHostedEngine = {
   family: BailianHostedFamily;
   routeFamily: BailianRouteFamily;
   modes: readonly BailianHostedMode[];
-  /** Same tier as the Kling direct route for this engine, so primary and fallback render the same product. */
+  /**
+   * Same tier as the Kling direct route for this engine, so primary and fallback render the same product.
+   * Absent for kling-v4, whose tier follows the request resolution (720p std / 1080p pro).
+   */
   klingMode?: BailianKlingMode;
 };
 
@@ -63,6 +69,10 @@ export const BAILIAN_HOSTED_ENGINES: Readonly<Record<string, BailianHostedEngine
   'kling-o3-4k': {
     model: BAILIAN_KLING_OMNI_MODEL, family: 'kling_omni', routeFamily: 'kling', modes: KLING_OMNI_MODES, klingMode: '4k',
   },
+  // Kling 4.0: Bailian hosts text-to-video and keyframe-to-video only; ref2v / v2v stay on Kling official.
+  'kling-v4': {
+    model: BAILIAN_KLING_V4_MODEL, family: 'kling_v4', routeFamily: 'kling', modes: KLING_GENERATION_MODES,
+  },
   'minimax-h3': {
     model: BAILIAN_MINIMAX_H3_MODEL, family: 'minimax_h3', routeFamily: 'minimax_h3', modes: ['t2v', 'i2v', 'ref2v'],
   },
@@ -82,5 +92,5 @@ export function isBailianHostedModeSupported(engineId: string, mode: string): bo
 
 export function isBailianHostedModel(model: string | null | undefined): model is BailianHostedModel {
   return model === BAILIAN_KLING_TURBO_MODEL || model === BAILIAN_KLING_V3_MODEL
-    || model === BAILIAN_KLING_OMNI_MODEL || model === BAILIAN_MINIMAX_H3_MODEL;
+    || model === BAILIAN_KLING_OMNI_MODEL || model === BAILIAN_KLING_V4_MODEL || model === BAILIAN_MINIMAX_H3_MODEL;
 }
