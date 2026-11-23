@@ -1910,6 +1910,7 @@
       "gscSourceUrls": [],
       "hasLocalizedOverride": true,
       "strategicSignals": [
+        "related_graph",
         "scoreboard"
       ],
       "classification": "keep",
@@ -6201,6 +6202,7 @@
       "gscSourceUrls": [],
       "hasLocalizedOverride": true,
       "strategicSignals": [
+        "related_graph",
         "scoreboard"
       ],
       "classification": "keep",
@@ -10387,6 +10389,7 @@
       "gscSourceUrls": [],
       "hasLocalizedOverride": true,
       "strategicSignals": [
+        "related_graph",
         "scoreboard"
       ],
       "classification": "keep",

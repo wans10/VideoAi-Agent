@@ -3,6 +3,9 @@ import type { AgentPrincipal } from '@/server/agent-api/principal';
 import { readRequestBearerAccessToken } from '@/lib/request-auth';
 import { readDeletionScheduledAt } from '@/lib/account-deletion-flag';
 import { createSupabaseRouteClient } from '@/lib/supabase-ssr';
+import { hasActiveOAuthGrant, readOAuthUserInfo, type VerifiedOAuthSession } from './oauth-session-validation';
+export { hasActiveOAuthGrant } from './oauth-session-validation';
+import { directoryOAuthResourcePolicy, satisfiesOAuthResourcePolicy, type McpAuthenticationContext, type OAuthResourcePolicy } from './oauth-resource-policy';
 import {
   createDirectMcpAcquisition,
   type McpConnectionAcquisition,
@@ -11,7 +14,12 @@ import {
 export type OAuthClaims = {
   sub?: unknown;
   client_id?: unknown;
+  session_id?: unknown;
   email_verified?: unknown;
+  iss?: unknown;
+  aud?: unknown;
+  exp?: unknown;
+  nbf?: unknown;
 };
 
 export type OAuthUser = {
@@ -19,7 +27,10 @@ export type OAuthUser = {
   email_confirmed_at?: string | null;
   /** Phone sign-up accounts have no email; a confirmed phone is their verified contact. */
   phone_confirmed_at?: string | null;
-  identities?: Array<{ provider?: string | null }> | null;
+  email_verified?: boolean;
+  /** Set by the OAuth identity lookup when only the phone is confirmed (no email scope on the grant). */
+  phone_verified?: boolean;
+
   user_metadata?: Record<string, unknown> | null;
   app_metadata?: Record<string, unknown> | null;
 };
@@ -29,7 +40,7 @@ type OAuthAuthClient = {
     data: { claims: OAuthClaims } | null;
     error: unknown;
   }>;
-  getUser(accessToken: string): Promise<{
+  getUser(accessToken: string, oauthClientId?: string): Promise<{
     data: { user: OAuthUser | null };
     error: unknown;
   }>;
@@ -40,52 +51,10 @@ export type OAuthAdapterDeps = {
   hasActiveGrant(
     accessToken: string,
     clientId: string,
+    requiredScopes: readonly string[] | undefined,
+    binding: VerifiedOAuthSession,
   ): Promise<boolean>;
 };
-
-type ActiveOAuthGrantLookupDeps = {
-  supabaseUrl?: string;
-  anonKey?: string;
-  fetcher?: typeof fetch;
-};
-
-export async function hasActiveOAuthGrant(
-  accessToken: string,
-  clientId: string,
-  deps: ActiveOAuthGrantLookupDeps = {},
-): Promise<boolean> {
-  const supabaseUrl = deps.supabaseUrl ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = deps.anonKey ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!supabaseUrl?.trim() || !anonKey?.trim()) return false;
-
-  try {
-    const grantsUrl = new URL('/auth/v1/user/oauth/grants', supabaseUrl);
-    const response = await (deps.fetcher ?? fetch)(grantsUrl, {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        apikey: anonKey,
-        authorization: `Bearer ${accessToken}`,
-      },
-      cache: 'no-store',
-    });
-    if (!response.ok) return false;
-
-    const grants: unknown = await response.json();
-    if (!Array.isArray(grants)) return false;
-    for (const grant of grants) {
-      if (!grant || typeof grant !== 'object') continue;
-      const client = (grant as { client?: unknown }).client;
-      if (!client || typeof client !== 'object' || (client as { id?: unknown }).id !== clientId) {
-        continue;
-      }
-      return true;
-    }
-    return false;
-  } catch {
-    return false;
-  }
-}
 
 const defaultOAuthAdapterDeps: OAuthAdapterDeps = {
   async createAuthClient() {
@@ -98,7 +67,11 @@ const defaultOAuthAdapterDeps: OAuthAdapterDeps = {
           error: result.error,
         };
       },
-      async getUser(accessToken) {
+      async getUser(accessToken, oauthClientId) {
+        if (oauthClientId) {
+          const user = await readOAuthUserInfo(accessToken);
+          return { data: { user }, error: user ? null : authenticationRequired() };
+        }
         const result = await supabase.auth.getUser(accessToken);
         const user = result.data.user;
         return {
@@ -118,8 +91,8 @@ const defaultOAuthAdapterDeps: OAuthAdapterDeps = {
       },
     };
   },
-  async hasActiveGrant(accessToken, clientId) {
-    return hasActiveOAuthGrant(accessToken, clientId);
+  async hasActiveGrant(_accessToken, clientId, requiredScopes, binding) {
+    return hasActiveOAuthGrant(binding, clientId, {}, requiredScopes);
   },
 };
 
@@ -135,6 +108,7 @@ async function resolveOAuthPrincipal(
   request: Request,
   deps: OAuthAdapterDeps,
   requireClientBinding: boolean,
+  resourcePolicy?: OAuthResourcePolicy,
 ): Promise<AgentPrincipal> {
   const accessToken = readRequestBearerAccessToken(request);
   if (!accessToken) {
@@ -150,18 +124,25 @@ async function resolveOAuthPrincipal(
   if (claimsResult.error || !subject) {
     throw authenticationRequired();
   }
+  // getClaims verifies the signed token first. Resource policy never comes from
+  // token fields, forwarded headers, tool arguments or editable user_metadata.
+  if (resourcePolicy && !satisfiesOAuthResourcePolicy(claimsResult.data!.claims, resourcePolicy)) {
+    throw authenticationRequired();
+  }
 
   const rawClientId = claimsResult.data?.claims.client_id;
   const clientId = typeof rawClientId === 'string' && rawClientId.trim() ? rawClientId.trim() : null;
   if (requireClientBinding && !clientId) {
     throw authenticationRequired();
   }
-  // Supabase revocation deletes every session bound to this client. getUser()
-  // validates that session_id; the grants endpoint independently validates consent.
-  // Neither check should infer token generations from lossy timestamps.
-  const userPromise = auth.getUser(accessToken);
+  const rawSessionId = claimsResult.data?.claims.session_id;
+  const sessionId = typeof rawSessionId === 'string' ? rawSessionId.trim() : '';
+  if (clientId && !sessionId) throw authenticationRequired();
+  // UserInfo validates the live OAuth identity. The service-only Auth lookup
+  // independently checks consent, exact user/session/client binding and scopes.
+  const userPromise = auth.getUser(accessToken, clientId ?? undefined);
   const activeGrantPromise = clientId
-    ? deps.hasActiveGrant(accessToken, clientId).catch(() => false)
+    ? deps.hasActiveGrant(accessToken, clientId, resourcePolicy?.requiredGrantScopes, { userId: subject, sessionId }).catch(() => false)
     : Promise.resolve(true);
   const [userResult, hasActiveGrant] = await Promise.all([
     userPromise,
@@ -184,7 +165,7 @@ async function resolveOAuthPrincipal(
     clientId,
     // `emailVerified` means "verified contact": a confirmed email, or a confirmed phone for
     // Keyvo phone-only accounts (they have no email to verify).
-    emailVerified: isConfirmedAt(user.email_confirmed_at) || isConfirmedAt(user.phone_confirmed_at),
+    emailVerified: user.email_verified === true || user.phone_verified === true || isConfirmedAt(user.email_confirmed_at) || isConfirmedAt(user.phone_confirmed_at),
     authMethod: 'oauth',
   };
 }
@@ -199,8 +180,21 @@ export function resolveAgentPrincipal(
 export function resolveMcpAgentPrincipal(
   request: Request,
   deps: OAuthAdapterDeps = defaultOAuthAdapterDeps,
+  resourcePolicy?: OAuthResourcePolicy,
 ): Promise<AgentPrincipal> {
-  return resolveOAuthPrincipal(request, deps, true);
+  return resolveOAuthPrincipal(request, deps, true, resourcePolicy);
+}
+
+export function resolveMcpRequestPrincipal(
+  request: Request,
+  context: McpAuthenticationContext,
+  deps: OAuthAdapterDeps = defaultOAuthAdapterDeps,
+  env: Readonly<Record<string, string | undefined>> = process.env,
+): Promise<AgentPrincipal> {
+  const policy = context.distributionProfile === 'openai-directory'
+    ? directoryOAuthResourcePolicy(context.resourceUrl, env.NEXT_PUBLIC_SUPABASE_URL ?? '')
+    : undefined;
+  return resolveMcpAgentPrincipal(request, deps, policy);
 }
 
 export type AuthenticatedMcpConnection = {

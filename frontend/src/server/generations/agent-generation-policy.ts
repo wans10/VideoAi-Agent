@@ -1,4 +1,5 @@
 import {PRODUCT_BRAND_NAME} from '@/lib/product-brand';
+import { audioDispatchObservation } from '@/lib/audio-dispatch-observation';
 import { getKnownGenerationFailureMessage } from '@/lib/generation-failure-messages';
 import { appendConfirmedWalletRefund } from '@/lib/seedance-failure-messages';
 import { deriveJobSurface } from '@/lib/job-surface';
@@ -356,6 +357,7 @@ export function mapGenerationStatusRecordToAgent(
   const surface = normalizeAgentSurface(record);
   if (!surface) return null;
   const status = normalizeAgentStatus(record.status);
+  const dispatch = surface === 'audio' ? audioDispatchObservation(record.settings_snapshot, status) : { needsAttention: false, message: null };
   const settings = record.settings_snapshot as { seedanceWorkflow?: { step?: string; draftJobId?: string } } | null;
   const workflow = record.engine_id === 'seedance-2-5' ? settings?.seedanceWorkflow : undefined;
   const workflowStep = workflow?.step;
@@ -370,7 +372,8 @@ export function mapGenerationStatusRecordToAgent(
     surface,
     status,
     progress: normalizeProgress(record.progress, status),
-    message: buildAgentMessage(status, record.message, record.status, failureCode, normalizePaymentStatus(record.payment_status)),
+    ...(dispatch.needsAttention ? { needsAttention: true } : {}),
+    message: dispatch.message ?? buildAgentMessage(status, record.message, record.status, failureCode, normalizePaymentStatus(record.payment_status)),
     priceCents:
       typeof record.final_price_cents === 'number' &&
       Number.isSafeInteger(record.final_price_cents) &&
@@ -381,6 +384,6 @@ export function mapGenerationStatusRecordToAgent(
     paymentStatus: normalizePaymentStatus(record.payment_status),
     ...(failureCode ? { failureCode } : {}),
     result: buildAgentResult(record, surface, status),
-    retryAfterSeconds: status === 'accepted' || status === 'running' ? 5 : null,
+    retryAfterSeconds: !dispatch.needsAttention && (status === 'accepted' || status === 'running') ? 5 : null,
   };
 }

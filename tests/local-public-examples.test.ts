@@ -67,8 +67,26 @@ test('historical stored IDs retain their registry family but are not discoverabl
  const {normalizeEngineId}=await import('../frontend/src/lib/engine-alias');
  const {isDiscoverableExampleEngine}=await import('../frontend/lib/examples/discovery');
  for(const [input,canonical,family] of [['veo-3-fast','veo-3-1-fast','veo'],['veo3fast','veo-3-1-fast','veo'],['pika-image-to-video','pika-text-to-video','pika'],['lumaRay2','lumaRay2','luma'],['lumaRay2_flash','lumaRay2_flash','luma']]){
-  assert.equal(normalizeEngineId(input),canonical);assert.equal(resolveExampleFamilyId(input),null,family); // the family page itself is hiddenassert.equal(isDiscoverableExampleEngine(input),false); // hidden vendor families are not discoverable on Keyvo
+  assert.equal(normalizeEngineId(input),canonical);assert.equal(resolveExampleFamilyId(input),null,family); // the family page itself is hidden
+  assert.equal(isDiscoverableExampleEngine(input),false); // hidden vendor families are not discoverable on Keyvo
  }
+});
+
+test('Pika historical media remains readable through its family and model archive, outside the current feed', () => {
+  const historical = { ...card, id: 'pika-archive', engineIconId: 'pika-image-to-video', engineLabel: 'Pika 2.2',
+    videoUrl: 'https://media.maxvideoai.com/pika-original.mp4' };
+  // Keyvo hides the admin-tier Veo family from the public feed, so the current-feed fixture uses a publicly offered engine.
+  const visible = { ...card, engineIconId: 'kling-v4', engineLabel: 'Kling 4.0' };
+  const archived: PublicExamplesSnapshot = { ...snapshot, cards: { a: visible, pika: historical },
+    feeds: { '': { playlist: ['a', 'pika'], 'date-desc': ['pika', 'a'] },
+      pika: { playlist: ['pika'], 'date-desc': ['pika'] } } };
+  assert.deepEqual(selectLocalPublicExamples(archived, '', 'playlist', 10, 0).items.map(video => video.id), ['public-a']);
+  const family = selectLocalPublicExamples(archived, 'pika', 'playlist', 10, 0);
+  assert.equal(family.total, 1);
+  assert.equal(family.items[0].id, 'pika-archive');
+  assert.equal(family.items[0].videoUrl, historical.videoUrl);
+  assert.equal(family.items[0].finalPriceCents, 113, 'historical stored charges remain intact');
+  assert.deepEqual(selectLocalModelExamples(archived, 'pika-text-to-video'), family.items);
 });
 
 test('model previews accept registry aliases for the same model without choosing a sibling',()=>{

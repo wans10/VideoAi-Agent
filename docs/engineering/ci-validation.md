@@ -31,7 +31,7 @@ not change coverage or the aggregate Quality CI gate.
 
 The browser lane runs two independent standard Ubuntu 24.04 jobs, each installing
 Chromium and WebKit so the mobile prompt and Modify navigation regressions run
-against both engines. Each job retains its 40-minute total budget. The matrix uses
+against both engines. Each job has a 50-minute total budget. The matrix uses
 `fail-fast: false`, so a failed partition does not cancel its sibling. Files run
 sequentially within each partition (`--test-concurrency=1`), with separate VM
 checkouts, ports and disks. The runner alternates files in the original Browser
@@ -50,6 +50,12 @@ The same run exposed a stale initial-cutover test total: the reviewed Luma Modif
 expansion adds 36 cells (12 extra duration classes × 3 resolutions) to the 128
 FLUX Max cells and historical 26,818 checkpoints. The exhaustive fixture asserts
 these expansions before replay and preserves all monetary and rollback checks.
+
+On 2026-11-18, the browser jobs on PR #661 spent about 25 minutes preparing
+the hosted runners. Both reached the former 40-minute deadline during browser
+validation. The second partition reported 176 passing tests before the job
+canceled between browser validation and admin smoke. The 50-minute limit
+allows the browser and admin steps to finish after a cold setup.
 
 The fast job has a 30-minute limit, including setup, audits, type checking and
 lint. Its 1,300+ tools-free test files include complete pricing projections;
@@ -203,6 +209,12 @@ On the Milo release candidate, Ubuntu 26.04 spent nearly 22 minutes installing
 PostgreSQL/FFmpeg before the database/media job reached its 25-minute limit.
 Pinning that lane to the same stable image preserves both the complete integration
 suite and the isolated Studio route checks; it does not turn a timeout into a pass.
+
+The database/media job now has a 35-minute total limit. On the 2026-11-17
+candidate, the main suite completed 1,930 tests with zero failures in 22 minutes
+16 seconds, then the 25-minute job limit canceled the still-progressing isolated
+Studio routes. The additional allowance preserves both complete suites and their
+existing assertions; the Quality CI gate still rejects a timeout or cancellation.
 
 `frontend/next.config.js` explicitly enables `experimental.webpackBuildWorker`
 because next-intl adds a custom Webpack hook, which disables Next 15's automatic

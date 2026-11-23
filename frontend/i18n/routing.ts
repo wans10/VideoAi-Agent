@@ -44,6 +44,16 @@ export const routing = defineRouting({
       es: '/pay-as-you-go-ai-video-generator',
       zh: '/pay-as-you-go-ai-video-generator',
     },
+    '/higgsfield-alternative': {
+      en: '/higgsfield-alternative',
+      fr: '/higgsfield-alternative',
+      es: '/higgsfield-alternative',
+    },
+    '/openart-alternative': {
+      en: '/openart-alternative',
+      fr: '/openart-alternative',
+      es: '/openart-alternative',
+    },
     '/tools': {
       en: '/tools',
       fr: '/outils',

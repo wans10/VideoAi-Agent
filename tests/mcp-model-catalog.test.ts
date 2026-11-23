@@ -137,17 +137,14 @@ test('catalog emits a narrow public DTO and supported modes only', async () => {
   assert.equal('provider' in models[0], false);
 });
 
-test('catalog keeps Pika discoverable without recommending it by default', async () => {
+test('catalog keeps Pika historical by exact ID without default discovery or execution', async () => {
   const catalogDeps = realRegistryDeps('test-fal-key');
   const broad = await listAgentModels({ surface: 'video' }, catalogDeps);
   const exact = await listAgentModels({ id: 'pika-text-to-video' }, catalogDeps);
-
-  for (const model of [broad.find((entry) => entry.id === 'pika-text-to-video'), exact[0]]) {
-    assert.ok(model);
-    assert.equal(model.lifecycle, 'current');
-    assert.equal(model.generationEnabled, true);
-    assert.equal(model.recommendedByDefault, false);
-  }
+  assert.equal(broad.some(model => model.id === 'pika-text-to-video'), false);
+  assert.equal(exact[0]?.lifecycle, 'deep_legacy');
+  assert.equal(exact[0]?.generationEnabled, false);
+  assert.equal(exact[0]?.recommendedByDefault, false);
 });
 
 test('hidden, disabled, admin-only, maintenance, and unsupported engines never appear', async () => {
@@ -348,7 +345,7 @@ test('catalog mirrors real execution gates for newly registered video models', {
         surface: 'video',
         modes: ['t2v', 'i2v', 'ref2v', 'extend'],
         aspectRatios: ['auto', '21:9', '16:9', '4:3', '1:1', '3:4', '9:16'],
-        resolutions: ['480p', '720p', '1080p'],
+        resolutions: ['480p', '720p', '1080p', '4k'],
         maxDurationSec: 30,
         audio: true,
         referenceImages: true,
@@ -382,7 +379,7 @@ test('catalog mirrors real execution gates for newly registered video models', {
         surface: 'video',
         modes: ['t2v', 'i2v', 'ref2v', 'v2v', 'extend'],
         aspectRatios: ['auto', '21:9', '16:9', '4:3', '1:1', '3:4', '9:16'],
-        resolutions: ['480p', '720p', '1080p'],
+        resolutions: ['480p', '720p', '1080p', '4k'],
         maxDurationSec: 30,
         audio: true,
         referenceImages: true,

@@ -28,6 +28,7 @@ test('late errors from a retired decoder cannot close its renewed monitor, while
   '../../../_shared/_components/viewer/useProgramPlaybackSync':'export const useProgramPlaybackSync=()=>({});',
   '../../../_shared/_components/viewer/ProgramPlaybackLayers':'export function ProgramPlaybackLayers(props){fixture.layers=props;return null;}',
   './ConversationExport.client':'export const ConversationExport=()=>null;',
+  './ImageReferenceLibrary.client':'export function ImageReferenceLibrary(){return null;}',
   './ConversationSubtitles.client':'export const ConversationSubtitlePicker=()=>null;export const ConversationSubtitlePreview=()=>null;export const ConversationSequenceSubtitles=()=>null;',
  };
  const frontend=resolve('frontend');

@@ -29,20 +29,13 @@ const unavailableOther = {
   product: async () => { throw new Error('Products are outside the model SQL fixture'); },
 };
 
-// Upstream quotes 149 model inputs (November launch and Max/Nano21 included). The Keyvo branch also publishes
-// qwen-image-3-0 and qwen-image-3-0-pro (standard 1k and high-quality 2k t2i presets): 4 extra inputs, so 153 attempts.
-// Those four have no public tariff scenario, so they never reach the policy/tariff transactions: the
-// admitted transaction counts remained 143 (the same as upstream), while each input is still attempted once.
-// The 2026-11-11 provider work (owner decisions) then removed 7 inputs and added 1, so 147 attempts and 139
-// transactions: HappyHorse 1.0 retired (4 inputs) and Seedream 5.0 Lite retired (2 inputs), MiniMax-H3 lost its 4K tier
-// (1 input; MiniMax's own API accepts 768P/2K only) and Seedream 5.0 Flash was added (1 input). Two of the removed
-// inputs had no public tariff scenario (five did), so transactions drop by 5 - 1 = 4. The unfiltered catalog keeps
-// MiniMax-H3-Max; MiniMax-H3's 768P entry input still has no public scenario, exactly as before.
-// 2026-11-12: MiniMax-H3-Max runs on MiniMax's own API (480P/768P), so its two distinct 1080P preset inputs (8 s and
-// 10 s, both with public tariff scenarios) leave the hub; its native entry-route input remains: -2 attempts, -2 transactions.
-const MODEL_QUOTES = 153 - 4 - 2 - 1 + 1 - 2 - 9;
-const TRANSACTIONS = 143 - 5 + 1 - 2 - 7;
-const pikaInput = { modelId: 'pika-text-to-video', mode: 't2v', durationSec: 5, resolution: '720p' };
+// Keyvo unfiltered hub baseline (before the 2026-11-22 upstream merge): 136 inputs, 130 with a public tariff scenario.
+// The merge publishes Seedance 2.5 4K (+1 input, +1 transaction), quotes the registry-only Seedance 2.5 Flash (+2, +2) and
+// Seedream 5.5 (+2, +2) on this unfiltered catalog, and archives Pika (-3, -3). Seedream 5.0 Flash renders 2K only, so it
+// keeps one input. The four Qwen inputs, one LTX-2.5 Fast and one MiniMax-H3 768P input have no public tariff scenario and stay attempt-only.
+const MODEL_QUOTES = 138;
+const TRANSACTIONS = 132;
+const miniInput = { modelId: 'seedance-2-0-mini', mode: 't2v', durationSec: 5, resolution: '720p' };
 const flux3MaxInputs: PublicModelQuoteInput[] = [
   { modelId: 'flux-3-max', mode: 't2v', durationSec: 10, resolution: '720p', audio: false },
   { modelId: 'flux-3-max', mode: 't2v', durationSec: 5, resolution: '720p', audio: false },
@@ -57,8 +50,8 @@ const nano21Inputs: PublicModelQuoteInput[] = [
   { modelId: 'nano-banana-2-1', mode: 't2i', durationSec: 1, resolution: '4k', quantity: 1 },
 ];
 const actor = '11111111-1111-4111-8111-111111111111';
-const pikaAmount = (data: Awaited<ReturnType<typeof buildCurrentPricingHubData>>) =>
-  data.video.rows.find(row => row.id === pikaInput.modelId)!.quotes['5s-720p'].amountCents;
+const miniAmount = (data: Awaited<ReturnType<typeof buildCurrentPricingHubData>>) =>
+  data.video.rows.find(row => row.id === miniInput.modelId)!.quotes['5s-720p'].amountCents;
 
 async function fixture(run: (database: DisposablePostgres, observe: Observation) => Promise<void>) {
   const database = await startDisposablePostgres('pricing-hub-policy');
@@ -118,7 +111,7 @@ test('default Pricing shares one successful policy read while preserving every i
           || (input.modelId === 'minimax-h3' && input.resolution.toLowerCase() === '4k')) removedInputs.push(input);
         if (input.modelId === 'flux-3-max') maxInputs.push(input);
         if (input.modelId === 'nano-banana-2-1') nativeInputs.push(input);
-        if (['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst'].includes(input.modelId)) {
+        if (['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst', 'seedance-2-5-flash', 'seedream-5-5', 'seedream-5-0-flash'].includes(input.modelId)) {
           launchInputs.push(input);
         }
         return quotePublicModelScenario(input);
@@ -126,11 +119,15 @@ test('default Pricing shares one successful policy read while preserving every i
       assert.deepEqual(removedInputs, [], 'retired models and the removed H3 4K tier are no longer quoted');
       assert.deepEqual(maxInputs, flux3MaxInputs);
       assert.deepEqual(nativeInputs, nano21Inputs);
-      for (const modelId of ['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst']) {
+      for (const modelId of ['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst', 'seedance-2-5-flash', 'seedream-5-5']) {
         const inputs = launchInputs.filter(input => input.modelId === modelId);
         assert.equal(inputs.length, 2, `${modelId} adds exactly two native quote transactions`);
         assert.ok(inputs.every(input => resolvePublicModelScenario(input)), 'every launch input has a canonical scenario');
       }
+      // Keyvo sells Seedream 5.0 Flash on the official-list rule and renders 2K only, so it has one preset input, not two.
+      const flashInputs = launchInputs.filter(input => input.modelId === 'seedream-5-0-flash');
+      assert.equal(flashInputs.length, 1, 'seedream-5-0-flash has one 2K preset input');
+      assert.ok(resolvePublicModelScenario(flashInputs[0]!), 'seedream-5-0-flash 2K has a canonical scenario');
       assert.deepEqual(nativeInputs.map(input => resolvePublicModelScenario(input)?.id), [
         'engineId=nano-banana-2-1|mode=t2i|resolution=1K|durationSec=1',
         'engineId=nano-banana-2-1|mode=t2i|resolution=4K|durationSec=1',
@@ -143,12 +140,10 @@ test('default Pricing shares one successful policy read while preserving every i
         'engineId=flux-3-max|mode=t2v|resolution=1080p|durationSec=10',
       ]);
       // Five Max inputs add five independent transactions, even when audio shares a tariff selector.
-      // The two Nano21 reads and six launch reads keep independent transactions.
-      // Eight unsupported hub inputs (four upstream, four Qwen) still perform no policy or tariff I/O: 147 attempts, 139 transactions.
-      // 145 / 137 since H3-Max lost its two 1080P preset inputs (2026-11-12, see MODEL_QUOTES); 136 / 130 since Wan 2.6,
-      // Kling 2.5 Turbo and Kling 2.6 Pro went offline and Kling 4.0 quotes on the official-list rule (2026-11-13).
-      assert.equal(MODEL_QUOTES, 136);
-      assert.equal(TRANSACTIONS, 130);
+      // The two Nano21 reads and the launch reads keep independent transactions. Six inputs (four Qwen, one LTX-2.5 Fast,
+      // one MiniMax-H3 768P) have no public tariff scenario: attempts = MODEL_QUOTES, transactions = TRANSACTIONS.
+      assert.equal(MODEL_QUOTES, 138);
+      assert.equal(TRANSACTIONS, 132);
       assert.equal(attempts, MODEL_QUOTES);
       assert.deepEqual(observe.counts, { policy: TRANSACTIONS, begin: TRANSACTIONS, state: TRANSACTIONS, selected: TRANSACTIONS,
         commit: TRANSACTIONS, rollback: 0, other: 0 });
@@ -176,14 +171,14 @@ test('custom public quote injection performs no default policy I/O and retains a
     // Keyvo 2026-11-14: Character Builder rows quote Seedream, so two fixed Character products are no longer quoted (12 -> 10).
     assert.deepEqual({ models, audio, products }, { models: MODEL_QUOTES, audio: 9, products: 10 });
     assert.deepEqual(observe.counts, freshCounts(), 'an injected reader must remain entirely in control');
-    assert.equal(pikaAmount(data), 333);
+    assert.equal(miniAmount(data), 333);
   });
 });
 
 test('active and missing tariff cells preserve complete EN/FR/ES hub output and the same selected transactions', async () => {
   await fixture(async (database, observe) => {
-    const scenario = resolvePublicModelScenario(pikaInput)!;
-    const create = { operation: 'create' as const, scenarioId: scenario.id, customerCents: 37 };
+    const scenario = resolvePublicModelScenario(miniInput)!;
+    const create = { operation: 'create' as const, scenarioId: scenario.id, customerCents: 50 };
     await confirmCustomerTariffChange(create, (await previewCustomerTariffChange(create)).fingerprint, actor, () => {});
     await database.pool.query('UPDATE app_customer_tariff_state SET active = TRUE');
     for (const hasCell of [true, false]) {
@@ -196,7 +191,7 @@ test('active and missing tariff cells preserve complete EN/FR/ES hub output and 
         observe.reset();
         const current = await buildCurrentPricingHubData(locale, undefined, unavailableOther);
         assert.deepEqual(current, baseline);
-        assert.equal(pikaAmount(current), hasCell ? 37 : undefined, 'missing active cells must not fall back to legacy prices');
+        assert.equal(miniAmount(current), hasCell ? 50 : undefined, 'missing active cells must not fall back to legacy prices');
         assert.deepEqual(observe.counts, { policy: 1, begin: TRANSACTIONS, state: TRANSACTIONS, selected: TRANSACTIONS,
           commit: TRANSACTIONS, rollback: 0, other: 0 });
       }
@@ -249,7 +244,7 @@ test('a rejected default policy read can recover during the same hub without poi
 test('overlapping default hubs keep their captured policies isolated and the next hub sees persisted policy updates', async () => {
   await fixture(async (database, observe) => {
     const baseline = await buildCurrentPricingHubData('en', undefined, unavailableOther);
-    assert.equal(pikaAmount(baseline), 26);
+    assert.equal(miniAmount(baseline), 25);
     observe.reset();
     let release!: () => void;
     let captured!: () => void;
@@ -261,9 +256,10 @@ test('overlapping default hubs keep their captured policies isolated and the nex
     const first = buildCurrentPricingHubData('en', undefined, unavailableOther);
     try {
       await firstRead;
-      await database.pool.query("UPDATE app_pricing_rules SET margin_percent = 0.8 WHERE id = 'default'");
+      // Keyvo sells Seedance 2.0 Mini on the official-list rule, so the default margin alone does not move it: an engine rule applies the flip.
+      await database.pool.query("UPDATE app_pricing_rules SET margin_percent = 0.8 WHERE id = 'default'; INSERT INTO app_pricing_rules (id, engine_id, margin_percent, margin_flat_cents, surcharge_audio_percent, surcharge_upscale_percent, currency) VALUES ('mini-flip', 'seedance-2-0-mini', 0.8, 0, 0.2, 0.5, 'USD')");
       const second = await buildCurrentPricingHubData('en', undefined, unavailableOther);
-      assert.equal(pikaAmount(second), 36);
+      assert.equal(miniAmount(second), 56);
       release();
       assert.deepEqual(await first, baseline, 'the first hub must retain the complete successful result captured before the update');
       assert.deepEqual(observe.counts, { policy: 2, begin: 2 * TRANSACTIONS, state: 2 * TRANSACTIONS, selected: 2 * TRANSACTIONS,
@@ -281,26 +277,26 @@ test('overlapping default hubs keep their captured policies isolated and the nex
 
 test('a captured policy does not capture tariff state: later quotes see a confirmed admin tariff update', async () => {
   await fixture(async (database, observe) => {
-    const scenario = resolvePublicModelScenario(pikaInput)!;
-    const create = { operation: 'create' as const, scenarioId: scenario.id, customerCents: 37 };
+    const scenario = resolvePublicModelScenario(miniInput)!;
+    const create = { operation: 'create' as const, scenarioId: scenario.id, customerCents: 50 };
     await confirmCustomerTariffChange(create, (await previewCustomerTariffChange(create)).fingerprint, actor, () => {});
     await database.pool.query('UPDATE app_customer_tariff_state SET active = TRUE');
     observe.reset();
     const quote = createScopedPublicModelQuoter();
-    const before = await quote(pikaInput);
+    const before = await quote(miniInput);
     assert.equal(before.status, 'exact');
-    if (before.status === 'exact') assert.equal(before.amountCents, 37);
+    if (before.status === 'exact') assert.equal(before.amountCents, 50);
     assert.equal(observe.counts.policy, 1);
-    const update = { operation: 'update' as const, scenarioId: scenario.id, customerCents: 41 };
+    const update = { operation: 'update' as const, scenarioId: scenario.id, customerCents: 55 };
     const refreshes: string[] = [];
     await confirmCustomerTariffChange(update, (await previewCustomerTariffChange(update)).fingerprint, actor,
       id => refreshes.push(id));
-    assert.deepEqual(refreshes, [pikaInput.modelId]);
+    assert.deepEqual(refreshes, [miniInput.modelId]);
     observe.reset();
-    const after = await quote(pikaInput);
+    const after = await quote(miniInput);
     assert.equal(after.status, 'exact');
     if (before.status === 'exact' && after.status === 'exact') {
-      assert.equal(after.amountCents, 41);
+      assert.equal(after.amountCents, 55);
       assert.notEqual(after.revision, before.revision);
     }
     assert.deepEqual(observe.counts, { policy: 0, begin: 1, state: 1, selected: 1,

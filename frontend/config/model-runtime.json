@@ -1886,8 +1886,8 @@
         },
         "examples": {
           "published": true,
-          "includeInFamilyCopy": true,
-          "current": true,
+          "includeInFamilyCopy": false,
+          "current": false,
           "familyRank": 0
         },
         "compare": {
@@ -1918,17 +1918,16 @@
           ]
         },
         "app": {
-          "published": true,
-          "discoveryRank": 5
+          "published": false
         },
         "pricing": {
-          "published": true
+          "published": false
         },
         "sitemap": {
           "published": true
         }
       },
-      "lifecycle": "current",
+      "lifecycle": "deep_legacy",
       "successorId": null,
       "successorSlug": null
     },
@@ -2001,7 +2000,7 @@
           "published": true,
           "includeInFamilyCopy": true,
           "current": true,
-          "familyRank": 1
+          "familyRank": 2
         },
         "compare": {
           "published": true,
@@ -2080,7 +2079,7 @@
           "published": true,
           "includeInFamilyCopy": true,
           "current": true,
-          "familyRank": 2
+          "familyRank": 3
         },
         "compare": {
           "published": true,
@@ -2185,7 +2184,7 @@
           "published": true,
           "includeInFamilyCopy": true,
           "current": true,
-          "familyRank": 3
+          "familyRank": 4
         },
         "compare": {
           "published": true,
@@ -2283,6 +2282,90 @@
       "successorSlug": null
     },
     {
+      "id": "seedream-5-5",
+      "slug": "seedream-5-5",
+      "family": "seedream",
+      "category": "image",
+      "aliases": {
+        "internal": [],
+        "publicSlugs": []
+      },
+      "publication": {
+        "model": {
+          "published": false,
+          "indexable": false
+        },
+        "examples": {
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
+        },
+        "compare": {
+          "published": false,
+          "indexed": false,
+          "suggestedOpponentIds": [],
+          "publishedPairIds": []
+        },
+        "app": {
+          "published": true,
+          "discoveryRank": 6,
+          "variantGroup": "seedream",
+          "variantLabel": "5.5"
+        },
+        "pricing": {
+          "published": true
+        },
+        "sitemap": {
+          "published": false
+        }
+      },
+      "lifecycle": "current",
+      "successorId": null,
+      "successorSlug": null
+    },
+    {
+      "id": "seedream-5-0-flash",
+      "slug": "seedream-5-0-flash",
+      "family": "seedream",
+      "category": "image",
+      "aliases": {
+        "internal": [],
+        "publicSlugs": []
+      },
+      "publication": {
+        "model": {
+          "published": false,
+          "indexable": false
+        },
+        "examples": {
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
+        },
+        "compare": {
+          "published": false,
+          "indexed": false,
+          "suggestedOpponentIds": [],
+          "publishedPairIds": []
+        },
+        "app": {
+          "published": true,
+          "discoveryRank": 7,
+          "variantGroup": "seedream",
+          "variantLabel": "5.0 Flash"
+        },
+        "pricing": {
+          "published": true
+        },
+        "sitemap": {
+          "published": false
+        }
+      },
+      "lifecycle": "current",
+      "successorId": null,
+      "successorSlug": null
+    },
+    {
       "id": "seedream",
       "slug": "seedream",
       "label": "Seedream 5.0 Lite",
@@ -2360,48 +2443,6 @@
         },
         "sitemap": {
           "published": true
-        }
-      },
-      "lifecycle": "current",
-      "successorId": null,
-      "successorSlug": null
-    },
-    {
-      "id": "seedream-5-0-flash",
-      "slug": "seedream-5-0-flash",
-      "family": "seedream",
-      "category": "image",
-      "aliases": {
-        "internal": [],
-        "publicSlugs": []
-      },
-      "publication": {
-        "model": {
-          "published": false,
-          "indexable": false
-        },
-        "examples": {
-          "published": false,
-          "includeInFamilyCopy": false,
-          "current": false
-        },
-        "compare": {
-          "published": false,
-          "indexed": false,
-          "suggestedOpponentIds": [],
-          "publishedPairIds": []
-        },
-        "app": {
-          "published": true,
-          "discoveryRank": 8,
-          "variantGroup": "seedream",
-          "variantLabel": "5.0 Flash"
-        },
-        "pricing": {
-          "published": true
-        },
-        "sitemap": {
-          "published": false
         }
       },
       "lifecycle": "current",
@@ -3458,6 +3499,48 @@
         },
         "sitemap": {
           "published": true
+        }
+      },
+      "lifecycle": "current",
+      "successorId": null,
+      "successorSlug": null
+    },
+    {
+      "id": "seedance-2-5-flash",
+      "slug": "seedance-2-5-flash",
+      "family": "seedance",
+      "category": "video",
+      "aliases": {
+        "internal": [],
+        "publicSlugs": []
+      },
+      "publication": {
+        "model": {
+          "published": false,
+          "indexable": false
+        },
+        "examples": {
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
+        },
+        "compare": {
+          "published": false,
+          "indexed": false,
+          "suggestedOpponentIds": [],
+          "publishedPairIds": []
+        },
+        "app": {
+          "published": true,
+          "variantGroup": "seedance-2-0",
+          "variantLabel": "2.5 Flash",
+          "discoveryRank": -2.5
+        },
+        "pricing": {
+          "published": true
+        },
+        "sitemap": {
+          "published": false
         }
       },
       "lifecycle": "current",

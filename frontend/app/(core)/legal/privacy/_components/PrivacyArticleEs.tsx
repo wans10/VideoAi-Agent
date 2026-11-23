@@ -104,6 +104,9 @@ export function PrivacyArticleEs({
       <section className="stack-gap-sm">
         <h3 className="text-lg font-semibold text-text-primary">8. Cookies y tecnologías similares</h3>
         <p>
+          Con tu consentimiento de analítica y publicidad, compartimos con OpenAI una referencia del clic publicitario y los registros confirmados o recargas de saldo pagadas para medir los resultados publicitarios. Estos eventos incluyen una referencia seudónima, la fecha y, para los pagos, el importe y la moneda. Esta integración no envía tu correo electrónico, teléfono, prompts ni medios generados.
+        </p>
+        <p>
           Usamos cookies esenciales para el funcionamiento y, con tu consentimiento, cookies de analítica o publicidad. Puedes retirar el consentimiento desde el banner o los ajustes. Consulta la{' '}
           <Link href={links.cookiesHref} className="text-brand underline hover:text-brandHover">
             Política de cookies
@@ -128,7 +131,7 @@ export function PrivacyArticleEs({
 
       <section className="stack-gap-sm">
         <h3 className="text-lg font-semibold text-text-primary">10. Menores</h3>
-        <p>El Servicio no está dirigido a menores de 15/16 años. Si crees que un menor nos facilitó datos sin el consentimiento adecuado, avísanos para eliminarlos.</p>
+        <p>El Servicio está reservado a adultos de 18 años o más, o que hayan alcanzado la mayoría de edad en su país si es superior. Si crees que un menor nos ha facilitado datos personales, avísanos para que podamos investigar y eliminar los datos que correspondan.</p>
       </section>
 
       <section className="stack-gap-sm">
@@ -150,7 +153,7 @@ export function PrivacyArticleEs({
           />
           .
         </p>
-        <p className="text-sm text-text-muted">Información actualizada: 30 de octubre de 2026</p>
+        <p className="text-sm text-text-muted">Información actualizada: 11 de noviembre de 2026</p>
       </section>
     </article>
   );

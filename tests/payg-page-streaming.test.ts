@@ -130,6 +130,7 @@ test('PAYG emits its hero before held current prices, then preserves the settled
         assert.deepEqual(errors, []);
         assert.ok(h.calls.length >= KEYVO_VIDEO_QUOTE_CALLS && h.calls.length <= UPSTREAM_VIDEO_QUOTE_CALLS, 'Hero and details consume one current video projection');
         assert.ok(h.calls.every((input: { mode: string }) => input.mode !== 't2i'));
+        assert.ok(h.calls.every((input: { modelId: string }) => input.modelId !== 'pika-text-to-video'), 'Archived Pika has no current PAYG quote');
         assert.equal(h.calls.filter((input: { modelId: string }) => input.modelId === 'kling-v4-flash').length, 2, 'Only two new Flash video scenarios are added');
         const final = new JSDOM(shell + tail, { runScripts: 'dangerously', pretendToBeVisual: true });
         await new Promise(done => setTimeout(done, 60));

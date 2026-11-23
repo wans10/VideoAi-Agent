@@ -293,7 +293,7 @@ test('comparison returns a null percentage when the current total is zero', () =
 });
 
 test('published Kling 4, Flash and GPT 2.6 prices use approved tariffs rather than legacy percentage previews', () => {
-  const modelIds = ['kling-v4', 'kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst'];
+  const modelIds = ['kling-v4', 'kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst', 'seedance-2-5-flash'];
   const scenarios = buildPricingAuditScenarios().filter((scenario) => modelIds.includes(scenario.engineId));
   assert.ok(scenarios.length > 0, 'published pricing must have audit scenarios');
   assert.deepEqual([...new Set(scenarios.map(scenario => scenario.engineId))].sort(), [...modelIds].sort());
@@ -327,13 +327,19 @@ test('canonical projection returns one explicit outcome for every selected scena
       'billing:nano-banana-2-1:t2i:1:1k:member',
       'billing:nano-banana-2-1:t2i:1:1k:plus',
       'billing:nano-banana-2-1:t2i:1:1k:pro',
+      ...['member', 'plus', 'pro'].map(tier => `billing:seedance-2-5-flash:t2v:4:480p:${tier}`),
+      // seedream-5-0-flash is quoted on Keyvo's official-list CNY tariff (only seedream-5-5 is an upstream versioned tariff).
+      ...['member', 'plus', 'pro'].map(tier => `billing:seedream-5-5:t2i:1:2K:${tier}`),
       'estimator:gpt-image-2-6-flare:10:1024x1024',
       'estimator:gpt-image-2-6-sunburst:10:1024x1024',
       'estimator:kling-v4-flash:5:720p',
       'estimator:nano-banana-2-1:1:1k',
-      'pricing-hub:pika-text-to-video:10s-1080p-audio',
-      'pricing-hub:pika-text-to-video:4k-route',
-      'pricing-hub:pika-text-to-video:8s-1080p',
+      'estimator:seedance-2-5-flash:4:480p',
+      'estimator:seedream-5-5:1:2K',
+      'pricing-hub:veo-3-1:10s-1080p',
+      'pricing-hub:veo-3-1:10s-1080p-audio',
+      'pricing-hub:veo-3-1:10s-720p',
+      'pricing-hub:veo-3-1:5s-720p',
       'tool:upscale:default',
     ]
   );

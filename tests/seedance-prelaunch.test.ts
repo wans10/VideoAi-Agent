@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import { isKeyvoVisibleFamily } from '../frontend/config/keyvo-model-visibility';
 import path from 'node:path';
 import test from 'node:test';
 
@@ -210,8 +211,10 @@ test('Public marketing media fetchers stay visibility-safe for pinned and prompt
 test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter marketing navigation', () => {
   const appEngineIds = getBaseEnginesByCategory('video').map((engine) => engine.id);
   assert.equal(appEngineIds[0], 'seedance-2-5');
-  // Seedance 2.0 and Fast are not offered under the owner allowlist; MiniMax H3 follows Seedance 2.5.
-  assert.equal(appEngineIds[1], 'minimax-h3');
+  // Seedance 2.0 and Fast are not offered under the owner allowlist; Seedance 2.5 Flash (offered, discovery rank -2.5)
+  // follows the flagship, then MiniMax H3.
+  assert.equal(appEngineIds[1], 'seedance-2-5-flash');
+  assert.equal(appEngineIds[2], 'minimax-h3');
   assert.ok(!appEngineIds.includes('seedance-2-0'));
   assert.ok(!appEngineIds.includes('seedance-2-0-fast'));
   assert.ok(!appEngineIds.includes('sora-2'));
@@ -226,6 +229,7 @@ test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter mark
     MARKETING_NAV_COMPARE.map((item) => item.key),
     ['kling-v4-vs-kling-v4-flash', 'kling-v4-vs-seedance-2-5', 'kling-v4-vs-wan-3-prime', 'minimax-h3-vs-seedance-2-5', 'minimax-h3-vs-minimax-h3-max', 'kling-3-pro-vs-seedance-2-5', 'seedance-2-5-vs-wan-3', 'wan-3-vs-wan-3-prime'],
   );
+  // The Seedance 2.5 Flash comparison stays unpublished while its Keyvo model page is unpublished.
   assert.equal(MARKETING_NAV_COMPARE.length, 8);
   const expectedExampleFamilies = [
     'seedance',
@@ -236,6 +240,10 @@ test('Seedance 2.5 and Seedance 2.0 lead the app menu while P1 models enter mark
   ];
   assert.deepEqual(MARKETING_NAV_EXAMPLES.map((item) => item.key), ['kling', 'seedance', 'wan', 'hailuo', 'happy-horse']);
   assert.deepEqual(MARKETING_FOOTER_EXAMPLES.map((item) => item.key).sort(), expectedExampleFamilies.slice().sort());
+  assert.equal(getExampleNavFamilyIds().includes('pika'), false);
+  // Keyvo publishes a historical family route only where its visible-family list keeps it (keyvo-model-visibility.ts).
+  assert.equal(getExampleFamilyIds().includes('pika'), isKeyvoVisibleFamily('pika'), 'historical family routes follow the Keyvo visible-family list');
+  assert.equal(resolveExampleFamilyId('pika-image-to-video'), isKeyvoVisibleFamily('pika') ? 'pika' : null);
 });
 
 test('Seedance 1.5 Pro is retired while Seedance 2.0 keeps the primary alias and promoted slots', () => {

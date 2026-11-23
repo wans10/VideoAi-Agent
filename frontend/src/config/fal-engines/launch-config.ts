@@ -1,3 +1,4 @@
+import { seedance25OutputDimensions } from '../../../lib/seedance-output-dimensions';
 import type { AspectRatio, EngineAvailability, EnginePricingDetails, Resolution, TokenVideoPricingDimensions } from '../../../types/engines';
 
 type TokenVideoPricingDimensionsByResolution = Partial<Record<Resolution, Partial<Record<AspectRatio, TokenVideoPricingDimensions>>>>;
@@ -37,6 +38,15 @@ export const BYTEPLUS_SEEDANCE_2_5_ENDPOINTS = {
   ref2v: 'byteplus/dreamina-seedance-2.5/reference-to-video',
   v2v: 'byteplus/dreamina-seedance-2.5/video-to-video',
   extend: 'byteplus/dreamina-seedance-2.5/extend',
+} as const;
+
+export const BYTEPLUS_SEEDANCE_2_5_FLASH_MODEL_ID = 'doubao-seedance-2-5-flash-261115';
+export const BYTEPLUS_SEEDANCE_2_5_FLASH_ENDPOINTS = {
+  t2v: 'byteplus/dreamina-seedance-2.5-flash/text-to-video',
+  i2v: 'byteplus/dreamina-seedance-2.5-flash/image-to-video',
+  ref2v: 'byteplus/dreamina-seedance-2.5-flash/reference-to-video',
+  v2v: 'byteplus/dreamina-seedance-2.5-flash/video-to-video',
+  extend: 'byteplus/dreamina-seedance-2.5-flash/extend',
 } as const;
 
 export const HAPPY_HORSE_ENDPOINTS = {
@@ -110,6 +120,7 @@ export const SEEDANCE_2_MINI_TOKEN_DIMENSIONS = {
   '720p': SEEDANCE_2_TOKEN_DIMENSIONS['720p'],
 } as const;
 export const SEEDANCE_2_5_TOKEN_DIMENSIONS = {
+  '4k': SEEDANCE_2_TOKEN_DIMENSIONS['4k'],
   '480p': {
     '21:9': SEEDANCE_2_TOKEN_DIMENSIONS['480p']['21:9'],
     '16:9': SEEDANCE_2_TOKEN_DIMENSIONS['480p']['16:9'],
@@ -201,10 +212,17 @@ export const SEEDANCE_ARK_LIST_CNY_PER_MILLION_TOKENS = {
     '480p': { no_video_input: 23, video_input: 14 },
     '720p': { no_video_input: 23, video_input: 14 },
   },
+  // Seedance 2.5 4K: CNY 31 / 19 per million tokens (model-pricing.md, checked 2026-11-22).
   seedance25: {
     '480p': { no_video_input: 70, video_input: 42 },
     '720p': { no_video_input: 70, video_input: 42 },
     '1080p': { no_video_input: 77, video_input: 46 },
+    '4k': { no_video_input: 31, video_input: 19 },
+  },
+  // Seedance 2.5 flash: 480p and 720p only (the list has no 1080p or 4K row), same page and date.
+  seedance25Flash: {
+    '480p': { no_video_input: 46, video_input: 28 },
+    '720p': { no_video_input: 46, video_input: 28 },
   },
 } as const;
 export const SEEDANCE_ARK_LIST_PRICING_SOURCE = 'volcengine_ark_cn_beijing_list_2026_11_13';
@@ -259,6 +277,14 @@ export function buildSeedance2MiniPricingDetails(): EnginePricingDetails {
 
 export function buildSeedance25PricingDetails(): EnginePricingDetails {
   return buildSeedanceArkListPricingDetails('seedance25', SEEDANCE_2_5_TOKEN_DIMENSIONS);
+}
+
+/** Keyvo: Flash is priced from the official Volcengine list like Seedance 2.5 (official-list x0.8 rule). */
+export function buildSeedance25FlashPricingDetails(): EnginePricingDetails {
+  const dimensions = Object.fromEntries(['480p', '720p'].map(resolution => [resolution,
+    Object.fromEntries(['21:9', '16:9', '4:3', '1:1', '3:4', '9:16'].map(aspect =>
+      [aspect, seedance25OutputDimensions(resolution, aspect)!]))])) as TokenVideoPricingDimensionsByResolution;
+  return buildSeedanceArkListPricingDetails('seedance25Flash', dimensions);
 }
 
 export const SEEDANCE_2_LAUNCH_CONFIG = {

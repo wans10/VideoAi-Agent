@@ -23,6 +23,8 @@ import {
   type AuthFieldErrors,
   type AuthFieldName,
 } from '../_lib/login-validation';
+import { LEGAL_MIN_AGE } from '@/lib/legal-policy';
+import { rememberSignupMarketingPreference } from '@/lib/signup-consent-preferences';
 import { submitPasswordSignupConsents } from '../_lib/login-signup-consents';
 import { requestPasswordReset } from '../_lib/login-password-reset';
 import { usePasswordAuthSubmission } from './usePasswordAuthSubmission';
@@ -34,9 +36,7 @@ import { useLoginOAuthCodeExchange } from './useLoginOAuthCodeExchange';
 import { useLoginPhoneAuth } from './useLoginPhoneAuth';
 import { isPhoneLoginEnabled } from '../_lib/login-phone';
 
-// Keyvo product rule: 18. An older env value (15) never lowers the floor.
-const MIN_AGE_ENV = Number.parseInt(process.env.NEXT_PUBLIC_LEGAL_MIN_AGE ?? '18', 10);
-const LEGAL_MIN_AGE = Number.isNaN(MIN_AGE_ENV) ? 18 : Math.max(18, MIN_AGE_ENV);
+// The same policy owns signup wording and the server attestation version.
 // Build-time flag (NEXT_PUBLIC_PHONE_LOGIN_ENABLED); off until the GoTrue SMS hook is live.
 const PHONE_LOGIN_ENABLED = isPhoneLoginEnabled();
 // With phone login on, new accounts are created only by phone + SMS code: the email form is
@@ -346,11 +346,11 @@ export function useLoginPageController({
     clearFieldError('acceptTerms');
   }, [clearFieldError]);
 
-  async function submitSignupConsents(userId: string) {
+  async function submitSignupConsents(userId: string, accessToken: string) {
     try {
       const res = await fetch('/api/legal/consents', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
         credentials: 'include',
         body: JSON.stringify({
           userId,
@@ -403,12 +403,15 @@ export function useLoginPageController({
         return;
       }
 
-      // The SDK may already have created the account after navigation. Persist
-      // the consent captured by this submission before ignoring its stale UI.
+      // Persist consent only with the authenticated signup session. Email-confirmation
+      // signups accept the current documents and age policy after their first login.
+      if (!data.session && data.user?.identities?.length) {
+        rememberSignupMarketingPreference(data.user.id, marketingOptIn);
+      }
       try {
         const consentsSaved = await submitPasswordSignupConsents(data, submitSignupConsents);
         if (!isCurrent()) return;
-        if (!consentsSaved) {
+        if (!consentsSaved && !data.user?.identities?.length) {
           setStatusTone('info');
           setStatus(authCopy.feedback.confirmEmail);
           return;

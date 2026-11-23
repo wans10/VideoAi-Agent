@@ -57,6 +57,20 @@ test('comparison without a current pricing engine cannot display catalogue margi
   }
 });
 
+test('Pika comparison archives report closed generation without requesting a current quote', async () => {
+  const entry = CATALOG_BY_SLUG.get('pika-text-to-video');
+  assert.ok(entry);
+  assert.equal(entry.surfaces?.app?.enabled, false);
+  for (const [locale, headline] of [
+    ['en', 'Generation unavailable'], ['fr', 'Génération indisponible'], ['es', 'Generación no disponible'],
+  ] as const) {
+    const result = await resolvePricingDisplay(entry, locale, entry.engine, async () => {
+      assert.fail('An archive must not request a current customer quote');
+    });
+    assert.deepEqual(result, { headline, subline: null, prices: [] });
+  }
+});
+
 test('comparison speed chips hide implausible multi-hour averages from SEO specs', () => {
   assert.equal(
     formatSpeedChip({ engine: { avgDurationMs: 9_611_000 } } as never),

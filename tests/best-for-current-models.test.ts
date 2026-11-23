@@ -4,6 +4,7 @@ import path from 'node:path';
 import test from 'node:test';
 
 import engineCatalog from '../frontend/config/engine-catalog.json' with { type: 'json' };
+import modelRegistry from '../frontend/config/model-registry.json' with { type: 'json' };
 import { keyvoEngineTier } from '../frontend/config/keyvo-model-visibility.ts';
 
 import { BEST_FOR_PAGES } from '../frontend/app/(localized)/[locale]/(marketing)/ai-video-engines/best-for/[usecase]/_lib/best-for-detail-config.ts';
@@ -14,7 +15,8 @@ const EXPECTED_SHORTLISTS: Record<string, string[]> = {
     "kling-o3-pro",
     "minimax-h3",
     "flux-3",
-    "luma-ray-3-2"
+    "luma-ray-3-2",
+    "seedance-2-5-flash"
   ],
   "cinematic-realism": [
     "seedance-2-5",
@@ -28,21 +30,24 @@ const EXPECTED_SHORTLISTS: Record<string, string[]> = {
     "kling-o3-pro",
     "minimax-h3",
     "wan-3-prime",
-    "grok-imagine-video-1-5"
+    "grok-imagine-video-1-5",
+    "seedance-2-5-flash"
   ],
   "reference-to-video": [
     "seedance-2-5",
     "minimax-h3",
     "kling-o3-pro",
     "wan-3-prime",
-    "gemini-omni-flash"
+    "gemini-omni-flash",
+    "seedance-2-5-flash"
   ],
   "multi-shot-video": [
     "seedance-2-5",
     "kling-o3-pro",
     "wan-3-prime",
     "minimax-h3",
-    "wan-3"
+    "wan-3",
+    "seedance-2-5-flash"
   ],
   "4k-video": [
     "kling-o3-4k",
@@ -56,21 +61,24 @@ const EXPECTED_SHORTLISTS: Record<string, string[]> = {
     "kling-o3-pro",
     "minimax-h3",
     "wan-3-prime",
-    "gemini-omni-flash"
+    "gemini-omni-flash",
+    "seedance-2-5-flash"
   ],
   "ugc-ads": [
     "minimax-h3",
     "seedance-2-5",
     "happy-horse-1-1",
     "grok-imagine-video-1-5",
-    "veo-3-1"
+    "veo-3-1",
+    "seedance-2-5-flash"
   ],
   "product-videos": [
     "seedance-2-5",
     "kling-o3-pro",
     "wan-3-prime",
     "flux-3",
-    "ltx-2-5-pro"
+    "ltx-2-5-pro",
+    "seedance-2-5-flash"
   ],
   "lipsync-dialogue": [
     "minimax-h3",
@@ -84,7 +92,8 @@ const EXPECTED_SHORTLISTS: Record<string, string[]> = {
     "seedance-2-0-fast",
     "flux-3-draft",
     "veo-3-1-lite",
-    "kling-3-turbo-standard"
+    "kling-3-turbo-standard",
+    "seedance-2-5-flash"
   ],
   "stylized-anime": [
     "seedance-2-5",
@@ -96,8 +105,16 @@ const EXPECTED_SHORTLISTS: Record<string, string[]> = {
 };
 
 // Keyvo offers only the owner allowlist to customers (public tier; admin-tier engines are administrator-only), so the
-// visible shortlist drops every other engine while the authored editorial keeps the full list.
-const VISIBLE_SLUGS = new Set(engineCatalog.filter((entry) => keyvoEngineTier(entry.engineId) === 'public').map((entry) => entry.modelSlug));
+// visible shortlist drops every other engine while the authored editorial keeps the full list. A public engine whose
+// model page Keyvo keeps unpublished (Seedance 2.5 Flash, 2026-11-22; no zh content) cannot be linked, so it is dropped too.
+const PUBLISHED_PAGE_SLUGS = new Set(
+  modelRegistry.models.filter((model) => model.publication.model.published && model.publication.model.indexable).map((model) => model.slug),
+);
+const VISIBLE_SLUGS = new Set(
+  engineCatalog
+    .filter((entry) => keyvoEngineTier(entry.engineId) === 'public' && PUBLISHED_PAGE_SLUGS.has(entry.modelSlug))
+    .map((entry) => entry.modelSlug),
+);
 const visibleShortlist = (slugs: string[]) => slugs.filter((slug) => VISIBLE_SLUGS.has(slug));
 
 const OBSOLETE_RECOMMENDATIONS = new Set([
@@ -121,7 +138,7 @@ function extractRankedModelSlugs(source: string, prefix: string): string[] {
   return Array.from(source.matchAll(pattern), (match) => match[1]);
 }
 
-test('best-for rankings use the reviewed October 19 editorial selections', () => {
+test('best-for rankings retain the reviewed order and add the Flash workflow option', () => {
   const bySlug = new Map(BEST_FOR_PAGES.map((entry) => [entry.slug, entry.topPicks ?? []]));
 
   assert.equal(bySlug.size, 12);

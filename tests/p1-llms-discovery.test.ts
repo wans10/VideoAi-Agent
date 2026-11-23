@@ -144,7 +144,7 @@ test('curated llms model links follow lifecycle, publication, canonical slug and
     const text = buildLlmsText(mcpPublication, projection);
     assert.equal(text.includes(`](${SITE_ORIGIN}/models/${model.slug})`), false, state);
     if (state !== 'legacy') {
-      assert.equal(projection.primaryComparisons.some(({ slug }) => slug.includes(model.slug)), false, state);
+      assert.equal(projection.primaryComparisons.some(({ slug }) => slug.split('-vs-').includes(model.slug)), false, state);
     }
   }
   const models = structuredClone(listRuntimeModels()) as RuntimeModelEntry[];

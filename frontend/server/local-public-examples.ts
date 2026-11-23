@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { canUseLocalPublicExamples, publicCardToVideo, selectLocalModelExamples, selectLocalPublicExamples, type PublicExamplesSnapshot } from './local-public-examples-data';
+import { canUseLocalPublicExamples, publicCardToVideo, publicCardWithKeyframeRecipeToVideo, selectLocalModelExamples, selectLocalPublicExamples, type PublicExamplesSnapshot } from './local-public-examples-data';
 import type { ExampleSort } from './videos-examples';
 
 export function isLocalPublicExamplesEnabled() { return canUseLocalPublicExamples(process.env); }
@@ -11,7 +11,9 @@ function readSnapshot(): PublicExamplesSnapshot {
     const localReview = resolve(process.cwd(), '.local-review/public-examples.json');
     const targetFile = existsSync(localReview) ? localReview : resolve(process.cwd(), 'config/public-examples.json');
     const data = JSON.parse(readFileSync(targetFile, 'utf8')) as PublicExamplesSnapshot;
-    if (data.version !== 1 || data.source !== 'https://maxvideoai.com/api/examples' || !data.cards || !data.feeds) throw new Error('Invalid public example snapshot.');
+    // Locally reviewed supplier renders have not been published. Keep their
+    // provenance explicit instead of claiming they came from the public API.
+    if (data.version !== 1 || !['https://maxvideoai.com/api/examples', 'local-generated-review'].includes(data.source) || !data.cards || !data.feeds) throw new Error('Invalid public example snapshot.');
     cached = data;
   }
   return cached;
@@ -22,6 +24,12 @@ export function listLocalPublicExamples(family: string, sort: ExampleSort, limit
 export function getLocalPublicExample(id: string) {
   const card = readSnapshot().cards[id];
   return card ? publicCardToVideo(card) : null;
+}
+
+/** Retain exact public recipe settings in isolated, database-free visual reviews. */
+export function getLocalPublicKeyframeExample(id: string) {
+  const snapshot = readSnapshot();
+  return publicCardWithKeyframeRecipeToVideo(snapshot.cards[id], snapshot.keyframeRecipes?.[id]);
 }
 
 // The public API snapshot has model identities, but no per-model playlist membership.

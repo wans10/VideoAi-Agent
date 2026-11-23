@@ -32,6 +32,8 @@ import { withCheckoutSessionPreparationLock } from '@/server/checkout-session-co
 import { getWalletSummary } from '@/server/wallet-summary';
 import { buildCheckoutAttemptAttributionMetadata, buildWalletAttributionMetadata, normalizeWalletAttribution } from '@/server/wallet-attribution';
 import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
+import { readOpenAIRequestAttribution, openAICheckoutMetadata } from '@/server/openai-conversions-context';
+
 const WALLET_DISPLAY_CURRENCY = CUSTOMER_CURRENCY;
 const WALLET_DISPLAY_CURRENCY_LOWER = CUSTOMER_CURRENCY.toLowerCase();
 const STRIPE_TAX_CODE_ELECTRONIC_SERVICES = ENV.STRIPE_TAX_CODE_ELECTRONIC_SERVICES ?? 'txcd_10103001';
@@ -181,6 +183,8 @@ export async function POST(req: NextRequest) {
   });
   const walletAttribution = normalizeWalletAttribution(body.analyticsJourney, analyticsConsentGranted);
   const walletAttributionMetadata = buildWalletAttributionMetadata(walletAttribution);
+  // Optional measurement must never prevent checkout if consent/policy lookup is unavailable.
+  const openAIMetadata = openAICheckoutMetadata(await readOpenAIRequestAttribution(req).catch(() => null));
 
   const amountCents = normalizeWalletTopUpAmountCents(body.amountCents);
   if (amountCents === null) {
@@ -257,6 +261,7 @@ export async function POST(req: NextRequest) {
         hasCompletedTopUp,
         amountCents,
         attribution: walletAttribution,
+        openAIMetadata,
         currency: resolvedCurrencyUpper,
       });
       if (reusableSession) {
@@ -344,6 +349,7 @@ export async function POST(req: NextRequest) {
       checkout_captcha_passed: String(checkoutGuard.captchaPassed),
     };
     Object.assign(sessionMetadata, walletAttributionMetadata);
+    Object.assign(sessionMetadata, openAIMetadata);
     sessionMetadata.topup_tier_id = tier?.id ?? 'custom';
     if (tier?.label) {
       sessionMetadata.topup_tier_label = tier.label;

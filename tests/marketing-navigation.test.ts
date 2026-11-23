@@ -10,6 +10,7 @@ import {
   MARKETING_NAV_MODELS,
   MARKETING_TOP_NAV_LINKS,
 } from '../frontend/config/navigation.ts';
+import { resolveExampleFamilyId } from '../frontend/lib/model-families';
 import { FOOTER_MODELS, FOOTER_EXAMPLES } from '../frontend/config/marketing-footer';
 import { getPartnerBrandMark, resolvePartnerBrand } from '../frontend/src/lib/brand-partners.ts';
 
@@ -76,6 +77,7 @@ test('public dropdowns limit launch badges to the eight promoted current models 
     .map(({ key }) => key);
 
   // FLUX 3 Max is hidden by the Keyvo visibility policy. MiniMax-H3-Max is served again (MiniMax's own API).
+  // seedance-2-5-flash (upstream launch) is registry-only on Keyvo and not offered, so it carries no badge here.
   assert.deepEqual(badgedEntries, [
     'kling-v4-flash',
     'kling-v4',
@@ -228,6 +230,10 @@ test('examples navigation exposes discoverable families without promoting archiv
   const allEntries = [...examplesDropdown!.items, ...examplesDropdown!.sections!.flatMap(section => section.items)];
   assert.deepEqual(allEntries.map(item => item.key).sort(), ['all-examples','seedance','kling','wan','happy-horse','hailuo'].sort());
   assert.equal(new Set(allEntries.map(item => item.key)).size, allEntries.length);
+  assert.equal(allEntries.some(item => item.key === 'pika'), false);
+  // Keyvo's visible families exclude Pika (config/keyvo-visible-families.json), so its family page is not published.
+  assert.equal(resolveExampleFamilyId('pika'), null, 'the Pika family is hidden on Keyvo');
+
   assert.match(marketingDesktopNavSource, /dropdown\.desktopColumns === 2/);
   assert.match(marketingDesktopNavSource, /two-columns/);
   assert.match(headerBarSource, /grid grid-cols-2 gap-1/);
@@ -235,7 +241,7 @@ test('examples navigation exposes discoverable families without promoting archiv
 
 test('marketing footer projects the current bounded model menu instead of a second stale roster', () => {
   assert.match(marketingFooterSource, /FOOTER_MODELS\.map/);
-  assert.ok(FOOTER_MODELS.length <= 9);
+  assert.ok(FOOTER_MODELS.length <= 10);
   for (const item of FOOTER_MODELS) assert.ok(MARKETING_NAV_MODELS.some(model => model.key === item.key));
   assert.doesNotMatch(marketingFooterSource, /slug: 'ltx-2-3-fast'/);
   assert.doesNotMatch(marketingFooterSource, /slug: 'wan-2-6'/);
@@ -247,7 +253,9 @@ test('marketing footer promotes Kling 4 while preserving the previous visible mo
     'minimax-h3', 'seedance-2-5', 'kling-3-pro',
     'wan-3', 'wan-3-prime',
   ];
+  // seedance-2-5-flash is registry-only on Keyvo (not in keyvo-model-allowlist.json), so the footer leads with Kling 4.
   assert.deepEqual(FOOTER_MODELS.map(item => item.key), ['kling-v4', ...preservedModelKeys]);
+  assert.equal(FOOTER_MODELS.some(item => item.key === 'seedance-2-5-flash'), false);
   assert.deepEqual(FOOTER_MODELS[0].href, {
     pathname: '/models/[slug]', params: { slug: 'kling-v4' },
   });

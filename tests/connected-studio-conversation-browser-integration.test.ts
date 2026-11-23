@@ -54,6 +54,7 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
       await expect(palette).toBeInViewport();
       await expect(menu.getByText((siteDefaultLocale==='zh'?'语言':'Language'),{exact:true})).toBeInViewport();
       assert.equal(await preferences.evaluate(element => !!element.closest('.app-site-dialog-body')),false,'preferences are outside scrolling destinations');
+      // Keyvo is zh-only: the workspace language menu is not offered, so its upstream assertions do not apply.
       await menu.locator('.app-site-dialog-body').evaluate(element => {element.scrollTop = element.scrollHeight;});
       await expect(palette).toBeInViewport();
       await palette.click();
@@ -68,19 +69,21 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     const errors: string[] = [];
     const pageErrors: string[] = [];
     const consoleErrors: string[] = [];
+    let phase = 'initial navigation';
     let reloadEvidence: Record<string,unknown> | null = null;
     page.on('response',response => {if (response.status() === 403) mediaFailures.push(new URL(response.url()).pathname);});
-    page.on('pageerror',error => {errors.push(error.message);pageErrors.push(error.message.slice(0,1000));});
+    page.on('pageerror',error => {errors.push(`[${phase}] ${page.url()}: ${error.message}`);pageErrors.push(error.message.slice(0,1000));});
     page.on('console',message => {
       if(message.type()!=='error')return;
       consoleErrors.push(message.text().slice(0,1000));
       if(consoleErrors.length>10)consoleErrors.shift();
-      if(/hydration|Hydration|Each child|cannot be a descendant|Cannot update/i.test(message.text()))errors.push(message.text());
+      if(/hydration|Hydration|Each child|cannot be a descendant|Cannot update/i.test(message.text()))errors.push(`[${phase}] ${page.url()}: ${message.text()}`);
     });
     diagnose = async () => {
       await proof('failure',diagnosticPage);
       return {
         path: new URL(diagnosticPage.url()).pathname,
+        phase,
         pageErrors: pageErrors.slice(-10),
         consoleErrors,
         reloadEvidence,
@@ -100,6 +103,48 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     const auxiliary = new Map([['/api/member-status',{tier: 'Member'}],['/api/wallet',{balance: 0,balanceCents: 0,currency: 'USD'}],['/api/admin/access',{ok: false}],['/api/legal/reconsent',{ok: true,needsReconsent: false,documents: []}],['/api/legal/cookies/version',{ok: true,version: 'native-timeline',publishedAt: null}],['/api/legal/cookies',{ok: true,version: 'native-timeline'}]]);
     for (const [path,json] of auxiliary) await page.route(runtime.browserOrigin+path,route => route.fulfill({json}));
     const url = runtime.browserOrigin+'/app/studio/conversation/'+project.projectId;
+    async function reloadWorkspace(reason: string) {
+      phase = reason;
+      // DOMContentLoaded precedes the owned React readers. Only requests from
+      // the new document can satisfy this gate; an old polling response cannot.
+      const startedAt = Date.now();
+      const historyUrl = runtime.browserOrigin+'/api/studio/projects/'+project.projectId+'/image-conversation';
+      const timelineUrl = runtime.browserOrigin+'/api/studio/projects/'+project.projectId+'/conversation-timeline?preview=1';
+      const requests = new Map<import('@playwright/test').Request,number>();
+      const events: Record<string,unknown>[] = [];
+      let navigationRequested = false,documentCommitted = false;
+      reloadEvidence = {phase,events};
+      const event = (request: import('@playwright/test').Request,name: string,extra: Record<string,unknown> = {}) => {
+        if(requests.has(request))events.push({readId:requests.get(request),event:name,path:new URL(request.url()).pathname,atMs:Date.now()-startedAt,...extra});
+      };
+      const onRequest = (request: import('@playwright/test').Request) => {
+        if(request.isNavigationRequest()&&request.frame()===page.mainFrame()&&request.url()===url){navigationRequested=true;reloadEvidence!.navigationRequestedAtMs=Date.now()-startedAt;}
+        if(!documentCommitted||request.method()!=='GET'||![historyUrl,timelineUrl].includes(request.url()))return;
+        requests.set(request,requests.size+1);event(request,'request');
+      };
+      const onNavigation = (frame: import('@playwright/test').Frame) => {
+        if(navigationRequested&&frame===page.mainFrame()&&frame.url()===url){documentCommitted=true;reloadEvidence!.documentCommittedAtMs=Date.now()-startedAt;}
+      };
+      const onResponse = (response: import('@playwright/test').Response) => event(response.request(),'response',{status:response.status()});
+      const onFinished = (request: import('@playwright/test').Request) => event(request,'finished');
+      const onFailed = (request: import('@playwright/test').Request) => event(request,'failed',{error:request.failure()?.errorText});
+      page.on('request',onRequest);page.on('framenavigated',onNavigation);page.on('response',onResponse);page.on('requestfinished',onFinished);page.on('requestfailed',onFailed);
+      try {
+        // Keep the fixture's existing response budget and subsequent 5s DOM
+        // assertions. Do not retry the reload or replace the real API reads.
+        const historyRead=page.waitForResponse(response=>requests.has(response.request())&&response.url()===historyUrl,{timeout:30000});
+        const timelineRead=page.waitForResponse(response=>requests.has(response.request())&&response.url()===timelineUrl,{timeout:30000});
+        const [,historyResponse,timelineResponse]=await Promise.all([page.reload({waitUntil:'domcontentloaded'}),historyRead,timelineRead]);
+        assert.deepEqual(await Promise.all([historyResponse.finished(),timelineResponse.finished()]),[null,null]);
+        const [history,timeline]=await Promise.all([historyResponse.json(),timelineResponse.json()]);
+        Object.assign(reloadEvidence,{history:{status:historyResponse.status(),ok:history.ok,projectId:history.result?.projectId},timeline:{status:timelineResponse.status(),ok:timeline.ok,projectId:timeline.result?.data?.projectId,revision:timeline.result?.data?.revision,items:timeline.result?.items?.map((item:{id:string;startSec:number})=>({id:item.id,startSec:item.startSec}))}});
+        assert.equal(historyResponse.status(),200);assert.equal(history.ok,true);assert.equal(history.result.projectId,project.projectId);
+        assert.equal(timelineResponse.status(),200);assert.equal(timeline.ok,true);assert.equal(timeline.result.data.projectId,project.projectId);
+        return timeline;
+      } finally {
+        page.off('request',onRequest);page.off('framenavigated',onNavigation);page.off('response',onResponse);page.off('requestfinished',onFinished);page.off('requestfailed',onFailed);
+      }
+    }
     async function proof(name: string,target = page) {
       if (!process.env.STUDIO_PROOF_DIRECTORY) return;
       await mkdir(process.env.STUDIO_PROOF_DIRECTORY,{recursive: true});
@@ -123,6 +168,7 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
       await page.getByRole('button',{name: copy('Open library'),exact: true}).click();
       await expect(dialog.getByText(copy('No media here yet'),{exact: true})).toBeVisible();
       await expect(dialog.getByRole('button',{name:copy('Add to conversation'),exact:true})).toBeDisabled();
+      await dialog.getByRole('button',{name:siteDefaultLocale==='zh'?'筛选':copy('Filters'),exact:true}).click();
       await dialog.getByRole('combobox',{name:copy('Media type'),exact:true}).selectOption('audio');
       await expect(dialog.getByRole('combobox',{name:copy('Media type'),exact:true})).toHaveValue('audio');
       await expect(dialog.getByRole('alert')).toHaveCount(0);
@@ -225,9 +271,13 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
       const index=name==='Watch study'?0:1;
       assert.deepEqual(checked.request().postDataJSON(),{candidates:[{reference:{type:'asset',assetId:referenceIds[index],kind:'image'},originalUrl:referenceUrls[index]}]});
       assert.equal(body.results[0].error,undefined);assert.ok(body.results[0].sourceRevision);
+      // The validation response precedes the picker callback that saves the selection.
+      await expect(page.getByRole('button',{name:`${copy('Remove ')}Image ${index+1}`,exact:true})).toBeVisible();
     }
     await page.unroute(libraryEndpoint);
-    await page.reload({waitUntil:'domcontentloaded'});
+    // Session selection restores only after the new document's owned history loads.
+    await reloadWorkspace('restore session selection');
+    await expect(page.getByRole('heading',{name:(siteDefaultLocale==='zh'?'你想 做什么？':copy('What would you like to do?'))})).toBeVisible({timeout:45000});
     await expect(page.getByRole('button',{name:`${copy('Remove ')}Image 1`,exact:true})).toBeVisible();
     await expect(page.getByRole('button',{name:`${copy('Remove ')}Image 2`,exact:true})).toBeVisible();
     const shelf=page.getByRole('complementary',{name:copy('Media panel'),exact:true});
@@ -286,7 +336,7 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     await checkLibrary();
     await proof('olive-desktop');
     await expect(page.locator('[data-tone]')).toHaveAttribute('data-tone','olive');
-    await page.reload({waitUntil: 'domcontentloaded'});
+    await reloadWorkspace('persist light theme');
     await expect(page.locator('[data-tone]')).toHaveAttribute('data-tone','olive');
     await expect(page.locator('html')).not.toHaveAttribute('data-theme','dark');
     await setTheme(true);
@@ -318,7 +368,7 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     await proof('charcoal-desktop');
     await page.getByRole('button',{name: copy('Collapse monitor'),exact: true}).first().click();
     await expect(page.locator('video[data-playback-item-id]')).toHaveCount(0);
-    await page.reload({waitUntil: 'domcontentloaded'});
+    await reloadWorkspace('persist clip duration');
     await expect(page.locator('[data-timeline-item="montage-clip-01"]')).toHaveAttribute('data-timeline-duration','1');
     await expect(page.getByLabel(copy('Film monitor'),{exact: true})).toHaveCount(0);
     await page.setViewportSize({width: 390,height: 844});
@@ -341,7 +391,7 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     await checkLibrary();
     await page.getByLabel(copy('Audio volume'),{exact: true}).press('Home');
     await expect(page.getByLabel(copy('Film timeline'),{exact: true})).toHaveAttribute('data-revision','2');
-    await page.reload({waitUntil: 'domcontentloaded'});
+    await reloadWorkspace('persist mobile volume');
     await expect(page.locator('[data-tone]')).toHaveAttribute('data-tone','olive');
     await expect(page.locator('html')).not.toHaveAttribute('data-theme','dark');
     // The timeline is read again after the reload; allow the same budget as the first load.
@@ -353,11 +403,12 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     const blockedMedia = 'https://'+STUDIO_PRIVATE_MEDIA_HOST+'/'+STUDIO_PRIVATE_MEDIA_KEYS.b+'?*';
     // Fresh contexts prevent Firefox's already-decoded media cache from bypassing the injected denial.
     for (const permanent of [false,true]) {
+      phase = permanent ? 'permanent media denial' : 'recoverable media denial';
       const retry = await browser.newContext(session,{viewport: {width: 390,height: 844},locale: 'en-US',reducedMotion: 'reduce'});
       const retryPage = retry.page;
       diagnosticPage = retryPage;
-      retryPage.on('pageerror',error => errors.push(error.message));
-      retryPage.on('console',message => {if (message.type() === 'error' && /hydration|Hydration|Each child|cannot be a descendant|Cannot update/i.test(message.text())) errors.push(message.text());});
+      retryPage.on('pageerror',error => errors.push(`[${phase}] ${retryPage.url()}: ${error.message}`));
+      retryPage.on('console',message => {if (message.type() === 'error' && /hydration|Hydration|Each child|cannot be a descendant|Cannot update/i.test(message.text())) errors.push(`[${phase}] ${retryPage.url()}: ${message.text()}`);});
       retryPage.on('response',response => {if (response.status() === 403) mediaFailures.push(new URL(response.url()).pathname);});
       for (const [path,json] of auxiliary) await retryPage.route(runtime.browserOrigin+path,route => route.fulfill({json}));
       let denied = 0,renewalReads = 0;
@@ -423,7 +474,8 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     await page.unroute(deletedEndpoint);
     await openFilm();
     await page.getByRole('button',{name: copy('Select clip')+' Pattern B',exact: true}).click();
-    await expect(page.getByText(copy('Media unavailable. You can remove this clip.'),{exact: true}).first()).toBeVisible();
+    await expect(page.getByText(copy('Media deleted. Replace or remove this clip.'),{exact: true}).first()).toBeVisible();
+    await expect(page.getByRole('button',{name: copy('Replace selected clip'),exact: true})).toBeEnabled();
     await expect(page.getByLabel(copy('Film monitor'),{exact: true})).toHaveCount(0);
     const removalAck=page.waitForResponse(response=>response.url()===deletedEndpoint.replace('?preview=1','') && response.request().method()==='POST',{timeout:30_000});
     const removalRead=page.waitForResponse(async response=>{
@@ -464,49 +516,13 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     assert.equal((await moveAck).status(),200,'The drag saved a move edit.');
     await expect(page.getByLabel(copy('Film timeline'),{exact: true})).toHaveAttribute('data-revision','4');
     await expect(page.locator('[data-timeline-item="montage-clip-02"]')).toHaveAttribute('data-timeline-start','2');
-    // Persistence is checked after the new document's owned reads finish.
-    // DOMContentLoaded does not await either React reader; a previous poll must
-    // not satisfy this gate. The final DOM assertion keeps its existing budget.
-    const reloadStartedAt=Date.now();
-    const reloadHistoryUrl=runtime.browserOrigin+'/api/studio/projects/'+project.projectId+'/image-conversation';
-    const reloadTimelineUrl=runtime.browserOrigin+'/api/studio/projects/'+project.projectId+'/conversation-timeline?preview=1';
-    const reloadRequests=new Map<import('@playwright/test').Request,number>();
-    const reloadEvents:Record<string,unknown>[]=[];
-    let reloadNavigationRequested=false,reloadDocumentCommitted=false;
-    reloadEvidence={events:reloadEvents};
-    const reloadEvent=(request:import('@playwright/test').Request,event:string,extra:Record<string,unknown>={})=>{
-      if(reloadRequests.has(request))reloadEvents.push({readId:reloadRequests.get(request),event,path:new URL(request.url()).pathname,atMs:Date.now()-reloadStartedAt,...extra});
-    };
-    const onReloadRequest=(request:import('@playwright/test').Request)=>{
-      if(request.isNavigationRequest()&&request.frame()===page.mainFrame()&&request.url()===url){reloadNavigationRequested=true;reloadEvidence!.navigationRequestedAtMs=Date.now()-reloadStartedAt;}
-      if(!reloadDocumentCommitted||request.method()!=='GET'||![reloadHistoryUrl,reloadTimelineUrl].includes(request.url()))return;
-      reloadRequests.set(request,reloadRequests.size+1);reloadEvent(request,'request');
-    };
-    const onReloadNavigation=(frame:import('@playwright/test').Frame)=>{
-      if(reloadNavigationRequested&&frame===page.mainFrame()&&frame.url()===url){reloadDocumentCommitted=true;reloadEvidence!.documentCommittedAtMs=Date.now()-reloadStartedAt;}
-    };
-    const onReloadResponse=(response:import('@playwright/test').Response)=>reloadEvent(response.request(),'response',{status:response.status()});
-    const onReloadFinished=(request:import('@playwright/test').Request)=>reloadEvent(request,'finished');
-    const onReloadFailed=(request:import('@playwright/test').Request)=>reloadEvent(request,'failed',{error:request.failure()?.errorText});
-    page.on('request',onReloadRequest);page.on('framenavigated',onReloadNavigation);page.on('response',onReloadResponse);page.on('requestfinished',onReloadFinished);page.on('requestfailed',onReloadFailed);
-    try {
-      // Use the fixture's existing 30-second response budget, without changing
-      // the persistence assertion's five-second UI budget or retrying reload.
-      const historyRead=page.waitForResponse(response=>reloadRequests.has(response.request())&&response.url()===reloadHistoryUrl,{timeout:30000});
-      const timelineRead=page.waitForResponse(response=>reloadRequests.has(response.request())&&response.url()===reloadTimelineUrl,{timeout:30000});
-      const [,historyResponse,timelineResponse]=await Promise.all([page.reload({waitUntil:'domcontentloaded'}),historyRead,timelineRead]);
-      assert.deepEqual(await Promise.all([historyResponse.finished(),timelineResponse.finished()]),[null,null]);
-      const [reloadHistory,reloadTimeline]=await Promise.all([historyResponse.json(),timelineResponse.json()]);
-      const stored=(await runtime.database.pool.query('SELECT revision FROM studio_projects WHERE id=$1',[project.projectId])).rows[0];
-      Object.assign(reloadEvidence,{history:{status:historyResponse.status(),ok:reloadHistory.ok,projectId:reloadHistory.result?.projectId},timeline:{status:timelineResponse.status(),ok:reloadTimeline.ok,projectId:reloadTimeline.result?.data?.projectId,revision:reloadTimeline.result?.data?.revision,items:reloadTimeline.result?.items?.map((item:{id:string;startSec:number})=>({id:item.id,startSec:item.startSec}))},storedRevision:stored?.revision});
-      assert.equal(historyResponse.status(),200);assert.equal(reloadHistory.ok,true);assert.equal(reloadHistory.result.projectId,project.projectId);
-      assert.equal(timelineResponse.status(),200);assert.equal(reloadTimeline.ok,true);assert.equal(reloadTimeline.result.data.projectId,project.projectId);
-      assert.equal(reloadTimeline.result.data.revision,4);assert.equal(Number(stored?.revision),4);
-      assert.deepEqual(reloadTimeline.result.items.map((item:{id:string;startSec:number})=>({id:item.id,startSec:item.startSec})),[{id:'montage-clip-02',startSec:2}]);
-      await expect(page.locator('[data-timeline-item="montage-clip-02"]')).toHaveAttribute('data-timeline-start','2');
-    } finally {
-      page.off('request',onReloadRequest);page.off('framenavigated',onReloadNavigation);page.off('response',onReloadResponse);page.off('requestfinished',onReloadFinished);page.off('requestfailed',onReloadFailed);
-    }
+    const reloadTimeline=await reloadWorkspace('persist moved clip');
+    const stored=(await runtime.database.pool.query('SELECT revision FROM studio_projects WHERE id=$1',[project.projectId])).rows[0];
+    Object.assign(reloadEvidence!,{storedRevision:stored?.revision});
+    assert.equal(reloadTimeline.result.data.revision,4);assert.equal(Number(stored?.revision),4);
+    assert.deepEqual(reloadTimeline.result.items.map((item:{id:string;startSec:number})=>({id:item.id,startSec:item.startSec})),[{id:'montage-clip-02',startSec:2}]);
+    await expect(page.locator('[data-timeline-item="montage-clip-02"]')).toHaveAttribute('data-timeline-start','2');
+    phase = 'mobile layouts';
     for (const width of [320,768]) {
       await page.setViewportSize({width,height: 844});
       await expect(page.getByRole('textbox',{name: copy('Message Milo'),exact: true})).toBeVisible();
@@ -527,6 +543,7 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     await expect(page.getByRole('button',{name:renameLabel('Native Studio film'),exact:true})).toBeFocused();
     await expect(page.getByRole('dialog',{name:copy('Your projects'),exact:true})).toBeVisible();
     await proof('projects-entry');
+    phase = 'create new conversation';
     const previousProjectId=new URL(page.url()).pathname.split('/').at(-1);
     const creation=page.waitForResponse(response=>new URL(response.url()).pathname==='/api/studio/conversation-projects' && response.request().method()==='POST').then(async response=>{
       assert.equal(response.status(),200);
@@ -554,6 +571,6 @@ test('native chat timeline, persistent app themes and mobile chat access ('+brow
     assert.deepEqual(errors,[]);
     assert.ok(browser.readPrivateRequests().some(request => request.status === 200 || request.status === 206));
     await owned.close();
-  } catch (error) {throw new Error(String(error)+(error instanceof Error?'\n'+error.stack:'')+'\n'+JSON.stringify(await diagnose())+'\n'+runtime.readLogs().slice(-4000),{cause: error});}
+  } catch (error) {throw new Error((error instanceof Error ? error.stack : String(error))+'\n'+JSON.stringify(await diagnose())+'\n'+runtime.readLogs().slice(-4000),{cause: error});}
   finally {await browser?.close();await runtime.close();}
 });

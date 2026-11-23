@@ -28,23 +28,23 @@ const sourceDeps:AgentModelCatalogDeps={
 };
 const currentCertified=[
   'gpt-image-2-6-flare','gpt-image-2-6-sunburst','kling-v4-flash',
-  'gemini-omni-flash','gpt-image-2-5-flare','happy-horse-1-1',
+  'gemini-omni-flash','gpt-image-2-5-flare','gpt-image-2-5-sunburst','happy-horse-1-1',
   'kling-3-4k','kling-3-pro','kling-3-standard','kling-o3-4k','kling-o3-pro','kling-o3-standard','kling-v4',
   'luma-ray-3-2','luma-uni-1','luma-uni-1-max','minimax-h3','minimax-hailuo-02-text',
-  'nano-banana-2','nano-banana-2-1','nano-banana-lite','nano-banana-pro','pika-text-to-video',
-  'seedance-2-0','seedance-2-0-fast','seedance-2-0-mini','seedance-2-5','seedream-5-0-flash','seedream-5-0-pro',
+  'nano-banana-2','nano-banana-2-1','nano-banana-lite','nano-banana-pro',
+  'seedance-2-0','seedance-2-0-fast','seedance-2-0-mini','seedance-2-5','seedance-2-5-flash','seedream-5-0-flash','seedream-5-0-pro','seedream-5-5',
   'veo-3-1','veo-3-1-fast','veo-3-1-lite','wan-3','wan-3-prime',
   'kling-3-turbo-pro','kling-3-turbo-standard','minimax-h3-max','ltx-2-5-fast','ltx-2-5-pro','grok-imagine-video-1-5','flux-3','flux-3-draft','flux-3-max',
 ];
-const uncertified=[
-  'gpt-image-2-5-sunburst',
-];
+// gpt-image-2-5-sunburst is certified upstream and admin-tier on Keyvo (keyvo-model-allowlist.json), so the unfiltered
+// catalogue carries it; the public customer catalogue hides it through the allowlist tier, not through absence.
+const uncertified=[];
 // HappyHorse 1.0 was taken offline on every surface (owner decision 2026-11-11; legacy, app unpublished).
 // MiniMax-H3-Max left this list on 2026-11-12 (served on MiniMax's own API).
 // Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro were taken offline on 2026-11-13 (no mainland route; legacy, app unpublished).
 const keyvoHidden=['happy-horse-1-0','wan-2-6','kling-2-5-turbo','kling-2-6-pro'];
 const executableLegacy=['gpt-image-2','ltx-2-3','ltx-2-3-fast','lumaRay2','lumaRay2_flash','nano-banana'];
-const archive=['sora-2','sora-2-pro','ltx-2','ltx-2-fast','wan-2-5'];
+const archive=['pika-text-to-video','sora-2','sora-2-pro','ltx-2','ltx-2-fast','wan-2-5'];
 const offlineArchive=['wan-2-5'];
 // Keyvo retired these on every surface (owner decision 2026-11-11); they redirect to a replacement.
 const retired=['seedance-1-5-pro','seedream'];
@@ -73,7 +73,6 @@ test('the real published catalog reaches Studio without the five-model pilot res
     const details=studioVisualCapabilityDetails(candidate);
     assert.notEqual(details.surface,'audio');
     if(details.surface!=='audio')assert.equal(details.lifecycle,summary.lifecycle);
-    if(candidate.engine.id==='pika-text-to-video')assert.equal(summary.editorialGuidance?.level,'on_request');
   }
 });
 
@@ -171,7 +170,7 @@ test('original image and text/first-frame video creation preserve request and qu
   }
 });
 
-test('action-specific recommendations preserve a single compatible explicit choice and Pika on request',async context=>{
+test('action-specific recommendations preserve exact compatible choices and exclude archived Pika',async context=>{
   context.mock.timers.enable({apis:['Date'],now:new Date('2026-10-04T12:00:00Z')});
   const {catalog,image,video}=await services();
   const deps:AgentModelCatalogDeps={
@@ -184,16 +183,17 @@ test('action-specific recommendations preserve a single compatible explicit choi
   assert.ok(open.recommendations.length>0&&open.recommendations.length<=3);
   assert.equal(open.recommendations[0].editorialGuidance?.level,'reference');
   assert.notEqual(open.recommendations[0].model.id,'pika-text-to-video');
-  // Pika is outside the owner allowlist, so an exact request must not resolve to it on Keyvo.
+  // Pika is deep_legacy upstream and not app-published (2026-11), so an exact request resolves to no recommendation on
+  // any surface; this holds regardless of the Keyvo owner allowlist (the unfiltered test catalogue offers every id).
   const pika=await recommendAgentModels({id:'pika-text-to-video',surface:'video',mode:'i2v'},deps);
-  assert.deepEqual(pika.recommendations.map(item=>item.model.id),isKeyvoOfferedEngine('pika-text-to-video')?['pika-text-to-video']:[]);
+  assert.deepEqual(pika.recommendations.map(item=>item.model.id),[]);
   const fourK=await recommendAgentModels({surface:'video',mode:'t2v',resolution:'4k',preferredModelIds:['seedance-2-5']},deps);
   assert.ok(fourK.recommendations.length>0);
-  assert.notEqual(fourK.recommendations[0].model.id,'seedance-2-5');
+  assert.equal(fourK.recommendations[0].model.id,'seedance-2-5', 'Milo preserves the explicitly preferred model now that it supports 4K.');
   assert.ok(fourK.recommendations[0].model.resolutions.includes('4k'));
   const unavailable=await recommendAgentModels({id:'seedance-2-0-fast-byteplus',surface:'video',mode:'t2v'},deps);
   assert.deepEqual(unavailable.recommendations,[],'An exact unavailable choice must not silently become another model.');
-  assert.throws(()=>imageRequestFromDraft({reply:'Review.',image:{prompt:input.message,aspectRatio:'1:1',modelId:'gpt-image-2-5-sunburst'}} as never,{...input,references:[]},catalog),{code:'ENGINE_UNAVAILABLE'});
+  assert.throws(()=>imageRequestFromDraft({reply:'Review.',image:{prompt:input.message,aspectRatio:'1:1',modelId:'uncertified-image-fixture'}} as never,{...input,references:[]},catalog),{code:'ENGINE_UNAVAILABLE'});
   const factories={image:()=>image,video:()=>video,audio:()=>{throw new Error('Audio is outside this matrix');}} as StudioMediaFactories;
   await assert.rejects(studioMediaRequest(actor,{action:'video.prepare',modelId:'seedance-2-0-fast-byteplus',mode:'t2v',prompt:input.message,aspectRatio:'16:9'} as never,input,factories,true),{code:'ENGINE_UNAVAILABLE'});
   await assert.rejects(studioMediaRequest(actor,{action:'video.prepare',modelId:'wan-3',mode:'fl2v',prompt:input.message,aspectRatio:'16:9',references:[]} as never,input,factories,true),{code:'MODE_UNSUPPORTED'});

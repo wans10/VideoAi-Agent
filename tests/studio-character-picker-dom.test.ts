@@ -23,6 +23,11 @@ async function click(f:Awaited<ReturnType<typeof mount>>,name:string) {
   assert.equal(button.disabled,false);
   await f.act(async()=>button.click());
 }
+function lastCharacterRequest(f:Awaited<ReturnType<typeof mount>>) {
+  const request=f.w.requests.filter((entry:any)=>entry.url===endpoint||entry.url.startsWith(endpoint+'?')).at(-1);
+  assert.ok(request,'Expected a request to the owned Character endpoint.');
+  return request;
+}
 async function chooseLook(f:Awaited<ReturnType<typeof mount>>) {
   await click(f,'Saved characters');
   let request=f.w.requests.find((entry:any)=>entry.url===endpoint);
@@ -35,9 +40,8 @@ async function chooseLook(f:Awaited<ReturnType<typeof mount>>) {
   assert.equal(f.w.requests.filter((entry:any)=>entry.init.method==='POST').length,0,'Browsing must not promote or generate media');
   await click(f,'Late night');
   await click(f,'Add to conversation');
-  request=f.w.requests.at(-1);
-  assert.equal(request.url,endpoint);
-  assert.equal(request.init.method,'POST');
+  request=f.w.requests.find((entry:any)=>entry.url===endpoint&&entry.init.method==='POST');
+  assert.ok(request,'Add to conversation must send an owned Character attachment request.');
   assert.equal(request.init.accountKey,'account-a');
   assert.deepEqual(JSON.parse(request.init.body),{characterId:'4',lookId:'12'});
   return request;
@@ -67,7 +71,7 @@ test('Character search accepts part of a name and keeps that filter through pagi
   const f=await mount();
   try {
     await click(f,'Saved characters');
-    await f.respond(f.w.requests.at(-1),{ok:true,result:{characters:[{...selectedCharacter,name:'Dixie Trouble'}],nextCursor:null}});
+    await f.respond(lastCharacterRequest(f),{ok:true,result:{characters:[{...selectedCharacter,name:'Dixie Trouble'}],nextCursor:null}});
     const search=f.w.document.querySelector('input[aria-label="Character name"]');
     const submit=async(value:string)=>f.act(async()=>{
       Object.getOwnPropertyDescriptor(f.w.HTMLInputElement.prototype,'value')!.set!.call(search,value);
@@ -75,20 +79,20 @@ test('Character search accepts part of a name and keeps that filter through pagi
     });
     await submit(' Dixie ');
     await click(f,'Search');
-    let url=new URL(f.w.requests.at(-1).url,'https://app.invalid');
+    let url=new URL(lastCharacterRequest(f).url,'https://app.invalid');
     assert.equal(url.searchParams.get('search'),'Dixie');
     assert.equal(url.searchParams.has('name'),false,'the browser search must not use the exact-name filter');
-    await f.respond(f.w.requests.at(-1),{ok:true,result:{characters:[{...selectedCharacter,name:'Dixie Trouble'}],nextCursor:'4'}});
+    await f.respond(lastCharacterRequest(f),{ok:true,result:{characters:[{...selectedCharacter,name:'Dixie Trouble'}],nextCursor:'4'}});
     await click(f,'Load more');
-    url=new URL(f.w.requests.at(-1).url,'https://app.invalid');
+    url=new URL(lastCharacterRequest(f).url,'https://app.invalid');
     assert.equal(url.searchParams.get('search'),'Dixie');
     assert.equal(url.searchParams.get('cursor'),'4');
-    await f.respond(f.w.requests.at(-1),{ok:true,result:{characters:[{...selectedCharacter,id:'3',name:'Older Dixie'}],nextCursor:null}});
+    await f.respond(lastCharacterRequest(f),{ok:true,result:{characters:[{...selectedCharacter,id:'3',name:'Older Dixie'}],nextCursor:null}});
     assert.match(f.w.document.body.textContent,/Dixie Trouble/);
     assert.match(f.w.document.body.textContent,/Older Dixie/);
     await submit('');
     await click(f,'Search');
-    url=new URL(f.w.requests.at(-1).url,'https://app.invalid');
+    url=new URL(lastCharacterRequest(f).url,'https://app.invalid');
     assert.equal(url.search,'');
     assert.equal(f.w.requests.filter((entry:any)=>entry.init.method==='POST').length,0);
   } finally {await f.close();}

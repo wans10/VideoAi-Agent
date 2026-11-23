@@ -12,7 +12,7 @@ const REGISTRY = JSON.parse(
 ) as { models: Array<{ slug: string; category: string; publication: { model: { published: boolean } } }> };
 const LOCALES = ['en', 'fr', 'es'] as const;
 const CONTENT_ROOT = path.join(process.cwd(), 'content', 'models');
-const NEW_DECISION_SLUGS = ['nano-banana-lite', 'seedream-5-0-pro'] as const;
+const NEW_DECISION_SLUGS = ['nano-banana-lite', 'seedream-5-0-pro', 'seedream-5-0-flash', 'seedream-5-5'] as const;
 const IMAGE_SLUGS = REGISTRY.models
   .filter((model) => model.category === 'image' && model.publication.model.published)
   .map((model) => model.slug)
@@ -25,10 +25,13 @@ function readDocument(locale: (typeof LOCALES)[number], slug: string) {
   };
 }
 
-test('all thirteen published image models own localized decision content', () => {
-  // Fourteen upstream image model pages minus Seedream 5.0 Lite, which Keyvo retired (owner decision 2026-11-11).
+test('all fourteen published image models own localized decision content', () => {
+  // Upstream publishes its image model pages minus Seedream 5.0 Lite (retired by Keyvo, owner decision 2026-11-11). Keyvo
+  // keeps the Seedream 5.0 Flash and Seedream 5.5 model pages unpublished (offered in the app only, no zh content;
+  // 2026-11-22 decisions), so 13 remain published.
   assert.equal(IMAGE_SLUGS.length, 13);
   assert.equal(IMAGE_SLUGS.includes('seedream'), false);
+  assert.equal(IMAGE_SLUGS.includes('seedream-5-5'), false);
 
   for (const slug of IMAGE_SLUGS) {
     const engine = listFalEngines().find((candidate) => candidate.modelSlug === slug);

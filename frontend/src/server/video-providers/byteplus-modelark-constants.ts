@@ -15,6 +15,9 @@ export const BYTEPLUS_SEEDANCE_FAST_DEFAULT_MODEL_ID = 'doubao-seedance-2-0-fast
 export const BYTEPLUS_SEEDANCE_MINI_DEFAULT_MODEL_ID = 'doubao-seedance-2-0-mini-260615';
 export const BYTEPLUS_SEEDANCE_2_5_DEFAULT_MODEL_ID = 'doubao-seedance-2-5-260628';
 // LAS (Seedance 2.5 edit transport) is a BytePlus-only operator service; it has no mainland node.
+export const SEEDANCE_2_5_FLASH_ENGINE_ID = 'seedance-2-5-flash';
+export const BYTEPLUS_SEEDANCE_2_5_FLASH_DEFAULT_MODEL_ID = 'doubao-seedance-2-5-flash-261115';
+export const BYTEPLUS_SEEDANCE_2_5_FLASH_RESOLUTIONS: Resolution[] = ['480p', '720p'];
 export const BYTEPLUS_SEEDANCE_2_5_DEFAULT_BASE_URL = 'https://operator.las.ap-southeast-1.bytepluses.com/api/v1';
 export const BYTEPLUS_SEEDANCE_FAST_DEFAULT_BASE_URL = 'https://ark.cn-beijing.volces.com/api/v3';
 export const BYTEPLUS_ARK_DEFAULT_REGION = 'cn-beijing';
@@ -37,7 +40,7 @@ export const BYTEPLUS_SEEDANCE_2_5_DURATION_OPTIONS = Array.from(
   { length: 27 },
   (_, index) => index + 4
 );
-export const BYTEPLUS_SEEDANCE_2_5_RESOLUTIONS: Resolution[] = ['480p', '720p', '1080p'];
+export const BYTEPLUS_SEEDANCE_2_5_RESOLUTIONS: Resolution[] = ['480p', '720p', '1080p', '4k'];
 export const BYTEPLUS_SEEDANCE_2_5_ASPECT_RATIOS: AspectRatio[] = [
   'auto',
   '21:9',

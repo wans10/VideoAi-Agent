@@ -1,0 +1,26 @@
+{
+  "reviewedAt": "2026-11-22",
+  "policy": "Keyvo Seedance 2.5 4K output route on the merged tree (sandbox/merge-maxvideoai-3827da0). Unavailable on the pre-merge Keyvo line (1fafcedd8); exact after the upstream 4K tariff code landed, at the amount the Keyvo price path computes (10 s, 16:9, no video input: 1.944M tokens x CNY 31/M = CNY 60.26 list, /8 = USD 7.53 accounting, x0.8 = USD 6.03 harness units = CNY 48.21; page example 5 s = CNY 30.13 list = CNY 24.10 customer). Upstream's USD x2 list registration (tests/fixtures/seedance-25-4k-public-pricing-change-2026-11-17.json, 1828 cents) is not Keyvo's price rule and is kept only as upstream evidence. Owner confirmed 2026-11-22 that Seedance 2.5 4K is sold on Keyvo. Offline projection only; live prices require an active admin tariff.",
+  "rows": [
+    {
+      "previous": {
+        "id": "pricing-hub-video:seedance-2-5:4k-route",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-5",
+        "status": "unavailable"
+      },
+      "current": {
+        "id": "pricing-hub-video:seedance-2-5:4k-route",
+        "surface": "pricing-hub-video",
+        "engineId": "seedance-2-5",
+        "status": "exact",
+        "currency": "USD",
+        "customerTotalCents": 603,
+        "unit": "scenario",
+        "quantity": 1,
+        "displayedAmount": "$6.03",
+        "compatibilityProfile": "standard"
+      }
+    }
+  ]
+}

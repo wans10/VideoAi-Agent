@@ -1,10 +1,5 @@
 import { randomUUID } from 'crypto';
 import { resolveStudioLookRequest } from '@/server/character-studio/look';
-import {
-  getCharacterEngineAspectRatio,
-  getCharacterFormatResolution,
-  getQualityEngineId,
-} from '@/lib/character-builder';
 import { executeImageGeneration, ImageGenerationExecutionError } from '@/server/images/execute-image-generation';
 import type {
   CharacterBuilderResponse,
@@ -12,36 +7,13 @@ import type {
   CharacterBuilderRun,
 } from '@/types/character-builder';
 import { CharacterBuilderError } from './error';
-import { buildPrompt } from './prompt';
-import { sanitizeRequest } from './sanitize';
-import { buildSettingsSnapshot } from './snapshot';
+import { prepareCharacterBuilderRequest } from './preparation';
 import type { RunCharacterBuilderInput } from './types';
-import {
-  buildImageUrls,
-  buildInputMode,
-  getAspectRatio,
-  getEngineLabel,
-  trimString,
-} from './utils';
+import { trimString } from './utils';
 
 export async function runCharacterBuilder(input: RunCharacterBuilderInput): Promise<CharacterBuilderResponse> {
-  const request = sanitizeRequest(await resolveStudioLookRequest(input));
-  const prompt = buildPrompt(request);
-  const imageUrls = buildImageUrls(request);
-  const inputMode = buildInputMode(request, imageUrls);
-  const engineId = getQualityEngineId(request.qualityMode);
-  const engineLabel = getEngineLabel(engineId);
-  if (request.generateCount !== 1) {
-    throw new CharacterBuilderError('Generate one character image at a time.', { status: 400, code: 'single_output_required' });
-  }
-  const settingsSnapshot = buildSettingsSnapshot(request, prompt, engineId, engineLabel, inputMode);
-  const aspectRatio = getCharacterEngineAspectRatio(engineId, getAspectRatio(
-    request.outputMode,
-    request.action,
-    request.outputOptions.fullBodyRequired,
-    request.outputOptions.includeCloseUps
-  ));
-  const resolution = getCharacterFormatResolution();
+  const { request, prompt, imageUrls, inputMode, engineId, engineLabel, settingsSnapshot, aspectRatio, resolution } =
+    prepareCharacterBuilderRequest(await resolveStudioLookRequest(input));
 
   try {
     const result = await executeImageGeneration({

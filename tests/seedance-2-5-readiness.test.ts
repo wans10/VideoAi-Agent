@@ -96,11 +96,16 @@ test('Seedance 2.5 is the public flagship across every product surface', () => {
 });
 
 test('Seedance publication ranks and reciprocal flagship comparison pairs stay exact', () => {
+  // Keyvo offers Seedance 2.5 Flash (owner allowlist, public tier) but keeps its model page unpublished, so it has no
+  // family example rank; the rank contract applies to the published example pages only.
+  const flashExamples = getRuntimeModelById('seedance-2-5-flash')?.publication.examples;
+  assert.equal(flashExamples?.published, false);
+  assert.equal(flashExamples?.familyRank, undefined);
   const expectedRanks = new Map([
     ['seedance-2-5', 0],
-    ['seedance-2-0', 1],
-    ['seedance-2-0-fast', 2],
-    ['seedance-2-0-mini', 3],
+    ['seedance-2-0', 2],
+    ['seedance-2-0-fast', 3],
+    ['seedance-2-0-mini', 4],
   ]);
   for (const [modelId, expectedRank] of expectedRanks) {
     assert.equal(getRuntimeModelById(modelId)?.publication.examples.familyRank, expectedRank, modelId);
@@ -165,7 +170,7 @@ test('Seedance 2.5 owns a dedicated fail-closed ModelArk profile', () => {
   assert.equal(profile.modelConfigKey, 'seedance25ModelId');
   assert.equal(profile.pricingProfileKey, 'seedance25');
   assert.deepEqual(profile.supportedModes, ['t2v', 'i2v', 'ref2v', 'v2v', 'extend']);
-  assert.deepEqual(profile.resolutions, ['480p', '720p', '1080p']);
+  assert.deepEqual(profile.resolutions, ['480p', '720p', '1080p', '4k']);
   assert.deepEqual(profile.aspectRatios, supportedAspectRatios);
   assert.deepEqual(profile.durationOptions, Array.from({ length: 27 }, (_, index) => index + 4));
   assert.equal(profile.defaultDurationSec, 4);

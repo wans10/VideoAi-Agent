@@ -26,7 +26,9 @@ const LAUNCHED_IMAGE_MODEL_IDS = [
   'gpt-image-2-5-flare',
   'gpt-image-2-5-sunburst',
 ] as const;
-// Keyvo's 2026-11-11 provider work publishes Seedream 5.0 Flash pricing (PROVISIONAL Volcengine list cost).
+// Keyvo's 2026-11-11 provider work publishes Seedream 5.0 Flash pricing (PROVISIONAL Volcengine list cost). Flash is
+// Volcengine-direct and priced by the official-list x0.8 CNY rule, so it keeps a supplier-cost baseline and stays in the
+// historical audit; only Seedream 5.5 (upstream USD single-image branch) is excluded by canonical-collectors.ts.
 const KEYVO_LAUNCHED_IMAGE_MODEL_IDS = ['seedream-5-0-flash'] as const;
 
 function readFixtureRows<T>(path: string): T[] {
@@ -118,9 +120,7 @@ test('committed pre-canonical pricing baseline is immutable after legacy deletio
   }
   for (const engineId of KEYVO_LAUNCHED_IMAGE_MODEL_IDS) {
     assert.equal(
-      additions.rows.filter((row) =>
-        row.scenarioId.startsWith(`billing:${engineId}:`) || row.scenarioId.startsWith(`estimator:${engineId}:`)
-      ).length,
+      additions.rows.filter((row) => row.scenarioId.startsWith(`billing:${engineId}:`) || row.scenarioId.startsWith(`estimator:${engineId}:`)).length,
       4,
       engineId,
     );
@@ -152,6 +152,53 @@ test('the pricing audit reports the reviewed Gemini refresh and Keyvo official l
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
   // 48 Keyvo official list price rows (2026-11-13) 8 Nano Banana 2 / Lite official-list-100 rows (2026-11-14) and 16 Veo 3.1 / Fast / Lite and Gemini Omni Flash official-list-100 rows (2026-11-15; the GPT Image 2.5 launch additions are regenerated at the new price).
   assert.match(result.stdout, /72 approved changes; 0 mismatches/u);
+});
+
+test('the real offline audit CLI replays every frozen Pika row while current admission remains closed', async () => {
+  const { getFalEngineById } = await import('../frontend/src/config/falEngines');
+  const { getRuntimeModelById } = await import('../frontend/config/model-runtime');
+  const { buildPricingAuditScenarios } = await import('../frontend/src/lib/pricing-audit/scenarios');
+  const { resolvePublicModelScenario } = await import('../frontend/server/pricing/quote-public-model-scenario');
+  const { collectCanonicalPricingOutputs } = await import('../frontend/src/lib/pricing-audit/canonical-collectors');
+  type AuditRow = Parameters<typeof collectCanonicalPricingOutputs>[0][number];
+  type Matrix = Awaited<ReturnType<typeof import('../frontend/src/lib/pricing-audit/matrix').buildPricingAuditMatrix>>;
+  const frozen = [...readFixtureRows<AuditRow>(fixturePath), ...readFixtureRows<AuditRow>(launchAdditionsFixturePath)];
+  const historicalPika = frozen.filter(row => row.scenarioId.includes(':pika-text-to-video:'));
+  // 274 = 270 upstream rows + the 4 Keyvo Seedream 5.0 Flash rows (official-list CNY, historical scope).
+  assert.equal(frozen.length, 274);
+  assert.equal(historicalPika.length, 14);
+  const assertClosed = () => {
+    const model = getRuntimeModelById('pika-text-to-video')!;
+    const entry = getFalEngineById(model.id)!;
+    assert.equal(model.publication.app.published, false);
+    assert.equal(model.publication.pricing.published, false);
+    assert.equal(entry.surfaces.app.enabled, false);
+    assert.equal(entry.surfaces.pricing.includeInEstimator, false);
+    assert.equal(resolvePublicModelScenario({ modelId: model.id, mode: 't2v', durationSec: 5, resolution: '720p' }), null);
+  };
+  assertClosed();
+  assert.equal(buildPricingAuditScenarios().some(row => row.engineId === 'pika-text-to-video'), false);
+  assert.deepEqual(
+    buildPricingAuditScenarios({ scope: 'historical' }).filter(row => row.engineId === 'pika-text-to-video').map(row => row.id).sort(),
+    historicalPika.map(row => row.scenarioId).sort(),
+  );
+  const result = spawnSync('pnpm', ['--silent', 'pricing:audit', '--', '--json'], {
+    cwd: process.cwd(), encoding: 'utf8',
+    env: { ...process.env, DATABASE_URL: 'postgresql://offline-audit-must-not-connect.invalid/test' },
+  });
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+  const matrix = JSON.parse(result.stdout) as Matrix;
+  // Keyvo's 72 reviewed official-list changes (48 + 8 + 16, see the canonical-shadow test below) are approved changes, not matches.
+  assert.deepEqual(matrix.summary, { scenarios: 274, matches: 202, approvedChanges: 72, mismatches: 0, compatibilityProfiles: 4 });
+  assert.deepEqual(new Set(matrix.rows.map(row => row.scenarioId)), new Set(frozen.map(row => row.scenarioId)));
+  for (const expected of historicalPika) {
+    const actual = matrix.rows.find(row => row.scenarioId === expected.scenarioId)!;
+    assert.equal(actual.status, 'match');
+    assert.equal(actual.currentTotalCents, expected.customerTotalCents);
+    assert.equal(actual.canonicalTotalCents, expected.customerTotalCents);
+    assert.deepEqual(actual.fieldDeltas, {});
+  }
+  assertClosed();
 });
 
 test('historical Sora and Seedance 1.5 billing and estimator evidence remains independently reproducible after retirement', async () => {

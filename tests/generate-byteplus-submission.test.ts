@@ -125,7 +125,8 @@ test('Seedance 1.5 direct submission preserves T2V, first/last I2V, resolution a
   }
 });
 
-test('Seedance 1.5 direct rejects unsupported reference mode before provider access', { concurrency: false }, async () => {
+test('before retirement, Seedance 1.5 direct rejects unsupported reference mode before provider access', { concurrency: false }, async (t) => {
+  t.mock.timers.enable({ apis: ['Date'], now: Date.parse('2026-11-11T08:59:59Z') });
   const original = {
     enabled: ENV.SEEDANCE_1_5_BYTEPLUS_ENABLED,
     provider: ENV.SEEDANCE_1_5_PROVIDER,
@@ -154,6 +155,43 @@ test('Seedance 1.5 direct rejects unsupported reference mode before provider acc
     ENV.SEEDANCE_1_5_BYTEPLUS_ENABLED = original.enabled;
     ENV.SEEDANCE_1_5_PROVIDER = original.provider;
     console.warn = original.warn;
+  }
+});
+
+test('Seedance 1.5 retirement blocks direct submission before config or provider access despite enabled flags', { concurrency: false }, async (t) => {
+  t.mock.timers.enable({ apis: ['Date'], now: Date.parse('2026-11-11T09:00:00Z') });
+  const original = {
+    enabled: ENV.SEEDANCE_1_5_BYTEPLUS_ENABLED,
+    provider: ENV.SEEDANCE_1_5_PROVIDER,
+  };
+  ENV.SEEDANCE_1_5_BYTEPLUS_ENABLED = 'true';
+  ENV.SEEDANCE_1_5_PROVIDER = 'byteplus_modelark';
+  let configReads = 0;
+  let providerRequests = 0;
+  try {
+    const result = await submitBytePlusGenerateTask({
+      ...baseParams,
+      engineId: 'seedance-1-5-pro',
+      mode: 't2v',
+      deps: {
+        getBytePlusArkConfigFn: () => {
+          configReads += 1;
+          return { seedance15ModelId: 'account-seedance-15' } as never;
+        },
+        getBytePlusModelArkClientFn: () => ({ createSeedanceFastTask: async () => {
+          providerRequests += 1;
+          return { providerJobId: 'unexpected', status: 'queued' };
+        } }) as never,
+        queryFn: async () => [],
+      },
+    });
+    assert.equal(result.ok, false);
+    assert.equal(result.body.error, 'BYTEPLUS_ENGINE_DISABLED');
+    assert.equal(configReads, 0);
+    assert.equal(providerRequests, 0);
+  } finally {
+    ENV.SEEDANCE_1_5_BYTEPLUS_ENABLED = original.enabled;
+    ENV.SEEDANCE_1_5_PROVIDER = original.provider;
   }
 });
 

@@ -25,6 +25,7 @@ const paths = {
   decision: path.join(ROUTE_ROOT, '_components/ModelDecisionExamplesSection.tsx'),
   default: path.join(ROUTE_ROOT, '_components/ModelDefaultExamplesSection.tsx'),
   client: path.join(ROUTE_ROOT, '_components/ModelDecisionExamplesGallery.client.tsx'),
+  cinematicPresentation: path.join(ROUTE_ROOT, '_lib/model-page-cinematic-presentation.ts'),
   parser: path.join(ROUTE_ROOT, '_lib/model-page-examples-content.ts'),
   viewModel: path.join(ROUTE_ROOT, '_lib/model-page-examples-view-model.ts'),
   uiCopy: path.join(ROUTE_ROOT, '_lib/model-page-examples-ui-copy.ts'),
@@ -51,8 +52,11 @@ test('model Examples parses and builds once before rendering', () => {
   assert.equal(count(layoutSource, 'buildModelExamplesViewModel('), 1);
   assert.match(
     layoutSource,
-    /<ModelCurrentDetails\b[\s\S]*?contentProps=\{\{[\s\S]*?examplesProps:\s*\{\s*viewModel:\s*examplesViewModel,\s*keyframeDemo,\s*editorialImages\s*\}/,
+    /<ModelCurrentDetails\b[\s\S]*?contentProps=\{\{[\s\S]*?examplesProps:\s*\{\s*viewModel:\s*examplesViewModel,\s*keyframeDemo,\s*editorialImages,?\s*\}/,
   );
+  // Cinematic parse/build moved out of the layout (keeps MarketingModelPageLayout under 500 lines); the wrapper owns it.
+  assert.equal(count(layoutSource, 'buildModelCinematicPresentation('), 1);
+  assert.equal(count(readSource(paths.cinematicPresentation), 'buildCinematicPresentation('), 1);
   assert.match(readSource(paths.currentDetails), /<ModelPageContentSections\s+\{\.\.\.contentProps\}/);
   assert.match(readSource(paths.contentSections), /<ModelExamplesSection\s+\{\.\.\.examplesProps\}/);
 });

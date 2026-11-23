@@ -85,15 +85,23 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
     // 26990 less 555 for the provider-completeness sync: Seedance 1.5 / Seedream Lite / HappyHorse 1.0 / Wan 2.5 are offline, MiniMax H3 Max was hidden and the removed H3 480P/4K cells leave the Keyvo catalogue, offset by Hailuo 2.3 (+6), Hailuo 2.3 Fast (+3) and Seedream Flash (+2).
     // 2026-11-12: MiniMax-H3-Max returns on MiniMax's own API with 3564 exact cells (t2v 22 + i2v 22 + ref2v 11 x 2 x 10 reference images x 16 billed reference-video seconds); its Recast/Relight stay unsold.
     const h3MaxOfficialCells = 3564;
+    // Keyvo offers Seedance 2.5 Flash (1944 ordinary + 1944 input-stress cells) and Seedream 5.5 (33 ordinary cells) since
+    // 2026-11-22 (owner decision). Both are official-list priced and replayed like Seedream 5.0 Flash, not closed.
+    const offeredFlashAndSeedream55Cells = 1944 + 1944 + 33;
     // 2026-11-13 (customer-tariff-cutover-evidence.test.ts): Wan 2.6, Kling 2.5 Turbo, Kling 2.6 Pro offline, Kling 3
     // voice-control variants share the audio-on identity and Hailuo 02 512P text-to-video is unsold: -84 checkpoints.
     const keyvoOfflineDelta = -84;
-    assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length, 26435 + h3MaxOfficialCells + keyvoOfflineDelta);
+    // Seedream 5.0 Flash is Keyvo's published engine and keeps its two official-list 1K checkpoints in this replay (the
+    // historical fixture closes only Nano21, Kling V4 Flash and GPT Image 2.6). Its two cells are part of the 26435 base,
+    // which equals the pre-merge Keyvo count; the offered Seedream 5.5 and Seedance 2.5 Flash cells are added below.
+    assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.kind !== 'new_offer').length,
+      26435 + h3MaxOfficialCells + keyvoOfflineDelta + offeredFlashAndSeedream55Cells);
     // -561: 555 ordinary checkpoints and 6 new-offer cells left with the provider-completeness sync (see the comment above).
     // The unfiltered catalog this suite runs on (Keyvo allowlist) also keeps MiniMax-H3-Max's six Recast/Relight new-offer
     // cells, which Keyvo does not sell (KEYVO_UNSERVED_VIDEO_OPERATIONS); the ordinary-checkpoint count above excludes them.
     const unsoldH3MaxOperationOffers = 6;
-    const fullCheckedQuotes = 26826 - 561 + h3MaxOfficialCells + unsoldH3MaxOperationOffers + maxCells + lumaModifyExtraCells + additiveCells + keyvoOfflineDelta;
+    const fullCheckedQuotes = 26826 - 561 + h3MaxOfficialCells + unsoldH3MaxOperationOffers + maxCells + lumaModifyExtraCells + additiveCells + keyvoOfflineDelta
+      + offeredFlashAndSeedream55Cells;
     assert.equal(collectCustomerTariffCutoverCheckpoints().length, fullCheckedQuotes,
       'Review inventory changes before running the exhaustive monetary replay');
     assert.equal(collectCustomerTariffCutoverCheckpoints().filter(row => row.scenario.modelId === 'flux-3-max').length, maxCells);
@@ -117,13 +125,19 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
     const officialList = coverage.scenarios.filter(row => OFFICIAL_LIST_PRICED_ENGINE_IDS.has(row.modelId));
     assert.deepEqual([...new Set(officialList.map(row => row.modelId))].sort(), [...OFFICIAL_LIST_PRICED_ENGINE_IDS]
       .filter(id => !['kling-v4', 'kling-v4-flash'].includes(id)).sort(), 'every published official-list engine is in the cutover inventory');
-    // The complete seed (the upstream rehearsal's first step) stops at Seedance, the first refused family in inventory order.
-    await assert.rejects(auditReviewedCustomerTariffSeed(await seedInput(coverage.scenarios)), { message: 'A positive reviewed variant margin is required.' });
+    // The complete seed (the upstream rehearsal's first step) is refused before any margin review: Seedance 2.5 Flash's
+    // 324 v2v video-input cells have no historical baseline quote, so the baseline reports gaps (see the Flash check below).
+    await assert.rejects(auditReviewedCustomerTariffSeed(await seedInput(coverage.scenarios)), { message: 'Incomplete baseline coverage' });
     // Seedance 2.0 / Fast / Mini / 2.5: the current price is below the video-input supplier minimum and the no-video variant
     // is below cost too, so no reviewed proportional margin exists.
-    const seedance = officialList.filter(row => row.modelId.startsWith('seedance-'));
+    const seedance = officialList.filter(row => row.modelId.startsWith('seedance-') && row.modelId !== 'seedance-2-5-flash');
     assert.equal(seedance.length, 6210);
     await assert.rejects(auditReviewedCustomerTariffSeed(await seedInput(seedance)), { message: 'A positive reviewed variant margin is required.' });
+    // Seedance 2.5 Flash (offered 2026-11-22, official-list 80%): its 1944 official-list cells are inventoried, but the
+    // v2v video-input cells have no historical quote to seed from, so the baseline refuses the family as incomplete.
+    const flash = officialList.filter(row => row.modelId === 'seedance-2-5-flash');
+    assert.equal(flash.length, 1944);
+    await assert.rejects(auditReviewedCustomerTariffSeed(await seedInput(flash)), { message: 'Incomplete baseline coverage' });
     // Wan 3 / 3 Prime: the continuous compiler refuses the official-list-80 profile.
     const wan = officialList.filter(row => row.modelId.startsWith('wan-'));
     assert.equal(wan.length, 6192);
@@ -135,8 +149,9 @@ test('initial cutover is atomic, validates the actual reader, and rollback prese
     const pointInput = await seedInput(pointEngines);
     const pointAudit = await auditReviewedCustomerTariffSeed(pointInput);
     // +6: the unsold H3-Max Recast/Relight offers kept by the unfiltered catalog (see unsoldH3MaxOperationOffers above).
-    assert.equal(pointAudit.checkedScenarios, 4424 + unsoldH3MaxOperationOffers);
-    assert.equal(pointAudit.settlementGuardFailures.length, 4408, 'every fixed official-list point cell is below cost');
+    // +33: the offered Seedream 5.5 point cells (official-list 80%, below cost like every other point engine).
+    assert.equal(pointAudit.checkedScenarios, 4424 + 33 + unsoldH3MaxOperationOffers);
+    assert.equal(pointAudit.settlementGuardFailures.length, 4408 + 33, 'every fixed official-list point cell is below cost');
     assert.ok(pointAudit.settlementGuardFailures.every(row => row.customerCents < row.referenceCeilCents));
     assert.deepEqual([...new Set(pointAudit.settlementGuardFailures.map(row => row.scenarioId.split('|')[0]!.slice('engineId='.length)))].sort(),
       [...new Set(pointEngines.map(row => row.modelId))].sort());

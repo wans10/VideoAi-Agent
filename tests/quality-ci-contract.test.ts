@@ -57,7 +57,8 @@ test('the permanent Quality CI gate waits for all lanes and runs after failures 
   assert.equal(Object.hasOwn(workflow.on.pull_request as object, 'paths-ignore'), false);
   // Keep the measured full-suite budgets explicit; no lane may silently
   // return to a deadline that cancels its required assertions.
-  for (const [name, minutes] of Object.entries({fast: 40, integration: 35, tariffs: 90, browser: 40})) {
+  // browser: 50 adopts upstream's measured cold-setup budget (cold hosted setup can take 25 minutes before the browser suite).
+  for (const [name, minutes] of Object.entries({fast: 40, integration: 35, tariffs: 90, browser: 50})) {
     assert.equal(workflow.jobs[name]['timeout-minutes'], minutes, name);
   }
 });
@@ -92,7 +93,7 @@ test('media and browser validation retain their full coverage on the stable tool
   assert.ok(workflow.jobs.integration.steps.some(step => step.run === 'pnpm run test:validate -- --suite studio'));
   assert.ok(workflow.jobs.browser.steps.some(step => step.run === 'pnpm run test:validate -- --suite browser --shard ${{ matrix.shard }}/2'));
   assert.ok(workflow.jobs.browser.steps.some(step => step.run === ADMIN_SMOKE_RUN));
-  assert.equal(workflow.jobs.browser['timeout-minutes'], 40);
+  assert.equal(workflow.jobs.browser['timeout-minutes'], 50);
 });
 
 test('Browser runs both independent partitions without canceling a sibling failure', () => {

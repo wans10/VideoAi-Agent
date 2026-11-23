@@ -1,3 +1,4 @@
+import { isNewSeedreamEngineId, seedreamNewModelPricingUsage } from '@/lib/image/seedream-pricing';
 import type { PricingContext } from '@/lib/pricing-context';
 import { isSeedance2TokenPricing } from '@/lib/seedance-2-pricing';
 import { resolveSeedreamProviderSize, seedreamPricingInputCount } from '@/lib/image/seedream';
@@ -21,7 +22,7 @@ type NormalUsage = {
   inputImages?: number;
 };
 const VIDEO_PROFILES = { 'seedance-2-0': 'standard', 'seedance-2-0-fast': 'fast',
-  'seedance-2-0-mini': 'mini', 'seedance-2-5': 'seedance25' } as const;
+  'seedance-2-0-mini': 'mini', 'seedance-2-5': 'seedance25', 'seedance-2-5-flash': 'seedance25Flash' } as const;
 
 /** The same dated normal-task LIST estimate serves admin comparison and manual settlement. */
 export function bytePlusNormalListCost(usage: NormalUsage) {
@@ -65,7 +66,12 @@ export function normalBytePlusSupplierCost(context: PricingContext, at: string) 
   }
   const usage: NormalUsage = { engineId: engine.id, resolution,
     ...(!context.workflowStep && isSeedance25EditInputPricing(engine.id, mode) ? { transport: 'modelark' as const } : {}) };
-  if (image) {
+  if (image && isNewSeedreamEngineId(engine.id)) {
+    let pricing;
+    try { pricing = seedreamNewModelPricingUsage(context); } catch { return null; }
+    usage.outputPixels = [pricing.outputPixels];
+    usage.inputImages = pricing.inputImages;
+  } else if (image) {
     const quantity = context.durationSec;
     const dimensions = /^(\d+)x(\d+)$/.exec(resolveSeedreamProviderSize(resolution, context.aspectRatio));
     if (!dimensions || !Number.isSafeInteger(quantity) || quantity < 1 || quantity > 15) return null;

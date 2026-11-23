@@ -56,6 +56,8 @@ test('guidance exposes exactly the reviewed engine records without pricing data'
   assert.equal(getAgentModelGuidance('seedance-2-5')?.bestFor.includes('product_video'), false);
   // LTX 2.5 Fast is hidden on Keyvo (owner allowlist 2026-11-14), so its guidance is withheld.
   assert.equal(getAgentModelGuidance('ltx-2-5-fast'), null);
+  // seedance-2-5-flash is registry-only on Keyvo (not in the offered allowlist), so its guidance is withheld too.
+  assert.equal(getAgentModelGuidance('seedance-2-5-flash'), null);
   assert.equal(getAgentModelGuidance('gemini-omni-flash'), null); // admin-tier: withheld from MCP guidance
   assert.equal(getAgentModelGuidance('unknown-model'), null);
   // MiniMax-H3-Max is served on Keyvo (MiniMax's own API); its guidance names only the official 480P/768P tiers.

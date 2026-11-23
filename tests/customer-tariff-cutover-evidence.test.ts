@@ -6,8 +6,9 @@ import { collectCustomerTariffCutoverCheckpoints, cutoverDigest, assertCustomerT
   projectInitialCustomerTariffCutoverCells,type CustomerTariffCutoverRelease } from '../frontend/server/pricing/customer-tariff-cutover-evidence';
 import { collectSellableManualTariffCoverage } from '../frontend/lib/pricing-audit/manual-tariff-coverage';
 import { ENV } from '../frontend/src/lib/env';
+import { withArchivedPikaPricingCatalogue } from './helpers/historical-customer-tariff-catalogue';
 
-test('cutover derives all ordinary, workflow and real input duration checkpoints with unique identities', () => {
+test('cutover derives all ordinary, workflow and real input duration checkpoints with unique identities', async () => withArchivedPikaPricingCatalogue(() => {
   const cases = collectCustomerTariffCutoverCheckpoints();
   const novemberModels = ['kling-v4-flash', 'gpt-image-2-6-flare', 'gpt-image-2-6-sunburst'];
   // Keyvo provider work (2026-11-11): HappyHorse 1.0 (104) and Seedream 5.0 Lite (90) retired, H3 528 -> 288 cells
@@ -16,6 +17,7 @@ test('cutover derives all ordinary, workflow and real input duration checkpoints
   // reference tokens) become 3564 official cells: t2v 22 + i2v 22 (5-15 s x 480P/768P) + ref2v 3520 (x 0-9 reference
   // images x 0-15 billed reference-video seconds). Its 6 Recast/Relight new-offer cells stay unsold (Fal-only).
   const h3MaxOfficialCells = 22 + 22 + 11 * 2 * 10 * 16;
+  // Seedream 5.0 Flash keeps its two Keyvo official-list tariff cells (1K pair); the upstream USD 1.5K/2K cells are 5.5-only.
   const keyvoProviderDelta = -104 - 90 - 132 + h3MaxOfficialCells - (528 - 288) + 6 + 3 + 2;
     // This suite runs on the unfiltered catalogue (the allowlist hides Hailuo and other fixtures), where H3-Max's Fal-only
   // Recast/Relight cells are inventoried again, so the Keyvo-world removal of those 6 new-offer cells does not apply.
@@ -27,12 +29,14 @@ test('cutover derives all ordinary, workflow and real input duration checkpoints
   assert.equal(keyvoOfficialListDelta, -84);
   assert.equal(h3MaxOfficialCells, 3564);
   assert.equal(keyvoProviderDelta, 3009);
+  // Upstream 3827da0 checkpoint additions (Seedance 2.5 Flash +1944, Seedance 2.5 +810, Seedream 5.5 +33), as in the inventory suite.
+  const upstreamMergeDelta = 1944 + 810 + 33;
   for (const [modelId, count] of [['happy-horse-1-0', 0], ['seedream', 0], ['minimax-h3-max', 3564 + 6], ['minimax-h3', 288],
     ['minimax-hailuo-2-3', 6], ['minimax-hailuo-2-3-fast', 3], ['seedream-5-0-flash', 2], ['wan-2-6', 0], ['kling-2-5-turbo', 0],
     ['kling-2-6-pro', 0], ['kling-3-standard', 52], ['kling-3-pro', 52], ['minimax-hailuo-02-text', 6]] as const) {
     assert.equal(cases.filter(row => row.scenario.modelId === modelId).length, count, modelId);
   }
-  assert.equal(cases.filter(row => row.kind === 'ordinary' && !['flux-3-max','kling-v4','nano-banana-2-1',...novemberModels].includes(row.scenario.modelId)).length, 20166 + keyvoProviderDelta + keyvoOfficialListDelta);
+  assert.equal(cases.filter(row => row.kind === 'ordinary' && !['flux-3-max','kling-v4','nano-banana-2-1',...novemberModels].includes(row.scenario.modelId)).length, 20166 + keyvoProviderDelta + keyvoOfficialListDelta + upstreamMergeDelta);
   assert.deepEqual(novemberModels.map(id => cases.filter(row => row.scenario.modelId === id).length), [72, 1020, 1020]);
   assert.ok(cases.filter(row => novemberModels.includes(row.scenario.modelId)).every(row => row.kind === 'ordinary'));
   const novemberDelta = 72 + 1020 + 1020;
@@ -42,12 +46,14 @@ test('cutover derives all ordinary, workflow and real input duration checkpoints
   assert.equal(nano.length, 6, 'six new fixed-price cells are a genuine financial delta');
   assert.deepEqual(new Set(nano.map(row => row.scenario.selector.mode)), new Set(['t2i', 'i2i']));
   assert.deepEqual(new Set(nano.map(row => row.scenario.selector.resolution)), new Set(['1K', '2K', '4K']));
-  assert.equal(cases.filter(row => row.kind === 'ordinary').length, 20286 + 8 + 280 + 6 + novemberDelta + keyvoProviderDelta + keyvoOfficialListDelta);
-  assert.equal(cases.filter(row => row.kind === 'local_workflow').length, 324);
-  assert.equal(cases.filter(row => row.kind === 'input_stress').length, 6372);
+  assert.equal(cases.filter(row => row.kind === 'ordinary').length, 20286 + 8 + 280 + 6 + novemberDelta + keyvoProviderDelta + keyvoOfficialListDelta + upstreamMergeDelta);
+  // Upstream 3827da0 adds 162 Seedance 2.5 local-workflow checkpoints (as in the inventory suite).
+  assert.equal(cases.filter(row => row.kind === 'local_workflow').length, 324 + 162);
+  // Upstream 3827da0 adds 648 Seedance 2.5 and 1944 Seedance 2.5 Flash input-stress checkpoints (as in the inventory suite).
+  assert.equal(cases.filter(row => row.kind === 'input_stress').length, 6372 + 648 + 1944);
   assert.equal(cases.filter(row => row.kind === 'new_offer').length, 89 + keyvoProviderNewOfferDelta);
-  assert.equal(cases.filter(row => row.kind !== 'new_offer').length, 26982 + 8 + 280 + 6 + novemberDelta + keyvoProviderDelta + keyvoOfficialListDelta);
-  assert.equal(cases.length, 27071 + 8 + 280 + 6 + novemberDelta + keyvoProviderDelta + keyvoProviderNewOfferDelta + keyvoOfficialListDelta);
+  assert.equal(cases.filter(row => row.kind !== 'new_offer').length, 26982 + 8 + 280 + 6 + novemberDelta + keyvoProviderDelta + keyvoOfficialListDelta + upstreamMergeDelta + 162 + 648 + 1944);
+  assert.equal(cases.length, 27071 + 8 + 280 + 6 + novemberDelta + keyvoProviderDelta + keyvoProviderNewOfferDelta + keyvoOfficialListDelta + upstreamMergeDelta + 162 + 648 + 1944);
   assert.equal(new Set(cases.map(row => row.key)).size, cases.length);
   const lumaModify = cases.filter(row => row.kind === 'ordinary' && row.scenario.modelId === 'luma-ray-3-2' && row.scenario.context.mode === 'v2v');
   assert.deepEqual([...new Set(lumaModify.map(row => row.scenario.context.durationSec))].sort((a, b) => a - b),
@@ -56,29 +62,32 @@ test('cutover derives all ordinary, workflow and real input duration checkpoints
   assert.ok(cases.filter(row => row.currentStatus === 'unavailable').every(row => row.scenario.selector.engineId === 'seedance-2-5'
     && row.scenario.selector.mode === 'v2v' && row.scenario.selector.resolution === '1080p'));
   assert.ok(cases.some(row => row.kind === 'input_stress' && row.scenario.context.inputVideoDurationSec === 30));
-});
+}));
 
-test('transport coverage keeps every historical checkpoint and admits 1080p only for ModelArk normal Edit', () => {
+test('transport coverage keeps every historical checkpoint and admits 1080p/4K only for ModelArk normal Edit', async () => withArchivedPikaPricingCatalogue(() => {
   const previous = ENV.SEEDANCE_2_5_EDIT_TRANSPORT;
   try {
     ENV.SEEDANCE_2_5_EDIT_TRANSPORT = 'las';
     const las = collectCustomerTariffCutoverCheckpoints();
     assert.ok(collectSellableManualTariffCoverage({ modelId: 'seedance-2-5', mode: 'v2v' }).scenarios
-      .every(s => s.context.resolution !== '1080p'));
+      .every(s => !['1080p', '4k'].includes(s.context.resolution)));
     ENV.SEEDANCE_2_5_EDIT_TRANSPORT = 'modelark';
     const modelark = collectCustomerTariffCutoverCheckpoints();
-    assert.deepEqual(modelark.map(row => row.key).sort(), las.map(row => row.key).sort());
+    const fourKEdit = (row: typeof modelark[number]) => row.scenario.modelId === 'seedance-2-5'
+      && row.scenario.context.mode === 'v2v' && row.scenario.context.resolution === '4k';
+    assert.equal(modelark.filter(fourKEdit).length, 486, '162 new normal Edit cells plus two input-duration checks per cell');
+    assert.deepEqual(modelark.filter(row => !fourKEdit(row)).map(row => row.key).sort(), las.map(row => row.key).sort());
     assert.equal(modelark.filter(row => row.currentStatus === 'unavailable').length, 0);
     assert.ok(collectSellableManualTariffCoverage({ modelId: 'seedance-2-5', mode: 'v2v' }).scenarios
-      .some(s => s.context.resolution === '1080p'));
+      .some(s => s.context.resolution === '4k'));
     assert.ok(modelark.filter(row => row.kind === 'local_workflow').every(row => row.scenario.context.mode === 't2v'),
       'The historical initializer must not author independent multimodal stage prices.');
   } finally {
     ENV.SEEDANCE_2_5_EDIT_TRANSPORT = previous;
   }
-});
+}));
 
-test('initial projection archives obsolete no-duration Seedance staging and refuses unrelated unused prices', () => {
+test('initial projection archives obsolete no-duration Seedance staging and refuses unrelated unused prices', async () => withArchivedPikaPricingCatalogue(() => {
   const cases = collectCustomerTariffCutoverCheckpoints();
   const pika = cases.find(row => row.scenario.modelId === 'pika-text-to-video')!.scenario.selector;
   const video = cases.find(row => row.scenario.modelId === 'seedance-2-0-mini' && row.scenario.selector.billingInputType === 'video_input')!.scenario.selector;
@@ -92,9 +101,9 @@ test('initial projection archives obsolete no-duration Seedance staging and refu
   assert.deepEqual(result.archivedLegacyCells,[rows[1]]);
   assert.deepEqual(rows.map(row => row.id),['current','obsolete']);
   assert.throws(() => projectInitialCustomerTariffCutoverCells([{ ...rows[0],selector: { engineId: 'unknown' } }]), /unknown unused/i);
-});
+}));
 
-test('a fingerprint of a reduced inventory, expired capture or local provenance cannot certify production', t => {
+test('a fingerprint of a reduced inventory, expired capture or local provenance cannot certify production', async t => withArchivedPikaPricingCatalogue(() => {
   const capturedAt = Date.now();
   t.mock.timers.enable({ apis: ['Date'], now: capturedAt });
   const cases = collectCustomerTariffCutoverCheckpoints();
@@ -111,4 +120,4 @@ test('a fingerprint of a reduced inventory, expired capture or local provenance 
   t.mock.timers.setTime(capturedAt);
   assert.throws(() => assertCustomerTariffCutoverRelease(release, release.fingerprint, 'rehearsal'), /complete.*coverage/i);
   assert.throws(() => assertCustomerTariffCutoverRelease(release, release.fingerprint, 'production'), /production.*provenance/i);
-});
+}));

@@ -23,6 +23,7 @@ interface GroupedJobCardMenuProps {
   openLabel: string;
   recreateHref?: string;
   recreateLabel: string;
+  getOutputRecreateLink?: (outputId: string) => { href: string; label: string } | null;
   savingToLibrary: boolean;
 }
 
@@ -39,6 +40,7 @@ export function GroupedJobCardMenu({
   openLabel,
   recreateHref,
   recreateLabel,
+  getOutputRecreateLink,
   savingToLibrary,
 }: GroupedJobCardMenuProps) {
   const { locale } = useI18n();
@@ -52,7 +54,7 @@ export function GroupedJobCardMenu({
   if (showActivityActions && assets.length) return <GalleryMediaActionPanel
     assets={assets} members={group.members} menuRef={menuRef} onClose={closeMenu} onPreview={() => handleAction('open')}
     onSave={() => handleAction('save-to-library')} saving={savingToLibrary}
-    recreateHref={recreateHref} recreateLabel={recreateLabel}
+    getRecreateLink={getOutputRecreateLink}
     onRemove={allowRemove && group.count <= 1 ? () => handleAction('remove') : undefined} />;
 
   if (showActivityActions) return <ActivityJobActionPanel

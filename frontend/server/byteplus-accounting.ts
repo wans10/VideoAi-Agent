@@ -1,3 +1,4 @@
+import { isSeedance25EngineId } from '@/lib/seedance-model-variants';
 import {
   BYTEPLUS_MODELARK_PROVIDER,
   BytePlusModelArkError,
@@ -6,7 +7,7 @@ import {
 } from '@/server/video-providers/byteplus-modelark';
 import { isRecord } from './byteplus-record-utils';
 import type { BytePlusPendingJob } from './byteplus-poll-types';
-import { BYTEPLUS_MODELARK_LIST_PRICE_SOURCE, getBytePlusVideoListRate } from './byteplus-list-tariff';
+import { BYTEPLUS_MODELARK_LIST_PRICE_SOURCE, BYTEPLUS_SEEDANCE_25_FLASH_LIST_PRICE_SOURCE, BYTEPLUS_SEEDANCE_25_4K_LIST_PRICE_SOURCE, getBytePlusVideoListRate } from './byteplus-list-tariff';
 import { seedanceOutputDimensions } from '@/lib/seedance-output-dimensions';
 import { quoteSeedance25LasListCost, BYTEPLUS_LAS_LIST_PRICE_SOURCE } from './byteplus-las-tariff';
 
@@ -25,7 +26,8 @@ export function estimateBytePlusOutputTokens(input: {
     * Math.max(1, Math.round(input.durationSec)) * profile.framesPerSecond / 1024 };
 }
 
-/** Formula inferred from all 531 rows of the published minimum tables (2026-10-01).
+/** Formula inferred from all 531 rows of the published minimum tables (2026-10-01),
+ * also checked against all 108 Seedance 2.5 4K rows on 2026-11-17 (dated fixtures).
  * Matches their integer token floor across every published duration/raster/ratio;
  * do not extrapolate outside those domains. Provider usage overrides the estimate.
  */
@@ -35,7 +37,7 @@ export function estimateBytePlusBillableTokens(input: Parameters<typeof estimate
   const output = estimateBytePlusOutputTokens(input);
   if (!output) return null;
   if (input.billingInputType === 'no_video_input') return { ...output, minimumTokens: 0, inputVideoDurationSec: 0 };
-  const maximumOutput = input.engineId === 'seedance-2-5' ? 30 : 15;
+  const maximumOutput = isSeedance25EngineId(input.engineId) ? 30 : 15;
   if (!isBytePlusInputVideoPricingModel(input.engineId) || !Number.isInteger(input.durationSec)
     || input.durationSec < 4 || input.durationSec > maximumOutput
     || !Number.isFinite(input.inputVideoDurationSec) || !input.inputVideoDurationSec
@@ -47,7 +49,7 @@ export function estimateBytePlusBillableTokens(input: Parameters<typeof estimate
 }
 
 export function isBytePlusInputVideoPricingModel(engineId: string) {
-  return ['seedance-2-0', 'seedance-2-0-mini', 'seedance-2-0-fast', 'seedance-2-5'].includes(engineId);
+  return ['seedance-2-0', 'seedance-2-0-mini', 'seedance-2-0-fast', 'seedance-2-5', 'seedance-2-5-flash'].includes(engineId);
 }
 
 /** Accept only server-resolved media records, never client-declared durations. */
@@ -56,7 +58,7 @@ export function bytePlusInputVideoDurationSec(engineId: string, references: read
 }[]) {
   if (!isBytePlusInputVideoPricingModel(engineId)) throw new Error('Unsupported BytePlus input-video model');
   const videos = references.filter(reference => reference.kind === 'video');
-  const maximum = engineId === 'seedance-2-5' ? 30 : 15;
+  const maximum = isSeedance25EngineId(engineId) ? 30 : 15;
   let seconds = 0;
   for (const reference of videos) {
     if (typeof reference.durationSec !== 'number' || !Number.isFinite(reference.durationSec) || reference.durationSec <= 0) {
@@ -255,7 +257,7 @@ export function buildBytePlusListCostBreakdown(input: {
     provider_cost_status: reportedTokens != null ? 'list_estimate_from_provider_usage'
       : totalTokens == null ? 'list_estimate_unavailable' : 'list_estimate_from_dimensions',
     provider_cost_unavailable_reason: totalTokens == null ? 'input_video_duration_unavailable' : null,
-    provider_list_rate_source: BYTEPLUS_MODELARK_LIST_PRICE_SOURCE.url,
+    provider_list_rate_source: (job.engine_id === 'seedance-2-5-flash' ? BYTEPLUS_SEEDANCE_25_FLASH_LIST_PRICE_SOURCE : job.engine_id === 'seedance-2-5' && input.resolution === '4k' ? BYTEPLUS_SEEDANCE_25_4K_LIST_PRICE_SOURCE : BYTEPLUS_MODELARK_LIST_PRICE_SOURCE).url,
     model: input.model,
     mode: accounting.mode,
     input_type: accounting.inputType,

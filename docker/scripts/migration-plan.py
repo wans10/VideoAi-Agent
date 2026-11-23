@@ -9,7 +9,11 @@ concurrent = len(sys.argv) > 2 and sys.argv[2] == '--concurrent'
 print('\\set ON_ERROR_STOP on\nSELECT pg_advisory_lock(19283746);')
 print('CREATE TABLE IF NOT EXISTS application_schema_migrations(filename text PRIMARY KEY, checksum text NOT NULL, applied_at timestamptz NOT NULL DEFAULT now());')
 print('CREATE TABLE IF NOT EXISTS application_schema_migration_reconciliations(filename text NOT NULL REFERENCES application_schema_migrations(filename), checksum text NOT NULL, previous_checksum text NOT NULL, applied_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(filename,checksum));')
-for path in sorted((root / 'concurrent' if concurrent else root).glob('*.sql')):
+def migration_order(path):
+    # Numeric prefix first: plain string order would run 100_/101_ before 10_..99_.
+    match = re.match(r'(\d+)', path.name)
+    return (int(match.group(1)) if match else 10**9, path.name)
+for path in sorted((root / 'concurrent' if concurrent else root).glob('*.sql'), key=migration_order):
     name = ('concurrent/' if concurrent else '') + path.name
     if not re.fullmatch(r'(concurrent/)?[A-Za-z0-9_.-]+', name):
         raise ValueError('Invalid migration filename')

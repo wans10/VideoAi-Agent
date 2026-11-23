@@ -104,6 +104,9 @@ export function PrivacyArticleFr({
       <section className="stack-gap-sm">
         <h3 className="text-lg font-semibold text-text-primary">8. Cookies &amp; technologies similaires</h3>
         <p>
+          Avec votre consentement à la mesure d’audience et à la publicité, nous partageons avec OpenAI une référence de clic publicitaire et les inscriptions confirmées ou recharges de portefeuille payées pour mesurer les résultats publicitaires. Ces événements comprennent une référence pseudonyme, la date et, pour les paiements, le montant et la devise. Cette intégration ne transmet pas votre e-mail, téléphone, prompts ou médias générés.
+        </p>
+        <p>
           Nous utilisons des cookies essentiels pour faire fonctionner le site et, avec votre accord, des cookies d’analyse/publicité. Vous pouvez retirer votre consentement via la bannière ou les
           paramètres. Voir la{' '}
           <Link href={links.cookiesHref} className="text-brand underline hover:text-brandHover">
@@ -130,7 +133,7 @@ export function PrivacyArticleFr({
 
       <section className="stack-gap-sm">
         <h3 className="text-lg font-semibold text-text-primary">10. Mineurs</h3>
-        <p>Le Service ne s’adresse pas aux enfants de moins de 15/16 ans. Si vous pensez qu’un mineur nous a fourni des données sans consentement adéquat, contactez-nous pour les supprimer.</p>
+        <p>Le Service est réservé aux adultes de 18 ans ou plus, ou ayant atteint l’âge de la majorité dans leur pays s’il est plus élevé. Si vous pensez qu’un mineur nous a fourni des données personnelles, contactez-nous afin que nous puissions examiner la situation et supprimer les données concernées.</p>
       </section>
 
       <section className="stack-gap-sm">
@@ -153,7 +156,7 @@ export function PrivacyArticleFr({
           />
           .
         </p>
-        <p className="text-sm text-text-muted">Informations mises à jour : 30 octobre 2026</p>
+        <p className="text-sm text-text-muted">Informations mises à jour : 11 novembre 2026</p>
       </section>
     </article>
   );

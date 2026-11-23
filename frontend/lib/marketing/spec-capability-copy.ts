@@ -4,6 +4,9 @@ import type { AppLocale } from '@/i18n/locales';
 // fr/es are optional: entries added for zh only return null for those locales,
 // exactly as an unknown phrase did before.
 const CAPABILITY_COPY: Record<string, { fr?: string; es?: string; zh?: string }> = {
+  'up to 10 image references': { fr: 'Jusqu’à 10 images de référence', es: 'Hasta 10 imágenes de referencia', zh: '最多 10 张参考图片' },
+  'up to 5 video references': { fr: 'Jusqu’à 5 vidéos de référence', es: 'Hasta 5 vídeos de referencia', zh: '最多 5 个参考视频' },
+  'up to 5 audio references; visual input required': { fr: 'Jusqu’à 5 références audio ; entrée visuelle nécessaire', es: 'Hasta 5 referencias de audio; se requiere una entrada visual', zh: '最多 5 个参考音频；需要视觉输入' },
   "up to 10 images total, including the opening image": { fr: "Jusqu’à 10 images au total, image de départ comprise", es: "Hasta 10 imágenes en total, incluida la imagen inicial", zh: '最多 10 张图片，含首帧' },
   "up to 5 reference videos; 30s combined with video elements": { fr: "Jusqu’à 5 vidéos de référence ; 30 s au total avec les éléments vidéo", es: "Hasta 5 videos de referencia; 30 s en total con los elementos de video", zh: '最多 5 个参考视频；含视频元素时合计 30 秒' },
   "provider-set; no fps selector": { fr: "Cadence définie par le fournisseur ; aucun sélecteur FPS", es: "Cadencia definida por el proveedor; sin selector de FPS", zh: '由服务商设定；无 FPS 选项' },

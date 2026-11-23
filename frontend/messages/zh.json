@@ -192,6 +192,14 @@
               "fast-drafts": "快速预览草稿",
               "ads": "电商与营销广告"
             }
+          },
+          "platforms": {
+            "title": "对比平台",
+            "items": {
+              "platform-guide": "AI 视频平台指南",
+              "higgsfield-alternative": "Keyvo 对比 Higgsfield",
+              "openart-alternative": "Keyvo 对比 OpenArt"
+            }
           }
         }
       },
@@ -3986,7 +3994,22 @@
           "failed": "已失败"
         },
         "statusHint": "状态筛选适用于已加载的记录。加载更多可查看较早的生成记录。",
-        "filteredEmpty": "已加载记录中暂无匹配的生成。"
+        "filteredEmpty": "已加载记录中暂无匹配的生成。",
+        "mediaLibrary": "素材库",
+        "cost": "生成成本",
+        "openIn": "打开{tool}",
+        "destinations": {
+          "create": "创作",
+          "image": "图像",
+          "audio": "音频",
+          "studio": "Studio",
+          "storyboard": "分镜",
+          "character": "角色",
+          "angle": "视角",
+          "upscale": "高清重绘",
+          "background-removal": "背景消除",
+          "tools": "创意工具"
+        }
       },
       "title": "历史记录",
       "sections": {
@@ -8899,7 +8922,8 @@
           "常驻角色",
           "创作者与 UGC",
           "品牌吉祥物"
-        ]
+        ],
+        "looksRecastCta": "查看 Recast 动态效果"
       }
     },
     "backgroundRemoval": {

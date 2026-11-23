@@ -92,7 +92,8 @@ test("each default engine builds valid settings for every ratio the Studio offer
         assert.deepEqual(normalizeGenerationRequest(request), request);
         validateCanonicalGenerationCapabilities(request, candidate, {
           resolvedReferences: refs.map((assetId) => ({
-            assetId, role: "reference", mediaKind: "image",
+            // Ordered Seedream Flash i2i references carry their request slot; resolved originals must match it.
+            assetId, role: "reference", slot: request.references.find((reference) => reference.kind === "asset" && reference.assetId === assetId)?.slot, mediaKind: "image",
             storageUrl: "https://cdn.maxvideoai.com/owned-reference.png",
             mimeType: "image/png", width: 1024, height: 1024, durationSec: null,
           })),

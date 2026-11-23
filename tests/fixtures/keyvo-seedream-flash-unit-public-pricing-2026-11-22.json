@@ -1,0 +1,42 @@
+{
+  "reviewedAt": "2026-11-22",
+  "policy": "Keyvo Seedream 5.0 Flash estimator unit. Seedream is a per-image engine: the merged estimator (PER_IMAGE_ENGINE_CONFIG) labels its unchanged per-image amount as image instead of the per-second unit recorded by the 2026-11-11 and 2026-11-13 Keyvo transitions. Amounts, vendor subtotal, margin and quantity are unchanged.",
+  "changes": [
+    {
+      "previous": {
+        "id": "estimator:seedream-5-0-flash:member:default", "surface": "estimator", "engineId": "seedream-5-0-flash",
+        "status": "exact", "currency": "USD", "vendorSubtotalCents": 2, "marginCents": 0, "discountCents": 0,
+        "customerTotalCents": 1, "unit": "sec", "quantity": 1, "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:seedream-5-0-flash:member:default", "surface": "estimator", "engineId": "seedream-5-0-flash",
+        "status": "exact", "currency": "USD", "vendorSubtotalCents": 2, "marginCents": 0, "discountCents": 0,
+        "customerTotalCents": 1, "unit": "image", "quantity": 1, "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedream-5-0-flash:plus:default", "surface": "estimator", "engineId": "seedream-5-0-flash",
+        "status": "exact", "currency": "USD", "vendorSubtotalCents": 2, "marginCents": 0, "discountCents": 0,
+        "customerTotalCents": 1, "unit": "sec", "quantity": 1, "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:seedream-5-0-flash:plus:default", "surface": "estimator", "engineId": "seedream-5-0-flash",
+        "status": "exact", "currency": "USD", "vendorSubtotalCents": 2, "marginCents": 0, "discountCents": 0,
+        "customerTotalCents": 1, "unit": "image", "quantity": 1, "compatibilityProfile": "standard"
+      }
+    },
+    {
+      "previous": {
+        "id": "estimator:seedream-5-0-flash:pro:default", "surface": "estimator", "engineId": "seedream-5-0-flash",
+        "status": "exact", "currency": "USD", "vendorSubtotalCents": 2, "marginCents": 0, "discountCents": 0,
+        "customerTotalCents": 1, "unit": "sec", "quantity": 1, "compatibilityProfile": "standard"
+      },
+      "current": {
+        "id": "estimator:seedream-5-0-flash:pro:default", "surface": "estimator", "engineId": "seedream-5-0-flash",
+        "status": "exact", "currency": "USD", "vendorSubtotalCents": 2, "marginCents": 0, "discountCents": 0,
+        "customerTotalCents": 1, "unit": "image", "quantity": 1, "compatibilityProfile": "standard"
+      }
+    }
+  ]
+}

@@ -108,6 +108,7 @@ export function summarizeWorkspaceInputSchema({
   selectedEngine,
   activeMode,
   allowsUnifiedVeoFirstLast,
+  usesCanonicalOpeningFrame = false,
   isUnifiedHappyHorse,
   isUnifiedSeedance,
   isUnifiedGeminiOmni,
@@ -116,6 +117,7 @@ export function summarizeWorkspaceInputSchema({
   selectedEngine: EngineCaps | null;
   activeMode: Mode;
   allowsUnifiedVeoFirstLast: boolean;
+  usesCanonicalOpeningFrame?: boolean;
   isUnifiedHappyHorse: boolean;
   isUnifiedSeedance: boolean;
   isUnifiedGeminiOmni: boolean;
@@ -168,7 +170,7 @@ export function summarizeWorkspaceInputSchema({
     if (
       allowsUnifiedVeoFirstLast
       && unifiedFirstFrameField
-      && unifiedFirstFrameField.id !== 'first_frame_url'
+      && (unifiedFirstFrameField.id !== 'first_frame_url' || usesCanonicalOpeningFrame)
       && field.id !== unifiedFirstFrameField.id
       && field.type === 'image'
       && field.modes?.includes('i2v')
@@ -212,7 +214,7 @@ export function summarizeWorkspaceInputSchema({
       && (field.id === 'last_frame_url' || field.id === 'end_image_url' || field.id === 'start_image_url')
       && field.modes.includes('fl2v')
     ) return true;
-    if (allowsUnifiedVeoFirstLast && field.id === 'first_frame_url' && field.modes.includes('fl2v')) return false;
+    if (allowsUnifiedVeoFirstLast && field.id === 'first_frame_url' && field.modes.includes('fl2v')) return usesCanonicalOpeningFrame;
     if (!allowsCrossModeAssets) return false;
     if (field.type === 'image' && field.modes.includes('i2v')) return true;
     if (

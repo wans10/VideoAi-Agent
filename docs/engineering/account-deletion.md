@@ -54,11 +54,11 @@ Add new tables to the plan (and this table) in the same change.
 | Class | Tables | Action |
 | --- | --- | --- |
 | Media | `media_assets`, `user_assets`, `job_outputs`, `app_openai_image_results`, `seedance_draft_links`, `video_share_links`, `provider_element_assets`, `flux_draft_cache_sources` | delete rows; stored objects deleted first, only keys inside the user's own prefixes (`ownedMediaStorageKeyForUrl`) plus `exports/<user>/`. Never shared or public example assets |
-| Library | `library_*` (collections, members, organization, aliases, snapshots) | delete |
-| Characters | `character_studio_characters`, `_looks`, `_recast_quotes` | delete |
+| Library | `library_*` (collections, members, organization, aliases, snapshots, `library_purge_requests/_tokens/_objects`) | delete |
+| Characters | `character_studio_characters`, `_looks`, `_recast_quotes`, `character_builder_quotes` | delete |
 | Studio | `studio_projects` (+ assets, sequences, commands, notes, tasks, segments, approvals, image turns, conversation memory/steps/responses, model usage), `studio_canvas_templates`, `creator_operations`, `prompt_assistance_analysis_selections` | delete. Projects still referenced by retained analysis runs are blanked instead (name, settings, workspace state) |
 | Subtitles | `subtitle_documents`, `_revisions`, `subtitle_operations` | delete |
-| MCP | `mcp_reference_upload_*`, `mcp_oauth_connection_bindings`, `mcp_spending_limits`, `mcp_funnel_events`, `mcp_trial_risk_events`, `mcp_audit_events` | delete |
+| MCP | `mcp_reference_upload_*`, `mcp_oauth_connection_bindings`, `mcp_spending_limits`, `mcp_funnel_events`, `mcp_trial_risk_events`, `mcp_audit_events`, `audio_generation_dispatch` (private execution input), `openai_conversion_outbox` (measurement queue) | delete |
 | Behaviour | `app_generate_metrics`, `ga4_payment_outbox`, `user_preferences`, `user_roles`, `email_events` (by email) | delete |
 | Consent evidence | `user_consents` | **anonymise**: keep user id, document, version, timestamps, locale and source; null `ip` and `user_agent` |
 | Generation history | `app_jobs` | **anonymise**: prompt, thumbnails, media URLs, keyframes, settings emptied, hidden and private; engine, price, currency and payment fields kept. Rows with `featured = TRUE` (operator-curated public content) are left untouched and their media is not deleted; delist them in admin first if they must go |

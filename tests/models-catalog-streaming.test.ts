@@ -139,6 +139,12 @@ test('catalogue streams the complete stable hero before prices and reveals exact
         const controlDoc=new JSDOM(await new Response(control).text());
         assert.deepEqual(projection(final.window.document),projection(controlDoc.window.document),'Streaming preserves localized final cards, filters, hero and native schemas');
         const cards=await h.buildModelsCatalogCards({activeLocale:locale,engineMetaCopy:dictionary.models.meta??{},engineTypeLabelOverrides:dictionary.models.engineTypeLabels,galleryCopy:dictionary.models.gallery,scope});
+        // Keyvo keeps both Seedream 5.x image model pages unpublished (seedream-5-5 is registry-only, seedream-5-0-flash is
+        // app-only), so neither has a catalogue card. Upstream's card contract (2K ceiling, no inherited score) is asserted
+        // on the unfiltered catalog elsewhere; here the Keyvo projection must not list them.
+        if(scope!=='video')for(const id of ['seedream-5-5','seedream-5-0-flash']) {
+          assert.equal(cards.some((item:any)=>item.id===id), false, `${scope}/${locale}: ${id} must not be catalogued on Keyvo`);
+        }
         const expectedNewModels=new Set(buildMarketingModelMenu(listRuntimeModels()).filter(item=>item.badge==='new').map(item=>item.slug));
         for(const card of cards)assert.equal(card.badge,expectedNewModels.has(card.id)?'new':null,`${card.id}: badge must follow published editorial discovery`);
         const noveltyBadges=[...final.window.document.querySelectorAll('#models-grid [data-model-novelty="new"]')];

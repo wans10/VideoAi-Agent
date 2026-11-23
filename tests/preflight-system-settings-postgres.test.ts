@@ -32,7 +32,7 @@ test('read-only preflight matches generation seed prices and capabilities while 
   const stalePricing = { currency: 'USD', perSecondCents: { default: 1 } };
   // Keyvo 2026-11-13: Wan 2.6 is retired (unpublished, no configured engine); the admin-edited row uses the published Wan 3.
   for (const [id, options, updatedBy] of [
-    ['pika-text-to-video', {}, null],
+    ['seedance-2-0-mini', {}, null],
     ['minimax-h3', { maxDurationSec: 1, resolutions: ['768P'] }, null],
     ['wan-3', { maxDurationSec: 4, resolutions: ['720p'] }, '00000000-0000-4000-8000-000000000001'],
   ] as const) {
@@ -50,7 +50,7 @@ test('read-only preflight matches generation seed prices and capabilities while 
   assert.equal((await getDb().query('SHOW default_transaction_read_only')).rows[0].default_transaction_read_only, 'on');
 
   const requests: PreflightRequest[] = [
-    { engine: 'pika-text-to-video', mode: 't2v', durationSec: 5, resolution: '720p', fps: 24 },
+    { engine: 'seedance-2-0-mini', mode: 't2v', durationSec: 5, resolution: '720p', fps: 24 },
     { engine: 'minimax-h3', mode: 't2v', durationSec: 5, resolution: '2K', fps: 24 },
     { engine: 'wan-3', mode: 't2v', durationSec: 4, resolution: '720p', fps: 24 },
   ];

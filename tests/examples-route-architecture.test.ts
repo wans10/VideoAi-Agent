@@ -172,6 +172,8 @@ test('Seedance family opening stays stable while keeping 2.5 guidance and histor
   // Keyvo allowlist (2026-11-14): the family default is the offered Seedance 2.5; 2.0 is not on the customer allowlist.
   assert.equal(family.defaultModelSlug, 'seedance-2-5');
   assert.deepEqual(family.routeAliases, ['seedance-1-5-pro', 'seedance-2-0', 'seedance-2-0-fast', 'dreamina-seedance-2-0-mini']);
+  // Seedance 2.5 Flash is offered (owner allowlist, 2026-11-22) but its model page and examples stay unpublished on Keyvo
+  // (the seedream-5-0-flash pattern), so the family examples omit it.
   assert.deepEqual(getExampleFamilyModelSlugs('seedance'), [
     'seedance-2-5',
     'seedance-2-0',

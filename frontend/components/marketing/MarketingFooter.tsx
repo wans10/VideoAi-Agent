@@ -9,6 +9,7 @@ import { getPathname, Link, type LocalizedLinkHref } from '@/i18n/navigation';
 import type { AppLocale } from '@/i18n/locales';
 import { useI18n } from '@/lib/i18n/I18nProvider';
 import { StudioFooterDepartments } from './StudioFooterDepartments';
+import { localizeMarketingHref } from '@/lib/i18n/marketing-locale-switch';
 import { MarketingFooterAssistants } from '@/components/marketing/MarketingFooterAssistants';
 import { LanguageToggle } from '@/components/marketing/LanguageToggle';
 import type { MarketingFooterNavigation } from '@/config/public-marketing-navigation';

@@ -17,6 +17,7 @@ import {
   buildBenchmarkWebPageJsonLd,
 } from '../frontend/app/(localized)/[locale]/(marketing)/benchmarks/_lib/benchmark-schema';
 import { loadBenchmarkLabStaticData } from '../frontend/server/benchmark-lab-data';
+import { isKeyvoHiddenModel } from '../frontend/config/keyvo-model-visibility';
 import type { PublicBenchmarkLatencySnapshot } from '../frontend/server/benchmark-lab-metrics';
 import { routing } from '../frontend/i18n/routing';
 import { getEditorialProfile } from '../frontend/lib/editorial/profile';
@@ -257,25 +258,30 @@ test('page builder keeps production volumes and rates out of public data', () =>
 test('page builder preserves the complete editorial roster, including legacy video models', async () => {
   const staticData = await loadBenchmarkLabStaticData();
   const pageData = buildBenchmarkPageData(staticData, { status: 'unavailable', windowDays: 30, asOf: null, rows: [] });
-  assert.equal(pageData.scores.length, staticData.scores.length);
-  assert.ok(pageData.scores.some((row) => row.modelSlug === 'ltx-2'));
-  assert.equal(pageData.scores.find((row) => row.modelSlug === 'sora-2')?.generationUnavailable, true);
+  // Keyvo: the page builder follows the published roster, so unoffered legacy models stay in the editorial data but are
+  // not presented. The exact row count depends on the regenerated runtime projection.
+  assert.ok(staticData.scores.some((row) => row.modelSlug === 'ltx-2'), 'legacy ltx-2 remains in the editorial data');
+  assert.ok(pageData.scores.length > 0 && pageData.scores.every((row) => !isKeyvoHiddenModel(row.modelSlug)));
+  assert.equal(pageData.scores.some((row) => row.modelSlug === 'ltx-2'), false);
+  assert.equal(pageData.scores.some((row) => row.modelSlug === 'sora-2'), false);
   assert.equal(pageData.scores.find((row) => row.modelSlug === 'kling-3-pro')?.generationUnavailable, false);
 });
 
-test('page builder preserves Seedance 2.5 official evidence while distinguishing route-contract provenance from API mechanics', async () => {
+test('page builder preserves Seedance 2.5 model guide as the public source for its 4K specifications', async () => {
   const staticData = await loadBenchmarkLabStaticData();
   const pageData = buildBenchmarkPageData(staticData, { status: 'unavailable', windowDays: 30, asOf: null, rows: [] });
   const dreamina = pageData.specs.find((row) => row.modelSlug === 'dreamina-seedance-2-0-mini');
   const seedanceSource = staticData.specs.find((row) => row.modelSlug === 'seedance-2-5');
   const seedance = pageData.specs.find((row) => row.modelSlug === 'seedance-2-5');
 
-  assert.equal(dreamina?.sourceUrl, 'https://maxvideoai.com/models/dreamina-seedance-2-0-mini');
-  assert.deepEqual(seedanceSource?.sources ?? [], ['https://ai.byteplus.com/ark']);
-  assert.equal(seedanceSource?.provenance?.basis, 'maxvideoai-production-route-contract');
-  assert.equal(seedance?.sourceKind, 'route-contract');
-  assert.equal(seedance?.sourceUrl, null);
-  assert.equal(seedance?.mechanicsUrl, 'https://docs.byteplus.com/en/docs/modelark/1520757');
+  // Keyvo does not offer the Dreamina mini route, so its public spec row is absent.
+  assert.equal(dreamina, undefined);
+  const modelGuide = 'https://docs.byteplus.com/en/docs/ModelArk/seedance-2-5';
+  assert.deepEqual(seedanceSource?.sources, [modelGuide, 'https://docs.byteplus.com/en/docs/ModelArk/create-video-generation-task-api']);
+  assert.equal(seedanceSource?.provenance?.basis, 'maxvideoai-release-candidate-contract');
+  assert.equal(seedance?.sourceKind, 'external');
+  assert.equal(seedance?.sourceUrl, modelGuide);
+  assert.equal(seedance?.mechanicsUrl, null);
   assert.doesNotMatch(
     JSON.stringify({ sources: seedanceSource?.sources, provenance: seedanceSource?.provenance, publicRow: seedance }),
     /dreamina-seedance-2-5-260628|console\.byteplus\.com/i
@@ -304,8 +310,11 @@ test('specification rows and localized tables include release information with a
   const staticData = await loadBenchmarkLabStaticData();
   const pageData = buildBenchmarkPageData(staticData, { status: 'unavailable', windowDays: 30, asOf: null, rows: [] });
   const sora = pageData.specs.find((row) => row.modelSlug === 'sora-2');
+  const klingV4Flash = pageData.specs.find((row) => row.modelSlug === 'kling-v4-flash');
   const kling = pageData.specs.find((row) => row.modelSlug === 'kling-3-pro');
-  assert.equal(sora?.releaseDate, 'Sep 2025');
+  // Keyvo does not offer sora-2, so the release check uses an offered engine with a dated release.
+  assert.equal(sora, undefined);
+  assert.equal(klingV4Flash?.releaseDate, 'Nov 2026');
   assert.equal(kling?.releaseDate, '—');
 
   const releaseLabels = { en: 'Release', fr: 'Sortie', es: 'Lanzamiento' } as const;

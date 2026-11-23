@@ -25,6 +25,7 @@ const EDITORIAL_COMPARISONS = [
   { slug: 'seedance-2-0-vs-seedance-2-0-fast', label: 'Seedance 2.0 vs Fast' },
 ] as const;
 
+// Keyvo keeps the Seedance 2.5 Flash comparison unpublished (no pairs in the registry), so it is not a menu candidate.
 const CURRENT_EDITORIAL_COMPARISONS = [
   { slug: 'kling-v4-vs-kling-v4-flash', label: 'Kling 4.0 vs Kling 4.0 Flash' },
   { slug: 'kling-v4-vs-seedance-2-5', label: 'Kling 4.0 vs Seedance 2.5' },
@@ -211,7 +212,7 @@ test('live runtime comparison menu retains every link, label, brand and badge fr
     CURRENT_EDITORIAL_COMPARISONS.some(({ slug }) => slug === 'minimax-h3-vs-minimax-h3-max'));
 
   const brandsBySlug: Record<string, string> = {
-    'minimax-h3': 'minimax', 'minimax-h3-max': 'minimax', 'seedance-2-5': 'bytedance',
+    'minimax-h3': 'minimax', 'minimax-h3-max': 'minimax', 'seedance-2-5': 'bytedance', 'seedance-2-5-flash': 'bytedance',
     'kling-3-pro': 'kling', 'kling-v4': 'kling', 'kling-v4-flash': 'kling', 'wan-3': 'wan', 'wan-3-prime': 'wan',
     'ltx-2-5-fast': 'lightricks', 'ltx-2-5-pro': 'lightricks',
     'gemini-omni-flash': 'google-veo', 'veo-3-1': 'google-veo',
@@ -224,7 +225,7 @@ test('live runtime comparison menu retains every link, label, brand and badge fr
     comparisonBrands: slug.split('-vs-').map(id => ({ id, brandId: brandsBySlug[id] })),
     badge: undefined,
   })));
-  assert.ok(MARKETING_NAV_COMPARE.length <= 11);
+  assert.ok(MARKETING_NAV_COMPARE.length <= 12);
 });
 
 test('comparison menu bounds canonical comparison work to editorial candidates even in a dense graph', (t) => {
@@ -238,8 +239,8 @@ test('comparison menu bounds canonical comparison work to editorial candidates e
     const menu = countLocaleComparisons(() => buildMarketingCompareMenu(models));
     t.diagnostic(`${name}: full graph ${expanded.result.length} canonical pairs / ${expanded.calls} localeCompare calls; menu ${menu.result.length} entries / ${menu.calls} localeCompare calls.`);
     assert.deepEqual(menu.result, KEYVO_CURRENT_EDITORIAL_COMPARISONS);
-    // The prepared V4/Omni pair remains outside the live publication graph.
-    const candidateCount = CURRENT_EDITORIAL_COMPARISONS.length + 1;
+    // COMPARE_MENU still lists the unpublished Flash candidate and the prepared V4/Omni pair, which stays outside the live graph.
+    const candidateCount = CURRENT_EDITORIAL_COMPARISONS.length + 2;
     assert.ok(menu.calls <= candidateCount,
       `${name}: menu should canonicalize at most its ${candidateCount} candidates; observed ${menu.calls} localeCompare calls`);
     assert.ok(expanded.calls > menu.calls, `${name}: the bounded menu avoids full graph canonicalization and sorting`);

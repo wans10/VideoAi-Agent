@@ -365,3 +365,28 @@ test('shared navigation popover keeps viewport geometry and focus outside market
     assert.deepEqual(await page.evaluate(()=>(window as any).__fixtureHydrationErrors),[]);
   } finally {await browser.close();await fixture.close()}
 });
+
+test('Keyvo keeps the Compare menus and platform comparison pages out of desktop and mobile navigation', async () => {
+  const fixture = await createMarketingNavigationBrowserFixture();
+  const browser = await chromium.launch();
+  try {
+    fixture.releaseHydration();
+    const page = await browser.newPage();
+    // Keyvo publishes only zh (config/site-experience.json). Its section bar is production, craft, screening and pricing,
+    // so no Compare trigger or menu is rendered and the platform guide and alternative pages stay hidden
+    // (docs/engineering/keyvo-upstream-deviations.md, Navigation and Creator tools hidden).
+    const hiddenPlatformHref = ['/zh/blog/compare-ai-video-platforms', '/zh/higgsfield-alternative', '/zh/openart-alternative'];
+    await page.setViewportSize({ width: 1440, height: 900 });
+    const response = await page.goto(new URL('/zh', fixture.url).href);
+    const html = await response!.text();
+    for (const href of hiddenPlatformHref) assert.equal(html.includes('href="' + href + '"'), false, 'SSR HTML omits ' + href);
+    await page.waitForFunction(() => !!(window as any).__fixtureHydrated);
+    assert.equal(await page.locator('button[aria-controls="marketing-compare-dropdown"]').count(), 0, 'desktop has no Compare trigger');
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.locator('header button[popovertarget]').click();
+    assert.equal(await page.locator('details[data-menu-section="compare"]').count(), 0, 'mobile has no Compare section');
+  } finally {
+    await browser.close();
+    await fixture.close();
+  }
+});

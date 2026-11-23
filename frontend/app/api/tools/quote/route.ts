@@ -3,6 +3,7 @@ import { isKeyvoToolDisabled } from '@/config/keyvo-disabled-features';
 import { FEATURES } from '@/content/feature-flags';
 import { getRouteAuthContext } from '@/lib/supabase-ssr';
 import { quoteToolboxRequest } from '@/server/tools/toolbox-quote';
+import { UpscaleToolError } from '@/server/tools/upscale-errors';
 export const runtime = 'nodejs';
 export async function POST(req: NextRequest) {
   if (!FEATURES.workflows.toolsSection) return NextResponse.json({ ok: false, error: 'Tools unavailable.' }, { status: 404 });
@@ -15,7 +16,10 @@ export async function POST(req: NextRequest) {
     }
     const quote = await quoteToolboxRequest(body, userId);
     return NextResponse.json({ ok: true, quote }, { headers: { 'Cache-Control': 'private, no-store' } });
-  } catch {
+  } catch (error) {
+    if (error instanceof UpscaleToolError && error.code === 'UPSCALE_TARGET_NOT_LARGER') {
+      return NextResponse.json({ ok: false, error: 'UPSCALE_TARGET_NOT_LARGER' }, { status: 422, headers: { 'Cache-Control': 'private, no-store' } });
+    }
     return NextResponse.json({ ok: false, error: 'Unable to quote this source and settings.' }, { status: 422 });
   }
 }

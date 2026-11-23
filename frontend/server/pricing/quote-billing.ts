@@ -1,3 +1,4 @@
+import { isNewSeedreamEngineId } from '@/lib/image/seedream-pricing';
 import { isGptImage26EngineId } from '@/lib/image/gptImage26';
 import { isKlingV4FalQueueEngineId } from '@/lib/kling-v4-family';
 import { NANO21_ENGINE_ID } from '@/lib/nano-banana-2-1';
@@ -116,9 +117,12 @@ export async function computeCanonicalBillingSnapshot(
   // Kling V4 needed a reviewed tariff because its supplier facts were unreviewed fal list rates. Keyvo's official
   // mainland list facts and the explicit official-list rule (official-list-pricing.ts) make the rule path reviewed.
   const requiresKlingV4Tariff = isKlingV4FalQueueEngineId(context.engine.id) && !isOfficialListPricedEngine(context.engine.id);
+  const requiresSeedanceFlashTariff = context.engine.id === 'seedance-2-5-flash' && !isOfficialListPricedEngine(context.engine.id);
+  const requiresSeedance4kTariff = context.engine.id === 'seedance-2-5' && context.resolution === '4k' && !isOfficialListPricedEngine(context.engine.id);
   const requiresNano21Tariff = context.engine.id === NANO21_ENGINE_ID;
   const requiresGpt26Tariff = isGptImage26EngineId(context.engine.id);
-  if (requiresGpt26Tariff || requiresKlingV4Tariff || requiresNano21Tariff || requiresOperationTariff || requiresEditTariff || context.workflowStep || dependencies.loadCustomerTariffState || dependencies.loadCustomerTariffQuoteState || customerTariffsEnabledByCode()) {
+  const requiresNewSeedreamTariff = isNewSeedreamEngineId(context.engine.id) && !isOfficialListPricedEngine(context.engine.id);
+  if (requiresSeedance4kTariff || requiresSeedanceFlashTariff || requiresNewSeedreamTariff || requiresGpt26Tariff || requiresKlingV4Tariff || requiresNano21Tariff || requiresOperationTariff || requiresEditTariff || context.workflowStep || dependencies.loadCustomerTariffState || dependencies.loadCustomerTariffQuoteState || customerTariffsEnabledByCode()) {
     const selector = buildManualTariffScenario(context, billingFacts.facts).selector;
     const tariffState = await (dependencies.loadCustomerTariffState
       ? dependencies.loadCustomerTariffState()
@@ -156,6 +160,9 @@ export async function computeCanonicalBillingSnapshot(
       }));
     }
   }
+    if (requiresNewSeedreamTariff) throw new CustomerTariffUnavailableError('An active reviewed Seedream customer tariff is required.', '该模型暂时无法报价，请稍后再试或联系支持。');
+    if (requiresSeedanceFlashTariff) throw new CustomerTariffUnavailableError('An active reviewed Seedance 2.5 Flash tariff is required.', '该模型暂时无法报价，请稍后再试或联系支持。');
+    if (requiresSeedance4kTariff) throw new CustomerTariffUnavailableError('An active reviewed Seedance 2.5 4K tariff is required.', '该模型暂时无法报价，请稍后再试或联系支持。');
     if (requiresKlingV4Tariff) throw new CustomerTariffUnavailableError('A separate active reviewed Kling V4 customer tariff is required.', '该模型暂时无法报价，请稍后再试或联系支持。');
     if (requiresGpt26Tariff) throw new CustomerTariffUnavailableError('An active reviewed GPT Image 2.6 customer tariff is required.', '该模型暂时无法报价，请稍后再试或联系支持。');
     if (requiresNano21Tariff) throw new CustomerTariffUnavailableError('An active reviewed Nano Banana 2.1 customer tariff is required.', '该模型暂时无法报价，请稍后再试或联系支持。');

@@ -48,7 +48,7 @@ gpt-image-2-6-flare,GPT Image 2.6 Flare,openai,gpt-image-2-6-flare,gpt-image,cur
 gpt-image-2-6-sunburst,GPT Image 2.6 Sunburst,openai,gpt-image-2-6-sunburst,gpt-image,current,,,2.6,available,logoAllowed,true,true
 sora-2,OpenAI Sora 2,openai,sora-2,sora,deep_legacy,,,2,available,logoAllowed,true,true
 sora-2-pro,OpenAI Sora 2 Pro,openai,sora-2-pro,sora,deep_legacy,,,Pro,available,logoAllowed,true,true
-pika-text-to-video,Pika 2.2 Text & Image to Video,pika,pika-text-to-video,pika,current,,,2.2,available,logoAllowed,true,true
+pika-text-to-video,Pika 2.2 Text & Image to Video,pika,pika-text-to-video,pika,deep_legacy,,,2.2,available,logoAllowed,true,true
 wan-3,Wan 3,wan,wan-3,wan,current,,,3.0,available,logoAllowed,true,true
 wan-3-prime,Wan 3 Prime,wan,wan-3-prime,wan,current,,,3.0 Prime,available,logoAllowed,true,true
 grok-imagine-video-1-5,Grok Imagine Video 1.5,xai,grok-imagine-video-1-5,grok,current,,,1.5,available,logoAllowed,true,true

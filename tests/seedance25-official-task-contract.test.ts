@@ -23,7 +23,8 @@ test('actual ModelArk HTTP bodies follow Seedance 2.5 task-type constraints for 
    const payload=buildBytePlusSeedancePayload({seedance25:true,modelId:'account-endpoint',prompt:'修改视频，保留其他内容',mode,...(mode==='v2v'?{transport:'modelark' as const}:{}),durationSec:8,ratio:'16:9',resolution:'720p',imageUrl:'https://assets.test/start.png',referenceImageUrls:['https://assets.test/ref.png'],referenceVideoUrls:['https://assets.test/source.mp4'],allowedModes:['t2v','i2v','ref2v','v2v','extend'],allowedDurationOptions:[8]});
    await client.createSeedanceFastTask(payload);
    const body=sent.at(-1);
-   assert.equal(body.ratio,['i2v','v2v','extend'].includes(mode)?'adaptive':'16:9',mode);
+   // i2v inherits the source image ratio by omitting `ratio` (upstream 2026-11-22); v2v/extend send 'adaptive'.
+   assert.equal(body.ratio,mode==='i2v'?undefined:['v2v','extend'].includes(mode)?'adaptive':'16:9',mode);
    assert.equal(body.duration,mode==='v2v'?-1:8,mode);
    assert.equal(body.omni_reference_task_type,mode==='ref2v'?'reference':mode==='v2v'?'edit':mode==='extend'?'extend':undefined,mode);
    if(mode==='v2v'||mode==='extend')assert.ok(body.content.some((v:any)=>v.role==='reference_video'));

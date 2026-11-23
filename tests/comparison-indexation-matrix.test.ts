@@ -268,6 +268,8 @@ test('the generated inventory covers all 633 localized published comparison URLs
   // (21 slugs x 3 locales); their GSC rows are now legacy rows. On 2026-11-13 Wan 2.6, Kling 2.5 Turbo and
   // Kling 2.6 Pro (no mainland route) took 58 more slugs offline (21 + 20 + 20 minus 3 pairs among themselves):
   // 269 -> 211 slugs, 807 -> 633 URLs, and 112 more GSC rows (22 with clicks) became legacy rows.
+  // 2026-11-22 upstream 3827da0 adds six Seedance 2.5 Flash comparison slugs (18 URLs, none with GSC rows; the audit is
+  // unfiltered): 211 slugs, 633 URLs. GSC-backed counts are unchanged (237 legacy rows, 53 with clicks).
   assert.equal(artifacts.document.summary.publishedSlugs, 211);
   assert.equal(artifacts.document.summary.totalUrls, 633);
   assert.equal(artifacts.document.summary.gscRowsOutsidePublishedSet, 237);

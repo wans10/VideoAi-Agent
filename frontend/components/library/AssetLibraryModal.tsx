@@ -433,7 +433,14 @@ export function AssetLibraryModal({
       />
       <AssetLibraryBrowser
         locale={uiLocale}
-        selection={{ ownerId, browseLibrary: true, importQueue, scope: target?.scope ?? fieldLabel, busy, onBusyChange: setIsSelecting, onConfirm: onSelect, onConfirmMany: onSelectMany, getEligibility }}
+        selection={{
+          ownerId, browseLibrary: true, importQueue, scope: target?.scope ?? fieldLabel, busy,
+          onBusyChange: setIsSelecting, onConfirm: onSelect, onConfirmMany: onSelectMany, getEligibility,
+          directImport: importQueue ? undefined : {
+            label: isImporting ? importingLabel : importLabel,
+            open: () => importInputRef.current?.click(),
+          },
+        }}
         headingId={titleId}
         title={target?.role ? referenceCopy[target.role] : libraryTitle}
         subtitle={[!target?.role ? referenceCopy.kinds[assetType] : null, target?.slotIndex != null && (target?.capacity ?? 1) > 1 ? `${pickerCopy.slot} ${target.slotIndex + 1}` : null, (target?.capacity ?? 1) > 1 ? `${pickerCopy.capacity} ${target?.capacity}` : null].filter(Boolean).join(' · ')}
@@ -448,7 +455,7 @@ export function AssetLibraryModal({
         source={source}
         availableSources={[...sourceOptions]}
         sourceLabels={copyAssetLibrary.tabs}
-        onSourceChange={onSourceChange}
+        onSourceChange={(source) => { if (source !== 'background-removal') onSourceChange(source); }}
         onLoadMore={onLoadMore}
         loadMoreLabel={loadMoreLabel}
         searchPlaceholder={searchPlaceholder}
@@ -458,27 +465,15 @@ export function AssetLibraryModal({
           : (uiLocale === 'zh' ? '暂无保存的图像。' : 'No saved images yet.'))}
         emptySearchLabel={emptySearchLabel}
         headerActions={
-          <>
-            {!importQueue ? <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="rounded-full border-border bg-surface-2 px-3 text-sm text-text-secondary hover:bg-surface-3 hover:text-text-primary"
-              disabled={isImporting}
-              onClick={() => importInputRef.current?.click()}
-            >
-              {isImporting ? importingLabel : importLabel}
-            </Button> : null}
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="rounded-full border-border bg-surface-2 px-3 text-sm text-text-secondary hover:bg-surface-3 hover:text-text-primary"
-              onClick={() => onRefresh(source)}
-            >
-              {copyAssetLibrary.refresh}
-            </Button>
-          </>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="rounded-full border-border bg-surface-2 px-3 text-sm text-text-secondary hover:bg-surface-3 hover:text-text-primary"
+            onClick={() => onRefresh(source)}
+          >
+            {copyAssetLibrary.refresh}
+          </Button>
         }
         renderAssetActions={() => null}
       />

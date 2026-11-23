@@ -50,4 +50,38 @@ test('canonical admin preview and save prepare Max membership without exposing i
   assert.deepEqual((await pg.pool.query('SELECT ordered_ids FROM playlist_curations WHERE playlist_id=$1',[id])).rows[0].ordered_ids,['standard','max']);
   const published=await reader.listCatalogPage({familyId:'flux',sort:'playlist',limit:24,offset:0});
   assert.deepEqual(published.items.map((item:any)=>item.id),['standard']);
+  await t.test('saved public family clips survive launch additions without admitting new legacy clips',async()=>{
+    // Keyvo retires Seedance 1.5 Pro (docs/engineering/keyvo-upstream-deviations.md), so the retained clip is a family-published Seedance
+    // engine and the non-admitted clip is a Seedance engine outside the published family roster. Seedance 2.5 Flash is offered but
+    // its examples stay unpublished, so it is not a family roster member either; the admitted addition is Seedance 2.0 Mini.
+    await pg.pool.query(`INSERT INTO playlists(slug) VALUES ('family-seedance');
+      INSERT INTO app_jobs(job_id,engine_id) VALUES ('retained-legacy','seedance-2-0'),('new-legacy','seedance-2-0-fast-byteplus'),
+        ('mini','seedance-2-0-mini'),('opening-1','seedance-2-5'),('opening-2','seedance-2-5'),('opening-3','seedance-2-5'),('opening-4','seedance-2-5');
+      UPDATE app_jobs SET aspect_ratio='9:16' WHERE job_id='opening-2';`);
+    const family=(await pg.pool.query("SELECT id FROM playlists WHERE slug='family-seedance'")).rows[0].id;
+    const opening=['opening-1','opening-2','opening-3','opening-4'];
+    await pg.pool.query("INSERT INTO playlist_curations(playlist_id,mode,ordered_ids,excluded_ids,opening_ids) VALUES($1,'manual',ARRAY['retained-legacy'],'{}',$2)",[family,opening]);
+    const before=await reader.listCatalogPage({familyId:'seedance',sort:'playlist',limit:24,offset:0});
+    assert.deepEqual(before.items.map((item:any)=>item.id),[...opening,'retained-legacy']);
+    assert.deepEqual(await reader.filterEligibleCurationIds('family-seedance',['retained-legacy','new-legacy']),['retained-legacy']);
+    assert.deepEqual((await reader.loadSelectedCurationItems('family-seedance',['retained-legacy','new-legacy'])).map((item:any)=>item.id),['retained-legacy']);
+    assert.equal((await reader.searchCurationCandidatesPage({slug:'family-seedance',exactId:'new-legacy'})).total,0);
+    const snapshot=await reader.getCurationSnapshot(family);
+    const draft={mode:'manual',orderedIds:['retained-legacy','mini'],excludedIds:[],openingIds:opening};
+    await assert.rejects(reader.previewCuration(family,{...draft,orderedIds:[...draft.orderedIds,'new-legacy']},snapshot.revision),/eligible/);
+    const preview=await reader.previewCuration(family,draft,snapshot.revision);
+    assert.equal(preview.effective.removedCount,0);
+    assert.equal(preview.effective.addedCount,1);
+    assert.deepEqual(preview.effective.firstPageIds,[...opening,'retained-legacy','mini']);
+    await pg.pool.query("UPDATE app_jobs SET visibility='private' WHERE job_id='retained-legacy'");
+    await assert.rejects(reader.saveCuration(family,draft,snapshot.revision,preview.token,null),/eligible|preview/i);
+    assert.deepEqual(await reader.filterEligibleCurationIds('family-seedance',['retained-legacy']),[]);
+    await pg.pool.query("UPDATE app_jobs SET visibility='public',indexable=false WHERE job_id='retained-legacy'");
+    await assert.rejects(reader.previewCuration(family,draft,snapshot.revision),/eligible/);
+    await pg.pool.query("UPDATE app_jobs SET indexable=true WHERE job_id='retained-legacy'");
+    const fresh=await reader.previewCuration(family,draft,snapshot.revision);
+    await reader.saveCuration(family,draft,snapshot.revision,fresh.token,null);
+    const after=await reader.listCatalogPage({familyId:'seedance',sort:'playlist',limit:24,offset:0});
+    assert.deepEqual(after.items.map((item:any)=>item.id),[...before.items.map((item:any)=>item.id),'mini']);
+  });
 });

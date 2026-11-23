@@ -12,6 +12,8 @@ const manifest = JSON.parse(readFileSync('docs/marketing/upstream-maxvideoai/git
     kind: string;
     state: string;
     sha256: string;
+    capturedAt?: string | null;
+    maxvideoaiRevision?: string | null;
     claim: string;
     alt: string;
     reviewTrigger: string;
@@ -146,6 +148,8 @@ test('model-directory capture provenance describes only the visible public hero'
     assert.doesNotMatch(text, /recommendation|ranking|generation|assistant execution/i);
   }
   assert.match(record.reviewTrigger, /hero.*actions.*pricing.*specification cues.*artwork/i);
+  assert.equal(record.capturedAt, '2026-09-16T00:07:39Z');
+  assert.equal(record.maxvideoaiRevision, '5423599b472ae6d6e31beb3e8a5c59e23d3a1a83');
 });
 
 test('gallery capture provenance matches the current four-card opening', () => {
@@ -250,7 +254,7 @@ test('composition code uses only accepted public proof sources, stays light, and
   assert.match(modelRecord?.claim ?? '', /does not prove a current budget, quote, price, approval, or native host execution/i);
 });
 
-test('the narrow proof uses the complete current public page instead of stale workspace-coordinate crops', () => {
+test('the narrow proof uses the complete retained public page instead of workspace-coordinate crops', () => {
   const source = readFileSync('scripts/compose-github-visual-system.mjs', 'utf8');
   const functionBody = source.match(/async function modelChoiceAndBudget\(\) \{([\s\S]*?)\n\}/)?.[1] ?? '';
 
