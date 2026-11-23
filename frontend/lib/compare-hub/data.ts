@@ -1,6 +1,7 @@
 import { isArchivedGenerationModel } from '@/lib/model-generation-policy';
 import compareHubConfig from '@/config/compare-hub.json';
 import engineCatalog from '@/config/engine-catalog-visible';
+import { isKeyvoCompareHidden } from '@/config/keyvo-model-visibility';
 import { listRuntimeModels } from '@/config/model-runtime';
 import { buildCanonicalCompareSlug, canonicalizeComparePair, canonicalizePublishedCompareSlug, createPublishedComparisonSlugLookup } from './pairs';
 
@@ -214,6 +215,14 @@ function isHubEligibleEngine(entry: CatalogEngine, options: HubEngineFilterOptio
 
 export function isPublishedComparisonSlug(slug: string): boolean {
   return PUBLISHED_COMPARISON_SLUGS.has(canonicalizePublishedCompareSlug(slug));
+}
+
+/**
+ * Customer-facing links to a comparison page. Keyvo does not publish comparison routes, so this is false there even when the
+ * registry lists the pair; routes, sitemaps and registry publication keep using isPublishedComparisonSlug.
+ */
+export function isComparisonLinkable(slug: string): boolean {
+  return !isKeyvoCompareHidden() && isPublishedComparisonSlug(slug);
 }
 
 export function getPublishedComparisonSlugs(): string[] {

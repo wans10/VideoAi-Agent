@@ -42,6 +42,8 @@ import { validateRuntimeRequestSettings } from '@/app/api/generate/_lib/runtime-
 import { resolveRuntimeResolutionPolicy } from '@/server/video-generation/runtime-resolution';
 import type { PreparedSeedanceWorkflow } from '@/server/seedance-workflow-request';
 import { resolveSeedance25ModeAvailability } from '@/server/engine-mode-availability';
+import { getBytePlusSeedanceProfile } from '@/server/video-providers/byteplus-modelark-profiles';
+import { getBytePlusSeedanceModeResolutions } from '@/lib/byteplus-mode-capabilities';
 import { normalizeBytePlusOptions } from '@/app/api/generate/_lib/request-options-byteplus';
 import { resolveSeedance25ModelArkEditSource } from '@/server/seedance-edit-source';
 import { normalizeSeedancePricingContext, seedanceSourcePricingAspectRatio, seedanceAutomaticDurationBounds,
@@ -238,6 +240,16 @@ export async function resolveAdmittedMediaAwarePreflight(
       inputs: [] }, { resolvedEngine: engine, bootstrap: false, seedanceWorkflowStep: 'final',
       trustedMediaPricingFacts: { inputVideoDurationSec: finalFacts.inputVideoDurationSec,
         seedanceEditSource: finalFacts.seedanceEditSource, seedanceSourceAspectRatio: finalFacts.seedanceSourceAspectRatio } });
+  }
+  // Keyvo: a requested resolution outside the engine's BytePlus profile (e.g. 1080p or 4k on Seedance 2.5 flash) is
+  // refused before pricing; it must never be quoted at another resolution's price.
+  if (getBytePlusSeedanceProfile(engine.id) && request.resolution && request.resolution !== ('auto' as string)) {
+    const profile = getBytePlusSeedanceProfile(engine.id)!;
+    const allowed = getBytePlusSeedanceModeResolutions(engine.id, request.mode, profile.resolutions,
+      input.trustedSeedanceWorkflow?.workflow.step ? 'modelark' : resolveBytePlusTransport(engine.id, request.mode));
+    if (!allowed.includes(request.resolution as never)) {
+      return mediaPricingFailure('BYTEPLUS_RESOLUTION_UNSUPPORTED', `该模型不支持所选分辨率，请选择 ${allowed.join(' / ')}。`);
+    }
   }
   if (isSeedance25EngineId(engine.id) && request.mode === 'v2v') {
     if (!input.trustedSeedanceWorkflow && resolveSeedance25ModeAvailability(engine, request.mode)?.available === false) {

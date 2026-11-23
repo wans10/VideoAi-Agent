@@ -1,7 +1,8 @@
 import type { AppLocale } from '@/i18n/locales';
 import type { FalEngineEntry } from '@/config/falEngines';
 import { getMcpInternalLink } from '@/lib/mcp-internal-links';
-import { isPublishedComparisonSlug } from '@/lib/compare-hub/data';
+import { isCompareRouteHref, isKeyvoCompareHidden } from '@/config/keyvo-model-visibility';
+import { isComparisonLinkable } from '@/lib/compare-hub/data';
 
 import { buildDecisionPricingScenarios, type ModelDecisionPricingScenario } from './model-page-decision-pricing';
 import { parseModelDecisionContent } from './model-page-decision-content';
@@ -83,6 +84,8 @@ function isPublishedDecisionHref(
   mcpCreationAvailable: boolean,
 ): boolean {
   if (/^\/(?:fr\/|es\/)?mcp#/.test(href)) return mcpCreationAvailable;
+  // Keyvo publishes no comparison hub, pair, best-for or benchmarks route: never offer a link to one.
+  if (isKeyvoCompareHidden() && isCompareRouteHref(href)) return false;
   const comparisonSlug = comparisonSlugFromHref(href);
   return comparisonSlug === null || isComparisonPublished(comparisonSlug);
 }
@@ -100,7 +103,7 @@ export function buildModelDecisionData({
   engine,
   locale,
   decisionContent,
-  isComparisonPublished = isPublishedComparisonSlug,
+  isComparisonPublished = isComparisonLinkable,
   mcpPublication,
 }: {
   engine: FalEngineEntry;

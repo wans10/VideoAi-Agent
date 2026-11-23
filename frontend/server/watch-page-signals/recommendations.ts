@@ -1,4 +1,4 @@
-import { buildCompareRoute, isPublishedComparisonSlug } from '@/lib/compare-hub/data';
+import { buildCompareRoute, isComparisonLinkable } from '@/lib/compare-hub/data';
 import { resolveEngineEntry } from './engine';
 import type { WatchPageDerivedSignals, WatchPageIntent } from './types';
 
@@ -41,7 +41,7 @@ export function buildCompareLinks(params: {
   return opponents.flatMap((opponentSlug) => {
     if (!opponentSlug || opponentSlug === engineSlug) return [];
     const route = buildCompareRoute(engineSlug, opponentSlug);
-    if (seen.has(route.slug) || !isPublishedComparisonSlug(route.slug)) return [];
+    if (seen.has(route.slug) || !isComparisonLinkable(route.slug)) return [];
     seen.add(route.slug);
     const opponent = resolveEngineEntry(opponentSlug);
     const opponentLabel = opponent?.marketingName ?? opponentSlug.replace(/-/g, ' ');

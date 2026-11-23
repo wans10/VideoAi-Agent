@@ -109,10 +109,15 @@ export const ENV = {
   ),
   BYTEPLUS_ARK_SEEDREAM_MODEL_ID: getOptionalEnv('BYTEPLUS_ARK_SEEDREAM_MODEL_ID', 'doubao-seedream-5-0-260128'),
   BYTEPLUS_ARK_SEEDANCE_2_5_FLASH_MODEL_ID: getOptionalEnv('BYTEPLUS_ARK_SEEDANCE_2_5_FLASH_MODEL_ID', 'doubao-seedance-2-5-flash-261115'),
-  SEEDANCE_2_5_FLASH_BYTEPLUS_ENABLED: getOptionalEnv('SEEDANCE_2_5_FLASH_BYTEPLUS_ENABLED', 'false'),
-  SEEDANCE_2_5_FLASH_PROVIDER: getOptionalEnv('SEEDANCE_2_5_FLASH_PROVIDER', 'disabled'),
-  SEEDANCE_2_5_FLASH_BYTEPLUS_ADMIN_ONLY: getOptionalEnv('SEEDANCE_2_5_FLASH_BYTEPLUS_ADMIN_ONLY', 'true'),
-  SEEDANCE_2_5_FLASH_BYTEPLUS_MODES: getOptionalEnv('SEEDANCE_2_5_FLASH_BYTEPLUS_MODES', 't2v,i2v,ref2v,v2v,extend'),
+  // Keyvo: Seedance 2.5 flash follows Seedance 2.5's own switches when its variables are unset, so the offered
+  // engine reaches the picker without new production env vars (docs/engineering/keyvo-upstream-deviations.md).
+  // Edit modes (v2v, extend) stay off unless SEEDANCE_2_5_FLASH_BYTEPLUS_MODES names them (they need an Edit tariff).
+  SEEDANCE_2_5_FLASH_BYTEPLUS_ENABLED: getOptionalEnv('SEEDANCE_2_5_FLASH_BYTEPLUS_ENABLED', getOptionalEnv('SEEDANCE_2_5_BYTEPLUS_ENABLED', 'false')),
+  SEEDANCE_2_5_FLASH_PROVIDER: getOptionalEnv('SEEDANCE_2_5_FLASH_PROVIDER', getOptionalEnv('SEEDANCE_2_5_PROVIDER', 'disabled')),
+  SEEDANCE_2_5_FLASH_BYTEPLUS_ADMIN_ONLY: getOptionalEnv('SEEDANCE_2_5_FLASH_BYTEPLUS_ADMIN_ONLY', getOptionalEnv('SEEDANCE_2_5_BYTEPLUS_ADMIN_ONLY', 'true')),
+  SEEDANCE_2_5_FLASH_BYTEPLUS_MODES: getOptionalEnv('SEEDANCE_2_5_FLASH_BYTEPLUS_MODES',
+    (getOptionalEnv('SEEDANCE_2_5_BYTEPLUS_MODES', 't2v') ?? 't2v').split(',').map((mode) => mode.trim())
+      .filter((mode) => ['t2v', 'i2v', 'ref2v'].includes(mode)).join(',') || 't2v'),
   BYTEPLUS_ARK_SEEDREAM_PRO_MODEL_ID: getOptionalEnv(
     'BYTEPLUS_ARK_SEEDREAM_PRO_MODEL_ID',
     'doubao-seedream-5-0-pro-260628'

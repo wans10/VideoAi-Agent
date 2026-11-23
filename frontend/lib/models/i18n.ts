@@ -3,6 +3,8 @@ import 'server-only';
 import path from 'node:path';
 import fs from 'node:fs/promises';
 import type { AppLocale } from '@/i18n/locales';
+import { getFalEngineBySlug } from '@/config/falEngines';
+import { applyCapabilityTokens } from './content-capability-tokens';
 import { normalizeLegacyBrandDeep } from '@/lib/seo/brand-text';
 import {
   mergeEngineLocalizedContent,
@@ -53,5 +55,8 @@ export async function getEngineLocalized(slug: string, locale: AppLocale): Promi
   const overlay = locale === 'en' ? base : await readOverlay(slug, locale);
   const merged = mergeEngineLocalizedContent(base, overlay);
   // Chinese overlays inherit the upstream "VideoAI" name; Keyvo pages show only the Keyvo brand.
-  return locale === 'zh' ? normalizeLegacyBrandDeep(merged) : merged;
+  if (locale !== 'zh') return merged;
+  // Resolutions in authored Chinese copy come from the engine capabilities, not hand-written numbers.
+  const resolutions = getFalEngineBySlug(slug)?.engine?.resolutions as readonly string[] | undefined;
+  return applyCapabilityTokens(normalizeLegacyBrandDeep(merged), resolutions);
 }

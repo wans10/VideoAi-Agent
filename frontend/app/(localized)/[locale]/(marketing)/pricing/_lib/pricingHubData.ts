@@ -13,7 +13,7 @@ import type { AudioPackId, AudioVoiceMode } from '@/lib/audio-generation';
 import type { GptImage2Quality } from '@/lib/image/gptImage2';
 import { isGptImageFamilyEngineId } from '@/lib/image/gptImage2';
 import { supportsImageGeneration, supportsVideoGeneration } from '@/lib/models/catalog';
-import { buildCanonicalCompareSlug, isPublishedComparisonSlug } from '@/lib/compare-hub/data';
+import { buildCanonicalCompareSlug, isComparisonLinkable } from '@/lib/compare-hub/data';
 import {
   buildFixedPublicProductFacts,
   buildPublicPricingFacts,
@@ -583,7 +583,7 @@ function buildVideoLinks(entry: FalEngineEntry, locale: AppLocale): PricingHubLi
     ...(entry.surfaces.compare.publishedPairs ?? []),
   ]
     .map((opponentSlug) => buildCanonicalCompareSlug(entry.modelSlug, opponentSlug))
-    .find(isPublishedComparisonSlug);
+    .find(isComparisonLinkable);
   if (!KEYVO_COMPARE_HIDDEN && entry.surfaces.compare.includeInHub && compareSlug) {
     links.push({
       label: copy.links.compare,
