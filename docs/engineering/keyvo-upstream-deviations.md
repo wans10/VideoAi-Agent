@@ -715,3 +715,9 @@ localhost hook URI (verified 2026-11-23: a container-name URI makes `supabase-au
 supported with http"), so the watchdog restarts only `keyvo-sms-hook` when the probe from inside `supabase-auth` fails twice.
 Pinned by `tests/sms-hook-watchdog.test.ts`.
 
+
+## Generic resolution gate (2026-11-23)
+
+- **Upstream:** `computeConfiguredPreflight` silently priced a requested resolution the engine does not offer at the default resolution (kling-v4 + `4k` returned the 720p price), and `/api/generate` only refused it later in `validateRequest`; the only early refusal was the BytePlus/Seedance one (`BYTEPLUS_RESOLUTION_UNSUPPORTED`).
+- **Keyvo:** `checkRequestedResolutionSupported` (`src/server/video-generation/runtime-resolution.ts`) refuses an explicit resolution outside the engine's mode-specific list (schema enum for schema-driven engines, otherwise mode capability intersected with the catalogue) with `RESOLUTION_UNSUPPORTED` and the zh message `该模型不支持所选分辨率，请选择 720p / 1080p。`. It is applied in `computeConfiguredPreflight` (every quote path), early in `resolveAdmittedMediaAwarePreflight`, and in `buildGenerateRequestOptions` (before `executeVideoGeneration` and any wallet reservation). Absent or `auto` resolutions, engines/modes with `supportsResolution=false` and Luma Ray 2 keep their previous behaviour; BytePlus engines keep their own code.
+- **Tests:** `tests/keyvo-resolution-gate-contract.test.ts` (all offered video engines x modes, plus exact pinned totals).
