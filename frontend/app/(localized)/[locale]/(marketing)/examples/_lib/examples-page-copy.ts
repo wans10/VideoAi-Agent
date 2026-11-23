@@ -1,6 +1,6 @@
 import { KEYVO_COMPARE_HIDDEN } from '@/config/keyvo-model-visibility';
 import type { AppLocale } from '@/i18n/locales';
-import { isPublishedComparisonSlug } from '@/lib/compare-hub/data';
+import { isComparisonLinkable } from '@/lib/compare-hub/data';
 import { buildCompareHref, buildModelHref } from './examples-route-utils';
 
 type PaginationDictionary = {
@@ -235,8 +235,8 @@ export function buildExamplesNextStepLinks({
   const selected = comparisons[family];
   const links = selected
     ? selected
-        .filter(([slug]) => isPublishedComparisonSlug(slug))
-    .slice(0, 4 + Number(selected.some(([slug]) => slug.includes('seedance-2-5-flash') && isPublishedComparisonSlug(slug))))
+        .filter(([slug]) => isComparisonLinkable(slug))
+    .slice(0, 4 + Number(selected.some(([slug]) => slug.includes('seedance-2-5-flash') && isComparisonLinkable(slug))))
         .map(([slug, label]) => comparisonLink(slug, label))
     : buildDefaultLinks();
   // Keyvo hides comparison pages, so their links must not be offered.

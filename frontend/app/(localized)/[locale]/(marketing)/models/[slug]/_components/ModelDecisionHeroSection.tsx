@@ -32,7 +32,13 @@ const FEATURE_ICON_MAP: Record<ModelDecisionFeature['tone'], typeof Mic2> = {
   price: WalletCards,
 };
 
-const QUICK_LINK_ICONS = [ArrowRightLeft, Tag, PencilLine] as const;
+// Icons follow what a link opens, not its position: a hidden comparison link must not hand its icon to the next one.
+function quickLinkIcon(href: string, index: number) {
+  if (/\/(?:ai-video-engines|comparatif|comparativa)\//.test(href)) return ArrowRightLeft;
+  if (/#prompting$/.test(href)) return PencilLine;
+  if (/\/(?:pricing|tarifs|precios)(?:[#?]|$)|^#pricing$/.test(href)) return Tag;
+  return ([ArrowRightLeft, Tag, PencilLine] as const)[index] ?? ArrowRight;
+}
 
 const HOME_CRUMB: Record<AppLocale, { label: string; href: string }> = {
   en: { label: 'Home', href: '/' },
@@ -181,7 +187,7 @@ export function ModelDecisionHeroSection({
             {decision.hero.quickLinks.length ? (
               <div className="model-story-quicklinks flex flex-wrap gap-x-7 gap-y-3 text-sm">
                 {decision.hero.quickLinks.map((link, index) => {
-                  const Icon = QUICK_LINK_ICONS[index] ?? ArrowRight;
+                  const Icon = quickLinkIcon(link.href, index);
                   return (
                   <Link
                     key={`${link.label}-${link.href}`}

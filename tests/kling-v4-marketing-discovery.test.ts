@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import './helpers/keyvo-compare-links-open';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import { listRuntimeModels } from '../frontend/config/model-runtime';

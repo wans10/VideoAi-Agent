@@ -1,4 +1,5 @@
 import { cinematicVideoPromptLinks } from '../_lib/model-page-workflow-proofs';
+import { isKeyvoCompareHidden } from '@/config/keyvo-model-visibility';
 import { Link } from '@/i18n/navigation';
 import type { AppLocale } from '@/i18n/locales';
 import { FAQSchema } from '@/components/seo/FAQSchema';
@@ -78,7 +79,7 @@ export async function ModelCinematicDetails({ pricing, commercial, schema, decis
         {secondaryRows.length ? <ModelCinematicSpecTable rows={secondaryRows} title={tableTitle} locale={locale} /> : null}
         {detailedSections.map(section => <div key={section.title}><h3>{section.title}</h3><p>{section.intro}</p><ul>{section.items.map(item => <li key={item}>{item}</li>)}</ul></div>)}
       </div></details> : null}
-      <p className="cinema-spec-source">{specCopy.context} {presentation.content.specsReviewedAt ? <>{specCopy.reviewed}: <time dateTime={presentation.content.specsReviewedAt}>{presentation.content.specsReviewedAt}</time>. </> : null}<a href={source}>{specCopy.source}: {specCopy.brand}</a>{alternatives ? <> · <Link href={benchmarkLink?.href ?? "/benchmarks"} prefetch={false}>{benchmarkLink?.label ?? l.benchmark}</Link></> : null}
+      <p className="cinema-spec-source">{specCopy.context} {presentation.content.specsReviewedAt ? <>{specCopy.reviewed}: <time dateTime={presentation.content.specsReviewedAt}>{presentation.content.specsReviewedAt}</time>. </> : null}<a href={source}>{specCopy.source}: {specCopy.brand}</a>{alternatives && !isKeyvoCompareHidden() ? <> · <Link href={benchmarkLink?.href ?? "/benchmarks"} prefetch={false}>{benchmarkLink?.label ?? l.benchmark}</Link></> : null}
         {presentation.content.benchmarkSource ? <> · <a href={presentation.content.benchmarkSource.href}>{presentation.content.benchmarkSource.label}</a></> : null}</p>
     </div></div></div></section>
     <div className={alternatives ? "cinema-next-band cinema-next-band--choices" : "cinema-next-band"}><div className="cinema-wrap cinema-spec-next">
@@ -87,7 +88,7 @@ export async function ModelCinematicDetails({ pricing, commercial, schema, decis
         family={familyLinks} quickLinks={preservedLinks.filter(link => link !== benchmarkLink)} locale={locale} /> : related.length || familyLinks.length || preservedLinks.length ? <nav id="compare" className="cinema-related-links" aria-label={specCopy.related}><h3>{familyLinks.length ? discovery.title : specCopy.related}</h3>{related.map(card => <Link key={card.title} href={card.cta.href} prefetch={false} data-analytics-event="cta_click" data-analytics-cta-name="choose_model" data-analytics-cta-location="model_related"><span>{card.title}</span><CinematicArrow /><small>{card.body}</small></Link>)}
         {familyLinks.length ? <div className="cinema-family-links"><p>{discovery.versions}</p><ul>{familyLinks.map(link => <li key={link.href}><Link href={link.href} prefetch={false} data-analytics-event="cta_click" data-analytics-cta-name="choose_model" data-analytics-cta-location="model_related" data-analytics-target-family="models">{link.label}<CinematicArrow /></Link></li>)}</ul></div> : null}
         {preservedLinks.map(link => <Link key={link.href} href={link.href} prefetch={false} className="cinema-source-link">{link.label}<CinematicArrow /></Link>)}
-        {workflows ? <Link href="/ai-video-engines" prefetch={false} className="cinema-source-link" data-analytics-event="cta_click" data-analytics-cta-name="all_comparisons" data-analytics-cta-location="model_related" data-analytics-target-family="compare">{discovery.allComparisons}<CinematicArrow /></Link> : null}
+        {workflows && !isKeyvoCompareHidden() ? <Link href="/ai-video-engines" prefetch={false} className="cinema-source-link" data-analytics-event="cta_click" data-analytics-cta-name="all_comparisons" data-analytics-cta-location="model_related" data-analytics-target-family="compare">{discovery.allComparisons}<CinematicArrow /></Link> : null}
       </nav> : null}
     </div></div>
     <section id="faq" className="cinema-faq cinema-section"><div className="cinema-wrap cinema-faq-grid"><header><p className="cinema-eyebrow">{faqTitle ?? 'FAQ'}</p><h2>{l.faq}</h2></header><div>{faqList.map(entry => <details key={entry.question} className="cinema-disclosure"><summary>{entry.question}<CinematicPlus /></summary><div><p>{entry.answer}</p></div></details>)}

@@ -2,7 +2,7 @@ import { CUSTOMER_CURRENCY } from '@/lib/customer-currency';
 import { formatCurrencyForLocale } from '../../pricing/_lib/pricingPageContent';
 import type { AppLocale } from '@/i18n/locales';
 import type { LocalizedLinkHref } from '@/i18n/navigation';
-import { isPublishedComparisonSlug } from '@/lib/compare-hub/data';
+import { isComparisonLinkable } from '@/lib/compare-hub/data';
 import { getMcpInternalLink } from '@/lib/mcp-internal-links';
 import type {
   PayAsYouGoContent,
@@ -192,7 +192,7 @@ function isPaygCompareHref(href: string) {
   const compareIds = compareIdsFromHref(canonicalCompareHref(href));
   return compareIds.length === 2
     && compareIds.every((id) => PAYG_COMPARE_ALLOWED_MODEL_IDS.has(id))
-    && isPublishedComparisonSlug(compareIds.join('-vs-'));
+    && isComparisonLinkable(compareIds.join('-vs-'));
 }
 
 function pickPaygCompareHref(links: VideoPricingRow['links']) {

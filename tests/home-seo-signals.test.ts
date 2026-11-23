@@ -329,7 +329,11 @@ test('every FAQ answer has a contextual route and keeps the supported-input cave
 test('homepage promotes published current comparisons without reviving older editions', async () => {
   const { buildHomeComparisonLinks, buildHomeComparisonData } = await import('../frontend/app/(localized)/[locale]/(marketing)/(home)/_lib/home-comparison-data.ts');
   const { isPublishedComparisonSlug } = await import('../frontend/lib/compare-hub/data.ts');
-  const links = buildHomeComparisonLinks();
+  // Keyvo publishes no comparison routes, so customers get no comparison link at all.
+  assert.deepEqual(buildHomeComparisonLinks(), []);
+  // The selection itself is checked with the test-only reopen (never set in production).
+  process.env.KEYVO_COMPARE_FULL_UI = '1';
+  const links = (() => { try { return buildHomeComparisonLinks(); } finally { delete process.env.KEYVO_COMPARE_FULL_UI; } })();
   // Keyvo hides non-Chinese-vendor models, so the LTX comparison is no longer promoted.
   assert.equal(links.length, 2);
   assert.ok(links.every(link => isPublishedComparisonSlug(link.slug)));
