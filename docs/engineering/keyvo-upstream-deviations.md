@@ -705,3 +705,12 @@ Merged with a synthetic upstream parent (tree of `3827da0f4`, parent `accd126df`
 - **Where applied.** Model decision data (`isPublishedDecisionHref` drops hero quick links, decision cards and CTAs that target a comparison, hub, best-for or benchmarks route and falls back for primary/secondary CTAs), cinematic alternatives (per-model Compare button and "all comparisons" link), cinematic details (benchmarks and all-comparisons links), home comparison links, models catalogue popular comparisons and default compare hrefs, pay-as-you-go compare row, examples next steps, pricing hub compare link, and watch-page recommendations. The hero action row icons now follow the link target so removing the compare link does not shift the price and prompt icons. The page table of contents never listed the compare section (`hasCompareSection` is false).
 - **zh resolution copy.** `content/models/zh/seedance-2-5.json` said 480p/720p/1080p and "最高 1080p" while the engine offers 480p/720p/1080p/4K. Chinese overlays may now use `{{resolutions}}` and `{{maxResolution}}`; `getEngineLocalized` fills them from the engine capabilities (`lib/models/content-capability-tokens.ts`). Other offered models were audited: no own-resolution claim disagrees with the engine data.
 - **Tests.** `tests/keyvo-compare-links-hidden.test.ts`.
+
+## SMS hook watchdog (2026-11-23)
+
+Keyvo-only (no upstream equivalent; keep on syncs): `scripts/ops/sms-hook-watchdog.mjs` with `keyvo-sms-hook-watchdog.{service,timer}`
+and `docs/operations/sms-hook-watchdog.md`. The self-hosted SMS hook shares the `supabase-auth` network namespace and GoTrue only accepts a
+localhost hook URI (verified 2026-11-23: a container-name URI makes `supabase-auth` exit with "only localhost, 127.0.0.1, and ::1 are
+supported with http"), so the watchdog restarts only `keyvo-sms-hook` when the probe from inside `supabase-auth` fails twice.
+Pinned by `tests/sms-hook-watchdog.test.ts`.
+

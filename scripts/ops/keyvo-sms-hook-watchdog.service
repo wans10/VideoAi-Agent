@@ -1,0 +1,13 @@
+[Unit]
+Description=Keyvo SMS hook watchdog (one run)
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+Environment=KEYVO_OPS_ENV=/etc/keyvo-ops.env
+ExecStart=/usr/bin/node /opt/keyvo-ops/sms-hook-watchdog.mjs
+# exit 1 (broken and not repaired) is an expected state reported by DingTalk, not a unit failure
+SuccessExitStatus=1
+StateDirectory=keyvo-ops
+TimeoutStartSec=100
