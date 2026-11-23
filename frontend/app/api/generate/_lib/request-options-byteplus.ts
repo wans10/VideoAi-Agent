@@ -79,7 +79,7 @@ export function normalizeBytePlusOptions(params: {
       body: {
         ok: false,
         error: 'BYTEPLUS_RESOLUTION_UNSUPPORTED',
-        message: 'This Seedance route does not support this resolution for the selected model.',
+        message: `该模型不支持所选分辨率，请选择 ${allowedResolutions.join(' / ')}。`,
       },
     };
   }

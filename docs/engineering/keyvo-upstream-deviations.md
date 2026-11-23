@@ -693,6 +693,12 @@ Merged with a synthetic upstream parent (tree of `3827da0f4`, parent `accd126df`
 - **Re-consent:** with `LEGAL_RECONSENT_MODE` and `LEGAL_RECONSENT_GRACE_DAYS` unset the mode is soft with 14 days counted from each document's `published_at` (set when migration 99_legal_adult_eligibility bumps terms/privacy). The 18+ age attestation is different: any account whose latest `age_attestation` is not `min_age:18` is blocked until it ticks the 18+ box (`shouldBlock` is immediate, grace does not apply to it). The prompt and checkboxes now render Chinese on zh pages.
 
 
+### Seedance 2.5 flash picker visibility and resolution gate (2026-11-23)
+
+- **Cause of "flash missing from the video picker":** the engine list applies the BytePlus profile policy (`byteplus-modelark-profile-policy.ts`): `SEEDANCE_2_5_FLASH_BYTEPLUS_ENABLED` defaulted to `false`, `..._ADMIN_ONLY` to `true` and `..._MODES` to the full list, independent of the allowlist. Preflight does not apply that gate, so it quoted flash while the list hid it.
+- **Fix:** `src/lib/env.ts` now defaults the four flash variables to the Seedance 2.5 values (`SEEDANCE_2_5_BYTEPLUS_ENABLED`, `_PROVIDER`, `_ADMIN_ONLY`, `_MODES`), so production needs no new variable. Edit modes (v2v, extend) are removed from the inherited modes because they need an Edit tariff; set `SEEDANCE_2_5_FLASH_BYTEPLUS_MODES` explicitly to change that.
+- **Resolution gate:** `/api/preflight` now refuses a resolution outside the BytePlus profile (flash: 480p and 720p) with a Chinese message before any quote, matching `/api/generate` (`normalizeBytePlusOptions`, HTTP 400 `BYTEPLUS_RESOLUTION_UNSUPPORTED`, before the wallet is touched). Pinned by `tests/keyvo-seedance-flash-resolution-gate.test.ts`.
+
 ## Comparison links hidden on customer surfaces and zh resolution copy (2026-11-23)
 
 - **Hidden links.** Comparison routes (`/ai-video-engines/*`, best-for, `/benchmarks`) already 404 on Keyvo (`KEYVO_COMPARE_HIDDEN`), but several link builders still pointed at them, for example the "与 Seedance 2.0 对比" hero quick link on `/zh/models/seedance-2-5`. `isKeyvoCompareHidden()` (`config/keyvo-model-visibility.ts`; test-only reopen `KEYVO_COMPARE_FULL_UI=1`, never set in production) and `isComparisonLinkable()` (`lib/compare-hub/data.ts`) are now the single choke points. Registry publication (`isPublishedComparisonSlug`), routes, sitemaps and pricing are unchanged.
