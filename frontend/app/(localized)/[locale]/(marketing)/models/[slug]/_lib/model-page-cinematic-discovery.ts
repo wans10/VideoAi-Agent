@@ -1,7 +1,7 @@
 import { getFalEngineBySlug } from '@/config/falEngines';
 import { getRuntimeModelByCanonicalSlug, listPublicCurrentRuntimeModels } from '@/config/model-runtime';
 import type { AppLocale } from '@/i18n/locales';
-import { isPublishedComparisonSlug } from '@/lib/compare-hub/data';
+import { isComparisonLinkable } from '@/lib/compare-hub/data';
 import flashMedia from '@/config/model-cinematic-create-media.json';
 import { buildCanonicalComparePath, CANONICAL_ONLY_COMPARE_SLUGS, COMPARE_BASE_PATH_MAP, MODELS_BASE_PATH_MAP } from './model-page-links';
 
@@ -47,7 +47,7 @@ export function buildCinematicAlternatives(slug: string, locale: AppLocale, choi
     const target = getFalEngineBySlug(choice.slug);
     if (!target) return [];
     const pair = [slug, choice.slug].sort().join('-vs-');
-    const compareHref = isPublishedComparisonSlug(pair) ? prefix + buildCanonicalComparePath({
+    const compareHref = isComparisonLinkable(pair) ? prefix + buildCanonicalComparePath({
       compareBase: COMPARE_BASE_PATH_MAP[locale], pairSlug: pair,
       orderSlug: CANONICAL_ONLY_COMPARE_SLUGS.has(pair) ? undefined : slug,
     }) : null;

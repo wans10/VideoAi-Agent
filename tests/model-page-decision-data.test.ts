@@ -1,4 +1,5 @@
 import '../scripts/lib/disable-keyvo-model-visibility';
+import './helpers/keyvo-compare-links-open';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';

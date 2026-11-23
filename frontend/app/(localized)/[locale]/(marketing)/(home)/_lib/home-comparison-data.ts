@@ -1,5 +1,5 @@
 import { FEATURED_COMPARISON_PAIRS } from '@/config/featured-comparisons';
-import { getAllCanonicalPairs, isPublishedComparisonSlug } from '@/lib/compare-hub/data';
+import { getAllCanonicalPairs, isComparisonLinkable } from '@/lib/compare-hub/data';
 import { computeOverall } from '../../ai-video-engines/[slug]/_lib/compare-page-score-utils';
 import type { EngineScore } from '../../ai-video-engines/[slug]/_lib/compare-page-types';
 import type { HomeComparisonData, HomeComparisonModel } from '@/components/marketing/home/home-comparison-types';
@@ -17,7 +17,7 @@ export function buildHomeComparisonData(scores: Map<string, EngineScore>): HomeC
     left: model('wan-3', 'Wan 3', '/brand/partners/wan/wan-mark-light.png'),
     opponents: [
       model('seedance-2-5', 'Seedance 2.5', '/brand/partners/bytedance/bytedance-mark-light.svg'),
-    ].filter(model => model.overall !== null && isPublishedComparisonSlug(`wan-3-vs-${model.slug}`)),
+    ].filter(model => model.overall !== null && isComparisonLinkable(`wan-3-vs-${model.slug}`)),
   };
 }
 
@@ -27,6 +27,6 @@ export function buildHomeComparisonLinks() {
   const pairs = getAllCanonicalPairs();
   return featured.flatMap(slug => {
     const pair = pairs.find(item => item.slug === slug);
-    return pair && isPublishedComparisonSlug(pair.slug) ? [{ slug: pair.slug, title: pair.label }] : [];
+    return pair && isComparisonLinkable(pair.slug) ? [{ slug: pair.slug, title: pair.label }] : [];
   });
 }

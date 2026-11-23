@@ -118,5 +118,25 @@ export function filterKeyvoVisibleEntries<T extends { family?: string | null; en
 /** Keyvo does not present model comparisons or scores; typed as boolean so guarded code stays type-checked. */
 export const KEYVO_COMPARE_HIDDEN: boolean = true;
 
+/**
+ * Rule used by customer-facing link builders: comparison and benchmark routes 404 on Keyvo, so no button, link, card or
+ * menu entry may point to them. KEYVO_COMPARE_FULL_UI=1 is for tests that exercise the upstream comparison links and is
+ * never set in production.
+ */
+export function isKeyvoCompareHidden(): boolean {
+  try {
+    if (process.env.KEYVO_COMPARE_FULL_UI === '1') return false;
+  } catch {
+    // A plain browser bundle has no `process`; the constant applies.
+  }
+  return KEYVO_COMPARE_HIDDEN;
+}
+
+/** True for hrefs that lead to the comparison hub, a comparison pair, best-for pages or the benchmarks page (any locale). */
+export function isCompareRouteHref(href: string): boolean {
+  const pathname = href.split(/[?#]/, 1)[0] ?? '';
+  return /^\/(?:(?:zh|fr|es)\/)?(?:ai-video-engines|comparatif|comparativa|benchmarks)(?:\/|$)/.test(pathname);
+}
+
 /** Keyvo does not publish the upstream blog (it covers overseas models); typed as boolean so guarded code stays type-checked. */
 export const KEYVO_BLOG_HIDDEN: boolean = true;
