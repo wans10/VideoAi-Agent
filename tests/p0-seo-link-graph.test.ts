@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import './helpers/keyvo-compare-links-open';
 import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';

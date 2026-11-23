@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import './helpers/keyvo-compare-links-open';
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';

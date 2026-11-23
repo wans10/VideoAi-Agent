@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { getMcpInternalLink } from '@/lib/mcp-internal-links';
+import { isKeyvoCompareHidden } from '@/config/keyvo-model-visibility';
 import { Link } from '@/i18n/navigation';
 import type { AppLocale } from '@/i18n/locales';
 import type { ModelCinematicContent } from '../_lib/model-page-cinematic-content';
@@ -18,6 +19,7 @@ export function ModelCinematicAlternatives({ content, slug, family, quickLinks, 
   content: NonNullable<ModelCinematicContent['alternatives']>;
   slug: string; family: ModelDecisionLink[]; quickLinks: ModelDecisionLink[]; locale: AppLocale;
 }) {
+  const compareHidden = isKeyvoCompareHidden();
   const links = buildCinematicAlternatives(slug, locale, content.models);
   const familyLinks = family.filter(item => !links.some(link => link.href === item.href));
   const shown = new Set([...links.flatMap(link => [link.href, link.compareHref]), ...familyLinks.map(link => link.href)]
@@ -33,7 +35,7 @@ export function ModelCinematicAlternatives({ content, slug, family, quickLinks, 
         {model.poster ? <Image src={model.poster} alt="" aria-hidden="true" width={268} height={178} sizes="(max-width: 480px) 82px, 134px" loading="lazy" /> : null}
         <span><strong>{model.label}</strong><span>{model.reason}</span></span>
       </Link>
-      {model.compareHref ? <Link href={model.compareHref} prefetch={false} className="cinema-choice-vs"
+      {model.compareHref && !compareHidden ? <Link href={model.compareHref} prefetch={false} className="cinema-choice-vs"
         aria-label={model.comparisonLabel} data-analytics-event="cta_click" data-analytics-cta-name="compare_models"
         data-analytics-cta-location="model_related" data-analytics-target-family="compare">{l.compare}<CinematicArrow /></Link> : null}
     </li>)}</ul>
@@ -43,7 +45,7 @@ export function ModelCinematicAlternatives({ content, slug, family, quickLinks, 
     </div> : null}
     <div className="cinema-choice-directory">
       <Link href="/models" prefetch={false}>{l.allModels}<CinematicArrow /></Link>
-      <Link href="/ai-video-engines" prefetch={false}>{cinematicDiscoveryCopy[locale].allComparisons}<CinematicArrow /></Link>
+      {compareHidden ? null : <Link href="/ai-video-engines" prefetch={false}>{cinematicDiscoveryCopy[locale].allComparisons}<CinematicArrow /></Link>}
       {mcpLink ? <Link href={mcpLink.href} prefetch={false}>{mcpLink.label}<CinematicArrow /></Link> : null}
     </div>
   </nav>;

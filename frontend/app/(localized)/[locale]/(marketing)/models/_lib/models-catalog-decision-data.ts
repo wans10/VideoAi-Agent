@@ -17,7 +17,7 @@ import type { AppLocale } from '@/i18n/locales';
 import type { LocalizedLinkHref } from '@/i18n/navigation';
 import type { ModelGalleryCard } from '@/components/marketing/ModelsGallery';
 import type { ModelsGalleryCompareHref } from '@/components/marketing/models-gallery/models-gallery-types';
-import { buildCanonicalCompareSlug, getSuggestedOpponentSlugs, isPublishedComparisonSlug } from '@/lib/compare-hub/data';
+import { buildCanonicalCompareSlug, getSuggestedOpponentSlugs, isComparisonLinkable } from '@/lib/compare-hub/data';
 import { resolveExampleFamilyId } from '@/lib/model-families';
 import { getBenchmarkScoreReviewCopy } from '@/lib/benchmark-score-review';
 
@@ -121,10 +121,10 @@ export function buildDefaultModelCompareHref(modelSlug: string): ModelsGalleryCo
     return null;
   }
   const opponent = modelSlug === 'kling-v4'
-    ? getSuggestedOpponentSlugs(modelSlug, 2).find(slug => isPublishedComparisonSlug(buildCanonicalCompareSlug(modelSlug, slug)))
+    ? getSuggestedOpponentSlugs(modelSlug, 2).find(slug => isComparisonLinkable(buildCanonicalCompareSlug(modelSlug, slug)))
     : modelSlug === 'flux-3-max' ? 'flux-3' : modelSlug === 'seedance-2-0' ? 'kling-3-pro' : 'seedance-2-0';
   if (!opponent) return null;
-  if (!isPublishedComparisonSlug(buildCanonicalCompareSlug(modelSlug, opponent))) return null;
+  if (!isComparisonLinkable(buildCanonicalCompareSlug(modelSlug, opponent))) return null;
   return buildModelCompareHref(modelSlug, opponent);
 }
 
@@ -457,7 +457,7 @@ export function buildModelsCatalogDecisionData({
     ...buildModelsCatalogHeroData({ activeLocale, cards }),
     recommendedCards: pickCards(cards, RECOMMENDED_IDS),
     popularComparisons: comparisonCandidates.flatMap(([label, left, right, authoredSlug]) => (
-      byId.has(left) && byId.has(right) && isPublishedComparisonSlug(authoredSlug ?? buildCanonicalCompareSlug(left, right))
+      byId.has(left) && byId.has(right) && isComparisonLinkable(authoredSlug ?? buildCanonicalCompareSlug(left, right))
         ? [{ label, href: buildModelCompareHref(left, right) }]
         : []
     )),

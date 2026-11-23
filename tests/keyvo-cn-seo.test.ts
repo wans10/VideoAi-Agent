@@ -32,7 +32,8 @@ test('the legacy VideoAI name never reaches Keyvo titles, descriptions or share 
 
 test('zh model overlays are normalized when loaded', () => {
   const source = readFileSync('frontend/lib/models/i18n.ts', 'utf8');
-  assert.match(source, /locale === 'zh' \? normalizeLegacyBrandDeep\(merged\) : merged/);
+  assert.match(source, /if \(locale !== 'zh'\) return merged;/);
+  assert.match(source, /applyCapabilityTokens\(normalizeLegacyBrandDeep\(merged\), resolutions\)/);
 });
 
 test('home and pricing search snippets fit Baidu limits, name the brand and avoid unoffered models', () => {

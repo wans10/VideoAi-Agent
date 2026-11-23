@@ -1,5 +1,5 @@
 import type { ComparisonCard, HomeExampleCard } from '@/components/marketing/home/HomeRedesignSections';
-import { isPublishedComparisonSlug } from '@/lib/compare-hub/data';
+import { isComparisonLinkable } from '@/lib/compare-hub/data';
 import { resolveExampleCanonicalSlug } from '@/lib/examples-links';
 import { listExampleFamilyPage, type GalleryVideo } from '@/server/videos';
 import { ENGINE_BY_MODEL_SLUG } from './constants';
@@ -80,7 +80,7 @@ export async function buildComparisonCardsWithExampleMedia(
   content: RedesignContent,
   homepageExamples: HomeExampleCard[]
 ): Promise<ComparisonCard[]> {
-  const publishedCards = content.comparisons.cards.filter((card) => isPublishedComparisonSlug(card.slug));
+  const publishedCards = content.comparisons.cards.filter((card) => isComparisonLinkable(card.slug));
   const usedImageSrcs = new Set(
     homepageExamples
       .map((example) => example.imageSrc)
@@ -89,7 +89,7 @@ export async function buildComparisonCardsWithExampleMedia(
   const pools = await loadComparisonExamplePools(publishedCards, usedImageSrcs);
 
   return content.comparisons.cards
-    .filter((card) => isPublishedComparisonSlug(card.slug))
+    .filter((card) => isComparisonLinkable(card.slug))
     .map((card) => {
       const pair = splitComparisonSlug(card.slug);
       const media = pair?.flatMap((engineSlug) => {

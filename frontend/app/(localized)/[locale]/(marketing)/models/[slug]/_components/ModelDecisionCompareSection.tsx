@@ -4,7 +4,7 @@ import type { FalEngineEntry } from '@/config/falEngines';
 import type { AppLocale } from '@/i18n/locales';
 import { Link, type LocalizedLinkHref } from '@/i18n/navigation';
 import { EngineIcon } from '@/components/ui/EngineIcon';
-import { isPublishedComparisonSlug } from '@/lib/compare-hub/data';
+import { isComparisonLinkable } from '@/lib/compare-hub/data';
 import { UIIcon } from '@/components/ui/UIIcon';
 
 import {
@@ -183,7 +183,7 @@ export function ModelDecisionCompareSection({
                 const label = entry.title ?? '';
                 const compareSlug = [engineSlug, entry.modelSlug].sort().join('-vs-');
                 const canCompare = !COMPARE_EXCLUDED_SLUGS.has(engineSlug) &&
-                  !COMPARE_EXCLUDED_SLUGS.has(entry.modelSlug ?? '') && isPublishedComparisonSlug(compareSlug);
+                  !COMPARE_EXCLUDED_SLUGS.has(entry.modelSlug ?? '') && isComparisonLinkable(compareSlug);
                 const compareHref = entry.href && !entry.href.includes('-vs-')
                   ? entry.href
                   : canCompare
