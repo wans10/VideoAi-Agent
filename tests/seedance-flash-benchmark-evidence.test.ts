@@ -6,10 +6,13 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { NextIntlClientProvider } from 'next-intl';
 import { JSDOM } from 'jsdom';
 import evidence from '../data/benchmarks/seedance-2-5-flash-evidence.v1.json' with { type: 'json' };
+import agentGuidanceDocument from '../frontend/config/agent-model-guidance.json' with { type: 'json' };
 import scores from '../data/benchmarks/engine-scores.v1.json' with { type: 'json' };
 import { loadBenchmarkLabStaticData } from '../frontend/server/benchmark-lab-data';
 import { loadAppEngineScoreMap, loadAppEngineScoreReviewMap } from '../frontend/src/server/engine-scores';
-import { getAgentModelGuidance } from '../frontend/src/server/agent-api/model-guidance';
+import { getAgentModelGuidance, parseAgentModelGuidance } from '../frontend/src/server/agent-api/model-guidance';
+import { getModelRegistryEntries } from '../frontend/config/model-registry';
+import { listRuntimeModels } from '../frontend/config/model-runtime';
 import { buildBenchmarkPageData } from '../frontend/app/(localized)/[locale]/(marketing)/benchmarks/_lib/benchmark-page-data';
 import { getBenchmarkCopy } from '../frontend/app/(localized)/[locale]/(marketing)/benchmarks/_lib/benchmark-copy';
 import { BenchmarkScoreTable } from '../frontend/app/(localized)/[locale]/(marketing)/benchmarks/_components/BenchmarkScoreTable';
@@ -53,14 +56,23 @@ test('App, comparison hub and comparison detail preserve the same Flash estimate
   assert.equal(hub.scores.get(evidence.modelSlug), 8.0);
   assert.equal(hub.reviews[evidence.modelSlug], 'editorial-estimated');
   assert.equal(comparisons.get(evidence.modelSlug)?.review?.status, 'editorial-estimated');
-  assert.match(getAgentModelGuidance(evidence.modelSlug)!.considerations.join(' '), /provisional editorial estimates/);
-  const guidance = getAgentModelGuidance(evidence.modelSlug)!.considerations.join(' ');
+  // Keyvo withholds agent guidance while the model page is unpublished (Flash is offered but not page-published), so the
+  // guidance text is asserted from the authored document instead of the public lookup.
+  assert.equal(getAgentModelGuidance(evidence.modelSlug), null);
+  const knownEngineIds = new Set(getModelRegistryEntries().map(entry => entry.id));
+  const authored = parseAgentModelGuidance(agentGuidanceDocument, knownEngineIds).find(entry => entry.engineId === evidence.modelSlug)!;
+  assert.match(authored.considerations.join(' '), /provisional editorial estimates/);
+  const guidance = authored.considerations.join(' ');
   assert.match(guidance, /audio-only references and MP4\/MOV output are supported/);
   assert.doesNotMatch(guidance, /audio-only references are not supported/);
 });
 
 test('the public Flash table has all eleven qualified scores and only the necessary methodology link', async () => {
-  const data = buildBenchmarkPageData(await loadBenchmarkLabStaticData(), { status: 'unavailable', windowDays: 30, asOf: null, rows: [] });
+  // Keyvo's public table lists only models with a published model page; Flash is offered with its page unpublished, so
+  // the table contract is exercised with Flash's page treated as published.
+  const models = listRuntimeModels().map(model => model.slug === evidence.modelSlug
+    ? { ...model, publication: { ...model.publication, model: { ...model.publication.model, published: true, indexable: true } } } : model);
+  const data = buildBenchmarkPageData(await loadBenchmarkLabStaticData(), { status: 'unavailable', windowDays: 30, asOf: null, rows: [] }, models);
   const row = data.scores.find(row => row.modelSlug === evidence.modelSlug)!;
   assert.equal(row.overall, evidence.editorialReview.overall);
   assert.equal(row.review?.sourceUrl, null);

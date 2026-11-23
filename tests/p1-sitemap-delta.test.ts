@@ -28,11 +28,11 @@ test('P1 and subsequent candidates add four net model routes while Keyvo publish
   // Eleven upstream additions minus the seven model pages Keyvo took offline (Wan 2.5, Happy Horse 1.0,
   // Seedance 1.5 Pro, Seedream 5.0 Lite on 2026-11-11; Wan 2.6, Kling 2.5 Turbo, Kling 2.6 Pro on 2026-11-13),
   // which leave the published roster. It was seven net routes before 2026-11-13.
-  // The 2026-11-22 upstream merge adds two registry-only roster rows, Seedance 2.5 Flash and Seedream 5.5, which are
-  // not in keyvo-model-allowlist.json; they are excluded from this upstream-roster delta (4 -> 6 before exclusion).
-  const UNOFFERED_UPSTREAM_MODEL_PATHS = ['/models/seedance-2-5-flash', '/models/seedream-5-5'];
-  for (const path of UNOFFERED_UPSTREAM_MODEL_PATHS) assert.equal(isKeyvoHiddenModel(path.slice('/models/'.length)), true, path);
-  assert.equal(modelPaths.filter((path) => !UNOFFERED_UPSTREAM_MODEL_PATHS.includes(path)).length - fixture.publishedModelCount, 4);
+  // The 2026-11-22 owner decision offers Seedance 2.5 Flash and Seedream 5.5 in the app, but Keyvo keeps their model pages
+  // unpublished (no zh content), so they are not sitemap routes; they are excluded from this upstream-roster delta (4 -> 6 before exclusion).
+  const UNPUBLISHED_UPSTREAM_MODEL_PATHS = ['/models/seedance-2-5-flash', '/models/seedream-5-5'];
+  for (const path of UNPUBLISHED_UPSTREAM_MODEL_PATHS) assert.equal(dynamicPaths.has(path), false, path);
+  assert.equal(modelPaths.filter((path) => !UNPUBLISHED_UPSTREAM_MODEL_PATHS.includes(path)).length - fixture.publishedModelCount, 4);
   for (const slug of KEYVO_OFFLINE_MODEL_SLUGS) {
     assert.equal(dynamicPaths.has(`/models/${slug}`), false, slug);
   }

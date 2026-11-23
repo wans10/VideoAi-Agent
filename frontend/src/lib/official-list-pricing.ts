@@ -65,6 +65,8 @@ export const OFFICIAL_LIST_PRICED_ENGINE_IDS: ReadonlySet<string> = new Set([
   'seedance-2-0-fast',
   'seedance-2-0-mini',
   'seedance-2-5',
+  'seedance-2-5-flash',
+  'seedream-5-5',
   'seedream-5-0-pro',
   'seedream-5-0-flash',
 ]);

@@ -226,8 +226,8 @@ test('wave 1 sitemap omits every comparison URL while Keyvo hides comparison pag
     return englishPath.startsWith('/ai-video-engines/') && publishedSlugSet.has(slug);
   });
   // 269 before 2026-11-13; Wan 2.6, Kling 2.5 Turbo and Kling 2.6 Pro took 58 comparison slugs offline.
-  // 2026-11-22 upstream 3827da0 adds six Seedance 2.5 Flash comparison slugs (unfiltered audit): 217.
-  assert.equal(publishedSlugs.length, 217);
+  // 2026-11-22 upstream 3827da0 keeps the Seedance 2.5 Flash comparison unpublished (Keyvo page unpublished): 211.
+  assert.equal(publishedSlugs.length, 211);
   // Keyvo hides comparison pages (404), so route discovery keeps every comparison URL out of the sitemap.
   assert.equal(comparisonEntries.length, 0, 'comparison pages must not be listed in the Keyvo sitemap');
   assert.equal(

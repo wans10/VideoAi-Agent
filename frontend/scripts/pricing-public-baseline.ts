@@ -248,8 +248,8 @@ async function main(): Promise<void> {
   };
   const seedance4kPrevious = { id: 'pricing-hub-video:seedance-2-5:4k-route', surface: 'pricing-hub-video', engineId: 'seedance-2-5', status: 'unavailable' };
   if (!isDeepStrictEqual(keyvo4kChange.rows, [{ previous: seedance4kPrevious, current: {
-    ...seedance4kPrevious, status: 'exact', currency: 'USD', customerTotalCents: 1361,
-    unit: 'scenario', quantity: 1, displayedAmount: '$13.61', compatibilityProfile: 'standard',
+    ...seedance4kPrevious, status: 'exact', currency: 'USD', customerTotalCents: 603,
+    unit: 'scenario', quantity: 1, displayedAmount: '$6.03', compatibilityProfile: 'standard',
   } }])) throw new Error('Invalid Keyvo Seedance 2.5 4K public pricing change.');
   let appliedKeyvo4kChange = false;
   // Keyvo Seedream 5.0 Flash is per-image (2026-11-22): its estimator unit changes from sec to image, amounts unchanged.
@@ -328,7 +328,8 @@ async function main(): Promise<void> {
   }
   // Approved archive sunsets: remove purchasable surfaces and invalidate Product offers.
   // Keep the pre-archive fixtures intact as historical pricing evidence.
-  const expectedWithLaunch = [...expected, ...launchAdditions.rows, ...fluxMaxLaunch.rows, ...nano21Launch.rows, ...seedreamLaunch.rows.filter(row => row.engineId !== 'seedream-5-0-flash'), ...seedanceFlash.rows, ...novemberImageAdmission.rows, ...novemberMarketing.rows, ...klingPublicDiscovery.rows, ...klingPricingDiscovery.rows, ...keyvoQwenLaunch.rows].map((row) => {
+  const expectedWithLaunch = [...expected, ...launchAdditions.rows, ...fluxMaxLaunch.rows, ...nano21Launch.rows, ...seedreamLaunch.rows.filter(row => row.engineId !== 'seedream-5-0-flash'), ...seedanceFlash.rows.filter(row => !['json-ld', 'model-page'].includes(row.surface)), // Keyvo: the flash model page is unpublished (no zh content), so it has no page or Offer rows
+    ...novemberImageAdmission.rows, ...novemberMarketing.rows, ...klingPublicDiscovery.rows, ...klingPricingDiscovery.rows, ...keyvoQwenLaunch.rows].map((row) => {
     const repair = customerOfferRepairs.get(row.id);
     if (!repair) return row;
     if (row.surface !== 'json-ld' || row.status !== 'exact' || row.customerTotalCents !== repair.previousCents) {

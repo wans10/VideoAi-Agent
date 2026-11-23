@@ -144,10 +144,10 @@ test('Seedance 2 registry centralizes provisional Fal IDs and keeps both launch 
   assert.equal(fast.surfaces.modelPage.indexable, true);
   // Seedance 1.5 Pro and Wan 2.5 are retired on Keyvo, so their pairs left both lists. Keyvo 2026-11-13: Wan 2.6, Kling 2.5
   // Turbo and Kling 2.6 Pro went offline too (21 -> 18, 20 -> 17).
-  // Upstream 2026-11-22 adds the Seedance 2.5 Flash pair to Seedance 2.0 Fast (17 -> 18); this registry contract is
-  // unfiltered, so the pair counts though Keyvo's allowlist does not offer Flash.
+  // Upstream 2026-11-22 would add the Seedance 2.5 Flash pair to Seedance 2.0 Fast (17 -> 18), but Keyvo keeps the Flash
+  // comparisons unpublished (fbc1c8220), so Fast stays at 17 while Seedance 2.0 keeps its 18 pairs.
   assert.equal(seedance.surfaces.compare.publishedPairs.length, 18);
-  assert.equal(fast.surfaces.compare.publishedPairs.length, 18);
+  assert.equal(fast.surfaces.compare.publishedPairs.length, 17);
   for (const retired of ['wan-2-5', 'wan-2-6', 'kling-2-5-turbo', 'kling-2-6-pro']) {
     assert.equal(seedance.surfaces.compare.publishedPairs.includes(retired), false, retired);
     assert.equal(fast.surfaces.compare.publishedPairs.includes(retired), false, retired);

@@ -115,6 +115,6 @@ function buildSeedreamLatestEntry(definition: SeedreamLatestDefinition): RawFalE
 
 export const SEEDREAM_LATEST_FAL_ENGINE_REGISTRY: RawFalEngineEntry[] = [
   buildSeedreamLatestEntry({ id: 'seedream-5-5', label: 'Seedream 5.5', version: '5.5',
-    providerModel: 'dola-seedream-5-5-261028', supplierOutputUsd: 0.035, launchOutputCents: 6,
+    providerModel: 'doubao-seedream-5-5-261028', supplierOutputUsd: 0.035, launchOutputCents: 6,
     description: 'Create and edit images with ByteDance Seedream 5.5 in Keyvo: up to ten references, 1K to 2K output and native transparent PNG assets.' }),
 ];

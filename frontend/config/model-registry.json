@@ -1467,14 +1467,12 @@
           "suggestedOpponentIds": [
             "seedance-2-5",
             "kling-o3-pro",
-            "veo-3-1",
-            "seedance-2-5-flash"
+            "veo-3-1"
           ],
           "publishedPairIds": [
             "seedance-2-5",
             "kling-o3-pro",
-            "veo-3-1",
-            "seedance-2-5-flash"
+            "veo-3-1"
           ]
         },
         "app": {
@@ -2088,8 +2086,7 @@
           "suggestedOpponentIds": [
             "veo-3-1-fast",
             "ltx-2-3-fast",
-            "sora-2",
-            "seedance-2-5-flash"
+            "sora-2"
           ],
           "publishedPairIds": [
             "kling-3-4k",
@@ -2108,8 +2105,7 @@
             "sora-2-pro",
             "veo-3-1",
             "veo-3-1-fast",
-            "veo-3-1-lite",
-            "seedance-2-5-flash"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -2253,8 +2249,7 @@
             "seedance-2-0",
             "kling-3-pro",
             "veo-3-1",
-            "kling-v4",
-            "seedance-2-5-flash"
+            "kling-v4"
           ],
           "publishedPairIds": [
             "seedance-2-0",
@@ -2263,8 +2258,7 @@
             "minimax-h3-max",
             "veo-3-1",
             "wan-3",
-            "kling-v4",
-            "seedance-2-5-flash"
+            "kling-v4"
           ]
         },
         "app": {
@@ -2297,8 +2291,8 @@
       },
       "publication": {
         "model": {
-          "published": true,
-          "indexable": true
+          "published": false,
+          "indexable": false
         },
         "examples": {
           "published": false,
@@ -2315,15 +2309,13 @@
           "published": true,
           "discoveryRank": 6,
           "variantGroup": "seedream",
-          "variantLabel": "5.5",
-          "launchBadge": "new"
+          "variantLabel": "5.5"
         },
         "pricing": {
-          "published": true,
-          "featuredScenario": "precise image editing and transparent assets"
+          "published": true
         },
         "sitemap": {
-          "published": true
+          "published": false
         }
       },
       "replacement": null,
@@ -2700,8 +2692,7 @@
           "suggestedOpponentIds": [
             "ltx-2-fast",
             "ltx-2-3-fast",
-            "veo-3-1",
-            "seedance-2-5-flash"
+            "veo-3-1"
           ],
           "publishedPairIds": [
             "kling-3-4k",
@@ -2719,8 +2710,7 @@
             "sora-2",
             "sora-2-pro",
             "veo-3-1",
-            "veo-3-1-lite",
-            "seedance-2-5-flash"
+            "veo-3-1-lite"
           ]
         },
         "app": {
@@ -3015,13 +3005,11 @@
           "indexed": true,
           "suggestedOpponentIds": [
             "ltx-2-5-pro",
-            "ltx-2-3-fast",
-            "seedance-2-5-flash"
+            "ltx-2-3-fast"
           ],
           "publishedPairIds": [
             "ltx-2-3-fast",
-            "ltx-2-5-pro",
-            "seedance-2-5-flash"
+            "ltx-2-5-pro"
           ]
         },
         "app": {
@@ -3413,12 +3401,10 @@
           "published": true,
           "indexed": true,
           "suggestedOpponentIds": [
-            "kling-v4",
-            "seedance-2-5-flash"
+            "kling-v4"
           ],
           "publishedPairIds": [
-            "kling-v4",
-            "seedance-2-5-flash"
+            "kling-v4"
           ]
         },
         "app": {
@@ -3528,48 +3514,31 @@
       },
       "publication": {
         "model": {
-          "published": true,
-          "indexable": true
+          "published": false,
+          "indexable": false
         },
         "examples": {
-          "published": true,
-          "includeInFamilyCopy": true,
-          "current": true,
-          "familyRank": 1
+          "published": false,
+          "includeInFamilyCopy": false,
+          "current": false
         },
         "compare": {
-          "published": true,
-          "indexed": true,
-          "suggestedOpponentIds": [
-            "seedance-2-5",
-            "seedance-2-0-fast",
-            "kling-v4-flash",
-            "veo-3-1-fast",
-            "ltx-2-5-fast",
-            "minimax-h3"
-          ],
-          "publishedPairIds": [
-            "seedance-2-5",
-            "seedance-2-0-fast",
-            "kling-v4-flash",
-            "veo-3-1-fast",
-            "ltx-2-5-fast",
-            "minimax-h3"
-          ]
+          "published": false,
+          "indexed": false,
+          "suggestedOpponentIds": [],
+          "publishedPairIds": []
         },
         "app": {
           "published": true,
           "variantGroup": "seedance-2-0",
           "variantLabel": "2.5 Flash",
-          "discoveryRank": -2.5,
-          "launchBadge": "new"
+          "discoveryRank": -2.5
         },
         "pricing": {
-          "published": true,
-          "featuredScenario": "seedance-2-family"
+          "published": true
         },
         "sitemap": {
-          "published": true
+          "published": false
         }
       },
       "replacement": null,

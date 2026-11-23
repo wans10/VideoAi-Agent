@@ -3,8 +3,8 @@ import { resolveSeedreamProviderSize, seedreamPricingInputCount, SEEDREAM_ASPECT
 
 /** Public direct ModelArk LIST, separate from account discounts and customer tariffs. */
 export const SEEDREAM_NOVEMBER_LIST_SOURCE = {
-  url: 'https://ai.byteplus.com/ark/region:ap-southeast-1/docs/model-pricing',
-  checkedAt: '2026-11-13',
+  url: 'https://ark.volcengine.com/region:cn-beijing/docs/model-pricing.md',
+  checkedAt: '2026-11-22',
   currency: 'USD',
 } as const;
 
@@ -29,9 +29,12 @@ export function quoteNewSeedreamListCost(input: {
   if (!Number.isSafeInteger(input.inputImages) || input.inputImages < 0 || input.inputImages > 10
     || input.outputPixels.length > 1 || input.outputPixels.some(pixels => !Number.isSafeInteger(pixels)
       || pixels < 921_600 || pixels > 4_624_220)) throw new Error('Invalid Seedream single-image usage.');
+  // Keyvo: Volcengine Ark cn-beijing list in CNY (https://ark.volcengine.com/region:cn-beijing/docs/model-pricing.md,
+  // checked 2026-11-22): Seedream 5.5 output CNY 0.13 up to 2.61 MP and CNY 0.23 up to 4.63 MP, every input image
+  // CNY 0.05; accounting rate 8 CNY/USD like every Keyvo engine. Keyvo sells at 80% (official-list-pricing.ts).
   const outputUsd = input.outputPixels.reduce((sum, pixels) => sum + (input.model === 'flash'
-    ? 0.018 : pixels <= 2_601_123.84 ? 0.020 : 0.035), 0);
-  const inputUsd = input.model === '5.5' && input.outputPixels.length ? input.inputImages * 0.008 : 0;
+    ? 0.12 / 8 : pixels <= 2_610_000 ? 0.13 / 8 : 0.23 / 8), 0);
+  const inputUsd = input.model === '5.5' && input.outputPixels.length ? input.inputImages * 0.05 / 8 : 0;
   return { outputUsd: Number(outputUsd.toFixed(6)), inputUsd: Number(inputUsd.toFixed(6)),
     totalUsd: Number((outputUsd + inputUsd).toFixed(6)), effectiveUsd: null,
     status: 'published_list' as const, source: SEEDREAM_NOVEMBER_LIST_SOURCE };

@@ -28,7 +28,8 @@ const OWNER_OFFERED_ENGINE_IDS = [
   'wan-3', 'wan-3-prime', 'happy-horse-1-1',
   'minimax-h3', 'minimax-h3-max',
   'qwen-image-3-0', 'qwen-image-3-0-pro',
-  'seedance-2-5', 'seedream-5-0-pro', 'seedream-5-0-flash',
+  // Owner 2026-11-22: Seedance 2.5 flash (480p/720p) and Seedream 5.5 are public.
+  'seedance-2-5', 'seedance-2-5-flash', 'seedream-5-5', 'seedream-5-0-pro', 'seedream-5-0-flash',
   'nano-banana-2-1', 'nano-banana-2', 'nano-banana-lite', 'gemini-omni-flash',
   'gpt-image-2-6-sunburst', 'gpt-image-2-6-flare', 'gpt-image-2-5-sunburst', 'gpt-image-2-5-flare',
   // Owner 2026-11-14: Kling 3 4K tiers are public (decision F); Veo 3.1 family is admin-tier (decision C).

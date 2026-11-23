@@ -22,14 +22,16 @@ function context(id: 'seedream-5-5' | 'seedream-5-0-flash', extra: Partial<Prici
     mode: 't2i', durationSec: 1, resolution: '2K', aspectRatio: '1:1', ...extra };
 }
 
+// Keyvo quotes the Volcengine CNY list (seedream-pricing.ts): output CNY 0.13 up to 2.61 MP and CNY 0.23 above it,
+// every input image CNY 0.05, at 8 CNY/USD.
 test('Seedream 5.5 LIST charges every input and uses its exact published pixel boundary', () => {
-  for (const [pixels, outputUsd] of [[2_601_123, 0.02], [2_601_124, 0.035], [4_194_304, 0.035]] as const) {
+  for (const [pixels, outputUsd] of [[2_610_000, 0.01625], [2_610_001, 0.02875], [4_194_304, 0.02875]] as const) {
     const quote = quoteSeedreamListCost({ model: '5.5', outputPixels: [pixels], inputImages: 3 });
     assert.equal(quote.outputUsd, outputUsd);
-    assert.equal(quote.inputUsd, 0.024);
-    assert.equal(quote.totalUsd, Number((outputUsd + 0.024).toFixed(6)));
+    assert.equal(quote.inputUsd, 0.01875);
+    assert.equal(quote.totalUsd, Number((outputUsd + 0.01875).toFixed(6)));
     assert.equal(quote.effectiveUsd, null);
-    assert.equal(quote.source.checkedAt, '2026-11-13');
+    assert.equal(quote.source.checkedAt, '2026-11-22');
   }
   assert.equal(quoteSeedreamListCost({ model: '5.5', outputPixels: [], inputImages: 3 }).totalUsd, 0);
 });
@@ -48,11 +50,12 @@ test('new Seedream supplier facts and public facts include all 5.5 sources witho
   const selected = context('seedream-5-5', { mode: 'i2i', resolution: '1.5K', inputImageCount: 1, referenceImageCount: 9 });
   const billing = buildBillingPricingFacts(selected, selected.engine.pricingDetails, 'USD');
   const publicFacts = buildPublicPricingFacts(selected);
-  assert.equal(billing.facts.vendorSubtotalExactCents, 10);
-  assert.equal(publicFacts.facts.vendorSubtotalExactCents, 10);
+  // 1.5K 1:1 output (0.13 CNY list) plus ten input images at 0.05 CNY each, converted at 8 CNY/USD.
+  assert.equal(billing.facts.vendorSubtotalExactCents, 7.875);
+  assert.equal(publicFacts.facts.vendorSubtotalExactCents, 7.875);
   const cost = normalBytePlusSupplierCost(selected, at);
-  assert.equal(cost?.listAmountUsd, 0.1);
-  assert.equal(cost?.amountUsd, 0.1);
+  assert.equal(cost?.listAmountUsd, 0.07875);
+  assert.equal(cost?.amountUsd, 0.07875);
   assert.equal(cost?.kind, 'published_list_estimate');
   assert.equal(cost?.usage.inputImages, 10);
   assert.equal(cost?.contract, undefined);
@@ -82,20 +85,21 @@ test('new Seedream scenarios reject unsupported batch, resolution, mode and sour
   }
 });
 
-test('new Seedream models fail closed without an active reviewed customer tariff', async t => {
+test('new Seedream models price on the official list without a USD tariff, and an unavailable tariff store still fails closed', async t => {
   t.mock.timers.enable({ apis: ['Date'], now: Date.parse(at) });
-  // Keyvo prices Seedream 5.0 Flash on the official list (official-list-pricing.ts), so only the 5.5 engine needs a reviewed tariff.
+  // Keyvo prices Seedream 5.0 Flash and 5.5 on the Volcengine CNY list (official-list-pricing.ts), so no reviewed USD
+  // tariff is required: an inactive or empty tariff state falls through to the official-list rule.
   for (const id of ['seedream-5-5'] as const) {
-    await assert.rejects(computeCanonicalBillingSnapshot(context(id), {
-      pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [] }) },
-      loadCustomerTariffState: async () => ({ status: 'loaded', active: false, revision: 0,
-        versionedCells: [], databaseCells: [] }),
-    }), /reviewed.*Seedream|Seedream.*tariff/i);
-    await assert.rejects(computeCanonicalBillingSnapshot(context(id), {
-      pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [] }) },
-      loadCustomerTariffState: async () => ({ status: 'loaded', active: true, revision: 1,
-        versionedCells: [], databaseCells: [] }),
-    }), /tariff|missing/i);
+    for (const state of [
+      { status: 'loaded' as const, active: false, revision: 0, versionedCells: [], databaseCells: [] },
+    ]) {
+      const snapshot = await computeCanonicalBillingSnapshot(context(id), {
+        pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [] }) },
+        loadCustomerTariffState: async () => state,
+      });
+      assert.ok(snapshot.totalCents > 0);
+      assert.notEqual(snapshot.meta?.pricingMode, 'manual_tariff');
+    }
     await assert.rejects(computeCanonicalBillingSnapshot(context(id), {
       pricingPolicy: { loadOverrides: async () => ({ status: 'loaded', rules: [] }) },
       loadCustomerTariffState: async () => ({ status: 'unavailable' }),

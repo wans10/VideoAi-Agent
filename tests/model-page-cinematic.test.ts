@@ -21,6 +21,7 @@ import { parseModelCinematicContent } from '../frontend/app/(localized)/[locale]
 import { parseModelExamplesContent } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-examples-content';
 import { buildCinematicPresentation } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-cinematic-data';
 import { listModelEditorialImages } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-editorial-images';
+import { getRuntimeModelById } from '../frontend/config/model-runtime';
 import { buildModelDecisionData } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_lib/model-page-decision-data';
 import { ModelCinematicHero } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/ModelCinematicHero';
 import { ModelCinematicPrompt } from '../frontend/app/(localized)/[locale]/(marketing)/models/[slug]/_components/ModelCinematicAsset';
@@ -42,6 +43,13 @@ const sharp = requireFrontend('sharp');
 (globalThis as typeof globalThis & { React: typeof React }).React = React;
 const locales = ['en', 'fr', 'es'] as const;
 const read = (slug: string, locale = 'en') => JSON.parse(readFileSync(`content/models/${locale}/${slug}.json`, 'utf8'));
+// Keyvo keeps the Seedream 5.5 model page unpublished (owner offer 2026-11-22, no zh content). Its editorial images and
+// cinematic hero follow that publication, so the page-presentation assertions run only once the page is published.
+const SEEDREAM_55_PAGE_PUBLISHED = Boolean(getRuntimeModelById('seedream-5-5')?.publication.model.published);
+function assertSeedream55Withheld(locale: 'en' | 'fr' | 'es') {
+  const examples = parseModelExamplesContent(read('seedream-5-5', locale).examples, 'seedream-5-5', locale);
+  assert.deepEqual(listModelEditorialImages('seedream-5-5', locale, examples.editorialImages), []);
+}
 const filePath = (url: string) => path.join('frontend/public', url);
 
 test('a video gallery entry survives without Flash renders and keeps concept frames out of video evidence', () => {
@@ -141,6 +149,7 @@ test('reviewed Create media preserves exact originals and uses separate immutabl
 test('portrait inspection defers the original and Milo opens the correct model without auto submission', () => {
   for (const locale of locales) for (const slug of ['seedream-5-5', 'seedance-2-5-flash']) {
     const content = read(slug, locale);
+    if (slug === 'seedream-5-5' && !SEEDREAM_55_PAGE_PUBLISHED) { assertSeedream55Withheld(locale); continue; }
     const examples = parseModelExamplesContent(content.examples, slug, locale);
     const images = slug === 'seedream-5-5' ? listModelEditorialImages(slug, locale, examples.editorialImages) : [];
     const presentation = buildCinematicPresentation(parseModelCinematicContent(content.cinematic, slug), examples, images, locale)!;
@@ -196,6 +205,7 @@ test('cinematic content is opt-in and never falls back to another locale', () =>
     const local = read('seedream-5-5', locale);
     const content = parseModelCinematicContent(local.cinematic, 'seedream-5-5')!;
     const examples = parseModelExamplesContent(local.examples, 'seedream-5-5', locale);
+    if (!SEEDREAM_55_PAGE_PUBLISHED) { assertSeedream55Withheld(locale); continue; }
     const images = listModelEditorialImages('seedream-5-5', locale, examples.editorialImages);
     const presentation = buildCinematicPresentation(content, examples, images, locale)!;
     assert.equal(presentation.hero.id, '55-above-the-clouds');
@@ -230,6 +240,7 @@ test('the image introduction and proof links belong to a single enriched hero', 
     const local = read('seedream-5-5', locale);
     const content = parseModelCinematicContent(local.cinematic, 'seedream-5-5')!;
     const examples = parseModelExamplesContent(local.examples, 'seedream-5-5', locale);
+    if (!SEEDREAM_55_PAGE_PUBLISHED) { assertSeedream55Withheld(locale); continue; }
     const images = listModelEditorialImages('seedream-5-5', locale, examples.editorialImages);
     const presentation = buildCinematicPresentation(content, examples, images, locale)!;
     const decision = buildModelDecisionData({engine:getFalEngineById('seedream-5-5')!,locale,decisionContent:local.decision})!;
@@ -361,6 +372,7 @@ test('cinematic hero remains server-readable with one priority display and canon
   for (const locale of locales) {
     const content = read('seedream-5-5', locale);
     const examples = parseModelExamplesContent(content.examples, 'seedream-5-5', locale);
+    if (!SEEDREAM_55_PAGE_PUBLISHED) { assertSeedream55Withheld(locale); continue; }
     const images = listModelEditorialImages('seedream-5-5', locale, examples.editorialImages);
     const presentation = buildCinematicPresentation(parseModelCinematicContent(content.cinematic, 'seedream-5-5'), examples, images, locale)!;
     const decision = buildModelDecisionData({engine:getFalEngineById('seedream-5-5')!,locale,decisionContent:content.decision})!;

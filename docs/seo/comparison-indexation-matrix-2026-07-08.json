@@ -38,20 +38,20 @@
     "safety": "Recommendation only; no sitemap, robots, canonical, or noindex change is applied."
   },
   "summary": {
-    "publishedSlugs": 217,
-    "totalUrls": 651,
+    "publishedSlugs": 211,
+    "totalUrls": 633,
     "withGscRows": 423,
-    "withoutGscRows": 228,
+    "withoutGscRows": 210,
     "withClicks": 93,
     "gscRowsOutsidePublishedSet": 237,
     "gscRowsOutsidePublishedSetWithClicks": 53,
     "byLocale": {
-      "en": 217,
-      "fr": 217,
-      "es": 217
+      "en": 211,
+      "fr": 211,
+      "es": 211
     },
     "byClassification": {
-      "keep": 282,
+      "keep": 264,
       "enrich": 17,
       "review": 225,
       "noindex_candidate": 127
@@ -1899,30 +1899,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/kling-v4-flash-vs-seedance-2-5-flash",
-      "locale": "en",
-      "slug": "kling-v4-flash-vs-seedance-2-5-flash",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "opponent_override",
-        "popular",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override",
-        "english_strategic_surface"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/kling-v4-vs-kling-v4-flash",
       "locale": "en",
       "slug": "kling-v4-vs-kling-v4-flash",
@@ -2551,30 +2527,6 @@
         "popular",
         "related_graph",
         "scoreboard"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override",
-        "english_strategic_surface"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/ltx-2-5-fast-vs-seedance-2-5-flash",
-      "locale": "en",
-      "slug": "ltx-2-5-fast-vs-seedance-2-5-flash",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "best_for_related",
-        "opponent_override",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
       ],
       "classification": "keep",
       "rationale": [
@@ -3608,30 +3560,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/minimax-h3-vs-seedance-2-5-flash",
-      "locale": "en",
-      "slug": "minimax-h3-vs-seedance-2-5-flash",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "best_for_related",
-        "opponent_override",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override",
-        "english_strategic_surface"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/minimax-h3-vs-veo-3-1",
       "locale": "en",
       "slug": "minimax-h3-vs-veo-3-1",
@@ -3956,30 +3884,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/ai-video-engines/seedance-2-0-fast-vs-seedance-2-5-flash",
-      "locale": "en",
-      "slug": "seedance-2-0-fast-vs-seedance-2-5-flash",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "best_for_related",
-        "opponent_override",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override",
-        "english_strategic_surface"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/ai-video-engines/seedance-2-0-fast-vs-sora-2",
       "locale": "en",
       "slug": "seedance-2-0-fast-vs-sora-2",
@@ -4236,55 +4140,6 @@
       "classification": "keep",
       "rationale": [
         "gsc_clicks"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/seedance-2-5-flash-vs-veo-3-1-fast",
-      "locale": "en",
-      "slug": "seedance-2-5-flash-vs-veo-3-1-fast",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "opponent_override",
-        "popular",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override",
-        "english_strategic_surface"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/ai-video-engines/seedance-2-5-vs-seedance-2-5-flash",
-      "locale": "en",
-      "slug": "seedance-2-5-vs-seedance-2-5-flash",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "best_for_related",
-        "opponent_override",
-        "popular",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override",
-        "english_strategic_surface"
       ]
     },
     {
@@ -6336,29 +6191,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/kling-v4-flash-vs-seedance-2-5-flash",
-      "locale": "fr",
-      "slug": "kling-v4-flash-vs-seedance-2-5-flash",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "opponent_override",
-        "popular",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/kling-v4-vs-kling-v4-flash",
       "locale": "fr",
       "slug": "kling-v4-vs-kling-v4-flash",
@@ -6954,29 +6786,6 @@
         "popular",
         "related_graph",
         "scoreboard"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/ltx-2-5-fast-vs-seedance-2-5-flash",
-      "locale": "fr",
-      "slug": "ltx-2-5-fast-vs-seedance-2-5-flash",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "best_for_related",
-        "opponent_override",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
       ],
       "classification": "keep",
       "rationale": [
@@ -7947,29 +7756,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/minimax-h3-vs-seedance-2-5-flash",
-      "locale": "fr",
-      "slug": "minimax-h3-vs-seedance-2-5-flash",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "best_for_related",
-        "opponent_override",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/minimax-h3-vs-veo-3-1",
       "locale": "fr",
       "slug": "minimax-h3-vs-veo-3-1",
@@ -8269,29 +8055,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/fr/comparatif/seedance-2-0-fast-vs-seedance-2-5-flash",
-      "locale": "fr",
-      "slug": "seedance-2-0-fast-vs-seedance-2-5-flash",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "best_for_related",
-        "opponent_override",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/fr/comparatif/seedance-2-0-fast-vs-sora-2",
       "locale": "fr",
       "slug": "seedance-2-0-fast-vs-sora-2",
@@ -8534,53 +8297,6 @@
       "classification": "review",
       "rationale": [
         "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/seedance-2-5-flash-vs-veo-3-1-fast",
-      "locale": "fr",
-      "slug": "seedance-2-5-flash-vs-veo-3-1-fast",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "opponent_override",
-        "popular",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/fr/comparatif/seedance-2-5-vs-seedance-2-5-flash",
-      "locale": "fr",
-      "slug": "seedance-2-5-vs-seedance-2-5-flash",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "best_for_related",
-        "opponent_override",
-        "popular",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
       ]
     },
     {
@@ -10662,29 +10378,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/kling-v4-flash-vs-seedance-2-5-flash",
-      "locale": "es",
-      "slug": "kling-v4-flash-vs-seedance-2-5-flash",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "opponent_override",
-        "popular",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/kling-v4-vs-kling-v4-flash",
       "locale": "es",
       "slug": "kling-v4-vs-kling-v4-flash",
@@ -11300,29 +10993,6 @@
         "popular",
         "related_graph",
         "scoreboard"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/ltx-2-5-fast-vs-seedance-2-5-flash",
-      "locale": "es",
-      "slug": "ltx-2-5-fast-vs-seedance-2-5-flash",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "best_for_related",
-        "opponent_override",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
       ],
       "classification": "keep",
       "rationale": [
@@ -12317,29 +11987,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/minimax-h3-vs-seedance-2-5-flash",
-      "locale": "es",
-      "slug": "minimax-h3-vs-seedance-2-5-flash",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "best_for_related",
-        "opponent_override",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/minimax-h3-vs-veo-3-1",
       "locale": "es",
       "slug": "minimax-h3-vs-veo-3-1",
@@ -12657,29 +12304,6 @@
       ]
     },
     {
-      "url": "https://maxvideoai.com/es/comparativa/seedance-2-0-fast-vs-seedance-2-5-flash",
-      "locale": "es",
-      "slug": "seedance-2-0-fast-vs-seedance-2-5-flash",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "best_for_related",
-        "opponent_override",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
       "url": "https://maxvideoai.com/es/comparativa/seedance-2-0-fast-vs-sora-2",
       "locale": "es",
       "slug": "seedance-2-0-fast-vs-sora-2",
@@ -12932,53 +12556,6 @@
       "classification": "review",
       "rationale": [
         "gsc_top_10_review"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/seedance-2-5-flash-vs-veo-3-1-fast",
-      "locale": "es",
-      "slug": "seedance-2-5-flash-vs-veo-3-1-fast",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "opponent_override",
-        "popular",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
-      ]
-    },
-    {
-      "url": "https://maxvideoai.com/es/comparativa/seedance-2-5-vs-seedance-2-5-flash",
-      "locale": "es",
-      "slug": "seedance-2-5-vs-seedance-2-5-flash",
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "position": 0,
-      "hasGscRow": false,
-      "gscSourceUrls": [],
-      "hasLocalizedOverride": true,
-      "strategicSignals": [
-        "best_for_related",
-        "opponent_override",
-        "popular",
-        "related_graph",
-        "scoreboard",
-        "use_case_bucket"
-      ],
-      "classification": "keep",
-      "rationale": [
-        "localized_editorial_override"
       ]
     },
     {

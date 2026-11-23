@@ -39,7 +39,7 @@ const BYTEPLUS_PROVIDER_MODE = BYTEPLUS_SEEDREAM_PROVIDER;
 export function resolveSeedreamModelId(engine: EngineCaps): string {
   const configuredModel = engine.providerMeta?.modelSlug?.trim() || undefined;
   if (engine.id === 'seedream-5-5') {
-    return ENV.BYTEPLUS_ARK_SEEDREAM_5_5_MODEL_ID ?? configuredModel ?? 'dola-seedream-5-5-261028';
+    return ENV.BYTEPLUS_ARK_SEEDREAM_5_5_MODEL_ID ?? configuredModel ?? 'doubao-seedream-5-5-261028';
   }
   if (engine.id === SEEDREAM_FLASH_ENGINE_ID || configuredModel?.includes('seedream-5-0-flash')) {
     return ENV.BYTEPLUS_ARK_SEEDREAM_FLASH_MODEL_ID ?? configuredModel ?? BYTEPLUS_SEEDREAM_FLASH_DEFAULT_MODEL_ID;

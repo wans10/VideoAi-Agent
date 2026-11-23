@@ -42,14 +42,14 @@ test('historical financial replay restores archived Pika only within the fixture
   assert.equal(scenarios().length, 0, 'Normal maintenance and current selection must still omit archived Pika.');
 });
 
-test('historical tariff rehearsal keeps the 39 Seedream offers outside the pre-launch catalogue, except Keyvo-published Seedream 5.0 Flash', async () => {
+test('historical tariff rehearsal keeps every Keyvo-offered Seedream engine (5.0 Flash and 5.5) in the replay', async () => {
   const models = ['seedream-5-5', 'seedream-5-0-flash'].map(id => getRuntimeModelById(id)!);
   const before = models.map(model => model.publication.app.published);
   const cells = structuredClone(tariffDocument.cells.filter(cell => models.some(model => model.id === cell.selector.engineId)));
   assert.equal(cells.length, 39);
   await withHistoricalCustomerTariffCatalogue(async () => {
-    // Seedream 5.5 is an unoffered upstream launch; Seedream 5.0 Flash is Keyvo's pre-merge published engine and stays in the replay.
-    assert.deepEqual(models.map(model => model.publication.app.published), [false, before[1]]);
+    // Seedream 5.5 is now offered (owner decision 2026-11-22) and official-list priced, like Seedream 5.0 Flash: both stay in the replay.
+    assert.deepEqual(models.map(model => model.publication.app.published), before);
   });
   assert.deepEqual(models.map(model => model.publication.app.published), before);
   assert.deepEqual(tariffDocument.cells.filter(cell => models.some(model => model.id === cell.selector.engineId)), cells);

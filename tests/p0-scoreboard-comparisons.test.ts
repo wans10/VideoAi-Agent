@@ -162,7 +162,7 @@ test('published P0 models expose only approved comparison edges, including the t
     if (expected.has(leftId)) expected.get(leftId)?.add(rightId);
     if (expected.has(rightId)) expected.get(rightId)?.add(leftId);
   }
-  expected.get('ltx-2-5-fast')?.add('seedance-2-5-flash');
+  // Keyvo keeps the Seedance 2.5 Flash comparisons unpublished, so no LTX-2.5 Fast edge to Flash is declared.
   expected.get('wan-3')?.add('seedance-2-5');
   expected.get('wan-3-prime')?.add('kling-v4');
   expected.get('flux-3')?.add('flux-3-max');

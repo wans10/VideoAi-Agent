@@ -10,7 +10,8 @@ import * as seedream from '../frontend/lib/image/seedream.ts';
 // Keyvo sells Seedream 5.0 Flash as its own Volcengine engine (tests/seedream-flash-volcengine.test.ts), not as the
 // upstream BytePlus "latest" tier, so only Seedream 5.5 runs the latest contract here.
 const MODELS = [
-  { id: 'seedream-5-5', modelId: 'dola-seedream-5-5-261028', format: 'png' },
+  // Keyvo runs Seedream 5.5 on the Volcengine mainland Ark id (byteplus-seedream-constants.ts), not BytePlus international.
+  { id: 'seedream-5-5', modelId: 'doubao-seedream-5-5-261028', format: 'png' },
 ] as const;
 
 
