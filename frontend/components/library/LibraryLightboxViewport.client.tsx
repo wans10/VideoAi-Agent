@@ -50,7 +50,9 @@ export default function LibraryLightboxViewport({
       render={{ buttonPrev: hidden, buttonNext: hidden, iconLoading: hidden }}
       styles={{ container: { background: 'transparent' } }}
       labels={
-        locale.startsWith('fr')
+        locale.startsWith('zh')
+          ? { 'Zoom in': '放大', 'Zoom out': '缩小', 'Photo gallery': '图片库', Carousel: '轮播', '{index} of {total}': '第 {index} 项，共 {total} 项' }
+          : locale.startsWith('fr')
           ? { 'Zoom in': 'Agrandir', 'Zoom out': 'Réduire', 'Photo gallery': 'Galerie photo', Carousel: 'Carrousel', '{index} of {total}': '{index} sur {total}' }
           : locale.startsWith('es')
             ? { 'Zoom in': 'Ampliar', 'Zoom out': 'Reducir', 'Photo gallery': 'Galería de fotos', Carousel: 'Carrusel', '{index} of {total}': '{index} de {total}' }

@@ -715,3 +715,14 @@ localhost hook URI (verified 2026-11-23: a container-name URI makes `supabase-au
 supported with http"), so the watchdog restarts only `keyvo-sms-hook` when the probe from inside `supabase-auth` fails twice.
 Pinned by `tests/sms-hook-watchdog.test.ts`.
 
+
+## zh leftovers sweep (2026-11-24)
+
+A live crawl of the production zh pages found English or wrong customer text. Fixed at the source:
+
+- **Attribution:** `about-copy.ts` (all four locales) said the founder of "MaxKeyvo" (a brand-sweep artefact). It now credits Adrien Millot as founder of the open-source MaxVideoAI project this site derives from, without claiming Keyvo is that project (`about-copy.ts` is an allowed `MaxVideoAI` mention in `tests/product-brand-coverage.test.ts`).
+- **Payments copy:** zh pricing hub, `messages/zh.json` (pricing wallet/FAQ, top-up dialog quote labels, home FAQ) and `content/zh/docs/get-started.mdx` no longer mention Stripe, Apple Pay or Google Pay; they describe Alipay via 聚合易支付 (WeChat Pay stays unmentioned). The Milo credits sentence now states the UTC calendar month with its Beijing-time reset (`studio-assistance-economics.md`: 500 free credits per UTC calendar month).
+- **Unoffered models in visible zh copy:** `workflows.examples.items`, the docs "see also" links (Veo/Sora comparison links target hidden routes), the pricing duration FAQ, price-factor bullet, `supplementalFaq` and the changelog entry were rewritten with offered models or generic wording. Blog/best-for/model JSON for unoffered models stays unpublished by the existing hidden-model and `KEYVO_COMPARE_HIDDEN` gates; it was not edited.
+- **Library and Studio:** the compact library (type tabs, tools menu, storage meter, trash dialog, characters, import queue, picker footer, Studio action, lightbox, viewer navigation, eligibility messages) had fr/es/en branches but no zh branch. zh added. The storage meter reads real recorded usage (`/api/media-library/storage`; the quota is intentionally not enforced), so it is translated, not hidden. Studio export issues now receive the localized dialog copy (`ConversationExport.client.tsx`), so "The timeline is empty." renders in zh.
+- **Failure mapping:** Bailian content inspection (`Input data may contain inappropriate content.`, `DataInspectionFailed`, data inspection) maps to a zh safety-review message in `alibaba-failure-messages.ts`; the shared fallback and the server classifier also recognise "sensitive information/content". The messages deliberately do not state a refund: the confirmed-refund suffix is appended separately by `appendConfirmedWalletRefund`.
+- **Guard:** `tests/zh-customer-copy-leftovers.test.ts` scans `messages/zh.json`, `content/zh`, `content/models/zh`, the zh pricing hub block and the about attribution for the glued brand, Stripe, Apple Pay and Google Pay, and pins the failure mapping.

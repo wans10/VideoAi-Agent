@@ -1,5 +1,25 @@
 export function libraryTrashCopy(locale: string) {
   const count = (n: number) => n.toLocaleString(locale);
+  if (locale.startsWith('zh')) return {
+    action: '清空回收站', title: '清空回收站？', cancel: '取消',
+    review: '重新检查回收站', loading: '正在检查回收站…', pending: '正在提交删除请求…',
+    scope: '此操作会作用于回收站内的全部项目，不受当前筛选条件影响。',
+    irreversible: '此删除为永久删除，无法撤销。',
+    studio: 'Studio 中的旧引用需要重新替换。',
+    retained: '正在被进行中任务使用的文件会保留到任务结束，存储用量将在清理后更新。',
+    empty: '回收站为空。',
+    changed: '回收站已发生变化或本次检查已过期，本次请求未删除任何项目。请重新检查回收站。',
+    failure: '无法确认该请求。请先重新检查回收站再重试。',
+    total: (n: number) => `回收站中有 ${count(n)} 个项目`,
+    confirm: (n: number) => `永久删除 ${count(n)} 个项目`,
+    requested: (n: number) => `已请求删除 ${count(n)} 个项目。`,
+    alreadyQueued: (n: number) => `${count(n)} 个已在队列中。`,
+    pendingFiles: (n: number) => `${count(n)} 个文件待删除`,
+    sharedFiles: (n: number) => `${count(n)} 个共享文件已保留`,
+    sharedRetained: '共享文件仍可供其他引用使用；若您不再保留任何引用，它们将不计入您的用量。',
+    failedFiles: (n: number) => `${count(n)} 个文件未能删除，其占用空间仍在统计中。`,
+    trashFiles: (n: number) => `回收站中有 ${count(n)} 个文件`,
+  };
   if (locale.startsWith('fr')) return {
     action: 'Vider la corbeille', title: 'Vider la corbeille ?', cancel: 'Annuler',
     review: 'Vérifier à nouveau la corbeille', loading: 'Vérification de la corbeille…', pending: 'Demande en cours…',

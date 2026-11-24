@@ -3,7 +3,23 @@ import { useSyncExternalStore } from 'react';
 import type { LibraryImportQueueController } from '@/lib/library-import-queue';
 import { MediaDialog } from './MediaDialog.client';
 const copy = (locale: string) =>
-  locale.startsWith('fr')
+  locale.startsWith('zh')
+    ? {
+        large: '该文件过大，无法导入。',
+        title: '导入媒体',
+        close: '关闭',
+        queued: '排队中',
+        uploading: '导入中',
+        success: '已导入',
+        failed: '失败',
+        retry: '重试',
+        pause: '当前文件完成后暂停',
+        resume: '继续',
+        saved: '已保存，需重试完成步骤',
+        help: '已导入的文件会保留在您的素材库中，关闭此窗口不会删除它们。',
+        start: '导入',
+      }
+    : locale.startsWith('fr')
     ? {
         large: 'Ce fichier est trop volumineux pour être importé.',
         title: 'Importer des médias',

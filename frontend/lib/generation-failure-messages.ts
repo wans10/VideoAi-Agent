@@ -186,7 +186,7 @@ export function getKnownGenerationFailureMessage(params: {
   const transport = getTransportFailureMessage(message, params.locale);
   if (transport) return transport;
   if (/^Google blocked this request during safety checks\./i.test(message)) return text.googleSafety;
-  if (/responsible ai|sensitive words|content policy|policy violation|safety|moderation|prohibited|blocked/i.test(message)) return text.safety;
+  if (/responsible ai|sensitive words|sensitive (?:information|content)|inappropriate content|data[\s_-]*inspection|content policy|policy violation|safety|moderation|prohibited|blocked/i.test(message)) return text.safety;
   return null;
 }
 

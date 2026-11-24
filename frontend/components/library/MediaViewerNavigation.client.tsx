@@ -18,7 +18,9 @@ export function MediaViewerNavigation({
     (item) => item.id === asset.id && item.url === asset.url,
   );
   if (index < 0 || assets.length < 2) return null;
-  const labels = locale.startsWith('fr')
+  const labels = locale.startsWith('zh')
+    ? ['上一个', '下一个', '作品']
+    : locale.startsWith('fr')
     ? ['Précédent', 'Suivant', 'Sortie']
     : locale.startsWith('es')
       ? ['Anterior', 'Siguiente', 'Resultado']
