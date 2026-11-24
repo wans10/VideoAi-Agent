@@ -41,7 +41,7 @@ import {
   projectConfiguredEngine,
 } from '@/server/engine-configuration-projection';
 import { getPrivateRuntimeEngineById } from '@/server/video-generation/private-engine-registry';
-import { resolveRuntimeResolutionPolicy } from '@/server/video-generation/runtime-resolution';
+import { checkRequestedResolutionSupported, resolveRuntimeResolutionPolicy } from '@/server/video-generation/runtime-resolution';
 import {
   getReadOnlyConfiguredEngine,
   getReadOnlyConfiguredEnginesByCategory,
@@ -238,9 +238,22 @@ export async function computeConfiguredPreflight(
     effectiveResolution =
       (engine.resolutions.find((value) => value !== 'auto') ?? engine.resolutions[0] ?? '1080p') as typeof effectiveResolution;
   } else if (requestedResolution !== undefined && !availableResolutions.includes(requestedResolution)) {
+    // Keyvo: an explicit resolution the engine does not offer is refused, never quoted at the default resolution's price.
+    const resolutionCheck = checkRequestedResolutionSupported(engine, request.mode, requestedResolution);
+    if (!resolutionCheck.ok) {
+      return { ok: false, messages: [resolutionCheck.message],
+        error: { code: resolutionCheck.code, message: resolutionCheck.message, field: 'resolution' } };
+    }
     const fallback =
       availableResolutions.find((value) => value !== 'auto') ?? availableResolutions[0] ?? engine.resolutions[0];
     effectiveResolution = (fallback ?? '1080p') as typeof effectiveResolution;
+  } else {
+    // A catalogue resolution that this mode does not offer (mode capability narrower than the catalogue).
+    const resolutionCheck = checkRequestedResolutionSupported(engine, request.mode, requestedResolution);
+    if (!resolutionCheck.ok) {
+      return { ok: false, messages: [resolutionCheck.message],
+        error: { code: resolutionCheck.code, message: resolutionCheck.message, field: 'resolution' } };
+    }
   }
 
   const durationInfo = isLumaRay2 && supportsDuration ? getLumaRay2DurationInfo(request.durationSec) : null;

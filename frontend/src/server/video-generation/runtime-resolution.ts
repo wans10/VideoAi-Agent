@@ -56,3 +56,50 @@ export function resolveRuntimeResolutionPolicy(
     pricingFallbackResolution,
   };
 }
+
+export const RESOLUTION_UNSUPPORTED_CODE = 'RESOLUTION_UNSUPPORTED';
+
+/**
+ * Keyvo: resolutions an explicit request may name for this engine and mode. Schema-driven engines use the active
+ * schema enum; registered engines use the mode capability (a mode may offer one the pricing
+ * matrix lacks, priced at the default); everything else uses the catalogue list. 'auto' is not an option.
+ */
+export function listSupportedRequestResolutions(engine: EngineCaps, mode: Mode): string[] {
+  const policy = resolveRuntimeResolutionPolicy(engine, mode);
+  const catalogue = engine.resolutions.filter((value) => value !== 'auto') as string[];
+  if (policy.usesSchemaDefaults) {
+    const schemaField = resolveActiveVideoInputField({
+      inputSchema: engine.inputSchema, mode, candidateFieldIds: ['resolution'], type: 'enum',
+    });
+    return (schemaField?.values ?? []).map(String).filter((value) => value !== 'auto');
+  }
+  const registered = getEngineCaps(engine.id, mode)?.resolution;
+  if (!registered?.length) return catalogue;
+  // The mode capability is authoritative (generate's validateRequest uses it): a mode may legitimately offer a
+  // resolution the catalogue price list lacks (kling-o3-standard v2v: 720p), which is then priced at the default.
+  const modeList = registered.filter((value) => value !== 'auto');
+  return modeList.length ? modeList : catalogue;
+}
+
+/**
+ * An explicit resolution outside the engine's supported list must be refused, never priced or submitted as another
+ * resolution. Absent or 'auto' requests keep the default behaviour; engines or modes that ignore resolution are exempt.
+ */
+export function checkRequestedResolutionSupported(
+  engine: EngineCaps,
+  mode: Mode,
+  requested: unknown,
+): { ok: true } | { ok: false; code: typeof RESOLUTION_UNSUPPORTED_CODE; message: string; allowed: string[] } {
+  if (typeof requested !== 'string') return { ok: true };
+  const value = requested.trim();
+  if (!value || value === 'auto') return { ok: true };
+  if (!resolveRuntimeResolutionPolicy(engine, mode).supportsResolution) return { ok: true };
+  const allowed = listSupportedRequestResolutions(engine, mode);
+  if (!allowed.length || allowed.includes(value)) return { ok: true };
+  return {
+    ok: false,
+    code: RESOLUTION_UNSUPPORTED_CODE,
+    message: `该模型不支持所选分辨率，请选择 ${allowed.join(' / ')}。`,
+    allowed,
+  };
+}

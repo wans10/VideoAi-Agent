@@ -39,7 +39,8 @@ import { parsePreflightRequestPayload, type AppPreflightRequest } from './prefli
 import type { LaunchCanaryRequestContext } from '@/server/model-launch-canary-request';
 import { resolveAgentGenerationModeExecutability } from '@/server/agent-runtime/model-executability';
 import { validateRuntimeRequestSettings } from '@/app/api/generate/_lib/runtime-schema-options';
-import { resolveRuntimeResolutionPolicy } from '@/server/video-generation/runtime-resolution';
+import { isLumaRay2EngineId } from '@/lib/luma-ray2';
+import { checkRequestedResolutionSupported, resolveRuntimeResolutionPolicy } from '@/server/video-generation/runtime-resolution';
 import type { PreparedSeedanceWorkflow } from '@/server/seedance-workflow-request';
 import { resolveSeedance25ModeAvailability } from '@/server/engine-mode-availability';
 import { getBytePlusSeedanceProfile } from '@/server/video-providers/byteplus-modelark-profiles';
@@ -250,6 +251,11 @@ export async function resolveAdmittedMediaAwarePreflight(
     if (!allowed.includes(request.resolution as never)) {
       return mediaPricingFailure('BYTEPLUS_RESOLUTION_UNSUPPORTED', `该模型不支持所选分辨率，请选择 ${allowed.join(' / ')}。`);
     }
+  }
+  // Keyvo: generic gate for every other engine, before any media work (same refusal as /api/generate); schema-driven engines keep validateRuntimeRequestSettings' ENGINE_CONSTRAINT.
+  if (!isLumaRay2EngineId(engine.id) && !getBytePlusSeedanceProfile(engine.id) && !resolveRuntimeResolutionPolicy(engine, request.mode).usesSchemaDefaults) {
+    const resolutionCheck = checkRequestedResolutionSupported(engine, request.mode, request.resolution);
+    if (!resolutionCheck.ok) return mediaPricingFailure(resolutionCheck.code, resolutionCheck.message, { field: 'resolution' });
   }
   if (isSeedance25EngineId(engine.id) && request.mode === 'v2v') {
     if (!input.trustedSeedanceWorkflow && resolveSeedance25ModeAvailability(engine, request.mode)?.available === false) {
