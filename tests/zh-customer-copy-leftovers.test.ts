@@ -50,7 +50,8 @@ test('the zh pricing hub copy and every locale of the about attribution never gl
   assert.match(zhBlock, /支付宝/);
   const about = readFileSync('frontend/app/(localized)/[locale]/(marketing)/about/_lib/about-copy.ts', 'utf8');
   assert.doesNotMatch(about, FORBIDDEN[0][1]);
-  assert.match(about, /Adrien Millot 是开源项目 MaxVideoAI 的创始人/);
+  assert.doesNotMatch(about, /MaxVideoAI/);
+  assert.match(about, /Adrien Millot 是本站所基于的开源 AI 视频项目的创始人/);
 });
 
 test('customer zh pages do not name models Keyvo does not offer in the entries fixed by this guard', () => {
