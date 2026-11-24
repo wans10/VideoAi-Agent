@@ -16,8 +16,8 @@ import {
 // 720p price). Every explicit resolution outside an engine's supported list must now be refused by preflight and by the
 // generate option validator (which runs before any wallet reservation), for every offered video engine and mode.
 const CANDIDATES = ['4k', '1080p', '480p', '720p'];
-// minimax-h3-max v2v needs an explicit operation and is refused for that first; still a refusal before any price.
-const REFUSAL = /^(RESOLUTION_UNSUPPORTED|BYTEPLUS_RESOLUTION_UNSUPPORTED|OPERATION_INVALID)$/;
+// schema-driven engines (kling-3-turbo, minimax-h3-max) keep validateRuntimeRequestSettings' ENGINE_CONSTRAINT; minimax-h3-max v2v needs an explicit operation and is refused for that first; still a refusal before any price.
+const REFUSAL = /^(RESOLUTION_UNSUPPORTED|BYTEPLUS_RESOLUTION_UNSUPPORTED|OPERATION_INVALID|ENGINE_CONSTRAINT)$/;
 const IMAGE_MODES = new Set(['t2i', 'i2i']);
 
 async function offeredVideoEngines() {

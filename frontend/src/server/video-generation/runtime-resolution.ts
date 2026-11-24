@@ -61,8 +61,8 @@ export const RESOLUTION_UNSUPPORTED_CODE = 'RESOLUTION_UNSUPPORTED';
 
 /**
  * Keyvo: resolutions an explicit request may name for this engine and mode. Schema-driven engines use the active
- * schema enum; registered engines use the mode capability intersected with the engine catalogue (the pricing matrix
- * only holds catalogue resolutions); everything else uses the catalogue list. 'auto' is not an option.
+ * schema enum; registered engines use the mode capability (a mode may offer one the pricing
+ * matrix lacks, priced at the default); everything else uses the catalogue list. 'auto' is not an option.
  */
 export function listSupportedRequestResolutions(engine: EngineCaps, mode: Mode): string[] {
   const policy = resolveRuntimeResolutionPolicy(engine, mode);
@@ -75,8 +75,10 @@ export function listSupportedRequestResolutions(engine: EngineCaps, mode: Mode):
   }
   const registered = getEngineCaps(engine.id, mode)?.resolution;
   if (!registered?.length) return catalogue;
-  const narrowed = registered.filter((value) => value !== 'auto' && catalogue.includes(value));
-  return narrowed.length ? narrowed : catalogue;
+  // The mode capability is authoritative (generate's validateRequest uses it): a mode may legitimately offer a
+  // resolution the catalogue price list lacks (kling-o3-standard v2v: 720p), which is then priced at the default.
+  const modeList = registered.filter((value) => value !== 'auto');
+  return modeList.length ? modeList : catalogue;
 }
 
 /**

@@ -252,8 +252,8 @@ export async function resolveAdmittedMediaAwarePreflight(
       return mediaPricingFailure('BYTEPLUS_RESOLUTION_UNSUPPORTED', `该模型不支持所选分辨率，请选择 ${allowed.join(' / ')}。`);
     }
   }
-  // Keyvo: generic gate for every other engine, before any media work (same refusal as /api/generate).
-  if (!isLumaRay2EngineId(engine.id) && !getBytePlusSeedanceProfile(engine.id)) {
+  // Keyvo: generic gate for every other engine, before any media work (same refusal as /api/generate); schema-driven engines keep validateRuntimeRequestSettings' ENGINE_CONSTRAINT.
+  if (!isLumaRay2EngineId(engine.id) && !getBytePlusSeedanceProfile(engine.id) && !resolveRuntimeResolutionPolicy(engine, request.mode).usesSchemaDefaults) {
     const resolutionCheck = checkRequestedResolutionSupported(engine, request.mode, request.resolution);
     if (!resolutionCheck.ok) return mediaPricingFailure(resolutionCheck.code, resolutionCheck.message, { field: 'resolution' });
   }
