@@ -22,6 +22,7 @@ function abortWith(controller: AbortController, source: AbortSignal) {
 
 const copy={
  en:{open:'Use in Studio',project:'Choose a film',append:'Add at the end',replace:'Replace a clip',clip:'Choose the clip to replace',apply:'Apply to film',retry:'Retry the same edit',loading:'Loading…',error:'Studio or this media is unavailable. Try again.',changed:'The film changed. Choose the current film again before applying.',done:'Saved in the film',visit:'Open film',empty:'Create a film in Studio first',seconds:'seconds',duration:'Inserted duration',replacement:'The selected clip’s timing is preserved. The new source must cover its full duration.'},
+ zh:{open:'在 Studio 中使用',project:'选择影片',append:'添加到末尾',replace:'替换片段',clip:'选择要替换的片段',apply:'应用到影片',retry:'重试同一编辑',loading:'加载中…',error:'Studio 或该媒体暂不可用，请重试。',changed:'影片已更改，请重新选择当前影片后再应用。',done:'已保存到影片',visit:'打开影片',empty:'请先在 Studio 中创建影片',seconds:'秒',duration:'插入时长',replacement:'将保留所选片段的时间位置，新素材必须覆盖其完整时长。'},
  fr:{open:'Utiliser dans Studio',project:'Choisir un film',append:'Ajouter à la fin',replace:'Remplacer un clip',clip:'Choisir le clip à remplacer',apply:'Appliquer au film',retry:'Réessayer la même modification',loading:'Chargement…',error:'Studio ou ce média est indisponible. Réessayez.',changed:'Le film a changé. Sélectionnez sa version actuelle avant d’appliquer.',done:'Enregistré dans le film',visit:'Ouvrir le film',empty:'Créer d’abord un film dans Studio',seconds:'secondes',duration:'Durée insérée',replacement:'Le placement et la durée du clip restent identiques. La nouvelle source doit couvrir toute sa durée.'},
  es:{open:'Usar en Studio',project:'Elegir una película',append:'Añadir al final',replace:'Reemplazar un clip',clip:'Elegir el clip a reemplazar',apply:'Aplicar a la película',retry:'Reintentar la misma edición',loading:'Cargando…',error:'Studio o este medio no está disponible. Inténtalo de nuevo.',changed:'La película cambió. Selecciona su versión actual antes de aplicar.',done:'Guardado en la película',visit:'Abrir película',empty:'Primero crea una película en Studio',seconds:'segundos',duration:'Duración insertada',replacement:'Se conservan la posición y duración del clip. La nueva fuente debe cubrir toda su duración.'},
 };
@@ -30,7 +31,7 @@ export function StudioMediaAction({reference: canonicalReference,output,locale,u
  const assetId = canonicalReference?.assetId;
  const kind = canonicalReference ? canonicalReference.kind : output.kind;
  const outputId = output?.id, jobId = output?.jobId, originalUrl = output?.url, knownOutputId = output?.sourceOutputId;
- const t=copy[locale.startsWith('fr')?'fr':locale.startsWith('es')?'es':'en'];
+ const t=copy[locale.startsWith('zh')?'zh':locale.startsWith('fr')?'fr':locale.startsWith('es')?'es':'en'];
  const [open,setOpen]=useState(false),[projects,setProjects]=useState<Array<{id:string;name:string}>>([]),[project,setProject]=useState('');
  const [media,setMedia]=useState<{reference:AssetReference;facts?:MediaFacts}|null>(null),[timeline,setTimeline]=useState<Timeline|null>(null),[mode,setMode]=useState<'insert'|'replace'>('insert'),[clipId,setClipId]=useState('');
  const [busy,setBusy]=useState(false),[error,setError]=useState<string|null>(null),[saved,setSaved]=useState(false),[reload,setReload]=useState(0),[timelineReload,setTimelineReload]=useState(0),[uncertain,setUncertain]=useState(false);
@@ -114,6 +115,6 @@ export function StudioMediaAction({reference: canonicalReference,output,locale,u
    {mode==='replace'?<><label>{t.clip}<select className="block min-h-11 w-full" value={clipId} disabled={busy||uncertain} onChange={event=>setClipId(event.target.value)}><option value="">—</option>{compatible.map(item=><option key={item.id} value={item.id}>{item.title} · {item.durationSec} {t.seconds}</option>)}</select></label><p>{t.replacement}</p></>:<p>{t.duration}: {timing?(timing.durationFrames/timeline.settings.fps).toFixed(2):'—'} {t.seconds}</p>}
    <button type="button" disabled={busy||(!uncertain&&!eligible)} onClick={()=>void apply()}>{uncertain?t.retry:t.apply}</button></>:null}
   {saved?<p role="status">{t.done} · <Link prefetch={false} href={`/app/studio/conversation/${encodeURIComponent(project)}`}>{t.visit}</Link></p>:null}
-  {error&&!uncertain?<button type="button" disabled={busy} onClick={()=>project?setTimelineReload(value=>value+1):setReload(value=>value+1)}>{locale.startsWith('fr')?'Recharger':locale.startsWith('es')?'Volver a cargar':'Reload'}</button>:null}
+  {error&&!uncertain?<button type="button" disabled={busy} onClick={()=>project?setTimelineReload(value=>value+1):setReload(value=>value+1)}>{locale.startsWith('zh')?'重新加载':locale.startsWith('fr')?'Recharger':locale.startsWith('es')?'Volver a cargar':'Reload'}</button>:null}
  </div></details>;
 }

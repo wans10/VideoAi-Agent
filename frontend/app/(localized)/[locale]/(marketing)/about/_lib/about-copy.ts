@@ -26,7 +26,7 @@ const COPY: Record<AppLocale, AboutCopy> = {
     identity: {
       label: 'Original project attribution',
       body:
-        'Adrien Millot is the founder of the original MaxKeyvo project. This profile credits the source of inherited editorial material; it does not identify the operator of this Keyvo deployment.',
+        'Adrien Millot is the founder of the open-source AI video project this Keyvo site was derived from. This profile credits the source of inherited editorial material; it does not identify the operator of this Keyvo deployment.',
     },
     work: {
       title: "Selected work and production notes",
@@ -79,7 +79,7 @@ const COPY: Record<AppLocale, AboutCopy> = {
     identity: {
       label: 'Auteur du projet d’origine',
       body:
-        'Adrien Millot est le fondateur du projet original MaxKeyvo. Ce profil attribue les contenus éditoriaux repris à leur source et ne désigne pas l’exploitant de ce site Keyvo.',
+        'Adrien Millot est le fondateur du projet open source de vidéo IA dont ce site Keyvo est dérivé. Ce profil attribue les contenus éditoriaux repris à leur source et ne désigne pas l’exploitant de ce site Keyvo.',
     },
     work: {
       title: "Réalisations et notes de production",
@@ -132,7 +132,7 @@ const COPY: Record<AppLocale, AboutCopy> = {
     identity: {
       label: 'Autor del proyecto original',
       body:
-        'Adrien Millot es el fundador del proyecto original MaxKeyvo. Este perfil identifica la fuente del contenido editorial heredado, no al operador de este sitio Keyvo.',
+        'Adrien Millot es el fundador del proyecto de código abierto de vídeo con IA del que deriva este sitio Keyvo. Este perfil identifica la fuente del contenido editorial heredado, no al operador de este sitio Keyvo.',
     },
     work: {
       title: "Trabajos y notas de producción",
@@ -182,7 +182,7 @@ const COPY: Record<AppLocale, AboutCopy> = {
     },
     identity: {
       label: '原项目来源署名',
-      body: 'Adrien Millot 是原始 MaxKeyvo 项目的创始人。此处保留继承内容的来源署名，不代表当前 Keyvo 站点的运营主体。',
+      body: 'Adrien Millot 是本站所基于的开源 AI 视频项目的创始人。此处保留继承内容的来源署名，不代表当前 Keyvo 站点的运营主体。',
     },
     work: {
       title: '代表作与制作笔记',

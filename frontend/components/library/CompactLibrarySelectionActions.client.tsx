@@ -25,9 +25,9 @@ export function CompactLibrarySelectionActions({ userId, locale, scope, selectio
   const currentSelection = useRef(selection.selection);
   currentSelection.current = selection.selection;
   const allFavorite = selection.selection.snapshot ? Boolean(scope.favorite) : records.length > 0 && records.every(record => record.organization.favorite);
-  const fr = locale.startsWith('fr'), es = locale.startsWith('es');
-  const useIn = fr ? 'Utiliser dans…' : es ? 'Usar en…' : 'Use in…';
-  return <div className="compact-library-selection-actions" role="group" aria-label={fr ? 'Actions de sélection' : es ? 'Acciones de selección' : 'Selection actions'} aria-busy={selection.pending}>
+  const fr = locale.startsWith('fr'), es = locale.startsWith('es'), zh = locale.startsWith('zh');
+  const useIn = zh ? '用于…' : fr ? 'Utiliser dans…' : es ? 'Usar en…' : 'Use in…';
+  return <div className="compact-library-selection-actions" role="group" aria-label={zh ? '选择操作' : fr ? 'Actions de sélection' : es ? 'Acciones de selección' : 'Selection actions'} aria-busy={selection.pending}>
     <strong>{selection.count.toLocaleString(locale)} {selection.count === 1 ? copy.selectedSingular : copy.selected}</strong>
     {asset && !scope.trash ? <>
       <button type="button" data-preview disabled={selection.pending} onClick={() => onOpen(asset)}><Eye size={16} aria-hidden />{copy.preview}</button>

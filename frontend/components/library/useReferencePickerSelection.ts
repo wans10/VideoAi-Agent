@@ -38,12 +38,16 @@ export function useReferencePickerSelection({
     };
   }, [context]);
   const multiple = Boolean(selection.onConfirmMany);
-  const labels = locale.startsWith('fr')
+  const labels = locale.startsWith('zh')
+    ? ['移除', '上移', '下移', '返回', '已在回收站：请恢复该媒体或将其移除。']
+    : locale.startsWith('fr')
     ? ['Retirer', 'Monter', 'Descendre', 'Retour', 'Dans la corbeille : restaurez ce média ou retirez-le.']
     : locale.startsWith('es')
       ? ['Quitar', 'Subir', 'Bajar', 'Volver', 'En la papelera: restaura este archivo o quítalo.']
       : ['Remove', 'Move up', 'Move down', 'Back', 'In Trash: restore this media or remove it.'];
-  const unavailableLabel = locale.startsWith('fr')
+  const unavailableLabel = locale.startsWith('zh')
+    ? '该媒体不可用或已更改，请移除后重新选择当前版本。'
+    : locale.startsWith('fr')
     ? 'Ce média est indisponible ou a changé. Retirez-le pour choisir sa version actuelle.'
     : locale.startsWith('es')
       ? 'Este archivo no está disponible o ha cambiado. Quítalo para elegir la versión actual.'

@@ -50,6 +50,11 @@ function classifyFailure(message: string | null): FailureCategory | null {
     containsAny(lower, [
       'responsible ai',
       'sensitive words',
+      'sensitive information',
+      'sensitive content',
+      'inappropriate content',
+      'data inspection',
+      'datainspection',
       'content policy',
       'policy violation',
       'safety',

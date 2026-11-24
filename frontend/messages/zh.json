@@ -1518,7 +1518,7 @@
         },
         {
           "q": "计费机制是如何运作的？",
-          "a": "在点击生成前，您将看到当前精确报价。前往账单页面选择合适的充值档位并通过 Stripe Checkout 完成安全支付。每次生成均附带明细收据。"
+          "a": "在点击生成前，您将看到当前精确报价。前往账单页面选择合适的充值档位并通过支付宝完成安全支付。每次生成均附带明细收据。"
         },
         {
           "q": "退款政策是怎样的？",
@@ -1709,11 +1709,11 @@
     },
     "wallet": {
       "title": "钱包账户",
-      "description": "通过安全的 Stripe Checkout 从账单页面为您的个人钱包充值。",
+      "description": "通过支付宝从账单页面为您的个人钱包充值，支付成功后余额自动到账。",
       "points": [
         "在账单充值页面挑选适合您的充值档位。",
-        "在支付前于 Stripe Checkout 页面仔细核对币种、税费与最终结算金额。",
-        "系统会自动显示适用于您设备和地区的银行卡及快捷支付方式。"
+        "在支付前于支付宝页面核对人民币金额与订单信息。",
+        "支付通过聚合易支付以支付宝完成。"
       ],
       "balanceLabel": "可用钱包余额",
       "balanceHelper": "前往账单页面查看您的钱包余额和可选充值方案。",
@@ -1784,7 +1784,7 @@
         "分辨率会影响计费，提供 720p、1080p、1440p 或 4K 等不同画质档位。",
         "文生视频、图生视频与视频生视频路线可能根据引擎及输入素材类型差异化计费。",
         "音频功能根据模型系列不同，可能为内置免费、可选付费或静音无音频。",
-        "模型层级（Veo、LTX、Kling、Seedance、Pika、Wan）决定了基础单价。"
+        "模型层级（Kling、Seedance、Wan、MiniMax 等）决定了基础单价。"
       ]
     },
     "teams": {
@@ -1825,7 +1825,7 @@
         },
         {
           "question": "为什么专门设有 8秒 1080p 对比列？",
-          "answer": "部分主流模型（包括 Google Veo 路线）原生时长限制为 4秒、6秒或 8秒。设立 8秒列可以让这些顶级模型在合理基准下参与横评，而无需强行要求其支持 10秒。"
+          "answer": "部分主流模型原生时长限制为 4秒、6秒或 8秒。设立 8秒列可以让这些顶级模型在合理基准下参与横评，而无需强行要求其支持 10秒。"
         },
         {
           "question": "为什么 4K 超清规格单独分列展示？",
@@ -1863,8 +1863,8 @@
     },
     "supplementalFaq": [
       {
-        "question": "如果我想了解 OpenAI Sora 的价格呢？",
-        "answer": "您可以查阅 Sora 替代方案专区，在生成前按成本、时长与成片质量横向对比当前 Keyvo 上已接入的可用模型。"
+        "question": "如果我想对比不同模型的价格呢？",
+        "answer": "您可以在价格页与模型目录中，在生成前按成本、时长与成片质量横向对比当前 Keyvo 上已接入的可用模型。"
       },
       {
         "question": "生成的视频会有水印吗？",
@@ -1950,44 +1950,34 @@
       "viewLabel": "查看",
       "items": [
         {
-          "label": "Sora 2",
-          "slug": "sora-2",
-          "brandId": "openai"
+          "label": "Seedance 2.5",
+          "slug": "seedance-2-5",
+          "brandId": "bytedance"
         },
         {
-          "label": "Veo 3.1",
-          "slug": "veo-3-1",
-          "brandId": "google-veo"
-        },
-        {
-          "label": "Kling 2.6 Pro",
-          "slug": "kling-2-6-pro",
+          "label": "Kling 4.0",
+          "slug": "kling-v4",
           "brandId": "kling"
         },
         {
-          "label": "Pika Text-to-Video",
-          "slug": "pika-text-to-video",
-          "brandId": "pika"
+          "label": "Kling 3 Pro",
+          "slug": "kling-3-pro",
+          "brandId": "kling"
         },
         {
-          "label": "Wan 2.6",
-          "slug": "wan-2-6",
+          "label": "MiniMax H3",
+          "slug": "minimax-h3",
+          "brandId": "minimax"
+        },
+        {
+          "label": "Wan 3",
+          "slug": "wan-3",
           "brandId": "wan"
         },
         {
-          "label": "LTX 2",
-          "slug": "ltx-2",
-          "brandId": "lightricks"
-        },
-        {
-          "label": "LTX 2 Fast",
-          "slug": "ltx-2-fast",
-          "brandId": "lightricks"
-        },
-        {
-          "label": "MiniMax Hailuo 02",
-          "slug": "minimax-hailuo-02-text",
-          "brandId": "minimax"
+          "label": "Wan 3 Prime",
+          "slug": "wan-3-prime",
+          "brandId": "wan"
         }
       ]
     },
@@ -2544,7 +2534,7 @@
     "faq": [
       {
         "question": "钱包充值如何支持各个 AI 视频模型？",
-        "answer": "通过安全的 Stripe Checkout 为您的个人钱包充值。在完成支付前，系统会清晰展示银行卡及适用的快捷支付选项。"
+        "answer": "通过支付宝为您的个人钱包充值。在完成支付前，系统会清晰展示人民币金额与订单信息。"
       },
       {
         "question": "团队接入 Sora 2 项目需要多久？",
@@ -2778,8 +2768,8 @@
     "seeAlso": {
       "onboarding": [
         {
-          "href": "/models/veo-3-1-fast",
-          "label": "Veo 3.1 Fast 模型"
+          "href": "/models/seedance-2-5",
+          "label": "Seedance 2.5 模型"
         },
         {
           "href": "/examples",
@@ -2799,7 +2789,7 @@
       "refunds": [
         {
           "href": "/pricing#refunds-protections",
-          "label": "退款政策 & protections"
+          "label": "退款政策与保障"
         },
         {
           "href": "/legal/terms",
@@ -2808,8 +2798,8 @@
       ],
       "safety": [
         {
-          "href": "/ai-video-engines/kling-3-pro-vs-veo-3-1",
-          "label": "Kling 3 Pro 对比 Veo 3.1"
+          "href": "/models/kling-3-pro",
+          "label": "Kling 3 Pro 模型"
         },
         {
           "href": "/models",
@@ -2828,8 +2818,8 @@
       ],
       "library": [
         {
-          "href": "/ai-video-engines/seedance-2-0-vs-sora-2",
-          "label": "Seedance 2.0 对比 Sora 2"
+          "href": "/models/wan-3",
+          "label": "Wan 3 模型"
         },
         {
           "href": "/models",
@@ -3035,7 +3025,7 @@
     },
     "paragraphs": [
       "我们坚信，专业团队在点击渲染之前理应获得完全透明的信息。这不仅意味着公开透明的计费价格，更包括稳定可靠的模型调度，以及创意人员、制片人与业务负责人之间的无缝协同。",
-      "保持独立至关重要：我们在所有模型引擎之间保持完全中立，深度集成 Sora 2、Veo 3.1、Veo 3 Fast、Pika 2.2、MiniMax Hailuo 02、混元等前沿模型与公测路线，展示商标仅用于表明技术兼容性。",
+      "保持独立至关重要：我们在所有模型引擎之间保持完全中立，深度集成 Kling、Seedance、Wan、MiniMax 等前沿模型与公测路线，展示商标仅用于表明技术兼容性。",
       "产品专为追求精准与高效的团队打造：清爽静谧的界面、考究的预设参数、精细的创作控制，以及让财务对支出一目了然的实时价格标签。",
       "我们始终立足于务实的生产工作流：对比模型、准备资产，仅在费用与参数完全明确时才触发生成，然后在单一工作区内集中审阅成片，而不是将制作上下文分散在各个不同服务商的后台之中。"
     ],
@@ -3210,8 +3200,8 @@
     "entries": [
       {
         "date": "2024-06-12",
-        "title": "Veo 模板与队列透明度",
-        "body": "新增 Veo V2 路由、生成前价格标签中的队列长度指示，以及更清晰的钱包余额提示。"
+        "title": "路由模板与队列透明度",
+        "body": "新增 V2 路由、生成前价格标签中的队列长度指示，以及更清晰的钱包余额提示。"
       },
       {
         "date": "2024-06-05",
@@ -3398,8 +3388,8 @@
         "creditsReceived": "到账余额",
         "paymentAmount": "税前支付金额",
         "quoteLoading": "正在获取支付报价…",
-        "quoteUnavailable": "Stripe 将在支付前显示金额",
-        "taxNote": "可能另收税费。Stripe 会在支付前显示最终金额。"
+        "quoteUnavailable": "支付宝将在支付前显示金额",
+        "taxNote": "支付金额以支付前显示的人民币金额为准。"
       },
       "authGate": {
         "title": "创建账户以开始生成",

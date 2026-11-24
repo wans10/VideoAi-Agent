@@ -19,7 +19,7 @@ export function ConversationExport({projectId,projectName,view,pending,jobs,onCh
   const [quality,setQuality] = useState<WorkspaceTimelineExportQualityPreset>('draft');
   const [notice,setNotice] = useState<string | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
-  const manifest = useMemo(() => buildWorkspaceTimelineRenderManifest({sequenceSubtitleDocument:view.sequenceSubtitle?.document??undefined,items: view.items,nodes: [],projectName,sequenceId: view.data.sequenceId,sequenceName: view.data.sequenceName,projectSettings: view.settings,createdAt: view.data.updatedAt}),[view,projectName]);
+  const manifest = useMemo(() => buildWorkspaceTimelineRenderManifest({sequenceSubtitleDocument:view.sequenceSubtitle?.document??undefined,items: view.items,nodes: [],projectName,sequenceId: view.data.sequenceId,sequenceName: view.data.sequenceName,projectSettings: view.settings,createdAt: view.data.updatedAt,exportDialogCopy: copy.exportDialog,canvasNodeCopy: copy.canvas.nodes}),[view,projectName,copy]);
   const recoveredJobs = useMemo(() => jobs.flatMap(job => {const normalized = normalizeTimelineExportClientJob(job);return normalized ? [{...normalized,idempotencyKey: job.idempotencyKey}] : [];}) as (TimelineExportClientJob & {idempotencyKey: string})[],[jobs]);
   const controller = useExportController({manifest,projectId,qualityPreset: quality,copy: copy.exportDialog,notices: copy.notices,onNotice: setNotice,recoveredJobs});
   useEffect(() => {if (controller.isExportDialogOpen) dialog.current?.showModal();else dialog.current?.close();},[controller.isExportDialogOpen]);

@@ -51,7 +51,7 @@ export function ReferencePickerFooter({
                   {item.organization?.trashedAt ? labels[4] : unavailableLabel}
                   {item.organization?.trashedAt && owner ? (
                     <button type="button" disabled={busy} onClick={() => void restore(item)}>
-                      {locale.startsWith('fr') ? 'Restaurer' : locale.startsWith('es') ? 'Restaurar' : 'Restore'}
+                      {locale.startsWith('zh') ? '恢复' : locale.startsWith('fr') ? 'Restaurer' : locale.startsWith('es') ? 'Restaurar' : 'Restore'}
                     </button>
                   ) : null}
                 </span>
