@@ -27,7 +27,7 @@ import {
 } from './request-option-normalizers';
 import { buildSoraRequestOptions } from './request-options-sora';
 import { deriveRuntimeSchemaCaps, getRuntimeDurationDefault, getRuntimeSchemaEnumDefault } from './runtime-schema-options';
-import { resolveRuntimeResolutionPolicy } from '@/server/video-generation/runtime-resolution';
+import { checkRequestedResolutionSupported, resolveRuntimeResolutionPolicy } from '@/server/video-generation/runtime-resolution';
 export type { GenerationElement, MultiPromptEntry } from './request-option-normalizers';
 export type VideoMode = Extract<
   Mode,
@@ -267,6 +267,9 @@ export function buildGenerateRequestOptions(params: {
     pricingResolution = fallbackResolution;
     effectiveResolution = fallbackResolution;
     requestedResolution = fallbackResolution;
+  } else if (!isBytePlusV1a) { // Keyvo: an explicit resolution outside the supported list is refused before any price or reservation (BytePlus has its own profile gate).
+    const rc = checkRequestedResolutionSupported(engine, mode, body.resolution);
+    if (!rc.ok) return { ok: false, status: 400, body: { ok: false, error: rc.code, message: rc.message, field: 'resolution', allowed: rc.allowed, value: body.resolution } };
   }
   if ((engine.id === 'ltx-2-fast' || engine.id === 'ltx-2-3-fast') && durationSec > 10) {
     requestedResolution = '1080p';
